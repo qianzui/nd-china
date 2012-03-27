@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<TextView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:id="@+id/tv_showstate"
+		android:text="@string/hello" />
+	<LinearLayout android:id="@+id/LinearLayout01"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:orientation="horizontal">
+
+		<ImageButton android:id="@+id/imbtn_wifi_state"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"></ImageButton>
+		<ImageButton android:id="@+id/imbtn_2g_state"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"></ImageButton>
+		<ImageButton android:id="@+id/imbtn_3g_state"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"></ImageButton>
+
+
+	</LinearLayout>
+
+	<Button android:text="wifi" android:id="@+id/btn_wifion_off"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+	<Button android:text="2g" android:id="@+id/btn_2g_on_off"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+	<Button android:text="3g" android:id="@+id/btn_3g_on_off"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+
+
+
+
+</LinearLayout>
