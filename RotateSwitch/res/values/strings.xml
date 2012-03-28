@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, RotateSwitchActivity!</string>
+    <string name="app_name">重力感应开关</string>
+
+</resources>
