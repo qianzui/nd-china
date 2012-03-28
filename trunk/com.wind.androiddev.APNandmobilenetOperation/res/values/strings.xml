@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, MainScene!</string>
+    <string name="app_name">APN3</string>
+</resources>
