@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="hello">Hello World, main!</string>
+	<string name="app_name">汉化组</string>
+	<string name="main_home">流量监控</string>
+	<string name="main_comment">防火墙</string>
+	<string name="main_message">流量预警</string>
+	<string name="main_edit">编写</string>
+</resources>
