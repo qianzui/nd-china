@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources> 
-<style name="notitle">
-<item name="android:windowNoTitle">true</item> 
-</style>
+    <style name="noTitle" >		
+     	<item name="android:windowNoTitle">true</item>			
+	</style>
+    <!--
+	<style name="title" parent="android:Theme">
+		
+     	<item name="android:windowTitleBackgroundStyle">@style/titleBackground</item>				
+	</style>
+	
+	<style name="titleBackground" >	    
+		<item name="android:background">@drawable/maintab_toolbar_bg</item>		
+	</style>
+	-->
 
     <style name="main_tab_bottom">
         <item name="android:textSize">@dimen/bottom_tab_font_size</item>
@@ -18,5 +28,11 @@
         <item name="android:drawablePadding">@dimen/bottom_tab_padding_drawable</item>
         <item name="android:layout_weight">1.0</item>
     </style>
+    
+  
+    <!-- title自定义  -->
    
+    
+    <!-- title自定义  -->
+    
 </resources> 
