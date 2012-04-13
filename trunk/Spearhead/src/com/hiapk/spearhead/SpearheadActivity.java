@@ -11,9 +11,9 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 public class SpearheadActivity extends TabActivity {
 	private RadioGroup group;
 	private TabHost tabHost;
-	public static final String TAB_HOME="tabHome";
-	public static final String TAB_MES="tabMes";
-	public static final String TAB_TOUCH="tab_touch";
+	public static final String TAB_MONITOR="tabMonitor";
+	public static final String TAB_FIREWALL="tabFireWall";
+	public static final String TAB_WARNING="tabWarning";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -21,26 +21,26 @@ public class SpearheadActivity extends TabActivity {
 		setContentView(R.layout.maintabs);
 		group = (RadioGroup)findViewById(R.id.main_radio);
 		tabHost = getTabHost();
-		tabHost.addTab(tabHost.newTabSpec(TAB_HOME)
-	                .setIndicator(TAB_HOME)
+		tabHost.addTab(tabHost.newTabSpec(TAB_MONITOR)
+	                .setIndicator(TAB_MONITOR)
 	                .setContent(new Intent(this,Main.class)));
-	    tabHost.addTab(tabHost.newTabSpec(TAB_MES)
-	                .setIndicator(TAB_MES)
+	    tabHost.addTab(tabHost.newTabSpec(TAB_FIREWALL)
+	                .setIndicator(TAB_FIREWALL)
 	                .setContent(new Intent(this,Main2.class)));
-	    tabHost.addTab(tabHost.newTabSpec(TAB_TOUCH)
-	    		.setIndicator(TAB_TOUCH)
+	    tabHost.addTab(tabHost.newTabSpec(TAB_WARNING)
+	    		.setIndicator(TAB_WARNING)
 	    		.setContent(new Intent(this,Main3.class)));
 	    group.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				switch (checkedId) {
 				case R.id.radio_button0:
-					tabHost.setCurrentTabByTag(TAB_HOME);
+					tabHost.setCurrentTabByTag(TAB_MONITOR);
 					break;
 				case R.id.radio_button1:
-					tabHost.setCurrentTabByTag(TAB_MES);
+					tabHost.setCurrentTabByTag(TAB_FIREWALL);
 					break;
 				case R.id.radio_button2:
-					tabHost.setCurrentTabByTag(TAB_TOUCH);
+					tabHost.setCurrentTabByTag(TAB_WARNING);
 					break;
 
 				default:
