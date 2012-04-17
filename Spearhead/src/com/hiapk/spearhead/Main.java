@@ -2,20 +2,20 @@ package com.hiapk.spearhead;
 
 
 import android.app.Activity;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.net.TrafficStats;
 import android.os.Bundle;
-import android.text.Html;
-import android.text.Html.ImageGetter;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 public class Main extends Activity {
+	TextView todayMobil;
+	long todayMb;
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        todayMobil = (TextView)findViewById(R.id.todayRate);
+        todayMb = TrafficStats.getTotalRxBytes()/1024/1024;
+        todayMobil.setText(Long.toString(todayMb)+"MB");
         
     }
 
