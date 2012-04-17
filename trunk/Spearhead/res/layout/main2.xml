@@ -9,6 +9,7 @@
 		android:layout_height="wrap_content"
 		android:gravity="center"
 		android:text="第二个标签"
+		android:textColor="#fff"
 		android:background="@drawable/titlebar_bg"
 	    />
 </LinearLayout>

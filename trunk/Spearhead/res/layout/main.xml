@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
-	
+
+	<!-- 标题栏开始 -->	
 	<LinearLayout
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
@@ -13,60 +14,280 @@
 		android:layout_height="wrap_content"
 		android:gravity="center"
 		android:text="第一个标签"
-		android:background="@drawable/titlebar_bg"
+		android:textColor="#fff"
+		android:background="@drawable/titlebar_bg"		
 	    />
 	</LinearLayout>
+	<!-- 标题栏结束 -->	
 	
+	<!-- 第一行开始 -->	
 	<LinearLayout 
 	   	android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
 		android:layout_weight="1.0"
+		android:background="@drawable/bg_about"	
+	    >
+	<!-- 第一行的第一个格子 开始-->	
+	<LinearLayout 
+	   	android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:orientation="vertical"
+		android:layout_weight="0.5"	
 		
 	    >
-	    <TextView 
-	    android:layout_width="wrap_content"
+	    <!-- 第一行的第一个格子 内部的布局开始-->	
+		<LinearLayout 
+		   	android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:orientation="vertical"
+		    >
+		    
+		    <!-- 第一行的第一个格子 标题开始-->	
+		    <LinearLayout 
+		        android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:orientation="horizontal"
+				android:layout_weight="1.0"	
+		        >
+		        <TextView
+		    	 android:layout_width="fill_parent"
+		   		 android:layout_height="wrap_content"
+		    	 android:gravity="center"
+		    	 android:textColor="#000"	
+		         android:text="2G/3G" />
+		    </LinearLayout>
+		     <!-- 第一行的第一个格子 标题结束-->
+		   
+		     <!-- 第一行的第一个格子 填充内容开始--> 
+		    <LinearLayout 
+		        android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:orientation="horizontal"
+				android:layout_weight="1.0"	
+		        >
+		        <TextView
+		    	 android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"		    	 
+		    	 android:layout_weight="1.0"
+		    	 android:textColor="#000"			
+		         android:text="今日已用:" />
+		        <TextView
+		    	 android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"		    	 
+		    	 android:layout_weight="1.0"	
+		    	 android:id="@+id/todayRate"
+		    	 android:textColor="#000"	
+		         android:text="此处填写流量" />
+		    </LinearLayout>
+		    
+		    <LinearLayout 
+		        android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:orientation="horizontal"
+				android:layout_weight="1.0"	
+		        >
+		        <TextView
+		    	 android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"		    	 
+		    	 android:layout_weight="1.0"	
+		    	 android:textColor="#000"	
+		         android:text="本周已用:" />
+		        <TextView
+		    	 android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"		    	 
+		    	 android:layout_weight="1.0"
+		    	 android:id="@+id/weekRate"	
+		    	 android:textColor="#000"	
+		         android:text="此处填写流量" />
+		    </LinearLayout>
+		    
+		    <LinearLayout 
+		        android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:orientation="horizontal"
+				android:layout_weight="1.0"	
+		        >
+		        <TextView
+		    	 android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"		    	 
+		    	 android:layout_weight="1.0"
+		    	 android:textColor="#000"		
+		         android:text="本月已用:" />
+		        <TextView
+		    	 android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"		    	
+		    	 android:layout_weight="1.0"	
+		    	 android:id="@+id/monthRate"	
+		    	 android:textColor="#000"		
+		         android:text="此处填写流量" />
+		    </LinearLayout>
+		     <!-- 第一行的第一个格子 填充内容结束--> 
+		    
+		</LinearLayout>
+		<!-- 第一行的第一个格子 内部的布局结束-->	
+		
+		
+		
+	    
+	    </LinearLayout>
+	   <!-- 第一行的第一个格子结束 -->	
+	  
+	  <!-- 第一行的第二个格子开始 -->	  
+	  <LinearLayout 
+	   	android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:layout_weight="1.0"
-		android:gravity="center"
-		android:text="第一个单元格"
-		android:background="@drawable/team_img_bg"
-	    />
+		android:orientation="vertical"
+		android:layout_weight="1.0"		
+		
+	    >  
 	    <TextView 
-	    android:layout_width="wrap_content"
+	    android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:gravity="center"
-		android:layout_weight="1.0"
-		android:text="第二个单元格"
-		android:background="@drawable/team_img_bg"
+		android:gravity="center"	
+		android:textColor="#000"		
+		android:text="图表"		
 	    />
 	    
+	    </LinearLayout>
+	    <!-- 第一行的第二个格子结束 -->	  
+	    
 	</LinearLayout>
+	<!-- 第一行结束 -->
 	
-		<LinearLayout 
+	
+	<!-- 第二行开始 -->	
+	<LinearLayout 
 	   	android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
 		android:layout_weight="1.0"
-	
+		android:background="@drawable/bg_about"	
 	    >
-	    <TextView 
-	    android:layout_width="wrap_content"
+	<!-- 第二行的第一个格子 开始-->	
+	<LinearLayout 
+	   	android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:gravity="center"
-		android:layout_weight="1.0"
-		android:text="第一个单元格"
-		android:background="@drawable/team_img_bg"
-	    />
-	    <TextView 
-	    android:layout_width="wrap_content"
+		android:orientation="vertical"
+		android:layout_weight="0.5"	
+		
+	    >
+
+		<!-- 第二行的第一个格子 内部的布局开始-->	
+		<LinearLayout 
+		   	android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:orientation="vertical"
+		    >
+		    
+		    <!-- 第二行的第一个格子 标题开始-->	
+		    <LinearLayout 
+		        android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:orientation="horizontal"
+				android:layout_weight="1.0"	
+		        >
+		        <TextView
+		    	 android:layout_width="fill_parent"
+		   		 android:layout_height="wrap_content"
+		    	 android:gravity="center"
+		    	 android:textColor="#000"		
+		         android:text="WIFI" />
+		    </LinearLayout>
+		     <!-- 第二行的第一个格子 标题结束-->
+		   
+		     <!-- 第二行的第一个格子 填充内容开始--> 
+		    <LinearLayout 
+		        android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:orientation="horizontal"
+				android:layout_weight="1.0"	
+		        >
+		        <TextView
+		    	 android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"		    	 
+		    	 android:layout_weight="1.0"	
+		    	 android:textColor="#000"		
+		         android:text="今日已用:" />
+		        <TextView
+		    	 android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"		    	 
+		    	 android:layout_weight="1.0"	
+		    	 android:id="@+id/wifiTodayRate"
+		    	 android:textColor="#000"	
+		         android:text="此处填写流量" />
+		    </LinearLayout>
+		    
+		    <LinearLayout 
+		        android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:orientation="horizontal"
+				android:layout_weight="1.0"	
+		        >
+		        <TextView
+		    	 android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"		    	 
+		    	 android:layout_weight="1.0"	
+		    	 android:textColor="#000"	
+		         android:text="本周已用:" />
+		        <TextView
+		    	 android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"		    	 
+		    	 android:layout_weight="1.0"
+		    	 android:id="@+id/wifiWeekRate"	
+		    	 android:textColor="#000"	
+		         android:text="此处填写流量" />
+		    </LinearLayout>
+		    
+		    <LinearLayout 
+		        android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:orientation="horizontal"
+				android:layout_weight="1.0"	
+		        >
+		        <TextView
+		    	 android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"		    	 
+		    	 android:layout_weight="1.0"	
+		    	 android:textColor="#000"	
+		         android:text="本月已用:" />
+		        <TextView
+		    	 android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"		    	
+		    	 android:layout_weight="1.0"	
+		    	 android:id="@+id/wifiMonthRate"	
+		    	 android:textColor="#000"		
+		         android:text="此处填写流量" />
+		    </LinearLayout>
+		     <!-- 第二行的第一个格子 填充内容结束--> 
+		    
+		</LinearLayout>
+		<!-- 第二行的第一个格子 内部的布局结束-->	
+	    
+	    </LinearLayout>
+	   <!-- 第二行的第一个格子结束 -->	
+	  
+	  <!-- 第二行的第二个格子开始 -->	  
+	  <LinearLayout 
+	   	android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:gravity="center"
-		android:layout_weight="1.0"
-		android:text="第二个单元格"
-		android:background="@drawable/team_img_bg"
+		android:orientation="vertical"
+		android:layout_weight="1.0"		
+		
+	    >  
+	    <TextView 
+	    android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:gravity="center"		
+		android:textColor="#000"	
+		android:text="图表"		
 	    />
 	    
+	    </LinearLayout>
+	    <!-- 第二行的第二个格子结束 -->	  
+	    
 	</LinearLayout>
+	<!-- 第二行结束 -->
+
 	
 </LinearLayout>
