@@ -8,12 +8,12 @@
 
     <application
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" 
-          >
-        <activity 
+        android:label="@string/app_name" >
+        <activity
             android:name=".Main"
-            android:label="@string/app_name">     
+            android:label="@string/app_name" >
         </activity>
+
 		<activity android:name=".FireWallActivity"></activity>
 		<activity android:name=".Main3"></activity>	
 		
@@ -27,6 +27,33 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name="com.hiapk.broadcreceiver.BootAndShutdownBroadcast"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" >
+                </action>
+                <action android:name="android.intent.action.ACTION_SHUTDOWN" >
+                </action>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.hiapk.broadcreceiver.PackageReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.hiapk.broadcreceiver.ConnectivityChange" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.hiapk.broadcreceiver.RecordDataReceiver" >
+        </receiver>
+        <receiver android:name="com.hiapk.broadcreceiver.RecordUidDataReceiver" >
+        </receiver>
     </application>
 
   <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"></uses-permission>
