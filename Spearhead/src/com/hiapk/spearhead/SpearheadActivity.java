@@ -26,7 +26,7 @@ public class SpearheadActivity extends TabActivity {
 	                .setContent(new Intent(this,Main.class)));
 	    tabHost.addTab(tabHost.newTabSpec(TAB_FIREWALL)
 	                .setIndicator(TAB_FIREWALL)
-	                .setContent(new Intent(this,Main2.class)));
+	                .setContent(new Intent(this,FireWallActivity.class)));
 	    tabHost.addTab(tabHost.newTabSpec(TAB_WARNING)
 	    		.setIndicator(TAB_WARNING)
 	    		.setContent(new Intent(this,Main3.class)));
