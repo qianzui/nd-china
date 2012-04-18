@@ -3,13 +3,17 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="#0A0A0A"
     >
 <TextView 
 	    android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:gravity="center"
 		android:text="第二个标签"
-		android:textColor="#fff"
-		android:background="@drawable/titlebar_bg"
 	    />
+<ListView
+    android:id="@+id/app_list"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    />
 </LinearLayout>
