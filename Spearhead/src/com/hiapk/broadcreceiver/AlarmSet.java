@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
 public class AlarmSet {
@@ -26,6 +27,30 @@ public class AlarmSet {
 		TotalAlarmStart(context, totalrefreshtime);
 		UidAlarmStart(context, uidrefreshtime);
 		showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
+	}
+
+	/**
+	 * 设置数据记录间隔，单位分钟
+	 * 总流量数据限制为1-60分钟，uid数据限制为3-240分钟
+	 * @param context
+	 * @param totalrefreshtime
+	 *            总流量数据记录间隔
+	 * @param uidrefreshtime
+	 *            uid数据记录间隔
+	 * @return
+	 * 返回true则写入成功，返回false则写入失败
+	 */
+	public boolean SetAlarm(Context context, int totalrefreshtime,
+			int uidrefreshtime) {
+		Editor passfileEditor = context.getSharedPreferences(PREFS_NAME, 0)
+				.edit();
+		if (0<totalrefreshtime&&totalrefreshtime<61&&2<uidrefreshtime&&uidrefreshtime<241) {
+			passfileEditor.putInt(TOTAL_REFLASH, totalrefreshtime);
+			passfileEditor.putInt(UID_REFLASH, uidrefreshtime);
+			passfileEditor.commit();
+			return true;
+		}
+		return false;
 	}
 
 	/**
