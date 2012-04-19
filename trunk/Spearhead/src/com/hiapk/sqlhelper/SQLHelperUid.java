@@ -62,7 +62,7 @@ public class SQLHelperUid {
 	public SQLiteDatabase creatSQL(Context context) {
 		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLname,
 				MODE_PRIVATE, null);
-//		showLog("db-CreatComplete");
+		// showLog("db-CreatComplete");
 		return mySQL;
 	}
 
@@ -84,16 +84,16 @@ public class SQLHelperUid {
 		try {
 			exeSQLUidIndextable(mySQL, uidnumber, packageName, other);
 			// 判断是否覆盖安装。
-//			showLog(isCoveringInstall(mySQL, packageName) + "" + packageName
-//					+ uidnumber);
+			// showLog(isCoveringInstall(mySQL, packageName) + "" + packageName
+			// + uidnumber);
 			if (isCoveringInstall(mySQL, packageName)) {
-//				showLog("覆盖安装" + packageName + uidnumber);
+				// showLog("覆盖安装" + packageName + uidnumber);
 				updateSQLUidIndexOther(mySQL, packageName, uidnumber, other);
 				sortSQLUidIndex(mySQL);
 				delSQLUidIndexAndTable(mySQL);
 
 			} else {
-//				showLog("新安装软件" + packageName + uidnumber);
+				// showLog("新安装软件" + packageName + uidnumber);
 				delSQLUidIndexAndTable(mySQL);
 				initTime();
 				initUidTable(mySQL, uidnumber);
@@ -296,7 +296,7 @@ public class SQLHelperUid {
 				+ "other='" + "Install" + "'";
 		try {
 			cur = sqlDataBase.rawQuery(string, null);
-//			showLog(string);
+			// showLog(string);
 		} catch (Exception e) {
 			// TODO: handle exception
 			showLog(string);
@@ -423,7 +423,7 @@ public class SQLHelperUid {
 		// select oldest upload and download 之前记录的数据的查询操作
 		// SELECT * FROM table WHERE type=0
 		string = SelectTable + TableUidIndex + Where + "other='UnInstall'";
-//		showLog(string);
+		// showLog(string);
 		try {
 			cur = mySQL.rawQuery(string, null);
 		} catch (Exception e) {
@@ -450,8 +450,8 @@ public class SQLHelperUid {
 		// 删除other为UnInstall的项目
 		delSQLUidIndex(mySQL);
 		for (int j = 0; j < uids.length; j++) {
-//			showLog(uids[j] + "");
-//			showLog(isUidExistingInUidIndex(mySQL, uids[j]) + "");
+			// showLog(uids[j] + "");
+			// showLog(isUidExistingInUidIndex(mySQL, uids[j]) + "");
 			// 不能清空uid=0的表
 			if (uids[j] != 0) {
 				if (!isUidExistingInUidIndex(mySQL, uids[j])) {
@@ -482,7 +482,7 @@ public class SQLHelperUid {
 		// ('1','1','1','1','1','1')
 		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
 		// ('date','time','upload','download','uid','type')
-//		showLog(string);
+		// showLog(string);
 		try {
 			mySQL.execSQL(string);
 		} catch (Exception e) {
@@ -533,7 +533,7 @@ public class SQLHelperUid {
 		// SELECT * FROM table WHERE type=0
 		string = SelectTable + TableUidIndex + Where + "packagename='"
 				+ packagename + "'";
-//		showLog(string);
+		// showLog(string);
 		try {
 			cur = mySQL.rawQuery(string, null);
 		} catch (Exception e) {
@@ -558,9 +558,9 @@ public class SQLHelperUid {
 			}
 		}
 		cur.close();
-//		for (int i = 0; i < uids.length; i++) {
-//			showLog(uids[i] + "");
-//		}
+		// for (int i = 0; i < uids.length; i++) {
+		// showLog(uids[i] + "");
+		// }
 
 		if (uids.length == 1) {
 			return false;
@@ -965,8 +965,8 @@ public class SQLHelperUid {
 			olddown = download - olddown;
 		}
 		if (daily) {
-//			showLog("上传uid" + uidnumber + "数据" + oldup + "B" + "  " + "下载uid"
-//					+ uidnumber + "数据" + olddown + "B");
+			// showLog("上传uid" + uidnumber + "数据" + oldup + "B" + "  " + "下载uid"
+			// + uidnumber + "数据" + olddown + "B");
 			// 输入实际数据进入数据库
 			updateSQLUidType(mySQL, date, time, oldup, olddown, uidnumber, 0,
 					SQLHelperTotal.TableWiFiOrG23, 2);
@@ -976,8 +976,8 @@ public class SQLHelperUid {
 			exeSQLcreateUidtable(mySQL, uidnumber, 1,
 					SQLHelperTotal.TableWiFiOrG23);
 		} else if (oldup != 0 && olddown != 0) {
-//			showLog("上传uid" + uidnumber + "数据" + oldup + "B" + "  " + "下载uid"
-//					+ uidnumber + "数据" + olddown + "B");
+			// showLog("上传uid" + uidnumber + "数据" + oldup + "B" + "  " + "下载uid"
+			// + uidnumber + "数据" + olddown + "B");
 			// 输入实际数据进入数据库
 			updateSQLUidType(mySQL, date, time, oldup, olddown, uidnumber, 0,
 					SQLHelperTotal.TableWiFiOrG23, 2);
@@ -1004,8 +1004,7 @@ public class SQLHelperUid {
 	 * @return 返回一个64位数组。a[0]为总计上传流量a[63]为总计下载流量
 	 *         a[1]-a[31]为1号到31号上传流量，a[32]-a[62]为1号到31号下载流量
 	 */
-	public long[] SelectuidData(Context context, int year, int month,
-			int uid) {
+	public long[] SelectuidData(Context context, int year, int month, int uid) {
 		return SelectData(context, year, month, TableUid + uid);
 	}
 
@@ -1025,8 +1024,8 @@ public class SQLHelperUid {
 	 * @return 返回一个64位数组。a[0]为总计上传流量a[63]为总计下载流量
 	 *         a[1]-a[31]为1号到31号上传流量，a[32]-a[62]为1号到31号下载流量
 	 */
-	public long[] SelectuidWifiorMobileData(Context context, String year,
-			String month, int uid, String other) {
+	public long[] SelectuidWifiorMobileData(Context context, int year,
+			int month, int uid, String other) {
 		return SelectUidmobileOrwifiData(context, year, month, TableUid + uid,
 				other);
 	}
@@ -1045,19 +1044,18 @@ public class SQLHelperUid {
 	 * @return 返回一个64位数组。a[0]为总计上传流量a[63]为总计下载流量
 	 *         a[1]-a[31]为1号到31号上传流量，a[32]-a[62]为1号到31号下载流量
 	 */
-	private long[] SelectData(Context context, int year, int month,
-			String table) {
+	private long[] SelectData(Context context, int year, int month, String table) {
 		long[] a = new long[64];
 		SQLiteDatabase sqlDataBase = creatSQL(context);
-		String month2=month+"";
+		String month2 = month + "";
 		if (month < 10)
 			month2 = "0" + month2;
 		String string = null;
 		// select oldest upload and download 之前记录的数据的查询操作
 		// SELECT * FROM table WHERE type=0
 		string = SelectTable + table + Where + "date" + Between + year + "-"
-				+ month2 + "-" + "01" + AND_B + year + "-" + month2 + "-" + "31"
-				+ AND + "type=" + 2;
+				+ month2 + "-" + "01" + AND_B + year + "-" + month2 + "-"
+				+ "31" + AND + "type=" + 2;
 		// showLog(string);
 		try {
 			cur = sqlDataBase.rawQuery(string, null);
@@ -1117,9 +1115,9 @@ public class SQLHelperUid {
 		}
 		cur.close();
 		closeSQL(sqlDataBase);
-//		for (int j = 0; j < a.length; j++) {
-//			showLog(j + "liuliang" + a[j] + "");
-//		}
+		// for (int j = 0; j < a.length; j++) {
+		// showLog(j + "liuliang" + a[j] + "");
+		// }
 		return a;
 	}
 
@@ -1139,17 +1137,20 @@ public class SQLHelperUid {
 	 * @return 返回一个64位数组。a[0]为总计上传流量a[63]为总计下载流量
 	 *         a[1]-a[31]为1号到31号上传流量，a[32]-a[62]为1号到31号下载流量
 	 */
-	private long[] SelectUidmobileOrwifiData(Context context, String year,
-			String month, String table, String other) {
+	private long[] SelectUidmobileOrwifiData(Context context, int year,
+			int month, String table, String other) {
 		long[] a = new long[64];
 		SQLiteDatabase sqlDataBase = creatSQL(context);
 		String string = null;
 		// select oldest upload and download 之前记录的数据的查询操作
 		// SELECT * FROM table WHERE type=0
+		String month2 = month + "";
+		if (month < 10)
+			month2 = "0" + month2;
 		string = SelectTable + table + Where + "date" + Between + year + "-"
-				+ month + "-" + "01" + AND_B + year + "-" + month + "-" + "31"
+				+ month2 + "-" + "01" + AND_B + year + "-" + month2 + "-" + "31"
 				+ AND + "other=" + "'" + other + AND + "type=" + 2;
-//		showLog(string);
+		// showLog(string);
 		try {
 			cur = sqlDataBase.rawQuery(string, null);
 		} catch (Exception e) {
@@ -1158,8 +1159,8 @@ public class SQLHelperUid {
 		}
 		String newdate = "";
 		String countdate = "";
-		String dateStr1 = year + "-" + month + "-" + "0";
-		String dateStr2 = year + "-" + month + "-";
+		String dateStr1 = year + "-" + month2 + "-" + "0";
+		String dateStr2 = year + "-" + month2 + "-";
 		long newup = 0;
 		long newdown = 0;
 		int i = 1;
