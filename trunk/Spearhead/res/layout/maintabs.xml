@@ -35,7 +35,8 @@
                 android:layout_marginTop="2.0dip" 
                 android:text="流量监控" 
                 android:drawableTop="@drawable/icon_1_n" 
-                style="@style/main_tab_bottom" />
+                style="@style/main_tab_bottom" 
+                android:checked="true"/>
             <RadioButton 
                 android:id="@+id/radio_button1" 
                 android:tag="radio_button1" 
