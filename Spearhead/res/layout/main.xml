@@ -24,17 +24,66 @@
 	<LinearLayout 
 	   	android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:orientation="horizontal"
+		android:orientation="vertical"
 		android:layout_weight="1.0"		
 		android:layout_margin="5dip"
 		android:background="@drawable/bg_about"
 	    >
+	
+	<!-- 第一行的第一行标题 开始-->	
+	<LinearLayout 
+	    		android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				android:layout_weight="0.1"
+				android:layout_margin="5dip"
+		        >
+		        
+		        <LinearLayout 
+		            android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:layout_weight="1"
+					android:gravity="right"	
+		            >
+		            <ImageView 
+		         		android:layout_width="wrap_content"
+		   		 		android:layout_height="wrap_content"		   		 	   		 
+		   			    android:src="@drawable/phoneicon"/>
+		        </LinearLayout>
+		        
+		        <LinearLayout 
+		            android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:layout_weight="1"
+		            >
+		        	<TextView
+		    	 		 android:layout_width="fill_parent"
+		   				 android:layout_height="wrap_content"
+		   				 android:gravity="left"	
+		    			 android:textColor="#000"	
+		        		 android:text="2G/3G" />	
+		         </LinearLayout>	 
+	    
+	</LinearLayout>
+	<!-- 第一行的第一行标题 结束-->	
+	
+	<!-- 第一行的第二行 开始-->	
+	<LinearLayout 
+	    		android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				android:layout_weight="1.0"	
+	    >
+		        
 	<!-- 第一行的第一个格子 开始-->	
 	<LinearLayout 
 	   	android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
 		android:layout_weight="0.5"	
+		android:background="@drawable/bg_about"
 		
 	    >
 	    <!-- 第一行的第一个格子 内部的布局开始-->	
@@ -42,31 +91,18 @@
 		   	android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
 			android:orientation="vertical"
-		    >
-		    
-		    <!-- 第一行的第一个格子 标题开始-->	
-		    <LinearLayout 
-		        android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-				android:orientation="horizontal"
-				android:layout_weight="1.0"	
-		        >
-		        <TextView
-		    	 android:layout_width="fill_parent"
-		   		 android:layout_height="wrap_content"
-		    	 android:gravity="center"
-		    	 android:textColor="#000"	
-		         android:text="2G/3G" />
-		    </LinearLayout>
-		     <!-- 第一行的第一个格子 标题结束-->
-		   
+			android:layout_margin="10dip"	
+		    >	    
+		 
+		 
 		     <!-- 第一行的第一个格子 填充内容开始--> 
 		    <LinearLayout 
 		        android:layout_width="fill_parent"
 				android:layout_height="fill_parent"
 				android:orientation="horizontal"
-				android:layout_weight="1.0"	
+				android:layout_weight="1.0"						
 		        >
+		        
 		        <TextView
 		    	 android:layout_width="wrap_content"
 		   		 android:layout_height="wrap_content"		    	 
@@ -79,7 +115,7 @@
 		    	 android:layout_weight="1.0"	
 		    	 android:id="@+id/todayRate"
 		    	 android:textColor="#000"	
-		         android:text="此处填写流量" />
+		         android:text="流量" />
 		    </LinearLayout>
 		    
 		    <LinearLayout 
@@ -100,7 +136,7 @@
 		    	 android:layout_weight="1.0"
 		    	 android:id="@+id/weekRate"	
 		    	 android:textColor="#000"	
-		         android:text="此处填写流量" />
+		         android:text="流量" />
 		    </LinearLayout>
 		    
 		    <LinearLayout 
@@ -121,9 +157,10 @@
 		    	 android:layout_weight="1.0"	
 		    	 android:id="@+id/monthRate"	
 		    	 android:textColor="#000"		
-		         android:text="此处填写流量" />
+		         android:text="流量" />
 		    </LinearLayout>
 		     <!-- 第一行的第一个格子 填充内容结束--> 
+		
 		    
 		</LinearLayout>
 		<!-- 第一行的第一个格子 内部的布局结束-->	
@@ -151,7 +188,10 @@
 	    />
 	    
 	    </LinearLayout>
-	    <!-- 第一行的第二个格子结束 -->	  
+	    <!-- 第一行的第二个格子结束 -->	
+	      
+	 </LinearLayout>
+	 <!-- 第一行的第二行结束-->	
 	    
 	</LinearLayout>
 	<!-- 第一行结束 -->
@@ -161,55 +201,88 @@
 	<LinearLayout 
 	   	android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:orientation="horizontal"
-		android:layout_weight="1.0"
+		android:orientation="vertical"
+		android:layout_weight="1.0"		
 		android:layout_margin="5dip"
-		android:background="@drawable/bg_about"	
+		android:background="@drawable/bg_about"
 	    >
+	
+	<!-- 第二行的第一行标题 开始-->	
+	<LinearLayout 
+	    		android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				android:layout_weight="0.1"
+				android:layout_margin="5dip"
+		        >
+		        
+		        <LinearLayout 
+		            android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:layout_weight="1"
+					android:gravity="right"	
+		            >
+		            <ImageView 
+		         		android:layout_width="wrap_content"
+		   		 		android:layout_height="wrap_content"		   		 	   		 
+		   			    android:src="@drawable/wifi_icon"/>
+		        </LinearLayout>
+		        
+		        <LinearLayout 
+		            android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:layout_weight="1"
+		            >
+		        	<TextView
+		    	 		 android:layout_width="fill_parent"
+		   				 android:layout_height="wrap_content"
+		   				 android:gravity="left"	
+		    			 android:textColor="#000"	
+		        		 android:text="WIFI" />	
+		         </LinearLayout>	 
+	    
+	</LinearLayout>
+	<!-- 第二行的第一行标题 结束-->	
+	
+	<!-- 第二行的第二行 开始-->	
+	<LinearLayout 
+	    		android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				android:layout_weight="1.0"	
+	    >
+		        
 	<!-- 第二行的第一个格子 开始-->	
 	<LinearLayout 
 	   	android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
 		android:layout_weight="0.5"	
+		android:background="@drawable/bg_about"
 		
 	    >
+	    <!-- 第二行的第一个格子 内部的布局开始-->	
 
-		<!-- 第二行的第一个格子 内部的布局开始-->	
-		<LinearLayout 
-		   	android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:orientation="vertical"
-		    >
-		    
-		    <!-- 第二行的第一个格子 标题开始-->	
+		<LinearLayout
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent"
+		    android:layout_margin="10dip"
+		    android:orientation="vertical" >
+<!-- 第二行的第一个格子 填充内容开始--> 
 		    <LinearLayout 
 		        android:layout_width="fill_parent"
 				android:layout_height="fill_parent"
 				android:orientation="horizontal"
-				android:layout_weight="1.0"	
+				android:layout_weight="1.0"						
 		        >
-		        <TextView
-		    	 android:layout_width="fill_parent"
-		   		 android:layout_height="wrap_content"
-		    	 android:gravity="center"
-		    	 android:textColor="#000"		
-		         android:text="WIFI" />
-		    </LinearLayout>
-		     <!-- 第二行的第一个格子 标题结束-->
-		   
-		     <!-- 第二行的第一个格子 填充内容开始--> 
-		    <LinearLayout 
-		        android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-				android:orientation="horizontal"
-				android:layout_weight="1.0"	
-		        >
+		        
 		        <TextView
 		    	 android:layout_width="wrap_content"
 		   		 android:layout_height="wrap_content"		    	 
-		    	 android:layout_weight="1.0"	
-		    	 android:textColor="#000"		
+		    	 android:layout_weight="1.0"
+		    	 android:textColor="#000"			
 		         android:text="今日已用:" />
 		        <TextView
 		    	 android:layout_width="wrap_content"
@@ -217,7 +290,7 @@
 		    	 android:layout_weight="1.0"	
 		    	 android:id="@+id/wifiTodayRate"
 		    	 android:textColor="#000"	
-		         android:text="此处填写流量" />
+		         android:text="流量" />
 		    </LinearLayout>
 		    
 		    <LinearLayout 
@@ -238,7 +311,7 @@
 		    	 android:layout_weight="1.0"
 		    	 android:id="@+id/wifiWeekRate"	
 		    	 android:textColor="#000"	
-		         android:text="此处填写流量" />
+		         android:text="流量" />
 		    </LinearLayout>
 		    
 		    <LinearLayout 
@@ -250,8 +323,8 @@
 		        <TextView
 		    	 android:layout_width="wrap_content"
 		   		 android:layout_height="wrap_content"		    	 
-		    	 android:layout_weight="1.0"	
-		    	 android:textColor="#000"	
+		    	 android:layout_weight="1.0"
+		    	 android:textColor="#000"		
 		         android:text="本月已用:" />
 		        <TextView
 		    	 android:layout_width="wrap_content"
@@ -259,12 +332,16 @@
 		    	 android:layout_weight="1.0"	
 		    	 android:id="@+id/wifiMonthRate"	
 		    	 android:textColor="#000"		
-		         android:text="此处填写流量" />
+		         android:text="流量" />
 		    </LinearLayout>
 		     <!-- 第二行的第一个格子 填充内容结束--> 
+		
 		    
 		</LinearLayout>
 		<!-- 第二行的第一个格子 内部的布局结束-->	
+		
+		
+		
 	    
 	    </LinearLayout>
 	   <!-- 第二行的第一个格子结束 -->	
@@ -280,15 +357,19 @@
 	    <TextView 
 	    android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:gravity="center"		
-		android:textColor="#000"	
+		android:gravity="center"	
+		android:textColor="#000"		
 		android:text="图表"		
 	    />
 	    
 	    </LinearLayout>
-	    <!-- 第二行的第二个格子结束 -->	  
+	    <!-- 第二行的第二个格子结束 -->	
+	      
+	 </LinearLayout>
+	 <!-- 第二行的第二行结束-->	
 	    
 	</LinearLayout>
+	
 	<!-- 第二行结束 -->
 
 	
