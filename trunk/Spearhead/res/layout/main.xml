@@ -28,6 +28,7 @@
 		android:layout_weight="1.0"		
 		android:layout_margin="5dip"
 		android:background="@drawable/bg_about"
+		android:id="@+id/linearLayout_mobile"
 	    >
 	
 	<!-- 第一行的第一行标题 开始-->	
@@ -177,15 +178,8 @@
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
 		android:layout_weight="1.0"		
-		
+		android:id="@+id/linearLayout_mobile_chart"
 	    >  
-	    <TextView 
-	    android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:gravity="center"	
-		android:textColor="#000"		
-		android:text="图表"		
-	    />
 	    
 	    </LinearLayout>
 	    <!-- 第一行的第二个格子结束 -->	
@@ -205,6 +199,7 @@
 		android:layout_weight="1.0"		
 		android:layout_margin="5dip"
 		android:background="@drawable/bg_about"
+		android:id="@+id/linearLayout_wifi"
 	    >
 	
 	<!-- 第二行的第一行标题 开始-->	
@@ -352,15 +347,8 @@
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
 		android:layout_weight="1.0"		
-		
+		android:id="@+id/linearLayout_wifi_chart"
 	    >  
-	    <TextView 
-	    android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:gravity="center"	
-		android:textColor="#000"		
-		android:text="图表"		
-	    />
 	    
 	    </LinearLayout>
 	    <!-- 第二行的第二个格子结束 -->	
