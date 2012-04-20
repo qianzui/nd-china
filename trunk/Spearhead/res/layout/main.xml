@@ -65,12 +65,7 @@
 					android:orientation="horizontal"
 					android:layout_weight="1"
 		            >
-		        	<TextView
-		    	 		 android:layout_width="fill_parent"
-		   				 android:layout_height="wrap_content"
-		   				 android:gravity="left"	
-		    			 android:textColor="#000"	
-		        		 android:text="" />	
+		        	
 		         </LinearLayout>	 
 	    
 	</LinearLayout>
@@ -113,7 +108,7 @@
 		        <TextView
 		    	 android:layout_width="wrap_content"
 		   		 android:layout_height="wrap_content"		    	 
-		    	 android:layout_weight="1.0"
+		    	 
 		    	 android:textColor="#000"		
 		    	 android:textSize="20dp"	
 		         android:text="@string/todayUsed" />
@@ -122,9 +117,18 @@
 		            android:id="@+id/todayRate"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            android:layout_weight="1.0"
+		            
+		            android:gravity="right"
 		            android:text="@string/rate"
 		            android:textColor="@color/lime"
+		            android:textSize="20dp" />
+		        <TextView
+		            android:id="@+id/unit1"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            
+		            android:text="KB"
+		            android:textColor="@color/black"
 		            android:textSize="20dp" />
 		    	 
 		    </LinearLayout>
@@ -138,7 +142,7 @@
 		        <TextView
 		    	 android:layout_width="wrap_content"
 		   		 android:layout_height="wrap_content"		    	 
-		    	 android:layout_weight="1.0"	
+		    	
 		    	 android:textColor="#000"	
 		    	 android:textSize="20dp"	
 		         android:text="@string/weekUsed" />
@@ -147,10 +151,20 @@
 		            android:id="@+id/weekRate"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            android:layout_weight="1.0"
+		           
+		            android:gravity="right"
 		            android:text="@string/rate"
 		            android:textColor="@color/lime"
 		            android:textSize="20dp" />
+		        <TextView
+		            android:id="@+id/unit2"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            
+		            android:text="KB"
+		            android:textColor="@color/black"
+		            android:textSize="20dp" />
+		        
 		        
 		    </LinearLayout>
 		    
@@ -163,18 +177,27 @@
 		        <TextView
 		    	 android:layout_width="wrap_content"
 		   		 android:layout_height="wrap_content"		    	 
-		    	 android:layout_weight="1.0"
+		    	 
 		    	 android:textColor="@color/black"	
 		    	 android:textSize="20dp"		
 		         android:text="@string/monthTotal" />
 		        <TextView
 		    	 android:layout_width="wrap_content"
 		   		 android:layout_height="wrap_content"		    	
-		    	 android:layout_weight="1.0"	
+		    	 
+		    	 android:gravity="right"
 		    	 android:id="@+id/monthRate"	
 		    	 android:textColor="@color/lime"		
 		    	 android:textSize="20dp"	
-		         android:text="@string/rate" />		        
+		         android:text="@string/rate" />	
+		         <TextView
+		            android:id="@+id/unit3"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		           
+		            android:text="KB"
+		            android:textColor="@color/black"
+		            android:textSize="20dp" />	        
 		       
 		    </LinearLayout>
 		     <!-- 第一行的第一个格子 填充内容结束--> 
@@ -259,13 +282,7 @@
 					android:layout_height="wrap_content"
 					android:orientation="horizontal"
 					android:layout_weight="1"
-		            >
-		        	<TextView
-		    	 		 android:layout_width="fill_parent"
-		   				 android:layout_height="wrap_content"
-		   				 android:gravity="left"	
-		    			 android:textColor="@color/black"	
-		        		 android:text="" />	
+		            >		        		
 		         </LinearLayout>	 
 	    
 	</LinearLayout>
@@ -306,18 +323,27 @@
 		        <TextView
 		    	 android:layout_width="wrap_content"
 		   		 android:layout_height="wrap_content"		    	 
-		    	 android:layout_weight="1.0"
+		    	 
 		    	 android:textColor="@color/black"		
 		    	 android:textSize="20dp"	
 		         android:text="@string/todayUsed" />
 		        <TextView
 		    	 android:layout_width="wrap_content"
 		   		 android:layout_height="wrap_content"		    	 
-		    	 android:layout_weight="1.0"	
+		    	 
+		    	 android:gravity="right"
 		    	 android:id="@+id/wifiTodayRate"
 		    	 android:textColor="@color/lime"		    	 
 		    	 android:textSize="20dp"
 		         android:text="@string/rate" />
+		        <TextView
+		            android:id="@+id/unit4"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            
+		            android:text="KB"
+		            android:textColor="@color/black"
+		            android:textSize="20dp" />
 		        
 		    </LinearLayout>
 		    
@@ -330,18 +356,27 @@
 		        <TextView
 		    	 android:layout_width="wrap_content"
 		   		 android:layout_height="wrap_content"		    	 
-		    	 android:layout_weight="1.0"	
+		    	 
 		    	 android:textColor="@color/black"	
 		    	 android:textSize="20dp"	
 		         android:text="@string/weekUsed" />
 		        <TextView
 		    	 android:layout_width="wrap_content"
 		   		 android:layout_height="wrap_content"		    	 
-		    	 android:layout_weight="1.0"
+		    	 
+		    	 android:gravity="right"
 		    	 android:id="@+id/wifiWeekRate"	
 		    	 android:textColor="@color/lime"		
 		    	 android:textSize="20dp"	
 		         android:text="@string/rate" />
+		        <TextView
+		            android:id="@+id/unit5"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            
+		            android:text="KB"
+		            android:textColor="@color/black"
+		            android:textSize="20dp" />
 		        
 		    </LinearLayout>
 		    
@@ -353,19 +388,28 @@
 		        >
 		        <TextView
 		    	 android:layout_width="wrap_content"
-		   		 android:layout_height="wrap_content"		    	 
-		    	 android:layout_weight="1.0"
+		   		 android:layout_height="wrap_content"    	 
+		    	 
 		    	 android:textColor="@color/black"	
 		    	 android:textSize="20dp"		
 		         android:text="@string/monthTotal" />
 		        <TextView
 		    	 android:layout_width="wrap_content"
 		   		 android:layout_height="wrap_content"		    	
-		    	 android:layout_weight="1.0"	
+		    	 
+		    	 android:gravity="right"
 		    	 android:id="@+id/wifiMonthRate"	
 		    	 android:textColor="@color/lime"			
 		    	 android:textSize="20dp"	
-		         android:text="@string/rate" />		        
+		         android:text="@string/rate" />	
+		         <TextView
+		            android:id="@+id/unit6"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            
+		            android:text="KB"
+		            android:textColor="@color/black"
+		            android:textSize="20dp" />	        
 		       
 		    </LinearLayout>
 		     <!-- 第二行的第一个格子 填充内容结束--> 
