@@ -18,7 +18,7 @@ public class AlarmSet {
 	private final String UID_REFLASH = "uidrefreshtime";
 
 	/**
-	 * 依据预设值启用计时器，默认总流量统计间隔1分钟，uid统计间隔5分钟
+	 * 依据预设值启用计时器，默认总流量统计间隔30分钟，uid统计间隔240分钟
 	 * 
 	 * @param context
 	 */
@@ -26,9 +26,21 @@ public class AlarmSet {
 		setdefaulttime(context);
 		TotalAlarmStart(context, totalrefreshtime);
 		UidAlarmStart(context, uidrefreshtime);
-		showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
+//		showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
 	}
-
+	
+	
+	public void StartAlarmMobile(Context context) {
+		setdefaulttime(context);
+		TotalAlarmStart(context, totalrefreshtime);
+//		showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
+	}
+	
+	public void StartAlarmWifi(Context context) {
+		setdefaulttime(context);
+		UidAlarmStart(context, uidrefreshtime);
+//		showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
+	}
 	/**
 	 * 设置数据记录间隔，单位分钟
 	 * 总流量数据限制为1-60分钟，uid数据限制为3-240分钟
