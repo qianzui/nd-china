@@ -33,7 +33,7 @@
                 android:id="@+id/radio_button0" 
                 android:tag="radio_button0" 
                 android:layout_marginTop="2.0dip" 
-                android:text="流量监控" 
+                android:text="@string/main_1" 
                 android:drawableTop="@drawable/icon_1_n" 
                 style="@style/main_tab_bottom" 
                 android:checked="true"/>
@@ -41,14 +41,14 @@
                 android:id="@+id/radio_button1" 
                 android:tag="radio_button1" 
                 android:layout_marginTop="2.0dip" 
-                android:text="防火墙" 
+                android:text="@string/main_2" 
                 android:drawableTop="@drawable/icon_2_n" 
                 style="@style/main_tab_bottom" />
             <RadioButton 
                 android:id="@+id/radio_button2" 
                 android:tag="radio_button2" 
                 android:layout_marginTop="2.0dip" 
-                android:text="流量预警" 
+                android:text="@string/main_3" 
                 android:drawableTop="@drawable/icon_3_n" 
                 style="@style/main_tab_bottom" />
 
