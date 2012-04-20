@@ -60,8 +60,8 @@ public class AlarmSet {
 	 */
 	private void setdefaulttime(Context context) {
 		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-		totalrefreshtime = prefs.getInt(TOTAL_REFLASH, 1);
-		uidrefreshtime = prefs.getInt(UID_REFLASH, 5);
+		totalrefreshtime = prefs.getInt(TOTAL_REFLASH, 30);
+		uidrefreshtime = prefs.getInt(UID_REFLASH, 120);
 	}
 
 	// /**
