@@ -4,6 +4,8 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.progressbar.ProgressBarForV;
+import com.hiapk.progressbar.myProgressBar;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
 
@@ -12,13 +14,19 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.net.TrafficStats;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.format.Time;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class Main extends Activity {
-	private TextView todayMobil;
-	private TextView weekMobil;
 	private Context context = this;
 	private SQLHelperUid sqlhelperUid = new SQLHelperUid();
 	private SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
@@ -33,7 +41,6 @@ public class Main extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		initWidgets();
 		// temp------------
 		getuids();
 		// ------------
@@ -63,8 +70,8 @@ public class Main extends Activity {
 		wifi = sqlhelperTotal.SelectWifiData(context, year, month);
 		todayMobil
 				.setText(unitHandler(mobile[monthDay] + mobile[monthDay + 31]));
-//		setweek(Time t,);
-		Log.d("database", t.weekDay+"");
+		// setweek(Time t,);
+		Log.d("database", t.weekDay + "");
 		// weekMobil.setText(unitHandler(mobile[0] + mobile[62]));
 		monthMobil.setText(unitHandler(mobile[0] + mobile[63]));
 		todayWifi.setText(unitHandler(wifi[monthDay] + wifi[monthDay + 31]));
@@ -75,7 +82,7 @@ public class Main extends Activity {
 
 	private void setweek() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/**
@@ -113,11 +120,31 @@ public class Main extends Activity {
 
 	// ------------
 	/**
-	 * 初始化各种部件
+	 * 执行动态进度条设置
+	 * @param i
+	 * 移动数据
+	 * @param j
+	 * wifi
 	 */
-	private void initWidgets() {
-		// todayMobil = (TextView) findViewById(R.id.todayRate);
-		// weekMobil
+	private void RefreshProgressBar(int i,int j) {
+//		ProgressBar myProgressBar = (ProgressBar) findViewById(R.id.progressbar);
+		myProgressBar myProgressBar2 = (myProgressBar) findViewById(R.id.progressbar);
+//		myProgressBar.setProgress(100);
+		ProgressBarForV progforv= new  ProgressBarForV();
+//		progforv.j=100-j;
+		progforv.j=20;
+		progforv.execute(myProgressBar2);
+	}
+	/**
+	 * 执行动态进度条设置
+	 * @param i
+	 * 移动数据
+	 * @param j
+	 * wifi
+	 */
+	private void ProgressBarSet(int i,int j) {
+		ProgressBar myProgressBar = (ProgressBar) findViewById(R.id.progressbar);
+		myProgressBar.setProgress(20);
 	}
 
 	/**
@@ -148,18 +175,23 @@ public class Main extends Activity {
 		super.onResume();
 		AlarmSet alset = new AlarmSet();
 		sqlhelperTotal.initTablemobileAndwifi(context);
-		if (SQLHelperTotal.TableWiFiOrG23 != "" && sqlhelperTotal.getIsInit(context)) {
+		if (SQLHelperTotal.TableWiFiOrG23 != ""
+				&& sqlhelperTotal.getIsInit(context)) {
 			// 启动闹钟
 			alset.StartAlarm(context);
 			// 初始化网络状态
 			sqlhelperTotal.initTablemobileAndwifi(context);
 			// 进行数据记录
 			sqlhelperTotal.RecordTotalwritestats(context, false);
-			sqlhelperUid.RecordUidwritestats(context, false);
 		} else if (SQLHelperTotal.TableWiFiOrG23 != "") {
 			sqlhelperTotal.initTablemobileAndwifi(context);
 			alset.StartAlarm(context);
 		}
 		initValues();
+		RefreshProgressBar(80,90);
+	}
+
+	private void showlog(String string) {
+		Log.d("widget", string);
 	}
 }
