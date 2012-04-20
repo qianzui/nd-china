@@ -220,13 +220,16 @@
 		android:layout_weight="1.0"		
 		
 	    >  
-	    <TextView 
-	    android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:gravity="center"	
-		android:textColor="@color/black"		
-		android:text="图表"		
-	    />
+	    <com.hiapk.progressbar.MyProgressBar
+                    android:id="@+id/progressbar_mobile"
+                    style="@style/myProgressBarStyleForV"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:max="100"
+                    android:progress="0" >
+                </com.hiapk.progressbar.MyProgressBar>
+
 	    
 	    </LinearLayout>
 	    <!-- 第一行的第二个格子结束 -->	
@@ -432,13 +435,15 @@
 		android:layout_weight="1.0"		
 		
 	    >  
-	    <TextView 
-	    android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:gravity="center"	
-		android:textColor="#000"		
-		android:text="图表"		
-	    />
+	    <com.hiapk.progressbar.MyProgressBar
+                    android:id="@+id/progressbar_wifi"
+                    style="@style/myProgressBarStyleForV"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:max="100"
+                    android:progress="0" >
+                </com.hiapk.progressbar.MyProgressBar>
 	    
 	    </LinearLayout>
 	    <!-- 第二行的第二个格子结束 -->	
