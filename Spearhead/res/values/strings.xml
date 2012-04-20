@@ -8,10 +8,10 @@
 	<string name="main_edit">编写</string>
 	<string name="twoGthreeG">2G/3G</string>
 	<string name="wifi">WIFI</string>
-	<string name="todayUsed">今日已用:</string>
-	<string name="rate">流量</string>
-	<string name="weekUsed">本周已用:</string>
-	<string name="monthTotal">本月统计:</string>
+	<string name="todayUsed">今日已用:\u0020</string>
+	<string name="rate">0</string>
+	<string name="weekUsed">本周已用:\u0020</string>
+	<string name="monthTotal">本月统计:\u0020</string>
 	
 	
 	<item type="id" name="tag_holder"></item>
