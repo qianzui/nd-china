@@ -13,7 +13,8 @@
 	<string name="weekUsed">本周已用:\u0020</string>
 	<string name="monthTotal">本月统计:\u0020</string>
 	
-	
 	<item type="id" name="tag_holder"></item>
 	<item type="id" name="tag_pkgname"></item>
+	<item type="id" name="tag_traffic_up"></item>
+	<item type="id" name="tag_traffic_down"></item>
 </resources>

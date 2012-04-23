@@ -1,14 +1,10 @@
 package com.hiapk.firewall;
 
 import java.util.ArrayList;
-
+import com.hiapk.spearhead.Main;
 import com.hiapk.spearhead.R;
-
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
-import android.content.pm.PackageInfo;
-import android.net.TrafficStats;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,27 +18,27 @@ import android.widget.Toast;
 
 public class AppListAdapter extends BaseAdapter {
 	
-	private ArrayList<PackageInfo> installedPackageList;
+	private ArrayList<AppInfo> myAppList;
 	private  LayoutInflater inflater;
 	private Context mContext;
 	
-	public AppListAdapter(Context context , ArrayList<PackageInfo> installedPackageList)
+	public AppListAdapter(Context context , ArrayList<AppInfo> myAppList)
 	{
 		inflater = LayoutInflater.from(context);
-		this.installedPackageList = installedPackageList;
+		this.myAppList = myAppList;
 		this.mContext = context;
 	}
 
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return installedPackageList.size();
+		return myAppList.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
 		// TODO Auto-generated method stub
-		return installedPackageList.get(position);
+		return myAppList.get(position);
 	}
 
 	@Override
@@ -69,14 +65,18 @@ public class AppListAdapter extends BaseAdapter {
 		 }else{
 			 holder = (ViewHolder)convertView.getTag(R.id.tag_holder);
 		 }
-		  PackageInfo pkgInfo = installedPackageList.get(position);
-		  holder.icon.setImageDrawable(pkgInfo.applicationInfo.loadIcon(mContext.getPackageManager()));
-		  holder.appname.setText("名称： "+pkgInfo.applicationInfo.loadLabel(mContext.getPackageManager()));
-		  holder.trafficdown.setText("接收： " + TrafficStats.getUidRxBytes(pkgInfo.applicationInfo.uid)/1024/1024 + "KB");
-		  holder.trafficup.setText("发送： " + TrafficStats.getUidTxBytes(pkgInfo.applicationInfo.uid)/1024 + "KB");		
+		  AppInfo pkgInfo = myAppList.get(position);		  
+		  holder.icon.setImageDrawable(pkgInfo.getIcon());
+		  holder.appname.setText(pkgInfo.getAppname());
+//		  holder.trafficdown.setText("总上传： " + pkgInfo.getTrafficUp());
+		  holder.trafficup.setText("总流量： " + pkgInfo.getTrafficTotal());		
 		  holder.e_toggle.setOnCheckedChangeListener(new ECheckBoxListener(holder.e_toggle));
-		  holder.wifi_toggle.setOnCheckedChangeListener(new WifiCheckBoxListener(holder.wifi_toggle));		  
-		  convertView.setTag(R.id.tag_pkgname,pkgInfo.applicationInfo.packageName);
+		  holder.wifi_toggle.setOnCheckedChangeListener(new WifiCheckBoxListener(holder.wifi_toggle));	
+		  
+		  convertView.setTag(R.id.tag_pkgname,pkgInfo.getPackageName());
+		  convertView.setTag(R.id.tag_traffic_up ,pkgInfo.getTrafficUp());
+		  convertView.setTag(R.id.tag_traffic_down ,pkgInfo.getTrafficDown());
+		  
 		  return convertView;
 	}
 	class ViewHolder{
