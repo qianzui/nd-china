@@ -1,19 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#0A0A0A"
+    
     >
-<TextView 
-	    android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:gravity="center"
-		android:text="第二个标签"
-	    />
-<ListView
-    android:id="@+id/app_list"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    />
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="50px"
+        android:background="#0A0A0A"
+        >
+        <TextView
+            android:id="@+id/firewall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5px"
+            android:layout_marginTop="5px"
+            android:layout_alignParentLeft="true"
+            android:textSize="18dp"
+            android:textColor="#FFFFFF"
+            android:text="防火墙"
+            />
+        <ImageView
+            android:id="@+id/mobile_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/mobile2"
+            />
+        <ImageView
+            android:id="@+id/wifi_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_toLeftOf="@id/mobile_icon"
+            android:layout_marginLeft="5px"
+            android:src="@drawable/wireless"
+            />   
+     </RelativeLayout>
+
+     <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#000000"
+        >
+      <com.hiapk.firewall.MyListView
+        android:id="@+id/app_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />       
+     </LinearLayout>
+
 </LinearLayout>
