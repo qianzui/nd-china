@@ -26,19 +26,18 @@ public class Splash extends Activity {
 		protected Integer doInBackground(Context... params) {
 			AlarmSet alset = new AlarmSet();
 			// 初始化网络状态
-			SQLHelperUid sqlhelperUid = new SQLHelperUid();
 			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 			sqlhelperTotal.initTablemobileAndwifi(context);
 			if (SQLHelperTotal.TableWiFiOrG23 != ""
 					&& sqlhelperTotal.getIsInit(context)) {
 				// 启动闹钟
 				alset.StartAlarm(context);
-				// 进行数据记录
-				sqlhelperUid.RecordUidwritestats(context, false);
-				sqlhelperTotal.RecordTotalwritestats(context, false);
+				return 1;
+
 			} else if (SQLHelperTotal.TableWiFiOrG23 != "") {
 				alset.StartAlarm(context);
-				sqlhelperTotal.initTablemobileAndwifi(context);
+				return 2;
+
 			}
 			return null;
 			// TODO Auto-generated method stub
@@ -47,6 +46,16 @@ public class Splash extends Activity {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// TODO Auto-generated method stub
+			SQLHelperUid sqlhelperUid = new SQLHelperUid();
+			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
+			if (result == 1) {
+				// 进行数据记录
+				sqlhelperUid.RecordUidwritestats(context, false);
+				sqlhelperTotal.RecordTotalwritestats(context, false);
+			} else {
+				// 进行数据记录
+				sqlhelperTotal.initTablemobileAndwifi(context);
+			}
 			Intent mainIntent = new Intent(Splash.this, SpearheadActivity.class);
 			Splash.this.startActivity(mainIntent);
 			Splash.this.finish();
