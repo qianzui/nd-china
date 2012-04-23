@@ -9,7 +9,7 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="50px"
-        android:background="#0A0A0A"
+        android:background="@drawable/maintab_toolbar_bg"
         >
         <TextView
             android:id="@+id/firewall"
