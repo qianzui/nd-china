@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ProgressBar;
 
@@ -12,7 +13,7 @@ public class MyProgressBar extends ProgressBar {
 
 	String text;
     Paint mPaint;
-     
+    int textsize=50;
     public MyProgressBar(Context context) {
         super(context);
         // TODO Auto-generated constructor stub
@@ -42,7 +43,12 @@ public class MyProgressBar extends ProgressBar {
         super.setProgress(progress);
          
     }
- 
+    	@Override
+    	public Drawable getProgressDrawable() {
+    		// TODO Auto-generated method stub
+    		
+    		return super.getProgressDrawable();
+    	}
     @Override
     protected synchronized void onDraw(Canvas canvas) {
         // TODO Auto-generated method stub
@@ -55,11 +61,14 @@ public class MyProgressBar extends ProgressBar {
         canvas.drawText(this.text, x, y, this.mPaint);  
     }
      
+    public void setTextsize	(int textsize){
+    	this.textsize=textsize;
+    }
     //≥ı ºªØ£¨ª≠± 
     private void initText(){
         this.mPaint = new Paint();
         this.mPaint.setColor(Color.WHITE);
-        this.mPaint.setTextSize(50);
+        this.mPaint.setTextSize(textsize);
     }
      
     private void setText(){
