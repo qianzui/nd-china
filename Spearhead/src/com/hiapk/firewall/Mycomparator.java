@@ -10,7 +10,7 @@ public class Mycomparator  {
 	public ArrayList<AppInfo> comparator(ArrayList<AppInfo> appList)
 	{
 		for(int i = appList.size()-1 ; i > 0 ; i--)
-		{
+		{ if (appList.get(i).getTrafficTotalComparator()==0) continue;
 			for(int j = 0 ;j<i ;j++)
 			{
 				if(appList.get(i).getTrafficTotalComparator() > appList.get(j).getTrafficTotalComparator() )
