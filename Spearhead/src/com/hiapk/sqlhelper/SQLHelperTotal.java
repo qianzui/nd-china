@@ -626,6 +626,138 @@ public class SQLHelperTotal {
 	}
 
 	/**
+	 * 进行数据周使用量查询
+	 * 
+	 * @param context
+	 *            context
+	 * @param year
+	 *            输入查询的年份2000.
+	 * @param month
+	 *            输入查询的月份.
+	 * @param monthDay
+	 *            单月的日期
+	 * @param weekDay
+	 *            星期
+	 * @return 返回一个6位数组。a[0]为移动网络总计流量a[5]为wifi网络总计流量
+	 *         a[1]-a[2]移动网络的上传，下载流量，a[3]-a[4]为wifi网络的上传，下载流量
+	 */
+	public long[] SelectWeekData(Context context, int year, int month,
+			int monthDay, int weekDay) {
+		if (weekDay == 0) {
+			weekDay = 7;
+		}
+		// showLog(weekDay + "");
+		String weekStart = null;
+		SQLiteDatabase sqlDataBase = creatSQL(context);
+		String string = null;
+		string = "select date('now'" + ",'-" + weekDay + " day'" + ")";
+		// showLog(string);
+		try {
+			cur = sqlDataBase.rawQuery(string, null);
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog(string);
+		}
+		if (cur != null) {
+			try {
+				int dateIndex = cur.getColumnIndex("date('now'" + ",'-"
+						+ weekDay + " day'" + ")");
+				// showLog(cur.getColumnIndex("minute") + "");
+				if (cur.moveToFirst()) {
+					weekStart = cur.getString(dateIndex);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				showLog("cur-searchfail");
+			}
+		}
+		cur.close();
+		String month2 = month + "";
+		if (month < 10)
+			month2 = "0" + month2;
+		String monthDay2 = monthDay + "";
+		if (monthDay < 10)
+			monthDay2 = "0" + month2;
+		long[] a = new long[6];
+		// select oldest upload and download 之前记录的数据的查询操作
+		// SELECT * FROM table WHERE type=0
+		string = SelectTable + TableMobile + Where + "date" + Between
+				+ weekStart + AND_B + year + "-" + month2 + "-" + monthDay2
+				+ AND + "type=" + 2;
+//		showLog(string);
+		try {
+			cur = sqlDataBase.rawQuery(string, null);
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog(string);
+		}
+		long newup = 0;
+		long newdown = 0;
+		if (cur != null) {
+			try {
+				int uploadIndex = cur.getColumnIndex("upload");
+				int downloadIndex = cur.getColumnIndex("download");
+				// showLog(cur.getColumnIndex("minute") + "");
+				if (cur.moveToFirst()) {
+					do {
+						newup = cur.getLong(uploadIndex);
+						newdown = cur.getLong(downloadIndex);
+						// 进行数据累加
+						a[1] += newup;
+						a[2] += newdown;
+					} while (cur.moveToNext());
+				}
+				// 记录累计数据
+				a[0] = a[1] + a[2];
+			} catch (Exception e) {
+				// TODO: handle exception
+				showLog("cur-searchfail");
+			}
+		}
+		cur.close();
+		string = SelectTable + TableWiFi + Where + "date" + Between + weekStart + AND_B + year
+				+ "-" + month2 + "-" + monthDay2 + AND
+				+ "type=" + 2;
+//		showLog(string);
+		try {
+			cur = sqlDataBase.rawQuery(string, null);
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog(string);
+		}
+		newup = 0;
+		newdown = 0;
+		if (cur != null) {
+			try {
+				int uploadIndex = cur.getColumnIndex("upload");
+				int downloadIndex = cur.getColumnIndex("download");
+				// showLog(cur.getColumnIndex("minute") + "");
+				if (cur.moveToFirst()) {
+					do {
+						newup = cur.getLong(uploadIndex);
+						newdown = cur.getLong(downloadIndex);
+//						showLog(newup + "");
+						// 进行数据累加
+						a[3] += newup;
+						a[4] += newdown;
+					} while (cur.moveToNext());
+				}
+				// 记录累计数据
+				a[5] = a[3] + a[4];
+			} catch (Exception e) {
+				// TODO: handle exception
+				showLog("cur-searchfail");
+			}
+		}
+		cur.close();
+		closeSQL(sqlDataBase);
+//		for (int j = 0; j < a.length; j++) {
+//			showLog(j + "liuliang" + a[j] + "");
+//		}
+		return a;
+	}
+
+	/**
 	 * 用于显示日志
 	 * 
 	 * @param string
