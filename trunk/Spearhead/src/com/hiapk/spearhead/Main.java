@@ -5,16 +5,21 @@ import java.util.List;
 
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.progressbar.MyProgressBar;
+import com.hiapk.progressbar.PieView;
 import com.hiapk.progressbar.ProgressBarForV;
 import com.hiapk.sqlhelper.SQLHelperTotal;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class Main extends Activity {
@@ -46,6 +51,7 @@ public class Main extends Activity {
 	 */
 	private void initValues() {
 		// TODO Auto-generated method stub
+		// 初始化小部件
 		TextView todayMobil = (TextView) findViewById(R.id.todayRate);
 		TextView todayMobilunit = (TextView) findViewById(R.id.unit1);
 		TextView weekMobil = (TextView) findViewById(R.id.weekRate);
@@ -66,27 +72,28 @@ public class Main extends Activity {
 		int year = t.year;
 		int month = t.month + 1;
 		int monthDay = t.monthDay;
+		int weekDay = t.weekDay;
+		// 取得每周的流量
+		long[] weektraffic = new long[6];
+		weektraffic = sqlhelperTotal.SelectWeekData(context, year, month,
+				monthDay, weekDay);
+		// 取得月度流量
 		mobile = sqlhelperTotal.SelectMobileData(context, year, month);
 		wifi = sqlhelperTotal.SelectWifiData(context, year, month);
+		// 进行流量设置
 		todayMobil.setText(unitHandler(
 				mobile[monthDay] + mobile[monthDay + 31], todayMobilunit));
-		// setweek(Time t,);
-		Log.d("database", t.weekDay + "");
-		// weekMobil.setText(unitHandler(mobile[0] + mobile[62]));
+		weekMobil.setText(unitHandler(weektraffic[0], weekMobilunit));
 		mobile_month_use = mobile[0] + mobile[63];
 		monthMobil.setText(unitHandler(mobile_month_use, monthMobilunit));
 		todayWifi.setText(unitHandler(wifi[monthDay] + wifi[monthDay + 31],
 				todayWifiunit));
-		// weekWifi.setText(unitHandler(wifi[0] + wifi[62]));
+		weekWifi.setText(unitHandler(weektraffic[5], weekWifiunit));
 		wifi_month_use = wifi[0] + wifi[63];
 		monthWifi.setText(unitHandler(wifi_month_use, monthWifiunit));
 
 	}
 
-	private void setweek() {
-		// TODO Auto-generated method stub
-
-	}
 
 	/**
 	 * 初始化数据库
@@ -115,9 +122,9 @@ public class Main extends Activity {
 		for (int i = 0; i < packages.size(); i++) {
 			PackageInfo packageinfo = packages.get(i);
 			packagenames[i] = packageinfo.packageName;
-			Log.d("pac", packagenames[i]);
+			// Log.d("pac", packagenames[i]);
 			uids[i] = packageinfo.applicationInfo.uid;
-			Log.d("uid", uids[i] + "");
+			// Log.d("uid", uids[i] + "");
 		}
 	}
 
@@ -172,23 +179,28 @@ public class Main extends Activity {
 	 * @param count
 	 *            输入的long型数
 	 * @param unit
-	 *            数值后面要显示的textview            
+	 *            数值后面要显示的textview
 	 * @return 返回String型值
 	 */
 	private String unitHandler(long count, TextView unit) {
 		String value = null;
 		long temp = count;
 		float floatnum = count;
+		float floatGB = count;
 		if ((temp = temp / 1000) < 1) {
 			value = count + "";
 			unit.setText("B");
 		} else if ((floatnum = (float) temp / 1000) < 1) {
 			value = temp + "";
 			unit.setText("KB");
-		} else {
+		} else if ((floatGB = floatnum / 1000) < 1) {
 			DecimalFormat format = new DecimalFormat("0.##");
 			value = format.format(floatnum) + "";
 			unit.setText("MB");
+		} else {
+			DecimalFormat format = new DecimalFormat("0.###");
+			value = format.format(floatGB) + "";
+			unit.setText("GB");
 		}
 		return value;
 	}
@@ -212,7 +224,24 @@ public class Main extends Activity {
 		}
 		initValues();
 		initProgressBar();
+//		initPieBar();
+		
 
+	}
+
+	private void initPieBar() {
+		// TODO Auto-generated method stub
+		int[] colors = new int[] { Color.YELLOW, Color.RED, Color.BLUE,
+				Color.GREEN };
+		int[] shade_colors = new int[] { Color.rgb(180, 180, 0),
+				Color.rgb(180, 20, 10), Color.rgb(3, 23, 163),
+				Color.rgb(15, 165, 0) };
+		int[] percent = new int[] { 50, 140, 100, 70 };
+		PieView pieView = new PieView(context, colors, shade_colors, percent);
+//		View PieView=findViewById(R.id.pie_bar_mobile);
+		LinearLayout laout_mobile=(LinearLayout) findViewById(R.id.linearlayout_bar_mobile);
+		laout_mobile.removeAllViews();
+		laout_mobile.addView(pieView);
 	}
 
 	/**
