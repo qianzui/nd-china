@@ -710,9 +710,9 @@ public class SQLHelperUid {
 	protected void initUidTables(SQLiteDatabase sqldatabase, int[] uidnumbers) {
 		initTime();
 		try {
-			initUidTable(sqldatabase, 0);
-			exeSQLcreateUidtable(sqldatabase, date, time, 0, 0, null);
-			exeSQLcreateUidtable(sqldatabase, date, time, 0, 1, null);
+//			initUidTable(sqldatabase, 0);
+//			exeSQLcreateUidtable(sqldatabase, date, time, 0, 0, null);
+//			exeSQLcreateUidtable(sqldatabase, date, time, 0, 1, null);
 			for (int uidnumber : uidnumbers) {
 				// -1ÎªÖØ¸´Ïî
 				if (uidnumber != -1) {
