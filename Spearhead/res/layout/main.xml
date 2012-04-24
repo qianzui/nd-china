@@ -23,52 +23,21 @@
 	<!-- 第一行开始 -->	
 	<LinearLayout 
 	   	android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
+		android:layout_height="0dip"
 		android:orientation="vertical"
 		android:layout_weight="1.0"		
 		android:layout_margin="5dp"
 		android:background="@drawable/bg_about"
 	    >
-	
-	<!-- 第一行的第一行标题 开始-->	
-	<LinearLayout 
-	    		android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal"
-				android:layout_weight="0.1"
-				android:layout_margin="5dip"
-		        >
+	<!-- 第一行的第一行标题开始-->	
+      <TextView
+ 		 android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+		 android:textColor="@color/white"
+		 android:textSize="25dp"
+		 android:drawableLeft="@drawable/mobile2"
+   		 android:text="@string/twoGthreeG" />
 		        
-		        <LinearLayout 
-		            android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:orientation="horizontal"
-					android:layout_weight="1"
-					android:gravity="left"	
-		            >
-		            <ImageView 
-		         		android:layout_width="wrap_content"
-		   		 		android:layout_height="wrap_content"		   		 	   		 
-		   			    android:src="@drawable/mobile2"/>
-		            <TextView
-		    	 		 android:layout_width="fill_parent"
-		   				 android:layout_height="wrap_content"
-		   				 android:gravity="center"	
-		    			 android:textColor="#000"	
-		    			 android:textSize="25dp"
-		        		 android:text="@string/twoGthreeG" />
-		        </LinearLayout>
-		        
-		        <LinearLayout 
-		            android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:orientation="horizontal"
-					android:layout_weight="1"
-		            >
-		        	
-		         </LinearLayout>	 
-	    
-	</LinearLayout>
 	<!-- 第一行的第一行标题 结束-->	
 	
 	<!-- 第一行的第二行 开始-->	
@@ -81,10 +50,10 @@
 		        
 	<!-- 第一行的第一个格子 开始-->	
 	<LinearLayout 
-	   	android:layout_width="fill_parent"
+	   	android:layout_width="0dip"
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
-		android:layout_weight="0.5"	
+		android:layout_weight="1.0"	
 		android:background="@drawable/bg_about"
 		
 	    >
@@ -93,7 +62,6 @@
 		   	android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
 			android:orientation="vertical"
-			android:layout_margin="10dp"	
 		    >	    
 		 
 		 
@@ -107,28 +75,25 @@
 		        
 		        <TextView
 		    	 android:layout_width="wrap_content"
-		   		 android:layout_height="wrap_content"		    	 
-		    	 
-		    	 android:textColor="#000"		
+		   		 android:layout_height="wrap_content" 
+		    	 android:textColor="@color/lightgray"		
 		    	 android:textSize="20dp"	
 		         android:text="@string/todayUsed" />
 
 		        <TextView
 		            android:id="@+id/todayRate"
 		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            
+		            android:layout_height="wrap_content"		            
 		            android:gravity="right"
 		            android:text="@string/rate"
 		            android:textColor="@color/lime"
-		            android:textSize="20dp" />
+		            android:textSize="20dp" />		        
 		        <TextView
 		            android:id="@+id/unit1"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            
+		            android:textColor="@color/lightgray"			            
 		            android:text="KB"
-		            android:textColor="@color/black"
 		            android:textSize="20dp" />
 		    	 
 		    </LinearLayout>
@@ -141,9 +106,8 @@
 		        >
 		        <TextView
 		    	 android:layout_width="wrap_content"
-		   		 android:layout_height="wrap_content"		    	 
-		    	
-		    	 android:textColor="#000"	
+		   		 android:layout_height="wrap_content"	
+		    	 android:textColor="@color/lightgray"	
 		    	 android:textSize="20dp"	
 		         android:text="@string/weekUsed" />
 
@@ -151,7 +115,6 @@
 		            android:id="@+id/weekRate"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		           
 		            android:gravity="right"
 		            android:text="@string/rate"
 		            android:textColor="@color/lime"
@@ -160,11 +123,9 @@
 		            android:id="@+id/unit2"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            
+		            android:textColor="@color/lightgray"			            
 		            android:text="KB"
-		            android:textColor="@color/black"
-		            android:textSize="20dp" />
-		        
+		            android:textSize="20dp" />	        
 		        
 		    </LinearLayout>
 		    
@@ -176,30 +137,44 @@
 		        >
 		        <TextView
 		    	 android:layout_width="wrap_content"
-		   		 android:layout_height="wrap_content"		    	 
-		    	 
-		    	 android:textColor="@color/black"	
+		   		 android:layout_height="wrap_content"	
+		    	 android:textColor="@color/lightgray"	
 		    	 android:textSize="20dp"		
 		         android:text="@string/monthTotal" />
+		             
+		       
+		    </LinearLayout>
+		    
+		    <LinearLayout 
+		        android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:orientation="horizontal"
+				android:layout_weight="1.0"	
+		        >
 		        <TextView
 		    	 android:layout_width="wrap_content"
-		   		 android:layout_height="wrap_content"		    	
-		    	 
+		   		 android:layout_height="wrap_content"		    	 
 		    	 android:gravity="right"
 		    	 android:id="@+id/monthRate"	
 		    	 android:textColor="@color/lime"		
 		    	 android:textSize="20dp"	
-		         android:text="@string/rate" />	
+		         android:text="@string/rate" />			         		         
 		         <TextView
 		            android:id="@+id/unit3"
 		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		           
+		            android:layout_height="wrap_content"	
+		            android:textColor="@color/lightgray"	           
 		            android:text="KB"
-		            android:textColor="@color/black"
-		            android:textSize="20dp" />	        
+		            android:textSize="20dp" />	  
+		       <TextView
+		    	 android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"		    	 
+		    	 android:textColor="@color/lightgray"
+		    	 android:textSize="20dp"	
+		         android:text="/50.0MB" />	
 		       
-		    </LinearLayout>
+		     </LinearLayout>
+		      
 		     <!-- 第一行的第一个格子 填充内容结束--> 
 		
 		    
@@ -214,10 +189,10 @@
 	  
 	  <!-- 第一行的第二个格子开始 -->	  
 	  <LinearLayout 
-	   	android:layout_width="fill_parent"
+	   	android:layout_width="0dip"
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
-		android:layout_weight="1.0"		
+		android:layout_weight="0.4"		
 		
 	    >  
 	    <com.hiapk.progressbar.MyProgressBar
@@ -226,6 +201,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_gravity="bottom"
+                    android:paddingLeft="5dip"
                     android:max="100"
                     android:progress="0" >
                 </com.hiapk.progressbar.MyProgressBar>
@@ -244,7 +220,7 @@
 	<!-- 第二行开始 -->	
 	<LinearLayout 
 	   	android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
+		android:layout_height="0dip"
 		android:orientation="vertical"
 		android:layout_weight="1.0"		
 		android:layout_margin="5dip"
@@ -252,43 +228,15 @@
 	    >
 	
 	<!-- 第二行的第一行标题 开始-->	
-	<LinearLayout 
-	    		android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal"
-				android:layout_weight="0.1"
-				android:layout_margin="5dip"
-		        >
-		        
-		        <LinearLayout 
-		            android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:orientation="horizontal"
-					android:layout_weight="1"
-					android:gravity="left"	
-		            >
-		            <ImageView 
-		         		android:layout_width="wrap_content"
-		   		 		android:layout_height="wrap_content"		   		 	   		 
-		   			    android:src="@drawable/wireless"/>
-		            <TextView
-		    	 		 android:layout_width="fill_parent"
-		   				 android:layout_height="wrap_content"
-		   				 android:gravity="center"	
-		    			 android:textColor="@color/black"	
-		    			 android:textSize="25dp"
-		        		 android:text="@string/wifi" />	
-		        </LinearLayout>
-		        
-		        <LinearLayout 
-		            android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:orientation="horizontal"
-					android:layout_weight="1"
-		            >		        		
-		         </LinearLayout>	 
+	 <TextView
+ 		 android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+		 android:textColor="@color/white"	
+		 android:textSize="25dp"
+		 android:drawableLeft="@drawable/wireless"
+   		 android:text="@string/wifi" />
 	    
-	</LinearLayout>
+	
 	<!-- 第二行的第一行标题 结束-->	
 	
 	<!-- 第二行的第二行 开始-->	
@@ -301,10 +249,10 @@
 		        
 	<!-- 第二行的第一个格子 开始-->	
 	<LinearLayout 
-	   	android:layout_width="fill_parent"
+	   	android:layout_width="0dip"
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
-		android:layout_weight="0.5"	
+		android:layout_weight="1.0"	
 		android:background="@drawable/bg_about"
 		
 	    >
@@ -313,7 +261,6 @@
 		<LinearLayout
 		    android:layout_width="fill_parent"
 		    android:layout_height="fill_parent"
-		    android:layout_margin="10dip"
 		    android:orientation="vertical" >
 <!-- 第二行的第一个格子 填充内容开始--> 
 		    <LinearLayout 
@@ -325,15 +272,13 @@
 		        
 		        <TextView
 		    	 android:layout_width="wrap_content"
-		   		 android:layout_height="wrap_content"		    	 
-		    	 
-		    	 android:textColor="@color/black"		
+		   		 android:layout_height="wrap_content"		
+		    	 android:textColor="@color/lightgray"		
 		    	 android:textSize="20dp"	
 		         android:text="@string/todayUsed" />
 		        <TextView
 		    	 android:layout_width="wrap_content"
-		   		 android:layout_height="wrap_content"		    	 
-		    	 
+		   		 android:layout_height="wrap_content"
 		    	 android:gravity="right"
 		    	 android:id="@+id/wifiTodayRate"
 		    	 android:textColor="@color/lime"		    	 
@@ -343,9 +288,8 @@
 		            android:id="@+id/unit4"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            
+		            android:textColor="@color/lightgray"
 		            android:text="KB"
-		            android:textColor="@color/black"
 		            android:textSize="20dp" />
 		        
 		    </LinearLayout>
@@ -358,9 +302,8 @@
 		        >
 		        <TextView
 		    	 android:layout_width="wrap_content"
-		   		 android:layout_height="wrap_content"		    	 
-		    	 
-		    	 android:textColor="@color/black"	
+		   		 android:layout_height="wrap_content"
+		   		 android:textColor="@color/lightgray"
 		    	 android:textSize="20dp"	
 		         android:text="@string/weekUsed" />
 		        <TextView
@@ -376,9 +319,8 @@
 		            android:id="@+id/unit5"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            
+		            android:textColor="@color/lightgray"
 		            android:text="KB"
-		            android:textColor="@color/black"
 		            android:textSize="20dp" />
 		        
 		    </LinearLayout>
@@ -392,8 +334,7 @@
 		        <TextView
 		    	 android:layout_width="wrap_content"
 		   		 android:layout_height="wrap_content"    	 
-		    	 
-		    	 android:textColor="@color/black"	
+		    	 android:textColor="@color/lightgray"
 		    	 android:textSize="20dp"		
 		         android:text="@string/monthTotal" />
 		        <TextView
@@ -409,9 +350,8 @@
 		            android:id="@+id/unit6"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            
+		            android:textColor="@color/lightgray"
 		            android:text="KB"
-		            android:textColor="@color/black"
 		            android:textSize="20dp" />	        
 		       
 		    </LinearLayout>
@@ -429,10 +369,10 @@
 	  
 	  <!-- 第二行的第二个格子开始 -->	  
 	  <LinearLayout 
-	   	android:layout_width="fill_parent"
+	   	android:layout_width="0dip"
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
-		android:layout_weight="1.0"		
+		android:layout_weight="0.4"		
 		
 	    >  
 	    <com.hiapk.progressbar.MyProgressBar
@@ -441,6 +381,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_gravity="bottom"
+                    android:paddingLeft="5dip"
                     android:max="100"
                     android:progress="0" >
                 </com.hiapk.progressbar.MyProgressBar>
