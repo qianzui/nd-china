@@ -68,6 +68,7 @@ public class MyProgressBar extends ProgressBar {
     private void initText(){
         this.mPaint = new Paint();
         this.mPaint.setColor(Color.WHITE);
+        this.mPaint.setAntiAlias(true);
         this.mPaint.setTextSize(textsize);
     }
      
