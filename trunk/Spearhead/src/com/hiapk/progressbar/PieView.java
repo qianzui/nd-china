@@ -18,7 +18,7 @@ public class PieView extends ViewBase {
 	int colors[];
 	int shade_colors[];
 	int percent[];
-	private int thickness = 15;
+	private int thickness = 8;
 
 	/**
 	 * @param context
@@ -37,7 +37,30 @@ public class PieView extends ViewBase {
 		this.shade_colors = shade_colors;
 		this.percent = percent;
 	}
-
+	
+//	public PieView(Context context, int[] percent) {
+//		super(context);
+//		int[] colors = new int[] { Color.YELLOW, Color.RED, Color.BLUE,
+//				Color.GREEN };
+//		int[] shade_colors = new int[] { Color.rgb(180, 180, 0),
+//				Color.rgb(180, 20, 10), Color.rgb(3, 23, 163),
+//				Color.rgb(15, 165, 0) };
+//		this.colors = colors;
+//		this.shade_colors = shade_colors;
+//		this.percent = percent;
+//	}
+	
+	public PieView(Context context, int[] percent) {
+		super(context);
+		int[] colors = new int[] { Color.YELLOW, Color.RED, Color.BLUE,
+				Color.GREEN };
+		int[] shade_colors = new int[] { Color.rgb(180, 180, 0),
+				Color.rgb(180, 20, 10), Color.rgb(3, 23, 163),
+				Color.rgb(15, 165, 0) };
+		this.colors = colors;
+		this.shade_colors = shade_colors;
+		this.percent = percent;
+	}
 	public void setThickness(int thickness) {
 		this.thickness = thickness;
 		areaY = thickness + 2;
@@ -58,15 +81,15 @@ public class PieView extends ViewBase {
 			int tempAngle = 0;
 			for (int j = 0; j < percent.length; j++) {
 				paint.setColor(shade_colors[j]);
-				canvas.drawArc(new RectF(areaX, areaY - i, areaX + areaWidth,
-						areaHight - i), tempAngle, percent[j], true, paint);
+				canvas.drawArc(new RectF(areaX+i+1, areaY - i+1, areaX + areaWidth,
+						areaHight - i-1), tempAngle, percent[j], true, paint);
 				tempAngle += percent[j];
 			}
 			if (i == thickness) {
 				for (int j = 0; j < percent.length; j++) {
 					paint.setColor(colors[j]);
-					canvas.drawArc(new RectF(areaX, areaY - i, areaX
-							+ areaWidth, areaHight - i), tempAngle, percent[j],
+					canvas.drawArc(new RectF(areaX+i+1, areaY - i+1, areaX
+							+ areaWidth, areaHight - i-1), tempAngle, percent[j],
 							true, paint);
 					tempAngle += percent[j];
 				}
