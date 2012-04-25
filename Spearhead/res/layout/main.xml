@@ -190,16 +190,26 @@
             <!-- 第一行的第二个格子开始 -->
 
             <LinearLayout
-                android:id="@+id/linearlayout_bar_mobile"
+                 android:id="@+id/linearlayout_bar_mobile"
                 android:layout_width="0dip"
                 android:layout_height="fill_parent"
                 android:layout_weight="0.4"
                 android:orientation="vertical" >
 
+                <!-- 用于显示饼图 -->
+
+                <LinearLayout
+                    android:id="@+id/linearlayout_piebar_mobile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    >
+                </LinearLayout>
+                <!-- 用于显示进度条 -->
+
                 <com.hiapk.progressbar.MyProgressBar
                     android:id="@+id/progressbar_mobile"
                     style="@style/myProgressBarStyleForV"
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:layout_gravity="bottom"
                     android:max="100"
@@ -375,10 +385,20 @@
                 android:layout_weight="0.4"
                 android:orientation="vertical" >
 
+                <!-- 用于显示饼图 -->
+
+                <LinearLayout
+                    android:id="@+id/linearlayout_piebar_wifi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    >
+                </LinearLayout>
+                <!-- 用于显示进度条 -->
+
                 <com.hiapk.progressbar.MyProgressBar
                     android:id="@+id/progressbar_wifi"
                     style="@style/myProgressBarStyleForV"
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:layout_gravity="bottom"
                     android:max="100"
