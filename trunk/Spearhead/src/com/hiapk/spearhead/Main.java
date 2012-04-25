@@ -19,6 +19,7 @@ import android.text.format.Time;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -33,8 +34,9 @@ public class Main extends Activity {
 	// 临时存放两个数据------------
 	private int[] uids;
 	private String[] packagenames;
-
 	// ------------
+	//显示何种图形
+	boolean ismobileshowpie=false;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -224,24 +226,33 @@ public class Main extends Activity {
 		}
 		initValues();
 		initProgressBar();
-//		initPieBar();
-		
-
+		initPieBar();
 	}
 
 	private void initPieBar() {
 		// TODO Auto-generated method stub
-		int[] colors = new int[] { Color.YELLOW, Color.RED, Color.BLUE,
-				Color.GREEN };
-		int[] shade_colors = new int[] { Color.rgb(180, 180, 0),
-				Color.rgb(180, 20, 10), Color.rgb(3, 23, 163),
-				Color.rgb(15, 165, 0) };
 		int[] percent = new int[] { 50, 140, 100, 70 };
-		PieView pieView = new PieView(context, colors, shade_colors, percent);
+		final PieView pieView_mobile = new PieView(context,  percent);
 //		View PieView=findViewById(R.id.pie_bar_mobile);
-		LinearLayout laout_mobile=(LinearLayout) findViewById(R.id.linearlayout_bar_mobile);
-		laout_mobile.removeAllViews();
-		laout_mobile.addView(pieView);
+		LinearLayout layout_mobile=(LinearLayout) findViewById(R.id.linearlayout_bar_mobile);
+		final LinearLayout laout_mobile_pie=(LinearLayout) findViewById(R.id.linearlayout_piebar_mobile);
+		ismobileshowpie=false;
+		layout_mobile.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if (ismobileshowpie) {
+					laout_mobile_pie.removeAllViews();
+					ismobileshowpie=false;
+				}else{
+					laout_mobile_pie.addView(pieView_mobile);
+					ismobileshowpie=true;
+				}
+			}
+		});
+//		laout_mobile_pie.removeAllViews();
+//		laout_mobile_pie.addView(pieView_mobile);
+//		laout_mobile.removeAllViews();
 	}
 
 	/**
