@@ -39,7 +39,7 @@ public class Splash extends Activity {
 				return 2;
 
 			}
-			return null;
+			return 3;
 			// TODO Auto-generated method stub
 		}
 
