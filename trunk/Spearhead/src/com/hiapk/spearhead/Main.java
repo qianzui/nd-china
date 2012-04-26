@@ -245,6 +245,7 @@ public class Main extends Activity {
 					laout_mobile_pie.removeAllViews();
 					ismobileshowpie=false;
 				}else{
+					laout_mobile_pie.removeAllViews();
 					laout_mobile_pie.addView(pieView_mobile);
 					ismobileshowpie=true;
 				}
