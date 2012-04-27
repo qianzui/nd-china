@@ -13,6 +13,12 @@
         android:orientation="horizontal"
         android:paddingRight="10dip" >
 
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="0px"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
+
         <TextView
             android:id="@+id/mainTitle"
             android:layout_width="wrap_content"
@@ -32,85 +38,123 @@
         android:layout_height="0dip"
         android:layout_margin="5dip"
         android:layout_weight="1.0"
-        android:orientation="vertical"
-        android:background="@drawable/content" >
+        android:background="@drawable/content"
+        android:orientation="vertical" >
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="流量设置"
-            android:textColor="@color/darkgray" />
+            android:textColor="@color/darkgray"
+            android:textSize="20dp" />
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="0dip"  
-            android:orientation="horizontal"
+            android:layout_height="0dip"
             android:layout_weight="1.0"
-            android:gravity="center">
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="20dip" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="包月流量:  "
-                android:textColor="@color/darkgray" />
+                android:textColor="@color/darkgray"
+                android:textSize="15dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:digits="0123456789."
+                android:hint="请输入数字"
+                android:inputType="number"
+                android:maxEms="5"
+                android:maxLength="5"
+                android:maxLines="1"
+                android:textColor="@color/lightgreen"
+                android:textSize="15dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" 0 "
-                android:textColor="@color/darkgray" />   
-                <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="MB"
-                android:textColor="@color/darkgray" />             
-            
+                android:text=" MB"
+                android:textColor="@color/darkgray"
+                android:textSize="15dp" />
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="0dip"  
-            android:orientation="horizontal"
+            android:layout_height="0dip"
             android:layout_weight="1.0"
-            android:gravity="center">
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="20dip" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="本月已用:  "
-                android:textColor="@color/darkgray" />
+                android:textColor="@color/darkgray"
+                android:textSize="15dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:digits="0123456789."
+                android:hint="请输入数字"
+                android:inputType="number"
+                android:maxEms="5"
+                android:maxLength="5"
+                android:maxLines="1"
+                android:textColor="@color/lightgreen"
+                android:textSize="15dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" 0 "
-                android:textColor="@color/darkgray" />   
-                <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="MB"
-                android:textColor="@color/darkgray" />           
-            
+                android:text=" MB"
+                android:textColor="@color/darkgray"
+                android:textSize="15dp" />
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="0dip"  
-            android:orientation="horizontal"
+            android:layout_height="0dip"
             android:layout_weight="1.0"
-            android:gravity="center">
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="20dip" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="月结算日:  "
-                android:textColor="@color/darkgray" />
+                android:textColor="@color/darkgray"
+                android:textSize="15dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:digits="0123456789."
+                android:hint="请输入数字"
+                android:inputType="number"
+                android:maxEms="5"
+                android:maxLength="5"
+                android:maxLines="1"
+                android:textColor="@color/lightgreen"
+                android:textSize="15dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" 1 日"
-                android:textColor="@color/darkgray" />          
-            
+                android:text=" 日"
+                android:textColor="@color/darkgray"
+                android:textSize="15dp" />
         </LinearLayout>
-        
     </LinearLayout>
     <!-- 第一个框框结束 -->
 
@@ -134,14 +178,18 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="校正"
-                android:textColor="@color/darkgray" />
+                android:textColor="@color/darkgray"
+                android:textSize="20dp" />
 
             <Button
+                android:id="@+id/combo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="手动查询流量套餐" />
+                android:text="手动查询流量套餐" 
+                android:textColor="@color/darkgray"
+                android:background="@drawable/content"/>
         </RelativeLayout>
     </LinearLayout>
     <!-- 第二个框框结束 -->
@@ -154,13 +202,88 @@
         android:layout_height="0dip"
         android:layout_margin="5dip"
         android:layout_weight="1.0"
-        android:background="@drawable/content" >
+        android:background="@drawable/content"
+        android:orientation="vertical" >
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="流量预警"
-            android:textColor="@color/darkgray" />
+            android:text="流量提醒"
+            android:textColor="@color/darkgray"
+            android:textSize="20dp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1.0"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="20dip" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="月流量预警值:  "
+                android:textColor="@color/darkgray"
+                android:textSize="15dp" />
+
+            <Button
+                android:id="@+id/monthWarning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="点击设置"
+                android:textColor="@color/darkgray"
+                android:background="@drawable/content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1.0"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dip" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="日流量预警值:  "
+                android:textColor="@color/darkgray"
+                android:textSize="15dp" />
+
+            <Button
+                android:id="@+id/dayWarning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="点击设置" 
+                android:textColor="@color/darkgray"
+                android:background="@drawable/content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1.0"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="20dip" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="30dip"
+                android:text="预警动作:  "
+                android:textColor="@color/darkgray"
+                android:textSize="15dp" />
+
+            <Button
+                android:id="@+id/warningAct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="点击设置" 
+                android:textColor="@color/darkgray"
+                android:background="@drawable/content"/>
+        </LinearLayout>
     </LinearLayout>
     <!-- 第三个框框结束 -->
 
