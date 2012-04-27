@@ -48,6 +48,8 @@ public class Main extends Activity {
 	// wifi月度流量
 	long[] wifiTraffic = new long[64];
 	long[] mobileTraffic = new long[64];
+	// 屏幕宽度
+	int windowswidesize;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -109,6 +111,7 @@ public class Main extends Activity {
 		// 进行流量设置
 		todayMobil.setText(unitHandler(mobileTraffic[monthDay]
 				+ mobileTraffic[monthDay + 31], todayMobilunit));
+		// todayMobil.setText(unitHandler(8888080, todayMobilunit));
 		weekMobil.setText(unitHandler(weektraffic[0], weekMobilunit));
 		mobile_month_use = mobileTraffic[0] + mobileTraffic[63];
 		monthMobil.setText(unitHandler(mobile_month_use, monthMobilunit));
@@ -180,14 +183,14 @@ public class Main extends Activity {
 		// 取得窗口属性
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 		// 窗口的宽度
-		int fontsize = dm.widthPixels / 10;
+		windowswidesize = dm.widthPixels / 10;
 		// showlog(screenWidth+"");
-		myProgressBar_mobile.setTextsize(fontsize);
+		myProgressBar_mobile.setTextsize(windowswidesize);
 		// myProgressBar_wifi.setTextsize(fontsize);
 		ProgressBarForV progforv_mobile = new ProgressBarForV();
 		progforv_mobile.j = i;
 		progforv_mobile.execute(myProgressBar_mobile);
-		ProgressBarForV progforv_wifi = new ProgressBarForV();
+//		ProgressBarForV progforv_wifi = new ProgressBarForV();
 		// progforv_wifi.j = j;
 		// progforv_wifi.execute(myProgressBar_wifi);
 	}
@@ -233,7 +236,7 @@ public class Main extends Activity {
 			value = format.format(floatnum) + "";
 			unit.setText("MB");
 		} else {
-			DecimalFormat format = new DecimalFormat("0.###");
+			DecimalFormat format = new DecimalFormat("0.##");
 			value = format.format(floatGB) + "";
 			unit.setText("GB");
 		}
@@ -282,7 +285,8 @@ public class Main extends Activity {
 	 * @return 返回显示的柱状图
 	 */
 	private StackedBarChart initStackedBarChart(Context context) {
-		StackedBarChart chartbar = new StackedBarChart(context);
+
+		StackedBarChart chartbar = new StackedBarChart(context, windowswidesize);
 		// 进行参数设置
 		// 设置x轴显示范围
 		int monthtotalDay = countDay(year, month);
@@ -334,6 +338,7 @@ public class Main extends Activity {
 		long mobileSet = prefs.getLong(VALUE_MOBILE_SET, 50000000);
 		long moblileTotle = mobileTraffic[0] + mobileTraffic[63];
 		int usePercent = (int) (moblileTotle / mobileSet * 360);
+		// int usePercent=50;
 		if (usePercent > 360)
 			usePercent = 360;
 		int[] percent = new int[] { usePercent, 360 - usePercent };
@@ -341,6 +346,9 @@ public class Main extends Activity {
 		// View PieView=findViewById(R.id.pie_bar_mobile);
 		LinearLayout layout_mobile = (LinearLayout) findViewById(R.id.linearlayout_bar_mobile);
 		final LinearLayout laout_mobile_pie = (LinearLayout) findViewById(R.id.linearlayout_piebar_mobile);
+		//
+		// laout_mobile_pie.setBackgroundColor(Color.WHITE);
+		//
 		ismobileshowpie = false;
 		layout_mobile.setOnClickListener(new OnClickListener() {
 			@Override
