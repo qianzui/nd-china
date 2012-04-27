@@ -36,11 +36,14 @@ import android.view.View;
  * 设置柱状条，最多只能有2条.
  */
 public class StackedBarChart extends ViewBase {
-	public StackedBarChart(Context context) {
+	int windowswidesize=300;
+	public StackedBarChart(Context context,int width) {
 		super(context);
+		this.windowswidesize=width;
+//		Log.d("main", windowswidesize+"");
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	// 名称数的个数要与data数与color数统一！
 	// 柱状条的名称
 	String[] paramstitles = new String[] { "总流量", "wifi流量" };
@@ -119,11 +122,11 @@ public class StackedBarChart extends ViewBase {
 	int[] chartbarcolor = new int[] { backgroundcolor, Color.CYAN };
 	// int[] chartbarcolor = new int[] { Color.CYAN };
 
-	float AxisTitleTextSize = 16;
-	float ChartTitleTextSize = 20;
-	float LabelsTextSize = 15;
-	float LegendTextSize = 15;
-	float ChartValuesTextsize = width / 5;
+	float AxisTitleTextSize = windowswidesize/15;
+	float ChartTitleTextSize = windowswidesize/12;
+	float LabelsTextSize = windowswidesize/18;
+	float LegendTextSize = windowswidesize/18;
+	float ChartValuesTextsize = windowswidesize/16;
 
 	public void setParamstitles(String[] paramstitles) {
 		this.paramstitles = paramstitles;
@@ -287,7 +290,7 @@ public class StackedBarChart extends ViewBase {
 		// renderer.setZoomEnabled(false);
 		// other
 		renderer.setShowGrid(true);
-		// renderer.setChartValuesTextSize(ChartValuesTextsize);
+		 renderer.setChartValuesTextSize(ChartValuesTextsize);
 		// 设置边界等
 		// Log.d("main", width+"");
 		double[] limit = new double[] { 0.5, monthDay + 0.5, 0, MaxTraffic };
