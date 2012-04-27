@@ -12,6 +12,7 @@ import com.hiapk.sqlhelper.SQLHelperTotal;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.graphics.Color;
@@ -21,6 +22,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -76,6 +78,19 @@ public class Main extends Activity {
 		// TextView weekWifiunit = (TextView) findViewById(R.id.unit5);
 		// TextView monthWifi = (TextView) findViewById(R.id.wifiMonthRate);
 		// TextView monthWifiunit = (TextView) findViewById(R.id.unit6);
+		//跳转到校正页
+		Button gotoThree = (Button)findViewById(R.id.gotoThree);
+		gotoThree.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				gotoThree();
+
+			}
+		});
+		
+		
 		wifiTraffic = new long[64];
 		// 取得系统时间。
 		Time t = new Time();
@@ -119,6 +134,14 @@ public class Main extends Activity {
 			sqlhelperTotal.initSQL(context, uids, packagename);
 		}
 	}
+	// ----------
+	
+	public  void gotoThree(){		
+		SpearheadActivity sp = new SpearheadActivity();
+		
+		sp.tabThree();
+	}
+	
 
 	// ----------
 	/**
