@@ -1,16 +1,16 @@
 package com.hiapk.spearhead;
 
-import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
-public class SpearheadActivity extends TabActivity {
-	private RadioGroup group;
-	private TabHost tabHost;
+public  class SpearheadActivity extends TabActivity {
+	private static RadioGroup group;
+	public static TabHost tabHost;
 	public static final String TAB_MONITOR="tabMonitor";
 	public static final String TAB_FIREWALL="tabFireWall";
 	public static final String TAB_WARNING="tabWarning";
@@ -48,5 +48,10 @@ public class SpearheadActivity extends TabActivity {
 				}
 			}
 		});
+	}
+	public void tabThree(){
+		group.clearCheck();
+		group.check(R.id.radio_button2);
+		tabHost.setCurrentTabByTag(TAB_WARNING);
 	}
 }
