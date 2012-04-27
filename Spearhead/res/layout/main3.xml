@@ -1,15 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
-<TextView 
-	    android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:gravity="center"
-		android:text="第三个标签"
-		android:textColor="#fff"
-		android:background="@drawable/titlebar_bg"
-	    />
+    android:orientation="vertical" >
+
+    <!-- 标题栏开始 -->
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="48dip"
+        android:background="@drawable/maintab_toolbar_bg"
+        android:orientation="horizontal"
+        android:paddingRight="10dip" >
+
+        <TextView
+            android:id="@+id/mainTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/main_3"
+            android:textColor="@color/white"
+            android:textSize="18dip" />
+    </RelativeLayout>
+    <!-- 标题栏结束 -->
+
+
+    <!-- 第一个框框开始 -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_margin="5dip"
+        android:layout_weight="1.0"
+        android:orientation="vertical"
+        android:background="@drawable/content" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="流量设置"
+            android:textColor="@color/darkgray" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"  
+            android:orientation="horizontal"
+            android:layout_weight="1.0"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="包月流量:  "
+                android:textColor="@color/darkgray" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 0 "
+                android:textColor="@color/darkgray" />   
+                <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MB"
+                android:textColor="@color/darkgray" />             
+            
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"  
+            android:orientation="horizontal"
+            android:layout_weight="1.0"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="本月已用:  "
+                android:textColor="@color/darkgray" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 0 "
+                android:textColor="@color/darkgray" />   
+                <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MB"
+                android:textColor="@color/darkgray" />           
+            
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"  
+            android:orientation="horizontal"
+            android:layout_weight="1.0"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="月结算日:  "
+                android:textColor="@color/darkgray" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 1 日"
+                android:textColor="@color/darkgray" />          
+            
+        </LinearLayout>
+        
+    </LinearLayout>
+    <!-- 第一个框框结束 -->
+
+
+    <!-- 第二个框框开始 -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_margin="5dip"
+        android:layout_weight="0.3"
+        android:background="@drawable/content"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="校正"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="手动查询流量套餐" />
+        </RelativeLayout>
+    </LinearLayout>
+    <!-- 第二个框框结束 -->
+
+
+    <!-- 第三个框框开始 -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_margin="5dip"
+        android:layout_weight="1.0"
+        android:background="@drawable/content" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="流量预警"
+            android:textColor="@color/darkgray" />
+    </LinearLayout>
+    <!-- 第三个框框结束 -->
+
 </LinearLayout>
