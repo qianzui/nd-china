@@ -9,18 +9,18 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="48dip"
-        android:orientation="horizontal" 
-        android:paddingRight="10dip"
-        android:background="@drawable/maintab_toolbar_bg">
+        android:background="@drawable/maintab_toolbar_bg"
+        android:orientation="horizontal"
+        android:paddingRight="10dip" >
 
         <TextView
             android:id="@+id/mainTitle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"            
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="18dip"
             android:text="@string/app_name"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="18dip" />
 
         <Button
             android:id="@+id/refresh"
@@ -28,9 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/arrow_refresh_icon"                           
+            android:background="@drawable/arrow_refresh_icon"
             android:textColor="@color/white" />
-
     </RelativeLayout>
     <!-- 标题栏结束 -->
 
@@ -159,6 +158,14 @@
                             android:text="@string/monthTotal"
                             android:textColor="@color/lightgray"
                             android:textSize="20dp" />
+
+                        <Button
+                            android:id="@+id/gotoThree"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/content"
+                            android:text="校正"
+                            android:textColor="@color/darkgray" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -264,21 +271,14 @@
 
         <!-- 第二行的第二行 开始 -->
 
-          
+        <LinearLayout
+            android:id="@+id/linearlayout_wifi"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/content"
+            android:orientation="vertical" >
+        </LinearLayout>
 
-               
-
-                <LinearLayout
-                    android:id="@+id/linearlayout_wifi"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:background="@drawable/content"
-                    android:orientation="vertical" >
-                </LinearLayout>
-            
-           
-
-        
         <!-- 第二行的第二行结束 -->
 
     </LinearLayout>
