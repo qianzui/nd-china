@@ -63,15 +63,13 @@
                 android:textColor="@color/darkgray"
                 android:textSize="15dp" />
 
-            <EditText
-                android:id="@+id/ed1"
+            <TextView
+                android:id="@+id/tv_month"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:digits="0123456789."
-                android:hint="请输入数字"
-                android:inputType="number"                
-                android:maxLength="4"
+                android:text="请设置流量:  "
+                android:maxLength="6"
                 android:singleLine="true"
                 android:textColor="@color/lightgreen"
                 android:textSize="15dp" />
