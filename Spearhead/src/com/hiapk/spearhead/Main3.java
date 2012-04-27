@@ -3,15 +3,22 @@ package com.hiapk.spearhead;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.text.method.Touch;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 public class Main3 extends Activity{
 	Button combo;
 	Button monthWarning;
 	Button dayWarning;
 	Button warningAct;
+	EditText ed1;
+	EditText ed2;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -21,6 +28,10 @@ public class Main3 extends Activity{
 		monthWarning = (Button)findViewById(R.id.monthWarning);
 		dayWarning = (Button)findViewById(R.id.dayWarning);
 		warningAct = (Button)findViewById(R.id.warningAct);
+		ed1 =( EditText) findViewById(R.id.ed1);
+		ed2 =( EditText) findViewById(R.id.ed2);
+
+
 
 		combo.setOnClickListener(new OnClickListener() {
 
@@ -91,6 +102,30 @@ public class Main3 extends Activity{
 		.setMessage("Ô¤¾¯¶¯×÷")
 		.setPositiveButton("È·¶¨", null)
 		.show();  
+
+	}
+
+	public boolean  onTouchEvent(MotionEvent event) {
+
+//		float x = event.getX();
+//		float y = event.getY(); 
+		switch(event.getAction()){
+		case MotionEvent.ACTION_DOWN:
+			//´¥ÃþÆÁÄ»Ê±¿Ì
+			ed1.clearFocus();
+			ed2.clearFocus();
+//			Toast.makeText(getParent(),"x="+x+" y="+y, Toast.LENGTH_LONG).show();
+			break;
+			//´¥Ãþ²¢ÒÆ¶¯Ê±¿Ì
+		case MotionEvent.ACTION_MOVE:
+
+			break;
+			//ÖÕÖ¹´¥ÃþÊ±¿Ì
+		case MotionEvent.ACTION_UP:
+			break;
+		}
+
+		return true;
 
 	}
 
