@@ -67,23 +67,21 @@
                     android:textColor="@color/darkgray"
                     android:textSize="20dp" />
 
+                <Spinner
+                    android:id="@+id/spinnerUnit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:entries="@array/unit"
+                    android:prompt="@string/unitSelect" />
+
                 <TextView
                     android:id="@+id/tv_month"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/spinnerUnit"
                     android:text="请设置流量"
                     android:textColor="@color/lightgreen"
-                    android:textSize="20dp" 
-                    android:layout_alignParentRight="true"
-                    android:paddingRight="33dp"/>
-
-                <TextView
-                    android:id="@+id/tv1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text=" MB"
-                    android:textColor="@color/darkgray"
                     android:textSize="20dp" />
             </RelativeLayout>
         </LinearLayout>
@@ -110,11 +108,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" 0 "
-                    android:textColor="@color/darkgray"
-                    android:textSize="20dp" 
                     android:layout_alignParentRight="true"
-                    android:paddingRight="30dp"/>
+                    android:paddingRight="30dp"
+                    android:text=" 0 "
+                    android:textColor="@color/lightgreen"
+                    android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/tv2"
@@ -150,20 +148,17 @@
                     android:id="@+id/monthSet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="请设置日期"
-                    android:textColor="@color/lightgreen"
-                    android:textSize="20dp"
-                    android:layout_alignParentRight="true"
-                    android:paddingRight="23dp" />
-
-                <TextView
-                    android:id="@+id/tv3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:text=" 日"
-                    android:textColor="@color/darkgray"
                     android:textSize="20dp" />
+
+                <Spinner
+                    android:id="@+id/dayUnit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/monthSet"
+                    android:entries="@array/day"
+                    android:prompt="@string/daySelect" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
@@ -189,7 +184,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="校正"
+                android:text="流量校正"
                 android:textColor="@color/darkgray"
                 android:textSize="23dp" />
 
@@ -201,8 +196,7 @@
                 android:layout_centerVertical="true"
                 android:background="@drawable/content"
                 android:text="手动查询流量套餐"
-                android:textColor="@color/darkgray"
-                android:textSize="20dp" />
+                android:textColor="@color/darkgray" />
         </RelativeLayout>
     </LinearLayout>
     <!-- 第二个框框结束 -->
