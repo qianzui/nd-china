@@ -22,6 +22,7 @@ public class PieView extends ViewBase {
 	int shade_colors[];
 	int percent[];
 	private int thickness = 8;
+	int mobilePersent=0;
 
 	/**
 	 * @param context
@@ -53,7 +54,7 @@ public class PieView extends ViewBase {
 	// this.percent = percent;
 	// }
 
-	public PieView(Context context, int[] percent) {
+	public PieView(Context context, int[] percent,int mobilePersent) {
 		super(context);
 		int[] colors = new int[] { Color.RED, Color.GREEN };
 		int[] shade_colors = new int[] { Color.rgb(180, 20, 10),
@@ -61,6 +62,7 @@ public class PieView extends ViewBase {
 		this.colors = colors;
 		this.shade_colors = shade_colors;
 		this.percent = percent;
+		this.mobilePersent=mobilePersent;
 	}
 
 	public void setThickness(int thickness) {
@@ -73,9 +75,9 @@ public class PieView extends ViewBase {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		areaWidth = width - thickness;
-//		Log.d("main", "kuan" + width);
+		// Log.d("main", "kuan" + width);
 		areaHight = height - thickness;
-//		Log.d("main", "chang" + height);
+		// Log.d("main", "chang" + height);
 		int minpie = areaWidth > areaHight ? areaHight : areaWidth;
 		minpie = minpie - minpie / 4;
 		thickness = minpie / 15;
@@ -113,24 +115,29 @@ public class PieView extends ViewBase {
 		linespoint[1] = (areaHight - minpie / 2 - (float) (thickness)) - 1;
 		linespoint[2] = (minpie + (float) ((thickness) + 1)) * 3 / 4;
 		linespoint[3] = (((areaHight - minpie) - (float) (thickness)) - 1);
-		//第一条线
+		// 第一条线
 		canvas.drawLine(linespoint[0], linespoint[1], linespoint[2],
 				linespoint[3], paint);
 		canvas.drawLine(linespoint[2], linespoint[3], linespoint[2] + minpie
-				/ 2*3, linespoint[3], paint);
-		canvas.drawLine(linespoint[0]+1, linespoint[1]+1, linespoint[2],
-				linespoint[3]+1, paint);
-		canvas.drawLine(linespoint[2], linespoint[3]+1, linespoint[2] + minpie
-				/ 2*3, linespoint[3]+1, paint);
+				/ 2 * 3, linespoint[3], paint);
+		canvas.drawLine(linespoint[0] + 1, linespoint[1] + 1, linespoint[2],
+				linespoint[3] + 1, paint);
+		canvas.drawLine(linespoint[2], linespoint[3] + 1, linespoint[2]
+				+ minpie / 2 * 3, linespoint[3] + 1, paint);
 		// canvas.drawLine(10,10 , 20, 20, paint);
 		// 设置显示的数字
 		paint.setColor(Color.WHITE);
 		paint.setTextSize(minpie / 6);
-		int floatnum=percent[0]*100/360;
-//		DecimalFormat format = new DecimalFormat("0.#");
+//		int floatnum = (int) ((float) percent[0] * 100 / 360);
+//		DecimalFormat format = new DecimalFormat("0");
 //		String value = format.format(floatnum) + "";
-		canvas.drawText("已用"+floatnum+"%", linespoint[2], linespoint[3]-3,
-				paint);
+		if (percent[0] == 360) {
+			canvas.drawText("已用" + mobilePersent + "%", linespoint[2] - minpie / 10,
+					linespoint[3] - 3, paint);
+		} else {
+			canvas.drawText("已用" + mobilePersent + "%", linespoint[2],
+					linespoint[3] - 3, paint);
+		}
 
 	}
 }

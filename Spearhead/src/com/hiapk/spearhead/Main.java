@@ -60,6 +60,7 @@ public class Main extends Activity {
 		getuids();
 		// ------------
 		initSQLdatabase(uids, packagenames);
+		setonrefreshclicklistens();
 	}
 
 	/**
@@ -74,14 +75,16 @@ public class Main extends Activity {
 		TextView weekMobilunit = (TextView) findViewById(R.id.unit2);
 		TextView monthMobil = (TextView) findViewById(R.id.monthRate);
 		TextView monthMobilunit = (TextView) findViewById(R.id.unit3);
+		TextView monthMobil2 = (TextView) findViewById(R.id.traffic_month_set);
+		TextView monthMobilunit2 = (TextView) findViewById(R.id.unit_month_set);
 		// TextView todayWifi = (TextView) findViewById(R.id.wifiTodayRate);
 		// TextView todayWifiunit = (TextView) findViewById(R.id.unit4);
 		// TextView weekWifi = (TextView) findViewById(R.id.wifiWeekRate);
 		// TextView weekWifiunit = (TextView) findViewById(R.id.unit5);
 		// TextView monthWifi = (TextView) findViewById(R.id.wifiMonthRate);
 		// TextView monthWifiunit = (TextView) findViewById(R.id.unit6);
-		//跳转到校正页
-		Button gotoThree = (Button)findViewById(R.id.gotoThree);
+		// 跳转到校正页
+		Button gotoThree = (Button) findViewById(R.id.gotoThree);
 		gotoThree.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -91,8 +94,7 @@ public class Main extends Activity {
 
 			}
 		});
-		
-		
+
 		wifiTraffic = new long[64];
 		// 取得系统时间。
 		Time t = new Time();
@@ -107,6 +109,9 @@ public class Main extends Activity {
 				monthDay, weekDay);
 		// 取得月度流量
 		mobileTraffic = sqlhelperTotal.SelectMobileData(context, year, month);
+		//
+		mobileTraffic = sqlhelperTotal.SelectWifiData(context, year, month);
+		//
 		wifiTraffic = sqlhelperTotal.SelectWifiData(context, year, month);
 		// 进行流量设置
 		todayMobil.setText(unitHandler(mobileTraffic[monthDay]
@@ -115,6 +120,11 @@ public class Main extends Activity {
 		weekMobil.setText(unitHandler(weektraffic[0], weekMobilunit));
 		mobile_month_use = mobileTraffic[0] + mobileTraffic[63];
 		monthMobil.setText(unitHandler(mobile_month_use, monthMobilunit));
+		final String PREFS_NAME = "allprefs";
+		final String VALUE_MOBILE_SET = "mobilemonthuse";
+		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+		long mobileSet = prefs.getLong(VALUE_MOBILE_SET, 52428800);
+		monthMobil2.setText("/" + unitHandler(mobileSet, monthMobilunit2));
 		// todayWifi.setText(unitHandler(wifi[monthDay] + wifi[monthDay + 31],
 		// todayWifiunit));
 		// weekWifi.setText(unitHandler(weektraffic[5], weekWifiunit));
@@ -137,14 +147,14 @@ public class Main extends Activity {
 			sqlhelperTotal.initSQL(context, uids, packagename);
 		}
 	}
+
 	// ----------
-	
-	public  void gotoThree(){		
+
+	public void gotoThree() {
 		SpearheadActivity sp = new SpearheadActivity();
-		
+
 		sp.tabThree();
 	}
-	
 
 	// ----------
 	/**
@@ -190,7 +200,7 @@ public class Main extends Activity {
 		ProgressBarForV progforv_mobile = new ProgressBarForV();
 		progforv_mobile.j = i;
 		progforv_mobile.execute(myProgressBar_mobile);
-//		ProgressBarForV progforv_wifi = new ProgressBarForV();
+		// ProgressBarForV progforv_wifi = new ProgressBarForV();
 		// progforv_wifi.j = j;
 		// progforv_wifi.execute(myProgressBar_wifi);
 	}
@@ -225,20 +235,25 @@ public class Main extends Activity {
 		long temp = count;
 		float floatnum = count;
 		float floatGB = count;
-		if ((temp = temp / 1000) < 1) {
+		float floatTB = count;
+		if ((temp = temp / 1024) < 1) {
 			value = count + "";
 			unit.setText("B");
-		} else if ((floatnum = (float) temp / 1000) < 1) {
+		} else if ((floatnum = (float) temp / 1024) < 1) {
 			value = temp + "";
 			unit.setText("KB");
-		} else if ((floatGB = floatnum / 1000) < 1) {
+		} else if ((floatGB = floatnum / 1024) < 1) {
 			DecimalFormat format = new DecimalFormat("0.##");
 			value = format.format(floatnum) + "";
 			unit.setText("MB");
-		} else {
+		} else if ((floatTB = floatGB / 1024) < 1) {
 			DecimalFormat format = new DecimalFormat("0.##");
 			value = format.format(floatGB) + "";
 			unit.setText("GB");
+		} else {
+			DecimalFormat format = new DecimalFormat("0.##");
+			value = format.format(floatTB) + "";
+			unit.setText("TB");
 		}
 		return value;
 	}
@@ -264,6 +279,35 @@ public class Main extends Activity {
 		initProgressBar();
 		initPieBar();
 		initWifiBar();
+
+	}
+
+	private void setonrefreshclicklistens() {
+		Button btn_refresh = (Button) findViewById(R.id.refresh);
+		btn_refresh.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				AlarmSet alset = new AlarmSet();
+				// 初始化网络状态
+				sqlhelperTotal.initTablemobileAndwifi(context);
+				if (SQLHelperTotal.TableWiFiOrG23 != ""
+						&& sqlhelperTotal.getIsInit(context)) {
+					// 启动闹钟
+					alset.StartAlarmMobile(context);
+					// 进行数据记录
+					sqlhelperTotal.RecordTotalwritestats(context, false);
+				} else if (SQLHelperTotal.TableWiFiOrG23 != "") {
+					alset.StartAlarmMobile(context);
+					sqlhelperTotal.initTablemobileAndwifi(context);
+				}
+				initValues();
+				initProgressBar();
+				initPieBar();
+				initWifiBar();
+			}
+		});
 	}
 
 	/**
@@ -294,20 +338,20 @@ public class Main extends Activity {
 		// 设置y轴显示值及范围
 		double[] wifi = new double[monthDay];
 		long maxwifiTraffic = 0;
-		DecimalFormat format = new DecimalFormat("0.#");
+		// DecimalFormat format = new DecimalFormat("0.#");
 		// wifi[0] = (double) (wifiTraffic[0] + wifiTraffic[63]) / 1000000;
 		for (int i = 0; i < wifi.length; i++) {
 			long temp = wifiTraffic[i + 1] + wifiTraffic[i + 32];
 			// 小数点2位
-			wifi[i] = (double) ((int) temp / 10000) / 100;
+			wifi[i] = (double) ((long) temp * 100 / 1024 / 1024) / 100;
 			// format.format(wifi[i]);
 			if (temp > maxwifiTraffic) {
 				maxwifiTraffic = temp;
 			}
 		}
 		chartbar.setData1(wifi);
-		chartbar.setMaxTraffic((double) (int) maxwifiTraffic / 1000000 * 1.2);
-		chartbar.setyMaxvalue((double) (int) maxwifiTraffic / 1000000 * 1.2);
+		chartbar.setMaxTraffic((double) (int) maxwifiTraffic / 1048576 * 1.2);
+		chartbar.setyMaxvalue((double) (int) maxwifiTraffic / 1048576 * 1.2);
 		// 设置背景色（被隐藏的条）
 		// chartbar.setBackgroundColor(Color.BLACK);
 		// 设置初始显示图像位置
@@ -335,17 +379,39 @@ public class Main extends Activity {
 		final String PREFS_NAME = "allprefs";
 		final String VALUE_MOBILE_SET = "mobilemonthuse";
 		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-		long mobileSet = prefs.getLong(VALUE_MOBILE_SET, 50000000);
-		long moblileTotle = mobileTraffic[0] + mobileTraffic[63];
-		int usePercent = (int) (moblileTotle / mobileSet * 360);
-		// int usePercent=50;
+		long mobileSet = prefs.getLong(VALUE_MOBILE_SET, 52428800);
+		// long moblileTotle = mobileTraffic[0] + mobileTraffic[63];
+		int usePercent = 0;
+		if (mobile_month_use == 0) {
+			usePercent = 0;
+		} else if (mobileSet == 0) {
+			usePercent = 360;
+		} else {
+			usePercent = (int) (((float) mobile_month_use / mobileSet) * 360);
+		}
 		if (usePercent > 360)
 			usePercent = 360;
+
+		int mobilePersent = 0;
+		// 月度流量为0判断
+		if (mobile_month_use == 0) {
+			mobilePersent = 0;
+		} else if (mobileSet == 0) {
+			mobilePersent = 100;
+		} else {
+			// 进行超百判断
+			if (mobile_month_use > mobileSet)
+				mobilePersent = 100;
+			else
+				mobilePersent = (int) ((float) mobile_month_use * 100 / mobileSet);
+		}
 		int[] percent = new int[] { usePercent, 360 - usePercent };
-		final PieView pieView_mobile = new PieView(context, percent);
+		final PieView pieView_mobile = new PieView(context, percent,
+				mobilePersent);
 		// View PieView=findViewById(R.id.pie_bar_mobile);
 		LinearLayout layout_mobile = (LinearLayout) findViewById(R.id.linearlayout_bar_mobile);
 		final LinearLayout laout_mobile_pie = (LinearLayout) findViewById(R.id.linearlayout_piebar_mobile);
+		laout_mobile_pie.removeAllViews();
 		//
 		// laout_mobile_pie.setBackgroundColor(Color.WHITE);
 		//
@@ -354,11 +420,10 @@ public class Main extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				laout_mobile_pie.removeAllViews();
 				if (ismobileshowpie) {
-					laout_mobile_pie.removeAllViews();
 					ismobileshowpie = false;
 				} else {
-					laout_mobile_pie.removeAllViews();
 					laout_mobile_pie.addView(pieView_mobile);
 					ismobileshowpie = true;
 				}
@@ -378,21 +443,32 @@ public class Main extends Activity {
 		final String VALUE_MOBILE_SET = "mobilemonthuse";
 		final String VALUE_WIFI_SET = "wifimonthuse";
 		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-		long mobileSet = prefs.getLong(VALUE_MOBILE_SET, 50000000);
-		long wifiSet = prefs.getLong(VALUE_WIFI_SET, 50000000);
+		long mobileSet = prefs.getLong(VALUE_MOBILE_SET, 52428800);
+		long wifiSet = prefs.getLong(VALUE_WIFI_SET, 52428800);
 		int mobile = 0;
 		int wifi = 0;
 		// showlog("mobile" + mobile_month_use + "wifi" + wifi_month_use);
 		// showlog("mobile" + mobileSet + "wifi" + wifiSet);
-		// 进行超百判断
-		if (mobile_month_use > mobileSet)
+		// 月度流量为0判断
+		if (mobile_month_use == 0) {
+			mobile = 0;
+		} else if (mobileSet == 0) {
 			mobile = 100;
-		else
-			mobile = (int) (mobile_month_use * 100 / mobileSet);
-		if (wifi_month_use > wifiSet)
-			wifi = 100;
-		else
-			wifi = (int) (wifi_month_use * 100 / wifiSet);
+		} else {
+
+			// 进行超百判断
+			if (mobile_month_use > mobileSet)
+				mobile = 100;
+			else
+				// mobile = (int) ((float) ((int) ((float) mobile_month_use /
+				// mobileSet * 360)) / 360 * 100);
+				mobile = (int) ((float) mobile_month_use * 100 / mobileSet);
+			// if (wifi_month_use > wifiSet)
+			// wifi = 100;
+			// else
+			// wifi = (int) ((float)wifi_month_use * 100 / wifiSet);
+		}
+
 		// showlog("mobile" + mobile + "wifi" + wifi);
 		RefreshProgressBar(mobile, wifi);
 	}
