@@ -14,9 +14,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +31,9 @@ public class Main3 extends Activity {
 	Button warningAct;
 	TextView TextView_month;
 	EditText ed2;
+	 Spinner spinnerUnit;
+	 Spinner dayUnit;
+
 
 	private final int WRAP_CONTENT = ViewGroup.LayoutParams.WRAP_CONTENT;
 	private final int FILL_PARENT = ViewGroup.LayoutParams.FILL_PARENT;
@@ -37,13 +44,16 @@ public class Main3 extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+	
 		setContentView(R.layout.main3);
 		combo = (Button) findViewById(R.id.combo);
 		monthWarning = (Button) findViewById(R.id.monthWarning);
 		dayWarning = (Button) findViewById(R.id.dayWarning);
 		warningAct = (Button) findViewById(R.id.warningAct);
 		TextView_month = (TextView) findViewById(R.id.tv_month);
-//		ed2 = (EditText) findViewById(R.id.ed2);
+	
+		spinnerUnit = (Spinner) findViewById(R.id.spinnerUnit);
+		dayUnit = (Spinner) findViewById(R.id.dayUnit);
 
 		TextView_month.setOnClickListener(new OnClickListener() {
 
