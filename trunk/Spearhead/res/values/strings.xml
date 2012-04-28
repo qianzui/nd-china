@@ -17,4 +17,6 @@
 	<item type="id" name="tag_pkgname"></item>
 	<item type="id" name="tag_traffic_up"></item>
 	<item type="id" name="tag_traffic_down"></item>
+	<string name="daySelect">请选择日期</string>
+	<string name="unitSelect">请选择单位</string>
 </resources>
