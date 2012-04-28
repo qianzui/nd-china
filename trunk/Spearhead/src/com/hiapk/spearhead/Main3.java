@@ -43,7 +43,7 @@ public class Main3 extends Activity {
 		dayWarning = (Button) findViewById(R.id.dayWarning);
 		warningAct = (Button) findViewById(R.id.warningAct);
 		TextView_month = (TextView) findViewById(R.id.tv_month);
-		ed2 = (EditText) findViewById(R.id.ed2);
+//		ed2 = (EditText) findViewById(R.id.ed2);
 
 		TextView_month.setOnClickListener(new OnClickListener() {
 
