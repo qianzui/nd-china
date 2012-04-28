@@ -4,16 +4,6 @@
     <style name="noTitle">
         <item name="android:windowNoTitle">true</item>
     </style>
-    <!--
-	<style name="title" parent="android:Theme">
-		
-     	<item name="android:windowTitleBackgroundStyle">@style/titleBackground</item>				
-	</style>
-	
-	<style name="titleBackground" >	    
-		<item name="android:background">@drawable/maintab_toolbar_bg</item>		
-	</style>
-    -->
 
     <style name="main_tab_bottom">
         <item name="android:textSize">@dimen/bottom_tab_font_size</item>
@@ -36,12 +26,19 @@
     <!-- title自定义 -->
     <style name="myProgressBarStyleForV">
         <item name="android:indeterminateOnly">false</item>
-                <item name="android:progressDrawable"> @drawable/progressbar</item>
-                
-                <item name="android:minHeight">12dip</item>
-                <item name="android:maxHeight">12dip</item>
-                <item name="android:minWidth">100dip</item>
-                <item name="android:maxWidth">150dip</item>
+        <item name="android:progressDrawable"> @drawable/progressbar</item>
+        <item name="android:minHeight">12dip</item>
+        <item name="android:maxHeight">12dip</item>
+        <item name="android:minWidth">100dip</item>
+        <item name="android:maxWidth">150dip</item>
     </style>
+
+    <!-- spinner自定义 -->
+    
+    <style name="mySpinner">
+        <item name="android:background">@drawable/content</item>
+    </style>
+
+    <!-- spinner自定义 -->
 
 </resources>
