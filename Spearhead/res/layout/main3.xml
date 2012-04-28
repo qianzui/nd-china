@@ -46,106 +46,125 @@
             android:layout_height="wrap_content"
             android:text="流量设置"
             android:textColor="@color/darkgray"
-            android:textSize="20dp" />
+            android:textSize="23dp" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1.0"
-            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="20dip" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="包月流量:  "
-                android:textColor="@color/darkgray"
-                android:textSize="15dp" />
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical" >
 
-            <TextView
-                android:id="@+id/tv_month"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:text="请设置流量:  "
-                android:maxLength="6"
-                android:singleLine="true"
-                android:textColor="@color/lightgreen"
-                android:textSize="15dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="包月流量:  "
+                    android:textColor="@color/darkgray"
+                    android:textSize="20dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" MB"
-                android:textColor="@color/darkgray"
-                android:textSize="15dp" />
+                <TextView
+                    android:id="@+id/tv_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="请设置流量"
+                    android:textColor="@color/lightgreen"
+                    android:textSize="20dp" 
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="33dp"/>
+
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=" MB"
+                    android:textColor="@color/darkgray"
+                    android:textSize="20dp" />
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1.0"
-            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="20dip" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="本月已用:  "
-                android:textColor="@color/darkgray"
-                android:textSize="15dp" />
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" 0 "
-                android:textColor="@color/darkgray"
-                android:textSize="15dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="本月已用:  "
+                    android:textColor="@color/darkgray"
+                    android:textSize="20dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" MB"
-                android:textColor="@color/darkgray"
-                android:textSize="15dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 0 "
+                    android:textColor="@color/darkgray"
+                    android:textSize="20dp" 
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="30dp"/>
+
+                <TextView
+                    android:id="@+id/tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=" MB"
+                    android:textColor="@color/darkgray"
+                    android:textSize="20dp" />
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1.0"
-            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="20dip" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="月结算日:  "
-                android:textColor="@color/darkgray"
-                android:textSize="15dp" />
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical" >
 
-            <EditText
-                android:id="@+id/ed2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:digits="0123456789"
-                android:hint="请输入数字"
-                android:inputType="number"              
-                android:maxLength="4"
-                android:singleLine="true"
-                android:textColor="@color/lightgreen"
-                android:textSize="15dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="月结算日:  "
+                    android:textColor="@color/darkgray"
+                    android:textSize="20dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" 日"
-                android:textColor="@color/darkgray"
-                android:textSize="15dp" />
+                <TextView
+                    android:id="@+id/monthSet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="请设置流量"
+                    android:textColor="@color/lightgreen"
+                    android:textSize="20dp"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="23dp" />
+
+                <TextView
+                    android:id="@+id/tv3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=" 日"
+                    android:textColor="@color/darkgray"
+                    android:textSize="20dp" />
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
     <!-- 第一个框框结束 -->
@@ -172,7 +191,7 @@
                 android:layout_centerVertical="true"
                 android:text="校正"
                 android:textColor="@color/darkgray"
-                android:textSize="20dp" />
+                android:textSize="23dp" />
 
             <Button
                 android:id="@+id/combo"
@@ -180,9 +199,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="手动查询流量套餐" 
+                android:background="@drawable/content"
+                android:text="手动查询流量套餐"
                 android:textColor="@color/darkgray"
-                android:background="@drawable/content"/>
+                android:textSize="20dp" />
         </RelativeLayout>
     </LinearLayout>
     <!-- 第二个框框结束 -->
@@ -203,30 +223,36 @@
             android:layout_height="wrap_content"
             android:text="流量提醒"
             android:textColor="@color/darkgray"
-            android:textSize="20dp" />
+            android:textSize="23dp" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1.0"
-            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="20dip" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="月流量预警值:  "
-                android:textColor="@color/darkgray"
-                android:textSize="15dp" />
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical" >
 
-            <Button
-                android:id="@+id/monthWarning"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="点击设置"
-                android:textColor="@color/darkgray"
-                android:background="@drawable/content" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="月流量预警值:  "
+                    android:textColor="@color/darkgray"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:id="@+id/monthWarning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/content"
+                    android:text="点击设置"
+                    android:textColor="@color/darkgray" />
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -234,48 +260,59 @@
             android:layout_height="0dip"
             android:layout_weight="1.0"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
             android:paddingLeft="20dip" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="日流量预警值:  "
-                android:textColor="@color/darkgray"
-                android:textSize="15dp" />
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical" >
 
-            <Button
-                android:id="@+id/dayWarning"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="点击设置" 
-                android:textColor="@color/darkgray"
-                android:background="@drawable/content"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="日流量预警值:  "
+                    android:textColor="@color/darkgray"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:id="@+id/dayWarning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/content"
+                    android:text="点击设置"
+                    android:textColor="@color/darkgray" />
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1.0"
-            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="20dip" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="30dip"
-                android:text="预警动作:  "
-                android:textColor="@color/darkgray"
-                android:textSize="15dp" />
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical" >
 
-            <Button
-                android:id="@+id/warningAct"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="点击设置" 
-                android:textColor="@color/darkgray"
-                android:background="@drawable/content"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="预警动作:  "
+                    android:textColor="@color/darkgray"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:id="@+id/warningAct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/content"
+                    android:text="点击设置"
+                    android:textColor="@color/darkgray" />
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
     <!-- 第三个框框结束 -->
