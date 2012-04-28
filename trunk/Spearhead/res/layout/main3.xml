@@ -150,7 +150,7 @@
                     android:id="@+id/monthSet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="请设置流量"
+                    android:text="请设置日期"
                     android:textColor="@color/lightgreen"
                     android:textSize="20dp"
                     android:layout_alignParentRight="true"
