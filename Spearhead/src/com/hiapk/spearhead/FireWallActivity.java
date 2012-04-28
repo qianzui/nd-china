@@ -1,5 +1,6 @@
 package com.hiapk.spearhead;
 
+import java.sql.SQLData;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,7 +12,6 @@ import com.hiapk.firewall.AppInfo;
 import com.hiapk.firewall.AppListAdapter;
 import com.hiapk.firewall.MyListView;
 import com.hiapk.firewall.MyListView.OnRefreshListener;
-import com.hiapk.firewall.Mycomparator;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
 
@@ -25,6 +25,8 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.TrafficStats;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -52,12 +54,12 @@ public class FireWallActivity extends Activity {
 	private List<PackageInfo> packageInfo;
 	private AppListAdapter appListAdapter;
 	private MyListView appListView;
-	private ArrayList<AppInfo> myAppList;
-	private ArrayList<AppInfo> appListComp;
+	private ArrayList<PackageInfo> myAppList;
 	private Context mContext = this;
 	private SQLHelperUid sqlhelperUid = new SQLHelperUid();
 	private SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 	ProgressDialog mydialog;
+	long[] traffic;
 
 	// private ListView appListView;
 
@@ -66,13 +68,17 @@ public class FireWallActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main2);
-//		mydialog = ProgressDialog.show(this, "请稍等...", "正在读取...", true);
+		Toast.makeText(mContext, "下拉列表可以进行刷新!", Toast.LENGTH_LONG).show();
+		// mydialog = ProgressDialog.show(this, "请稍等...", "正在读取...", true);
 		initList();
-		
+
 	}
 
 	public void initList() {
-		myAppList = getInstalledPackageInfo(FireWallActivity.this);
+		Log.i("get ---- list----start", System.currentTimeMillis() + "");
+		myAppList = getCompList(getInstalledPackageInfo(FireWallActivity.this));
+		
+		Log.i("get ---- list----end", System.currentTimeMillis() + "");
 		appListAdapter = new AppListAdapter(FireWallActivity.this, myAppList);
 		appListView = (MyListView) findViewById(R.id.app_list);
 		appListView.setAdapter(appListAdapter);
@@ -84,38 +90,60 @@ public class FireWallActivity extends Activity {
 			}
 		});
 
+		Log.i("update----start", System.currentTimeMillis() + "");
 		appListView.setonRefreshListener(new OnRefreshListener() {
 			public void onRefresh() {
 				new AsyncTask<Void, Void, Void>() {
 					@Override
 					protected Void doInBackground(Void... params) {
-						
-
-						// myAppList =
-						// getInstalledPackageInfo(FireWallActivity.this);
 						return null;
 					}
-
 					@Override
 					protected void onPostExecute(Void result) {
 						update_Sql();
-						myAppList.clear();
-						myAppList = getInstalledPackageInfo(FireWallActivity.this);
-						appListAdapter = new AppListAdapter(
-								FireWallActivity.this, myAppList);
-						appListView = (MyListView) findViewById(R.id.app_list);
-						appListView.setAdapter(appListAdapter);
 						appListAdapter.notifyDataSetChanged();
 						appListView.onRefreshComplete();
-						
 					}
-
 				}.execute(null);
 			}
 		});
-		
+		Log.i("update----end", System.currentTimeMillis() + "");
 	}
-
+	public ArrayList<PackageInfo> getCompList( ArrayList<PackageInfo> appList)
+	{
+        traffic = new  long[appList.size()];
+        int[] number = new int[traffic.length];
+        
+		for (int i = 0; i < traffic.length; i++) {
+			int uid = appList.get(i).applicationInfo.uid;
+			traffic[i]=TrafficStats.getUidRxBytes(uid)
+    		+ TrafficStats.getUidTxBytes(uid);	
+		}
+		
+		for (int i = 0; i < traffic.length; i++) {
+			number[i] = i;
+		}
+		for (int i = 0; i < traffic.length; i++) {
+			long temp = 0;
+			int k=0;
+			for (int j = i; j < traffic.length; j++) {
+				if (traffic[j] > temp) {
+					temp = traffic[j];
+					traffic[j]=traffic[i];
+					traffic[i]=temp;
+					k=number[j];
+					number[j]=number[i];
+					number[i]=k;
+				}
+			}
+		}
+		ArrayList<PackageInfo> myAppList = new ArrayList<PackageInfo>();
+		for (int i = 1; i < number.length; i++) {
+			PackageInfo pk = appList.get(number[i]);
+			myAppList.add(pk);
+		}
+		return myAppList;
+	}
 	public void update_Sql() {
 		sqlhelperTotal.initTablemobileAndwifi(mContext);
 		if (SQLHelperTotal.TableWiFiOrG23 != ""
@@ -127,12 +155,15 @@ public class FireWallActivity extends Activity {
 		}
 	}
 
-	public ArrayList<AppInfo> getInstalledPackageInfo(Context context) {
+	public ArrayList<PackageInfo> getInstalledPackageInfo(Context context) {
 		packageInfo = context.getPackageManager().getInstalledPackages(0);
-		ArrayList<AppInfo> appList = new ArrayList<AppInfo>();
+		ArrayList<PackageInfo> appList = new ArrayList<PackageInfo>();
+		Time time = new Time();
+		time.setToNow();
+		int year = time.year;
+		int month = time.month + 1;
 		for (int i = 0; i < packageInfo.size(); i++) {
 			PackageInfo pkgInfo = packageInfo.get(i);
-
 			PackageManager pkgmanager = context.getPackageManager();
 
 			if (PackageManager.PERMISSION_GRANTED != pkgmanager
@@ -142,39 +173,17 @@ public class FireWallActivity extends Activity {
 				// 获取总流量
 				if ((pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0
 						&& (pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == 0) {
-					Time time = new Time();
-					time.setToNow();
-					int year = time.year;
-					int month = time.month + 1;
-					SQLHelperUid sqlHelperUid = new SQLHelperUid();
-					long[] trafficArray = new long[64];
-					trafficArray = sqlHelperUid.SelectuidData(mContext, year,
-							month, pkgInfo.applicationInfo.uid);
-					String trafficUp = unitHandler(trafficArray[0]);
-					String trafficDown = unitHandler(trafficArray[63]);
-					String trafficTotal = unitHandler(trafficArray[0]
-							+ trafficArray[63]);
-
-					AppInfo appInfo = new AppInfo();
-					appInfo.setAppname(pkgInfo.applicationInfo.loadLabel(
-							mContext.getPackageManager()).toString());
-					appInfo.setIcon(pkgInfo.applicationInfo.loadIcon(mContext
-							.getPackageManager()));
-					appInfo.setTrafficDown(trafficDown);
-					appInfo.setTrafficUp(trafficUp);
-					appInfo.setPackageName(pkgInfo.applicationInfo.packageName);
-					appInfo.setTrafficTotal(trafficTotal);
-					appInfo.setTrafficTotalComparator(trafficArray[0]
-							+ trafficArray[63]);
-						appList.add(appInfo);
+					
+					 if(TrafficStats.getUidRxBytes(pkgInfo.applicationInfo.uid)
+	                    		+ TrafficStats.getUidTxBytes(pkgInfo.applicationInfo.uid) > 0)
+	                    {
+					appList.add(pkgInfo);
+	                    }
 				} else {
 				}
-
 			}
-
 		}
-		Mycomparator comp = new Mycomparator();
-		appListComp = comp.comparator(appList);
+		
 		return appList;
 	}
 
