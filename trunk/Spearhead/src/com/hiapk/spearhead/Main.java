@@ -110,7 +110,7 @@ public class Main extends Activity {
 		// 取得月度流量
 		mobileTraffic = sqlhelperTotal.SelectMobileData(context, year, month);
 		//
-		mobileTraffic = sqlhelperTotal.SelectWifiData(context, year, month);
+		// mobileTraffic = sqlhelperTotal.SelectWifiData(context, year, month);
 		//
 		wifiTraffic = sqlhelperTotal.SelectWifiData(context, year, month);
 		// 进行流量设置
@@ -118,12 +118,22 @@ public class Main extends Activity {
 				+ mobileTraffic[monthDay + 31], todayMobilunit));
 		// todayMobil.setText(unitHandler(8888080, todayMobilunit));
 		weekMobil.setText(unitHandler(weektraffic[0], weekMobilunit));
+		// 月度流量设置
+		String PREFS_NAME = "allprefs";
+		String VALUE_MOBILE_SET = "mobilemonthuse";
+		String VALUE_MOBILE_HASUSED_LONG = "mobileHasusedlong";
 		mobile_month_use = mobileTraffic[0] + mobileTraffic[63];
-		monthMobil.setText(unitHandler(mobile_month_use, monthMobilunit));
-		final String PREFS_NAME = "allprefs";
-		final String VALUE_MOBILE_SET = "mobilemonthuse";
+//		long month_use_show = mobile_month_use;
 		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
 		long mobileSet = prefs.getLong(VALUE_MOBILE_SET, 52428800);
+		long mobileHasUsed = prefs.getLong(VALUE_MOBILE_HASUSED_LONG, 0);
+		mobile_month_use=mobile_month_use+mobileHasUsed;
+		if (mobile_month_use>mobileSet) 
+			monthMobil.setTextColor(Color.RED);
+		else monthMobil.setTextColor(Color.GREEN);
+			
+		
+		monthMobil.setText(unitHandler(mobile_month_use, monthMobilunit));
 		monthMobil2.setText("/" + unitHandler(mobileSet, monthMobilunit2));
 		// todayWifi.setText(unitHandler(wifi[monthDay] + wifi[monthDay + 31],
 		// todayWifiunit));
