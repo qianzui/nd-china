@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,10 +52,19 @@ public class Main3 extends Activity {
 		dayWarning = (Button) findViewById(R.id.dayWarning);
 		warningAct = (Button) findViewById(R.id.warningAct);
 		TextView_month = (TextView) findViewById(R.id.tv_month);
-	
 		spinnerUnit = (Spinner) findViewById(R.id.spinnerUnit);
 		dayUnit = (Spinner) findViewById(R.id.dayUnit);
-
+		ArrayAdapter<CharSequence> adp1 = ArrayAdapter.createFromResource
+				(this, R.array.unit, R.layout.sptext);
+		ArrayAdapter<CharSequence> adp2 = ArrayAdapter.createFromResource
+				(this, R.array.day, R.layout.sptext);
+		adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		adp2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		
+		spinnerUnit.setAdapter(adp1);
+		dayUnit.setAdapter(adp2);
+		
+		
 		TextView_month.setOnClickListener(new OnClickListener() {
 
 			@Override
