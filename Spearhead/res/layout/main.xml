@@ -88,7 +88,8 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:layout_weight="1.0"
-                        android:orientation="horizontal" >
+                        android:orientation="horizontal" 
+                        android:gravity="center_vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -119,7 +120,8 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:layout_weight="1.0"
-                        android:orientation="horizontal" >
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical" >
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -150,7 +152,8 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:layout_weight="1.0"
-                        android:orientation="horizontal" >
+                        android:orientation="horizontal" 
+                        android:gravity="center_vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -161,10 +164,11 @@
 
                         <Button
                             android:id="@+id/gotoThree"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="55dp"
+                            android:layout_height="35dp"
                             android:background="@drawable/content"
                             android:text="校正"
+                            android:textSize="18dp"
                             android:textColor="@color/darkgray" />
                     </LinearLayout>
 
@@ -172,7 +176,8 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:layout_weight="1.0"
-                        android:orientation="horizontal" >
+                        android:orientation="horizontal" 
+                        android:gravity="center_vertical">
 
                         <TextView
                             android:id="@+id/monthRate"
