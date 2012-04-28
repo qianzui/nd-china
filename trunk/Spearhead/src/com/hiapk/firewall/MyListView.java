@@ -5,6 +5,7 @@ import java.util.Date;
 import com.hiapk.spearhead.R;
 
 import android.content.Context;
+import android.text.format.Time;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -89,8 +90,7 @@ public class MyListView extends ListView implements OnScrollListener {
 		headView.setPadding(0, -1 * headContentHeight, 0, 0);
 		headView.invalidate();
 
-		Log.v("size", "width:" + headContentWidth + " height:"
-				+ headContentHeight);
+
 
 		addHeaderView(headView, null, false);
 		setOnScrollListener(this);
@@ -281,9 +281,19 @@ public class MyListView extends ListView implements OnScrollListener {
 
 	public void onRefreshComplete() {
 		state = DONE;
-		lastUpdatedTextView.setText("最近刷新:" + new Date().toLocaleString());
+		Time time = new  Time();
+		time.setToNow();
+		int year = time.year;
+		int month = time.month+1;
+		int day = time.monthDay;
+		String hour = judge(time.hour);
+		String minute = judge(time.minute);
+		String second = judge(time.second);
+		lastUpdatedTextView.setText("最近刷新:"  + year +"-" + month + "-" + day + "  "
+				+ hour + ":" + minute + ":" + second);
 		changeHeaderViewByState();
 	}
+
 
 	private void onRefresh() {
 		if (refreshListener != null) {
@@ -311,8 +321,26 @@ public class MyListView extends ListView implements OnScrollListener {
 	}
 
 	public void setAdapter(BaseAdapter adapter) {
-		lastUpdatedTextView.setText("最近刷新:" + new Date().toLocaleString());
+		Time time = new  Time();
+		time.setToNow();
+		int year = time.year;
+		int month = time.month+1;
+		int day = time.monthDay;
+		String hour = judge(time.hour);
+		String minute = judge(time.minute);
+		String second = judge(time.second);
+		lastUpdatedTextView.setText("最近刷新:"  + year +"-" + month + "-" + day + "  "
+				+ hour + ":" + minute + ":" + second);
 		super.setAdapter(adapter);
 	}
-
+	public String judge(int i)
+	{
+		String j;
+		if(i < 10)
+		 j = "0" + i;
+		else
+		 j = "" + i ;
+		return j;
+	}
+ 
 }

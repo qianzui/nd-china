@@ -1,10 +1,13 @@
 package com.hiapk.firewall;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import com.hiapk.spearhead.Main;
 import com.hiapk.spearhead.R;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageInfo;
+import android.net.TrafficStats;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +21,11 @@ import android.widget.Toast;
 
 public class AppListAdapter extends BaseAdapter {
 	
-	private ArrayList<AppInfo> myAppList;
+	private ArrayList<PackageInfo> myAppList;
 	private  LayoutInflater inflater;
 	private Context mContext;
 	
-	public AppListAdapter(Context context , ArrayList<AppInfo> myAppList)
+	public AppListAdapter(Context context , ArrayList<PackageInfo> myAppList)
 	{
 		inflater = LayoutInflater.from(context);
 		this.myAppList = myAppList;
@@ -58,32 +61,40 @@ public class AppListAdapter extends BaseAdapter {
 			holder.icon = (ImageView)convertView.findViewById(R.id.icon);
 			holder.appname = (TextView)convertView.findViewById(R.id.app_name);
 			holder.trafficup = (TextView)convertView.findViewById(R.id.trafficup);
-			holder.trafficdown = (TextView)convertView.findViewById(R.id.trafficdown);
 			holder.e_toggle = (CheckBox)convertView.findViewById(R.id.e_toggle);
 			holder.wifi_toggle = (CheckBox)convertView.findViewById(R.id.wifi_toggle);
 			convertView.setTag(R.id.tag_holder,holder);
 		 }else{
 			 holder = (ViewHolder)convertView.getTag(R.id.tag_holder);
 		 }
-		  AppInfo pkgInfo = myAppList.get(position);		  
-		  holder.icon.setImageDrawable(pkgInfo.getIcon());
-		  holder.appname.setText(pkgInfo.getAppname());
-//		  holder.trafficdown.setText("总上传： " + pkgInfo.getTrafficUp());
-		  holder.trafficup.setText("总流量： " + pkgInfo.getTrafficTotal());		
+		  PackageInfo pkgInfo = myAppList.get(position);
+		  
+		  long down = TrafficStats.getUidRxBytes(pkgInfo.applicationInfo.uid);
+		  down = judge(down);
+		  long up = TrafficStats.getUidTxBytes(pkgInfo.applicationInfo.uid);
+		  up = judge(up);
+		  holder.icon.setImageDrawable(pkgInfo.applicationInfo.loadIcon(mContext.getPackageManager()));
+		  holder.appname.setText(pkgInfo.applicationInfo.loadLabel(mContext.getPackageManager()));
+		  holder.trafficup.setText("总流量： " + unitHandler(up + down));	
 		  holder.e_toggle.setOnCheckedChangeListener(new ECheckBoxListener(holder.e_toggle));
 		  holder.wifi_toggle.setOnCheckedChangeListener(new WifiCheckBoxListener(holder.wifi_toggle));	
 		  
-		  convertView.setTag(R.id.tag_pkgname,pkgInfo.getPackageName());
-		  convertView.setTag(R.id.tag_traffic_up ,pkgInfo.getTrafficUp());
-		  convertView.setTag(R.id.tag_traffic_down ,pkgInfo.getTrafficDown());
+		  convertView.setTag(R.id.tag_pkgname,pkgInfo.applicationInfo.packageName);
+		  convertView.setTag(R.id.tag_traffic_up ,unitHandler(up));
+		  convertView.setTag(R.id.tag_traffic_down ,unitHandler(down));
 		  
 		  return convertView;
+	}
+	public long judge(long tff)
+	{
+		if(tff == -1)
+		tff = 0 ;
+		return tff;
 	}
 	class ViewHolder{
 		ImageView icon;
 		TextView appname;
 		TextView trafficup;
-		TextView trafficdown;
 		CheckBox e_toggle;
 		CheckBox wifi_toggle;
 	}
@@ -107,7 +118,20 @@ public class AppListAdapter extends BaseAdapter {
 	        }
 		}
 	  }
-	
+	public String unitHandler(long count) {
+		String value = null;
+		long temp = count;
+		float floatnum = count;
+		if ((temp = temp / 1000) < 1) {
+			value = count + "B";
+		} else if ((floatnum = (float) temp / 1000) < 1) {
+			value = temp + "KB";
+		} else {
+			DecimalFormat format = new DecimalFormat("0.##");
+			value = format.format(floatnum) + "MB";
+		}
+		return value;
+	}
 	class WifiCheckBoxListener implements OnCheckedChangeListener
 	{
         CheckBox cb;

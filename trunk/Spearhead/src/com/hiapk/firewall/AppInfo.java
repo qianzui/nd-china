@@ -13,8 +13,15 @@ public class AppInfo {
 	String trafficDown;
 	String packageName;
 	String trafficTotal;
+	int uid;
 	long trafficTotalComparator;
 	
+	public int getUid() {
+		return uid;
+	}
+	public void setUid(int uid) {
+		this.uid = uid;
+	}
 	public Drawable getIcon() {
 		return icon;
 	}
