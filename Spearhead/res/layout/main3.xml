@@ -106,22 +106,22 @@
                     android:textColor="@color/darkgray"
                     android:textSize="20dp" />
 
-                <TextView
+                <Spinner
+                    android:id="@+id/spinnerhasused"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:paddingRight="30dp"
-                    android:text=" 0 "
-                    android:textColor="@color/lightgreen"
-                    android:textSize="20dp" />
+					android:background="@drawable/content"
+                    android:entries="@array/unit"
+                    android:prompt="@string/unitSelect" />
 
                 <TextView
-                    android:id="@+id/tv2"
+                    android:id="@+id/tv_hasused"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text=" MB"
-                    android:textColor="@color/darkgray"
+                    android:layout_toLeftOf="@+id/spinnerhasused"
+                    android:text=" 0 "
+                    android:textColor="@color/lightgreen"
                     android:textSize="20dp" />
             </RelativeLayout>
         </LinearLayout>

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.text.method.Touch;
 import android.util.Log;
@@ -30,14 +32,24 @@ public class Main3 extends Activity {
 	Button monthWarning;
 	Button dayWarning;
 	Button warningAct;
-	TextView TextView_month;
 	EditText ed2;
-	 Spinner spinnerUnit;
-	 Spinner dayUnit;
-
-
-	private final int WRAP_CONTENT = ViewGroup.LayoutParams.WRAP_CONTENT;
-	private final int FILL_PARENT = ViewGroup.LayoutParams.FILL_PARENT;
+	// 操作sharedprefrence
+	String PREFS_NAME = "allprefs";
+	// 总流量long
+	String VALUE_MOBILE_SET = "mobilemonthuse";
+	// 显示在预警页面的int
+	String VALUE_MOBILE_SET_OF_INT = "mobilemonthuseinint";
+	// 设置单位（月度设置）
+	String MOBILE_SET_UNIT = "mobileMonthUnit";
+	// 设置结算日期
+	String MOBILE_COUNT_DAY = "mobileMonthCountDay";
+	// 已使用总流量int
+	String VALUE_MOBILE_HASUSED_OF_INT = "mobileHasusedint";
+	// 设置单位（已使用）
+	String MOBILE_HASUSED_SET_UNIT = "mobileHasusedUnit";
+	// 已使用总流量long
+	String VALUE_MOBILE_HASUSED_LONG = "mobileHasusedlong";
+	Context context = this;
 	EditText edit;
 	TextView tv;
 
@@ -45,35 +57,15 @@ public class Main3 extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-	
+
 		setContentView(R.layout.main3);
+		init_TextView_month();
+		init_TextView_HasUsed();
+		init_Spinner();
 		combo = (Button) findViewById(R.id.combo);
 		monthWarning = (Button) findViewById(R.id.monthWarning);
 		dayWarning = (Button) findViewById(R.id.dayWarning);
 		warningAct = (Button) findViewById(R.id.warningAct);
-		TextView_month = (TextView) findViewById(R.id.tv_month);
-		spinnerUnit = (Spinner) findViewById(R.id.spinnerUnit);
-		dayUnit = (Spinner) findViewById(R.id.dayUnit);
-		ArrayAdapter<CharSequence> adp1 = ArrayAdapter.createFromResource
-				(this, R.array.unit, R.layout.sptext);
-		ArrayAdapter<CharSequence> adp2 = ArrayAdapter.createFromResource
-				(this, R.array.day, R.layout.sptext);
-		adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		adp2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		
-		spinnerUnit.setAdapter(adp1);
-		dayUnit.setAdapter(adp2);
-		
-		
-		TextView_month.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				dialogMonthSet().show();
-
-			}
-		});
 		combo.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -99,7 +91,7 @@ public class Main3 extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				// dialogDayWarning();
-				dialogMonthSet().show();
+				// dialogMonthSet().show();
 
 			}
 		});
@@ -116,24 +108,263 @@ public class Main3 extends Activity {
 
 	}
 
-	protected AlertDialog dialogMonthSet() {
+	/**
+	 * 设置下拉条
+	 */
+	private void init_Spinner() {
+		// TODO Auto-generated method stub
+		// 初始化
+		Spinner spinnerUnit = (Spinner) findViewById(R.id.spinnerUnit);
+		Spinner dayUnit = (Spinner) findViewById(R.id.dayUnit);
+		Spinner spinnerHasUsed = (Spinner) findViewById(R.id.spinnerhasused);
+		// 设置Adapter
+		ArrayAdapter<CharSequence> adp1 = ArrayAdapter.createFromResource(this,
+				R.array.unit, R.layout.sptext);
+		ArrayAdapter<CharSequence> adp2 = ArrayAdapter.createFromResource(this,
+				R.array.day, R.layout.sptext);
+		ArrayAdapter<CharSequence> adp3 = ArrayAdapter.createFromResource(this,
+				R.array.unit, R.layout.sptext);
+		adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		adp2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		adp3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinnerUnit.setAdapter(adp1);
+		dayUnit.setAdapter(adp2);
+		spinnerHasUsed.setAdapter(adp3);
+		// 设置月度流量与结算日期的默认显示值
+		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+		// 0代表mb，1代表gb
+		int mobileSetUnit = prefs.getInt(MOBILE_SET_UNIT, 0);
+		// 从0-30分别代表1-31日
+		int mobileSetCountDay = prefs.getInt(MOBILE_COUNT_DAY, 0);
+		// 设置初始显示项目
+		spinnerUnit.setSelection(mobileSetUnit);
+		dayUnit.setSelection(mobileSetCountDay);
+		// 设置监听包月流量
+		spinnerUnit.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int position, long arg3) {
+				// TODO Auto-generated method stub
+				// 点击时记录流量数据
+				SharedPreferences prefs = context.getSharedPreferences(
+						PREFS_NAME, 0);
+				int mobileValue = prefs.getInt(VALUE_MOBILE_SET_OF_INT, 50);
+				Editor passfileEditor = context.getSharedPreferences(
+						PREFS_NAME, 0).edit();
+				if (position == 0) {
+					passfileEditor.putLong(VALUE_MOBILE_SET,
+							(long) mobileValue * 1048576);
+				} else {
+					passfileEditor.putLong(VALUE_MOBILE_SET,
+							(long) mobileValue * 1048576 * 1024);
+				}
+				passfileEditor.putInt(MOBILE_SET_UNIT, position);
+				passfileEditor.commit();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				// Log.d("main3", "nono");
+			}
+		});
+		// 设置监听 月结算日
+		dayUnit.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int position, long arg3) {
+				// TODO Auto-generated method stub
+				Editor passfileEditor = context.getSharedPreferences(
+						PREFS_NAME, 0).edit();
+				// Log.d("main3", i + "");
+				passfileEditor.putInt(MOBILE_COUNT_DAY, position);
+				passfileEditor.commit();
+				// Log.d("main3", ((TextView) arg1).getText() + "");
+				// Log.d("main3", arg2 + "");
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				// Log.d("main3", "nono");
+			}
+		});
+		// 本月已用页面
+		spinnerHasUsed.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int position, long arg3) {
+				// TODO Auto-generated method stub
+				// 点击时记录流量数据
+				SharedPreferences prefs = context.getSharedPreferences(
+						PREFS_NAME, 0);
+				int hasUsedValueInt = prefs.getInt(VALUE_MOBILE_HASUSED_OF_INT,
+						0);
+				Editor passfileEditor = context.getSharedPreferences(
+						PREFS_NAME, 0).edit();
+				if (position == 0) {
+					passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
+							(long) hasUsedValueInt * 1048576);
+				} else {
+					passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
+							(long) hasUsedValueInt * 1048576 * 1024);
+				}
+				passfileEditor.putInt(MOBILE_HASUSED_SET_UNIT, position);
+				passfileEditor.commit();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				// Log.d("main3", "nono");
+			}
+		});
+	}
+
+	/**
+	 * 对本月已用进行初始化设置等
+	 */
+	private void init_TextView_HasUsed() {
+		// TODO Auto-generated method stub
+		final TextView TextView_HasUsed = (TextView) findViewById(R.id.tv_hasused);
+		// 设置默认显示值
+		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+		int mobileSet = prefs.getInt(VALUE_MOBILE_HASUSED_OF_INT, 0);
+		TextView_HasUsed.setText(mobileSet + " ");
+		// 设置监听
+		TextView_HasUsed.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				dialogMonthHasUsed(TextView_HasUsed).show();
+
+			}
+		});
+	}
+
+	/**
+	 * 对月度显示文本进行初始化设置等
+	 */
+	private void init_TextView_month() {
+		final TextView TextView_month = (TextView) findViewById(R.id.tv_month);
+		// 设置默认显示值
+		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+		int mobileSet = prefs.getInt(VALUE_MOBILE_SET_OF_INT, 50);
+		TextView_month.setText(mobileSet + " ");
+		// 设置监听
+		TextView_month.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				dialogMonthSet(TextView_month).show();
+
+			}
+		});
+	}
+
+	/**
+	 * 月度显示弹出的对话框
+	 * 
+	 * @param TextView_month
+	 *            传入点击的TextView
+	 * @return 返回对话框
+	 */
+	protected AlertDialog dialogMonthSet(final TextView TextView_month) {
 		// TODO Auto-generated method stub
 		LayoutInflater factory = LayoutInflater.from(Main3.this);
 		final View textEntryView = factory.inflate(
 				R.layout.alert_dialog_text_entry, null);
-		final EditText et_month=(EditText) textEntryView.findViewById(R.id.ev_alert);
+		final EditText et_month = (EditText) textEntryView
+				.findViewById(R.id.ev_alert);
 		return new AlertDialog.Builder(Main3.this)
 				.setTitle("请设置每月流量限额")
 				.setView(textEntryView)
 				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
-						TextView_month.setText(et_month.getText());
+						// 输入的数值
+						int i = 0;
+						try {
+							i = Integer.valueOf(et_month.getText().toString());
+						} catch (NumberFormatException e) {
+							// TODO: handle exception
+						}
+						TextView_month.setText(String.valueOf(i) + " ");
+						SharedPreferences prefs = context.getSharedPreferences(
+								PREFS_NAME, 0);
+						int mobileUnit = prefs.getInt(MOBILE_SET_UNIT, 0);
+						Editor passfileEditor = context.getSharedPreferences(
+								PREFS_NAME, 0).edit();
+						// Log.d("main3", i + "");
+						if (mobileUnit == 0) {
+							passfileEditor.putLong(VALUE_MOBILE_SET,
+									(long) i * 1048576);
+						} else {
+							passfileEditor.putLong(VALUE_MOBILE_SET,
+									(long) i * 1048576 * 1024);
+						}
+						passfileEditor.putInt(VALUE_MOBILE_SET_OF_INT, i);
+						passfileEditor.commit();// 委托，存入数据
 						/* User clicked OK so do some stuff */
 					}
 				})
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
-						
+
+						/* User clicked cancel so do some stuff */
+					}
+				}).create();
+
+	}
+
+	/**
+	 * 本月已用弹出的对话框
+	 * 
+	 * @param TextView_month
+	 *            传入点击的TextView
+	 * @return 返回对话框
+	 */
+	protected AlertDialog dialogMonthHasUsed(final TextView TextView_Used) {
+		// TODO Auto-generated method stub
+		LayoutInflater factory = LayoutInflater.from(Main3.this);
+		final View textEntryView = factory.inflate(
+				R.layout.alert_dialog_text_entry, null);
+		final EditText et_month = (EditText) textEntryView
+				.findViewById(R.id.ev_alert);
+		return new AlertDialog.Builder(Main3.this)
+				.setTitle("请设置本月已用流量")
+				.setView(textEntryView)
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						// 输入的数值
+						int i = 0;
+						try {
+							i = Integer.valueOf(et_month.getText().toString());
+						} catch (NumberFormatException e) {
+							// TODO: handle exception
+						}
+						TextView_Used.setText(String.valueOf(i) + " ");
+						SharedPreferences prefs = context.getSharedPreferences(
+								PREFS_NAME, 0);
+						int mobileHasUsedUnit = prefs.getInt(
+								MOBILE_HASUSED_SET_UNIT, 0);
+						Editor passfileEditor = context.getSharedPreferences(
+								PREFS_NAME, 0).edit();
+						// Log.d("main3", i + "");
+						if (mobileHasUsedUnit == 0) {
+							passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
+									(long) i * 1048576);
+						} else {
+							passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
+									(long) i * 1048576 * 1024);
+						}
+						passfileEditor.putInt(VALUE_MOBILE_HASUSED_OF_INT, i);
+						passfileEditor.commit();// 委托，存入数据
+						/* User clicked OK so do some stuff */
+					}
+				})
+				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+
 						/* User clicked cancel so do some stuff */
 					}
 				}).create();
