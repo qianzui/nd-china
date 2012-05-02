@@ -1,5 +1,7 @@
 package com.hiapk.firewall;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import com.hiapk.spearhead.Main;
@@ -63,6 +65,10 @@ public class AppListAdapter extends BaseAdapter {
 			holder.trafficup = (TextView)convertView.findViewById(R.id.trafficup);
 			holder.e_toggle = (CheckBox)convertView.findViewById(R.id.e_toggle);
 			holder.wifi_toggle = (CheckBox)convertView.findViewById(R.id.wifi_toggle);
+//			isClick(holder.e_toggle);
+//			isClick( holder.wifi_toggle);
+			
+			
 			convertView.setTag(R.id.tag_holder,holder);
 		 }else{
 			 holder = (ViewHolder)convertView.getTag(R.id.tag_holder);
@@ -78,13 +84,53 @@ public class AppListAdapter extends BaseAdapter {
 		  holder.trafficup.setText("总流量： " + unitHandler(up + down));	
 		  holder.e_toggle.setOnCheckedChangeListener(new ECheckBoxListener(holder.e_toggle));
 		  holder.wifi_toggle.setOnCheckedChangeListener(new WifiCheckBoxListener(holder.wifi_toggle));	
-		  
+
 		  convertView.setTag(R.id.tag_pkgname,pkgInfo.applicationInfo.packageName);
 		  convertView.setTag(R.id.tag_traffic_up ,unitHandler(up));
 		  convertView.setTag(R.id.tag_traffic_down ,unitHandler(down));
 		  
 		  return convertView;
 	}
+	
+	public void isClick(CheckBox cb)
+	{
+		if(isRoot())
+		{
+			cb.setClickable(true);
+		}else
+		{
+			cb.setClickable(false);
+			Toast.makeText(mContext, "root first", Toast.LENGTH_LONG).show();
+		}
+	}
+	
+	public static boolean isRoot() {
+		boolean blnResult = false;
+		File su = new File("/tmp/su.txt");
+		FileOutputStream fos = null;
+		try {
+		     fos = new FileOutputStream(su);
+		} catch (Exception e) {
+		     e.printStackTrace();
+		   } finally {
+	     if (fos != null) {
+	 	    try {
+		          fos.close();
+		         } catch (Exception e) {
+		        e.printStackTrace();
+	              	}
+	              }
+	          	}
+		if (su.exists()) {
+		   blnResult = true;
+		   try {
+		     su.delete();
+		       } catch (SecurityException e) {
+	             	e.printStackTrace();
+	           	}
+	    	}
+		return blnResult;
+		}
 	public long judge(long tff)
 	{
 		if(tff == -1)
@@ -112,7 +158,14 @@ public class AppListAdapter extends BaseAdapter {
 			// TODO Auto-generated method stub
 	        if(cb.isChecked())
 	        {
-	        	Toast.makeText(mContext, "开1", Toast.LENGTH_SHORT).show();
+	        	if(isRoot())
+	        	{
+	        		Toast.makeText(mContext, "rooted", Toast.LENGTH_SHORT).show();
+	        	}else
+	        	{
+	        		cb.setChecked(false);
+	        		Toast.makeText(mContext, "root first!", Toast.LENGTH_SHORT).show();
+	        	}
 	        }else{
 	        	Toast.makeText(mContext, "关1", Toast.LENGTH_SHORT).show();
 	        }
