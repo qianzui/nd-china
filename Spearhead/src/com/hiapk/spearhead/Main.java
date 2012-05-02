@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.notice.Notice;
 import com.hiapk.progressbar.MyProgressBar;
 import com.hiapk.progressbar.PieView;
 import com.hiapk.progressbar.ProgressBarForV;
@@ -11,6 +12,9 @@ import com.hiapk.progressbar.StackedBarChart;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,9 +28,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 
 public class Main extends Activity {
+	
+	// 声明NotificationManager  
+    private NotificationManager mNotification;  
+    // Notification标示ID  
+    private static final int ID = 1;  
+    
 	private Context context = this;
 	// private SQLHelperUid sqlhelperUid = new SQLHelperUid();
 	private SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
@@ -61,6 +72,8 @@ public class Main extends Activity {
 		// ------------
 		initSQLdatabase(uids, packagenames);
 		setonrefreshclicklistens();
+		showNotice();
+		
 	}
 
 	/**
@@ -535,5 +548,37 @@ public class Main extends Activity {
 	private void showlog(String string) {
 		Log.d("main", string);
 	}
+	
+	
+	void showNotice(){
+   	 // 获得NotificationManager实例  
+       String service = Context.NOTIFICATION_SERVICE;  
+       mNotification = (NotificationManager)getSystemService(service);  
+       // 设置显示图标，该图标会在状态栏显示  
+       int icon = android.R.drawable.stat_notify_chat;   
+       // 设置显示提示信息，该信息也会在状态栏显示  
+       CharSequence tickerText = "Hello";
+       // 显示时间  
+       long when = System.currentTimeMillis();  
+       // 实例化Notification          
+       Notification notification = new Notification(icon,tickerText,when);
+       RemoteViews contentView = new RemoteViews(getPackageName(),R.layout.notice);
+       contentView.setImageViewResource(R.id.image, R.drawable.ic_launcher);
+       contentView.setTextViewText(R.id.text, "先锋流量监控");
+       notification.contentView = contentView;
+       notification.flags = Notification.FLAG_ONGOING_EVENT;
+
+       
+//       实例化Intent  
+       Intent intent = new Intent(this, SpearheadActivity.class);  
+//       获得PendingIntent  
+       PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);   
+//       设置事件信息  
+       notification.contentIntent = pi;
+       // 发出通知  
+       mNotification.notify(ID, notification);  
+   	
+   }
+
 
 }
