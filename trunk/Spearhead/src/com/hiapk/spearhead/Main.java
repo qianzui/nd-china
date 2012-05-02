@@ -4,7 +4,6 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import com.hiapk.broadcreceiver.AlarmSet;
-import com.hiapk.notice.Notice;
 import com.hiapk.progressbar.MyProgressBar;
 import com.hiapk.progressbar.PieView;
 import com.hiapk.progressbar.ProgressBarForV;
