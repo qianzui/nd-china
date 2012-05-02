@@ -117,7 +117,7 @@ public class FireWallActivity extends Activity {
 		for (int i = 0; i < traffic.length; i++) {
 			int uid = appList.get(i).applicationInfo.uid;
 			traffic[i]=TrafficStats.getUidRxBytes(uid)
-    		+ TrafficStats.getUidTxBytes(uid);	
+    		+ TrafficStats.getUidTxBytes(uid) ;	
 		}
 		
 		for (int i = 0; i < traffic.length; i++) {
@@ -138,7 +138,7 @@ public class FireWallActivity extends Activity {
 			}
 		}
 		ArrayList<PackageInfo> myAppList = new ArrayList<PackageInfo>();
-		for (int i = 1; i < number.length; i++) {
+		for (int i = 0; i < number.length; i++) {
 			PackageInfo pk = appList.get(number[i]);
 			myAppList.add(pk);
 		}
@@ -158,10 +158,7 @@ public class FireWallActivity extends Activity {
 	public ArrayList<PackageInfo> getInstalledPackageInfo(Context context) {
 		packageInfo = context.getPackageManager().getInstalledPackages(0);
 		ArrayList<PackageInfo> appList = new ArrayList<PackageInfo>();
-		Time time = new Time();
-		time.setToNow();
-		int year = time.year;
-		int month = time.month + 1;
+
 		for (int i = 0; i < packageInfo.size(); i++) {
 			PackageInfo pkgInfo = packageInfo.get(i);
 			PackageManager pkgmanager = context.getPackageManager();
