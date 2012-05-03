@@ -1,5 +1,9 @@
 package com.hiapk.spearhead;
 
+import java.text.DecimalFormat;
+
+import com.hiapk.dataexe.MonthlyUseData;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.text.method.Touch;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -42,8 +47,12 @@ public class Main3 extends Activity {
 	String VALUE_MOBILE_SET_OF_INT = "mobilemonthuseinint";
 	// 设置单位（月度设置）
 	String MOBILE_SET_UNIT = "mobileMonthUnit";
-	// 设置结算日期
+	// 设置结算日期及结算日期的设施时间，日期等
 	String MOBILE_COUNT_DAY = "mobileMonthCountDay";
+	String MOBILE_COUNT_SET_YEAR = "mobileMonthSetCountYear";
+	String MOBILE_COUNT_SET_MONTH = "mobileMonthSetCountMonth";
+	String MOBILE_COUNT_SET_DAY = "mobileMonthSetCountDay";
+	String MOBILE_COUNT_SET_TIME = "mobileMonthSetCountTime";
 	// 已使用总流量int
 	String VALUE_MOBILE_HASUSED_OF_INT = "mobileHasusedint";
 	// 设置单位（已使用）
@@ -53,6 +62,14 @@ public class Main3 extends Activity {
 	Context context = this;
 	EditText edit;
 	TextView tv;
+	// 设置时间
+	private int year;
+	private int month;
+	private int monthDay;
+	private int hour;
+	private int minute;
+	private int second;
+	private String time;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,8 +123,6 @@ public class Main3 extends Activity {
 
 			}
 		});
-		
-
 
 	}
 
@@ -177,11 +192,33 @@ public class Main3 extends Activity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
 				// TODO Auto-generated method stub
-				Editor passfileEditor = context.getSharedPreferences(
-						PREFS_NAME, 0).edit();
-				// Log.d("main3", i + "");
-				passfileEditor.putInt(MOBILE_COUNT_DAY, position);
-				passfileEditor.commit();
+				SharedPreferences prefs = context.getSharedPreferences(
+						PREFS_NAME, 0);
+				int beforeSetCount = prefs.getInt(MOBILE_COUNT_DAY, 1);
+				if ((beforeSetCount - 1) != position) {
+					// 结算日期变化时做日期变化并重置本月已用数值
+					Editor passfileEditor = context.getSharedPreferences(
+							PREFS_NAME, 0).edit();
+					// Log.d("main3", i + "");
+					// String time=gettime();
+					passfileEditor.putInt(MOBILE_COUNT_DAY, position + 1);
+					// passfileEditor.putInt(MOBILE_COUNT_SET_YEAR, year);
+					// passfileEditor.putInt(MOBILE_COUNT_SET_MONTH, month);
+					// passfileEditor.putInt(MOBILE_COUNT_SET_DAY, monthDay);
+					// passfileEditor.putString(MOBILE_COUNT_SET_TIME, time);
+					//
+					// Log.d("main3", i + "");
+					passfileEditor.putInt(MOBILE_COUNT_SET_YEAR, 1977);
+					passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG, 0);
+					passfileEditor.putInt(VALUE_MOBILE_HASUSED_OF_INT, 0);
+					passfileEditor.commit();// 委托，存入数据
+					MonthlyUseData monthlyUse = new MonthlyUseData();
+					long hasuseTraffic = monthlyUse.getMonthUseData(context);
+					setHasUsedTextView(hasuseTraffic);
+					//
+
+				}
+
 				// Log.d("main3", ((TextView) arg1).getText() + "");
 				// Log.d("main3", arg2 + "");
 			}
@@ -201,19 +238,25 @@ public class Main3 extends Activity {
 				// 点击时记录流量数据
 				SharedPreferences prefs = context.getSharedPreferences(
 						PREFS_NAME, 0);
-				int hasUsedValueInt = prefs.getInt(VALUE_MOBILE_HASUSED_OF_INT,
-						0);
-				Editor passfileEditor = context.getSharedPreferences(
-						PREFS_NAME, 0).edit();
-				if (position == 0) {
-					passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
-							(long) hasUsedValueInt * 1048576);
-				} else {
-					passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
-							(long) hasUsedValueInt * 1048576 * 1024);
+				int beforeUnit = prefs.getInt(MOBILE_HASUSED_SET_UNIT, 0);
+				if (beforeUnit != position) {
+					int hasUsedValueInt = prefs.getInt(
+							VALUE_MOBILE_HASUSED_OF_INT, 0);
+					Editor passfileEditor = context.getSharedPreferences(
+							PREFS_NAME, 0).edit();
+					if (position == 0) {
+						passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
+								(long) hasUsedValueInt * 1048576);
+					} else {
+						passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
+								(long) hasUsedValueInt * 1048576 * 1024);
+					}
+					passfileEditor.putInt(MOBILE_HASUSED_SET_UNIT, position);
+					// 记录点击修改已使用流量的时间
+					passfileEditor.commit();
+					commitUsedTrafficTime();
 				}
-				passfileEditor.putInt(MOBILE_HASUSED_SET_UNIT, position);
-				passfileEditor.commit();
+
 			}
 
 			@Override
@@ -362,6 +405,7 @@ public class Main3 extends Activity {
 						}
 						passfileEditor.putInt(VALUE_MOBILE_HASUSED_OF_INT, i);
 						passfileEditor.commit();// 委托，存入数据
+						commitUsedTrafficTime();
 						/* User clicked OK so do some stuff */
 					}
 				})
@@ -431,4 +475,86 @@ public class Main3 extends Activity {
 
 	}
 
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		long hasuseTraffic = Main.mobile_month_use;
+		setHasUsedTextView(hasuseTraffic);
+
+	}
+
+	/**
+	 * 设置本月已用的现实值
+	 */
+	private void setHasUsedTextView(long hasuseTraffic) {
+		Spinner spinnerHasUsed = (Spinner) findViewById(R.id.spinnerhasused);
+		TextView TextView_hseUsed = (TextView) findViewById(R.id.tv_hasused);
+		float hasuseshow = (float) hasuseTraffic / 1024 / 1024;
+		Log.d("main3", hasuseshow + "");
+		DecimalFormat format = new DecimalFormat("0.##");
+		// value = format.format(floatnum) + "";
+		if ((hasuseTraffic = hasuseTraffic / 1024 / 1024) < 1) {
+			TextView_hseUsed.setText("<1");
+			spinnerHasUsed.setSelection(0);
+		} else if ((hasuseTraffic / 1024) < 1) {
+			// hasuseTraffic=hasuseTraffic / 1024;
+			TextView_hseUsed.setText(format.format(hasuseshow) + "");
+			spinnerHasUsed.setSelection(0);
+		} else {
+			hasuseshow = hasuseshow / 1024;
+			Log.d("main3", hasuseshow + "");
+			TextView_hseUsed.setText(format.format(hasuseshow) + "");
+			spinnerHasUsed.setSelection(1);
+		}
+	}
+
+	/**
+	 * 获取时间
+	 * 
+	 * @return 返回00:00:00的时间
+	 */
+	private String gettime() {
+		initTime();
+		return time;
+	}
+
+	/**
+	 * 记录修改已使用流量的时间
+	 */
+	private void commitUsedTrafficTime() {
+		Editor UseEditor = context.getSharedPreferences(PREFS_NAME, 0).edit();
+		// 记录点击修改已使用流量的时间
+		String time = gettime();
+		UseEditor.putInt(MOBILE_COUNT_SET_YEAR, year);
+		UseEditor.putInt(MOBILE_COUNT_SET_MONTH, month);
+		UseEditor.putInt(MOBILE_COUNT_SET_DAY, monthDay);
+		UseEditor.putString(MOBILE_COUNT_SET_TIME, time);
+		UseEditor.commit();
+	}
+
+	/**
+	 * 初始化系统时间
+	 */
+	private void initTime() {
+		// Time t = new Time("GMT+8");
+		Time t = new Time();
+		t.setToNow(); // 取得系统时间。
+		year = t.year;
+		month = t.month + 1;
+		monthDay = t.monthDay;
+		hour = t.hour; // 0-23
+		minute = t.minute;
+		second = t.second;
+		String hour2 = hour + "";
+		String minute2 = minute + "";
+		String second2 = second + "";
+		if (hour < 10)
+			hour2 = "0" + hour2;
+		if (minute < 10)
+			minute2 = "0" + minute2;
+		if (second < 10)
+			second2 = "0" + second2;
+		time = hour2 + ":" + minute2 + ":" + second2;
+	}
 }
