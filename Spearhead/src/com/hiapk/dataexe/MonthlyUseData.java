@@ -78,7 +78,7 @@ public class MonthlyUseData {
 		/**
 		 * 设置本月的结算日期
 		 */
-		int mobilecountDay = prefs.getInt(MOBILE_COUNT_DAY, 1);
+		int mobilecountDay = (prefs.getInt(MOBILE_COUNT_DAY, 0)+1);
 		// 设置结算日期的时间
 		int mobilecountSetYear = prefs.getInt(MOBILE_COUNT_SET_YEAR, 1977);
 		int mobilecountSetMonth = prefs.getInt(MOBILE_COUNT_SET_MONTH, 1);

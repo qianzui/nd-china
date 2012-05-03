@@ -194,14 +194,14 @@ public class Main3 extends Activity {
 				// TODO Auto-generated method stub
 				SharedPreferences prefs = context.getSharedPreferences(
 						PREFS_NAME, 0);
-				int beforeSetCount = prefs.getInt(MOBILE_COUNT_DAY, 1);
-				if ((beforeSetCount - 1) != position) {
+				int beforeSetCount = prefs.getInt(MOBILE_COUNT_DAY, 0);
+				if ((beforeSetCount) != position) {
 					// 结算日期变化时做日期变化并重置本月已用数值
 					Editor passfileEditor = context.getSharedPreferences(
 							PREFS_NAME, 0).edit();
 					// Log.d("main3", i + "");
 					// String time=gettime();
-					passfileEditor.putInt(MOBILE_COUNT_DAY, position + 1);
+					passfileEditor.putInt(MOBILE_COUNT_DAY, position);
 					// passfileEditor.putInt(MOBILE_COUNT_SET_YEAR, year);
 					// passfileEditor.putInt(MOBILE_COUNT_SET_MONTH, month);
 					// passfileEditor.putInt(MOBILE_COUNT_SET_DAY, monthDay);
