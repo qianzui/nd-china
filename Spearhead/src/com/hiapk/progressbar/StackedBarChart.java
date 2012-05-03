@@ -101,7 +101,7 @@ public class StackedBarChart extends ViewBase {
 	double MaxTraffic = 20000;
 
 	/**
-	 * 背景颜色
+	 * 本月的最大流量数
 	 * 
 	 * @param maxTraffic
 	 */
