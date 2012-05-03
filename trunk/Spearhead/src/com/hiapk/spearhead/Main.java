@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RemoteViews;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Main extends Activity {
 	
@@ -71,7 +72,7 @@ public class Main extends Activity {
 		// ------------
 		initSQLdatabase(uids, packagenames);
 		setonrefreshclicklistens();
-		showNotice();
+		showNotice("第一行文字","第二行文字");//可以传入两个字符串
 		
 	}
 
@@ -549,21 +550,22 @@ public class Main extends Activity {
 	}
 	
 	
-	void showNotice(){
+	void showNotice(String textUp,String textDown){
    	 // 获得NotificationManager实例  
        String service = Context.NOTIFICATION_SERVICE;  
        mNotification = (NotificationManager)getSystemService(service);  
        // 设置显示图标，该图标会在状态栏显示  
-       int icon = android.R.drawable.stat_notify_chat;   
+       int icon = R.drawable.ic_launcher;   
        // 设置显示提示信息，该信息也会在状态栏显示  
-       CharSequence tickerText = "Hello";
+       CharSequence tickerText = "先锋流量监控";
        // 显示时间  
-       long when = System.currentTimeMillis();  
+       long when = System.currentTimeMillis();       
        // 实例化Notification          
        Notification notification = new Notification(icon,tickerText,when);
        RemoteViews contentView = new RemoteViews(getPackageName(),R.layout.notice);
        contentView.setImageViewResource(R.id.image, R.drawable.ic_launcher);
-       contentView.setTextViewText(R.id.text, "先锋流量监控");
+       contentView.setTextViewText(R.id.textUp, textUp);
+       contentView.setTextViewText(R.id.textDown, textDown);
        notification.contentView = contentView;
        notification.flags = Notification.FLAG_ONGOING_EVENT;
 
