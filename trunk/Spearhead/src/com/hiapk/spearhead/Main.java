@@ -382,17 +382,27 @@ public class Main extends Activity {
 			}
 		}
 		chartbar.setData1(wifi);
-		chartbar.setMaxTraffic((double) (int) maxwifiTraffic / 1048576 * 1.2);
-		chartbar.setyMaxvalue((double) (int) maxwifiTraffic / 1048576 * 1.2);
+		
+		if (maxwifiTraffic<848576) {
+			chartbar.setyMaxvalue(1);
+			chartbar.setMaxTraffic(1);
+		} else {
+			chartbar.setMaxTraffic((double) (int) maxwifiTraffic / 1048576 * 1.2);
+			chartbar.setyMaxvalue((double) (int) maxwifiTraffic / 1048576 * 1.2);
+		}
+		
 		// 设置背景色（被隐藏的条）
 		// chartbar.setBackgroundColor(Color.BLACK);
 		// 设置初始显示图像位置
-		if (monthDay + 2 < monthtotalDay) {
-			chartbar.setxMinvalue(monthDay - 5);
-			chartbar.setxMaxvalue(monthDay + 2);
+	if ((monthDay + 2) > monthtotalDay) {
+			chartbar.setxMinvalue(monthtotalDay - 6.5);
+			chartbar.setxMaxvalue(monthtotalDay + 0.5);
+		} else if ((monthDay - 5) < 0) {
+			chartbar.setxMinvalue(0.5);
+			chartbar.setxMaxvalue(7.5);
 		} else {
-			chartbar.setxMinvalue(monthtotalDay - 7);
-			chartbar.setxMaxvalue(monthtotalDay);
+			chartbar.setxMinvalue(monthDay - 4.5);
+			chartbar.setxMaxvalue(monthDay + 2.5);
 		}
 		// 设置显示的日期
 		String[] xaxles = new String[monthtotalDay];
