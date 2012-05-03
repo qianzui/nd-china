@@ -529,6 +529,50 @@ public class SQLHelperTotal {
 	}
 
 	/**
+	 * 进行移动数据流量历史流量查询从某一天到另一设定天
+	 * 
+	 * @param context
+	 *            context
+	 * @param year
+	 *            输入查询的年份2000.
+	 * @param month
+	 *            输入查询的月份.
+	 * @param day
+	 *            输入查询数据开始的日期.
+	 * @param setday
+	 *            输入查询数据结束的日期.（同月的话最多只能相等，然后返回单天数据）
+	 * @param table
+	 *            要查询的数据类型
+	 * @return 返回一个3位数组。a[0]为总计流量a[1]总计上传流量a[2]总计下载流量
+	 */
+	public long[] SelectMobileData(Context context, int year, int month,
+			int day, int dayset) {
+		return SelectData(context, year, month, day, dayset, TableWiFi);
+	}
+
+	/**
+	 * 进行移动数据流量从设定时间点到当前的流量查询
+	 * 
+	 * @param context
+	 *            context
+	 * @param year
+	 *            输入查询的年份2000.
+	 * @param month
+	 *            输入查询的月份.
+	 * @param day
+	 *            输入查询的日期.
+	 * @param time
+	 *            输入查询的时间.
+	 * @return 返回一个64位数组。a[0]为总计上传流量a[63]为总计下载流量
+	 *         a[1]-a[31]为1号到31号上传流量，a[32]-a[62]为1号到31号下载流量
+	 */
+	public long[] SelectMobileData(Context context, int year, int month,
+			int day, String time) {
+
+		return SelectData(context, year, month, day, time, TableWiFi);
+	}
+
+	/**
 	 * 进行数据流量历史流量查询
 	 * 
 	 * @param context
@@ -600,8 +644,21 @@ public class SQLHelperTotal {
 								else
 									countdate = dateStr2 + i;
 								if (i > 31) {
+									// 如果天数顺序不正确，进行恢复
+									for (int j = 1; j < 32; j++) {
+										if (j < 10)
+											countdate = dateStr1 + j;
+										else
+											countdate = dateStr2 + j;
+										if (newdate.equals(countdate)) {
+											i = j;
+											break;
+										}
+										;
+									}
 									break;
 								}
+
 							}
 							// 记录每日数据
 							a[i] += newup;
@@ -614,11 +671,189 @@ public class SQLHelperTotal {
 				a[63] += a[i + 31];
 			} catch (Exception e) {
 				// TODO: handle exception
+				showLog("datacur-searchfail");
+			}
+		}
+		cur.close();
+		closeSQL(sqlDataBase);
+		// for (int j = 0; j < a.length; j++) {
+		// showLog(j + "liuliang" + a[j] + "");
+		// }
+		return a;
+	}
+
+	/**
+	 * 格式化日期数据
+	 * 
+	 * @param input
+	 *            输入的日期等int
+	 * @return 返回格式化后的String型数据
+	 */
+	private String formateMonthAndDay(int input) {
+		if (input < 10) {
+			String data2 = "0" + input;
+			return data2;
+		} else {
+			return input + "";
+		}
+
+	}
+
+	/**
+	 * 进行数据流量历史累计返回的是到setday之前的那天的数据记录
+	 * 
+	 * @param context
+	 *            context
+	 * @param year
+	 *            输入查询的年份2000.
+	 * @param month
+	 *            输入查询的月份.
+	 * @param day
+	 *            输入查询数据开始的日期.
+	 * @param setday
+	 *            输入查询数据结束的日期.（同月的话，然后返回整月数据day到setday-1）
+	 * @param table
+	 *            要查询的数据类型
+	 * @return 返回一个3位数组。a[0]为总计流量a[1]总计上传流量a[2]总计下载流量
+	 */
+	private long[] SelectData(Context context, int year, int month, int day,
+			int setday, String table) {
+		long[] a = new long[3];
+		SQLiteDatabase sqlDataBase = creatSQL(context);
+		String month2 = formateMonthAndDay(month);
+		String day2 = formateMonthAndDay(day);
+		String setday2 = formateMonthAndDay(setday - 1);
+		// showLog(month2);
+		String string = null;
+		int year2 = year + 1;
+		String month3 = formateMonthAndDay(month + 1);
+		if (day == setday) {
+			if (month != 12) {
+				string = SelectTable + table + Where + "date" + Between + year
+						+ "-" + month2 + "-" + day2 + AND_B + year + "-"
+						+ month3 + "-" + setday2 + AND + "type=" + 2;
+			} else {
+				string = SelectTable + table + Where + "date" + Between + year
+						+ "-" + month2 + "-" + day2 + AND_B + year2 + "-"
+						+ "01" + "-" + setday2 + AND + "type=" + 2;
+			}
+		} else if (setday > day) {
+			string = SelectTable + table + Where + "date" + Between + year
+					+ "-" + month2 + "-" + day2 + AND_B + year + "-" + month2
+					+ "-" + setday2 + AND + "type=" + 2;
+		} else {
+			// 进行跨年判断
+			if (month != 12) {
+
+				string = SelectTable + table + Where + "date" + Between + year
+						+ "-" + month2 + "-" + day2 + AND_B + year + "-"
+						+ month3 + "-" + setday2 + AND + "type=" + 2;
+			} else {
+				string = SelectTable + table + Where + "date" + Between + year
+						+ "-" + month2 + "-" + day2 + AND_B + year2 + "-"
+						+ "01" + "-" + setday2 + AND + "type=" + 2;
+			}
+		}
+		showLog(string);
+		try {
+			cur = sqlDataBase.rawQuery(string, null);
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog(string);
+		}
+		long countup = 0;
+		long countdown = 0;
+		if (cur != null) {
+			try {
+				int uploadIndex = cur.getColumnIndex("upload");
+				int downloadIndex = cur.getColumnIndex("download");
+				// showLog(cur.getColumnIndex("minute") + "");
+				if (cur.moveToFirst()) {
+					do {
+						countup += cur.getLong(uploadIndex);
+						countdown += cur.getLong(downloadIndex);
+					} while (cur.moveToNext());
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
 				showLog("cur-searchfail");
 			}
 		}
 		cur.close();
 		closeSQL(sqlDataBase);
+		a[0] = countup + countdown;
+		a[1] = countup;
+		a[2] = countdown;
+		for (int j = 0; j < a.length; j++) {
+			showLog(j + "liuliang" + a[j] + "");
+		}
+		return a;
+	}
+
+	/**
+	 * 输出从输入时间到当天截至的某网络总流量
+	 * 
+	 * @param context
+	 *            context
+	 * @param year
+	 *            输入查询的年份2000.
+	 * @param month
+	 *            输入查询的月份.
+	 * @param day
+	 *            输入查询的日期.
+	 * @param time
+	 *            输入查询时间.
+	 * @param table
+	 *            要查询的数据类型
+	 * @return 返回一个3位数组。a[0]为总计流量a[1]为上传流量a[2]下载流量
+	 */
+	private long[] SelectData(Context context, int year, int month, int day,
+			String time, String table) {
+		long[] a = new long[3];
+		SQLiteDatabase sqlDataBase = creatSQL(context);
+		String month2 = month + "";
+		if (month < 10)
+			month2 = "0" + month2;
+		String day2 = day + "";
+		if (day < 10)
+			day2 = "0" + day2;
+		// showLog(month2);
+		String string = null;
+		// select oldest upload and download 之前记录的数据的查询操作
+		// SELECT * FROM table WHERE type=0
+		string = SelectTable + table + Where + "time" + Between + time + AND_B
+				+ "23:59:59" + AND + "type=" + 2 + " AND " + "date=" + "'"
+				+ year + "-" + month2 + "-" + day2 + "'";
+		// showLog(string);
+		try {
+			cur = sqlDataBase.rawQuery(string, null);
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog(string);
+		}
+		long countup = 0;
+		long countdown = 0;
+		if (cur != null) {
+			try {
+				int uploadIndex = cur.getColumnIndex("upload");
+				int downloadIndex = cur.getColumnIndex("download");
+				// showLog(cur.getColumnIndex("minute") + "");
+				if (cur.moveToFirst()) {
+					do {
+						countup += cur.getLong(uploadIndex);
+						countdown += cur.getLong(downloadIndex);
+					} while (cur.moveToNext());
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				showLog("cur-searchfail");
+			}
+		}
+		cur.close();
+		closeSQL(sqlDataBase);
+		a[0] = countdown + countup;
+		a[1] = countup;
+		a[2] = countdown;
 		// for (int j = 0; j < a.length; j++) {
 		// showLog(j + "liuliang" + a[j] + "");
 		// }
@@ -684,7 +919,7 @@ public class SQLHelperTotal {
 		string = SelectTable + TableMobile + Where + "date" + Between
 				+ weekStart + AND_B + year + "-" + month2 + "-" + monthDay2
 				+ AND + "type=" + 2;
-//		showLog(string);
+		// showLog(string);
 		try {
 			cur = sqlDataBase.rawQuery(string, null);
 		} catch (Exception e) {
@@ -715,10 +950,10 @@ public class SQLHelperTotal {
 			}
 		}
 		cur.close();
-		string = SelectTable + TableWiFi + Where + "date" + Between + weekStart + AND_B + year
-				+ "-" + month2 + "-" + monthDay2 + AND
-				+ "type=" + 2;
-//		showLog(string);
+		string = SelectTable + TableWiFi + Where + "date" + Between + weekStart
+				+ AND_B + year + "-" + month2 + "-" + monthDay2 + AND + "type="
+				+ 2;
+		// showLog(string);
 		try {
 			cur = sqlDataBase.rawQuery(string, null);
 		} catch (Exception e) {
@@ -736,7 +971,7 @@ public class SQLHelperTotal {
 					do {
 						newup = cur.getLong(uploadIndex);
 						newdown = cur.getLong(downloadIndex);
-//						showLog(newup + "");
+						// showLog(newup + "");
 						// 进行数据累加
 						a[3] += newup;
 						a[4] += newdown;
@@ -751,9 +986,9 @@ public class SQLHelperTotal {
 		}
 		cur.close();
 		closeSQL(sqlDataBase);
-//		for (int j = 0; j < a.length; j++) {
-//			showLog(j + "liuliang" + a[j] + "");
-//		}
+		// for (int j = 0; j < a.length; j++) {
+		// showLog(j + "liuliang" + a[j] + "");
+		// }
 		return a;
 	}
 

@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.dataexe.MonthlyUseData;
 import com.hiapk.progressbar.MyProgressBar;
 import com.hiapk.progressbar.PieView;
 import com.hiapk.progressbar.ProgressBarForV;
@@ -43,7 +44,7 @@ public class Main extends Activity {
 	private SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 	// wifi与mobile单月使用量
 	private long wifi_month_use = 0;
-	private long mobile_month_use = 0;
+	public static long mobile_month_use = 0;
 
 	// 临时存放两个数据------------
 	private int[] uids;
@@ -58,7 +59,14 @@ public class Main extends Activity {
 	private int weekDay;
 	// wifi月度流量
 	long[] wifiTraffic = new long[64];
+	/**
+	 * 完整月份的移动数据流量
+	 */
 	long[] mobileTraffic = new long[64];
+	/**
+	 * 部分月份的移动数据流量
+	 */
+	long[] mobileTrafficPart = new long[64];
 	// 屏幕宽度
 	int windowswidesize;
 
@@ -116,6 +124,11 @@ public class Main extends Activity {
 		month = t.month + 1;
 		monthDay = t.monthDay;
 		weekDay = t.weekDay;
+		// 月度流量设置
+		String PREFS_NAME = "allprefs";
+		String VALUE_MOBILE_SET = "mobilemonthuse";
+		String VALUE_MOBILE_HASUSED_LONG = "mobileHasusedlong";
+		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
 		// 取得每周的流量
 		long[] weektraffic = new long[6];
 		weektraffic = sqlhelperTotal.SelectWeekData(context, year, month,
@@ -132,20 +145,16 @@ public class Main extends Activity {
 		// todayMobil.setText(unitHandler(8888080, todayMobilunit));
 		weekMobil.setText(unitHandler(weektraffic[0], weekMobilunit));
 		// 月度流量设置
-		String PREFS_NAME = "allprefs";
-		String VALUE_MOBILE_SET = "mobilemonthuse";
-		String VALUE_MOBILE_HASUSED_LONG = "mobileHasusedlong";
-		mobile_month_use = mobileTraffic[0] + mobileTraffic[63];
-//		long month_use_show = mobile_month_use;
-		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+		MonthlyUseData monthData = new MonthlyUseData();
+		mobile_month_use = monthData.getMonthUseData(context);
 		long mobileSet = prefs.getLong(VALUE_MOBILE_SET, 52428800);
 		long mobileHasUsed = prefs.getLong(VALUE_MOBILE_HASUSED_LONG, 0);
-		mobile_month_use=mobile_month_use+mobileHasUsed;
-		if (mobile_month_use>mobileSet) 
+		mobile_month_use = mobile_month_use + mobileHasUsed;
+		if (mobile_month_use > mobileSet)
 			monthMobil.setTextColor(Color.RED);
-		else monthMobil.setTextColor(Color.GREEN);
-			
-		
+		else
+			monthMobil.setTextColor(Color.GREEN);
+
 		monthMobil.setText(unitHandler(mobile_month_use, monthMobilunit));
 		monthMobil2.setText("/" + unitHandler(mobileSet, monthMobilunit2));
 		// todayWifi.setText(unitHandler(wifi[monthDay] + wifi[monthDay + 31],
