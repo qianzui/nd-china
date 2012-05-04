@@ -3,6 +3,7 @@ package com.hiapk.spearhead;
 import java.text.DecimalFormat;
 
 import com.hiapk.dataexe.MonthlyUseData;
+import com.hiapk.regulate.Regulate;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -89,7 +90,10 @@ public class Main3 extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				dialogCombo();
+//				dialogCombo();
+				Intent it = new Intent(Main3.this,Regulate.class);
+				startActivity(it);
+				
 
 			}
 		});
