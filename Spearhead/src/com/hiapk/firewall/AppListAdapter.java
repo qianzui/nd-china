@@ -4,8 +4,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+
+import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.Main;
 import com.hiapk.spearhead.R;
+
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
@@ -103,7 +107,7 @@ public class AppListAdapter extends BaseAdapter {
 			Toast.makeText(mContext, "root first", Toast.LENGTH_LONG).show();
 		}
 	}
-	
+	//判断手机是否root
 	public static boolean isRoot() {
 		boolean blnResult = false;
 		File su = new File("/tmp/su.txt");
@@ -131,12 +135,14 @@ public class AppListAdapter extends BaseAdapter {
 	    	}
 		return blnResult;
 		}
+	
 	public long judge(long tff)
 	{
 		if(tff == -1)
 		tff = 0 ;
 		return tff;
 	}
+	
 	class ViewHolder{
 		ImageView icon;
 		TextView appname;
@@ -144,33 +150,8 @@ public class AppListAdapter extends BaseAdapter {
 		CheckBox e_toggle;
 		CheckBox wifi_toggle;
 	}
-	class ECheckBoxListener implements OnCheckedChangeListener
-	{
-        CheckBox cb;
-        public ECheckBoxListener(CheckBox cb)
-        {
-        	this.cb = cb ;
-        }
-		@Override
-		public void onCheckedChanged(CompoundButton buttonView,
-				boolean isChecked) {
-			
-			// TODO Auto-generated method stub
-	        if(cb.isChecked())
-	        {
-	        	if(isRoot())
-	        	{
-	        		Toast.makeText(mContext, "rooted", Toast.LENGTH_SHORT).show();
-	        	}else
-	        	{
-	        		cb.setChecked(false);
-	        		Toast.makeText(mContext, "root first!", Toast.LENGTH_SHORT).show();
-	        	}
-	        }else{
-	        	Toast.makeText(mContext, "关1", Toast.LENGTH_SHORT).show();
-	        }
-		}
-	  }
+	
+	//单位处理
 	public String unitHandler(long count) {
 		String value = null;
 		long temp = count;
@@ -185,6 +166,47 @@ public class AppListAdapter extends BaseAdapter {
 		}
 		return value;
 	}
+	
+	
+	class ECheckBoxListener implements OnCheckedChangeListener
+	{
+        CheckBox cb;
+        public ECheckBoxListener(CheckBox cb)
+        {
+        	this.cb = cb ;
+        }
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked) {
+			
+			// TODO Auto-generated method stub
+			 if(isRoot())
+	          {
+		        if(cb.isChecked())
+		        {
+		        	
+		           }else{
+		        	Toast.makeText(mContext, "关2", Toast.LENGTH_SHORT).show();
+		                  }	
+		        }else{
+		        	 cb.setChecked(false);
+		        	 AlertDialog alt = new AlertDialog.Builder(mContext)
+		 			 .setTitle("提示")
+		 			 .setMessage("此功能需要Root权限！")
+		 			 .setPositiveButton(
+							 "确定",
+							 new DialogInterface.OnClickListener() {
+								 @Override
+								 public void onClick(
+										 DialogInterface dialog,
+										 int which) {
+									 // TODO Auto-generated
+									 // method stub
+								}
+							}).show();
+		        	}
+		}
+	  }
 	class WifiCheckBoxListener implements OnCheckedChangeListener
 	{
         CheckBox cb;
@@ -197,14 +219,31 @@ public class AppListAdapter extends BaseAdapter {
 				boolean isChecked) {
 			
 			// TODO Auto-generated method stub
+		  if(isRoot())
+          {
 	        if(cb.isChecked())
 	        {
-	        	Toast.makeText(mContext, "开2", Toast.LENGTH_SHORT).show();
-	        }else{
+	        	
+	           }else{
 	        	Toast.makeText(mContext, "关2", Toast.LENGTH_SHORT).show();
-	        }
-		}
-	  }
+	                  }	
+	        }else{
+	        	 cb.setChecked(false);
+	        	 AlertDialog alt = new AlertDialog.Builder(mContext)
+	 			 .setTitle("提示")
+	 			 .setMessage("此功能需要Root权限！")
+	 			 .setPositiveButton(
+						 "确定",
+						 new DialogInterface.OnClickListener() {
+							 @Override
+							 public void onClick(
+									 DialogInterface dialog,
+									 int which) {
+								 // TODO Auto-generated
+								 // method stub
+							}
+						}).show();
+	        	}}}
 	
 }
 
