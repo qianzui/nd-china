@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.MonthlyUseData;
+import com.hiapk.firewall.GetRoot;
 import com.hiapk.progressbar.MyProgressBar;
 import com.hiapk.progressbar.PieView;
 import com.hiapk.progressbar.ProgressBarForV;
@@ -27,6 +28,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Gallery;
 import android.widget.LinearLayout;
 import android.widget.RemoteViews;
 import android.widget.TextView;
@@ -81,7 +83,8 @@ public class Main extends Activity {
 		initSQLdatabase(uids, packagenames);
 		setonrefreshclicklistens();
 		showNotice("第一行文字","第二行文字");//可以传入两个字符串
-		
+		GetRoot gr = new GetRoot();
+		gr.cmdRoot("chmod 777 " + getPackageCodePath());
 	}
 
 	/**
