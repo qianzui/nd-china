@@ -201,7 +201,7 @@ public class FireWallActivity extends Activity {
 
 	public void menuDialog(View arg1) {
 
-		final CharSequence[] items = { "应用管理", "卸载", "详细", "返回" };
+		final CharSequence[] items = { "应用管理", "卸载", "流量详情", "返回" };
 		final String pkname = arg1.getTag(R.id.tag_pkgname).toString();
 		final String trafficup = arg1.getTag(R.id.tag_traffic_up).toString();
 		final String trafficdown = arg1.getTag(R.id.tag_traffic_down)
