@@ -547,7 +547,7 @@ public class SQLHelperTotal {
 	 */
 	public long[] SelectMobileData(Context context, int year, int month,
 			int day, int dayset) {
-		return SelectData(context, year, month, day, dayset, TableWiFi);
+		return SelectData(context, year, month, day, dayset, TableMobile);
 	}
 
 	/**
@@ -569,7 +569,7 @@ public class SQLHelperTotal {
 	public long[] SelectMobileData(Context context, int year, int month,
 			int day, String time) {
 
-		return SelectData(context, year, month, day, time, TableWiFi);
+		return SelectData(context, year, month, day, time, TableMobile);
 	}
 
 	/**

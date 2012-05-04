@@ -69,7 +69,7 @@ public class MonthlyUseData {
 		// 取得月度流量
 		mobileTraffic = sqlhelperTotal.SelectMobileData(context, year, month);
 		//
-		mobileTraffic = sqlhelperTotal.SelectWifiData(context, year, month);
+//		mobileTraffic = sqlhelperTotal.SelectWifiData(context, year, month);
 		//
 		wifiTraffic = sqlhelperTotal.SelectWifiData(context, year, month);
 		// 月度流量设置

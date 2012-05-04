@@ -68,21 +68,20 @@
                     android:textColor="@color/darkgray"
                     android:textSize="20dp" />
 
-                <Spinner
-                    android:id="@+id/spinnerUnit"
+                <Button
+                    android:id="@+id/btn_monthSet_Unit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:textColor="@color/lightgreen"
 					android:background="@drawable/content"
-                    android:entries="@array/unit"
-                    android:prompt="@string/unitSelect" />
+                    />
 
                 <TextView
                     android:id="@+id/tv_month"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/spinnerUnit"
-                    android:text="请设置流量"
                     android:textColor="@color/lightgreen"
                     android:textSize="20dp" />
             </RelativeLayout>
@@ -108,21 +107,20 @@
                     android:textColor="@color/darkgray"
                     android:textSize="20dp" />
 
-                <Spinner
-                    android:id="@+id/spinnerhasused"
+                <Button
+                    android:id="@+id/btn_monthHasUseSet_Unit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:textColor="@color/lightgreen"
 					android:background="@drawable/content"
-                    android:entries="@array/unit"
-                    android:prompt="@string/unitSelect" />
+                    />
 
                 <TextView
                     android:id="@+id/tv_hasused"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/spinnerhasused"
-                    android:text=" 0 "
                     android:textColor="@color/lightgreen"
                     android:textSize="20dp" />
             </RelativeLayout>

@@ -32,6 +32,14 @@
         <item name="android:minWidth">100dip</item>
         <item name="android:maxWidth">150dip</item>
     </style>
+    <style name="warningprogressbar">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable"> @drawable/warning_progressbar</item>
+        <item name="android:minHeight">10dip</item>
+        <item name="android:maxHeight">20dip</item>
+        <item name="android:minWidth">50dip</item>
+        <item name="android:maxWidth">200dip</item>
+    </style>
 
     <!-- spinner自定义 -->
     
