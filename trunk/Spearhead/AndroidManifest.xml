@@ -29,6 +29,7 @@
 		    android:label="@string/app_name"
             android:theme="@style/noTitle" 
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
 		    >
 		    
 		</activity>
@@ -71,7 +72,7 @@
         <receiver android:name="com.hiapk.broadcreceiver.RecordUidDataReceiver" >
         </receiver>
     </application>
-
+<uses-permission android:name="android.permission.VIBRATE"></uses-permission>
   <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"></uses-permission>
   <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
