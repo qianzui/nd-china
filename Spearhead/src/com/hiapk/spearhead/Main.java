@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.MonthlyUseData;
+import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.GetRoot;
 import com.hiapk.progressbar.MyProgressBar;
 import com.hiapk.progressbar.PieView;
@@ -35,12 +36,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class Main extends Activity {
-	
-	// 声明NotificationManager  
-    private NotificationManager mNotification;  
-    // Notification标示ID  
-    private static final int ID = 1;  
-    
+
+	// 声明NotificationManager
+	private NotificationManager mNotification;
+	// Notification标示ID
+	private static final int ID = 1;
+
 	private Context context = this;
 	// private SQLHelperUid sqlhelperUid = new SQLHelperUid();
 	private SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
@@ -82,7 +83,7 @@ public class Main extends Activity {
 		// ------------
 		initSQLdatabase(uids, packagenames);
 		setonrefreshclicklistens();
-		showNotice("第一行文字","第二行文字");//可以传入两个字符串
+		showNotice("第一行文字", "第二行文字");// 可以传入两个字符串
 		GetRoot gr = new GetRoot();
 		gr.cmdRoot("chmod 777 " + getPackageCodePath());
 	}
@@ -132,12 +133,14 @@ public class Main extends Activity {
 		String VALUE_MOBILE_SET = "mobilemonthuse";
 		String VALUE_MOBILE_HASUSED_LONG = "mobileHasusedlong";
 		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+		//初始化流量获取函数
+		TrafficManager trafficMan=new TrafficManager();
 		// 取得每周的流量
 		long[] weektraffic = new long[6];
-		weektraffic = sqlhelperTotal.SelectWeekData(context, year, month,
+		weektraffic=trafficMan.getMobileWeekTraffic(context, year, month,
 				monthDay, weekDay);
 		// 取得月度流量
-		mobileTraffic = sqlhelperTotal.SelectMobileData(context, year, month);
+		mobileTraffic = trafficMan.getMobileMonthTraffic(context, year, month);
 		//
 		// mobileTraffic = sqlhelperTotal.SelectWifiData(context, year, month);
 		//
@@ -187,7 +190,7 @@ public class Main extends Activity {
 
 	public void gotoThree() {
 		SpearheadActivity sp = new SpearheadActivity();
-
+		
 		sp.tabThree();
 	}
 
@@ -385,19 +388,19 @@ public class Main extends Activity {
 			}
 		}
 		chartbar.setData1(wifi);
-		
-		if (maxwifiTraffic<848576) {
+
+		if (maxwifiTraffic < 848576) {
 			chartbar.setyMaxvalue(1);
 			chartbar.setMaxTraffic(1);
 		} else {
 			chartbar.setMaxTraffic((double) (int) maxwifiTraffic / 1048576 * 1.2);
 			chartbar.setyMaxvalue((double) (int) maxwifiTraffic / 1048576 * 1.2);
 		}
-		
+
 		// 设置背景色（被隐藏的条）
 		// chartbar.setBackgroundColor(Color.BLACK);
 		// 设置初始显示图像位置
-	if ((monthDay + 2) > monthtotalDay) {
+		if ((monthDay + 2) > monthtotalDay) {
 			chartbar.setxMinvalue(monthtotalDay - 6.5);
 			chartbar.setxMaxvalue(monthtotalDay + 0.5);
 		} else if ((monthDay - 5) < 0) {
@@ -570,38 +573,39 @@ public class Main extends Activity {
 	private void showlog(String string) {
 		Log.d("main", string);
 	}
-	
-	
-	void showNotice(String textUp,String textDown){
-   	 // 获得NotificationManager实例  
-       String service = Context.NOTIFICATION_SERVICE;  
-       mNotification = (NotificationManager)getSystemService(service);  
-       // 设置显示图标，该图标会在状态栏显示  
-       int icon = R.drawable.ic_launcher;   
-       // 设置显示提示信息，该信息也会在状态栏显示  
-       CharSequence tickerText = "先锋流量监控";
-       // 显示时间  
-       long when = System.currentTimeMillis();       
-       // 实例化Notification          
-       Notification notification = new Notification(icon,tickerText,when);
-       RemoteViews contentView = new RemoteViews(getPackageName(),R.layout.notice);
-       contentView.setImageViewResource(R.id.image, R.drawable.ic_launcher);
-       contentView.setTextViewText(R.id.textUp, textUp);
-       contentView.setTextViewText(R.id.textDown, textDown);
-       notification.contentView = contentView;
-       notification.flags = Notification.FLAG_ONGOING_EVENT;
 
-       
-//       实例化Intent  
-       Intent intent = new Intent(this, SpearheadActivity.class);  
-//       获得PendingIntent  
-       PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);   
-//       设置事件信息  
-       notification.contentIntent = pi;
-       // 发出通知  
-       mNotification.notify(ID, notification);  
-   	
-   }
+	void showNotice(String textUp, String textDown) {
+		// 获得NotificationManager实例
+		String service = Context.NOTIFICATION_SERVICE;
+		mNotification = (NotificationManager) getSystemService(service);
+		// 设置显示图标，该图标会在状态栏显示
+		int icon = R.drawable.ic_launcher;
+		// 设置显示提示信息，该信息也会在状态栏显示
+		CharSequence tickerText = "先锋流量监控";
+		// 显示时间
+		long when = System.currentTimeMillis();
+		// 实例化Notification
+		Notification notification = new Notification(icon, tickerText, when);
+		RemoteViews contentView = new RemoteViews(getPackageName(),
+				R.layout.notice);
+		contentView.setImageViewResource(R.id.image, R.drawable.ic_launcher);
+		contentView.setTextViewText(R.id.textUp, textUp);
+		contentView.setTextViewText(R.id.textDown, textDown);
+		notification.contentView = contentView;
+		notification.flags = Notification.FLAG_ONGOING_EVENT;
 
+		// 实例化Intent
+		Intent intent = new Intent(this, SpearheadActivity.class);
+		Bundle choosetab = new Bundle();
+		choosetab.putInt("TAB", 1);
+		intent.putExtras(choosetab);
+		// 获得PendingIntent
+		PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
+		// 设置事件信息
+		notification.contentIntent = pi;
+		// 发出通知
+		mNotification.notify(ID, notification);
+
+	}
 
 }

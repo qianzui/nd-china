@@ -57,6 +57,6 @@ public class ConnectivityChange extends BroadcastReceiver {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("database", string);
+		Log.d("Receiver", string);
 	}
 }

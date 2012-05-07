@@ -57,6 +57,9 @@ public class Splash extends Activity {
 				sqlhelperTotal.initTablemobileAndwifi(context);
 			}
 			Intent mainIntent = new Intent(Splash.this, SpearheadActivity.class);
+			Bundle choosetab = new Bundle();
+			choosetab.putInt("TAB", 1);
+			mainIntent.putExtras(choosetab);
 			Splash.this.startActivity(mainIntent);
 			Splash.this.finish();
 		}

@@ -6,6 +6,7 @@ import com.hiapk.regulate.Regulate;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,9 +31,6 @@ import android.widget.TextView;
 
 public class Main3 extends Activity {
 	Button combo;
-	Button dayWarning;
-	Button warningAct;
-	EditText ed2;
 	// 操作sharedprefrence
 	String PREFS_NAME = "allprefs";
 	// 总流量long
@@ -56,6 +54,8 @@ public class Main3 extends Activity {
 	// 流量预警
 	String MOBILE_WARNING_MONTH = "mobilemonthwarning";
 	String MOBILE_WARNING_DAY = "mobiledaywarning";
+	// 预警动作
+	String WARNING_ACTION = "warningaction";
 	Context context = this;
 	EditText edit;
 	TextView tv;
@@ -81,24 +81,57 @@ public class Main3 extends Activity {
 		init_btn_month();
 		init_monthWarning();
 		init_dayWarning();
+		init_warningAct();
+		NotificationManager mNotificationManager = (NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		mNotificationManager.cancel(3);
+		mNotificationManager.cancel(2);
 		combo = (Button) findViewById(R.id.combo);
-		warningAct = (Button) findViewById(R.id.warningAct);
 		combo.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent it = new Intent(Main3.this,Regulate.class);
+				Intent it = new Intent(Main3.this, Regulate.class);
 				startActivity(it);
 			}
 		});
-		warningAct.setOnClickListener(new OnClickListener() {
+
+	}
+
+	/**
+	 * 初始化预警动作按钮
+	 */
+	private void init_warningAct() {
+		// TODO Auto-generated method stub
+		Spinner warningAct = (Spinner) findViewById(R.id.warningAct);
+		// 设置Adapter
+		ArrayAdapter<CharSequence> adp2 = ArrayAdapter.createFromResource(this,
+				R.array.warningaction, R.layout.sptext);
+		adp2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		warningAct.setAdapter(adp2);
+		warningAct.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
-			public void onClick(View v) {
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int position, long arg3) {
 				// TODO Auto-generated method stub
-				dialogWarningAct();
+				SharedPreferences prefs = context.getSharedPreferences(
+						PREFS_NAME, 0);
+				int beforeWarningAction = prefs.getInt(WARNING_ACTION, 0);
+				if ((beforeWarningAction) != position) {
+					// 结算日期变化时做日期变化并重置本月已用数值
+					Editor passfileEditor = context.getSharedPreferences(
+							PREFS_NAME, 0).edit();
+					// Log.d("main3", i + "");
+					passfileEditor.putInt(WARNING_ACTION, position);
+					passfileEditor.commit();// 委托，存入数据
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
 			}
 		});
-
 	}
 
 	/**
