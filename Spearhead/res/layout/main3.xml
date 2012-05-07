@@ -73,9 +73,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:textColor="@color/lightgreen"
-					android:background="@drawable/content"
-                    />
+                    android:background="@drawable/content"
+                    android:textColor="@color/lightgreen" />
 
                 <TextView
                     android:id="@+id/tv_month"
@@ -92,8 +91,8 @@
             android:layout_height="0dip"
             android:layout_weight="1.0"
             android:orientation="horizontal"
-            android:paddingLeft="20dip" 
-            android:paddingRight="20dip">
+            android:paddingLeft="20dip"
+            android:paddingRight="20dip" >
 
             <RelativeLayout
                 android:layout_width="fill_parent"
@@ -112,9 +111,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:textColor="@color/lightgreen"
-					android:background="@drawable/content"
-                    />
+                    android:background="@drawable/content"
+                    android:textColor="@color/lightgreen" />
 
                 <TextView
                     android:id="@+id/tv_hasused"
@@ -131,8 +129,8 @@
             android:layout_height="0dip"
             android:layout_weight="1.0"
             android:orientation="horizontal"
-            android:paddingLeft="20dip" 
-            android:paddingRight="20dip">
+            android:paddingLeft="20dip"
+            android:paddingRight="20dip" >
 
             <RelativeLayout
                 android:layout_width="fill_parent"
@@ -151,8 +149,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:textColor="@color/darkgray"
                     android:text=" 日"
+                    android:textColor="@color/darkgray"
                     android:textSize="20dp" />
 
                 <Spinner
@@ -160,9 +158,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/monthSet"
+                    android:background="@drawable/content"
                     android:entries="@array/day"
-                    android:prompt="@string/daySelect"
-                    android:background="@drawable/content" />
+                    android:prompt="@string/daySelect" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
@@ -174,12 +172,12 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dip"
-        android:layout_weight="0.3"
-        android:background="@drawable/content"
-        android:orientation="horizontal" 
         android:layout_marginLeft="5dip"
         android:layout_marginRight="5dip"
-        android:paddingRight="20dip">
+        android:layout_weight="0.3"
+        android:background="@drawable/content"
+        android:orientation="horizontal"
+        android:paddingRight="20dip" >
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -229,8 +227,8 @@
             android:layout_height="0dip"
             android:layout_weight="1.0"
             android:orientation="horizontal"
-            android:paddingLeft="20dip" 
-            android:paddingRight="20dip">
+            android:paddingLeft="20dip"
+            android:paddingRight="20dip" >
 
             <RelativeLayout
                 android:layout_width="fill_parent"
@@ -260,14 +258,13 @@
             android:layout_height="0dip"
             android:layout_weight="1.0"
             android:orientation="horizontal"
-            android:paddingLeft="20dip" 
-            android:paddingRight="20dip">
+            android:paddingLeft="20dip"
+            android:paddingRight="20dip" >
 
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:gravity="center_vertical" 
-                >
+                android:gravity="center_vertical" >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -307,12 +304,13 @@
                     android:textColor="@color/darkgray"
                     android:textSize="20dp" />
 
-                <Button
+                <Spinner
                     android:id="@+id/warningAct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:background="@drawable/content"
+                    android:prompt="@string/warningActionSelect"
                     android:text="点击设置"
                     android:textColor="@color/darkgray" />
             </RelativeLayout>

@@ -37,7 +37,6 @@
                 android:id="@+id/radio_button0"
                 style="@style/main_tab_bottom"
                 android:layout_marginTop="2.0dip"
-                android:checked="true"
                 android:drawableTop="@drawable/icon_1_n"
                 android:tag="radio_button0"
                 android:text="@string/main_1" />
