@@ -62,23 +62,24 @@ public class MonthlyUseData {
 		// "10:10:10");
 		b = sqlhelperTotal.SelectMobileData(context, year, month, 31, 30);
 		//
+		// 初始化流量获取函数
+		TrafficManager trafficMan = new TrafficManager();
 		// 取得每周的流量
 		long[] weektraffic = new long[6];
-		weektraffic = sqlhelperTotal.SelectWeekData(context, year, month,
+		weektraffic = trafficMan.getMobileWeekTraffic(context, year, month,
 				monthDay, weekDay);
 		// 取得月度流量
-		mobileTraffic = sqlhelperTotal.SelectMobileData(context, year, month);
+		mobileTraffic = trafficMan.getMobileMonthTraffic(context, year, month);
 		//
-//		mobileTraffic = sqlhelperTotal.SelectWifiData(context, year, month);
+		// mobileTraffic = sqlhelperTotal.SelectWifiData(context, year, month);
 		//
-		wifiTraffic = sqlhelperTotal.SelectWifiData(context, year, month);
 		// 月度流量设置
 		// 设置结算日期及结算日期的设施时间，日期等
 		// 结算日期
 		/**
 		 * 设置本月的结算日期
 		 */
-		int mobilecountDay = (prefs.getInt(MOBILE_COUNT_DAY, 0)+1);
+		int mobilecountDay = (prefs.getInt(MOBILE_COUNT_DAY, 0) + 1);
 		// 设置结算日期的时间
 		int mobilecountSetYear = prefs.getInt(MOBILE_COUNT_SET_YEAR, 1977);
 		int mobilecountSetMonth = prefs.getInt(MOBILE_COUNT_SET_MONTH, 1);
@@ -91,7 +92,7 @@ public class MonthlyUseData {
 		long[] oneday = new long[3];
 		long[] leftday = new long[3];
 		// 是否已经设置过已用流量
-		//如果未对本月已用流量进行设置，则默认为非当月
+		// 如果未对本月已用流量进行设置，则默认为非当月
 		if ((mobilecountSetYear != 1977) || (mobilecountDay != 1)) {
 			// 设置已用流量日期与计算日相同
 			if (mobilecountSetDay == mobilecountDay) {

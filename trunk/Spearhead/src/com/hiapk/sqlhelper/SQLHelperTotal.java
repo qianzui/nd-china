@@ -784,9 +784,9 @@ public class SQLHelperTotal {
 		a[0] = countup + countdown;
 		a[1] = countup;
 		a[2] = countdown;
-		for (int j = 0; j < a.length; j++) {
-			showLog(j + "liuliang" + a[j] + "");
-		}
+//		for (int j = 0; j < a.length; j++) {
+//			showLog(j + "liuliang" + a[j] + "");
+//		}
 		return a;
 	}
 

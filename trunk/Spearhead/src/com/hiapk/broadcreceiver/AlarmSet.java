@@ -18,7 +18,7 @@ public class AlarmSet {
 	private final String UID_REFLASH = "uidrefreshtime";
 
 	/**
-	 * 依据预设值启用计时器，默认总流量统计间隔30分钟，uid统计间隔240分钟
+	 * 依据预设值启用计时器，默认总流量统计间隔30秒，uid统计间隔240分钟
 	 * 
 	 * @param context
 	 */
@@ -119,7 +119,7 @@ public class AlarmSet {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());
 		alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
-				i * 60000, pendingIntent);
+				i * 1000, pendingIntent);
 	}
 
 	/**
@@ -172,7 +172,7 @@ public class AlarmSet {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("database", string);
+		Log.d("Receiver", string);
 	}
 
 }
