@@ -1,41 +1,252 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-    <string-array name="unit" >
-        <item>MB</item>      
-        <item>GB</item> 
+
+    <!-- 单位 -->
+    <string-array name="unit">
+        <item>MB</item>
+        <item>GB</item>
     </string-array>
     
-    <string-array name="day" >
-        <item>1</item>      
-        <item>2</item> 
-        <item>3</item>      
-        <item>4</item> 
-        <item>5</item>      
-        <item>6</item> 
-        <item>7</item>      
-        <item>8</item> 
-        <item>9</item>      
-        <item>10</item> 
-        <item>11</item>      
-        <item>12</item> 
-        <item>13</item>      
-        <item>14</item> 
-        <item>15</item>      
-        <item>16</item> 
-        <item>17</item>      
-        <item>18</item> 
-        <item>19</item>      
-        <item>20</item> 
-        <item>21</item>      
-        <item>22</item> 
-        <item>23</item>      
-        <item>24</item> 
-        <item>25</item>      
-        <item>26</item> 
-        <item>27</item>      
-        <item>28</item> 
-        <item>29</item>      
-        <item>30</item> 
-        <item>31</item>    
+    <!-- 运营商 -->
+    <string-array name="operator">
+        <item>中国移动</item>
+        <item>中国联通</item>
+        <item>中国电信</item>
     </string-array>
+
+    <!-- 日期 -->
+    <string-array name="day">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+    </string-array>
+
+    <!-- 省份 -->
+    <string-array name="province">
+        <item>北京</item>
+        <item>广东</item>
+        <item>上海</item>
+        <item>天津</item>
+        <item>重庆</item>
+        <item>辽宁</item>
+        <item>江苏</item>
+        <item>湖北</item>
+        <item>四川</item>
+        <item>陕西</item>
+        <item>河北</item>
+        <item>山西</item>
+        <item>河南</item>
+        <item>吉林</item>
+        <item>黑龙江</item>
+        <item>内蒙古</item>
+        <item>山东</item>
+        <item>安徽</item>
+        <item>浙江</item>
+        <item>福建</item>
+        <item>湖南</item>
+        <item>广西</item>
+        <item>江西</item>
+        <item>贵州</item>
+        <item>云南</item>
+        <item>西藏</item>
+        <item>海南</item>
+        <item>甘肃</item>
+        <item>宁夏</item>
+        <item>青海</item>
+        <item>新疆</item>
+    </string-array>
+
+    <!-- 北京 -->
+    <string-array name="beijing">
+        <item>北京</item>
+    </string-array>
+
+    <!-- 广东 -->
+    <string-array name="guangdong">
+        <item>广州</item>
+        <item>汕尾</item>
+        <item>阳江</item>
+        <item>揭阳</item>
+        <item>茂名</item>
+        <item>江门</item>
+        <item>韶关</item>
+        <item>惠州</item>
+        <item>梅州</item>
+        <item>广州</item>
+        <item>汕头</item>
+        <item>深圳</item>
+        <item>珠海</item>
+        <item>佛山</item>
+        <item>肇庆</item>
+        <item>湛江</item>
+        <item>中山</item>
+        <item>河源</item>
+        <item>清远</item>
+        <item>云浮</item>
+        <item>潮州</item>
+        <item>东莞</item>
+    </string-array>
+
+    <!-- 上海 -->
+    <string-array name="shanghai">
+        <item>上海</item>
+    </string-array>
+
+    <!-- 天津 -->
+    <string-array name="tianjin">
+        <item>天津</item>
+    </string-array>
+
+    <!-- 重庆 -->
+    <string-array name="chongqing">
+        <item>重庆</item>
+    </string-array>
+
+    <!-- 辽宁 -->
+    <string-array name="liaoning">
+        <item>沈阳、抚顺、铁岭</item>
+        <item>大连</item>
+        <item>鞍山</item>
+        <item>本溪</item>
+        <item>丹东</item>
+        <item>锦州</item>
+        <item>营口</item>
+        <item>阜新</item>
+        <item>辽阳</item>
+        <item>朝阳</item>
+        <item>盘锦</item>
+        <item>葫芦岛</item>
+    </string-array>
+
+    <!-- 江苏 -->
+    <string-array name="jiangsu">
+        <item>南京</item>
+        <item>无锡</item>
+        <item>镇江</item>
+        <item>苏州</item>
+        <item>南通</item>
+        <item>扬州</item>
+        <item>盐城</item>
+        <item>徐州</item>
+        <item>淮安</item>
+        <item>连云港</item>
+        <item>常州</item>
+        <item>泰州</item>
+        <item>宿迁</item>
+    </string-array>
+
+    <!-- 湖北 -->
+    <string-array name="hubei">
+        <item>武汉</item>
+        <item>襄阳</item>
+        <item>鄂州</item>
+        <item>孝感</item>
+        <item>黄冈</item>
+        <item>黄石</item>
+        <item>荆州</item>
+        <item>宜昌</item>
+        <item>恩施</item>
+        <item>十堰</item>
+        <item>随州</item>
+        <item>荆门</item>
+        <item>江汉</item>
+    </string-array>
+
+    <!-- 四川 -->
+    <string-array name="sichuan">
+        <item>成都</item>
+        <item>资阳</item>
+        <item>眉山</item>
+        <item>攀枝花</item>
+        <item>自贡</item>
+        <item>绵阳</item>
+        <item>南充</item>
+        <item>达州</item>
+        <item>遂宁</item>
+        <item>广安</item>
+        <item>巴中</item>
+        <item>泸州</item>
+        <item>宜宾</item>
+        <item>内江</item>
+        <item>乐山</item>
+        <item>凉山彝族自治州</item>
+        <item>雅安</item>
+        <item>甘孜藏族自治州</item>
+        <item>阿坝藏族羌族自治州</item>
+        <item>德阳</item>
+        <item>广元</item>
+    </string-array>
+
+    <!-- 陕西 -->
+    <string-array name="shanxi_1">
+        <item>西安</item>
+        <item>咸阳</item>
+        <item>延安</item>
+        <item>榆林</item>
+        <item>渭南</item>
+        <item>商洛</item>
+        <item>安康</item>
+        <item>汉中</item>
+        <item>宝鸡</item>
+        <item>铜川</item>
+    </string-array>
+
+    <!-- 河北 -->
+    <string-array name="hebei">
+        <item>邯郸</item>
+        <item>石家庄</item>
+        <item>保定</item>
+        <item>张家口</item>
+        <item>承德</item>
+        <item>唐山</item>
+        <item>廊坊</item>
+        <item>沧州</item>
+        <item>衡水</item>
+        <item>邢台</item>
+        <item>秦皇岛</item>
+    </string-array>
+
+    <!-- 山西 -->
+    <string-array name="shanxi_2">
+        <item>朔州</item>
+        <item>忻州</item>
+        <item>太原</item>
+        <item>大同</item>
+        <item>阳泉</item>
+        <item>晋中</item>
+        <item>长治</item>
+        <item>晋城</item>
+        <item>临汾</item>
+        <item>吕梁</item>
+        <item>运城</item>
+    </string-array>
+
 </resources>
