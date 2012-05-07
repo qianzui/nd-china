@@ -2,33 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" 
+    android:orientation="horizontal"
     android:paddingLeft="5dip"
-    android:paddingRight="5dip">  
+    android:paddingRight="5dip" >
 
-        <EditText
-            android:id="@+id/ev_alert"
-            android:layout_width="0dip"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:maxLength="4"
-            android:numeric="integer"
-            android:background="@drawable/content"
-            android:textColor="@color/lightgreen" />
-        
-        <TextView             
-            android:layout_width="0dip"
-            android:layout_height="fill_parent"
-            android:layout_weight="0.6"            
-            />
+    <EditText
+        android:id="@+id/ev_alert"
+        android:layout_width="0dip"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:background="@drawable/content"
+        android:maxLength="4"
+        android:numeric="integer"
+        android:textColor="@color/darkgray" />
 
-        <Spinner
-            android:id="@+id/sp_unit"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_weight="0.3"
-            android:background="@drawable/content"
-             />
-   
+    <TextView
+        android:layout_width="0dip"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.6" />
+
+    <Spinner
+        android:id="@+id/sp_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.3"
+        android:background="@drawable/content" />
 
 </LinearLayout>
