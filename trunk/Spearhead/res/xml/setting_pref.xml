@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <CheckBoxPreference
+        android:key="notifyCtrl"
+        android:summaryOff="通知栏已关闭"
+        android:summaryOn="通知栏已开启"
+        android:title="开启/关闭通知栏" />
+    <CheckBoxPreference
+        android:key="floatCtrl"
+        android:summaryOff="悬浮窗已关闭"
+        android:summaryOn="悬浮窗已开启"
+        android:title="开启/关闭流量指示悬浮窗 " />
+
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/refreshwidget"
+        android:entryValues="@array/refreshwidget2"
+        android:key="userType"
+        android:summary="刷新状态栏和小部件的时间间隔"
+        android:title="更新频率" />
+
+    <PreferenceScreen
+        android:key="check"
+        android:title="清空主界面统计数据" />
+
+</PreferenceScreen>

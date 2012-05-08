@@ -6,7 +6,24 @@
         <item>MB</item>
         <item>GB</item>
     </string-array>
-    
+    <!-- 更新频率 -->
+    <string-array name="refreshwidget">
+        <item>30秒</item>
+        <item>1分钟</item>
+        <item>5分钟</item>
+        <item>15分钟</item>
+        <item>30分钟</item>
+        <item>1小时</item>
+    </string-array>
+    <!-- 更新频率 -->
+    <string-array name="refreshwidget2">
+        <item>30s</item>
+        <item>1m</item>
+        <item>5m</item>
+        <item>15m</item>
+        <item>30m</item>
+        <item>1h</item>
+    </string-array>
     <!-- 预警模式 -->
     <string-array name="warningaction">
         <item>仅通知栏提示</item>

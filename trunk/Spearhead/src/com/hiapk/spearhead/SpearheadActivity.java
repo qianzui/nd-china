@@ -179,10 +179,12 @@ public class SpearheadActivity extends TabActivity {
 						isExit = false;
 					}
 				};
-				tExit.schedule(task, 2000);
+				tExit.schedule(task, 8000);
 
 				return false;
 			}
+			tExit.cancel();
+			task.cancel();
 		}
 		return super.onKeyDown(keyCode, event);
 	}
