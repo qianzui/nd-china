@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
             android:background="@drawable/content"
-            android:prompt="@string/operatorSelect" />
+            android:prompt="@string/brankSelect" />
 
         <Button
             android:id="@+id/next"
