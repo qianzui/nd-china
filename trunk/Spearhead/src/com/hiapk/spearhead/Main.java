@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.text.format.Time;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -133,11 +134,11 @@ public class Main extends Activity {
 		String VALUE_MOBILE_SET = "mobilemonthuse";
 		String VALUE_MOBILE_HASUSED_LONG = "mobileHasusedlong";
 		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-		//初始化流量获取函数
-		TrafficManager trafficMan=new TrafficManager();
+		// 初始化流量获取函数
+		TrafficManager trafficMan = new TrafficManager();
 		// 取得每周的流量
 		long[] weektraffic = new long[6];
-		weektraffic=trafficMan.getMobileWeekTraffic(context, year, month,
+		weektraffic = trafficMan.getMobileWeekTraffic(context, year, month,
 				monthDay, weekDay);
 		// 取得月度流量
 		mobileTraffic = trafficMan.getMobileMonthTraffic(context, year, month);
@@ -190,7 +191,7 @@ public class Main extends Activity {
 
 	public void gotoThree() {
 		SpearheadActivity sp = new SpearheadActivity();
-		
+
 		sp.tabThree();
 	}
 
@@ -606,6 +607,15 @@ public class Main extends Activity {
 		// 发出通知
 		mNotification.notify(ID, notification);
 
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+			return false;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 }

@@ -17,6 +17,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -736,5 +737,13 @@ public class Main3 extends Activity {
 	 */
 	private void showlog(String string) {
 		Log.d("main3", string);
+	}
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+			return false;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 }
