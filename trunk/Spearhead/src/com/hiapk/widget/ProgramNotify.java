@@ -1,0 +1,74 @@
+package com.hiapk.widget;
+
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.widget.RemoteViews;
+
+import com.hiapk.spearhead.R;
+import com.hiapk.spearhead.SpearheadActivity;
+
+public class ProgramNotify {
+	// 系统设置
+	String SYS_PRE_NOTIFY = "notifyCtrl";
+	String SYS_PRE_FLOAT_CTRL = "floatCtrl";
+	String SYS_PRE_REFRESH_FRZ = "refreshfrz";
+	String SYS_PRE_CLEAR_DATA = "cleardata";
+	String textUp = "11";
+	String textDown = "22";
+	// Notification标示ID
+	private static final int ID = 1;
+
+	public void showNotice(Context context) {
+
+		// 获得NotificationManager实例
+		String service = Context.NOTIFICATION_SERVICE;
+		NotificationManager mNotification = (NotificationManager) context
+				.getSystemService(service);
+		// 设置显示图标，该图标会在状态栏显示
+		int icon = R.drawable.ic_launcher;
+		// 设置显示提示信息，该信息也会在状态栏显示
+		CharSequence tickerText = "先锋流量监控";
+		// 显示时间
+		long when = System.currentTimeMillis();
+		// 实例化Notification
+		Notification notification = new Notification(icon, tickerText, when);
+		RemoteViews contentView = new RemoteViews(context.getPackageName(),
+				R.layout.notice);
+		contentView.setImageViewResource(R.id.image, R.drawable.ic_launcher);
+		contentView.setTextViewText(R.id.textUp, textUp);
+		contentView.setTextViewText(R.id.textDown, textDown);
+		notification.contentView = contentView;
+		notification.flags = Notification.FLAG_ONGOING_EVENT;
+
+		// 实例化Intent
+		Intent intent = new Intent(context, SpearheadActivity.class);
+		Bundle choosetab = new Bundle();
+		choosetab.putInt("TAB", 1);
+		intent.putExtras(choosetab);
+		// 获得PendingIntent
+		PendingIntent pi = PendingIntent.getActivity(context, 0, intent, 0);
+		// 设置事件信息
+		notification.contentIntent = pi;
+		// 系统设置判断是否需要发通知
+		SharedPreferences prefs_setting = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		boolean allowNotify = prefs_setting.getBoolean(SYS_PRE_NOTIFY, true);
+		// showLog(allowNotify + "");
+		if (allowNotify) {
+			// 发出通知
+			mNotification.notify(ID, notification);
+		}
+	}
+	
+	public void cancelProgramNotify(Context context){
+		NotificationManager mNotification = (NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		mNotification.cancel(ID);
+	}
+}
