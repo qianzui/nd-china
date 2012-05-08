@@ -6,6 +6,7 @@
         <item>MB</item>
         <item>GB</item>
     </string-array>
+    
     <!-- 预警模式 -->
     <string-array name="warningaction">
         <item>仅通知栏提示</item>
@@ -13,10 +14,29 @@
         <item>自动断网</item>
         <item>震动+自动断网</item>
     </string-array>
+
     <!-- 运营商 -->
     <string-array name="operator">
         <item>中国移动</item>
         <item>中国联通</item>
+        <item>中国电信</item>
+    </string-array>
+
+    <!-- 移动 -->
+    <string-array name="yidong">
+        <item>神州行</item>
+        <item>全球通</item>
+        <item>动感地带</item>
+    </string-array>
+
+    <!-- 联通 -->
+    <string-array name="liantong">
+        <item>联通2G</item>
+        <item>联通沃3G</item>
+    </string-array>
+
+    <!-- 电信 -->
+    <string-array name="dianxin">
         <item>中国电信</item>
     </string-array>
 
@@ -253,6 +273,295 @@
         <item>临汾</item>
         <item>吕梁</item>
         <item>运城</item>
+    </string-array>
+
+    <!-- 河南 -->
+    <string-array name="henan">
+        <item>商丘</item>
+        <item>郑州</item>
+        <item>安阳</item>
+        <item>新乡</item>
+        <item>许昌</item>
+        <item>平顶山</item>
+        <item>信阳</item>
+        <item>南阳</item>
+        <item>开封</item>
+        <item>洛阳</item>
+        <item>焦作、济源</item>
+        <item>鹤壁</item>
+        <item>濮阳</item>
+        <item>周口</item>
+        <item>漯河</item>
+        <item>驻马店</item>
+        <item>三门峡</item>
+    </string-array>
+
+    <!-- 吉林 -->
+    <string-array name="jilin">
+        <item>长春</item>
+        <item>吉林</item>
+        <item>延边朝鲜族自治州</item>
+        <item>四平</item>
+        <item>通化</item>
+        <item>白城</item>
+        <item>辽源</item>
+        <item>松原</item>
+        <item>白山</item>
+    </string-array>
+
+    <!-- 黑龙江 -->
+    <string-array name="heilongjiang">
+        <item>哈尔滨</item>
+        <item>齐齐哈尔</item>
+        <item>牡丹江</item>
+        <item>佳木斯</item>
+        <item>绥化</item>
+        <item>黑河</item>
+        <item>大兴安岭</item>
+        <item>伊春</item>
+        <item>大庆</item>
+        <item>七台河</item>
+        <item>鸡西</item>
+        <item>鹤岗</item>
+        <item>双鸭山</item>
+    </string-array>
+
+    <!-- 内蒙古 -->
+    <string-array name="neimenggu">
+        <item>呼伦贝尔盟</item>
+        <item>呼和浩特</item>
+        <item>包头</item>
+        <item>乌海</item>
+        <item>乌兰察布盟</item>
+        <item>通辽</item>
+        <item>赤峰</item>
+        <item>鄂尔多斯</item>
+        <item>巴彦淖尔盟</item>
+        <item>锡林郭勒盟</item>
+        <item>兴安盟</item>
+        <item>阿拉善盟</item>
+    </string-array>
+
+    <!-- 山东 -->
+    <string-array name="shandong">
+        <item>菏泽</item>
+        <item>济南</item>
+        <item>青岛</item>
+        <item>淄博</item>
+        <item>德州</item>
+        <item>烟台</item>
+        <item>潍坊</item>
+        <item>济宁</item>
+        <item>泰安</item>
+        <item>临沂</item>
+        <item>滨州</item>
+        <item>威海</item>
+        <item>枣庄</item>
+        <item>日照</item>
+        <item>莱芜</item>
+        <item>聊城</item>
+    </string-array>
+
+    <!-- 安徽 -->
+    <string-array name="anhui">
+        <item>滁州</item>
+        <item>合肥</item>
+        <item>青岛</item>
+        <item>蚌埠</item>
+        <item>芜湖</item>
+        <item>淮南</item>
+        <item>马鞍山</item>
+        <item>安庆</item>
+        <item>宿州</item>
+        <item>阜阳、亳州</item>
+        <item>黄山</item>
+        <item>淮北</item>
+        <item>铜陵</item>
+        <item>宣城</item>
+        <item>六安</item>
+        <item>巢湖</item>
+        <item>池州</item>
+    </string-array>
+
+    <!-- 浙江 -->
+    <string-array name="zhejiang">
+        <item>衢州</item>
+        <item>杭州</item>
+        <item>湖州</item>
+        <item>嘉兴</item>
+        <item>宁波</item>
+        <item>绍兴</item>
+        <item>台州</item>
+        <item>温州</item>
+        <item>丽水</item>
+        <item>金华</item>
+        <item>舟山</item>
+    </string-array>
+
+    <!-- 福建 -->
+    <string-array name="fujian">
+        <item>福州</item>
+        <item>厦门</item>
+        <item>宁德</item>
+        <item>莆田</item>
+        <item>泉州</item>
+        <item>漳州</item>
+        <item>龙岩</item>
+        <item>三明</item>
+        <item>南平</item>
+    </string-array>
+
+    <!-- 湖南 -->
+    <string-array name="hunan">
+        <item>岳阳</item>
+        <item>长沙</item>
+        <item>湘潭</item>
+        <item>株洲</item>
+        <item>衡阳</item>
+        <item>郴州</item>
+        <item>常德</item>
+        <item>益阳</item>
+        <item>娄底</item>
+        <item>湘西洲</item>
+        <item>张家界</item>
+        <item>怀化</item>
+        <item>永州</item>
+    </string-array>
+
+    <!-- 广西 -->
+    <string-array name="guangxi">
+        <item>防城港</item>
+        <item>南宁、崇左</item>
+        <item>柳州、来宾</item>
+        <item>桂林</item>
+        <item>梧州、贺州</item>
+        <item>玉林、贵港</item>
+        <item>百色</item>
+        <item>钦州</item>
+        <item>河池</item>
+        <item>北海</item>
+    </string-array>
+
+    <!-- 江西 -->
+    <string-array name="jiangxi">
+        <item>鹰潭</item>
+        <item>新余</item>
+        <item>南昌</item>
+        <item>九江</item>
+        <item>上饶</item>
+        <item>抚州</item>
+        <item>宜春</item>
+        <item>吉安</item>
+        <item>赣州</item>
+        <item>景德镇</item>
+        <item>萍乡</item>
+    </string-array>
+
+    <!-- 贵州 -->
+    <string-array name="guizhou">
+        <item>贵阳</item>
+        <item>遵义</item>
+        <item>安顺</item>
+        <item>都匀</item>
+        <item>凯里</item>
+        <item>铜仁</item>
+        <item>毕节</item>
+        <item>六盘水</item>
+        <item>兴义</item>
+    </string-array>
+
+    <!-- 云南 -->
+    <string-array name="yunnan">
+        <item>西双版纳</item>
+        <item>德宏</item>
+        <item>昭通</item>
+        <item>昆明</item>
+        <item>大理</item>
+        <item>红河哈尼族彝族自治州</item>
+        <item>曲靖</item>
+        <item>保山</item>
+        <item>文山</item>
+        <item>玉溪</item>
+        <item>楚雄</item>
+        <item>普洱</item>
+        <item>临沧</item>
+        <item>怒江</item>
+        <item>迪庆</item>
+        <item>丽江</item>
+    </string-array>
+
+    <!-- 西藏 -->
+    <string-array name="xizang">
+        <item>拉萨</item>
+        <item>日喀则</item>
+        <item>山南</item>
+        <item>林芝</item>
+        <item>昌都</item>
+        <item>那曲</item>
+        <item>阿里</item>
+    </string-array>
+
+    <!-- 海南 -->
+    <string-array name="hainan">
+        <item>海口、三亚</item>
+    </string-array>
+
+    <!-- 甘肃 -->
+    <string-array name="gansu">
+        <item>临夏</item>
+        <item>兰州</item>
+        <item>定西</item>
+        <item>平凉</item>
+        <item>庆阳</item>
+        <item>金昌、武威</item>
+        <item>张掖</item>
+        <item>酒泉、嘉峪关</item>
+        <item>天水</item>
+        <item>陇南</item>
+        <item>甘南</item>
+        <item>白银</item>
+    </string-array>
+
+    <!-- 宁夏 -->
+    <string-array name="ningxia">
+        <item>银川</item>
+        <item>石嘴山</item>
+        <item>吴忠</item>
+        <item>固原</item>
+        <item>中卫</item>
+    </string-array>
+
+    <!-- 青海 -->
+    <string-array name="qinghai">
+        <item>海北州</item>
+        <item>西宁</item>
+        <item>海东</item>
+        <item>黄南</item>
+        <item>海南州</item>
+        <item>果洛</item>
+        <item>玉树</item>
+        <item>海西州</item>
+        <item>格尔木</item>
+    </string-array>
+
+    <!-- 新疆 -->
+    <string-array name="xinjiang">
+        <item>塔城</item>
+        <item>哈密</item>
+        <item>和田</item>
+        <item>阿勒泰</item>
+        <item>克州</item>
+        <item>博乐</item>
+        <item>克拉玛依</item>
+        <item>乌鲁木齐</item>
+        <item>奎屯</item>
+        <item>石河子</item>
+        <item>昌吉</item>
+        <item>吐鲁番</item>
+        <item>库尔勒、巴州</item>
+        <item>阿克苏</item>
+        <item>喀什</item>
+        <item>伊犁</item>
     </string-array>
 
 </resources>
