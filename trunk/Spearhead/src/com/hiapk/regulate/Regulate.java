@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.telephony.SmsManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -15,13 +14,13 @@ import android.widget.TextView;
 public class Regulate extends Activity{
 	Button chooseBtn;
 	Button smsSend;
-	TextView smsText;
-	TextView smsNum;
+	public static TextView smsText;
+	public static TextView smsNum;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.regulate);
+		setContentView(R.layout.regulate);		
 		chooseBtn = (Button)findViewById(R.id.choose);
 		smsSend = (Button)findViewById(R.id.smsSend);
 		smsText = (TextView)findViewById(R.id.smsText);
@@ -33,6 +32,8 @@ public class Regulate extends Activity{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				Intent it = new Intent(Regulate.this,PhoneSet.class);
+				startActivity(it);
 				
 			}
 		});
@@ -51,4 +52,21 @@ public class Regulate extends Activity{
 		});
 	}
 	
+//	@Override
+//	protected void onResume() {
+//		// TODO Auto-generated method stub
+//		smsText.setText("onResume");
+//
+//		super.onResume();
+//
+//		smsNum.setText("super.onResume");
+//	}
+//	@Override
+//	protected void onPause() {
+//		// TODO Auto-generated method stub
+//		smsText.setText("onPause");
+//		super.onPause();
+//		smsNum.setText("super.onPause");
+//	}
+//	
 }

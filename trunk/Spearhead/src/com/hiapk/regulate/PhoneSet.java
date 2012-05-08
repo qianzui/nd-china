@@ -6,16 +6,19 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 public class PhoneSet extends Activity{	
 	Spinner province;
 	Spinner city;
 	Spinner operator;
-	
+	Spinner brand;	
+	Button next;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -24,6 +27,16 @@ public class PhoneSet extends Activity{
 		setContentView(R.layout.phoneset);
 		Log.v("+++++++++++++++++++", "onCreate");
 		init_Spinner();
+		next = (Button) findViewById(R.id.next);
+		next.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
+				
+			}
+		});
 
 	}
 	private void init_Spinner() {
@@ -41,6 +54,35 @@ public class PhoneSet extends Activity{
 				R.array.operator, R.layout.sptext);
 		adpOperator.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		operator.setAdapter(adpOperator);
+		
+		operator.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int pos, long id) {
+				// TODO Auto-generated method stub
+				switch (pos){
+				case 0:					
+					yidong();
+					break;
+				case 1:					
+					liantong();
+					break;
+				case 2:					
+					dianxin();
+					break;
+				default:
+					break;
+				}
+				
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 
 		province.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
@@ -65,6 +107,81 @@ public class PhoneSet extends Activity{
 					break;
 				case 5:					
 					liaoning();
+					break;
+				case 6:					
+					jiangsu();
+					break;
+				case 7:					
+					hubei();
+					break;
+				case 8:					
+					sichuan();
+					break;
+				case 9:					
+					shanxi_1();
+					break;
+				case 10:					
+					hebei();
+					break;
+				case 11:					
+					shanxi_2();
+					break;
+				case 12:					
+					henan();
+					break;
+				case 13:					
+					jilin();
+					break;
+				case 14:					
+					heilongjiang();
+					break;
+				case 15:					
+					neimenggu();
+					break;
+				case 16:					
+					shandong();
+					break;
+				case 17:					
+					anhui();
+					break;
+				case 18:					
+					zhejiang();
+					break;
+				case 19:					
+					fujian();
+					break;
+				case 20:					
+					hunan();
+					break;
+				case 21:					
+					guangxi();
+					break;
+				case 22:					
+					jiangxi();
+					break;
+				case 23:					
+					guizhou();
+					break;
+				case 24:					
+					yunnan();
+					break;
+				case 25:					
+					xizang();
+					break;
+				case 26:					
+					hainan();
+					break;
+				case 27:					
+					gansu();
+					break;
+				case 28:					
+					ningxia();
+					break;
+				case 29:					
+					qinghai();
+					break;
+				case 30:					
+					xinjiang();
 					break;
 				default:
 					break;
@@ -128,4 +245,210 @@ public class PhoneSet extends Activity{
 		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		city.setAdapter(adpCity);
 	}
+	void jiangsu(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.jiangsu, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void hubei(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.hubei, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void sichuan(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.sichuan, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void shanxi_1(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.shanxi_1, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void hebei(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.hebei, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void shanxi_2(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.shanxi_2, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void henan(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.henan, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void jilin(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.jilin, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void heilongjiang(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.heilongjiang, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void neimenggu(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.neimenggu, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void shandong(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.shandong, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void anhui(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.anhui, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void zhejiang(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.zhejiang, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void fujian(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.fujian, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void hunan(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.hunan, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void guangxi(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.guangxi, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void jiangxi(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.jiangxi, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void guizhou(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.guizhou, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void yunnan(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.yunnan, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void xizang(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.xizang, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void hainan(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.hainan, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void gansu(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.gansu, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void ningxia(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.ningxia, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void qinghai(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.qinghai, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	void xinjiang(){		
+		city = (Spinner) findViewById(R.id.city);
+		ArrayAdapter<CharSequence> adpCity = ArrayAdapter.createFromResource(this,
+				R.array.xinjiang, R.layout.sptext);
+		adpCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		city.setAdapter(adpCity);
+	}
+	
+	//不同运营商
+	void yidong(){
+		brand = (Spinner) findViewById(R.id.brand);		
+		ArrayAdapter<CharSequence> adpBrand = ArrayAdapter.createFromResource(this,
+				R.array.yidong, R.layout.sptext);
+		adpBrand.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		brand.setAdapter(adpBrand);
+		Regulate.smsText.setText("CXLL");
+		Regulate.smsNum.setText("10086");
+	}
+	void liantong(){
+		brand = (Spinner) findViewById(R.id.brand);		
+		ArrayAdapter<CharSequence> adpBrand = ArrayAdapter.createFromResource(this,
+				R.array.liantong, R.layout.sptext);
+		adpBrand.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		brand.setAdapter(adpBrand);
+		Regulate.smsText.setText("CXLL");
+		Regulate.smsNum.setText("10010");
+	}
+	void dianxin(){
+		brand = (Spinner) findViewById(R.id.brand);		
+		ArrayAdapter<CharSequence> adpBrand = ArrayAdapter.createFromResource(this,
+				R.array.dianxin, R.layout.sptext);
+		adpBrand.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		brand.setAdapter(adpBrand);
+		Regulate.smsText.setText("108");
+		Regulate.smsNum.setText("10001");
+	}
+	
+	
 }
