@@ -32,8 +32,8 @@ public class PhoneSet extends Activity{
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				finish();
+				// TODO Auto-generated method stub				
+				end();
 				
 			}
 		});
@@ -450,5 +450,13 @@ public class PhoneSet extends Activity{
 		Regulate.smsNum.setText("10001");
 	}
 	
+	void end(){
+		String chengshi;
+		String pinpai;
+		chengshi = city.getSelectedItem().toString();
+		pinpai = brand.getSelectedItem().toString();
+		Regulate.chooseBtn.setText(chengshi+"--"+pinpai);
+		finish();
+	}
 	
 }

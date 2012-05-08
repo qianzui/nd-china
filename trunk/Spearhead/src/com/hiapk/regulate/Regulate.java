@@ -12,8 +12,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class Regulate extends Activity{
-	Button chooseBtn;
-	Button smsSend;
+	public static Button chooseBtn;
+	Button smsSend;	
 	public static TextView smsText;
 	public static TextView smsNum;
 	@Override
@@ -51,22 +51,4 @@ public class Regulate extends Activity{
 			}
 		});
 	}
-	
-//	@Override
-//	protected void onResume() {
-//		// TODO Auto-generated method stub
-//		smsText.setText("onResume");
-//
-//		super.onResume();
-//
-//		smsNum.setText("super.onResume");
-//	}
-//	@Override
-//	protected void onPause() {
-//		// TODO Auto-generated method stub
-//		smsText.setText("onPause");
-//		super.onPause();
-//		smsNum.setText("super.onPause");
-//	}
-//	
 }
