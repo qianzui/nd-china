@@ -12,6 +12,7 @@ import com.hiapk.progressbar.PieView;
 import com.hiapk.progressbar.ProgressBarForV;
 import com.hiapk.progressbar.StackedBarChart;
 import com.hiapk.sqlhelper.SQLHelperTotal;
+import com.hiapk.widget.ProgramNotify;
 
 import android.app.Activity;
 import android.app.Notification;
@@ -23,6 +24,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.format.Time;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -37,11 +39,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class Main extends Activity {
-
-	// 声明NotificationManager
-	private NotificationManager mNotification;
-	// Notification标示ID
-	private static final int ID = 1;
 
 	private Context context = this;
 	// private SQLHelperUid sqlhelperUid = new SQLHelperUid();
@@ -73,6 +70,11 @@ public class Main extends Activity {
 	long[] mobileTrafficPart = new long[64];
 	// 屏幕宽度
 	int windowswidesize;
+	// 系统设置
+	String SYS_PRE_NOTIFY = "notifyCtrl";
+	String SYS_PRE_FLOAT_CTRL = "floatCtrl";
+	String SYS_PRE_REFRESH_FRZ = "refreshfrz";
+	String SYS_PRE_CLEAR_DATA = "cleardata";
 
 	/** Called when the activity is first created. */
 	@Override
@@ -84,7 +86,8 @@ public class Main extends Activity {
 		// ------------
 		initSQLdatabase(uids, packagenames);
 		setonrefreshclicklistens();
-		showNotice("第一行文字", "第二行文字");// 可以传入两个字符串
+		ProgramNotify promNotify = new ProgramNotify();
+		promNotify.showNotice(context);
 		GetRoot gr = new GetRoot();
 		gr.cmdRoot("chmod 777 " + getPackageCodePath());
 	}
@@ -573,40 +576,6 @@ public class Main extends Activity {
 	 */
 	private void showlog(String string) {
 		Log.d("main", string);
-	}
-
-	void showNotice(String textUp, String textDown) {
-		// 获得NotificationManager实例
-		String service = Context.NOTIFICATION_SERVICE;
-		mNotification = (NotificationManager) getSystemService(service);
-		// 设置显示图标，该图标会在状态栏显示
-		int icon = R.drawable.ic_launcher;
-		// 设置显示提示信息，该信息也会在状态栏显示
-		CharSequence tickerText = "先锋流量监控";
-		// 显示时间
-		long when = System.currentTimeMillis();
-		// 实例化Notification
-		Notification notification = new Notification(icon, tickerText, when);
-		RemoteViews contentView = new RemoteViews(getPackageName(),
-				R.layout.notice);
-		contentView.setImageViewResource(R.id.image, R.drawable.ic_launcher);
-		contentView.setTextViewText(R.id.textUp, textUp);
-		contentView.setTextViewText(R.id.textDown, textDown);
-		notification.contentView = contentView;
-		notification.flags = Notification.FLAG_ONGOING_EVENT;
-
-		// 实例化Intent
-		Intent intent = new Intent(this, SpearheadActivity.class);
-		Bundle choosetab = new Bundle();
-		choosetab.putInt("TAB", 1);
-		intent.putExtras(choosetab);
-		// 获得PendingIntent
-		PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
-		// 设置事件信息
-		notification.contentIntent = pi;
-		// 发出通知
-		mNotification.notify(ID, notification);
-
 	}
 
 	@Override
