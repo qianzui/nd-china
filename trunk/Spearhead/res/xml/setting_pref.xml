@@ -16,12 +16,13 @@
         android:defaultValue="0"
         android:entries="@array/refreshwidget"
         android:entryValues="@array/refreshwidget2"
-        android:key="userType"
+        android:key="refreshfrz"
         android:summary="刷新状态栏和小部件的时间间隔"
         android:title="更新频率" />
 
     <PreferenceScreen
-        android:key="check"
-        android:title="清空主界面统计数据" />
+        android:key="cleardata"
+        android:title="清空主界面统计数据" >
+        </PreferenceScreen>
 
 </PreferenceScreen>

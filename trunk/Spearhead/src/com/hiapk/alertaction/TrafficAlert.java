@@ -5,6 +5,8 @@ import com.hiapk.dataexe.TrafficManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.text.format.Time;
 import android.util.Log;
 import android.widget.Toast;
@@ -12,6 +14,11 @@ import android.widget.Toast;
 public class TrafficAlert {
 	// 操作sharedprefrence
 	String PREFS_NAME = "allprefs";
+	// 系统设置
+	String SYS_PRE_NOTIFY = "notifyCtrl";
+	String SYS_PRE_FLOAT_CTRL = "floatCtrl";
+	String SYS_PRE_REFRESH_FRZ = "refreshfrz";
+	String SYS_PRE_CLEAR_DATA = "cleardata";
 	// 流量预警
 	String MOBILE_WARNING_MONTH = "mobilemonthwarning";
 	String MOBILE_WARNING_DAY = "mobiledaywarning";
@@ -20,6 +27,8 @@ public class TrafficAlert {
 	// 流量预警标识
 	String MOBILE_HAS_WARNING_MONTH = "mobilemonthhaswarning";
 	String MOBILE_HAS_WARNING_DAY = "mobiledayhaswarning";
+	// 系统设置
+
 	long[] monthTraffic = new long[64];
 
 	/**
@@ -73,29 +82,28 @@ public class TrafficAlert {
 		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
 		Editor UseEditor = context.getSharedPreferences(PREFS_NAME, 0).edit();
 		int WarningAction = prefs.getInt(WARNING_ACTION, 0);
-		AlertActionNotify actNotify = new AlertActionNotify();
 		AlertActionMobileDataControl mbDatactrl = new AlertActionMobileDataControl();
 		switch (WarningAction) {
 		case 0:
-			actNotify.startNotifyDay(context, false);
+			startDayNotify(context, false);
 			UseEditor.putBoolean(MOBILE_HAS_WARNING_DAY, true);
 			showLog(0 + "day");
 			break;
 		case 1:
-			actNotify.startNotifyDay(context, true);
+			startDayNotify(context, true);
 			UseEditor.putBoolean(MOBILE_HAS_WARNING_DAY, true);
 			showLog(1 + "day");
 			break;
 		case 2:
 
 			mbDatactrl.setMobileDataDisable(context);
-			actNotify.startNotifyDay(context, false);
+			startDayNotify(context, false);
 			UseEditor.putBoolean(MOBILE_HAS_WARNING_DAY, true);
 			showLog(2 + "day");
 			break;
 		case 3:
 			mbDatactrl.setMobileDataDisable(context);
-			actNotify.startNotifyDay(context, true);
+			startDayNotify(context, true);
 			UseEditor.putBoolean(MOBILE_HAS_WARNING_DAY, true);
 			showLog(2 + "day");
 			break;
@@ -114,27 +122,26 @@ public class TrafficAlert {
 		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
 		Editor UseEditor = context.getSharedPreferences(PREFS_NAME, 0).edit();
 		int WarningAction = prefs.getInt(WARNING_ACTION, 0);
-		AlertActionNotify actNotify = new AlertActionNotify();
 		AlertActionMobileDataControl mbDatactrl = new AlertActionMobileDataControl();
 		switch (WarningAction) {
 		case 0:
-			actNotify.startNotifyMonth(context, false);
+			startMonthNotify(context, false);
 			UseEditor.putBoolean(MOBILE_HAS_WARNING_MONTH, true);
 			showLog(0 + "month");
 			break;
 		case 1:
-			actNotify.startNotifyMonth(context, true);
+			startMonthNotify(context, true);
 			UseEditor.putBoolean(MOBILE_HAS_WARNING_MONTH, true);
 			showLog(1 + "month");
 			break;
 		case 2:
-			actNotify.startNotifyMonth(context, false);
+			startMonthNotify(context, false);
 			mbDatactrl.setMobileDataDisable(context);
 			UseEditor.putBoolean(MOBILE_HAS_WARNING_MONTH, true);
 			showLog(2 + "month");
 			break;
 		case 3:
-			actNotify.startNotifyMonth(context, true);
+			startMonthNotify(context, true);
 			mbDatactrl.setMobileDataDisable(context);
 			UseEditor.putBoolean(MOBILE_HAS_WARNING_MONTH, true);
 			showLog(2 + "month");
@@ -171,6 +178,28 @@ public class TrafficAlert {
 		int DayofMonth = t.monthDay;
 		return DayofMonth;
 
+	}
+
+	private void startMonthNotify(Context context, boolean vibrate) {
+		SharedPreferences prefs_setting = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		boolean allowNotify = prefs_setting.getBoolean(SYS_PRE_NOTIFY, true);
+//		showLog(allowNotify + "");
+		if (allowNotify) {
+			AlertActionNotify actNotify = new AlertActionNotify();
+			actNotify.startNotifyMonth(context, vibrate);
+		}
+	}
+
+	private void startDayNotify(Context context, boolean vibrate) {
+		SharedPreferences prefs_setting = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		boolean allowNotify = prefs_setting.getBoolean(SYS_PRE_NOTIFY, true);
+//		showLog(allowNotify + "");
+		if (allowNotify) {
+			AlertActionNotify actNotify = new AlertActionNotify();
+			actNotify.startNotifyDay(context, vibrate);
+		}
 	}
 
 	private void showLog(String string) {
