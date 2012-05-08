@@ -61,8 +61,22 @@
             android:background="@drawable/content"
             android:prompt="@string/operatorSelect" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="手机卡品牌"
+            android:textColor="@color/whitesmoke" />
+
+        <Spinner
+            android:id="@+id/brand"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dip"
+            android:background="@drawable/content"
+            android:prompt="@string/operatorSelect" />
+
         <Button
-            android:id="@+id/smsSend"
+            android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
