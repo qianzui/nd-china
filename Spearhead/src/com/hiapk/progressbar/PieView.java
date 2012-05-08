@@ -22,7 +22,7 @@ public class PieView extends ViewBase {
 	int shade_colors[];
 	int percent[];
 	private int thickness = 8;
-	int mobilePersent=0;
+	int mobilePersent = 0;
 
 	/**
 	 * @param context
@@ -54,7 +54,7 @@ public class PieView extends ViewBase {
 	// this.percent = percent;
 	// }
 
-	public PieView(Context context, int[] percent,int mobilePersent) {
+	public PieView(Context context, int[] percent, int mobilePersent) {
 		super(context);
 		int[] colors = new int[] { Color.RED, Color.GREEN };
 		int[] shade_colors = new int[] { Color.rgb(180, 20, 10),
@@ -62,7 +62,7 @@ public class PieView extends ViewBase {
 		this.colors = colors;
 		this.shade_colors = shade_colors;
 		this.percent = percent;
-		this.mobilePersent=mobilePersent;
+		this.mobilePersent = mobilePersent;
 	}
 
 	public void setThickness(int thickness) {
@@ -91,8 +91,8 @@ public class PieView extends ViewBase {
 			for (int j = 0; j < percent.length; j++) {
 				paint.setColor(shade_colors[j]);
 				canvas.drawArc(new RectF(1,
-						((areaHight - minpie) - (float) (i)) - 1, minpie + +1,
-						(areaHight - (float) (i)) - 1), tempAngle, percent[j],
+						((areaHight - minpie)/4*3 - (float) (i)) - 1, minpie + +1,
+						((areaHight - minpie)/4*3+minpie - (float) (i)) - 1), tempAngle, percent[j],
 						true, paint);
 				tempAngle += percent[j];
 			}
@@ -100,8 +100,8 @@ public class PieView extends ViewBase {
 				for (int j = 0; j < percent.length; j++) {
 					paint.setColor(colors[j]);
 					canvas.drawArc(new RectF(1,
-							((areaHight - minpie) - (float) (i)) - 1, minpie
-									+ +1, (areaHight - (float) (i)) - 1),
+							((areaHight - minpie)/4*3 - (float) (i)) - 1, minpie
+									+ +1, ((areaHight - minpie)/4*3+minpie - (float) (i)) - 1),
 							tempAngle, percent[j], true, paint);
 					tempAngle += percent[j];
 				}
@@ -112,9 +112,9 @@ public class PieView extends ViewBase {
 		// 画直线
 		float[] linespoint = new float[4];
 		linespoint[0] = minpie / 2 + 1;
-		linespoint[1] = (areaHight - minpie / 2 - (float) (thickness)) - 1;
+		linespoint[1] = ((areaHight - minpie)/4*3+minpie/2 - (float) (thickness)) - 1;
 		linespoint[2] = (minpie + (float) ((thickness) + 1)) * 3 / 4;
-		linespoint[3] = (((areaHight - minpie) - (float) (thickness)) - 1);
+		linespoint[3] = (((areaHight - minpie)/4*3 - (float) (thickness)) - 1);
 		// 第一条线
 		canvas.drawLine(linespoint[0], linespoint[1], linespoint[2],
 				linespoint[3], paint);
@@ -128,14 +128,15 @@ public class PieView extends ViewBase {
 		// 设置显示的数字
 		paint.setColor(Color.WHITE);
 		paint.setTextSize(minpie / 6);
-//		int floatnum = (int) ((float) percent[0] * 100 / 360);
-//		DecimalFormat format = new DecimalFormat("0");
-//		String value = format.format(floatnum) + "";
+		// int floatnum = (int) ((float) percent[0] * 100 / 360);
+		// DecimalFormat format = new DecimalFormat("0");
+		// String value = format.format(floatnum) + "";
 		if (percent[0] == 360) {
-			canvas.drawText("已用" + mobilePersent + "%", linespoint[2] - minpie / 10,
-					linespoint[3] - 3, paint);
+			canvas.drawText("已用" + mobilePersent + "%", linespoint[2] - minpie
+					/ 8, linespoint[3] - 3, paint);
 		} else {
-			canvas.drawText("已用" + mobilePersent + "%", linespoint[2],
+			canvas.drawText("已用" + mobilePersent + "%", linespoint[2]-minpie
+					/ 20,
 					linespoint[3] - 3, paint);
 		}
 

@@ -235,7 +235,8 @@ public class Main extends Activity {
 		// 取得窗口属性
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 		// 窗口的宽度
-		windowswidesize = dm.widthPixels / 10;
+//		windowswidesize = dm.widthPixels / 10;
+		windowswidesize=dm.densityDpi/5;
 		// showlog(screenWidth+"");
 		myProgressBar_mobile.setTextsize(windowswidesize);
 		// myProgressBar_wifi.setTextsize(fontsize);
@@ -371,7 +372,12 @@ public class Main extends Activity {
 	 * @return 返回显示的柱状图
 	 */
 	private StackedBarChart initStackedBarChart(Context context) {
-
+		DisplayMetrics dm = new DisplayMetrics();
+		// 取得窗口属性
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		// 窗口的宽度
+//		windowswidesize = dm.widthPixels / 10;
+		windowswidesize=dm.densityDpi/5;
 		StackedBarChart chartbar = new StackedBarChart(context, windowswidesize);
 		// 进行参数设置
 		// 设置x轴显示范围
