@@ -1,5 +1,6 @@
 package com.hiapk.spearhead;
 
+import com.hiapk.alertaction.AlertActionNotify;
 import com.hiapk.dataexe.MonthlyUseData;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.regulate.Regulate;
@@ -82,10 +83,6 @@ public class Main3 extends Activity {
 		init_monthWarning();
 		init_dayWarning();
 		init_warningAct();
-		NotificationManager mNotificationManager = (NotificationManager) context
-				.getSystemService(Context.NOTIFICATION_SERVICE);
-		mNotificationManager.cancel(3);
-		mNotificationManager.cancel(2);
 		combo = (Button) findViewById(R.id.combo);
 		combo.setOnClickListener(new OnClickListener() {
 			@Override
@@ -109,14 +106,16 @@ public class Main3 extends Activity {
 				R.array.warningaction, R.layout.sptext);
 		adp2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		warningAct.setAdapter(adp2);
+		// 初始化数值
+		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+		final int beforeWarningAction = prefs.getInt(WARNING_ACTION, 0);
+		warningAct.setSelection(beforeWarningAction);
 		warningAct.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
 				// TODO Auto-generated method stub
-				SharedPreferences prefs = context.getSharedPreferences(
-						PREFS_NAME, 0);
-				int beforeWarningAction = prefs.getInt(WARNING_ACTION, 0);
+
 				if ((beforeWarningAction) != position) {
 					// 结算日期变化时做日期变化并重置本月已用数值
 					Editor passfileEditor = context.getSharedPreferences(
@@ -355,6 +354,8 @@ public class Main3 extends Activity {
 						init_btn_month();
 						init_dayWarning();
 						init_monthWarning();
+						// 重置预警状态
+						resetHasWarning();
 						/* User clicked OK so do some stuff */
 					}
 				})
@@ -433,6 +434,7 @@ public class Main3 extends Activity {
 						passfileEditor.commit();// 委托，存入数据
 						commitUsedTrafficTime();
 						init_btn_HasUsed();
+
 						/* User clicked OK so do some stuff */
 					}
 				})
@@ -472,7 +474,7 @@ public class Main3 extends Activity {
 		// final int monthset_MB = (int) (monthset / 1024 / 1024);
 		long warningMonthset = prefs.getLong(MOBILE_WARNING_MONTH,
 				45 * 1024 * 1024);
-		if (warningMonthset != 0) {
+		if (monthset != 0) {
 			// 进行初始化
 			// 流量数值前方的说明文字
 			final String text = "";
@@ -518,6 +520,8 @@ public class Main3 extends Activity {
 											newmonthset);
 									UseEditor.commit();
 									init_monthWarning();
+									// 重置预警状态
+									resetHasWarning();
 
 								}
 							})
@@ -577,7 +581,8 @@ public class Main3 extends Activity {
 		final long dayset = prefs.getLong(VALUE_MOBILE_SET, 50 * 1024 * 1024);
 		// final int dayset_MB = (int) (dayset / 1024 / 1024);
 		long warningDayset = prefs.getLong(MOBILE_WARNING_DAY, 5 * 1024 * 1024);
-		if (warningDayset != 0) {
+		final long monthset = prefs.getLong(VALUE_MOBILE_SET, 50 * 1024 * 1024);
+		if (monthset != 0) {
 			// 进行初始化
 			final String text = "";
 			seekbar_warning.setProgress((int) (warningDayset * 100 / dayset));
@@ -622,7 +627,8 @@ public class Main3 extends Activity {
 											newdayset);
 									UseEditor.commit();
 									init_dayWarning();
-
+									// 重置预警状态
+									resetHasWarning();
 								}
 							})
 					.setNegativeButton("取消",
@@ -659,6 +665,7 @@ public class Main3 extends Activity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		init_btn_HasUsed();
+
 	}
 
 	/**
@@ -708,6 +715,18 @@ public class Main3 extends Activity {
 		if (second < 10)
 			second2 = "0" + second2;
 		time = hour2 + ":" + minute2 + ":" + second2;
+	}
+
+	/**
+	 * 重置预警状态
+	 */
+	private void resetHasWarning() {
+		String MOBILE_HAS_WARNING_MONTH = "mobilemonthhaswarning";
+		String MOBILE_HAS_WARNING_DAY = "mobiledayhaswarning";
+		Editor UseEditor = context.getSharedPreferences(PREFS_NAME, 0).edit();
+		UseEditor.putBoolean(MOBILE_HAS_WARNING_MONTH, false);
+		UseEditor.putBoolean(MOBILE_HAS_WARNING_DAY, false);
+		UseEditor.commit();
 	}
 
 	/**

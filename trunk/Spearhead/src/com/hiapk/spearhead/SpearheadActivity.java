@@ -1,6 +1,9 @@
 package com.hiapk.spearhead;
 
+import com.hiapk.alertaction.AlertActionNotify;
+
 import android.app.TabActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +17,7 @@ public class SpearheadActivity extends TabActivity {
 	public static final String TAB_MONITOR = "tabMonitor";
 	public static final String TAB_FIREWALL = "tabFireWall";
 	public static final String TAB_WARNING = "tabWarning";
-
+	Context context=this;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -72,6 +75,13 @@ public class SpearheadActivity extends TabActivity {
 		group.clearCheck();
 		group.check(R.id.radio_button2);
 		tabHost.setCurrentTabByTag(TAB_WARNING);
+	}
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		AlertActionNotify notifyctrl=new AlertActionNotify();
+		notifyctrl.cancelAlertNotify(context);
 	}
 
 }

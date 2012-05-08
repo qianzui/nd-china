@@ -6,6 +6,7 @@ import com.hiapk.sqlhelper.SQLHelperTotal;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.TrafficStats;
 import android.util.Log;
@@ -16,6 +17,11 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	// use database
 	private SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 	private SQLiteDatabase sqlDataBase;
+	// 操作sharedprefrence
+	String PREFS_NAME = "allprefs";
+	// 流量预警
+	String MOBILE_HAS_WARNING_MONTH = "mobilemonthhaswarning";
+	String MOBILE_HAS_WARNING_DAY = "mobiledayhaswarning";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -45,12 +51,23 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		TrafficAlert trafficalert = new TrafficAlert();
 		showLog("month" + trafficalert.isTrafficOverMonthSet(context) + "day"
 				+ trafficalert.isTrafficOverDaySet(context));
-		if (trafficalert.isTrafficOverMonthSet(context)) {
-			trafficalert.exeWarningActionMonth(context);
+		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+		boolean monthHasWarning = prefs.getBoolean(MOBILE_HAS_WARNING_MONTH,
+				false);
+		if (!monthHasWarning) {
+			// 月度
+			if (trafficalert.isTrafficOverMonthSet(context)) {
+				trafficalert.exeWarningActionMonth(context);
+			}
 		}
-		if (trafficalert.isTrafficOverDaySet(context)) {
-			trafficalert.exeWarningActionDay(context);
+		// 日预警
+		boolean dayHasWarning = prefs.getBoolean(MOBILE_HAS_WARNING_DAY, false);
+		if (!dayHasWarning) {
+			if (trafficalert.isTrafficOverDaySet(context)) {
+				trafficalert.exeWarningActionDay(context);
+			}
 		}
+
 	}
 
 	/**

@@ -69,4 +69,11 @@ public class AlertActionNotify {
 		notification.setLatestEventInfo(context, "先锋流量监控", "月流量已超标", pi);
 		mNotificationManager.notify(MONTH_WARNING_ID, notification);
 	}
+
+	public void cancelAlertNotify(Context context) {
+		NotificationManager mNotificationManager = (NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		mNotificationManager.cancel(3);
+		mNotificationManager.cancel(2);
+	}
 }

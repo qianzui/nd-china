@@ -8,9 +8,10 @@
     </string-array>
     <!-- 预警模式 -->
     <string-array name="warningaction">
-        <item>通知栏提示</item>
+        <item>仅通知栏提示</item>
         <item>震动提示</item>
         <item>自动断网</item>
+        <item>震动+自动断网</item>
     </string-array>
     <!-- 运营商 -->
     <string-array name="operator">
