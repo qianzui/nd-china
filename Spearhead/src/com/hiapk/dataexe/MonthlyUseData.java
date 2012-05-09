@@ -7,15 +7,15 @@ import android.content.SharedPreferences;
 import android.text.format.Time;
 import android.util.Log;
 
-public class MonthlyUseData {
+/**
+ * 获取当前月到结算日的流量使用情况，包含设置已用流量之后
+ * 
+ * @author Administrator
+ * 
+ */
+class MonthlyUseData {
 	// private SQLHelperUid sqlhelperUid = new SQLHelperUid();
 	private SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
-	// wifi与mobile单月使用量
-	private long wifi_month_use = 0;
-
-	// 临时存放两个数据------------
-	private int[] uids;
-	private String[] packagenames;
 	// ------------
 	// 显示何种图形
 	boolean ismobileshowpie = false;
@@ -23,7 +23,6 @@ public class MonthlyUseData {
 	private int year;
 	private int month;
 	private int monthDay;
-	private int weekDay;
 	// wifi月度流量
 	long[] wifiTraffic = new long[64];
 	/**
@@ -35,7 +34,13 @@ public class MonthlyUseData {
 	 */
 	long[] mobileTrafficPart = new long[64];
 
-	public long getMonthUseData(Context context) {
+	/**
+	 * 获取月度使用流量
+	 * 
+	 * @param context
+	 * @return 返回使用流量数值
+	 */
+	long getMonthUseData(Context context) {
 		long mobile_month_use = 0;
 		// 取得系统时间。
 		Time t = new Time();
@@ -43,7 +48,6 @@ public class MonthlyUseData {
 		year = t.year;
 		month = t.month + 1;
 		monthDay = t.monthDay;
-		weekDay = t.weekDay;
 		// 月度流量设置
 		String PREFS_NAME = "allprefs";
 		String VALUE_MOBILE_SET = "mobilemonthuse";
@@ -56,23 +60,9 @@ public class MonthlyUseData {
 		String MOBILE_COUNT_SET_TIME = "mobileMonthSetCountTime";
 		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
 		//
-		long[] b = new long[3];
-		// long[] a = new long[3];
-		// a = sqlhelperTotal.SelectMobileData(context, year, month, monthDay,
-		// "10:10:10");
-		b = sqlhelperTotal.SelectMobileData(context, year, month, 31, 30);
-		//
 		// 初始化流量获取函数
 		TrafficManager trafficMan = new TrafficManager();
-		// 取得每周的流量
-		long[] weektraffic = new long[6];
-		weektraffic = trafficMan.getMobileWeekTraffic(context, year, month,
-				monthDay, weekDay);
-		// 取得月度流量
-		mobileTraffic = trafficMan.getMobileMonthTraffic(context, year, month);
-		//
-		// mobileTraffic = sqlhelperTotal.SelectWifiData(context, year, month);
-		//
+		mobileTraffic = trafficMan.getMobileMonthTraffic(context);
 		// 月度流量设置
 		// 设置结算日期及结算日期的设施时间，日期等
 		// 结算日期

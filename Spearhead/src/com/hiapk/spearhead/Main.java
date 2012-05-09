@@ -4,7 +4,6 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import com.hiapk.broadcreceiver.AlarmSet;
-import com.hiapk.dataexe.MonthlyUseData;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.GetRoot;
 import com.hiapk.progressbar.MyProgressBar;
@@ -123,7 +122,8 @@ public class Main extends Activity {
 
 			}
 		});
-
+		// 流量获取函数
+		TrafficManager trafficManager = new TrafficManager();
 		wifiTraffic = new long[64];
 		// 取得系统时间。
 		Time t = new Time();
@@ -138,25 +138,19 @@ public class Main extends Activity {
 		String VALUE_MOBILE_HASUSED_LONG = "mobileHasusedlong";
 		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
 		// 初始化流量获取函数
-		TrafficManager trafficMan = new TrafficManager();
 		// 取得每周的流量
 		long[] weektraffic = new long[6];
-		weektraffic = trafficMan.getMobileWeekTraffic(context, year, month,
-				monthDay, weekDay);
+		weektraffic = trafficManager.getMobileWeekTraffic(context);
 		// 取得月度流量
-		mobileTraffic = trafficMan.getMobileMonthTraffic(context, year, month);
-		//
-		// mobileTraffic = sqlhelperTotal.SelectWifiData(context, year, month);
-		//
-		wifiTraffic = sqlhelperTotal.SelectWifiData(context, year, month);
+		mobileTraffic = trafficManager.getMobileMonthTraffic(context);
+		wifiTraffic = trafficManager.getWifiMonthTraffic(context);
 		// 进行流量设置
 		todayMobil.setText(unitHandler(mobileTraffic[monthDay]
 				+ mobileTraffic[monthDay + 31], todayMobilunit));
 		// todayMobil.setText(unitHandler(8888080, todayMobilunit));
 		weekMobil.setText(unitHandler(weektraffic[0], weekMobilunit));
 		// 月度流量设置
-		MonthlyUseData monthData = new MonthlyUseData();
-		mobile_month_use = monthData.getMonthUseData(context);
+		mobile_month_use = trafficManager.getMonthUseData(context);
 		long mobileSet = prefs.getLong(VALUE_MOBILE_SET, 52428800);
 		long mobileHasUsed = prefs.getLong(VALUE_MOBILE_HASUSED_LONG, 0);
 		mobile_month_use = mobile_month_use + mobileHasUsed;
@@ -235,8 +229,8 @@ public class Main extends Activity {
 		// 取得窗口属性
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 		// 窗口的宽度
-//		windowswidesize = dm.widthPixels / 10;
-		windowswidesize=dm.densityDpi/5;
+		// windowswidesize = dm.widthPixels / 10;
+		windowswidesize = dm.densityDpi / 5;
 		// showlog(screenWidth+"");
 		myProgressBar_mobile.setTextsize(windowswidesize);
 		// myProgressBar_wifi.setTextsize(fontsize);
@@ -376,8 +370,8 @@ public class Main extends Activity {
 		// 取得窗口属性
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 		// 窗口的宽度
-//		windowswidesize = dm.widthPixels / 10;
-		windowswidesize=dm.densityDpi;
+		// windowswidesize = dm.widthPixels / 10;
+		windowswidesize = dm.densityDpi;
 		StackedBarChart chartbar = new StackedBarChart(context, windowswidesize);
 		// 进行参数设置
 		// 设置x轴显示范围
