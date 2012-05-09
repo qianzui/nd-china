@@ -563,8 +563,8 @@ public class SQLHelperTotal {
 	 *            输入查询的日期.
 	 * @param time
 	 *            输入查询的时间.
-	 * @return 返回一个64位数组。a[0]为总计上传流量a[63]为总计下载流量
-	 *         a[1]-a[31]为1号到31号上传流量，a[32]-a[62]为1号到31号下载流量
+	 * @return 返回一个3位数组。a[0]为总计流量a[1]为上传流量a[2]下载流量
+	 * 
 	 */
 	public long[] SelectMobileData(Context context, int year, int month,
 			int day, String time) {
@@ -784,9 +784,9 @@ public class SQLHelperTotal {
 		a[0] = countup + countdown;
 		a[1] = countup;
 		a[2] = countdown;
-//		for (int j = 0; j < a.length; j++) {
-//			showLog(j + "liuliang" + a[j] + "");
-//		}
+		// for (int j = 0; j < a.length; j++) {
+		// showLog(j + "liuliang" + a[j] + "");
+		// }
 		return a;
 	}
 
@@ -854,9 +854,9 @@ public class SQLHelperTotal {
 		a[0] = countdown + countup;
 		a[1] = countup;
 		a[2] = countdown;
-		// for (int j = 0; j < a.length; j++) {
-		// showLog(j + "liuliang" + a[j] + "");
-		// }
+		 for (int j = 0; j < a.length; j++) {
+		 showLog(j + "liuliang" + a[j] + "");
+		 }
 		return a;
 	}
 
