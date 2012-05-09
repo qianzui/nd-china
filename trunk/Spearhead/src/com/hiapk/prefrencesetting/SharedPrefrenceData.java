@@ -2,6 +2,8 @@ package com.hiapk.prefrencesetting;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
 
 public class SharedPrefrenceData {
 	// ²Ù×÷sharedprefrence
@@ -35,19 +37,37 @@ public class SharedPrefrenceData {
 	// Ô¤¾¯¶¯×÷
 	String WARNING_ACTION = "warningaction";
 	Context context;
-	SharedPreferences prefs ;
+	SharedPreferences prefs;
+	SharedPreferences prefs_sys;
+	Editor UseEditor;
+	Editor UseEditor_sys;
 
 	public SharedPrefrenceData(Context context) {
 		this.context = context;
 		prefs = context.getSharedPreferences(PREFS_NAME, 0);
+		UseEditor = context.getSharedPreferences(PREFS_NAME, 0).edit();
+		prefs_sys = PreferenceManager.getDefaultSharedPreferences(context);
+		UseEditor_sys = PreferenceManager.getDefaultSharedPreferences(context)
+				.edit();
 	}
 
-//	SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+	// SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
 
 	long monthMobileSetOfLong = 0;
 	int monthMobileSetOfint = 0;
 	long monthMobileHasUse = 0;
 	long monthMobileHasUseOfint = 0;
+	boolean isNotifyOpen = true;
+
+	public boolean isNotifyOpen() {
+		boolean isNotifyOpen = prefs_sys.getBoolean(SYS_PRE_NOTIFY, true);
+		return isNotifyOpen;
+	}
+
+	public void setNotifyOpen(boolean isNotifyOpen) {
+		UseEditor_sys.putBoolean(SYS_PRE_NOTIFY, isNotifyOpen);
+		UseEditor_sys.commit();
+	}
 
 	public int getMonthMobileHasUseOfint() {
 		int mobileUseInt = prefs.getInt(VALUE_MOBILE_HASUSED_OF_INT, 0);

@@ -31,6 +31,9 @@ public class PrefrenceSetting extends PreferenceActivity {
 	PreferenceScreen clearData;
 	Context context = this;
 
+	SharedPrefrenceData sharedData;
+	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -40,11 +43,15 @@ public class PrefrenceSetting extends PreferenceActivity {
 		isfloatIndicatorOpen = (CheckBoxPreference) findPreference(SYS_PRE_FLOAT_CTRL);
 		refreshFres = (ListPreference) findPreference(SYS_PRE_REFRESH_FRZ);
 		clearData = (PreferenceScreen) findPreference(SYS_PRE_CLEAR_DATA);
-
+		// ¼àÌý
 		isNotifyOpen.setOnPreferenceClickListener(oclick);
 		isfloatIndicatorOpen.setOnPreferenceClickListener(oclick);
 		refreshFres.setOnPreferenceChangeListener(ochange);
 		clearData.setOnPreferenceClickListener(oclick);
+		sharedData = new SharedPrefrenceData(context);
+		// ³õÊ¼»¯×´Ì¬
+		boolean notifyStates = sharedData.isNotifyOpen();
+		isNotifyOpen.setChecked(notifyStates);
 	}
 
 	OnPreferenceClickListener oclick = new OnPreferenceClickListener() {
@@ -52,12 +59,10 @@ public class PrefrenceSetting extends PreferenceActivity {
 		@Override
 		public boolean onPreferenceClick(Preference preference) {
 			// TODO Auto-generated method stub
-			SharedPreferences prefs = preference.getSharedPreferences();
-			Editor UseEditor = context.getSharedPreferences(PREFS_NAME, 0)
-					.edit();
-
 			if (preference.equals(isNotifyOpen)) {
-				boolean isOpenNotify = prefs.getBoolean(SYS_PRE_NOTIFY, true);
+				boolean isOpenNotify = isNotifyOpen.isChecked();
+				sharedData.setNotifyOpen(isOpenNotify);
+				
 				ProgramNotify promNotify = new ProgramNotify();
 				if (isOpenNotify == true) {
 					promNotify.showNotice(context);
