@@ -36,14 +36,15 @@ import android.view.View;
  * 设置柱状条，最多只能有2条.
  */
 public class StackedBarChart extends ViewBase {
-	int windowswidesize=300;
-	public StackedBarChart(Context context,int width) {
+	int windowswidesize = 300;
+
+	public StackedBarChart(Context context, int width) {
 		super(context);
-		this.windowswidesize=width;
-//		Log.d("main", windowswidesize+"");
+		this.windowswidesize = width;
+		// Log.d("main", windowswidesize+"windowswidesize");
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	// 名称数的个数要与data数与color数统一！
 	// 柱状条的名称
 	String[] paramstitles = new String[] { "总流量", "wifi流量" };
@@ -81,6 +82,7 @@ public class StackedBarChart extends ViewBase {
 	String[] xaxles = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
 			"11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21",
 			"22", "23", "24", "25", "26", "27", "28", "29", "30", "31" };
+
 	/**
 	 * 设置x轴显示的数字
 	 */
@@ -121,12 +123,11 @@ public class StackedBarChart extends ViewBase {
 	// 柱状条颜色
 	int[] chartbarcolor = new int[] { backgroundcolor, Color.CYAN };
 	// int[] chartbarcolor = new int[] { Color.CYAN };
-
-	float AxisTitleTextSize = windowswidesize/15;
-	float ChartTitleTextSize = windowswidesize/12;
-	float LabelsTextSize = windowswidesize/18;
-	float LegendTextSize = windowswidesize/18;
-	float ChartValuesTextsize = windowswidesize/16;
+	float AxisTitleTextSize = windowswidesize / 2;
+	float ChartTitleTextSize = windowswidesize / 2;
+	float LabelsTextSize = windowswidesize / 3;
+	float LegendTextSize = windowswidesize / 3;
+	float ChartValuesTextsize = windowswidesize / 3;
 
 	public void setParamstitles(String[] paramstitles) {
 		this.paramstitles = paramstitles;
@@ -258,6 +259,7 @@ public class StackedBarChart extends ViewBase {
 	 * @return the built intent
 	 */
 	public View execute(Context context) {
+		initSize();
 		// String[] titles = new String[] { "2008", "2007" };
 		List<double[]> values = new ArrayList<double[]>();
 		// 显示的数据值
@@ -290,7 +292,7 @@ public class StackedBarChart extends ViewBase {
 		// renderer.setZoomEnabled(false);
 		// other
 		renderer.setShowGrid(true);
-		 renderer.setChartValuesTextSize(ChartValuesTextsize);
+		renderer.setChartValuesTextSize(ChartValuesTextsize);
 		// 设置边界等
 		// Log.d("main", width+"");
 		double[] limit = new double[] { 0.5, monthDay + 0.5, 0, MaxTraffic };
@@ -301,6 +303,15 @@ public class StackedBarChart extends ViewBase {
 		renderer.setBarSpacing(1f);
 		return ChartFactory.getBarChartView(context,
 				buildBarDataset(paramstitles, values), renderer, Type.STACKED);
+	}
+
+	private void initSize() {
+		// TODO Auto-generated method stub
+		AxisTitleTextSize = windowswidesize / 14;
+		ChartTitleTextSize = windowswidesize / 10;
+		LabelsTextSize = windowswidesize / 20;
+		LegendTextSize = windowswidesize / 15;
+		ChartValuesTextsize = windowswidesize / 15;
 	}
 
 	/**
