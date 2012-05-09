@@ -17,12 +17,12 @@
     </string-array>
     <!-- 更新频率 -->
     <string-array name="refreshwidget2">
-        <item>30s</item>
-        <item>1m</item>
-        <item>5m</item>
-        <item>15m</item>
-        <item>30m</item>
-        <item>1h</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
     </string-array>
     <!-- 预警模式 -->
     <string-array name="warningaction">
