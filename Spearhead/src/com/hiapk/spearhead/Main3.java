@@ -3,6 +3,7 @@ package com.hiapk.spearhead;
 import com.hiapk.alertaction.AlertActionNotify;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
+import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.regulate.Regulate;
 
 import android.app.Activity;
@@ -73,14 +74,17 @@ public class Main3 extends Activity {
 	private String time;
 	// 调用单位处理函数
 	UnitHandler FormatUnit = new UnitHandler();
-	//流量函数
+	// 流量函数
 	TrafficManager trafficManager = new TrafficManager();
+	// 获取固定存放数据
+	SharedPrefrenceData sharedData;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main3);
+		sharedData= new SharedPrefrenceData(context);
 		init_Spinner();
 		init_btn_month();
 		init_monthWarning();
@@ -110,8 +114,7 @@ public class Main3 extends Activity {
 		adp2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		warningAct.setAdapter(adp2);
 		// 初始化数值
-		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-		final int beforeWarningAction = prefs.getInt(WARNING_ACTION, 0);
+		final int beforeWarningAction = sharedData.getAlertAction();
 		warningAct.setSelection(beforeWarningAction);
 		warningAct.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
@@ -142,8 +145,7 @@ public class Main3 extends Activity {
 	private void init_dayWarning() {
 		// TODO Auto-generated method stub
 		final Button dayWarning = (Button) findViewById(R.id.dayWarning);
-		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-		long mobileWarning = prefs.getLong(MOBILE_WARNING_DAY, 5 * 1024 * 1024);
+		long mobileWarning = sharedData.getAlertWarningDay();
 		// float a=Float.valueOf(mobileWarning).floatValue();
 		dayWarning.setText(FormatUnit.unitHandler(mobileWarning));
 		dayWarning.setOnClickListener(new OnClickListener() {
@@ -161,9 +163,7 @@ public class Main3 extends Activity {
 	 */
 	private void init_monthWarning() {
 		final Button monthWarning = (Button) findViewById(R.id.monthWarning);
-		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-		long mobileWarning = prefs.getLong(MOBILE_WARNING_MONTH,
-				45 * 1024 * 1024);
+		long mobileWarning = sharedData.getAlertWarningMonth();
 		// float a=Float.valueOf(mobileWarning).floatValue();
 		monthWarning.setText(FormatUnit.unitHandler(mobileWarning));
 		monthWarning.setOnClickListener(new OnClickListener() {
@@ -199,9 +199,8 @@ public class Main3 extends Activity {
 		dayUnit.setAdapter(adp2);
 		// spinnerHasUsed.setAdapter(adp3);
 		// 设置月度流量与结算日期的默认显示值
-		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
 		// 从0-30分别代表1-31日
-		int mobileSetCountDay = prefs.getInt(MOBILE_COUNT_DAY, 0);
+		int mobileSetCountDay = sharedData.getCountDay();
 		// 设置初始显示项目
 		// spinnerUnit.setSelection(mobileSetUnit);
 		dayUnit.setSelection(mobileSetCountDay);
@@ -211,9 +210,7 @@ public class Main3 extends Activity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
 				// TODO Auto-generated method stub
-				SharedPreferences prefs = context.getSharedPreferences(
-						PREFS_NAME, 0);
-				int beforeSetCount = prefs.getInt(MOBILE_COUNT_DAY, 0);
+				int beforeSetCount = sharedData.getCountDay();
 				if ((beforeSetCount) != position) {
 					// 结算日期变化时做日期变化并重置本月已用数值
 					Editor passfileEditor = context.getSharedPreferences(
@@ -244,9 +241,8 @@ public class Main3 extends Activity {
 		// TODO Auto-generated method stub
 		final Button btn_HasUsed = (Button) findViewById(R.id.btn_monthHasUseSet_Unit);
 		// 设置默认显示值
-		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
 		// 设置的使用值
-		long mobileUsedSet = prefs.getLong(VALUE_MOBILE_HASUSED_LONG, 0);
+		long mobileUsedSet = sharedData.getMonthMobileHasUse();
 		// 计算出来的设置数值之后计算出来的使用量
 		long month_used = trafficManager.getMonthUseData(context);
 		showlog(mobileUsedSet + "");
@@ -269,8 +265,7 @@ public class Main3 extends Activity {
 	private void init_btn_month() {
 		final Button btn_month = (Button) findViewById(R.id.btn_monthSet_Unit);
 		// 设置默认显示值
-		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-		long mobileSetLong = prefs.getLong(VALUE_MOBILE_SET, 50 * 1024 * 1024);
+		long mobileSetLong = sharedData.getMonthMobileSetOfLong();
 		showlog(mobileSetLong + "");
 		btn_month.setText(FormatUnit.unitHandler(mobileSetLong));
 		// 设置监听
@@ -293,9 +288,8 @@ public class Main3 extends Activity {
 	 */
 	protected AlertDialog dialogMonthSet(final Button btn_month) {
 		// TODO Auto-generated method stub
-		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-		int mobileUnit = prefs.getInt(MOBILE_SET_UNIT, 0);
-		int mobileSetInt = prefs.getInt(VALUE_MOBILE_SET_OF_INT, 50);
+		int mobileUnit = sharedData.getMonthMobileSetUnit();
+		int mobileSetInt = sharedData.getMonthMobileSetOfint();
 		// 初始化窗体
 		LayoutInflater factory = LayoutInflater.from(Main3.this);
 		final View textEntryView = factory.inflate(
@@ -380,9 +374,8 @@ public class Main3 extends Activity {
 	 */
 	protected AlertDialog dialogMonthHasUsed(final Button btn_Used) {
 		// TODO Auto-generated method stub
-		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-		int mobileUseUnit = prefs.getInt(MOBILE_HASUSED_SET_UNIT, 0);
-		int mobileUseInt = prefs.getInt(VALUE_MOBILE_HASUSED_OF_INT, 0);
+		int mobileUseUnit = sharedData.getMonthHasUsedUnit();
+		int mobileUseInt = sharedData.getMonthMobileHasUseOfint();
 		// 初始化窗体
 		LayoutInflater factory = LayoutInflater.from(Main3.this);
 		final View textEntryView = factory.inflate(
@@ -456,8 +449,6 @@ public class Main3 extends Activity {
 	 * 月度预警弹出的对话框
 	 */
 	public AlertDialog dialogMonthWarning(Button button) {
-		final SharedPreferences prefs = context.getSharedPreferences(
-				PREFS_NAME, 0);
 		LayoutInflater factory = LayoutInflater.from(Main3.this);
 		textEntryView = factory.inflate(
 				R.layout.month_warning_set_alert_dialog, null);
@@ -472,10 +463,9 @@ public class Main3 extends Activity {
 		final SeekBar seekbar_warning = (SeekBar) textEntryView
 				.findViewById(R.id.probar_warning_alert);
 		// 包月流量
-		final long monthset = prefs.getLong(VALUE_MOBILE_SET, 50 * 1024 * 1024);
+		final long monthset = sharedData.getMonthMobileSetOfLong();
 		// final int monthset_MB = (int) (monthset / 1024 / 1024);
-		long warningMonthset = prefs.getLong(MOBILE_WARNING_MONTH,
-				45 * 1024 * 1024);
+		long warningMonthset = sharedData.getAlertWarningMonth();
 		if (monthset != 0) {
 			// 进行初始化
 			// 流量数值前方的说明文字
@@ -563,8 +553,6 @@ public class Main3 extends Activity {
 	 * @return
 	 */
 	public AlertDialog dialogDayWarning(Button button) {
-		final SharedPreferences prefs = context.getSharedPreferences(
-				PREFS_NAME, 0);
 		LayoutInflater factory = LayoutInflater.from(Main3.this);
 		textEntryView = factory.inflate(
 				R.layout.month_warning_set_alert_dialog, null);
@@ -580,14 +568,12 @@ public class Main3 extends Activity {
 		final SeekBar seekbar_warning = (SeekBar) textEntryView
 				.findViewById(R.id.probar_warning_alert);
 		// 包月流量
-		final long dayset = prefs.getLong(VALUE_MOBILE_SET, 50 * 1024 * 1024);
-		// final int dayset_MB = (int) (dayset / 1024 / 1024);
-		long warningDayset = prefs.getLong(MOBILE_WARNING_DAY, 5 * 1024 * 1024);
-		final long monthset = prefs.getLong(VALUE_MOBILE_SET, 50 * 1024 * 1024);
+		long warningDayset = sharedData.getAlertWarningDay();
+		final long monthset = sharedData.getMonthMobileSetOfLong();
 		if (monthset != 0) {
 			// 进行初始化
 			final String text = "";
-			seekbar_warning.setProgress((int) (warningDayset * 100 / dayset));
+			seekbar_warning.setProgress((int) (warningDayset * 100 / monthset));
 			tv_month_Traff
 					.setText(text + FormatUnit.unitHandler(warningDayset));
 			seekbar_warning
@@ -608,8 +594,8 @@ public class Main3 extends Activity {
 								int progress, boolean fromUser) {
 							// TODO Auto-generated method stub
 							tv_month_Traff.setText(text
-									+ FormatUnit.unitHandler(progress * dayset
-											/ 100));
+									+ FormatUnit.unitHandler(progress
+											* monthset / 100));
 						}
 					});
 			AlertDialog dayWarning = new AlertDialog.Builder(Main3.this)
@@ -624,7 +610,7 @@ public class Main3 extends Activity {
 											.edit();
 									int progre = seekbar_warning.getProgress();
 									// 最小值1M
-									long newdayset = dayset * progre / 100;
+									long newdayset = monthset * progre / 100;
 									UseEditor.putLong(MOBILE_WARNING_DAY,
 											newdayset);
 									UseEditor.commit();
@@ -739,6 +725,7 @@ public class Main3 extends Activity {
 	private void showlog(String string) {
 		Log.d("main3", string);
 	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
