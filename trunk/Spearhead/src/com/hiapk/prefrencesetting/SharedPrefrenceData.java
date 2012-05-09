@@ -58,6 +58,17 @@ public class SharedPrefrenceData {
 	long monthMobileHasUse = 0;
 	long monthMobileHasUseOfint = 0;
 	boolean isNotifyOpen = true;
+	String widgetFresh="";
+	
+	
+	public String getWidgetFresh() {
+		return widgetFresh;
+	}
+
+	public void setWidgetFresh(String widgetFresh) {
+		UseEditor_sys.putString(SYS_PRE_REFRESH_FRZ, widgetFresh);
+		UseEditor_sys.commit();
+	}
 
 	public boolean isNotifyOpen() {
 		boolean isNotifyOpen = prefs_sys.getBoolean(SYS_PRE_NOTIFY, true);

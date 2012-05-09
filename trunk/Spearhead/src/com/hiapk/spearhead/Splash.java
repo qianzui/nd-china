@@ -1,6 +1,7 @@
 package com.hiapk.spearhead;
 
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.firewall.GetRoot;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
 
@@ -17,6 +18,8 @@ public class Splash extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
+		GetRoot gr = new GetRoot();
+		gr.cmdRoot("chmod 777 " + getPackageCodePath());
 		new AsyncTaskonResume().execute(context);
 	}
 

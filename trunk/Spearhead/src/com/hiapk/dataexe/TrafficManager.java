@@ -67,4 +67,13 @@ public class TrafficManager {
 		return monthtraffic;
 	}
 
+	/**
+	 * 记录wifi，mobile流量数据
+	 * @param context
+	 * @param forcerecored
+	 *            true则强制记录，false则不记录流量为0的数据
+	 */
+	public void statsTotalTraffic(Context context, boolean forcerecored) {
+		sqlhelperTotal.RecordTotalwritestats(context, forcerecored);
+	}
 }
