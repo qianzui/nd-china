@@ -65,6 +65,7 @@ public class Main extends Activity {
 	String SYS_PRE_REFRESH_FRZ = "refreshfrz";
 	String SYS_PRE_CLEAR_DATA = "cleardata";
 	SharedPrefrenceData sharedData;
+	TrafficManager trafficManager = new TrafficManager();
 
 	/** Called when the activity is first created. */
 	@Override
@@ -76,12 +77,12 @@ public class Main extends Activity {
 		// temp------------
 		getuids();
 		// ------------
+		AlarmSet alset = new AlarmSet();
+		if (sharedData.isNotifyOpen()) {
+			alset.StartWidgetAlarm(context);
+		}
 		initSQLdatabase(uids, packagenames);
 		setonrefreshclicklistens();
-		ProgramNotify promNotify = new ProgramNotify();
-		promNotify.showNotice(context);
-		GetRoot gr = new GetRoot();
-		gr.cmdRoot("chmod 777 " + getPackageCodePath());
 	}
 
 	/**
@@ -116,7 +117,6 @@ public class Main extends Activity {
 			}
 		});
 		// 流量获取函数
-		TrafficManager trafficManager = new TrafficManager();
 		wifiTraffic = new long[64];
 		// 取得系统时间。
 		Time t = new Time();
@@ -294,7 +294,7 @@ public class Main extends Activity {
 			// 启动闹钟
 			alset.StartAlarmMobile(context);
 			// 进行数据记录
-			sqlhelperTotal.RecordTotalwritestats(context, false);
+			trafficManager.statsTotalTraffic(context, false);
 		} else if (SQLHelperTotal.TableWiFiOrG23 != "") {
 			alset.StartAlarmMobile(context);
 			sqlhelperTotal.initTablemobileAndwifi(context);

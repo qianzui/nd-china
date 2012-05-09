@@ -66,25 +66,19 @@ public class ProgramNotify {
 		PendingIntent pi = PendingIntent.getActivity(context, 0, intent, 0);
 		// 设置事件信息
 		notification.contentIntent = pi;
-		// 系统设置判断是否需要发通知
-		SharedPreferences prefs_setting = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		boolean allowNotify = prefs_setting.getBoolean(SYS_PRE_NOTIFY, true);
-		// showLog(allowNotify + "");
-		if (allowNotify) {
-			// 发出通知
-			mNotification.notify(ID, notification);
-		}
+		// 发出通知
+		mNotification.notify(ID, notification);
 	}
 
 	private void setText(Context context) {
 		// TODO Auto-generated method stub
+		TrafficManager trafficManager = new TrafficManager();
+		trafficManager.statsTotalTraffic(context, false);
 		Time t = new Time();
 		t.setToNow();
 		int year = t.year;
 		int month = t.month + 1;
 		int monthDay = t.monthDay;
-		TrafficManager trafficManager = new TrafficManager();
 		UnitHandler unitHandler = new UnitHandler();
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		long[] monthUsed_this = trafficManager.getMobileMonthTraffic(context);
@@ -98,7 +92,7 @@ public class ProgramNotify {
 
 		// textUp = "今日已用：xxx kB(MB)";
 		// textDown = "xx MB / 50 MB --> 2012.06.01";
-		textUp = "今日已用：" + todayUsedStr;
+		textUp = "今日已用：" + todayUsedStr + (int) (10 * Math.random());
 		textDown = monthUsedStr + " / " + monthSetStr + " --> " + year + "."
 				+ month + "." + monthDay;
 	}

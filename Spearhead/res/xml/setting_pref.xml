@@ -3,17 +3,18 @@
 
     <CheckBoxPreference
         android:key="notifyCtrl"
-        android:summaryOff="通知栏已关闭"
-        android:summaryOn="通知栏已开启"
-        android:title="开启/关闭通知栏" />
+        android:defaultValue="true"
+        android:summaryOff="已关闭"
+        android:summaryOn="已开启"
+        android:title="通知栏提示" />
     <CheckBoxPreference
         android:key="floatCtrl"
-        android:summaryOff="悬浮窗已关闭"
-        android:summaryOn="悬浮窗已开启"
-        android:title="开启/关闭流量指示悬浮窗 " />
+        android:defaultValue="false"
+        android:summaryOff="已关闭"
+        android:summaryOn="已开启"
+        android:title="流量指示悬浮窗 " />
 
     <ListPreference
-        android:defaultValue="0"
         android:entries="@array/refreshwidget"
         android:entryValues="@array/refreshwidget2"
         android:key="refreshfrz"

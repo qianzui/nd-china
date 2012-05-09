@@ -1,5 +1,6 @@
 package com.hiapk.prefrencesetting;
 
+import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.spearhead.R;
 import com.hiapk.widget.ProgramNotify;
 
@@ -15,6 +16,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
+import android.util.Log;
 
 public class PrefrenceSetting extends PreferenceActivity {
 	// ²Ù×÷sharedprefrence
@@ -32,7 +34,6 @@ public class PrefrenceSetting extends PreferenceActivity {
 	Context context = this;
 
 	SharedPrefrenceData sharedData;
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +50,6 @@ public class PrefrenceSetting extends PreferenceActivity {
 		refreshFres.setOnPreferenceChangeListener(ochange);
 		clearData.setOnPreferenceClickListener(oclick);
 		sharedData = new SharedPrefrenceData(context);
-		// ³õÊ¼»¯×´Ì¬
-		boolean notifyStates = sharedData.isNotifyOpen();
-		isNotifyOpen.setChecked(notifyStates);
 	}
 
 	OnPreferenceClickListener oclick = new OnPreferenceClickListener() {
@@ -61,13 +59,13 @@ public class PrefrenceSetting extends PreferenceActivity {
 			// TODO Auto-generated method stub
 			if (preference.equals(isNotifyOpen)) {
 				boolean isOpenNotify = isNotifyOpen.isChecked();
-				sharedData.setNotifyOpen(isOpenNotify);
-				
-				ProgramNotify promNotify = new ProgramNotify();
+				// boolean text=sharedData.isNotifyOpen();
+				AlarmSet alset = new AlarmSet();
+				// showLog(text + "");
 				if (isOpenNotify == true) {
-					promNotify.showNotice(context);
+					alset.StartWidgetAlarm(context);
 				} else {
-					promNotify.cancelProgramNotify(context);
+					alset.StopWidgetAlarm(context);
 				}
 				return true;
 			}
@@ -82,12 +80,31 @@ public class PrefrenceSetting extends PreferenceActivity {
 			return false;
 		}
 	};
+
 	OnPreferenceChangeListener ochange = new OnPreferenceChangeListener() {
 
 		@Override
 		public boolean onPreferenceChange(Preference preference, Object newValue) {
 			// TODO Auto-generated method stub
-			return false;
+			if (preference.equals(refreshFres)) {
+				AlarmSet alset = new AlarmSet();
+				boolean isOpenNotify = isNotifyOpen.isChecked();
+				sharedData.setWidgetFresh((String) newValue);
+				if (isOpenNotify == true) {
+					alset.StartWidgetAlarm(context);
+				} else {
+					alset.StopWidgetAlarm(context);
+				}
+				showLog(newValue + "");
+				return true;
+			}
+
+			return true;
 		}
 	};
+
+	private void showLog(String string) {
+		// TODO Auto-generated method stub
+		Log.d("setting", string);
+	}
 }
