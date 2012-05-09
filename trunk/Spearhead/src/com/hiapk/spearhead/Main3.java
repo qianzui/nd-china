@@ -1,7 +1,7 @@
 package com.hiapk.spearhead;
 
 import com.hiapk.alertaction.AlertActionNotify;
-import com.hiapk.dataexe.MonthlyUseData;
+import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.regulate.Regulate;
 
@@ -71,8 +71,10 @@ public class Main3 extends Activity {
 	private int minute;
 	private int second;
 	private String time;
-	// 调用其他函数
+	// 调用单位处理函数
 	UnitHandler FormatUnit = new UnitHandler();
+	//流量函数
+	TrafficManager trafficManager = new TrafficManager();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -245,9 +247,8 @@ public class Main3 extends Activity {
 		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
 		// 设置的使用值
 		long mobileUsedSet = prefs.getLong(VALUE_MOBILE_HASUSED_LONG, 0);
-		MonthlyUseData monthData = new MonthlyUseData();
 		// 计算出来的设置数值之后计算出来的使用量
-		long month_used = monthData.getMonthUseData(context);
+		long month_used = trafficManager.getMonthUseData(context);
 		showlog(mobileUsedSet + "");
 		showlog(month_used + "");
 		btn_HasUsed.setText(FormatUnit.unitHandler(mobileUsedSet + month_used));
