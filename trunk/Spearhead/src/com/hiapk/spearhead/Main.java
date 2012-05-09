@@ -6,6 +6,7 @@ import java.util.List;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.GetRoot;
+import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.progressbar.MyProgressBar;
 import com.hiapk.progressbar.PieView;
 import com.hiapk.progressbar.ProgressBarForV;
@@ -14,16 +15,10 @@ import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.widget.ProgramNotify;
 
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.format.Time;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -31,11 +26,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Gallery;
 import android.widget.LinearLayout;
-import android.widget.RemoteViews;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class Main extends Activity {
 
@@ -43,7 +35,6 @@ public class Main extends Activity {
 	// private SQLHelperUid sqlhelperUid = new SQLHelperUid();
 	private SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 	// wifi与mobile单月使用量
-	private long wifi_month_use = 0;
 	public static long mobile_month_use = 0;
 
 	// 临时存放两个数据------------
@@ -56,7 +47,6 @@ public class Main extends Activity {
 	private int year;
 	private int month;
 	private int monthDay;
-	private int weekDay;
 	// wifi月度流量
 	long[] wifiTraffic = new long[64];
 	/**
@@ -74,12 +64,15 @@ public class Main extends Activity {
 	String SYS_PRE_FLOAT_CTRL = "floatCtrl";
 	String SYS_PRE_REFRESH_FRZ = "refreshfrz";
 	String SYS_PRE_CLEAR_DATA = "cleardata";
+	SharedPrefrenceData sharedData;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		// 获取固定存放数据
+		sharedData = new SharedPrefrenceData(context);
 		// temp------------
 		getuids();
 		// ------------
@@ -131,12 +124,6 @@ public class Main extends Activity {
 		year = t.year;
 		month = t.month + 1;
 		monthDay = t.monthDay;
-		weekDay = t.weekDay;
-		// 月度流量设置
-		String PREFS_NAME = "allprefs";
-		String VALUE_MOBILE_SET = "mobilemonthuse";
-		String VALUE_MOBILE_HASUSED_LONG = "mobileHasusedlong";
-		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
 		// 初始化流量获取函数
 		// 取得每周的流量
 		long[] weektraffic = new long[6];
@@ -151,8 +138,8 @@ public class Main extends Activity {
 		weekMobil.setText(unitHandler(weektraffic[0], weekMobilunit));
 		// 月度流量设置
 		mobile_month_use = trafficManager.getMonthUseData(context);
-		long mobileSet = prefs.getLong(VALUE_MOBILE_SET, 52428800);
-		long mobileHasUsed = prefs.getLong(VALUE_MOBILE_HASUSED_LONG, 0);
+		long mobileSet = sharedData.getMonthMobileSetOfLong();
+		long mobileHasUsed = sharedData.getMonthMobileHasUse();
 		mobile_month_use = mobile_month_use + mobileHasUsed;
 		if (mobile_month_use > mobileSet)
 			monthMobil.setTextColor(Color.RED);
@@ -428,10 +415,7 @@ public class Main extends Activity {
 	private void initPieBar() {
 		// TODO Auto-generated method stub
 		// 获取默认流量数值
-		final String PREFS_NAME = "allprefs";
-		final String VALUE_MOBILE_SET = "mobilemonthuse";
-		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-		long mobileSet = prefs.getLong(VALUE_MOBILE_SET, 52428800);
+		long mobileSet = sharedData.getMonthMobileSetOfLong();
 		// long moblileTotle = mobileTraffic[0] + mobileTraffic[63];
 		int usePercent = 0;
 		if (mobile_month_use == 0) {
@@ -491,12 +475,7 @@ public class Main extends Activity {
 	 */
 	private void initProgressBar() {
 		// 获取设置的月度使用值，默认50m
-		final String PREFS_NAME = "allprefs";
-		final String VALUE_MOBILE_SET = "mobilemonthuse";
-		final String VALUE_WIFI_SET = "wifimonthuse";
-		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-		long mobileSet = prefs.getLong(VALUE_MOBILE_SET, 52428800);
-		long wifiSet = prefs.getLong(VALUE_WIFI_SET, 52428800);
+		long mobileSet = sharedData.getMonthMobileSetOfLong();
 		int mobile = 0;
 		int wifi = 0;
 		// showlog("mobile" + mobile_month_use + "wifi" + wifi_month_use);
