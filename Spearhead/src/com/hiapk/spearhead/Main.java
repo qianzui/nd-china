@@ -377,7 +377,7 @@ public class Main extends Activity {
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 		// 窗口的宽度
 //		windowswidesize = dm.widthPixels / 10;
-		windowswidesize=dm.densityDpi/5;
+		windowswidesize=dm.densityDpi;
 		StackedBarChart chartbar = new StackedBarChart(context, windowswidesize);
 		// 进行参数设置
 		// 设置x轴显示范围
