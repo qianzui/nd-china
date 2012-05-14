@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.Main;
@@ -30,12 +32,20 @@ public class AppListAdapter extends BaseAdapter {
 	private ArrayList<PackageInfo> myAppList;
 	private  LayoutInflater inflater;
 	private Context mContext;
+	Map map;
 	
 	public AppListAdapter(Context context , ArrayList<PackageInfo> myAppList)
 	{
 		inflater = LayoutInflater.from(context);
 		this.myAppList = myAppList;
 		this.mContext = context;
+		map = new HashMap<Integer,IsChecked>();
+	    for (int i = 0; i < myAppList.size(); i++) {
+			PackageInfo pi = myAppList.get(i);
+			IsChecked ic = new IsChecked();
+			map.put(pi.applicationInfo.uid, ic);
+		}
+	    this.map = map;
 	}
 
 	@Override
@@ -86,9 +96,13 @@ public class AppListAdapter extends BaseAdapter {
 		  holder.icon.setImageDrawable(pkgInfo.applicationInfo.loadIcon(mContext.getPackageManager()));
 		  holder.appname.setText(pkgInfo.applicationInfo.loadLabel(mContext.getPackageManager()));
 		  holder.trafficup.setText("总流量： " + unitHandler(up + down));	
-		  holder.e_toggle.setOnCheckedChangeListener(new ECheckBoxListener(holder.e_toggle));
-		  holder.wifi_toggle.setOnCheckedChangeListener(new WifiCheckBoxListener(holder.wifi_toggle));	
-
+		  
+		  IsChecked ic = (IsChecked)map.get(pkgInfo.applicationInfo.uid);
+		  holder.e_toggle.setOnCheckedChangeListener(new ECheckBoxListener(holder.e_toggle,ic));
+		  holder.wifi_toggle.setOnCheckedChangeListener(new WifiCheckBoxListener(holder.wifi_toggle,ic));	
+		  holder.e_toggle.setChecked(ic.selected_3g);
+		  holder.wifi_toggle.setChecked(ic.selected_wifi);
+		  
 		  convertView.setTag(R.id.tag_pkgname,pkgInfo.applicationInfo.packageName);
 		  convertView.setTag(R.id.tag_traffic_up ,unitHandler(up));
 		  convertView.setTag(R.id.tag_traffic_down ,unitHandler(down));
@@ -171,9 +185,11 @@ public class AppListAdapter extends BaseAdapter {
 	class ECheckBoxListener implements OnCheckedChangeListener
 	{
         CheckBox cb;
-        public ECheckBoxListener(CheckBox cb)
+        IsChecked ic;
+        public ECheckBoxListener(CheckBox cb,  IsChecked ic)
         {
         	this.cb = cb ;
+        	this.ic = ic;
         }
 		@Override
 		public void onCheckedChanged(CompoundButton buttonView,
@@ -182,12 +198,8 @@ public class AppListAdapter extends BaseAdapter {
 			// TODO Auto-generated method stub
 			 if(isRoot())
 	          {
-		        if(cb.isChecked())
-		        {
-		        	
-		           }else{
-		        	Toast.makeText(mContext, "关2", Toast.LENGTH_SHORT).show();
-		                  }	
+		        
+		        	ic.selected_3g = isChecked;
 		        }else{
 		        	 cb.setChecked(false);
 		        	 AlertDialog alt = new AlertDialog.Builder(mContext)
@@ -210,9 +222,11 @@ public class AppListAdapter extends BaseAdapter {
 	class WifiCheckBoxListener implements OnCheckedChangeListener
 	{
         CheckBox cb;
-        public WifiCheckBoxListener(CheckBox cb)
+        IsChecked ic;
+        public WifiCheckBoxListener(CheckBox cb,IsChecked ic)
         {
         	this.cb = cb ;
+        	this.ic = ic;
         }
 		@Override
 		public void onCheckedChanged(CompoundButton buttonView,
@@ -221,12 +235,7 @@ public class AppListAdapter extends BaseAdapter {
 			// TODO Auto-generated method stub
 		  if(isRoot())
           {
-	        if(cb.isChecked())
-	        {
-	        	
-	           }else{
-	        	Toast.makeText(mContext, "关2", Toast.LENGTH_SHORT).show();
-	                  }	
+			  ic.selected_wifi = isChecked;
 	        }else{
 	        	 cb.setChecked(false);
 	        	 AlertDialog alt = new AlertDialog.Builder(mContext)
