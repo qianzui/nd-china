@@ -82,6 +82,7 @@ public class SharedPrefrenceData {
 	}
 
 	public String getWidgetFresh() {
+		String widgetFresh=prefs_sys.getString(SYS_PRE_REFRESH_FRZ, "0");
 		return widgetFresh;
 	}
 

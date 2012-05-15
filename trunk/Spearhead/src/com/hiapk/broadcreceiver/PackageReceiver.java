@@ -70,7 +70,7 @@ public class PackageReceiver extends BroadcastReceiver {
 					sqlhelperTotal.getIsInit(context);
 					showLog("п╤ть" + packageName[1]);
 				} else {
-					SQLiteDatabase mySQL = sqlhelperUid.creatSQL(context);
+					SQLiteDatabase mySQL = sqlhelperUid.creatSQLTotal(context);
 					sqlhelperUid.updateSQLUidIndexOtherOnUnInstall(mySQL,
 							packageName[1], "UnInstall");
 					sqlhelperUid.closeSQL(mySQL);

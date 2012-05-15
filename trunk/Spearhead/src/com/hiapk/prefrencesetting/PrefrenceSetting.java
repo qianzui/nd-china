@@ -63,6 +63,9 @@ public class PrefrenceSetting extends PreferenceActivity {
 		refreshFres.setOnPreferenceChangeListener(ochange);
 		clearData.setOnPreferenceClickListener(oclick);
 		sharedData = new SharedPrefrenceData(context);
+//		初始化
+		String refreshValue=sharedData.getWidgetFresh();
+		refreshFres.setValue(refreshValue);
 	}
 
 	OnPreferenceClickListener oclick = new OnPreferenceClickListener() {
@@ -152,7 +155,8 @@ public class PrefrenceSetting extends PreferenceActivity {
 		@Override
 		protected Integer doInBackground(Context... params) {
 			// 删除数据库
-			params[0].deleteDatabase("SQL.db");
+			params[0].deleteDatabase("SQLTotal.db");
+			params[0].deleteDatabase("SQLUid.db");
 			// 重新初始化数据库
 			List<PackageInfo> packages = params[0].getPackageManager()
 					.getInstalledPackages(0);

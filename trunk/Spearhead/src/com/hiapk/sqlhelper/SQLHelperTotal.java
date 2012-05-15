@@ -22,7 +22,9 @@ public class SQLHelperTotal {
 	}
 
 	// SQL
-	private String SQLname = "SQL.db";
+	private String SQLTotalname = "SQLTotal.db";
+	private String SQLUidname = "SQLUid.db";
+	private String SQLUidIndex = "SQLUidIndex.db";
 	private String CreateTable = "CREATE TABLE IF NOT EXISTS ";
 	private String SQLId = "_id INTEGER PRIMARY KEY,";
 	private String SQLTime = "date date,time time";
@@ -64,16 +66,30 @@ public class SQLHelperTotal {
 	private final String MODE_HASINIT = "SQLhasINIT";
 	// classes
 	SQLHelperUid SQLhelperuid = new SQLHelperUid();
-	//数据库正在使用。重要中。
-	public static boolean isSQLOnUsed=false;
+	// 数据库正在使用。重要中。
+	public static boolean isSQLOnUsed = false;
+
 	/**
-	 * 创建数据库
+	 * 创建总数据库
 	 * 
 	 * @param context
 	 * @return 返回创建的数据库
 	 */
-	public SQLiteDatabase creatSQL(Context context) {
-		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLname,
+	public SQLiteDatabase creatSQLTotal(Context context) {
+		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLTotalname,
+				MODE_PRIVATE, null);
+		// showLog("db-CreatComplete");
+		return mySQL;
+	}
+
+	/**
+	 * 创建uid数据库
+	 * 
+	 * @param context
+	 * @return 返回创建的数据库
+	 */
+	public SQLiteDatabase creatSQLUid(Context context) {
+		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLUidname,
 				MODE_PRIVATE, null);
 		// showLog("db-CreatComplete");
 		return mySQL;
@@ -289,8 +305,9 @@ public class SQLHelperTotal {
 		initTime();
 		// 初始化数据库
 		boolean initsuccess = true;
-		SQLiteDatabase sqldatabase = creatSQL(context);
-		sqldatabase.beginTransaction();
+		SQLiteDatabase sqldatabaseTotal = creatSQLTotal(context);
+		SQLiteDatabase sqldatabaseUid = creatSQLUid(context);
+		sqldatabaseTotal.beginTransaction();
 		try {
 			String string = null;
 			string = CreateTable + TableWiFi + Start + SQLId + SQLTime
@@ -299,22 +316,22 @@ public class SQLHelperTotal {
 			// datetime,upload INTEGER,download INTEGER,uid INTEGER,type
 			// varchar(15),other varchar(15))
 			try {
-				sqldatabase.execSQL(string);
+				sqldatabaseTotal.execSQL(string);
 			} catch (Exception e) {
 				showLog(string + "fail");
 				initsuccess = false;
 			}
 			// 初始化wifi的type=0及type=1的数据
 			initTotalData(TableWiFi);
-			exeSQLtotal(sqldatabase, TableWiFi, 0, null);
-			exeSQLtotal(sqldatabase, TableWiFi, 1, null);
+			exeSQLtotal(sqldatabaseTotal, TableWiFi, 0, null);
+			exeSQLtotal(sqldatabaseTotal, TableWiFi, 1, null);
 			string = CreateTable + TableMobile + Start + SQLId + SQLTime
 					+ CreateparamWiFiAnd23G + End;
 			// CREATE TABLE IF NOT EXISTS t4 (_id INTEGER PRIMARY KEY,date
 			// datetime,upload INTEGER,download INTEGER,uid INTEGER,type
 			// varchar(15),other varchar(15))
 			try {
-				sqldatabase.execSQL(string);
+				sqldatabaseTotal.execSQL(string);
 			} catch (Exception e) {
 				// TODO: handle exception
 				showLog(string);
@@ -324,33 +341,61 @@ public class SQLHelperTotal {
 			// 初始化mobile数据
 			initTotalData(TableMobile);
 			// 初始化mobile的type=0及type=1的数据
-			exeSQLtotal(sqldatabase, TableMobile, 0, null);
-			exeSQLtotal(sqldatabase, TableMobile, 1, null);
+			exeSQLtotal(sqldatabaseTotal, TableMobile, 0, null);
+			exeSQLtotal(sqldatabaseTotal, TableMobile, 1, null);
+			sqldatabaseTotal.setTransactionSuccessful();
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog("初始化Total失败");
+			initsuccess = false;
+		} finally {
+			sqldatabaseTotal.endTransaction();
+		}
+
+		sqldatabaseUid.beginTransaction();
+		try {
 			try {
 				// 初始化uid数据库的Index表
 				if (initsuccess)
-					initsuccess = SQLhelperuid.initUidIndexTables(sqldatabase);
+					initsuccess = SQLhelperuid
+							.initUidIndexTables(sqldatabaseUid);
 				// 不包含uid=0的
-				SQLhelperuid.exeSQLcreateUidIndextables(sqldatabase,
+				SQLhelperuid.exeSQLcreateUidIndextables(sqldatabaseUid,
 						uidnumbers, packagename);
+			} catch (Exception e) {
+				// TODO: handle exception
+				initsuccess = false;
+				showLog("初始化uidIndex数据表失败");
+			}
+			sqldatabaseUid.setTransactionSuccessful();
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog("初始化Total失败");
+			initsuccess = false;
+		} finally {
+			sqldatabaseUid.endTransaction();
+		}
+
+		sqldatabaseUid.beginTransaction();
+		try {
+			try {
 				// 清除重复表
 				uidnumbers = SQLhelperuid.sortUids(uidnumbers);
 				// 初始化uid数据库这里使用初始化后的全部uids表
-				SQLhelperuid.initUidTables(sqldatabase, uidnumbers);
+				SQLhelperuid.initUidTables(sqldatabaseUid, uidnumbers);
 			} catch (Exception e) {
 				// TODO: handle exception
 				initsuccess = false;
 				showLog("初始化uid数据库失败");
 			}
-			sqldatabase.setTransactionSuccessful();
+			sqldatabaseUid.setTransactionSuccessful();
 		} catch (Exception e) {
 			// TODO: handle exception
-			showLog("初始化失败");
+			showLog("初始化Total失败");
 			initsuccess = false;
 		} finally {
-			sqldatabase.endTransaction();
+			sqldatabaseUid.endTransaction();
 		}
-
 		if (initsuccess) {
 			// 确保仅进行一次初始化
 			Editor passfileEditor = context.getSharedPreferences(PREFS_NAME, 0)
@@ -361,7 +406,8 @@ public class SQLHelperTotal {
 			AlarmSet alset = new AlarmSet();
 			alset.StartAlarm(context);
 		}
-		closeSQL(sqldatabase);
+		closeSQL(sqldatabaseTotal);
+		closeSQL(sqldatabaseUid);
 	}
 
 	/**
@@ -488,7 +534,7 @@ public class SQLHelperTotal {
 		// TODO Auto-generated method stub
 		// 自动进行数据记录---不记录上传下载为0的数据
 		if (!TableWiFiOrG23.equals("")) {
-			SQLiteDatabase sqlDataBase = creatSQL(context);
+			SQLiteDatabase sqlDataBase = creatSQLTotal(context);
 			initTotalData(TableWiFiOrG23);
 			initTime();
 			statsSQLtotal(sqlDataBase, TableWiFiOrG23, date, time, upload,
@@ -589,7 +635,7 @@ public class SQLHelperTotal {
 	 */
 	private long[] SelectData(Context context, int year, int month, String table) {
 		long[] a = new long[64];
-		SQLiteDatabase sqlDataBase = creatSQL(context);
+		SQLiteDatabase sqlDataBase = creatSQLTotal(context);
 		String month2 = month + "";
 		if (month < 10)
 			month2 = "0" + month2;
@@ -720,7 +766,7 @@ public class SQLHelperTotal {
 	private long[] SelectData(Context context, int year, int month, int day,
 			int setday, String table) {
 		long[] a = new long[3];
-		SQLiteDatabase sqlDataBase = creatSQL(context);
+		SQLiteDatabase sqlDataBase = creatSQLTotal(context);
 		String month2 = formateMonthAndDay(month);
 		String day2 = formateMonthAndDay(day);
 		String setday2 = formateMonthAndDay(setday - 1);
@@ -811,7 +857,7 @@ public class SQLHelperTotal {
 	private long[] SelectData(Context context, int year, int month, int day,
 			String time, String table) {
 		long[] a = new long[3];
-		SQLiteDatabase sqlDataBase = creatSQL(context);
+		SQLiteDatabase sqlDataBase = creatSQLTotal(context);
 		String month2 = month + "";
 		if (month < 10)
 			month2 = "0" + month2;
@@ -855,9 +901,9 @@ public class SQLHelperTotal {
 		a[0] = countdown + countup;
 		a[1] = countup;
 		a[2] = countdown;
-		 for (int j = 0; j < a.length; j++) {
-		 showLog(j + "liuliang" + a[j] + "");
-		 }
+		for (int j = 0; j < a.length; j++) {
+			showLog(j + "liuliang" + a[j] + "");
+		}
 		return a;
 	}
 
@@ -884,7 +930,7 @@ public class SQLHelperTotal {
 		}
 		// showLog(weekDay + "");
 		String weekStart = null;
-		SQLiteDatabase sqlDataBase = creatSQL(context);
+		SQLiteDatabase sqlDataBase = creatSQLTotal(context);
 		String string = null;
 		string = "select date('now'" + ",'-" + weekDay + " day'" + ")";
 		// showLog(string);

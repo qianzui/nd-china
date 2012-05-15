@@ -36,7 +36,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		if (sqlhelperTotal.getIsInit(context)) {
 			if (SQLHelperTotal.TableWiFiOrG23 != "") {
 				if (SQLHelperTotal.isSQLOnUsed != true) {
-					sqlDataBase = sqlhelperTotal.creatSQL(context);
+					sqlDataBase = sqlhelperTotal.creatSQLTotal(context);
 					new AsyncTaskonRecordTotalData().execute(context);
 //					showLog(SQLHelperTotal.TableWiFiOrG23);
 				}
