@@ -50,7 +50,7 @@ public class ProgramNotify {
 		Notification notification = new Notification(icon, tickerText, when);
 		RemoteViews contentView = new RemoteViews(context.getPackageName(),
 				R.layout.notice);
-		contentView.setImageViewResource(R.id.image, R.drawable.ic_launcher);
+		contentView.setImageViewResource(R.id.image, R.drawable.monitor);
 		setText(context);
 		contentView.setTextViewText(R.id.textUp, textUp);
 		contentView.setTextViewText(R.id.textDown, textDown);
