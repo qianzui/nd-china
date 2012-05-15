@@ -18,6 +18,7 @@ public class SQLHelperUid {
 	// SQL
 	private String SQLTotalname = "SQLTotal.db";
 	private String SQLUidname = "SQLUid.db";
+	private String SQLUidIndex = "SQLUidIndex.db";
 	private String CreateTable = "CREATE TABLE IF NOT EXISTS ";
 	private String SQLId = "_id INTEGER PRIMARY KEY,";
 	private String CreateparamUid = "date date,time time,upload INTEGER,download INTEGER,type INTEGER INTEGER,other varchar(15)";
@@ -75,6 +76,19 @@ public class SQLHelperUid {
 	 */
 	public SQLiteDatabase creatSQLUid(Context context) {
 		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLUidname,
+				MODE_PRIVATE, null);
+		// showLog("db-CreatComplete");
+		return mySQL;
+	}
+
+	/**
+	 * 创建uidIndex数据库
+	 * 
+	 * @param context
+	 * @return 返回创建的数据库
+	 */
+	public SQLiteDatabase creatSQLUidIndex(Context context) {
+		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLUidIndex,
 				MODE_PRIVATE, null);
 		// showLog("db-CreatComplete");
 		return mySQL;
@@ -274,10 +288,11 @@ public class SQLHelperUid {
 	 * @param typechange
 	 *            改变type值
 	 */
-	public void updateSQLUidTypes(SQLiteDatabase sqlDataBase, int[] uidnumbers,
-			int type, String other, int typechange) {
+	public void updateSQLUidTypes(Context context, int[] uidnumbers, int type,
+			String other, int typechange) {
 		// TODO Auto-generated method stub
 		initTime();
+		SQLiteDatabase sqlDataBase = creatSQLUid(context);
 		sqlDataBase.beginTransaction();
 		try {
 			for (int uidnumber : uidnumbers) {
@@ -291,6 +306,7 @@ public class SQLHelperUid {
 		} finally {
 			sqlDataBase.endTransaction();
 		}
+		closeSQL(sqlDataBase);
 
 	}
 
@@ -301,8 +317,9 @@ public class SQLHelperUid {
 	 *            进行操作的数据库
 	 * @return
 	 */
-	public int[] selectSQLUidnumbers(SQLiteDatabase sqlDataBase) {
+	public int[] selectSQLUidnumbers(Context context) {
 		// TODO Auto-generated method stub
+		SQLiteDatabase sqlDataBase = creatSQLUidIndex(context);
 		String string = null;
 		// select oldest upload and download 之前记录的数据的查询操作
 		// SELECT * FROM table WHERE type=0
@@ -336,6 +353,7 @@ public class SQLHelperUid {
 		// for (int i = 0; i < uids.length; i++) {
 		// showLog(uids[i] + "");
 		// }
+		closeSQL(sqlDataBase);
 		return uids;
 	}
 
@@ -858,7 +876,7 @@ public class SQLHelperUid {
 		if (!SQLHelperTotal.TableWiFiOrG23.equals("")) {
 			// isUsingSQL = true;
 			SQLiteDatabase sqlDataBase = creatSQLUid(context);
-			uidRecordwritestats(sqlDataBase, daily);
+			uidRecordwritestats(context, sqlDataBase, daily);
 			closeSQL(sqlDataBase);
 			// isUsingSQL = false;
 		}
@@ -871,16 +889,24 @@ public class SQLHelperUid {
 	 * @param daily
 	 *            true则强制记录，false则不记录流量为0的数据
 	 */
-	private void uidRecordwritestats(SQLiteDatabase sqlDataBase, boolean daily) {
+	private void uidRecordwritestats(Context context,
+			SQLiteDatabase sqlDataBase, boolean daily) {
 		// TODO Auto-generated method stub
+		int[] uidnumbers = null;
+		try {
+			uidnumbers = selectSQLUidnumbers(context);
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog("获取uid列表失败");
+		}
 		sqlDataBase.beginTransaction();
 		try {
-			int[] uidnumbers = selectSQLUidnumbers(sqlDataBase);
 			initTime();
 			statsSQLuids(sqlDataBase, uidnumbers, date, time, 2, null, daily);
 			sqlDataBase.setTransactionSuccessful();
 		} catch (Exception e) {
 			// TODO: handle exception
+			showLog("批量更新uid数据失败");
 		} finally {
 			sqlDataBase.endTransaction();
 		}
@@ -949,7 +975,7 @@ public class SQLHelperUid {
 			cur = mySQL.rawQuery(string, null);
 		} catch (Exception e) {
 			// TODO: handle exception
-			showLog(string);
+			showLog("error"+string);
 		}
 		long oldup = 0;
 		long olddown = 0;

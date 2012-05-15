@@ -254,7 +254,7 @@ class MonthlyUseData {
 			}
 			// 从未设置过已用流量
 		} else {
-			showlog("从未设置");
+			showlog("默认设置");
 			mobile_month_use = mobileTraffic[0] + mobileTraffic[63];
 		}
 		return mobile_month_use;

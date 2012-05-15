@@ -15,7 +15,6 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 	// use database
 	SQLHelperUid sqlhelperUid = new SQLHelperUid();
 	SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
-	SQLiteDatabase sqlDataBase;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -24,7 +23,6 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 		if (sqlhelperTotal.getIsInit(context)) {
 			if (SQLHelperTotal.TableWiFiOrG23 != "") {
 				if (SQLHelperTotal.isSQLOnUsed != true) {
-					sqlDataBase = sqlhelperUid.creatSQLUid(context);
 					new AsyncTaskonRecordUidData().execute(context);
 					// showLog(SQLHelperTotal.TableWiFiOrG23);
 				}
@@ -34,13 +32,15 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			showLog("please init the database");
 		}
 	}
-
-	private void uidRecord() {
+	/**
+	 * 批量更新
+	 * @param context
+	 */
+	private void uidRecord(Context context) {
 		// 实时更新数据两个1代表数据更新
-		int[] uidnumbers = sqlhelperUid.selectSQLUidnumbers(sqlDataBase);
-		sqlhelperUid.updateSQLUidTypes(sqlDataBase, uidnumbers, 1,
+		int[] uidnumbers = sqlhelperUid.selectSQLUidnumbers(context);
+		sqlhelperUid.updateSQLUidTypes(context, uidnumbers, 1,
 				SQLHelperTotal.TableWiFiOrG23, 1);
-		sqlhelperUid.closeSQL(sqlDataBase);
 		showLog("uid数据更新");
 	}
 
@@ -55,20 +55,20 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 
 		@Override
 		protected Integer doInBackground(Context... params) {
-			uidRecord();
+			uidRecord(params[0]);
 			return null;
 		}
 
 		@Override
 		protected void onPostExecute(Integer result) {
 			// TODO Auto-generated method stub
-			SQLHelperTotal.isSQLOnUsed=false;
+			SQLHelperTotal.isSQLOnUsed = false;
 		}
 	}
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("Receiver", string);
+		Log.d("ReceiverUid", string);
 	}
 
 }
