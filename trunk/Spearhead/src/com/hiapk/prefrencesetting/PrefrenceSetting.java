@@ -1,13 +1,25 @@
 package com.hiapk.prefrencesetting;
 
+import java.util.List;
+
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.firewall.Block;
 import com.hiapk.spearhead.R;
+import com.hiapk.spearhead.SpearheadActivity;
+import com.hiapk.spearhead.Splash;
+import com.hiapk.sqlhelper.SQLHelperTotal;
+import com.hiapk.sqlhelper.SQLHelperUid;
 import com.hiapk.widget.ProgramNotify;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.pm.PackageInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -34,6 +46,7 @@ public class PrefrenceSetting extends PreferenceActivity {
 	Context context = this;
 
 	SharedPrefrenceData sharedData;
+	ProgressDialog mydialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +87,30 @@ public class PrefrenceSetting extends PreferenceActivity {
 				return true;
 			}
 			if (preference.equals(clearData)) {
+				showLog(SQLHelperTotal.isSQLOnUsed + "before1");
+				mydialog = ProgressDialog.show(context, "请稍等...", "正在重置数据库...",
+						true);
+				int timetap = 0;
+				showLog(SQLHelperTotal.isSQLOnUsed + "while1");
+				while (SQLHelperTotal.isSQLOnUsed == true) {
+					try {
+						Thread.sleep(200);
+						timetap += 1;
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if (timetap > 3) {
+						mydialog.dismiss();
+						return alert(context, "重置失败请重试");
+					}
 
+				}
+				showLog(SQLHelperTotal.isSQLOnUsed + "before2");
+				sharedData.setSQLinited(false);
+				new AsyncTaskonClearSQL().execute(context);
+				// SQLHelperTotal aa=new SQLHelperTotal();
+				// showLog(aa.getIsInit(context)+"");
 				return true;
 			}
 			return false;
@@ -103,8 +139,68 @@ public class PrefrenceSetting extends PreferenceActivity {
 		}
 	};
 
+	private class AsyncTaskonClearSQL extends
+			AsyncTask<Context, Integer, Integer> {
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			showLog(SQLHelperTotal.isSQLOnUsed + "pre");
+			SQLHelperTotal.isSQLOnUsed = true;
+			super.onPreExecute();
+		}
+
+		@Override
+		protected Integer doInBackground(Context... params) {
+			// 删除数据库
+			params[0].deleteDatabase("SQL.db");
+			// 重新初始化数据库
+			List<PackageInfo> packages = params[0].getPackageManager()
+					.getInstalledPackages(0);
+			int[] uids = new int[packages.size()];
+			String[] packagenames = new String[packages.size()];
+			for (int i = 0; i < packages.size(); i++) {
+				PackageInfo packageinfo = packages.get(i);
+				packagenames[i] = packageinfo.packageName;
+				// Log.d("pac", packagenames[i]);
+				uids[i] = packageinfo.applicationInfo.uid;
+			}
+			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
+			sqlhelperTotal.initSQL(params[0], uids, packagenames);
+			showLog(SQLHelperTotal.isSQLOnUsed + "back");
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// TODO Auto-generated method stub
+			showLog(SQLHelperTotal.isSQLOnUsed + "post1");
+			SQLHelperTotal.isSQLOnUsed = false;
+			sharedData.setSQLinited(true);
+			showLog(SQLHelperTotal.isSQLOnUsed + "post2");
+			mydialog.dismiss();
+		}
+	}
+
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
 		Log.d("setting", string);
+	}
+
+	/**
+	 * Display a simple alert box
+	 * 
+	 * @param ctx
+	 *            context
+	 * @param msg
+	 *            message
+	 */
+	public static boolean alert(Context ctx, CharSequence msg) {
+		if (ctx != null) {
+			new AlertDialog.Builder(ctx)
+					.setNeutralButton(android.R.string.ok, null)
+					.setMessage(msg).show();
+		}
+		
+		return true;
 	}
 }

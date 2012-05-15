@@ -18,9 +18,9 @@ public class Splash extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
-		//获取root权限
+		// 获取root权限
 		GetRoot gr = new GetRoot();
-//		gr.cmdRoot("chmod 777 " + getPackageCodePath());
+		// gr.cmdRoot("chmod 777 " + getPackageCodePath());
 		gr.hasRootAccess(context, true);
 		new AsyncTaskonResume().execute(context);
 	}
@@ -28,19 +28,26 @@ public class Splash extends Activity {
 	private class AsyncTaskonResume extends
 			AsyncTask<Context, Integer, Integer> {
 		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			SQLHelperTotal.isSQLOnUsed = true;
+		}
+
+		@Override
 		protected Integer doInBackground(Context... params) {
 			AlarmSet alset = new AlarmSet();
 			// 初始化网络状态
 			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
-			sqlhelperTotal.initTablemobileAndwifi(context);
+			sqlhelperTotal.initTablemobileAndwifi(params[0]);
 			if (SQLHelperTotal.TableWiFiOrG23 != ""
-					&& sqlhelperTotal.getIsInit(context)) {
+					&& sqlhelperTotal.getIsInit(params[0])) {
 				// 启动闹钟
-				alset.StartAlarm(context);
+				alset.StartAlarm(params[0]);
 				return 1;
 
 			} else if (SQLHelperTotal.TableWiFiOrG23 != "") {
-				alset.StartAlarm(context);
+				alset.StartAlarm(params[0]);
 				return 2;
 
 			}
@@ -61,6 +68,7 @@ public class Splash extends Activity {
 				// 进行数据记录
 				sqlhelperTotal.initTablemobileAndwifi(context);
 			}
+			SQLHelperTotal.isSQLOnUsed = false;
 			Intent mainIntent = new Intent(Splash.this, SpearheadActivity.class);
 			Bundle choosetab = new Bundle();
 			choosetab.putInt("TAB", 1);

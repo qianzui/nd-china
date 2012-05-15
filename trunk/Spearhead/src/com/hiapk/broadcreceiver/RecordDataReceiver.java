@@ -1,14 +1,19 @@
 package com.hiapk.broadcreceiver;
 
+import java.util.List;
+
 import com.hiapk.alertaction.TrafficAlert;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.TrafficStats;
+import android.os.AsyncTask;
 import android.util.Log;
 
 public class RecordDataReceiver extends BroadcastReceiver {
@@ -30,10 +35,11 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		// 初始化数据库后进行操作
 		if (sqlhelperTotal.getIsInit(context)) {
 			if (SQLHelperTotal.TableWiFiOrG23 != "") {
-				sqlDataBase = sqlhelperTotal.creatSQL(context);
-				totalRecord();
-				trafficAlertTest(context);
-				showLog(SQLHelperTotal.TableWiFiOrG23);
+				if (SQLHelperTotal.isSQLOnUsed != true) {
+					sqlDataBase = sqlhelperTotal.creatSQL(context);
+					new AsyncTaskonRecordTotalData().execute(context);
+//					showLog(SQLHelperTotal.TableWiFiOrG23);
+				}
 			}
 		} else {
 			// sqlhelper.initSQL(context);
@@ -83,6 +89,21 @@ public class RecordDataReceiver extends BroadcastReceiver {
 				+ "TotalRxBytes()=" + TrafficStats.getTotalRxBytes()
 				+ "MobileTxBytes()=" + TrafficStats.getMobileTxBytes()
 				+ "MobileRxBytes()=" + TrafficStats.getMobileRxBytes());
+	}
+
+	private class AsyncTaskonRecordTotalData extends
+			AsyncTask<Context, Integer, Integer> {
+		@Override
+		protected Integer doInBackground(Context... params) {
+			totalRecord();
+			trafficAlertTest(params[0]);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// TODO Auto-generated method stub
+		}
 	}
 
 	private void showLog(String string) {
