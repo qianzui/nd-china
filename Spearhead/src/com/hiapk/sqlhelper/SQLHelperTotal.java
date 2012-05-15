@@ -64,7 +64,8 @@ public class SQLHelperTotal {
 	private final String MODE_HASINIT = "SQLhasINIT";
 	// classes
 	SQLHelperUid SQLhelperuid = new SQLHelperUid();
-
+	//数据库正在使用。重要中。
+	public static boolean isSQLOnUsed=false;
 	/**
 	 * 创建数据库
 	 * 

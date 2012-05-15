@@ -41,6 +41,10 @@ public class SharedPrefrenceData {
 	SharedPreferences prefs_sys;
 	Editor UseEditor;
 	Editor UseEditor_sys;
+	// 系统初始化
+	private final String PREF_INITSQL = "isSQLINIT";
+	private final String MODE_NOTINIT = "SQLisnotINIT";
+	private final String MODE_HASINIT = "SQLhasINIT";
 
 	public SharedPrefrenceData(Context context) {
 		this.context = context;
@@ -58,9 +62,25 @@ public class SharedPrefrenceData {
 	long monthMobileHasUse = 0;
 	long monthMobileHasUseOfint = 0;
 	boolean isNotifyOpen = true;
-	String widgetFresh="";
-	
-	
+	String widgetFresh = "";
+
+
+	public boolean isSQLinited() {
+		// boolean isSQLinited = prefs.getString(MOBILE_SET_UNIT, 0);
+		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+		return prefs.getString(PREF_INITSQL, MODE_NOTINIT).endsWith(
+				MODE_HASINIT);
+	}
+
+	public void setSQLinited(boolean isSQLinited) {
+		if (isSQLinited) {
+			UseEditor.putString(PREF_INITSQL, MODE_HASINIT);
+		} else {
+			UseEditor.putString(PREF_INITSQL, MODE_NOTINIT);
+		}
+		UseEditor.commit();// 委托，存入数据
+	}
+
 	public String getWidgetFresh() {
 		return widgetFresh;
 	}

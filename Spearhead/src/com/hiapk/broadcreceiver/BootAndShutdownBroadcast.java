@@ -1,5 +1,6 @@
 package com.hiapk.broadcreceiver;
 
+import com.hiapk.firewall.Block;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
 
@@ -21,6 +22,8 @@ public class BootAndShutdownBroadcast extends BroadcastReceiver {
 
 		// 识别到开机信号
 		if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
+			//开启防火墙
+			Block.applyIptablesRules(context, false);
 			// 初始化网络信号
 			sqlhelperTotal.initTablemobileAndwifi(context);
 			// 查看数据库是否已初始化

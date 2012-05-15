@@ -203,7 +203,7 @@ public class AlarmSet {
 				.getSystemService("alarm");
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());
-		alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
+		alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis()+800,
 				i * 60000, pendingIntent);
 	}
 
@@ -223,7 +223,7 @@ public class AlarmSet {
 				.getSystemService("alarm");
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());
-		alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
+		alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis()+300,
 				i * 1000, pendingIntent);
 	}
 
