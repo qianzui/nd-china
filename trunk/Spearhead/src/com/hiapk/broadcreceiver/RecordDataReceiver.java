@@ -55,8 +55,8 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	private void trafficAlertTest(Context context) {
 		// TODO Auto-generated method stub
 		TrafficAlert trafficalert = new TrafficAlert();
-		showLog("month" + trafficalert.isTrafficOverMonthSet(context) + "day"
-				+ trafficalert.isTrafficOverDaySet(context));
+//		showLog("month" + trafficalert.isTrafficOverMonthSet(context) + "day"
+//				+ trafficalert.isTrafficOverDaySet(context));
 		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
 		boolean monthHasWarning = prefs.getBoolean(MOBILE_HAS_WARNING_MONTH,
 				false);

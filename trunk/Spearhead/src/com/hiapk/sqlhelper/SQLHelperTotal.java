@@ -96,6 +96,19 @@ public class SQLHelperTotal {
 	}
 
 	/**
+	 * 创建uidIndex数据库
+	 * 
+	 * @param context
+	 * @return 返回创建的数据库
+	 */
+	public SQLiteDatabase creatSQLUidIndex(Context context) {
+		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLUidIndex,
+				MODE_PRIVATE, null);
+		// showLog("db-CreatComplete");
+		return mySQL;
+	}
+
+	/**
 	 * 对数据库总体数据进行更新
 	 * 
 	 * @param mySQL
@@ -307,6 +320,7 @@ public class SQLHelperTotal {
 		boolean initsuccess = true;
 		SQLiteDatabase sqldatabaseTotal = creatSQLTotal(context);
 		SQLiteDatabase sqldatabaseUid = creatSQLUid(context);
+		SQLiteDatabase sqldatabaseUidIndex = creatSQLUidIndex(context);
 		sqldatabaseTotal.beginTransaction();
 		try {
 			String string = null;
@@ -317,6 +331,7 @@ public class SQLHelperTotal {
 			// varchar(15),other varchar(15))
 			try {
 				sqldatabaseTotal.execSQL(string);
+				// showLog("建立tablewifi");
 			} catch (Exception e) {
 				showLog(string + "fail");
 				initsuccess = false;
@@ -332,6 +347,7 @@ public class SQLHelperTotal {
 			// varchar(15),other varchar(15))
 			try {
 				sqldatabaseTotal.execSQL(string);
+				// showLog("建立tablemobile");
 			} catch (Exception e) {
 				// TODO: handle exception
 				showLog(string);
@@ -352,47 +368,41 @@ public class SQLHelperTotal {
 			sqldatabaseTotal.endTransaction();
 		}
 
-		sqldatabaseUid.beginTransaction();
+		sqldatabaseUidIndex.beginTransaction();
 		try {
-			try {
-				// 初始化uid数据库的Index表
-				if (initsuccess)
-					initsuccess = SQLhelperuid
-							.initUidIndexTables(sqldatabaseUid);
+			// 初始化uid数据库的Index表
+			if (initsuccess) {
+				initsuccess = SQLhelperuid
+						.initUidIndexTables(sqldatabaseUidIndex);
+				// showLog("建立tableIndex");
 				// 不包含uid=0的
-				SQLhelperuid.exeSQLcreateUidIndextables(sqldatabaseUid,
+				SQLhelperuid.exeSQLcreateUidIndextables(sqldatabaseUidIndex,
 						uidnumbers, packagename);
-			} catch (Exception e) {
-				// TODO: handle exception
-				initsuccess = false;
-				showLog("初始化uidIndex数据表失败");
+				// showLog("初始化tableIndex");
 			}
-			sqldatabaseUid.setTransactionSuccessful();
+			sqldatabaseUidIndex.setTransactionSuccessful();
 		} catch (Exception e) {
 			// TODO: handle exception
-			showLog("初始化Total失败");
 			initsuccess = false;
+			showLog("初始化uidIndex数据表失败");
 		} finally {
-			sqldatabaseUid.endTransaction();
+			// showLog("初始化tableIndex完成");
+			sqldatabaseUidIndex.endTransaction();
 		}
 
 		sqldatabaseUid.beginTransaction();
 		try {
-			try {
+			if (initsuccess) {
 				// 清除重复表
 				uidnumbers = SQLhelperuid.sortUids(uidnumbers);
 				// 初始化uid数据库这里使用初始化后的全部uids表
 				SQLhelperuid.initUidTables(sqldatabaseUid, uidnumbers);
-			} catch (Exception e) {
-				// TODO: handle exception
-				initsuccess = false;
-				showLog("初始化uid数据库失败");
 			}
 			sqldatabaseUid.setTransactionSuccessful();
 		} catch (Exception e) {
 			// TODO: handle exception
-			showLog("初始化Total失败");
 			initsuccess = false;
+			showLog("初始化uid数据库失败");
 		} finally {
 			sqldatabaseUid.endTransaction();
 		}
@@ -408,6 +418,7 @@ public class SQLHelperTotal {
 		}
 		closeSQL(sqldatabaseTotal);
 		closeSQL(sqldatabaseUid);
+		closeSQL(sqldatabaseUidIndex);
 	}
 
 	/**
