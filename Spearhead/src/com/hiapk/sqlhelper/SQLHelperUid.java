@@ -16,7 +16,8 @@ public class SQLHelperUid {
 	}
 
 	// SQL
-	private String SQLname = "SQL.db";
+	private String SQLTotalname = "SQLTotal.db";
+	private String SQLUidname = "SQLUid.db";
 	private String CreateTable = "CREATE TABLE IF NOT EXISTS ";
 	private String SQLId = "_id INTEGER PRIMARY KEY,";
 	private String CreateparamUid = "date date,time time,upload INTEGER,download INTEGER,type INTEGER INTEGER,other varchar(15)";
@@ -54,13 +55,26 @@ public class SQLHelperUid {
 	private static final int MODE_PRIVATE = 0;
 
 	/**
-	 * 创建数据库
+	 * 创建总数据库
 	 * 
 	 * @param context
 	 * @return 返回创建的数据库
 	 */
-	public SQLiteDatabase creatSQL(Context context) {
-		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLname,
+	public SQLiteDatabase creatSQLTotal(Context context) {
+		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLTotalname,
+				MODE_PRIVATE, null);
+		// showLog("db-CreatComplete");
+		return mySQL;
+	}
+
+	/**
+	 * 创建uid数据库
+	 * 
+	 * @param context
+	 * @return 返回创建的数据库
+	 */
+	public SQLiteDatabase creatSQLUid(Context context) {
+		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLUidname,
 				MODE_PRIVATE, null);
 		// showLog("db-CreatComplete");
 		return mySQL;
@@ -79,7 +93,7 @@ public class SQLHelperUid {
 	 */
 	public void updateSQLUidIndexOnInstall(Context context, int uidnumber,
 			String packageName, String other) {
-		SQLiteDatabase mySQL = creatSQL(context);
+		SQLiteDatabase mySQL = creatSQLUid(context);
 		mySQL.beginTransaction();
 		try {
 			exeSQLUidIndextable(mySQL, uidnumber, packageName, other);
@@ -710,9 +724,9 @@ public class SQLHelperUid {
 	protected void initUidTables(SQLiteDatabase sqldatabase, int[] uidnumbers) {
 		initTime();
 		try {
-//			initUidTable(sqldatabase, 0);
-//			exeSQLcreateUidtable(sqldatabase, date, time, 0, 0, null);
-//			exeSQLcreateUidtable(sqldatabase, date, time, 0, 1, null);
+			// initUidTable(sqldatabase, 0);
+			// exeSQLcreateUidtable(sqldatabase, date, time, 0, 0, null);
+			// exeSQLcreateUidtable(sqldatabase, date, time, 0, 1, null);
 			for (int uidnumber : uidnumbers) {
 				// -1为重复项
 				if (uidnumber != -1) {
@@ -843,7 +857,7 @@ public class SQLHelperUid {
 		// TODO Auto-generated method stub
 		if (!SQLHelperTotal.TableWiFiOrG23.equals("")) {
 			// isUsingSQL = true;
-			SQLiteDatabase sqlDataBase = creatSQL(context);
+			SQLiteDatabase sqlDataBase = creatSQLUid(context);
 			uidRecordwritestats(sqlDataBase, daily);
 			closeSQL(sqlDataBase);
 			// isUsingSQL = false;
@@ -1046,7 +1060,7 @@ public class SQLHelperUid {
 	 */
 	private long[] SelectData(Context context, int year, int month, String table) {
 		long[] a = new long[64];
-		SQLiteDatabase sqlDataBase = creatSQL(context);
+		SQLiteDatabase sqlDataBase = creatSQLUid(context);
 		String month2 = month + "";
 		if (month < 10)
 			month2 = "0" + month2;
@@ -1140,7 +1154,7 @@ public class SQLHelperUid {
 	private long[] SelectUidmobileOrwifiData(Context context, int year,
 			int month, String table, String other) {
 		long[] a = new long[64];
-		SQLiteDatabase sqlDataBase = creatSQL(context);
+		SQLiteDatabase sqlDataBase = creatSQLUid(context);
 		String string = null;
 		// select oldest upload and download 之前记录的数据的查询操作
 		// SELECT * FROM table WHERE type=0
@@ -1148,8 +1162,8 @@ public class SQLHelperUid {
 		if (month < 10)
 			month2 = "0" + month2;
 		string = SelectTable + table + Where + "date" + Between + year + "-"
-				+ month2 + "-" + "01" + AND_B + year + "-" + month2 + "-" + "31"
-				+ AND + "other=" + "'" + other + AND + "type=" + 2;
+				+ month2 + "-" + "01" + AND_B + year + "-" + month2 + "-"
+				+ "31" + AND + "other=" + "'" + other + AND + "type=" + 2;
 		// showLog(string);
 		try {
 			cur = sqlDataBase.rawQuery(string, null);
