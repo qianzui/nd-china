@@ -6,16 +6,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import com.hiapk.spearhead.R;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -30,15 +38,12 @@ public class Block {
 	private static final String SCRIPT_FILE = "droidwall.sh";
 	public static final String PREF_3G_UIDS = "AllowedUids3G";
 	public static final String PREF_WIFI_UIDS = "AllowedUidsWifi";
+	public static final String PREF_ALL_UIDS = "AppListUids";
+	public static final String PREF_S = "Cache";
 	// Preferences
 	private static final String PREFS_NAME = "DroidWallPrefs";
-	private static final String PREF_MODE = "BlockMode";
-	private static final String PREF_LOGENABLED = "LogEnabled";
-	// Modes
-	private static final String MODE_WHITELIST = "whitelist";
-	private static final String MODE_BLACKLIST = "blacklist";
-	// Do we have root access?
-	private static boolean hasroot = false;
+
+
 
 	/**
 	 * Create the generic shell script header used to determine which iptables
@@ -233,9 +238,9 @@ public class Block {
 									"\nTry `iptables -h' or 'iptables --help' for more information.",
 									"");
 				}
-				alert(ctx,
-						"应用 iptables 规则时出错. 错误代码: " + code + "\n\n"
-								+ msg.trim());
+//				alert(ctx,
+//						"应用 iptables 规则时出错. 错误代码: " + code + "\n\n"
+//								+ msg.trim());
 			} else {
 				return true;
 			}
@@ -264,9 +269,11 @@ public class Block {
 //		uids_wifi.add(Integer.parseInt(10045));
 //		uids_wifi.add(10090);
 //		uids_3g.add(10090);
+//		uids_wifi.add(wUid);
 		final SharedPreferences prefs = ctx.getSharedPreferences(PREFS_NAME, 0);
 		final String savedUids_wifi = prefs.getString(PREF_WIFI_UIDS, "");
 		final String savedUids_3g = prefs.getString(PREF_3G_UIDS, "");
+		
 		if (savedUids_wifi.length() > 0) {
 			// Check which applications are allowed on wifi
 			final StringTokenizer tok = new StringTokenizer(savedUids_wifi, "|");
@@ -381,7 +388,7 @@ public class Block {
 	 */
 	public static int runScriptAsRoot(Context ctx, String script,
 			StringBuilder res) throws IOException {
-		return runScriptAsRoot(ctx, script, res, 40000);
+		return runScriptAsRoot(ctx, script, res, 20000);
 	}
 
 	/**
@@ -528,7 +535,6 @@ public class Block {
 				destroy();
 			}
 		}
-
 		/**
 		 * Destroy this script runner
 		 */
@@ -554,5 +560,114 @@ public class Block {
 					.setMessage(msg).show();
 		}
 	}
+	public static void saveRules(Context context , HashMap<Integer,IsChecked> map){
+		final SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+		final StringBuilder newuids_wifi = new StringBuilder();
+		final StringBuilder newuids_3g = new StringBuilder();
+		final StringBuilder newuids_all = new StringBuilder();
 
+		Iterator it = map.entrySet().iterator();
+		while(it.hasNext()){
+			Map.Entry entry = (Map.Entry) it.next();
+			IsChecked ic = (IsChecked)entry.getValue();
+			
+			if(newuids_all.length()!= 0)
+				newuids_all.append('|');
+			   newuids_all.append(entry.getKey());
+				
+			if(ic.selected_wifi){
+				if(newuids_wifi.length() != 0)
+					newuids_wifi.append('|');
+					newuids_wifi.append(entry.getKey());
+			}
+			if(ic.selected_3g) {
+				if (newuids_3g.length() != 0)
+					newuids_3g.append('|');
+				newuids_3g.append(entry.getKey());
+			}
+			
+		}
+		
+		final Editor edit = prefs.edit();
+		edit.putString(PREF_WIFI_UIDS, newuids_wifi.toString());
+		edit.putString(PREF_3G_UIDS, newuids_3g.toString());
+		edit.putString(PREF_ALL_UIDS, newuids_all.toString());
+		edit.putBoolean(PREF_S, true);
+		edit.commit();
+	}
+	
+	public static HashMap<Integer ,IsChecked> getMap(Context context,ArrayList<PackageInfo> myAppList){
+		
+		final SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+		final String savedUids_wifi = prefs.getString(PREF_WIFI_UIDS, "");
+		final String savedUids_3g = prefs.getString(PREF_3G_UIDS, "");
+		final String savedUids_all = prefs.getString(PREF_ALL_UIDS,"");
+		boolean cache  = prefs.getBoolean(PREF_S, false);
+		HashMap map = new HashMap<Integer, IsChecked>();
+		List<Integer> uids_wifi = new LinkedList<Integer>();
+		List<Integer> uids_3g = new LinkedList<Integer>();
+		List<Integer> uids_all = new LinkedList<Integer>();
+		if(cache){
+			if (savedUids_wifi.length() > 0) {
+				// Check which applications are allowed on wifi
+				final StringTokenizer tok = new StringTokenizer(savedUids_wifi, "|");
+				while (tok.hasMoreTokens()) {
+					final String uid = tok.nextToken();
+					if (!uid.equals("")) {
+						try {
+							uids_wifi.add(Integer.parseInt(uid));
+						} catch (Exception ex) {
+						}
+					}
+			     }
+			}
+			if (savedUids_3g.length() > 0) {
+				// Check which applications are allowed on 3g
+				final StringTokenizer tok = new StringTokenizer(savedUids_3g, "|");
+				while (tok.hasMoreTokens()) {
+					final String uid = tok.nextToken();
+					if (!uid.equals("")) {
+						try {
+							uids_3g.add(Integer.parseInt(uid));
+						} catch (Exception ex) {
+						}
+					}
+			     }
+		   	}
+			if (savedUids_all.length() > 0) {
+				// Check which applications are allowed on 3g
+				final StringTokenizer tok = new StringTokenizer(savedUids_all, "|");
+				while (tok.hasMoreTokens()) {
+					final String uid = tok.nextToken();
+					if (!uid.equals("")) {
+						try {
+							uids_all.add(Integer.parseInt(uid));
+						} catch (Exception ex) {
+						}
+					}
+			     }
+		   	}
+		}
+		
+		for (int i = 0; i < myAppList.size(); i++) {
+			PackageInfo pi = myAppList.get(i);
+			int uid = pi.applicationInfo.uid;
+			IsChecked ic = new IsChecked();
+			if(cache){
+				if(uids_all.contains(uid)){
+					if(uids_3g.contains(uid)){
+						ic.selected_3g = true;
+					}
+					if(uids_wifi.contains(uid)){
+						ic.selected_wifi = true;
+					}
+				}
+			}
+			map.put(uid,ic);
+		}
+		return map;
+	}
+	
+
+	
 }
