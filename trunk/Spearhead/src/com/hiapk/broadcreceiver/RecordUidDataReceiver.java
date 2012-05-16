@@ -22,7 +22,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 		// showLog("TableWiFiOrG23=" + SQLHelperTotal.TableWiFiOrG23);
 		if (sqlhelperTotal.getIsInit(context)) {
 			if (SQLHelperTotal.TableWiFiOrG23 != "") {
-				if (SQLHelperTotal.isSQLOnUsed != true) {
+				if (SQLHelperTotal.isSQLUidOnUsed != true) {
 					new AsyncTaskonRecordUidData().execute(context);
 					// showLog(SQLHelperTotal.TableWiFiOrG23);
 				}
@@ -50,7 +50,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
-			SQLHelperTotal.isSQLOnUsed = true;
+			SQLHelperTotal.isSQLUidOnUsed = true;
 		}
 
 		@Override
@@ -62,7 +62,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// TODO Auto-generated method stub
-			SQLHelperTotal.isSQLOnUsed = false;
+			SQLHelperTotal.isSQLUidOnUsed = false;
 		}
 	}
 

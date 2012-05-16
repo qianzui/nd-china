@@ -31,7 +31,8 @@ public class Splash extends Activity {
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
-			SQLHelperTotal.isSQLOnUsed = true;
+//			SQLHelperTotal.isSQLTotalOnUsed = true;
+//			SQLHelperTotal.isSQLUidOnUsed = true;
 		}
 
 		@Override
@@ -68,7 +69,8 @@ public class Splash extends Activity {
 				// 进行数据记录
 				sqlhelperTotal.initTablemobileAndwifi(context);
 			}
-			SQLHelperTotal.isSQLOnUsed = false;
+			SQLHelperTotal.isSQLTotalOnUsed = false;
+			SQLHelperTotal.isSQLUidOnUsed = false;
 			Intent mainIntent = new Intent(Splash.this, SpearheadActivity.class);
 			Bundle choosetab = new Bundle();
 			choosetab.putInt("TAB", 1);
