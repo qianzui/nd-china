@@ -149,7 +149,7 @@ public class SpearheadActivity extends TabActivity {
 			showFaqPopUp("file:///android_asset/faq/faq.html");
 			break;
 		case 3:
-			showAboutPopUp();
+			showAboutPopUp("file:///android_asset/about/about.html");
 			break;
 		case 4:
 			finish();
@@ -177,8 +177,21 @@ public class SpearheadActivity extends TabActivity {
 			System.out.println("Exception while showing PopUp : " + e.getMessage());		
 		}		
 	}
-	public void showAboutPopUp(){		
-		
+	public void showAboutPopUp(String url){		
+		try{	
+			AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+			LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
+			View vi = inflater.inflate(R.layout.faq, null);		
+			dialog.setView(vi);		
+			dialog.setTitle("关于先锋流量监控");		
+			dialog.setCancelable(true);	
+			dialog.setNegativeButton("确定", null);
+			WebView wb = (WebView) vi.findViewById(R.id.webview);		
+			wb.loadUrl(url);					
+			dialog.show();		
+		}catch(Exception e){		
+			System.out.println("Exception while showing PopUp : " + e.getMessage());		
+		}		
 	}
 	
 
