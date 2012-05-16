@@ -35,10 +35,10 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		// 初始化数据库后进行操作
 		if (sqlhelperTotal.getIsInit(context)) {
 			if (SQLHelperTotal.TableWiFiOrG23 != "") {
-				if (SQLHelperTotal.isSQLOnUsed != true) {
+				if (SQLHelperTotal.isSQLTotalOnUsed != true) {
 					sqlDataBase = sqlhelperTotal.creatSQLTotal(context);
 					new AsyncTaskonRecordTotalData().execute(context);
-//					showLog(SQLHelperTotal.TableWiFiOrG23);
+					// showLog(SQLHelperTotal.TableWiFiOrG23);
 				}
 			}
 		} else {
@@ -55,8 +55,8 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	private void trafficAlertTest(Context context) {
 		// TODO Auto-generated method stub
 		TrafficAlert trafficalert = new TrafficAlert();
-//		showLog("month" + trafficalert.isTrafficOverMonthSet(context) + "day"
-//				+ trafficalert.isTrafficOverDaySet(context));
+		// showLog("month" + trafficalert.isTrafficOverMonthSet(context) + "day"
+		// + trafficalert.isTrafficOverDaySet(context));
 		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
 		boolean monthHasWarning = prefs.getBoolean(MOBILE_HAS_WARNING_MONTH,
 				false);
@@ -94,6 +94,13 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	private class AsyncTaskonRecordTotalData extends
 			AsyncTask<Context, Integer, Integer> {
 		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			SQLHelperTotal.isSQLTotalOnUsed = true;
+		}
+
+		@Override
 		protected Integer doInBackground(Context... params) {
 			totalRecord();
 			trafficAlertTest(params[0]);
@@ -103,6 +110,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// TODO Auto-generated method stub
+			SQLHelperTotal.isSQLTotalOnUsed = false;
 		}
 	}
 

@@ -63,8 +63,8 @@ public class PrefrenceSetting extends PreferenceActivity {
 		refreshFres.setOnPreferenceChangeListener(ochange);
 		clearData.setOnPreferenceClickListener(oclick);
 		sharedData = new SharedPrefrenceData(context);
-//		初始化
-		String refreshValue=sharedData.getWidgetFresh();
+		// 初始化
+		String refreshValue = sharedData.getWidgetFresh();
 		refreshFres.setValue(refreshValue);
 	}
 
@@ -90,12 +90,12 @@ public class PrefrenceSetting extends PreferenceActivity {
 				return true;
 			}
 			if (preference.equals(clearData)) {
-				showLog(SQLHelperTotal.isSQLOnUsed + "before1");
-				mydialog = ProgressDialog.show(context, "请稍等...", "正在重置数据库...",
+				mydialog = ProgressDialog.show(context, "请稍等...", "正在清空数据...",
 						true);
 				int timetap = 0;
-				showLog(SQLHelperTotal.isSQLOnUsed + "while1");
-				while (SQLHelperTotal.isSQLOnUsed == true) {
+				while (SQLHelperTotal.isSQLTotalOnUsed == true
+						|| SQLHelperTotal.isSQLUidOnUsed == true
+						|| SQLHelperTotal.isSQLIndexOnUsed == true) {
 					try {
 						Thread.sleep(200);
 						timetap += 1;
@@ -105,11 +105,10 @@ public class PrefrenceSetting extends PreferenceActivity {
 					}
 					if (timetap > 3) {
 						mydialog.dismiss();
-						return alert(context, "重置失败请重试");
+						return alert(context, "清空数据失败请重试");
 					}
 
 				}
-				showLog(SQLHelperTotal.isSQLOnUsed + "before2");
 				sharedData.setSQLinited(false);
 				new AsyncTaskonClearSQL().execute(context);
 				// SQLHelperTotal aa=new SQLHelperTotal();
@@ -147,8 +146,9 @@ public class PrefrenceSetting extends PreferenceActivity {
 		@Override
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
-			showLog(SQLHelperTotal.isSQLOnUsed + "pre");
-			SQLHelperTotal.isSQLOnUsed = true;
+			SQLHelperTotal.isSQLTotalOnUsed = true;
+			SQLHelperTotal.isSQLUidOnUsed = true;
+			SQLHelperTotal.isSQLIndexOnUsed = true;
 			super.onPreExecute();
 		}
 
@@ -157,6 +157,7 @@ public class PrefrenceSetting extends PreferenceActivity {
 			// 删除数据库
 			params[0].deleteDatabase("SQLTotal.db");
 			params[0].deleteDatabase("SQLUid.db");
+			params[0].deleteDatabase("SQLUidIndex.db");
 			// 重新初始化数据库
 			List<PackageInfo> packages = params[0].getPackageManager()
 					.getInstalledPackages(0);
@@ -170,17 +171,16 @@ public class PrefrenceSetting extends PreferenceActivity {
 			}
 			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 			sqlhelperTotal.initSQL(params[0], uids, packagenames);
-			showLog(SQLHelperTotal.isSQLOnUsed + "back");
 			return null;
 		}
 
 		@Override
 		protected void onPostExecute(Integer result) {
 			// TODO Auto-generated method stub
-			showLog(SQLHelperTotal.isSQLOnUsed + "post1");
-			SQLHelperTotal.isSQLOnUsed = false;
+			SQLHelperTotal.isSQLTotalOnUsed = false;
+			SQLHelperTotal.isSQLUidOnUsed = false;
+			SQLHelperTotal.isSQLIndexOnUsed = false;
 			sharedData.setSQLinited(true);
-			showLog(SQLHelperTotal.isSQLOnUsed + "post2");
 			mydialog.dismiss();
 		}
 	}
@@ -204,7 +204,7 @@ public class PrefrenceSetting extends PreferenceActivity {
 					.setNeutralButton(android.R.string.ok, null)
 					.setMessage(msg).show();
 		}
-		
+
 		return true;
 	}
 }

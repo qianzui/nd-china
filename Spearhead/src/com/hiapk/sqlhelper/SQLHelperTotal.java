@@ -67,7 +67,9 @@ public class SQLHelperTotal {
 	// classes
 	SQLHelperUid SQLhelperuid = new SQLHelperUid();
 	// 数据库正在使用。重要中。
-	public static boolean isSQLOnUsed = false;
+	public static boolean isSQLTotalOnUsed = false;
+	public static boolean isSQLUidOnUsed = false;
+	public static boolean isSQLIndexOnUsed = false;
 
 	/**
 	 * 创建总数据库

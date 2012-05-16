@@ -1,6 +1,7 @@
 package com.hiapk.broadcreceiver;
 
 import com.hiapk.firewall.Block;
+import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
 
@@ -22,18 +23,32 @@ public class BootAndShutdownBroadcast extends BroadcastReceiver {
 
 		// 识别到开机信号
 		if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
-			//开启防火墙
+			// 开启防火墙
 			Block.applyIptablesRules(context, false);
 			// 初始化网络信号
 			sqlhelperTotal.initTablemobileAndwifi(context);
 			// 查看数据库是否已初始化
 
 			if (sqlhelperTotal.getIsInit(context)) {
+				SharedPrefrenceData sharedData = new SharedPrefrenceData(
+						context);
+				;
 				// 启动闹钟
 				alset.StartAlarm(context);
+				if (sharedData.isNotifyOpen()) {
+					alset.StartWidgetAlarm(context);
+				}
 				// 开启总流量与uid自动记录功能并进行首次记录
-				sqlhelperTotal.RecordTotalwritestats(context, false);
-				sqlhelperUid.RecordUidwritestats(context, false);
+				if (SQLHelperTotal.isSQLTotalOnUsed != true) {
+					SQLHelperTotal.isSQLTotalOnUsed = true;
+					sqlhelperTotal.RecordTotalwritestats(context, false);
+					SQLHelperTotal.isSQLTotalOnUsed = false;
+				}
+				if (SQLHelperTotal.isSQLUidOnUsed != true) {
+					SQLHelperTotal.isSQLUidOnUsed = true;
+					sqlhelperUid.RecordUidwritestats(context, false);
+					SQLHelperTotal.isSQLUidOnUsed = false;
+				}
 				showLog(sqlhelperTotal.gettime() + "onboot the system");
 			}
 		}
@@ -43,8 +58,16 @@ public class BootAndShutdownBroadcast extends BroadcastReceiver {
 			alset.StopAlarm(context);
 			if (sqlhelperTotal.getIsInit(context)) {
 				if (SQLHelperTotal.TableWiFiOrG23 != "") {
-					sqlhelperTotal.RecordTotalwritestats(context, false);
-					sqlhelperUid.RecordUidwritestats(context, false);
+					if (SQLHelperTotal.isSQLTotalOnUsed != true) {
+						SQLHelperTotal.isSQLTotalOnUsed = true;
+						sqlhelperTotal.RecordTotalwritestats(context, false);
+						SQLHelperTotal.isSQLTotalOnUsed = false;
+					}
+					if (SQLHelperTotal.isSQLUidOnUsed != true) {
+						SQLHelperTotal.isSQLUidOnUsed = true;
+						sqlhelperUid.RecordUidwritestats(context, false);
+						SQLHelperTotal.isSQLUidOnUsed = false;
+					}
 				}
 			}
 			showLog(sqlhelperTotal.gettime() + "shutdown the system");
