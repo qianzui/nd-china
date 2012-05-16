@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import com.hiapk.spearhead.FireWallActivity;
@@ -16,6 +18,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.net.TrafficStats;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,20 +35,16 @@ public class AppListAdapter extends BaseAdapter {
 	private ArrayList<PackageInfo> myAppList;
 	private  LayoutInflater inflater;
 	private Context mContext;
-	Map map;
+	HashMap map;
 	
-	public AppListAdapter(Context context , ArrayList<PackageInfo> myAppList)
+	public AppListAdapter(Context context , ArrayList<PackageInfo> myAppList ,HashMap<Integer,IsChecked> map)
 	{
 		inflater = LayoutInflater.from(context);
 		this.myAppList = myAppList;
 		this.mContext = context;
-		map = new HashMap<Integer,IsChecked>();
-	    for (int i = 0; i < myAppList.size(); i++) {
-			PackageInfo pi = myAppList.get(i);
-			IsChecked ic = new IsChecked();
-			map.put(pi.applicationInfo.uid, ic);
-		}
-	    this.map = map;
+		this.map = map;
+//        this.map = Block.getMap(mContext, myAppList);
+		
 	}
 
 	@Override
@@ -79,13 +78,10 @@ public class AppListAdapter extends BaseAdapter {
 			holder.trafficup = (TextView)convertView.findViewById(R.id.trafficup);
 			holder.e_toggle = (CheckBox)convertView.findViewById(R.id.e_toggle);
 			holder.wifi_toggle = (CheckBox)convertView.findViewById(R.id.wifi_toggle);
-//			isClick(holder.e_toggle);
-//			isClick( holder.wifi_toggle);
-			
 			
 			convertView.setTag(R.id.tag_holder,holder);
 		 }else{
-			 holder = (ViewHolder)convertView.getTag(R.id.tag_holder);
+			holder = (ViewHolder)convertView.getTag(R.id.tag_holder);
 		 }
 		  PackageInfo pkgInfo = myAppList.get(position);
 		  
@@ -97,16 +93,17 @@ public class AppListAdapter extends BaseAdapter {
 		  holder.appname.setText(pkgInfo.applicationInfo.loadLabel(mContext.getPackageManager()));
 		  holder.trafficup.setText("总流量： " + unitHandler(up + down));	
 		  
+		
 		  IsChecked ic = (IsChecked)map.get(pkgInfo.applicationInfo.uid);
 		  holder.e_toggle.setOnCheckedChangeListener(new ECheckBoxListener(holder.e_toggle,ic));
-		  holder.wifi_toggle.setOnCheckedChangeListener(new WifiCheckBoxListener(holder.wifi_toggle,ic));	
+		  holder.wifi_toggle.setOnCheckedChangeListener(new WifiCheckBoxListener(holder.wifi_toggle,ic));
 		  holder.e_toggle.setChecked(ic.selected_3g);
 		  holder.wifi_toggle.setChecked(ic.selected_wifi);
 		  
 		  convertView.setTag(R.id.tag_pkgname,pkgInfo.applicationInfo.packageName);
 		  convertView.setTag(R.id.tag_traffic_up ,unitHandler(up));
 		  convertView.setTag(R.id.tag_traffic_down ,unitHandler(down));
-		  
+		  convertView.setTag(R.id.tag_map,map);
 		  return convertView;
 	}
 	
@@ -181,12 +178,20 @@ public class AppListAdapter extends BaseAdapter {
 		return value;
 	}
 	
+//	public static void saveAndApply(Context context){
+//		 Block.saveRules(context,map);
+//		 if(Block.applyIptablesRules(context,true)){
+//			   Toast.makeText(context, "iptables规则已应用！", Toast.LENGTH_SHORT).show();
+//		    }else{
+//			   Toast.makeText(context, "写入规则失败！", Toast.LENGTH_SHORT).show();
+//			}
+//	}
 	
 	class ECheckBoxListener implements OnCheckedChangeListener
 	{
         CheckBox cb;
         IsChecked ic;
-        public ECheckBoxListener(CheckBox cb,  IsChecked ic)
+        public ECheckBoxListener(CheckBox cb,IsChecked ic)
         {
         	this.cb = cb ;
         	this.ic = ic;
@@ -198,8 +203,14 @@ public class AppListAdapter extends BaseAdapter {
 			// TODO Auto-generated method stub
 			 if(isRoot())
 	          {
-		        
-		        	ic.selected_3g = isChecked;
+		        ic.selected_3g = isChecked;
+//		        Block.saveRules(mContext,map);
+//				if(Block.applyIptablesRules(mContext,true)){
+//					   Toast.makeText(mContext, "iptables规则已应用！", Toast.LENGTH_SHORT).show();
+//				    }else{
+//					   Toast.makeText(mContext, "写入规则失败！", Toast.LENGTH_SHORT).show();
+//					}
+		        	
 		        }else{
 		        	 cb.setChecked(false);
 		        	 AlertDialog alt = new AlertDialog.Builder(mContext)
@@ -236,6 +247,16 @@ public class AppListAdapter extends BaseAdapter {
 		  if(isRoot())
           {
 			  ic.selected_wifi = isChecked;
+//		      Block.saveRules(mContext,map);
+		      
+//			  if(Block.applyIptablesRules(mContext,true)){
+//					   Toast.makeText(mContext, "iptables规则已应用！", Toast.LENGTH_SHORT).show();
+//				    }else{
+//					   Toast.makeText(mContext, "写入规则失败！", Toast.LENGTH_SHORT).show();
+//					}
+
+
+			  
 	        }else{
 	        	 cb.setChecked(false);
 	        	 AlertDialog alt = new AlertDialog.Builder(mContext)
@@ -253,6 +274,9 @@ public class AppListAdapter extends BaseAdapter {
 							}
 						}).show();
 	        	}}}
+
+    
+
 	
 }
 

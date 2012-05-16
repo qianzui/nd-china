@@ -5,11 +5,13 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.firewall.AppInfo;
 import com.hiapk.firewall.AppListAdapter;
+import com.hiapk.firewall.Block;
 import com.hiapk.firewall.MyListView;
 import com.hiapk.firewall.MyListView.OnRefreshListener;
 import com.hiapk.sqlhelper.SQLHelperTotal;
@@ -61,6 +63,7 @@ public class FireWallActivity extends Activity {
 	private SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 	ProgressDialog mydialog;
 	long[] traffic;
+	HashMap map;
 
 	// private ListView appListView;
 
@@ -77,16 +80,21 @@ public class FireWallActivity extends Activity {
 
 	public void initList() {
 		Log.i("get ---- list----start", System.currentTimeMillis() + "");
+		
 		myAppList = getCompList(getInstalledPackageInfo(FireWallActivity.this));
+		map = Block.getMap(mContext, myAppList);
 		
 		Log.i("get ---- list----end", System.currentTimeMillis() + "");
-		appListAdapter = new AppListAdapter(FireWallActivity.this, myAppList);
+		
+		appListAdapter = new AppListAdapter(FireWallActivity.this, myAppList,map);
 		appListView = (MyListView) findViewById(R.id.app_list);
 		appListView.setAdapter(appListAdapter);
 		appListView.setOnItemClickListener(new OnItemClickListener() {
+
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
+				map = (HashMap)arg1.getTag(R.id.tag_map);
 				menuDialog(arg1);
 			}
 		});
@@ -276,4 +284,20 @@ public class FireWallActivity extends Activity {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		  Block.saveRules(mContext,map);
+		  
+//		  runScriptAsRoot(mContext, script.toString(), res);
+		  if(Block.applyIptablesRules(mContext,true)){
+				   Toast.makeText(mContext, "防火墙已应用成功！", Toast.LENGTH_SHORT).show();
+			    }else{
+//				   Toast.makeText(mContext, "防火墙需要root权限！", Toast.LENGTH_SHORT).show();
+				}
+		super.onPause();
+	}
+	
+	
 }
