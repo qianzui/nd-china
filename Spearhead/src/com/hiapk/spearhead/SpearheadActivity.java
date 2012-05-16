@@ -146,10 +146,10 @@ public class SpearheadActivity extends TabActivity {
 			startActivity(intentPref);
 			break;
 		case 2:
-			showMapPopUp("file:///android_asset/faq/faq.html");
+			showFaqPopUp("file:///android_asset/faq/faq.html");
 			break;
 		case 3:
-
+			showAboutPopUp();
 			break;
 		case 4:
 			finish();
@@ -161,7 +161,7 @@ public class SpearheadActivity extends TabActivity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	public void showMapPopUp(String url){		
+	public void showFaqPopUp(String url){		
 		try{	
 			AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 			LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
@@ -176,6 +176,9 @@ public class SpearheadActivity extends TabActivity {
 		}catch(Exception e){		
 			System.out.println("Exception while showing PopUp : " + e.getMessage());		
 		}		
+	}
+	public void showAboutPopUp(){		
+		
 	}
 	
 
