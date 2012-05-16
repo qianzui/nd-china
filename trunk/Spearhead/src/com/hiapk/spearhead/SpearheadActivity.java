@@ -7,24 +7,30 @@ import com.hiapk.alertaction.AlertActionNotify;
 import com.hiapk.prefrencesetting.PrefrenceSetting;
 
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.inputmethodservice.Keyboard;
-import android.inputmethodservice.Keyboard.Key;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SpearheadActivity extends TabActivity {
+	WebView webView;
 	private static RadioGroup group;
 	public static TabHost tabHost;
 	public static final String TAB_MONITOR = "tabMonitor";
@@ -46,7 +52,8 @@ public class SpearheadActivity extends TabActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.maintabs);
+		setContentView(R.layout.maintabs);	
+		
 		initScene();
 		switchScene();
 	}
@@ -139,7 +146,7 @@ public class SpearheadActivity extends TabActivity {
 			startActivity(intentPref);
 			break;
 		case 2:
-
+			showMapPopUp("file:///android_asset/faq/faq.html");
 			break;
 		case 3:
 
@@ -153,6 +160,26 @@ public class SpearheadActivity extends TabActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	public void showMapPopUp(String url){		
+		try{	
+			AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+			LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
+			View vi = inflater.inflate(R.layout.faq, null);		
+			dialog.setView(vi);		
+			dialog.setTitle("先锋流量监控  FAQ :");		
+			dialog.setCancelable(true);	
+			dialog.setNegativeButton("确定", null);
+			WebView wb = (WebView) vi.findViewById(R.id.webview);		
+			wb.loadUrl(url);					
+			dialog.show();		
+		}catch(Exception e){		
+			System.out.println("Exception while showing PopUp : " + e.getMessage());		
+		}		
+	}
+	
+
+
 
 	@Override
 	protected void onResume() {
