@@ -1,5 +1,6 @@
 package com.hiapk.broadcreceiver;
 
+import com.hiapk.rebootandstartaction.Onreinstall;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
 
@@ -26,22 +27,21 @@ public class PackageReceiver extends BroadcastReceiver {
 			// 监听包的安装
 			if (intent.getAction()
 					.equals("android.intent.action.PACKAGE_ADDED")) {
-				//检查为自身安装
-				if (packageNames
-						.equals("package:com.hiapk.spearhead")) {
+				// 检查为自身安装
+				if (packageNames.equals("package:com.hiapk.spearhead")) {
 					sqlhelperTotal.initTablemobileAndwifi(context);
 				} else {
-					//其他软件安装
-					//检测网络权限
+					// 其他软件安装
+					// 检测网络权限
 					PackageManager pkgmanager = context.getPackageManager();
 					if (PackageManager.PERMISSION_GRANTED != pkgmanager
 							.checkPermission(Manifest.permission.INTERNET,
 									packageName[1])) {
-						//无网络权限
-//						showLog("没网络权限的安装");
+						// 无网络权限
+						// showLog("没网络权限的安装");
 					} else {
-						//有网络权限进行更新表格
-//						showLog("有网络权限的安装");
+						// 有网络权限进行更新表格
+						// showLog("有网络权限的安装");
 						int uidnumber = 99999;
 						try {
 							uidnumber = context.getPackageManager()
@@ -63,14 +63,14 @@ public class PackageReceiver extends BroadcastReceiver {
 			// 监听包的卸载
 			if (intent.getAction().equals(
 					"android.intent.action.PACKAGE_REMOVED")) {
-				if (packageNames
-						.equals("package:com.hiapk.spearhead")) {
-					sqlhelperTotal.initTablemobileAndwifi(context);
-					// 设置IsInit信息
-					sqlhelperTotal.getIsInit(context);
+				if (packageNames.equals("package:com.hiapk.spearhead")) {
+					Onreinstall reinstall = new Onreinstall();
+					reinstall.reInstallAction(context);
+					// showLog("自身安装");
 					showLog("卸载" + packageName[1]);
 				} else {
-					SQLiteDatabase mySQL = sqlhelperUid.creatSQLUidIndex(context);
+					SQLiteDatabase mySQL = sqlhelperUid
+							.creatSQLUidIndex(context);
 					sqlhelperUid.updateSQLUidIndexOtherOnUnInstall(mySQL,
 							packageName[1], "UnInstall");
 					sqlhelperUid.closeSQL(mySQL);

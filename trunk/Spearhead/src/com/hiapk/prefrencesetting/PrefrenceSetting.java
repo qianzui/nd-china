@@ -86,7 +86,12 @@ public class PrefrenceSetting extends PreferenceActivity {
 				return true;
 			}
 			if (preference.equals(isfloatIndicatorOpen)) {
-
+				boolean isfloatOpened = isfloatIndicatorOpen.isChecked();
+				if (isfloatOpened) {
+					startService(new Intent("com.hiapk.server"));
+				} else {
+					stopService(new Intent("com.hiapk.server"));
+				}
 				return true;
 			}
 			if (preference.equals(clearData)) {

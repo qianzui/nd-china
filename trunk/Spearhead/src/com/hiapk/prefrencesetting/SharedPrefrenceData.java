@@ -62,8 +62,18 @@ public class SharedPrefrenceData {
 	long monthMobileHasUse = 0;
 	long monthMobileHasUseOfint = 0;
 	boolean isNotifyOpen = true;
-	String widgetFresh = "";
 
+	public boolean isFloatOpen() {
+		boolean isFloatOpen = prefs_sys.getBoolean(SYS_PRE_FLOAT_CTRL, false);
+		return isFloatOpen;
+	}
+
+	public void setFloatOpen(boolean isFloatOpen) {
+		UseEditor_sys.putBoolean(SYS_PRE_FLOAT_CTRL, isFloatOpen);
+		UseEditor_sys.commit();
+	}
+
+	String widgetFresh = "";
 
 	public boolean isSQLinited() {
 		// boolean isSQLinited = prefs.getString(MOBILE_SET_UNIT, 0);
@@ -82,7 +92,7 @@ public class SharedPrefrenceData {
 	}
 
 	public String getWidgetFresh() {
-		String widgetFresh=prefs_sys.getString(SYS_PRE_REFRESH_FRZ, "0");
+		String widgetFresh = prefs_sys.getString(SYS_PRE_REFRESH_FRZ, "0");
 		return widgetFresh;
 	}
 
