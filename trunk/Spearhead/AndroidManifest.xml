@@ -47,7 +47,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+		<service   
+                android:name="com.hiapk.widget.FloatService">  
+                    <intent-filter>  
+                        <action android:name="com.hiapk.server"/>  
+                        <category android:name="android.intent.category.DEFAULT"/>  
+                    </intent-filter>  
+            </service>
         <receiver
             android:name="com.hiapk.broadcreceiver.BootAndShutdownBroadcast"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
