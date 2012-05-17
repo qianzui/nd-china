@@ -219,6 +219,22 @@ public class Appwidget extends AppWidgetProvider {
 					SetText.text2);
 			views.setCharSequence(R.id.widgetTextview3, "setText",
 					SetText.text3);
+			// Ë¢ÐÂgsmÍøÂç
+			AlertActionMobileDataControl mobile_on_of = new AlertActionMobileDataControl();
+			if (mobile_on_of.isMobileDataEnable(context)) {
+				views.setImageViewResource(R.id.widgetImage2,
+						R.drawable.icon_mobile_on);
+				views.setInt(R.id.widgetImageText2, "setTextColor", Color.GREEN);
+				// views.setInt(R.id.widgetImage2, "setBackgroundResource",
+				// R.drawable.icon_mobile_on);
+
+			} else {
+				views.setImageViewResource(R.id.widgetImage2,
+						R.drawable.icon_mobile_off);
+				views.setInt(R.id.widgetImageText2, "setTextColor", Color.GRAY);
+				// views.setInt(R.id.widgetImage2, "setBackgroundResource",
+				// R.drawable.icon_mobile_off);
+			}
 			AppWidgetManager appWidgetManager = AppWidgetManager
 					.getInstance(context);
 			appWidgetManager.updateAppWidget(new ComponentName(context,
