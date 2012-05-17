@@ -14,6 +14,7 @@ import com.hiapk.firewall.AppListAdapter;
 import com.hiapk.firewall.Block;
 import com.hiapk.firewall.MyListView;
 import com.hiapk.firewall.MyListView.OnRefreshListener;
+import com.hiapk.firewall.Root;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
 
@@ -72,7 +73,7 @@ public class FireWallActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main2);
-		Toast.makeText(mContext, "下拉列表可以进行刷新!", Toast.LENGTH_LONG).show();
+		Toast.makeText(mContext, "下拉列表可以进行刷新!", Toast.LENGTH_SHORT).show();
 		// mydialog = ProgressDialog.show(this, "请稍等...", "正在读取...", true);
 		initList();
 
@@ -288,14 +289,16 @@ public class FireWallActivity extends Activity {
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
+		
+		if(Block.isChanged && Root.isDeviceRooted()){
 		  Block.saveRules(mContext,map);
-		  
-//		  runScriptAsRoot(mContext, script.toString(), res);
 		  if(Block.applyIptablesRules(mContext,true)){
 				   Toast.makeText(mContext, "防火墙已应用成功！", Toast.LENGTH_SHORT).show();
 			    }else{
 //				   Toast.makeText(mContext, "防火墙需要root权限！", Toast.LENGTH_SHORT).show();
 				}
+		  Block.isChanged = false;
+		}
 		super.onPause();
 	}
 	

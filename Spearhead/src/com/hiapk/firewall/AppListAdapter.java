@@ -203,11 +203,12 @@ public class AppListAdapter extends BaseAdapter {
 			// TODO Auto-generated method stub
 			 if(Root.isDeviceRooted())
 	          {
+				 if(ic.selected_3g != isChecked){
+					  Block.isChanged = true;
+				  }
 		        ic.selected_3g = isChecked;
-		        Log.i("isROot...........",Root.isDeviceRooted() + "");
 		        	
 		        }else{
-		             Log.i("isROot...........",Root.isDeviceRooted() + "");
 		        	 cb.setChecked(false);
 		        	 AlertDialog alt = new AlertDialog.Builder(mContext)
 		 			 .setTitle("ÌבÊ¾")
@@ -242,6 +243,9 @@ public class AppListAdapter extends BaseAdapter {
 			// TODO Auto-generated method stub
 		  if(Root.isDeviceRooted())
           {
+			  if(ic.selected_wifi != isChecked){
+				  Block.isChanged = true;
+			  }
 			  ic.selected_wifi = isChecked;
 			  Log.i("isROot...........",Root.isDeviceRooted() + "");
 			  
