@@ -36,15 +36,12 @@ public class AppListAdapter extends BaseAdapter {
 	private  LayoutInflater inflater;
 	private Context mContext;
 	HashMap map;
-	
 	public AppListAdapter(Context context , ArrayList<PackageInfo> myAppList ,HashMap<Integer,IsChecked> map)
 	{
 		inflater = LayoutInflater.from(context);
 		this.myAppList = myAppList;
 		this.mContext = context;
 		this.map = map;
-//        this.map = Block.getMap(mContext, myAppList);
-		
 	}
 
 	@Override
@@ -107,46 +104,6 @@ public class AppListAdapter extends BaseAdapter {
 		  return convertView;
 	}
 	
-	public void isClick(CheckBox cb)
-	{
-		if(isRoot())
-		{
-			cb.setClickable(true);
-		}else
-		{
-			cb.setClickable(false);
-			Toast.makeText(mContext, "root first", Toast.LENGTH_LONG).show();
-		}
-	}
-	//判断手机是否root
-	public static boolean isRoot() {
-		boolean blnResult = false;
-		File su = new File("/tmp/su.txt");
-		FileOutputStream fos = null;
-		try {
-		     fos = new FileOutputStream(su);
-		} catch (Exception e) {
-		     e.printStackTrace();
-		   } finally {
-	     if (fos != null) {
-	 	    try {
-		          fos.close();
-		         } catch (Exception e) {
-		        e.printStackTrace();
-	              	}
-	              }
-	          	}
-		if (su.exists()) {
-		   blnResult = true;
-		   try {
-		     su.delete();
-		       } catch (SecurityException e) {
-	             	e.printStackTrace();
-	           	}
-	    	}
-		return blnResult;
-		}
-	
 	public long judge(long tff)
 	{
 		if(tff == -1)
@@ -178,15 +135,6 @@ public class AppListAdapter extends BaseAdapter {
 		return value;
 	}
 	
-//	public static void saveAndApply(Context context){
-//		 Block.saveRules(context,map);
-//		 if(Block.applyIptablesRules(context,true)){
-//			   Toast.makeText(context, "iptables规则已应用！", Toast.LENGTH_SHORT).show();
-//		    }else{
-//			   Toast.makeText(context, "写入规则失败！", Toast.LENGTH_SHORT).show();
-//			}
-//	}
-	
 	class ECheckBoxListener implements OnCheckedChangeListener
 	{
         CheckBox cb;
@@ -210,7 +158,7 @@ public class AppListAdapter extends BaseAdapter {
 		        	
 		        }else{
 		        	 cb.setChecked(false);
-		        	 AlertDialog alt = new AlertDialog.Builder(mContext)
+		        	 new AlertDialog.Builder(mContext)
 		 			 .setTitle("提示")
 		 			 .setMessage("此功能需要Root权限！")
 		 			 .setPositiveButton(
@@ -247,12 +195,10 @@ public class AppListAdapter extends BaseAdapter {
 				  Block.isChanged = true;
 			  }
 			  ic.selected_wifi = isChecked;
-			  Log.i("isROot...........",Root.isDeviceRooted() + "");
 			  
 	        }else{
-	        	Log.i("isROot...........",Root.isDeviceRooted() + "");
 	        	 cb.setChecked(false);
-	        	 AlertDialog alt = new AlertDialog.Builder(mContext)
+	        	 new AlertDialog.Builder(mContext)
 	 			 .setTitle("提示")
 	 			 .setMessage("此功能需要Root权限！")
 	 			 .setPositiveButton(
