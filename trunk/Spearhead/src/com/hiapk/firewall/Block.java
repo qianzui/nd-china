@@ -42,6 +42,7 @@ public class Block {
 	public static final String PREF_S = "Cache";
 	// Preferences
 	private static final String PREFS_NAME = "DroidWallPrefs";
+	public static boolean isChanged = false;
 
 
 
