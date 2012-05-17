@@ -41,6 +41,8 @@ public class SharedPrefrenceData {
 	SharedPreferences prefs_sys;
 	Editor UseEditor;
 	Editor UseEditor_sys;
+	// 小部件
+	private final String WIDGET_14_OPEN = "widget1x4";
 	// 系统初始化
 	private final String PREF_INITSQL = "isSQLINIT";
 	private final String MODE_NOTINIT = "SQLisnotINIT";
@@ -62,6 +64,17 @@ public class SharedPrefrenceData {
 	long monthMobileHasUse = 0;
 	long monthMobileHasUseOfint = 0;
 	boolean isNotifyOpen = true;
+	boolean isWidGet14Open;
+
+	public boolean isWidGet14Open() {
+		boolean isWidGet14Open = prefs.getBoolean(WIDGET_14_OPEN, false);
+		return isWidGet14Open;
+	}
+
+	public void setWidGet14Open(boolean isWidGet14Open) {
+		UseEditor.putBoolean(WIDGET_14_OPEN, isWidGet14Open);
+		UseEditor.commit();
+	}
 
 	public boolean isFloatOpen() {
 		boolean isFloatOpen = prefs_sys.getBoolean(SYS_PRE_FLOAT_CTRL, false);
