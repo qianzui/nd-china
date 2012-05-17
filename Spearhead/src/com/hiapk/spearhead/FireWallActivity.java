@@ -66,8 +66,6 @@ public class FireWallActivity extends Activity {
 	long[] traffic;
 	HashMap map;
 
-	// private ListView appListView;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -99,8 +97,6 @@ public class FireWallActivity extends Activity {
 				menuDialog(arg1);
 			}
 		});
-
-		Log.i("update----start", System.currentTimeMillis() + "");
 		appListView.setonRefreshListener(new OnRefreshListener() {
 			public void onRefresh() {
 				new AsyncTask<Void, Void, Void>() {
@@ -117,8 +113,8 @@ public class FireWallActivity extends Activity {
 				}.execute(null);
 			}
 		});
-		Log.i("update----end", System.currentTimeMillis() + "");
 	}
+	//排序
 	public ArrayList<PackageInfo> getCompList( ArrayList<PackageInfo> appList)
 	{
         traffic = new  long[appList.size()];
@@ -165,6 +161,7 @@ public class FireWallActivity extends Activity {
 		}
 	}
 
+	//获取应用列表
 	public ArrayList<PackageInfo> getInstalledPackageInfo(Context context) {
 		packageInfo = context.getPackageManager().getInstalledPackages(0);
 		ArrayList<PackageInfo> appList = new ArrayList<PackageInfo>();
