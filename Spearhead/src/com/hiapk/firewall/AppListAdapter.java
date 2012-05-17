@@ -201,17 +201,13 @@ public class AppListAdapter extends BaseAdapter {
 				boolean isChecked) {
 			
 			// TODO Auto-generated method stub
-			 if(isRoot())
+			 if(Root.isDeviceRooted())
 	          {
 		        ic.selected_3g = isChecked;
-//		        Block.saveRules(mContext,map);
-//				if(Block.applyIptablesRules(mContext,true)){
-//					   Toast.makeText(mContext, "iptables规则已应用！", Toast.LENGTH_SHORT).show();
-//				    }else{
-//					   Toast.makeText(mContext, "写入规则失败！", Toast.LENGTH_SHORT).show();
-//					}
+		        Log.i("isROot...........",Root.isDeviceRooted() + "");
 		        	
 		        }else{
+		             Log.i("isROot...........",Root.isDeviceRooted() + "");
 		        	 cb.setChecked(false);
 		        	 AlertDialog alt = new AlertDialog.Builder(mContext)
 		 			 .setTitle("提示")
@@ -244,20 +240,13 @@ public class AppListAdapter extends BaseAdapter {
 				boolean isChecked) {
 			
 			// TODO Auto-generated method stub
-		  if(isRoot())
+		  if(Root.isDeviceRooted())
           {
 			  ic.selected_wifi = isChecked;
-//		      Block.saveRules(mContext,map);
-		      
-//			  if(Block.applyIptablesRules(mContext,true)){
-//					   Toast.makeText(mContext, "iptables规则已应用！", Toast.LENGTH_SHORT).show();
-//				    }else{
-//					   Toast.makeText(mContext, "写入规则失败！", Toast.LENGTH_SHORT).show();
-//					}
-
-
+			  Log.i("isROot...........",Root.isDeviceRooted() + "");
 			  
 	        }else{
+	        	Log.i("isROot...........",Root.isDeviceRooted() + "");
 	        	 cb.setChecked(false);
 	        	 AlertDialog alt = new AlertDialog.Builder(mContext)
 	 			 .setTitle("提示")

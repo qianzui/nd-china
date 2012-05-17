@@ -238,9 +238,9 @@ public class Block {
 									"\nTry `iptables -h' or 'iptables --help' for more information.",
 									"");
 				}
-//				alert(ctx,
-//						"应用 iptables 规则时出错. 错误代码: " + code + "\n\n"
-//								+ msg.trim());
+				alert(ctx,
+						"应用 iptables 规则时出错. 错误代码: " + code + "\n\n"
+								+ msg.trim());
 			} else {
 				return true;
 			}
@@ -266,10 +266,6 @@ public class Block {
 		}
 		List<Integer> uids_wifi = new LinkedList<Integer>();
 		List<Integer> uids_3g = new LinkedList<Integer>();
-//		uids_wifi.add(Integer.parseInt(10045));
-//		uids_wifi.add(10090);
-//		uids_3g.add(10090);
-//		uids_wifi.add(wUid);
 		final SharedPreferences prefs = ctx.getSharedPreferences(PREFS_NAME, 0);
 		final String savedUids_wifi = prefs.getString(PREF_WIFI_UIDS, "");
 		final String savedUids_3g = prefs.getString(PREF_3G_UIDS, "");
@@ -409,7 +405,7 @@ public class Block {
 	 */
 	public static int runScript(Context ctx, String script, StringBuilder res)
 			throws IOException {
-		return runScript(ctx, script, res, 40000, false);
+		return runScript(ctx, script, res, 10000, false);
 	}
 
 	/**
