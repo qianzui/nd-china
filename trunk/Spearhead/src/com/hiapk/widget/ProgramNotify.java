@@ -51,7 +51,9 @@ public class ProgramNotify {
 		RemoteViews contentView = new RemoteViews(context.getPackageName(),
 				R.layout.notice);
 		contentView.setImageViewResource(R.id.image, R.drawable.monitor);
-		setText(context);
+		// setText(context);
+		textUp = SetText.textUp;
+		textDown = SetText.textDown;
 		contentView.setTextViewText(R.id.textUp, textUp);
 		contentView.setTextViewText(R.id.textDown, textDown);
 		notification.contentView = contentView;
@@ -92,7 +94,7 @@ public class ProgramNotify {
 
 		// textUp = "今日已用：xxx kB(MB)";
 		// textDown = "xx MB / 50 MB --> 2012.06.01";
-		textUp = "今日已用：" + todayUsedStr + (int) (10 * Math.random());
+		textUp = "今日已用：" + todayUsedStr + (int) (30 * Math.random());
 		textDown = monthUsedStr + " / " + monthSetStr + " --> " + year + "."
 				+ month + "." + monthDay;
 	}
