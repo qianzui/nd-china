@@ -25,6 +25,11 @@
             android:theme="@style/noTitle" >
         </activity>
         <activity
+            android:name="com.hiapk.widget.Operator"
+            android:screenOrientation="portrait"
+            android:theme="@style/noTitle" >
+        </activity>
+        <activity
             android:name="com.hiapk.regulate.PhoneSet"
             android:screenOrientation="portrait"
             android:theme="@style/noTitle" >
@@ -47,13 +52,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-		<service   
-                android:name="com.hiapk.widget.FloatService">  
-                    <intent-filter>  
-                        <action android:name="com.hiapk.server"/>  
-                        <category android:name="android.intent.category.DEFAULT"/>  
-                    </intent-filter>  
-            </service>
+
+        <service android:name="com.hiapk.widget.FloatService" >
+            <intent-filter>
+                <action android:name="com.hiapk.server" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="com.hiapk.widget.Appwidget"
+            android:icon="@drawable/ic_launcher"
+            android:label="网络开关" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.hiapkAPPWIDGET_UPDATE" />
+                <action android:name="com.hiapk.wifiwidget" />
+                <action android:name="com.hiapk.prgswidget" />
+                <action android:name="com.hiapk.traffwidget" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/appwidget_info" />
+        </receiver>
         <receiver
             android:name="com.hiapk.broadcreceiver.BootAndShutdownBroadcast"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
