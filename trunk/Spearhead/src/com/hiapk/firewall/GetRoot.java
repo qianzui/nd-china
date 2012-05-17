@@ -1,5 +1,6 @@
 package com.hiapk.firewall;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,7 +17,7 @@ import android.widget.Toast;
 
 public class GetRoot {
 
-	private static boolean hasRoot = false;
+	public static boolean hasRoot = false;
 	private static final String SCRIPT_FILE = "firewall.sh";
 
 	// 获取root权限
@@ -43,6 +44,8 @@ public class GetRoot {
 		}
 		return true;
 	}
+	
+	
 
 	// 是否root过
 	public static boolean isRoot() {
@@ -81,7 +84,7 @@ public class GetRoot {
 	 *            是否显示错误信息
 	 * @return 返回是否具有root权限
 	 */
-	public boolean hasRootAccess(Context context, boolean showErrors) {
+	public static boolean hasRootAccess(Context context, boolean showErrors) {
 		if (hasRoot)
 			return true;
 		final StringBuilder res = new StringBuilder();
