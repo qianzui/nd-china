@@ -85,20 +85,21 @@ public class Appwidget extends AppWidgetProvider {
 			// Get the layout for the App Widget and attach an on-click listener
 			// to the button
 			RemoteViews views = new RemoteViews(context.getPackageName(),
-					R.layout.appwidget_layout);
+					R.layout.appwidget_layout); 
 			// 设置监听
-			views.setOnClickPendingIntent(R.id.widgetImage1, pendingIntentwifi);
-			views.setOnClickPendingIntent(R.id.widgetImageText1,
-					pendingIntentwifi);
-			views.setOnClickPendingIntent(R.id.widgetImage2, pendingIntentgprs);
-			views.setOnClickPendingIntent(R.id.widgetImageText2,
-					pendingIntentgprs);
-			views.setOnClickPendingIntent(R.id.widgetTextview1,
+//			views.setOnClickPendingIntent(R.id.widgetImage1, pendingIntentwifi);
+			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout1, pendingIntentwifi);
+//			views.setOnClickPendingIntent(R.id.widgetImageText1,
+//					pendingIntentwifi);
+			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout2, pendingIntentgprs);
+//			views.setOnClickPendingIntent(R.id.widgetImageText2,
+//					pendingIntentgprs);
+			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout3,
 					pendingIntenttraff);
-			views.setOnClickPendingIntent(R.id.widgetTextview2,
-					pendingIntenttraff);
-			views.setOnClickPendingIntent(R.id.widgetTextview3,
-					pendingIntenttraff);
+//			views.setOnClickPendingIntent(R.id.widgetTextview2,
+//					pendingIntenttraff);
+//			views.setOnClickPendingIntent(R.id.widgetTextview3,
+//					pendingIntenttraff);
 			initWidget(context, views);
 			// 设置文本状态
 			// TextView aa;
