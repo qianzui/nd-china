@@ -12,13 +12,14 @@
         android:layout_marginTop="8sp"
         android:layout_weight="1.0"
         android:background="@drawable/widgetbackground"
-        android:orientation="vertical" >
+        android:orientation="vertical" 
+        android:id="@+id/widget1X4LinnerLayout1">
 
         <ImageView
             android:id="@+id/widgetImage1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16sp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="5sp"
             android:layout_weight="1.0"
             android:maxHeight="72sp"
@@ -29,7 +30,7 @@
             android:id="@+id/widgetImageText1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16sp"
+           android:layout_gravity="center_horizontal"
             android:layout_marginTop="5sp"
             android:layout_weight="1.0"
             android:maxHeight="72sp"
@@ -45,13 +46,14 @@
         android:layout_marginTop="8sp"
         android:layout_weight="1.0"
         android:background="@drawable/widgetbackground"
-        android:orientation="vertical" >
+        android:orientation="vertical" 
+        android:id="@+id/widget1X4LinnerLayout2">
 
         <ImageView
             android:id="@+id/widgetImage2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="18sp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="7sp"
             android:layout_weight="1.0"
             android:maxHeight="72sp"
@@ -63,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5sp"
-            android:layout_marginLeft="16sp"
+            android:layout_gravity="center_horizontal"
             android:layout_weight="1.0"
             android:maxHeight="72sp"
             android:maxWidth="72sp"
@@ -79,7 +81,8 @@
         android:layout_marginTop="8sp"
         android:layout_weight="3.0"
         android:background="@drawable/widgetbackground"
-        android:orientation="vertical" >
+        android:orientation="vertical" 
+        android:id="@+id/widget1X4LinnerLayout3">
 
         <TextView
             android:id="@+id/widgetTextview1"

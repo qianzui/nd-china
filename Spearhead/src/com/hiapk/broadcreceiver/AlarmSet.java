@@ -108,10 +108,10 @@ public class AlarmSet {
 		showLog(set + "");
 		switch (Integer.valueOf(set)) {
 		case 0:
-			widgetrefreshtime = 1;
+			widgetrefreshtime = 5;
 			break;
 		case 1:
-			widgetrefreshtime = 5;
+			widgetrefreshtime = 15;
 			break;
 		case 2:
 			widgetrefreshtime = 31;
@@ -127,7 +127,7 @@ public class AlarmSet {
 			break;
 
 		default:
-			widgetrefreshtime = 30;
+			widgetrefreshtime = 31;
 			break;
 		}
 	}

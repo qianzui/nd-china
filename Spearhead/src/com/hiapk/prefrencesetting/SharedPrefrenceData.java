@@ -59,13 +59,6 @@ public class SharedPrefrenceData {
 
 	// SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
 
-	long monthMobileSetOfLong = 0;
-	int monthMobileSetOfint = 0;
-	long monthMobileHasUse = 0;
-	long monthMobileHasUseOfint = 0;
-	boolean isNotifyOpen = true;
-	boolean isWidGet14Open;
-
 	public boolean isWidGet14Open() {
 		boolean isWidGet14Open = prefs.getBoolean(WIDGET_14_OPEN, false);
 		return isWidGet14Open;
@@ -105,7 +98,7 @@ public class SharedPrefrenceData {
 	}
 
 	public String getWidgetFresh() {
-		String widgetFresh = prefs_sys.getString(SYS_PRE_REFRESH_FRZ, "0");
+		String widgetFresh = prefs_sys.getString(SYS_PRE_REFRESH_FRZ, "2");
 		return widgetFresh;
 	}
 
@@ -129,8 +122,10 @@ public class SharedPrefrenceData {
 		return mobileUseInt;
 	}
 
-	public void setMonthMobileHasUseOfint(long monthMobileHasUseOfint) {
-		this.monthMobileHasUseOfint = monthMobileHasUseOfint;
+	public void setMonthMobileHasUseOfint(int monthMobileHasUseOfint) {
+		UseEditor.putInt(VALUE_MOBILE_HASUSED_OF_INT, monthMobileHasUseOfint);
+		UseEditor.commit();
+		
 	}
 
 	int countDay = 0;
@@ -164,15 +159,18 @@ public class SharedPrefrenceData {
 	}
 
 	public void setMonthMobileSetOfLong(long monthMobileSetOfLong) {
-		this.monthMobileSetOfLong = monthMobileSetOfLong;
+		UseEditor.putLong(VALUE_MOBILE_SET, monthMobileSetOfLong);
+		UseEditor.commit();
 	}
 
 	public int getMonthMobileSetOfint() {
+		int monthMobileSetOfint=prefs.getInt(VALUE_MOBILE_SET_OF_INT, 50);
 		return monthMobileSetOfint;
 	}
 
 	public void setMonthMobileSetOfint(int monthMobileSetOfint) {
-		this.monthMobileSetOfint = monthMobileSetOfint;
+		UseEditor.putInt(VALUE_MOBILE_SET_OF_INT, monthMobileSetOfint);
+		UseEditor.commit();
 	}
 
 	public long getMonthMobileHasUse() {
@@ -181,7 +179,8 @@ public class SharedPrefrenceData {
 	}
 
 	public void setMonthMobileHasUse(long monthMobileHasUse) {
-		this.monthMobileHasUse = monthMobileHasUse;
+		UseEditor.putLong(VALUE_MOBILE_HASUSED_LONG, monthMobileHasUse);
+		UseEditor.commit();
 	}
 
 	public int getCountDay() {

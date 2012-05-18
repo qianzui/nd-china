@@ -307,7 +307,7 @@ public class StackedBarChart extends ViewBase {
 
 	private void initSize() {
 		// TODO Auto-generated method stub
-		AxisTitleTextSize = windowswidesize / 14;
+		AxisTitleTextSize = windowswidesize / 16;
 		ChartTitleTextSize = windowswidesize / 10;
 		LabelsTextSize = windowswidesize / 20;
 		LegendTextSize = windowswidesize / 15;

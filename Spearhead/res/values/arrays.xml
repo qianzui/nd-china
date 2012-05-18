@@ -8,8 +8,8 @@
     </string-array>
     <!-- 更新频率 -->
     <string-array name="refreshwidget">
-        <item>1秒</item>
         <item>5秒</item>
+        <item>15秒</item>
         <item>30秒</item>
         <item>60秒</item>
         <item>2分钟</item>
