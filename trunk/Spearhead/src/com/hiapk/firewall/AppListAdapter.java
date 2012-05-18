@@ -14,13 +14,16 @@ import com.hiapk.spearhead.Main;
 import com.hiapk.spearhead.R;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.net.TrafficStats;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
@@ -92,8 +95,8 @@ public class AppListAdapter extends BaseAdapter {
 		  
 		
 		  IsChecked ic = (IsChecked)map.get(pkgInfo.applicationInfo.uid);
-		  holder.e_toggle.setOnCheckedChangeListener(new ECheckBoxListener(holder.e_toggle,ic));
-		  holder.wifi_toggle.setOnCheckedChangeListener(new WifiCheckBoxListener(holder.wifi_toggle,ic));
+		  holder.e_toggle.setOnClickListener(new EListener(holder.e_toggle,ic));
+		  holder.wifi_toggle.setOnClickListener(new WifiListener(holder.wifi_toggle,ic));
 		  holder.e_toggle.setChecked(ic.selected_3g);
 		  holder.wifi_toggle.setChecked(ic.selected_wifi);
 		  
@@ -146,7 +149,7 @@ public class AppListAdapter extends BaseAdapter {
         }
 		@Override
 		public void onCheckedChanged(CompoundButton buttonView,
-				boolean isChecked) {
+				final boolean isChecked) {
 			
 			// TODO Auto-generated method stub
 			 if(Root.isDeviceRooted())
@@ -154,8 +157,36 @@ public class AppListAdapter extends BaseAdapter {
 				 if(ic.selected_3g != isChecked){
 					  Block.isChanged = true;
 				  }
-		        ic.selected_3g = isChecked;
-		        	
+				 
+				 if(Block.isShowTip(mContext)){
+				 new AlertDialog.Builder(mContext)
+				 .setTitle("提示")
+				 .setMessage("此功能需要root权限，是否获取？")
+				 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						Block.isShowTipSet(mContext, false);
+						final ProgressDialog progress = ProgressDialog.show(mContext,
+								"提示","处理中", true);						
+						if(GetRoot.hasRootAccess(mContext, true)){
+							
+				            ic.selected_3g = isChecked;
+					       }
+						progress.dismiss();
+					   } 
+				    })
+				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						cb.setChecked(false);
+						ic.selected_3g = false;
+						Block.isChanged = false;
+					}
+				}).show();
+				 }
 		        }else{
 		        	 cb.setChecked(false);
 		        	 new AlertDialog.Builder(mContext)
@@ -190,7 +221,8 @@ public class AppListAdapter extends BaseAdapter {
 			
 			// TODO Auto-generated method stub
 		  if(Root.isDeviceRooted())
-          {
+          {     
+			  
 			  if(ic.selected_wifi != isChecked){
 				  Block.isChanged = true;
 			  }
@@ -214,7 +246,152 @@ public class AppListAdapter extends BaseAdapter {
 						}).show();
 	        	}}}
 
-    
+    class EListener implements OnClickListener{
+    	CheckBox cb;
+    	IsChecked ic;
+    	public  EListener(CheckBox cb,IsChecked ic){
+    		this.cb = cb;
+    		this.ic = ic;
+    	}	
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			 if(Root.isDeviceRooted())
+	          {
+				 if(ic.selected_3g != cb.isChecked()){
+					  Block.isChanged = true;
+				  }
+				 if(Block.isShowTip(mContext)){
+				 new AlertDialog.Builder(mContext)
+				 .setTitle("提示")
+				 .setMessage("此功能需要root权限，是否获取？")
+				 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						Block.isShowTipSet(mContext, false);
+//						final ProgressDialog progress = ProgressDialog.show(mContext,
+//								"提示","处理中", true);	
+//						progress.dismiss();
+						if(GetRoot.hasRootAccess(mContext, true)){
+				            ic.selected_3g = cb.isChecked();
+					       }else{
+					    	cb.setChecked(false);
+					       }
+
+					   } 
+				    })
+				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						cb.setChecked(false);
+						ic.selected_3g = false;
+						Block.isChanged = false;
+					}
+				}).show();
+				 }else{
+					 if(GetRoot.hasRootAccess(mContext, true)){
+				            ic.selected_wifi = cb.isChecked();
+					       }else{
+					    	cb.setChecked(false);
+					       }
+				       }
+		        }else{
+		        	 cb.setChecked(false);
+		        	 new AlertDialog.Builder(mContext)
+		 			 .setTitle("提示")
+		 			 .setMessage("此功能需要Root权限！")
+		 			 .setPositiveButton(
+							 "确定",
+							 new DialogInterface.OnClickListener() {
+								 @Override
+								 public void onClick(
+										 DialogInterface dialog,
+										 int which) {
+									 // TODO Auto-generated
+									 // method stub
+								}
+							}).show();
+		        	}
+		
+		}
+    	
+    }
+    class WifiListener implements OnClickListener{
+    	CheckBox cb;
+    	IsChecked ic;
+    	public  WifiListener(CheckBox cb,IsChecked ic){
+    		this.cb = cb;
+    		this.ic = ic;
+    	}	
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			 if(Root.isDeviceRooted())
+	          {
+				 if(ic.selected_wifi != cb.isChecked()){
+					  Block.isChanged = true;
+				  }
+				 
+				 if(Block.isShowTip(mContext)){
+				 new AlertDialog.Builder(mContext)
+				 .setTitle("提示")
+				 .setMessage("此功能需要root权限，是否获取？")
+				 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						Block.isShowTipSet(mContext, false);
+//						final ProgressDialog progress = ProgressDialog.show(mContext,
+//								"提示","处理中", true);	
+//						progress.dismiss();
+						if(GetRoot.hasRootAccess(mContext, true)){
+				            ic.selected_wifi = cb.isChecked();
+					       }else{
+					    	cb.setChecked(false);
+					       }
+					   } 
+				    })
+				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						cb.setChecked(false);
+						ic.selected_wifi = false;
+						Block.isChanged = false;
+					}
+				}).show();
+				 }else{
+					 if(GetRoot.hasRootAccess(mContext, true)){
+				            ic.selected_wifi = cb.isChecked();
+					       }else{
+					    	cb.setChecked(false);
+					       }
+				 }
+		        }else{
+		        	 cb.setChecked(false);
+		        	 new AlertDialog.Builder(mContext)
+		 			 .setTitle("提示")
+		 			 .setMessage("此功能需要Root权限！")
+		 			 .setPositiveButton(
+							 "确定",
+							 new DialogInterface.OnClickListener() {
+								 @Override
+								 public void onClick(
+										 DialogInterface dialog,
+										 int which) {
+									 // TODO Auto-generated
+									 // method stub
+								}
+							}).show();
+		        	}
+		
+		}
+    	
+    }
 
 	
 }

@@ -19,9 +19,7 @@ public class Splash extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
 		// 获取root权限
-		
-		// gr.cmdRoot("chmod 777 " + getPackageCodePath());
-		
+//		 GetRoot.cmdRoot("chmod 777 " + getPackageCodePath());
 		new AsyncTaskonResume().execute(context);
 	}
 

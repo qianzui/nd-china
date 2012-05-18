@@ -40,6 +40,7 @@ public class Block {
 	public static final String PREF_WIFI_UIDS = "AllowedUidsWifi";
 	public static final String PREF_ALL_UIDS = "AppListUids";
 	public static final String PREF_S = "Cache";
+	public static final String PREF_SHOW = "IsShowTip";
 	// Preferences
 	private static final String PREFS_NAME = "DroidWallPrefs";
 	public static boolean isChanged = false;
@@ -111,7 +112,7 @@ public class Block {
 		if (ctx == null) {
 			return false;
 		}
-		// assertBinaries(ctx, showErrors);
+		GetRoot.assertBinaries(ctx, showErrors);
 		final String ITFS_WIFI[] = { "tiwlan+", "wlan+", "eth+" };
 		final String ITFS_3G[] = { "rmnet+", "pdp+", "ppp+", "uwbr+", "wimax+",
 				"vsnet+" };
@@ -242,6 +243,7 @@ public class Block {
 				alert(ctx,
 						"应用 iptables 规则时出错. 错误代码: " + code + "\n\n"
 								+ msg.trim());
+				Log.i("...000",code + "");
 			} else {
 				return true;
 			}
@@ -385,7 +387,7 @@ public class Block {
 	 */
 	public static int runScriptAsRoot(Context ctx, String script,
 			StringBuilder res) throws IOException {
-		return runScriptAsRoot(ctx, script, res, 20000);
+		return runScriptAsRoot(ctx, script, res, 40000);
 	}
 
 	/**
@@ -665,6 +667,19 @@ public class Block {
 		return map;
 	}
 	
+	public static boolean isShowTip(Context context){
+		final SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+		boolean isShow = prefs.getBoolean(PREF_SHOW, true);
+		return isShow;
+	}
+	public static void isShowTipSet(Context context , boolean isShow){
+		final SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+		final  Editor edit = prefs.edit();
+		edit.putBoolean(PREF_SHOW, isShow);
+		edit.commit();
+		Log.i("............",isShow + "");
+		Log.i("............",prefs.getBoolean(PREF_SHOW, true) + "");
+	}
 
 	
 }
