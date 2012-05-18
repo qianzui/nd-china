@@ -14,8 +14,8 @@ import android.util.Log;
  * 
  */
 class MonthlyUseData {
-	//月度使用流量数据
-	public static long MonthlyUseTraffic=0;
+	// 月度使用流量数据
+	public static long MonthlyUseTraffic = 0;
 	// private SQLHelperUid sqlhelperUid = new SQLHelperUid();
 	private SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 	// ------------
@@ -42,7 +42,7 @@ class MonthlyUseData {
 	 * @param context
 	 * @return 返回使用流量数值
 	 */
-	void getMonthUseData(Context context) {
+	long getMonthUseData(Context context) {
 		long mobile_month_use = 0;
 		// 取得系统时间。
 		Time t = new Time();
@@ -259,8 +259,9 @@ class MonthlyUseData {
 			showlog("默认设置");
 			mobile_month_use = mobileTraffic[0] + mobileTraffic[63];
 		}
-//		return mobile_month_use;
-		MonthlyUseTraffic=mobile_month_use;
+		showlog(mobile_month_use + "monthuse");
+		return mobile_month_use;
+		// MonthlyUseTraffic=mobile_month_use;
 	}
 
 	/**

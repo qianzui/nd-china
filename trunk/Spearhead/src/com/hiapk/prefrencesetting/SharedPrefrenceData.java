@@ -29,6 +29,7 @@ public class SharedPrefrenceData {
 	String MOBILE_COUNT_SET_TIME = "mobileMonthSetCountTime";
 	// 已使用总流量int
 	String VALUE_MOBILE_HASUSED_OF_INT = "mobileHasusedint";
+	String MONTH_USED_DATA_TEMP="monthtempuseddata";
 	// 设置单位（已使用）
 	String MOBILE_HASUSED_SET_UNIT = "mobileHasusedUnit";
 	// 流量预警
@@ -134,6 +135,16 @@ public class SharedPrefrenceData {
 	int alertAction = 0;
 	int monthMobileSetUnit = 0;
 	int monthHasUsedUnit = 0;
+	long monthUseDataTemp;
+	public long getMonthUseDataTemp() {
+		long monthUseDataTemp=prefs.getLong(MONTH_USED_DATA_TEMP, 0);
+		return monthUseDataTemp;
+	}
+
+	public void setMonthUseDataTemp(long monthUseDataTemp) {
+		UseEditor.putLong(MONTH_USED_DATA_TEMP, monthUseDataTemp);
+		UseEditor.commit();
+	}
 
 	public int getMonthMobileSetUnit() {
 		int mobileUnit = prefs.getInt(MOBILE_SET_UNIT, 0);

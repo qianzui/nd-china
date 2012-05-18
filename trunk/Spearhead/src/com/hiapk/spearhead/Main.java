@@ -83,7 +83,7 @@ public class Main extends Activity {
 		}
 		initSQLdatabase(uids, packagenames);
 		setonrefreshclicklistens();
-//		GetRoot.cmdRoot("chmod 777 "+getPackageCodePath());
+		// GetRoot.cmdRoot("chmod 777 "+getPackageCodePath());
 	}
 
 	/**
@@ -141,7 +141,6 @@ public class Main extends Activity {
 		mobile_month_use = trafficManager.getMonthUseData(context);
 		long mobileSet = sharedData.getMonthMobileSetOfLong();
 		long mobileHasUsed = sharedData.getMonthMobileHasUse();
-		mobile_month_use = mobile_month_use ;
 		if (mobile_month_use > mobileSet)
 			monthMobil.setTextColor(Color.RED);
 		else
@@ -294,7 +293,7 @@ public class Main extends Activity {
 				&& sqlhelperTotal.getIsInit(context)) {
 			// 启动闹钟
 			alset.StartAlarmMobile(context);
-			// 进行数据记录
+//			// 进行数据记录
 			trafficManager.statsTotalTraffic(context, false);
 		} else if (SQLHelperTotal.TableWiFiOrG23 != "") {
 			alset.StartAlarmMobile(context);
@@ -322,7 +321,8 @@ public class Main extends Activity {
 					// 启动闹钟
 					alset.StartAlarmMobile(context);
 					// 进行数据记录
-					sqlhelperTotal.RecordTotalwritestats(context, false);
+					trafficManager.statsTotalTraffic(context, false);
+//					sqlhelperTotal.RecordTotalwritestats(context, false);
 				} else if (SQLHelperTotal.TableWiFiOrG23 != "") {
 					alset.StartAlarmMobile(context);
 					sqlhelperTotal.initTablemobileAndwifi(context);

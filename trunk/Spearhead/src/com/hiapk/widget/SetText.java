@@ -25,7 +25,8 @@ public class SetText {
 	public static void setText(Context context) {
 		// TODO Auto-generated method stub
 		TrafficManager trafficManager = new TrafficManager();
-		trafficManager.statsTotalTraffic(context, false);
+		//¼ÇÂ¼Êý¾ÝÃüÁî
+//		trafficManager.statsTotalTraffic(context, false);
 		Time t = new Time();
 		t.setToNow();
 		int year = t.year;
@@ -36,6 +37,7 @@ public class SetText {
 		long[] monthUsed_this = trafficManager.getMobileMonthTraffic(context);
 		long monthSetLong = sharedData.getMonthMobileSetOfLong();
 		long monthUsedLong = trafficManager.getMonthUseData(context);
+		trafficManager.setMonthUseDate(monthUsedLong);
 		long todayUsedLong = monthUsed_this[monthDay]
 				+ monthUsed_this[monthDay + 31];
 		String monthUsedStr = unitHandler.unitHandlerAccurate(monthUsedLong);
