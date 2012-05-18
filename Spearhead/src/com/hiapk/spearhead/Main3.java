@@ -1,6 +1,7 @@
 package com.hiapk.spearhead;
 
 import com.hiapk.alertaction.AlertActionNotify;
+import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
@@ -222,8 +223,13 @@ public class Main3 extends Activity {
 					passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG, 0);
 					passfileEditor.putInt(VALUE_MOBILE_HASUSED_OF_INT, 0);
 					passfileEditor.commit();// 委托，存入数据
+					//重置月已用流量
 					init_btn_HasUsed();
+					//弹出建议设置已用流量对话框
 					dialogCountDaySelected().show();
+					//刷新小部件与通知栏
+					AlarmSet alset = new AlarmSet();
+					alset.StartWidgetAlarm(context);
 				}
 			}
 
