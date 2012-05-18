@@ -31,9 +31,10 @@ public class AlarmSet {
 	public void StartAlarm(Context context) {
 		setdefaulttime(context);
 		setwidgetdefaulttime(context);
-		TotalAlarmStart(context,
-				(totalrefreshtime < widgetrefreshtime ? totalrefreshtime
-						: widgetrefreshtime));
+		int totaltime = totalrefreshtime < widgetrefreshtime ? totalrefreshtime
+				: widgetrefreshtime;
+		showLog(totaltime + "");
+		TotalAlarmStart(context, totaltime);
 		UidAlarmStart(context, uidrefreshtime);
 		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
 	}
@@ -104,7 +105,7 @@ public class AlarmSet {
 	private void setwidgetdefaulttime(Context context) {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(context);
-		String set = prefs.getString(SYS_PRE_REFRESH_FRZ, "0");
+		String set = prefs.getString(SYS_PRE_REFRESH_FRZ, "2");
 		showLog(set + "");
 		switch (Integer.valueOf(set)) {
 		case 0:
@@ -203,8 +204,8 @@ public class AlarmSet {
 				.getSystemService("alarm");
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());
-		alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis()+800,
-				i * 60000, pendingIntent);
+		alarmManager.setRepeating(AlarmManager.RTC,
+				calendar.getTimeInMillis() + 800, i * 60000, pendingIntent);
 	}
 
 	/**
@@ -223,8 +224,8 @@ public class AlarmSet {
 				.getSystemService("alarm");
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());
-		alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis()+300,
-				i * 1000, pendingIntent);
+		alarmManager.setRepeating(AlarmManager.RTC,
+				calendar.getTimeInMillis() + 300, i * 1000, pendingIntent);
 	}
 
 	/**

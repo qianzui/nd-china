@@ -62,7 +62,7 @@ public class Splash extends Activity {
 			if (result == 1) {
 				// 进行数据记录
 				sqlhelperUid.RecordUidwritestats(context, false);
-				sqlhelperTotal.RecordTotalwritestats(context, false);
+//				sqlhelperTotal.RecordTotalwritestats(context, false);
 			} else {
 				// 进行数据记录
 				sqlhelperTotal.initTablemobileAndwifi(context);

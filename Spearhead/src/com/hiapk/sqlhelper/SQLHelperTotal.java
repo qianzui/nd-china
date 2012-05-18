@@ -605,9 +605,10 @@ public class SQLHelperTotal {
 	 *            要查询的数据类型
 	 * @return 返回一个3位数组。a[0]为总计流量a[1]总计上传流量a[2]总计下载流量
 	 */
+	//specialfortext   TableWiFi----TableMobile
 	public long[] SelectMobileData(Context context, int year, int month,
 			int day, int dayset) {
-		return SelectData(context, year, month, day, dayset, TableMobile);
+		return SelectData(context, year, month, day, dayset, TableWiFi);
 	}
 
 	/**
@@ -626,10 +627,11 @@ public class SQLHelperTotal {
 	 * @return 返回一个3位数组。a[0]为总计流量a[1]为上传流量a[2]下载流量
 	 * 
 	 */
+	//specialfortext   TableMobile----------TableWiFi
 	public long[] SelectMobileData(Context context, int year, int month,
 			int day, String time) {
 
-		return SelectData(context, year, month, day, time, TableMobile);
+		return SelectData(context, year, month, day, time, TableWiFi);
 	}
 
 	/**
@@ -814,7 +816,7 @@ public class SQLHelperTotal {
 						+ "01" + "-" + setday2 + AND + "type=" + 2;
 			}
 		}
-		showLog(string);
+		showLog("testmonthUsetraff"+string);
 		try {
 			cur = sqlDataBase.rawQuery(string, null);
 		} catch (Exception e) {
@@ -914,9 +916,9 @@ public class SQLHelperTotal {
 		a[0] = countdown + countup;
 		a[1] = countup;
 		a[2] = countdown;
-		for (int j = 0; j < a.length; j++) {
-			showLog(j + "liuliang" + a[j] + "");
-		}
+//		for (int j = 0; j < a.length; j++) {
+//			showLog(j + "liuliang" + a[j] + "");
+//		}
 		return a;
 	}
 
@@ -976,7 +978,8 @@ public class SQLHelperTotal {
 		long[] a = new long[6];
 		// select oldest upload and download 之前记录的数据的查询操作
 		// SELECT * FROM table WHERE type=0
-		string = SelectTable + TableMobile + Where + "date" + Between
+		//specialfortext  TableMobile-----TableWiFi
+		string = SelectTable + TableWiFi + Where + "date" + Between
 				+ weekStart + AND_B + year + "-" + month2 + "-" + monthDay2
 				+ AND + "type=" + 2;
 		// showLog(string);

@@ -38,6 +38,7 @@ class MobileTraffic {
 	long[] getMobileMonthTraffic(Context context) {
 		setTime();
 		long[] monthtraffic = new long[64];
+		//specialfortext   --------½»»»
 		// monthtraffic = sqlhelperTotal.SelectMobileData(context, year, month);
 		monthtraffic = sqlhelperTotal.SelectWifiData(context, year, month);
 		return monthtraffic;

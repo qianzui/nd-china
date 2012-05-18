@@ -16,6 +16,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.TrafficStats;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.util.MonthDisplayHelper;
 
 public class RecordDataReceiver extends BroadcastReceiver {
 	//
@@ -93,7 +94,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	}
 
 	private class AsyncTaskonRecordTotalData extends
-			AsyncTask<Context, Integer, Integer> {
+			AsyncTask<Context, Long, Long> {
 		@Override
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
@@ -102,16 +103,19 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		}
 
 		@Override
-		protected Integer doInBackground(Context... params) {
+		protected Long doInBackground(Context... params) {
 			totalRecord();
-			TrafficManager trafficManager=new TrafficManager();
-			trafficManager.setMonthUseDate(params[0]);
+			//更新流量数据
+			TrafficManager trafficManager = new TrafficManager();
+//			trafficManager.statsTotalTraffic(params[0], false);
+//			long monthuse = trafficManager.countMonthUseDate(params[0]);
+//			trafficManager.setMonthUseDate(params[0],monthuse);
 			trafficAlertTest(params[0]);
 			return null;
 		}
 
 		@Override
-		protected void onPostExecute(Integer result) {
+		protected void onPostExecute(Long result) {
 			// TODO Auto-generated method stub
 			SQLHelperTotal.isSQLTotalOnUsed = false;
 		}

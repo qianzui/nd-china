@@ -24,20 +24,35 @@ public class TrafficManager {
 	public long getMonthUseData(Context context) {
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		long mobile_month_use = 0;
-//		MonthlyUseData monthData = new MonthlyUseData();
-		mobile_month_use = MonthlyUseData.MonthlyUseTraffic;
-		mobile_month_use+=sharedData.getMonthMobileHasUse();
+		statsTotalTraffic(context, false);
+		MonthlyUseData monthData = new MonthlyUseData();
+		mobile_month_use = monthData.getMonthUseData(context);
+		mobile_month_use += sharedData.getMonthMobileHasUse();
 		return mobile_month_use;
 	}
+
 	/**
-	 * 设置月度移动使用流量数值(用于预警页面)
+	 * 设置月度移动使用流量数值
 	 * 
 	 * @param context
 	 * @return
 	 */
-	public void setMonthUseDate(Context context){
+	public void setMonthUseDate(long monusedData) {
+		// MonthlyUseData monthData = new MonthlyUseData();
+		// monthData.getMonthUseData(context);
+		MonthlyUseData.MonthlyUseTraffic = monusedData;
+	}
+
+	/**
+	 * 获得月度移动使用流量数值
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public long countMonthUseDate(Context context) {
 		MonthlyUseData monthData = new MonthlyUseData();
-		monthData.getMonthUseData(context);
+		long data = monthData.getMonthUseData(context);
+		return data;
 	}
 
 	/**
@@ -82,6 +97,7 @@ public class TrafficManager {
 
 	/**
 	 * 记录wifi，mobile流量数据
+	 * 
 	 * @param context
 	 * @param forcerecored
 	 *            true则强制记录，false则不记录流量为0的数据
