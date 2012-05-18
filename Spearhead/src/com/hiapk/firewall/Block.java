@@ -229,8 +229,8 @@ public class Block {
 				}
 			}
 			final StringBuilder res = new StringBuilder();
-//			code = runScriptAsRoot(ctx, script.toString(), res);
-			if (showErrors) {
+			code = runScriptAsRoot(ctx, script.toString(), res);
+			if (showErrors && code != 0) {
 				String msg = res.toString();
 				Log.e("DroidWall", msg);
 				// Remove unnecessary help message from output
@@ -241,9 +241,9 @@ public class Block {
 									"");
 				}
 				alert(ctx,
-						"应用 iptables 规则时出错. 错误代码: " +  "\n\n"
+						"应用 iptables 规则时出错. 错误代码: " + code + "\n\n"
 								+ msg.trim());
-				Log.i("...000","更新失败");
+				Log.i("...000",code + "");
 			} else {
 				return true;
 			}
