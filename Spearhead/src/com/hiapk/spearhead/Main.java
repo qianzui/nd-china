@@ -77,14 +77,13 @@ public class Main extends Activity {
 		// temp------------
 		getuids();
 		// ------------
-//		GetRoot gr = new GetRoot();
-//		gr.hasRootAccess(context, true);
 		AlarmSet alset = new AlarmSet();
 		if (sharedData.isNotifyOpen()) {
 			alset.StartWidgetAlarm(context);
 		}
 		initSQLdatabase(uids, packagenames);
 		setonrefreshclicklistens();
+//		GetRoot.cmdRoot("chmod 777 "+getPackageCodePath());
 	}
 
 	/**

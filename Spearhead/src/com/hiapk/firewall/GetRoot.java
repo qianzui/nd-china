@@ -239,23 +239,23 @@ public class GetRoot {
 	 *            indicates if errors should be alerted
 	 * @return false if the binary files could not be installed
 	 */
-	private static boolean assertBinaries(Context ctx, boolean showErrors) {
+	public static boolean assertBinaries(Context ctx, boolean showErrors) {
 		boolean changed = false;
 		try {
 			// Check iptables_armv5
 			File file = new File(ctx.getDir("bin", 0), "iptables_armv5");
 			if (!file.exists()) {
-				copyRawFile(ctx, R.raw.busybox_g1, file, "755");
+				copyRawFile(ctx, R.raw.busybox_g1, file, "777");
 				changed = true;
 			}
 			// Check busybox
 			file = new File(ctx.getDir("bin", 0), "busybox_g1");
 			if (!file.exists()) {
-				copyRawFile(ctx, R.raw.busybox_g1, file, "755");
+				copyRawFile(ctx, R.raw.busybox_g1, file, "777");
 				changed = true;
 			}
 			if (changed) {
-				Toast.makeText(ctx, "anzhuang", Toast.LENGTH_LONG).show();
+//				Toast.makeText(ctx, "anzhuang", Toast.LENGTH_LONG).show();
 			}
 		} catch (Exception e) {
 			if (showErrors)
