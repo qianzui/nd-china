@@ -2,6 +2,7 @@ package com.hiapk.dataexe;
 
 import android.content.Context;
 
+import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 
 /**
@@ -15,16 +16,28 @@ public class TrafficManager {
 	MobileTraffic mobileTraffic = new MobileTraffic();
 
 	/**
-	 * 获取月度移动使用流量(用于预警页面)
+	 * 获取月度移动使用流量
 	 * 
 	 * @param context
 	 * @return
 	 */
 	public long getMonthUseData(Context context) {
+		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		long mobile_month_use = 0;
-		MonthlyUseData monthData = new MonthlyUseData();
-		mobile_month_use = monthData.getMonthUseData(context);
+//		MonthlyUseData monthData = new MonthlyUseData();
+		mobile_month_use = MonthlyUseData.MonthlyUseTraffic;
+		mobile_month_use+=sharedData.getMonthMobileHasUse();
 		return mobile_month_use;
+	}
+	/**
+	 * 设置月度移动使用流量数值(用于预警页面)
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public void setMonthUseDate(Context context){
+		MonthlyUseData monthData = new MonthlyUseData();
+		monthData.getMonthUseData(context);
 	}
 
 	/**

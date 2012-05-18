@@ -72,32 +72,32 @@ public class ProgramNotify {
 		mNotification.notify(ID, notification);
 	}
 
-	private void setText(Context context) {
-		// TODO Auto-generated method stub
-		TrafficManager trafficManager = new TrafficManager();
-		trafficManager.statsTotalTraffic(context, false);
-		Time t = new Time();
-		t.setToNow();
-		int year = t.year;
-		int month = t.month + 1;
-		int monthDay = t.monthDay;
-		UnitHandler unitHandler = new UnitHandler();
-		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
-		long[] monthUsed_this = trafficManager.getMobileMonthTraffic(context);
-		long monthSetLong = sharedData.getMonthMobileSetOfLong();
-		long monthUsedLong = trafficManager.getMonthUseData(context);
-		long todayUsedLong = monthUsed_this[monthDay]
-				+ monthUsed_this[monthDay + 31];
-		String monthUsedStr = unitHandler.unitHandlerAccurate(monthUsedLong);
-		String monthSetStr = unitHandler.unitHandlerAccurate(monthSetLong);
-		String todayUsedStr = unitHandler.unitHandlerAccurate(todayUsedLong);
-
-		// textUp = "今日已用：xxx kB(MB)";
-		// textDown = "xx MB / 50 MB --> 2012.06.01";
-		textUp = "今日已用：" + todayUsedStr + (int) (30 * Math.random());
-		textDown = monthUsedStr + " / " + monthSetStr + " --> " + year + "."
-				+ month + "." + monthDay;
-	}
+//	private void setText(Context context) {
+//		// TODO Auto-generated method stub
+//		TrafficManager trafficManager = new TrafficManager();
+//		trafficManager.statsTotalTraffic(context, false);
+//		Time t = new Time();
+//		t.setToNow();
+//		int year = t.year;
+//		int month = t.month + 1;
+//		int monthDay = t.monthDay;
+//		UnitHandler unitHandler = new UnitHandler();
+//		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+//		long[] monthUsed_this = trafficManager.getMobileMonthTraffic(context);
+//		long monthSetLong = sharedData.getMonthMobileSetOfLong();
+//		long monthUsedLong = trafficManager.getMonthUseData(context);
+//		long todayUsedLong = monthUsed_this[monthDay]
+//				+ monthUsed_this[monthDay + 31];
+//		String monthUsedStr = unitHandler.unitHandlerAccurate(monthUsedLong);
+//		String monthSetStr = unitHandler.unitHandlerAccurate(monthSetLong);
+//		String todayUsedStr = unitHandler.unitHandlerAccurate(todayUsedLong);
+//
+//		// textUp = "今日已用：xxx kB(MB)";
+//		// textDown = "xx MB / 50 MB --> 2012.06.01";
+//		textUp = "今日已用：" + todayUsedStr + (int) (30 * Math.random());
+//		textDown = monthUsedStr + " / " + monthSetStr + " --> " + year + "."
+//				+ month + "." + monthDay;
+//	}
 
 	public void cancelProgramNotify(Context context) {
 		NotificationManager mNotification = (NotificationManager) context

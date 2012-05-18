@@ -3,6 +3,7 @@ package com.hiapk.broadcreceiver;
 import java.util.List;
 
 import com.hiapk.alertaction.TrafficAlert;
+import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 
 import android.app.ProgressDialog;
@@ -103,6 +104,8 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		@Override
 		protected Integer doInBackground(Context... params) {
 			totalRecord();
+			TrafficManager trafficManager=new TrafficManager();
+			trafficManager.setMonthUseDate(params[0]);
 			trafficAlertTest(params[0]);
 			return null;
 		}

@@ -41,10 +41,12 @@ public class TrafficAlert {
 		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
 		long monthWarning = prefs.getLong(MOBILE_WARNING_MONTH,
 				45 * 1024 * 1024);
-		if ((monthTraffic[0] + monthTraffic[63]) == 0) {
-			getMonthMobileTraffic(context);
-		}
-		if (monthWarning > (monthTraffic[0] + monthTraffic[63])) {
+//		if ((monthTraffic[0] + monthTraffic[63]) == 0) {
+//			getMonthMobileTraffic(context);
+//		}
+		TrafficManager trafficManager=new TrafficManager();
+		long mobile_month_use = trafficManager.getMonthUseData(context);
+		if (monthWarning > mobile_month_use) {
 			// showLog(monthTraffic[0]+"");
 			// showLog(monthTraffic[63]+"");
 			return false;

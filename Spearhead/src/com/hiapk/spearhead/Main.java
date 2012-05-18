@@ -141,7 +141,7 @@ public class Main extends Activity {
 		mobile_month_use = trafficManager.getMonthUseData(context);
 		long mobileSet = sharedData.getMonthMobileSetOfLong();
 		long mobileHasUsed = sharedData.getMonthMobileHasUse();
-		mobile_month_use = mobile_month_use + mobileHasUsed;
+		mobile_month_use = mobile_month_use ;
 		if (mobile_month_use > mobileSet)
 			monthMobil.setTextColor(Color.RED);
 		else

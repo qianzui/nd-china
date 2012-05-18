@@ -84,7 +84,7 @@ public class Main3 extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main3);
-		sharedData= new SharedPrefrenceData(context);
+		sharedData = new SharedPrefrenceData(context);
 		init_Spinner();
 		init_btn_month();
 		init_monthWarning();
@@ -223,7 +223,7 @@ public class Main3 extends Activity {
 					passfileEditor.putInt(VALUE_MOBILE_HASUSED_OF_INT, 0);
 					passfileEditor.commit();// 委托，存入数据
 					init_btn_HasUsed();
-
+					dialogCountDaySelected().show();
 				}
 			}
 
@@ -242,12 +242,12 @@ public class Main3 extends Activity {
 		final Button btn_HasUsed = (Button) findViewById(R.id.btn_monthHasUseSet_Unit);
 		// 设置默认显示值
 		// 设置的使用值
-		long mobileUsedSet = sharedData.getMonthMobileHasUse();
+//		long mobileUsedSet = sharedData.getMonthMobileHasUse();
 		// 计算出来的设置数值之后计算出来的使用量
 		long month_used = trafficManager.getMonthUseData(context);
-		showlog(mobileUsedSet + "");
+//		showlog(mobileUsedSet + "");
 		showlog(month_used + "");
-		btn_HasUsed.setText(FormatUnit.unitHandler(mobileUsedSet + month_used));
+		btn_HasUsed.setText(FormatUnit.unitHandler( month_used));
 		// 设置监听
 		btn_HasUsed.setOnClickListener(new OnClickListener() {
 			@Override
@@ -429,8 +429,12 @@ public class Main3 extends Activity {
 						passfileEditor.commit();// 委托，存入数据
 						commitUsedTrafficTime();
 						init_btn_HasUsed();
-
 						/* User clicked OK so do some stuff */
+						long hasusedlong = sharedData.getMonthMobileHasUse();
+						long setlong = sharedData.getMonthMobileSetOfLong();
+						if (hasusedlong > setlong) {
+							dialogHasUsedLongTooMuch().show();
+						}
 					}
 				})
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -543,6 +547,43 @@ public class Main3 extends Activity {
 	public void dialogCombo() {
 		new AlertDialog.Builder(this).setTitle("手动查询").setMessage("手动查询事件")
 				.setPositiveButton("确定", null).show();
+
+	}
+
+	/**
+	 * 本月已用弹出窗口
+	 * 
+	 * @return
+	 */
+	public AlertDialog dialogCountDaySelected() {
+		AlertDialog dayWarning = new AlertDialog.Builder(Main3.this)
+				.setTitle("设置结算日后建议重设本月已用流量信息")
+				// .setView(textEntryView)
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+
+					}
+				}).create();
+		return dayWarning;
+
+	}
+
+	/**
+	 * 设置的本月已用流量超过包月流量
+	 * 
+	 * @return
+	 */
+	public AlertDialog dialogHasUsedLongTooMuch() {
+		AlertDialog dayWarning = new AlertDialog.Builder(Main3.this)
+				.setTitle("注意！")
+				.setMessage("您设置的本月已用流量超过包月流量！")
+				// .setView(textEntryView)
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						resetHasWarning();
+					}
+				}).create();
+		return dayWarning;
 
 	}
 
