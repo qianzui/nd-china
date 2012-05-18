@@ -25,8 +25,8 @@ public class SetText {
 	public static void setText(Context context) {
 		// TODO Auto-generated method stub
 		TrafficManager trafficManager = new TrafficManager();
-		//记录数据命令
-//		trafficManager.statsTotalTraffic(context, false);
+		// 记录数据命令
+		// trafficManager.statsTotalTraffic(context, false);
 		Time t = new Time();
 		t.setToNow();
 		int year = t.year;
@@ -43,15 +43,82 @@ public class SetText {
 		String monthUsedStr = unitHandler.unitHandlerAccurate(monthUsedLong);
 		String monthSetStr = unitHandler.unitHandlerAccurate(monthSetLong);
 		String todayUsedStr = unitHandler.unitHandlerAccurate(todayUsedLong);
-
+		String date = getdate(context, year, month, monthDay);
 		// textUp = "今日已用：xxx kB(MB)";
 		// textDown = "xx MB / 50 MB --> 2012.06.01";
 		textUp = "今日已用: " + todayUsedStr + (int) (30 * Math.random());
-		textDown = monthUsedStr + " / " + monthSetStr + " --> " + year + "."
-				+ month + "." + monthDay;
-//		text1 = "今日已用: " + todayUsedStr + (int) (30 * Math.random());
-		text1=textUp;
+		textDown = monthUsedStr + " / " + monthSetStr + " --> " + date;
+		// text1 = "今日已用: " + todayUsedStr + (int) (30 * Math.random());
+		text1 = textUp;
 		text2 = "本月流量: " + monthUsedStr + " / " + monthSetStr;
-		text3 = "日期: " + year + "." + month + "." + monthDay;
+		text3 = "结算日期: " + date;
+	}
+
+	private static String getdate(Context context, int year, int month,
+			int monthDay) {
+		// TODO Auto-generated method stub
+		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		int setDay = sharedData.getCountDay() + 1;
+		int maxDay = countDay(year, month);
+		if (setDay > maxDay) {
+			setDay = maxDay;
+		}
+		if (setDay < monthDay) {
+			if (month == 12) {
+				year += 1;
+				return year + "." + 1 + "." + setDay;
+			} else {
+				month += 1;
+				return year + "." + month + "." + setDay;
+			}
+
+		} else {
+			return year + "." + month + "." + setDay;
+		}
+
+	}
+
+	/**
+	 * 计算单月有几天
+	 * 
+	 * @param year
+	 *            输入年份
+	 * @param month
+	 *            输入月份
+	 * @return 返回天数
+	 */
+	private static int countDay(int year, int month) {
+		if ((year % 400 == 0) || ((year % 4 == 0) && (year % 100 != 0))
+				&& month == 2) {
+			return 29;
+		} else {
+			switch (month) {
+			case 1:
+				return 31;
+			case 2:
+				return 28;
+			case 3:
+				return 31;
+			case 4:
+				return 30;
+			case 5:
+				return 31;
+			case 6:
+				return 30;
+			case 7:
+				return 31;
+			case 8:
+				return 31;
+			case 9:
+				return 30;
+			case 10:
+				return 31;
+			case 11:
+				return 30;
+			case 12:
+				return 31;
+			}
+		}
+		return 31;
 	}
 }
