@@ -113,12 +113,12 @@ public class FloatService extends Service {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent serviceStop = new Intent();
-				serviceStop.setClass(FloatService.this, FloatService.class);
-				stopService(serviceStop);
 				SharedPrefrenceData sharedData = new SharedPrefrenceData(FloatService.this);
 				sharedData.setFloatOpen(false);
 				boolean isFloatOpen = sharedData.isFloatOpen();
-				showLog("isFloatOpen"+isFloatOpen);
+				serviceStop.setClass(FloatService.this, FloatService.class);
+				stopService(serviceStop);
+//				showLog("isFloatOpen"+isFloatOpen);
 			}
 		});
 	}
