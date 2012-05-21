@@ -39,12 +39,13 @@ public class AppListAdapter extends BaseAdapter {
 	private  LayoutInflater inflater;
 	private Context mContext;
 	HashMap map;
-	public AppListAdapter(Context context , ArrayList<PackageInfo> myAppList ,HashMap<Integer,IsChecked> map)
+//	map = Block.getMap(mContext, myAppList);
+	public AppListAdapter(Context context , ArrayList<PackageInfo> myAppList)
 	{
 		inflater = LayoutInflater.from(context);
 		this.myAppList = myAppList;
 		this.mContext = context;
-		this.map = map;
+		this.map = Block.getMap(context, myAppList);
 	}
 
 	@Override
@@ -93,17 +94,16 @@ public class AppListAdapter extends BaseAdapter {
 		  holder.appname.setText(pkgInfo.applicationInfo.loadLabel(mContext.getPackageManager()));
 		  holder.trafficup.setText("总流量： " + unitHandler(up + down));	
 		  
-		
 		  IsChecked ic = (IsChecked)map.get(pkgInfo.applicationInfo.uid);
 		  holder.e_toggle.setOnClickListener(new EListener(holder.e_toggle,ic));
 		  holder.wifi_toggle.setOnClickListener(new WifiListener(holder.wifi_toggle,ic));
 		  holder.e_toggle.setChecked(ic.selected_3g);
 		  holder.wifi_toggle.setChecked(ic.selected_wifi);
-		  
+		  Log.i("...."+ pkgInfo.applicationInfo.loadLabel(mContext.getPackageManager()),"......" + ic.selected_wifi);
+		  Log.i("...."+ pkgInfo.applicationInfo.loadLabel(mContext.getPackageManager()),"......" + holder.wifi_toggle.isChecked());
 		  convertView.setTag(R.id.tag_pkgname,pkgInfo.applicationInfo.packageName);
 		  convertView.setTag(R.id.tag_traffic_up ,unitHandler(up));
 		  convertView.setTag(R.id.tag_traffic_down ,unitHandler(down));
-		  convertView.setTag(R.id.tag_map,map);
 		  return convertView;
 	}
 	
@@ -138,117 +138,10 @@ public class AppListAdapter extends BaseAdapter {
 		return value;
 	}
 	
-	class ECheckBoxListener implements OnCheckedChangeListener
-	{
-        CheckBox cb;
-        IsChecked ic;
-        public ECheckBoxListener(CheckBox cb,IsChecked ic)
-        {
-        	this.cb = cb ;
-        	this.ic = ic;
-        }
-		@Override
-		public void onCheckedChanged(CompoundButton buttonView,
-				final boolean isChecked) {
-			
-			// TODO Auto-generated method stub
-			 if(Root.isDeviceRooted())
-	          {
-				 if(ic.selected_3g != isChecked){
-					  Block.isChanged = true;
-				  }
-				 
-				 if(Block.isShowTip(mContext)){
-				 new AlertDialog.Builder(mContext)
-				 .setTitle("提示")
-				 .setMessage("此功能需要root权限，是否获取？")
-				 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						Block.isShowTipSet(mContext, false);
-						final ProgressDialog progress = ProgressDialog.show(mContext,
-								"提示","处理中", true);						
-						if(GetRoot.hasRootAccess(mContext, true)){
-							
-				            ic.selected_3g = isChecked;
-					       }
-						progress.dismiss();
-					   } 
-				    })
-				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						cb.setChecked(false);
-						ic.selected_3g = false;
-						Block.isChanged = false;
-					}
-				}).show();
-				 }
-		        }else{
-		        	 cb.setChecked(false);
-		        	 new AlertDialog.Builder(mContext)
-		 			 .setTitle("提示")
-		 			 .setMessage("此功能需要Root权限！")
-		 			 .setPositiveButton(
-							 "确定",
-							 new DialogInterface.OnClickListener() {
-								 @Override
-								 public void onClick(
-										 DialogInterface dialog,
-										 int which) {
-									 // TODO Auto-generated
-									 // method stub
-								}
-							}).show();
-		        	}
-		}
-	  }
-	class WifiCheckBoxListener implements OnCheckedChangeListener
-	{
-        CheckBox cb;
-        IsChecked ic;
-        public WifiCheckBoxListener(CheckBox cb,IsChecked ic)
-        {
-        	this.cb = cb ;
-        	this.ic = ic;
-        }
-		@Override
-		public void onCheckedChanged(CompoundButton buttonView,
-				boolean isChecked) {
-			
-			// TODO Auto-generated method stub
-		  if(Root.isDeviceRooted())
-          {     
-			  
-			  if(ic.selected_wifi != isChecked){
-				  Block.isChanged = true;
-			  }
-			  ic.selected_wifi = isChecked;
-			  
-	        }else{
-	        	 cb.setChecked(false);
-	        	 new AlertDialog.Builder(mContext)
-	 			 .setTitle("提示")
-	 			 .setMessage("此功能需要Root权限！")
-	 			 .setPositiveButton(
-						 "确定",
-						 new DialogInterface.OnClickListener() {
-							 @Override
-							 public void onClick(
-									 DialogInterface dialog,
-									 int which) {
-								 // TODO Auto-generated
-								 // method stub
-							}
-						}).show();
-	        	}}}
-
     class EListener implements OnClickListener{
     	CheckBox cb;
     	IsChecked ic;
+    	final String cmd = "chmod 777 "+mContext.getPackageCodePath();
     	public  EListener(CheckBox cb,IsChecked ic){
     		this.cb = cb;
     		this.ic = ic;
@@ -258,9 +151,6 @@ public class AppListAdapter extends BaseAdapter {
 			// TODO Auto-generated method stub
 			 if(Root.isDeviceRooted())
 	          {
-				 if(ic.selected_3g != cb.isChecked()){
-					  Block.isChanged = true;
-				  }
 				 if(Block.isShowTip(mContext)){
 				 new AlertDialog.Builder(mContext)
 				 .setTitle("提示")
@@ -268,15 +158,20 @@ public class AppListAdapter extends BaseAdapter {
 				 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
+
 						Block.isShowTipSet(mContext, false);
-//						final ProgressDialog progress = ProgressDialog.show(mContext,
-//								"提示","处理中", true);	
-//						progress.dismiss();
-						if(GetRoot.hasRootAccess(mContext, true)){
+						if(GetRoot.assertBinaries(mContext,true)){
 				            ic.selected_3g = cb.isChecked();
+				            Block.saveRules(mContext,map);
+				  		    if(Block.applyIptablesRules(mContext,true)){
+				  				   Toast.makeText(mContext, "防火墙已应用成功！", Toast.LENGTH_SHORT).show();
+				  			    }else{
+				  			    	 cb.setChecked(!cb.isChecked());
+					  			     ic.selected_3g = cb.isChecked();
+					  			     Block.saveRules(mContext, map);
+				  				}
 					       }else{
-					    	cb.setChecked(false);
+					    	   cb.setChecked(ic.selected_3g);
 					       }
 
 					   } 
@@ -286,18 +181,24 @@ public class AppListAdapter extends BaseAdapter {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub
-						cb.setChecked(false);
-						ic.selected_3g = false;
-						Block.isChanged = false;
+						cb.setChecked(ic.selected_3g);
 					}
 				}).show();
 				 }else{
-					 if(GetRoot.hasRootAccess(mContext, true)){
-				            ic.selected_wifi = cb.isChecked();
+					 if(GetRoot.assertBinaries(mContext,true)){
+				            ic.selected_3g = cb.isChecked();
+				            Block.saveRules(mContext,map);
+				  		    if(Block.applyIptablesRules(mContext,true)){
+				  				   Toast.makeText(mContext, "防火墙已应用成功！", Toast.LENGTH_SHORT).show();
+				  			    }else{
+				  			       cb.setChecked(!cb.isChecked());
+				  			       ic.selected_3g = cb.isChecked();
+				  			       Block.saveRules(mContext, map);
+				  				}
 					       }else{
-					    	cb.setChecked(false);
+					    	   cb.setChecked(ic.selected_3g);
 					       }
-				       }
+				 }
 		        }else{
 		        	 cb.setChecked(false);
 		        	 new AlertDialog.Builder(mContext)
@@ -322,6 +223,7 @@ public class AppListAdapter extends BaseAdapter {
     class WifiListener implements OnClickListener{
     	CheckBox cb;
     	IsChecked ic;
+//    	final String cmd = "chmod 777 "+mContext.getPackageCodePath();
     	public  WifiListener(CheckBox cb,IsChecked ic){
     		this.cb = cb;
     		this.ic = ic;
@@ -331,10 +233,6 @@ public class AppListAdapter extends BaseAdapter {
 			// TODO Auto-generated method stub
 			 if(Root.isDeviceRooted())
 	          {
-				 if(ic.selected_wifi != cb.isChecked()){
-					  Block.isChanged = true;
-				  }
-				 
 				 if(Block.isShowTip(mContext)){
 				 new AlertDialog.Builder(mContext)
 				 .setTitle("提示")
@@ -342,33 +240,42 @@ public class AppListAdapter extends BaseAdapter {
 				 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
 						Block.isShowTipSet(mContext, false);
-//						final ProgressDialog progress = ProgressDialog.show(mContext,
-//								"提示","处理中", true);	
-//						progress.dismiss();
-						if(GetRoot.hasRootAccess(mContext, true)){
-				            ic.selected_wifi = cb.isChecked();
+						if(GetRoot.assertBinaries(mContext,true)){
+							ic.selected_wifi = cb.isChecked();
+				            Block.saveRules(mContext,map);
+				  		    if(Block.applyIptablesRules(mContext,true)){
+				  				   Toast.makeText(mContext, "防火墙已应用成功！", Toast.LENGTH_SHORT).show();
+				  			    }else{
+				  			       cb.setChecked(!cb.isChecked());
+				  			       ic.selected_wifi = cb.isChecked();
+				  			       Block.saveRules(mContext,map);
+				  				}
 					       }else{
-					    	cb.setChecked(false);
+					    	cb.setChecked(ic.selected_wifi);
 					       }
 					   } 
 				    })
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub
-						cb.setChecked(false);
-						ic.selected_wifi = false;
-						Block.isChanged = false;
+						cb.setChecked(ic.selected_wifi);
 					}
 				}).show();
 				 }else{
-					 if(GetRoot.hasRootAccess(mContext, true)){
-				            ic.selected_wifi = cb.isChecked();
+					 if(GetRoot.assertBinaries(mContext,true)){
+						    ic.selected_wifi = cb.isChecked();
+				            Block.saveRules(mContext,map);
+				  		    if(Block.applyIptablesRules(mContext,true)){
+				  			   Toast.makeText(mContext, "防火墙已应用成功！", Toast.LENGTH_SHORT).show();
+				  			    }else{
+				  			    	cb.setChecked(!cb.isChecked());
+				  			    	ic.selected_wifi = cb.isChecked();
+				  			    	Block.saveRules(mContext,map);
+				  				}
 					       }else{
-					    	cb.setChecked(false);
+					    	cb.setChecked(ic.selected_wifi);
 					       }
 				 }
 		        }else{
