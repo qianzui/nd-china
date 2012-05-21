@@ -81,11 +81,9 @@ public class FireWallActivity extends Activity {
 		Log.i("get ---- list----start", System.currentTimeMillis() + "");
 		
 		myAppList = getCompList(getInstalledPackageInfo(FireWallActivity.this));
-		map = Block.getMap(mContext, myAppList);
-		
 		Log.i("get ---- list----end", System.currentTimeMillis() + "");
 		
-		appListAdapter = new AppListAdapter(FireWallActivity.this, myAppList,map);
+		appListAdapter = new AppListAdapter(FireWallActivity.this, myAppList);
 		appListView = (MyListView) findViewById(R.id.app_list);
 		appListView.setAdapter(appListAdapter);
 		appListView.setOnItemClickListener(new OnItemClickListener() {
@@ -106,7 +104,6 @@ public class FireWallActivity extends Activity {
 					}
 					@Override
 					protected void onPostExecute(Void result) {
-						update_Sql();
 						appListAdapter.notifyDataSetChanged();
 						appListView.onRefreshComplete();
 					}
@@ -149,16 +146,6 @@ public class FireWallActivity extends Activity {
 			myAppList.add(pk);
 		}
 		return myAppList;
-	}
-	public void update_Sql() {
-		sqlhelperTotal.initTablemobileAndwifi(mContext);
-		if (SQLHelperTotal.TableWiFiOrG23 != ""
-				&& sqlhelperTotal.getIsInit(mContext)) {
-			// 进行数据记录
-			AlarmSet alset = new AlarmSet();
-			alset.StartAlarmMobile(mContext);
-			sqlhelperUid.RecordUidwritestats(mContext, false);
-		}
 	}
 
 	//获取应用列表
@@ -287,15 +274,15 @@ public class FireWallActivity extends Activity {
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		
-		if(Block.isChanged && Root.isDeviceRooted()){
-		  Block.saveRules(mContext,map);
-		  if(Block.applyIptablesRules(mContext,true)){
-				   Toast.makeText(mContext, "防火墙已应用成功！", Toast.LENGTH_SHORT).show();
-			    }else{
+//		if(Block.isChanged && Root.isDeviceRooted()){
+//		  Block.saveRules(mContext,map);
+//		  if(Block.applyIptablesRules(mContext,true)){
+//				   Toast.makeText(mContext, "防火墙已应用成功！", Toast.LENGTH_SHORT).show();
+//			    }else{
 //				   Toast.makeText(mContext, "防火墙需要root权限！", Toast.LENGTH_SHORT).show();
-				}
-		  Block.isChanged = false;
-		}
+//				}
+//		  Block.isChanged = false;
+//		}
 		super.onPause();
 	}
 	
