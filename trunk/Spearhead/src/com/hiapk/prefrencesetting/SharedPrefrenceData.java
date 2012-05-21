@@ -48,6 +48,13 @@ public class SharedPrefrenceData {
 	private final String PREF_INITSQL = "isSQLINIT";
 	private final String MODE_NOTINIT = "SQLisnotINIT";
 	private final String MODE_HASINIT = "SQLhasINIT";
+	
+	//保存地区品牌设置
+	
+	String CITY = "city_data";
+	String BRAND = "brand_data";
+	String PROVINCE_ID = "province_id";
+	String BRAND_ID = "brand_id";
 
 	public SharedPrefrenceData(Context context) {
 		this.context = context;
@@ -230,5 +237,36 @@ public class SharedPrefrenceData {
 	public void setAlertAction(int alertAction) {
 		this.alertAction = alertAction;
 	}
+	
+	public void setPhoneInfo(String city,String brand,int shengfenId,int brandId){
+		UseEditor.putString(CITY, city);
+		UseEditor.putString(BRAND, brand);
+		UseEditor.putInt(PROVINCE_ID, shengfenId);
+		UseEditor.putInt(BRAND_ID, brandId);		
+		UseEditor.commit();
+	}
+	public String getCity(){
+		String city = prefs.getString(CITY, "进入地区选择页");
+		return city;
+		
+	}
+	public String getBrand(){
+		String brand = prefs.getString(BRAND, " ");
+		return brand;
+		
+	}
+	
+	
+	public int getProvinceID(){
+		int city = prefs.getInt(PROVINCE_ID, 0);
+		return city;
+		
+	}
+	public int getBrandID(){
+		int brand = prefs.getInt(BRAND_ID, 0);
+		return brand;
+		
+	}
+	
 
 }
