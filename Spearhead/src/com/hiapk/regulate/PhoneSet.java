@@ -1,5 +1,6 @@
 package com.hiapk.regulate;
 
+import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.spearhead.R;
 
 import android.app.Activity;
@@ -12,6 +13,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class PhoneSet extends Activity{	
 	Spinner province;
@@ -19,12 +21,14 @@ public class PhoneSet extends Activity{
 	Spinner operator;
 	Spinner brand;	
 	Button next;
+	SharedPrefrenceData sharedData;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		Log.v("+++++++++++++++++++", "out");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.phoneset);
+		sharedData = new SharedPrefrenceData(this);
 		Log.v("+++++++++++++++++++", "onCreate");
 		init_Spinner();
 		next = (Button) findViewById(R.id.next);
@@ -43,8 +47,9 @@ public class PhoneSet extends Activity{
 		// TODO Auto-generated method stub
 		// ≥ı ºªØ				
 		province = (Spinner) findViewById(R.id.province);
-		operator = (Spinner) findViewById(R.id.operator);
-
+		operator = (Spinner) findViewById(R.id.operator);		
+		
+		
 		ArrayAdapter<CharSequence> adpProvince = ArrayAdapter.createFromResource(this,
 				R.array.province, R.layout.sptext);
 		adpProvince.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -54,6 +59,8 @@ public class PhoneSet extends Activity{
 				R.array.operator, R.layout.sptext);
 		adpOperator.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		operator.setAdapter(adpOperator);
+		
+		province.setSelection(sharedData.getProvinceID());
 		
 		operator.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
@@ -92,6 +99,20 @@ public class PhoneSet extends Activity{
 				switch (pos) {
 				case 0:					
 					beijing();
+//					switch (operator.getSelectedItemPosition()) {
+//					case 0:					
+//						next.setText("case 0");
+//						break;
+//					case 1:									
+//						next.setText("case 1");
+//						break;
+//					case 2:					
+//						next.setText("case 2");
+//						break;
+//
+//					default:
+//						break;
+//					}
 					break;
 				case 1:					
 					guangdong();
@@ -196,6 +217,8 @@ public class PhoneSet extends Activity{
 			}
 
 		});
+		
+		
 
 	}
 	
@@ -453,8 +476,13 @@ public class PhoneSet extends Activity{
 	void end(){
 		String chengshi;
 		String pinpai;
+		int shengfenId;
+		int pinpaiId;
 		chengshi = city.getSelectedItem().toString();
 		pinpai = brand.getSelectedItem().toString();
+		shengfenId = province.getSelectedItemPosition();
+		pinpaiId = brand.getSelectedItemPosition();
+		sharedData.setPhoneInfo(chengshi, pinpai,shengfenId,pinpaiId);
 		Regulate.chooseBtn.setText(chengshi+"--"+pinpai);
 		finish();
 	}
