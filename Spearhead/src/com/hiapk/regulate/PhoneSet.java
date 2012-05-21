@@ -4,6 +4,7 @@ import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.spearhead.R;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +23,7 @@ public class PhoneSet extends Activity{
 	Spinner brand;	
 	Button next;
 	SharedPrefrenceData sharedData;
+	Context context = this;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -99,20 +101,7 @@ public class PhoneSet extends Activity{
 				switch (pos) {
 				case 0:					
 					beijing();
-//					switch (operator.getSelectedItemPosition()) {
-//					case 0:					
-//						next.setText("case 0");
-//						break;
-//					case 1:									
-//						next.setText("case 1");
-//						break;
-//					case 2:					
-//						next.setText("case 2");
-//						break;
-//
-//					default:
-//						break;
-//					}
+					
 					break;
 				case 1:					
 					guangdong();
@@ -451,8 +440,6 @@ public class PhoneSet extends Activity{
 				R.array.yidong, R.layout.sptext);
 		adpBrand.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		brand.setAdapter(adpBrand);
-		Regulate.smsText.setText("CXLL");
-		Regulate.smsNum.setText("10086");
 	}
 	void liantong(){
 		brand = (Spinner) findViewById(R.id.brand);		
@@ -460,8 +447,6 @@ public class PhoneSet extends Activity{
 				R.array.liantong, R.layout.sptext);
 		adpBrand.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		brand.setAdapter(adpBrand);
-		Regulate.smsText.setText("CXLL");
-		Regulate.smsNum.setText("10010");
 	}
 	void dianxin(){
 		brand = (Spinner) findViewById(R.id.brand);		
@@ -469,21 +454,25 @@ public class PhoneSet extends Activity{
 				R.array.dianxin, R.layout.sptext);
 		adpBrand.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		brand.setAdapter(adpBrand);
-		Regulate.smsText.setText("108");
-		Regulate.smsNum.setText("10001");
 	}
 	
-	void end(){
-		String chengshi;
-		String pinpai;
-		int shengfenId;
-		int pinpaiId;
+	void end(){		
+		String shengfen; //所选省份
+		String chengshi;// 所选城市
+		String yunyingshang; //所选运营商
+		String pinpai;	//所选品牌		
+		int shengfenId; //省份位置
+		int pinpaiId; //品牌位置
+		shengfen = province.getSelectedItem().toString();
 		chengshi = city.getSelectedItem().toString();
-		pinpai = brand.getSelectedItem().toString();
+		yunyingshang = operator.getSelectedItem().toString();
+		pinpai = brand.getSelectedItem().toString();		
 		shengfenId = province.getSelectedItemPosition();
 		pinpaiId = brand.getSelectedItemPosition();
+		
 		sharedData.setPhoneInfo(chengshi, pinpai,shengfenId,pinpaiId);
 		Regulate.chooseBtn.setText(chengshi+"--"+pinpai);
+		SmsSet.smsSet(shengfen,yunyingshang, pinpai);
 		finish();
 	}
 	
