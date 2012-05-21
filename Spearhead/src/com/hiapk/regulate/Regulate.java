@@ -1,9 +1,11 @@
 package com.hiapk.regulate;
 
+import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.spearhead.R;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -16,16 +18,22 @@ public class Regulate extends Activity{
 	Button smsSend;	
 	public static TextView smsText;
 	public static TextView smsNum;
+	SharedPrefrenceData sharedData;
+	String city;
+	String brand;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.regulate);		
+		sharedData = new SharedPrefrenceData(this);
 		chooseBtn = (Button)findViewById(R.id.choose);
 		smsSend = (Button)findViewById(R.id.smsSend);
 		smsText = (TextView)findViewById(R.id.smsText);
 		smsNum = (TextView)findViewById(R.id.smsNum);
-
+		city = sharedData.getCity();
+		brand = sharedData.getBrand();
+		chooseBtn.setText(city+"--"+brand);
 		
 		chooseBtn.setOnClickListener(new OnClickListener() {
 			
