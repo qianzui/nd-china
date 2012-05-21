@@ -17,6 +17,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextPaint;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.KeyEvent;

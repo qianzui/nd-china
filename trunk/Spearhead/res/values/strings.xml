@@ -25,4 +25,9 @@
 	<string name="citySelect">请选择城市</string>
 	<string name="operatorSelect">请选择运营商</string>
 	<string name="brankSelect">请选择品牌</string>
+	<string name="onlynotify"><b>仅通知栏提示</b></string>
+	<string name="notifyandvit"><b>震动提示</b></string>
+	<string name="autooffnet"><b>自动断网</b></string>
+	<string name="vitandaotuoffnet"><b>震动+自动断网</b></string>
+	
 </resources>
