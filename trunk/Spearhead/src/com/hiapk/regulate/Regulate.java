@@ -8,10 +8,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Regulate extends Activity{
 	public static Button chooseBtn;
@@ -25,7 +28,7 @@ public class Regulate extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.regulate);		
+		setContentView(R.layout.regulate);	
 		sharedData = new SharedPrefrenceData(this);
 		chooseBtn = (Button)findViewById(R.id.choose);
 		smsSend = (Button)findViewById(R.id.smsSend);
@@ -49,18 +52,25 @@ public class Regulate extends Activity{
 				
 			}
 		});
+		
 		smsSend.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				String num = smsNum.getText().toString();
-				String text = smsText.getText().toString();				
-				Uri uri = Uri.parse("smsto:"+num);
-				Intent it = new Intent(Intent.ACTION_SENDTO,uri);		
-				it.putExtra("sms_body", text);
-				startActivity(it);
+				sms();
 			}
 		});
 	}
+	public void sms(){
+		String num = smsNum.getText().toString();
+		String text = smsText.getText().toString();	
+		Log.v("+++++++++++++++++++++++++", text);
+//		SmsManager sman = SmsManager.getDefault();
+//		sman.sendTextMessage(num, null, text, null, null);
+		Uri uri = Uri.parse("smsto:"+num);
+		Intent it = new Intent(Intent.ACTION_VIEW,uri);	
+		it.putExtra("sms_body", text);
+		startActivity(it);
+	}	
 }
