@@ -33,7 +33,11 @@ public class Regulate extends Activity{
 		smsNum = (TextView)findViewById(R.id.smsNum);
 		city = sharedData.getCity();
 		brand = sharedData.getBrand();
-		chooseBtn.setText(city+"--"+brand);
+		
+		chooseBtn.setText(city+brand);
+		smsNum.setText(sharedData.getSmsNum());
+		smsText.setText(sharedData.getSmsText());
+		
 		
 		chooseBtn.setOnClickListener(new OnClickListener() {
 			
