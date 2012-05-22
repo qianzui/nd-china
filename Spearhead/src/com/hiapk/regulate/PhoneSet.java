@@ -27,11 +27,9 @@ public class PhoneSet extends Activity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		Log.v("+++++++++++++++++++", "out");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.phoneset);
 		sharedData = new SharedPrefrenceData(this);
-		Log.v("+++++++++++++++++++", "onCreate");
 		init_Spinner();
 		next = (Button) findViewById(R.id.next);
 		next.setOnClickListener(new OnClickListener() {
