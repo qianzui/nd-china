@@ -462,17 +462,21 @@ public class PhoneSet extends Activity{
 		String yunyingshang; //所选运营商
 		String pinpai;	//所选品牌		
 		int shengfenId; //省份位置
-		int pinpaiId; //品牌位置
+//		int pinpaiId; //品牌位置
+		String smsNum;
+		String smsText;
 		shengfen = province.getSelectedItem().toString();
-		chengshi = city.getSelectedItem().toString();
+		chengshi = city.getSelectedItem().toString()+"--";
 		yunyingshang = operator.getSelectedItem().toString();
 		pinpai = brand.getSelectedItem().toString();		
 		shengfenId = province.getSelectedItemPosition();
-		pinpaiId = brand.getSelectedItemPosition();
-		
-		sharedData.setPhoneInfo(chengshi, pinpai,shengfenId,pinpaiId);
-		Regulate.chooseBtn.setText(chengshi+"--"+pinpai);
+//		pinpaiId = brand.getSelectedItemPosition();		
 		SmsSet.smsSet(shengfen,yunyingshang, pinpai);
+		smsNum = Regulate.smsNum.getText().toString();
+		smsText = Regulate.smsText.getText().toString();
+
+		sharedData.setPhoneInfo(chengshi, pinpai,shengfenId,smsNum,smsText);
+		Regulate.chooseBtn.setText(chengshi+pinpai);
 		finish();
 	}
 	
