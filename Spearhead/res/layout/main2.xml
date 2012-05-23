@@ -10,7 +10,7 @@
         android:layout_height="48dip"
         android:background="@drawable/maintab_toolbar_bg"
         android:orientation="horizontal"
-        
+        android:paddingRight="5dip" 
         >
         <TextView
             android:id="@+id/firewall"
@@ -26,15 +26,15 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_alignParentRight="true"
-            android:src="@drawable/wifi"
+            android:src="@drawable/main2wifi"
             />
         <ImageView
             android:id="@+id/e_icon"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_toLeftOf="@id/wifi_icon"
-            android:layout_marginLeft="5px"
-            android:src="@drawable/e"
+            android:paddingRight="5dip"
+            android:src="@drawable/main2mobile"
             />   
      </RelativeLayout>
 
