@@ -38,9 +38,11 @@ public class PrefrenceSetting extends PreferenceActivity {
 	String SYS_PRE_FLOAT_CTRL = "floatCtrl";
 	String SYS_PRE_REFRESH_FRZ = "refreshfrz";
 	String SYS_PRE_CLEAR_DATA = "cleardata";
+	String SYS_PRE_CLEAR_FIRE = "firetip";
 	//
 	CheckBoxPreference isNotifyOpen;
 	CheckBoxPreference isfloatIndicatorOpen;
+	CheckBoxPreference fireTip;
 	ListPreference refreshFres;
 	PreferenceScreen clearData;
 	Context context = this;
@@ -57,9 +59,11 @@ public class PrefrenceSetting extends PreferenceActivity {
 		isfloatIndicatorOpen = (CheckBoxPreference) findPreference(SYS_PRE_FLOAT_CTRL);
 		refreshFres = (ListPreference) findPreference(SYS_PRE_REFRESH_FRZ);
 		clearData = (PreferenceScreen) findPreference(SYS_PRE_CLEAR_DATA);
+		fireTip = (CheckBoxPreference)findPreference(SYS_PRE_CLEAR_FIRE);
 		// 监听
 		isNotifyOpen.setOnPreferenceClickListener(oclick);
 		isfloatIndicatorOpen.setOnPreferenceClickListener(oclick);
+		fireTip.setOnPreferenceClickListener(oclick);
 		refreshFres.setOnPreferenceChangeListener(ochange);
 		clearData.setOnPreferenceClickListener(oclick);
 		sharedData = new SharedPrefrenceData(context);
@@ -93,6 +97,14 @@ public class PrefrenceSetting extends PreferenceActivity {
 					stopService(new Intent("com.hiapk.server"));
 				}
 				return true;
+			}
+			if(preference.equals(fireTip)){
+				boolean tip = fireTip.isChecked();
+				if(tip){
+					Block.fireTipSet(context,true);
+				}else{
+					Block.fireTipSet(context,false);
+				}
 			}
 			if (preference.equals(clearData)) {
 				mydialog = ProgressDialog.show(context, "请稍等...", "正在清空数据...",
