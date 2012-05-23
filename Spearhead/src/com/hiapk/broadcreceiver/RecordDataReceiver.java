@@ -3,6 +3,7 @@ package com.hiapk.broadcreceiver;
 import java.util.List;
 
 import com.hiapk.alertaction.TrafficAlert;
+import com.hiapk.dataexe.MonthlyUseData;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 
@@ -99,7 +100,8 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		long[] wifi_month_data = new long[64];
 		long[] mobile_month_data = new long[64];
 		long[] mobile_week_data = new long[6];
-		// mobile_month_use_afterSet=sqlhelperTotal.se
+		MonthlyUseData monthlyUseData = new MonthlyUseData();
+		mobile_month_use_afterSet = monthlyUseData.getMonthUseData(context);
 		wifi_month_data = sqlhelperTotal.SelectWifiData(context, year, month);
 		mobile_month_data = sqlhelperTotal.SelectMobileData(context, year,
 				month);
@@ -107,6 +109,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 				monthDay, weekDay);
 		sqlhelperTotal.closeSQL(sqlDataBase);
 		// 对数据进行赋值
+		TrafficManager.mobile_month_use_afterSet = mobile_month_use_afterSet;
 		TrafficManager.wifi_month_data = wifi_month_data;
 		TrafficManager.mobile_month_data = mobile_month_data;
 		TrafficManager.mobile_week_data = mobile_week_data;

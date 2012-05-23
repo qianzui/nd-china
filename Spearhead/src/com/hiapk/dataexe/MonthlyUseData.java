@@ -13,7 +13,7 @@ import android.util.Log;
  * @author Administrator
  * 
  */
-class MonthlyUseData {
+public class MonthlyUseData {
 	// 月度使用流量数据
 	public static long MonthlyUseTraffic = 0;
 	// private SQLHelperUid sqlhelperUid = new SQLHelperUid();
@@ -42,7 +42,7 @@ class MonthlyUseData {
 	 * @param context
 	 * @return 返回使用流量数值
 	 */
-	long getMonthUseData(Context context) {
+	public long getMonthUseData(Context context) {
 		long mobile_month_use = 0;
 		// 取得系统时间。
 		Time t = new Time();
