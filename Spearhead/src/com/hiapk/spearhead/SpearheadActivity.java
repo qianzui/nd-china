@@ -2,7 +2,6 @@ package com.hiapk.spearhead;
 
 import java.util.Timer;
 import java.util.TimerTask;
-
 import com.hiapk.alertaction.AlertActionNotify;
 import com.hiapk.prefrencesetting.PrefrenceSetting;
 
