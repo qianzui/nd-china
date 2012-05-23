@@ -18,6 +18,7 @@ import com.hiapk.firewall.Root;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
 
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -39,6 +40,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -71,6 +73,23 @@ public class FireWallActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main2);
+		
+		
+//		setContentView(R.layout.atest);
+//		Button button = (Button)findViewById(R.id.button);
+//        button.setOnClickListener(new Button.OnClickListener(){
+//
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				Block.applyIptablesRules(mContext, true);
+//			}
+//        	
+//        });
+//		
+//		
+		
+		
 		Toast.makeText(mContext, "下拉列表可以进行刷新!", Toast.LENGTH_SHORT).show();
 		// mydialog = ProgressDialog.show(this, "请稍等...", "正在读取...", true);
 		initList();
@@ -165,11 +184,11 @@ public class FireWallActivity extends Activity {
 				if ((pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0
 						&& (pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == 0) {
 					
-					 if(TrafficStats.getUidRxBytes(pkgInfo.applicationInfo.uid)
-	                    		+ TrafficStats.getUidTxBytes(pkgInfo.applicationInfo.uid) > 0)
-	                    {
+//					 if(TrafficStats.getUidRxBytes(pkgInfo.applicationInfo.uid)
+//	                    		+ TrafficStats.getUidTxBytes(pkgInfo.applicationInfo.uid) > 0)
+//	                    {
 					appList.add(pkgInfo);
-	                    }
+//	                    }
 				} else {
 				}
 			}
