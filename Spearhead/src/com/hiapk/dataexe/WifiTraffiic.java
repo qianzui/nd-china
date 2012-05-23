@@ -15,10 +15,11 @@ class WifiTraffiic {
 		setTime();
 		SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 		long[] wifiTraffic = new long[64];
-		wifiTraffic = sqlhelperTotal.SelectWifiData(context, year, month);
-		for (int j = 0; j < wifiTraffic.length; j++) {
-			 showLog(j + "liuliang" + wifiTraffic[j] + "");
-			 }
+//		wifiTraffic = sqlhelperTotal.SelectWifiData(context, year, month);
+		wifiTraffic=TrafficManager.wifi_month_data;
+//		for (int j = 0; j < wifiTraffic.length; j++) {
+//			 showLog(j + "liuliang" + wifiTraffic[j] + "");
+//			 }
 		return wifiTraffic;
 	}
 

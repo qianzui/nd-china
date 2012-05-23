@@ -15,6 +15,7 @@ import android.content.pm.PackageInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.TrafficStats;
 import android.os.AsyncTask;
+import android.text.format.Time;
 import android.util.Log;
 import android.util.MonthDisplayHelper;
 
@@ -29,6 +30,11 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	// 流量预警
 	String MOBILE_HAS_WARNING_MONTH = "mobilemonthhaswarning";
 	String MOBILE_HAS_WARNING_DAY = "mobiledayhaswarning";
+	// date
+	private int year;
+	private int month;
+	private int monthDay;
+	private int weekDay;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -41,7 +47,8 @@ public class RecordDataReceiver extends BroadcastReceiver {
 					sqlDataBase = sqlhelperTotal.creatSQLTotal(context);
 					new AsyncTaskonRecordTotalData().execute(context);
 					// showLog(SQLHelperTotal.TableWiFiOrG23);
-				}
+				} else
+					showLog("数据库忙，未记录");
 			}
 		} else {
 			// sqlhelper.initSQL(context);
@@ -81,11 +88,31 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	/**
 	 * 进行数据记录
 	 */
-	private void totalRecord() {
-		// 实时更新数据两个1代表数据更新
+	private void totalRecord(Context context) {
+		// 进行数据更新以及记录
 		sqlhelperTotal.updateSQLtotalType(sqlDataBase,
 				SQLHelperTotal.TableWiFiOrG23, 1, null, 1);
+		sqlhelperTotal.RecordTotalwritestats(sqlDataBase, false);
+		// 生成基本常用数据
+		initTime();
+		long mobile_month_use_afterSet = 0;
+		long[] wifi_month_data = new long[64];
+		long[] mobile_month_data = new long[64];
+		long[] mobile_week_data = new long[6];
+		// mobile_month_use_afterSet=sqlhelperTotal.se
+		wifi_month_data = sqlhelperTotal.SelectWifiData(context, year, month);
+		mobile_month_data = sqlhelperTotal.SelectMobileData(context, year,
+				month);
+		mobile_week_data = sqlhelperTotal.SelectWeekData(context, year, month,
+				monthDay, weekDay);
 		sqlhelperTotal.closeSQL(sqlDataBase);
+		// 对数据进行赋值
+		TrafficManager.wifi_month_data = wifi_month_data;
+		TrafficManager.mobile_month_data = mobile_month_data;
+		TrafficManager.mobile_week_data = mobile_week_data;
+		showLog("wifitotal=" + wifi_month_data[0] + "");
+		// TrafficManager.setMonthUseDate(context);
+		// 输出日志
 		showLog("实时总体更新数据" + SQLHelperTotal.TableWiFiOrG23 + "  "
 				+ "TotalTxBytes()=" + TrafficStats.getTotalTxBytes()
 				+ "TotalRxBytes()=" + TrafficStats.getTotalRxBytes()
@@ -104,12 +131,11 @@ public class RecordDataReceiver extends BroadcastReceiver {
 
 		@Override
 		protected Long doInBackground(Context... params) {
-			totalRecord();
-			//更新流量数据
-			TrafficManager trafficManager = new TrafficManager();
-//			trafficManager.statsTotalTraffic(params[0], false);
-//			long monthuse = trafficManager.countMonthUseDate(params[0]);
-//			trafficManager.setMonthUseDate(params[0],monthuse);
+			totalRecord(params[0]);
+			// 更新流量数据
+			// trafficManager.statsTotalTraffic(params[0], false);
+			// long monthuse = trafficManager.countMonthUseDate(params[0]);
+			// trafficManager.setMonthUseDate(params[0],monthuse);
 			trafficAlertTest(params[0]);
 			return null;
 		}
@@ -118,7 +144,23 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		protected void onPostExecute(Long result) {
 			// TODO Auto-generated method stub
 			SQLHelperTotal.isSQLTotalOnUsed = false;
+			showLog("更新记录完毕");
 		}
+	}
+
+	/**
+	 * 初始化系统时间
+	 */
+	private void initTime() {
+		// Time t = new Time("GMT+8");
+		Time t = new Time();
+		t.setToNow(); // 取得系统时间。
+		// 取得系统时间。
+		year = t.year;
+		month = t.month + 1;
+		monthDay = t.monthDay;
+		weekDay = t.weekDay;
+
 	}
 
 	private void showLog(String string) {

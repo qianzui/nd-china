@@ -64,7 +64,7 @@ class MonthlyUseData {
 		//
 		// 初始化流量获取函数
 		TrafficManager trafficMan = new TrafficManager();
-		mobileTraffic = trafficMan.getMobileMonthTraffic(context);
+		mobileTraffic = sqlhelperTotal.SelectMobileData(context, year, month);
 		// 月度流量设置
 		// 设置结算日期及结算日期的设施时间，日期等
 		// 结算日期

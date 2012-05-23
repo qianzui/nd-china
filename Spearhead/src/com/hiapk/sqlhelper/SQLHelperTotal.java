@@ -25,6 +25,7 @@ public class SQLHelperTotal {
 	private String SQLTotalname = "SQLTotal.db";
 	private String SQLUidname = "SQLUid.db";
 	private String SQLUidIndex = "SQLUidIndex.db";
+	private String SQLUidTotaldata = "SQLTotaldata.db";
 	private String CreateTable = "CREATE TABLE IF NOT EXISTS ";
 	private String SQLId = "_id INTEGER PRIMARY KEY,";
 	private String SQLTime = "date date,time time";
@@ -66,10 +67,12 @@ public class SQLHelperTotal {
 	private final String MODE_HASINIT = "SQLhasINIT";
 	// classes
 	SQLHelperUid SQLhelperuid = new SQLHelperUid();
+	SQLHelperUidTotal SQLhelperuidTotal = new SQLHelperUidTotal();
 	// 数据库正在使用。重要中。
 	public static boolean isSQLTotalOnUsed = false;
 	public static boolean isSQLUidOnUsed = false;
 	public static boolean isSQLIndexOnUsed = false;
+	public static boolean isSQLUidTotalOnUsed = false;
 
 	/**
 	 * 创建总数据库
@@ -105,6 +108,19 @@ public class SQLHelperTotal {
 	 */
 	public SQLiteDatabase creatSQLUidIndex(Context context) {
 		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLUidIndex,
+				MODE_PRIVATE, null);
+		// showLog("db-CreatComplete");
+		return mySQL;
+	}
+
+	/**
+	 * 创建uidTotal数据库
+	 * 
+	 * @param context
+	 * @return 返回创建的数据库
+	 */
+	public SQLiteDatabase creatSQLUidTotal(Context context) {
+		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLUidTotaldata,
 				MODE_PRIVATE, null);
 		// showLog("db-CreatComplete");
 		return mySQL;
@@ -254,7 +270,8 @@ public class SQLHelperTotal {
 			// 添加新的两行数据
 			updateSQLtotalType(mySQL, table, upload, download, 1, other, 0);
 			exeSQLtotal(mySQL, table, 1, other);
-		} else if (olddown != 0 && oldup != 0) {
+		} else if ((olddown != 0 || oldup != 0)
+				&& ((olddown > 1024) || (oldup > 1024))) {
 			// showLog("上传数据" + oldup + "B" + "  " + "下载数据" + olddown + "B");
 			// 输入实际数据进入数据库
 			updateSQLtotalType(mySQL, table, oldup, olddown, 0, other, type);
@@ -323,6 +340,7 @@ public class SQLHelperTotal {
 		SQLiteDatabase sqldatabaseTotal = creatSQLTotal(context);
 		SQLiteDatabase sqldatabaseUid = creatSQLUid(context);
 		SQLiteDatabase sqldatabaseUidIndex = creatSQLUidIndex(context);
+		SQLiteDatabase sqldatabaseUidTotal = creatSQLUidTotal(context);
 		sqldatabaseTotal.beginTransaction();
 		try {
 			String string = null;
@@ -370,6 +388,7 @@ public class SQLHelperTotal {
 			sqldatabaseTotal.endTransaction();
 		}
 
+		// 初始化uidIndex
 		sqldatabaseUidIndex.beginTransaction();
 		try {
 			// 初始化uid数据库的Index表
@@ -408,6 +427,30 @@ public class SQLHelperTotal {
 		} finally {
 			sqldatabaseUid.endTransaction();
 		}
+
+		// uidTotal SQL
+		sqldatabaseUidTotal.beginTransaction();
+		try {
+			// 初始化uid数据库的Total表
+			if (initsuccess) {
+				initsuccess = SQLhelperuidTotal
+						.initUidTotalTables(sqldatabaseUidTotal);
+				// showLog("建立tableIndex");
+				// 不包含uid=0的
+				SQLhelperuidTotal.exeSQLcreateUidTotaltables(
+						sqldatabaseUidTotal, uidnumbers);
+				// showLog("初始化tableIndex");
+			}
+			sqldatabaseUidTotal.setTransactionSuccessful();
+		} catch (Exception e) {
+			// TODO: handle exception
+			initsuccess = false;
+			showLog("初始化uidIndex数据表失败");
+		} finally {
+			// showLog("初始化tableIndex完成");
+			sqldatabaseUidTotal.endTransaction();
+		}
+
 		if (initsuccess) {
 			// 确保仅进行一次初始化
 			Editor passfileEditor = context.getSharedPreferences(PREFS_NAME, 0)
@@ -421,6 +464,7 @@ public class SQLHelperTotal {
 		closeSQL(sqldatabaseTotal);
 		closeSQL(sqldatabaseUid);
 		closeSQL(sqldatabaseUidIndex);
+		closeSQL(sqldatabaseUidTotal);
 	}
 
 	/**
@@ -543,6 +587,26 @@ public class SQLHelperTotal {
 	 * @param daily
 	 *            true则强制记录，false则不记录流量为0的数据
 	 */
+	public void RecordTotalwritestats(SQLiteDatabase sqlDataBase, boolean daily) {
+		// TODO Auto-generated method stub
+		// 自动进行数据记录---不记录上传下载为0的数据
+		if (!TableWiFiOrG23.equals("")) {
+			// SQLiteDatabase sqlDataBase = creatSQLTotal(context);
+			initTotalData(TableWiFiOrG23);
+			initTime();
+			statsSQLtotal(sqlDataBase, TableWiFiOrG23, date, time, upload,
+					download, 2, null, daily);
+			// closeSQL(sqlDataBase);
+		}
+	}
+
+	/**
+	 * 记录wifi，mobile流量数据
+	 * 
+	 * @param context
+	 * @param daily
+	 *            true则强制记录，false则不记录流量为0的数据
+	 */
 	public void RecordTotalwritestats(Context context, boolean daily) {
 		// TODO Auto-generated method stub
 		// 自动进行数据记录---不记录上传下载为0的数据
@@ -584,8 +648,9 @@ public class SQLHelperTotal {
 	 * @return 返回一个64位数组。a[0]为总计上传流量a[63]为总计下载流量
 	 *         a[1]-a[31]为1号到31号上传流量，a[32]-a[62]为1号到31号下载流量
 	 */
+	//specialfortext  TableWiFi- TableMobile
 	public long[] SelectMobileData(Context context, int year, int month) {
-		return SelectData(context, year, month, TableMobile);
+		return SelectData(context, year, month, TableWiFi);
 	}
 
 	/**
@@ -605,7 +670,7 @@ public class SQLHelperTotal {
 	 *            要查询的数据类型
 	 * @return 返回一个3位数组。a[0]为总计流量a[1]总计上传流量a[2]总计下载流量
 	 */
-	//specialfortext   TableWiFi----TableMobile
+	// specialfortext TableWiFi----TableMobile
 	public long[] SelectMobileData(Context context, int year, int month,
 			int day, int dayset) {
 		return SelectData(context, year, month, day, dayset, TableWiFi);
@@ -627,7 +692,7 @@ public class SQLHelperTotal {
 	 * @return 返回一个3位数组。a[0]为总计流量a[1]为上传流量a[2]下载流量
 	 * 
 	 */
-	//specialfortext   TableMobile----------TableWiFi
+	// specialfortext TableMobile----------TableWiFi
 	public long[] SelectMobileData(Context context, int year, int month,
 			int day, String time) {
 
@@ -816,7 +881,7 @@ public class SQLHelperTotal {
 						+ "01" + "-" + setday2 + AND + "type=" + 2;
 			}
 		}
-		showLog("testmonthUsetraff"+string);
+		showLog("testmonthUsetraff" + string);
 		try {
 			cur = sqlDataBase.rawQuery(string, null);
 		} catch (Exception e) {
@@ -916,9 +981,9 @@ public class SQLHelperTotal {
 		a[0] = countdown + countup;
 		a[1] = countup;
 		a[2] = countdown;
-//		for (int j = 0; j < a.length; j++) {
-//			showLog(j + "liuliang" + a[j] + "");
-//		}
+		// for (int j = 0; j < a.length; j++) {
+		// showLog(j + "liuliang" + a[j] + "");
+		// }
 		return a;
 	}
 
@@ -978,10 +1043,10 @@ public class SQLHelperTotal {
 		long[] a = new long[6];
 		// select oldest upload and download 之前记录的数据的查询操作
 		// SELECT * FROM table WHERE type=0
-		//specialfortext  TableMobile-----TableWiFi
-		string = SelectTable + TableWiFi + Where + "date" + Between
-				+ weekStart + AND_B + year + "-" + month2 + "-" + monthDay2
-				+ AND + "type=" + 2;
+		// specialfortext TableMobile-----TableWiFi
+		string = SelectTable + TableWiFi + Where + "date" + Between + weekStart
+				+ AND_B + year + "-" + month2 + "-" + monthDay2 + AND + "type="
+				+ 2;
 		// showLog(string);
 		try {
 			cur = sqlDataBase.rawQuery(string, null);

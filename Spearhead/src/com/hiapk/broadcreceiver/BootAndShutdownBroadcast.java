@@ -1,5 +1,6 @@
 package com.hiapk.broadcreceiver;
 
+import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.Block;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.sqlhelper.SQLHelperTotal;
@@ -16,6 +17,7 @@ public class BootAndShutdownBroadcast extends BroadcastReceiver {
 		// TODO Auto-generated method stub
 		// 设置闹钟与数据库操作
 		AlarmSet alset = new AlarmSet();
+		TrafficManager trafficManager = new TrafficManager();
 		SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 		SQLHelperUid sqlhelperUid = new SQLHelperUid();
 		// 设置IsInit信息
@@ -41,7 +43,8 @@ public class BootAndShutdownBroadcast extends BroadcastReceiver {
 				// 开启总流量与uid自动记录功能并进行首次记录
 				if (SQLHelperTotal.isSQLTotalOnUsed != true) {
 					SQLHelperTotal.isSQLTotalOnUsed = true;
-					sqlhelperTotal.RecordTotalwritestats(context, false);
+					trafficManager.statsTotalTraffic(context, true);
+//					sqlhelperTotal.RecordTotalwritestats(context, false);
 					SQLHelperTotal.isSQLTotalOnUsed = false;
 				}
 				if (SQLHelperTotal.isSQLUidOnUsed != true) {
@@ -60,7 +63,8 @@ public class BootAndShutdownBroadcast extends BroadcastReceiver {
 				if (SQLHelperTotal.TableWiFiOrG23 != "") {
 					if (SQLHelperTotal.isSQLTotalOnUsed != true) {
 						SQLHelperTotal.isSQLTotalOnUsed = true;
-						sqlhelperTotal.RecordTotalwritestats(context, false);
+						trafficManager.statsTotalTraffic(context, false);
+//						sqlhelperTotal.RecordTotalwritestats(context, false);
 						SQLHelperTotal.isSQLTotalOnUsed = false;
 					}
 					if (SQLHelperTotal.isSQLUidOnUsed != true) {

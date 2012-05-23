@@ -19,9 +19,10 @@ public class SQLHelperUid {
 	private String SQLTotalname = "SQLTotal.db";
 	private String SQLUidname = "SQLUid.db";
 	private String SQLUidIndex = "SQLUidIndex.db";
+	private String SQLUidTotaldata = "SQLTotaldata.db";
 	private String CreateTable = "CREATE TABLE IF NOT EXISTS ";
 	private String SQLId = "_id INTEGER PRIMARY KEY,";
-	private String CreateparamUid = "date date,time time,upload INTEGER,download INTEGER,type INTEGER INTEGER,other varchar(15)";
+	private String CreateparamUid = "date date,time time,upload INTEGER,download INTEGER,type INTEGER ,other varchar(15)";
 	private String CreateparamUidIndex = "uid INTEGER,packagename varchar(255),permission,other varchar(15)";
 	private String TableUid = "uid";
 	private String TableUidIndex = "uidindex";
@@ -95,6 +96,19 @@ public class SQLHelperUid {
 	}
 
 	/**
+	 * 创建uidTotal数据库
+	 * 
+	 * @param context
+	 * @return 返回创建的数据库
+	 */
+	public SQLiteDatabase creatSQLUidTotal(Context context) {
+		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLUidTotaldata,
+				MODE_PRIVATE, null);
+		// showLog("db-CreatComplete");
+		return mySQL;
+	}
+
+	/**
 	 * 在安装新程序时更新uidIndex目录
 	 * 
 	 * @param context
@@ -107,6 +121,7 @@ public class SQLHelperUid {
 	 */
 	public void updateSQLUidIndexOnInstall(Context context, int uidnumber,
 			String packageName, String other) {
+		SQLHelperTotal.isSQLIndexOnUsed = true;
 		SQLiteDatabase mySQL = creatSQLUid(context);
 		mySQL.beginTransaction();
 		try {
@@ -135,6 +150,7 @@ public class SQLHelperUid {
 			showLog("更新索引表失败");
 		} finally {
 			mySQL.endTransaction();
+			SQLHelperTotal.isSQLIndexOnUsed = false;
 		}
 		closeSQL(mySQL);
 	}
@@ -292,6 +308,7 @@ public class SQLHelperUid {
 			String other, int typechange) {
 		// TODO Auto-generated method stub
 		initTime();
+		SQLHelperTotal.isSQLUidOnUsed = true;
 		SQLiteDatabase sqlDataBase = creatSQLUid(context);
 		sqlDataBase.beginTransaction();
 		try {
@@ -305,6 +322,7 @@ public class SQLHelperUid {
 			showLog("批量输入uid网络数据失败");
 		} finally {
 			sqlDataBase.endTransaction();
+			SQLHelperTotal.isSQLUidOnUsed = false;
 		}
 		closeSQL(sqlDataBase);
 
@@ -975,7 +993,7 @@ public class SQLHelperUid {
 			cur = mySQL.rawQuery(string, null);
 		} catch (Exception e) {
 			// TODO: handle exception
-			showLog("error"+string);
+			showLog("error" + string);
 		}
 		long oldup = 0;
 		long olddown = 0;

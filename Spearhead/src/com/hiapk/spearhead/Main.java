@@ -12,6 +12,7 @@ import com.hiapk.progressbar.PieView;
 import com.hiapk.progressbar.ProgressBarForV;
 import com.hiapk.progressbar.StackedBarChart;
 import com.hiapk.sqlhelper.SQLHelperTotal;
+import com.hiapk.sqlhelper.SQLHelperUidTotal;
 import com.hiapk.widget.ProgramNotify;
 
 import android.app.Activity;
@@ -128,19 +129,18 @@ public class Main extends Activity {
 		// 初始化流量获取函数
 		// 取得每周的流量
 		long[] weektraffic = new long[6];
-		weektraffic = trafficManager.getMobileWeekTraffic(context);
+		weektraffic = TrafficManager.mobile_week_data;
 		// 取得月度流量
-		mobileTraffic = trafficManager.getMobileMonthTraffic(context);
-		wifiTraffic = trafficManager.getWifiMonthTraffic(context);
+		mobileTraffic = TrafficManager.mobile_month_data;
+		wifiTraffic = TrafficManager.wifi_month_data;
 		// 进行流量设置
 		todayMobil.setText(unitHandler(mobileTraffic[monthDay]
 				+ mobileTraffic[monthDay + 31], todayMobilunit));
 		// todayMobil.setText(unitHandler(8888080, todayMobilunit));
 		weekMobil.setText(unitHandler(weektraffic[0], weekMobilunit));
 		// 月度流量设置
-		mobile_month_use = trafficManager.getMonthUseData(context);
+		mobile_month_use = TrafficManager.mobile_month_use_afterSet;
 		long mobileSet = sharedData.getMonthMobileSetOfLong();
-		long mobileHasUsed = sharedData.getMonthMobileHasUse();
 		if (mobile_month_use > mobileSet)
 			monthMobil.setTextColor(Color.RED);
 		else
@@ -286,19 +286,20 @@ public class Main extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		AlarmSet alset = new AlarmSet();
-		// 初始化网络状态
-		sqlhelperTotal.initTablemobileAndwifi(context);
-		if (SQLHelperTotal.TableWiFiOrG23 != ""
-				&& sqlhelperTotal.getIsInit(context)) {
-			// 启动闹钟
-			alset.StartAlarmMobile(context);
-//			// 进行数据记录
-			trafficManager.statsTotalTraffic(context, false);
-		} else if (SQLHelperTotal.TableWiFiOrG23 != "") {
-			alset.StartAlarmMobile(context);
-			sqlhelperTotal.initTablemobileAndwifi(context);
-		}
+		// 数据记录功能，放在flesh上面
+		// AlarmSet alset = new AlarmSet();
+		// // 初始化网络状态
+		// sqlhelperTotal.initTablemobileAndwifi(context);
+		// if (SQLHelperTotal.TableWiFiOrG23 != ""
+		// && sqlhelperTotal.getIsInit(context)) {
+		// // 启动闹钟
+		// alset.StartAlarmMobile(context);
+		// // 进行数据记录
+		// trafficManager.statsTotalTraffic(context, false);
+		// } else if (SQLHelperTotal.TableWiFiOrG23 != "") {
+		// alset.StartAlarmMobile(context);
+		// sqlhelperTotal.initTablemobileAndwifi(context);
+		// }
 		initValues();
 		initProgressBar();
 		initPieBar();
@@ -321,8 +322,8 @@ public class Main extends Activity {
 					// 启动闹钟
 					alset.StartAlarmMobile(context);
 					// 进行数据记录
-					trafficManager.statsTotalTraffic(context, false);
-//					sqlhelperTotal.RecordTotalwritestats(context, false);
+					// trafficManager.statsTotalTraffic(context, false);
+					// sqlhelperTotal.RecordTotalwritestats(context, false);
 				} else if (SQLHelperTotal.TableWiFiOrG23 != "") {
 					alset.StartAlarmMobile(context);
 					sqlhelperTotal.initTablemobileAndwifi(context);
@@ -331,6 +332,9 @@ public class Main extends Activity {
 				initProgressBar();
 				initPieBar();
 				initWifiBar();
+				// specialfortext----test
+				// SQLHelperUidTotal sqlUidTotal = new SQLHelperUidTotal();
+				// sqlUidTotal.updateSQLUidTypes(context, uids);
 			}
 		});
 	}

@@ -23,26 +23,30 @@ class MobileTraffic {
 	long[] getMobileWeekTraffic(Context context) {
 		setTime();
 		long[] weektraffic = new long[6];
-		weektraffic = sqlhelperTotal.SelectWeekData(context, year, month,
-				monthDay, weekDay);
+		weektraffic=TrafficManager.mobile_week_data;
+//		weektraffic = sqlhelperTotal.SelectWeekData(context, year, month,
+//				monthDay, weekDay);
 		return weektraffic;
 	}
 
-	/**
-	 * 取得月度流量
-	 * 
-	 * @param context
-	 * @return 返回一个64位数组。a[0]为总计上传流量a[63]为总计下载流量
-	 *         a[1]-a[31]为1号到31号上传流量，a[32]-a[62]为1号到31号下载流量
-	 */
-	long[] getMobileMonthTraffic(Context context) {
-		setTime();
-		long[] monthtraffic = new long[64];
-		//specialfortext   --------交换
-		// monthtraffic = sqlhelperTotal.SelectMobileData(context, year, month);
-		monthtraffic = sqlhelperTotal.SelectWifiData(context, year, month);
-		return monthtraffic;
-	}
+//	/**
+//	 * 取得月度流量
+//	 * 
+//	 * @param context
+//	 * @return 返回一个64位数组。a[0]为总计上传流量a[63]为总计下载流量
+//	 *         a[1]-a[31]为1号到31号上传流量，a[32]-a[62]为1号到31号下载流量
+//	 */
+//	long[] getMobileMonthTraffic(Context context) {
+//		setTime();
+//		long[] monthtraffic = new long[64];
+//		//specialfortext   --------交换
+////		monthtraffic = TrafficManager.mobile_month_data;
+//		monthtraffic = TrafficManager.wifi_month_data;
+//		
+////		 monthtraffic = sqlhelperTotal.SelectMobileData(context, year, month);
+////		monthtraffic = sqlhelperTotal.SelectWifiData(context, year, month);
+//		return monthtraffic;
+//	}
 
 	/**
 	 * 设置时间
