@@ -34,6 +34,7 @@ public class Block {
 	public static final String PREF_ALL_UIDS = "AppListUids";
 	public static final String PREF_S = "Cache";
 	public static final String PREF_SHOW = "IsShowTip";
+	public static final String PREF_TIP = "FireTip";
 	// Preferences
 	private static final String PREFS_NAME = "DroidWallPrefs";
 	public static boolean isChanged = false;
@@ -680,6 +681,21 @@ public class Block {
 				PREFS_NAME, 0);
 		final Editor edit = prefs.edit();
 		edit.putBoolean(PREF_SHOW, isShow);
+		edit.commit();
+	}
+
+	public static boolean fireTip(Context context) {
+		final SharedPreferences prefs = context.getSharedPreferences(
+				PREFS_NAME, 0);
+		boolean isShow = prefs.getBoolean(PREF_TIP, true);
+		return isShow;
+	}
+
+	public static void fireTipSet(Context context, boolean isShow) {
+		final SharedPreferences prefs = context.getSharedPreferences(
+				PREFS_NAME, 0);
+		final Editor edit = prefs.edit();
+		edit.putBoolean(PREF_TIP, isShow);
 		edit.commit();
 	}
 

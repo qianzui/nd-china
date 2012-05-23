@@ -141,7 +141,7 @@ public class AppListAdapter extends BaseAdapter {
     class EListener implements OnClickListener{
     	CheckBox cb;
     	IsChecked ic;
-    	final String cmd = "chmod 777 "+mContext.getPackageCodePath();
+//    	final String cmd = "chmod 777 "+mContext.getPackageCodePath();
     	public  EListener(CheckBox cb,IsChecked ic){
     		this.cb = cb;
     		this.ic = ic;
@@ -153,9 +153,9 @@ public class AppListAdapter extends BaseAdapter {
 	          {
 				 if(Block.isShowTip(mContext)){
 				 new AlertDialog.Builder(mContext)
-				 .setTitle("提示")
-				 .setMessage("此功能需要root权限，是否获取？")
-				 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+				 .setTitle(R.string.tip)
+				 .setMessage(R.string.tip_content)
+				 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 
@@ -164,7 +164,7 @@ public class AppListAdapter extends BaseAdapter {
 				            ic.selected_3g = cb.isChecked();
 				            Block.saveRules(mContext,map);
 				  		    if(Block.applyIptablesRules(mContext,true)){
-				  				   Toast.makeText(mContext, "防火墙已应用成功！", Toast.LENGTH_SHORT).show();
+				  				   Toast.makeText(mContext, R.string.fire_applyed, Toast.LENGTH_SHORT).show();
 				  			    }else{
 				  			    	 cb.setChecked(!cb.isChecked());
 					  			     ic.selected_3g = cb.isChecked();
@@ -176,7 +176,7 @@ public class AppListAdapter extends BaseAdapter {
 
 					   } 
 				    })
-				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+				.setNegativeButton(R.string.cancle, new DialogInterface.OnClickListener() {
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -189,7 +189,7 @@ public class AppListAdapter extends BaseAdapter {
 				            ic.selected_3g = cb.isChecked();
 				            Block.saveRules(mContext,map);
 				  		    if(Block.applyIptablesRules(mContext,true)){
-				  				   Toast.makeText(mContext, "防火墙已应用成功！", Toast.LENGTH_SHORT).show();
+				  				   Toast.makeText(mContext, R.string.fire_applyed, Toast.LENGTH_SHORT).show();
 				  			    }else{
 				  			       cb.setChecked(!cb.isChecked());
 				  			       ic.selected_3g = cb.isChecked();
@@ -202,10 +202,10 @@ public class AppListAdapter extends BaseAdapter {
 		        }else{
 		        	 cb.setChecked(false);
 		        	 new AlertDialog.Builder(mContext)
-		 			 .setTitle("提示")
-		 			 .setMessage("此功能需要Root权限！")
+		 			 .setTitle(R.string.tip)
+		 			 .setMessage(R.string.tip_content)
 		 			 .setPositiveButton(
-							 "确定",
+							 R.string.ok,
 							 new DialogInterface.OnClickListener() {
 								 @Override
 								 public void onClick(
@@ -235,9 +235,9 @@ public class AppListAdapter extends BaseAdapter {
 	          {
 				 if(Block.isShowTip(mContext)){
 				 new AlertDialog.Builder(mContext)
-				 .setTitle("提示")
-				 .setMessage("此功能需要root权限，是否获取？")
-				 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+				 .setTitle(R.string.tip)
+				 .setMessage(R.string.tip_content)
+				 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						if(GetRoot.hasRootAccess(mContext,true)){
@@ -245,7 +245,7 @@ public class AppListAdapter extends BaseAdapter {
 							ic.selected_wifi = cb.isChecked();
 				            Block.saveRules(mContext,map);
 				  		    if(Block.applyIptablesRules(mContext,true)){
-				  				   Toast.makeText(mContext, "防火墙已应用成功！", Toast.LENGTH_SHORT).show();
+				  				   Toast.makeText(mContext, R.string.fire_applyed, Toast.LENGTH_SHORT).show();
 				  			    }else{
 				  			       cb.setChecked(!cb.isChecked());
 				  			       ic.selected_wifi = cb.isChecked();
@@ -257,7 +257,7 @@ public class AppListAdapter extends BaseAdapter {
 					       }
 					   } 
 				    })
-				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+				.setNegativeButton(R.string.cancle, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub
@@ -266,12 +266,11 @@ public class AppListAdapter extends BaseAdapter {
 				}).show();
 				 }else{
 //					 GetRoot.cmdRoot("chmod 777 "+mContext.getPackageCodePath());
-//					 Toast.makeText(mContext, GetRoot.isRoot() + ".."+Root.isDeviceRooted(), Toast.LENGTH_LONG).show();
 					 if(GetRoot.assertBinaries(mContext,true)){
 						    ic.selected_wifi = cb.isChecked();
 				            Block.saveRules(mContext,map);
 				  		    if(Block.applyIptablesRules(mContext,true)){
-				  			   Toast.makeText(mContext, "防火墙已应用成功！", Toast.LENGTH_SHORT).show();
+				  			   Toast.makeText(mContext, R.string.fire_applyed, Toast.LENGTH_SHORT).show();
 				  			    }else{
 				  			    	cb.setChecked(!cb.isChecked());
 				  			    	ic.selected_wifi = cb.isChecked();
@@ -284,10 +283,10 @@ public class AppListAdapter extends BaseAdapter {
 		        }else{
 		        	 cb.setChecked(false);
 		        	 new AlertDialog.Builder(mContext)
-		 			 .setTitle("提示")
-		 			 .setMessage("此功能需要Root权限！")
+		 			 .setTitle(R.string.tip)
+		 			 .setMessage(R.string.tip_content)
 		 			 .setPositiveButton(
-							 "确定",
+							 R.string.ok,
 							 new DialogInterface.OnClickListener() {
 								 @Override
 								 public void onClick(
