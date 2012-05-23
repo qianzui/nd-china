@@ -21,9 +21,11 @@ public class Regulate extends Activity{
 	Button smsSend;	
 	public static TextView smsText;
 	public static TextView smsNum;
+	public static TextView smsResult;
 	SharedPrefrenceData sharedData;
 	String city;
-	String brand;
+	String brand;	
+	SmsRead sr;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -34,6 +36,7 @@ public class Regulate extends Activity{
 		smsSend = (Button)findViewById(R.id.smsSend);
 		smsText = (TextView)findViewById(R.id.smsText);
 		smsNum = (TextView)findViewById(R.id.smsNum);
+		smsResult = (TextView)findViewById(R.id.smsResult);
 		city = sharedData.getCity();
 		brand = sharedData.getBrand();
 		
@@ -61,6 +64,8 @@ public class Regulate extends Activity{
 				sms();
 			}
 		});
+		
+		
 	}
 	public void sms(){
 		String num = smsNum.getText().toString();
@@ -73,4 +78,11 @@ public class Regulate extends Activity{
 		it.putExtra("sms_body", text);
 		startActivity(it);
 	}	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		sr =  new SmsRead();
+		Log.v("----------------",sr.Sms(this));
+	}
 }
