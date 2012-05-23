@@ -1,20 +1,14 @@
 package com.hiapk.spearhead;
 
-import java.sql.SQLData;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import com.hiapk.broadcreceiver.AlarmSet;
-import com.hiapk.firewall.AppInfo;
 import com.hiapk.firewall.AppListAdapter;
 import com.hiapk.firewall.Block;
 import com.hiapk.firewall.MyListView;
 import com.hiapk.firewall.MyListView.OnRefreshListener;
-import com.hiapk.firewall.Root;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
 
@@ -29,21 +23,17 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.TrafficStats;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 
 public class FireWallActivity extends Activity {
 	private static final String APP_PKG_NAME_21 = "com.android.settings.ApplicationPkgName";
@@ -74,34 +64,20 @@ public class FireWallActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main2);
 		
+		if(Block.fireTip(mContext)){
+		    Toast toast_refresh = 
+		    Toast.makeText(mContext, "下拉列表可以进行刷新!", Toast.LENGTH_SHORT);
+		    toast_refresh.show();
+		}
 		
-//		setContentView(R.layout.atest);
-//		Button button = (Button)findViewById(R.id.button);
-//        button.setOnClickListener(new Button.OnClickListener(){
-//
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				Block.applyIptablesRules(mContext, true);
-//			}
-//        	
-//        });
-//		
-//		
-		
-		
-		Toast.makeText(mContext, "下拉列表可以进行刷新!", Toast.LENGTH_SHORT).show();
-		// mydialog = ProgressDialog.show(this, "请稍等...", "正在读取...", true);
 		initList();
 
 	}
 
 	public void initList() {
 		Log.i("get ---- list----start", System.currentTimeMillis() + "");
-		
 		myAppList = getCompList(getInstalledPackageInfo(FireWallActivity.this));
 		Log.i("get ---- list----end", System.currentTimeMillis() + "");
-		
 		appListAdapter = new AppListAdapter(FireWallActivity.this, myAppList);
 		appListView = (MyListView) findViewById(R.id.app_list);
 		appListView.setAdapter(appListAdapter);
@@ -289,21 +265,7 @@ public class FireWallActivity extends Activity {
 		return super.onKeyDown(keyCode, event);
 	}
 
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		
-//		if(Block.isChanged && Root.isDeviceRooted()){
-//		  Block.saveRules(mContext,map);
-//		  if(Block.applyIptablesRules(mContext,true)){
-//				   Toast.makeText(mContext, "防火墙已应用成功！", Toast.LENGTH_SHORT).show();
-//			    }else{
-//				   Toast.makeText(mContext, "防火墙需要root权限！", Toast.LENGTH_SHORT).show();
-//				}
-//		  Block.isChanged = false;
-//		}
-		super.onPause();
-	}
+
 	
 	
 }
