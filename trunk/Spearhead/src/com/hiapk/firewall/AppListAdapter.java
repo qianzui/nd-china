@@ -99,7 +99,7 @@ public class AppListAdapter extends BaseAdapter {
 		  holder.wifi_toggle.setOnClickListener(new WifiListener(holder.wifi_toggle,ic));
 		  holder.e_toggle.setChecked(ic.selected_3g);
 		  holder.wifi_toggle.setChecked(ic.selected_wifi);
-		  Log.i("...."+ pkgInfo.applicationInfo.loadLabel(mContext.getPackageManager()),"......" + ic.selected_wifi);
+		  Log.i("...."+ pkgInfo.applicationInfo.loadLabel(mContext.getPackageManager()),"......" + pkgInfo.applicationInfo.uid);
 		  Log.i("...."+ pkgInfo.applicationInfo.loadLabel(mContext.getPackageManager()),"......" + holder.wifi_toggle.isChecked());
 		  convertView.setTag(R.id.tag_pkgname,pkgInfo.applicationInfo.packageName);
 		  convertView.setTag(R.id.tag_traffic_up ,unitHandler(up));
@@ -240,8 +240,8 @@ public class AppListAdapter extends BaseAdapter {
 				 .setPositiveButton("È·¶¨", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						Block.isShowTipSet(mContext, false);
-						if(GetRoot.assertBinaries(mContext,true)){
+						if(GetRoot.hasRootAccess(mContext,true)){
+							Block.isShowTipSet(mContext, false);
 							ic.selected_wifi = cb.isChecked();
 				            Block.saveRules(mContext,map);
 				  		    if(Block.applyIptablesRules(mContext,true)){
@@ -252,6 +252,7 @@ public class AppListAdapter extends BaseAdapter {
 				  			       Block.saveRules(mContext,map);
 				  				}
 					       }else{
+					    	Block.isShowTipSet(mContext, true);
 					    	cb.setChecked(ic.selected_wifi);
 					       }
 					   } 
@@ -264,6 +265,8 @@ public class AppListAdapter extends BaseAdapter {
 					}
 				}).show();
 				 }else{
+//					 GetRoot.cmdRoot("chmod 777 "+mContext.getPackageCodePath());
+//					 Toast.makeText(mContext, GetRoot.isRoot() + ".."+Root.isDeviceRooted(), Toast.LENGTH_LONG).show();
 					 if(GetRoot.assertBinaries(mContext,true)){
 						    ic.selected_wifi = cb.isChecked();
 				            Block.saveRules(mContext,map);
