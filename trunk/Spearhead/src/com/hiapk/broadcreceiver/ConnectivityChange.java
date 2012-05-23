@@ -1,5 +1,6 @@
 package com.hiapk.broadcreceiver;
 
+import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
@@ -14,11 +15,13 @@ import android.util.Log;
 public class ConnectivityChange extends BroadcastReceiver {
 	String APPWIDGET_UPDATE = "com.hiapkAPPWIDGET_UPDATE";
 	String BROADCAST_TRAFF = "com.hiapk.traffwidget";
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
 		// 设置闹钟与数据库操作
 		AlarmSet alset = new AlarmSet();
+		TrafficManager trafficManager = new TrafficManager();
 		SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 		SQLHelperUid sqlhelperUid = new SQLHelperUid();
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
@@ -39,25 +42,28 @@ public class ConnectivityChange extends BroadcastReceiver {
 				ConnectivityManager connec = (ConnectivityManager) context
 						.getSystemService(Context.CONNECTIVITY_SERVICE);
 				if (connec.getActiveNetworkInfo() != null) {
+					// 启动闹钟
+					alset.StartAlarm(context);
 					NetworkInfo info = connec.getActiveNetworkInfo();
 					String typeName = info.getTypeName(); // mobile@wifi
 					if (typeName.equals("WIFI")) {
 						// 总流量与uid自动记录功能并修改网络属性
-						sqlhelperTotal.RecordTotalwritestats(context, false);
+						// trafficManager.statsTotalTraffic(context, false);
+						// sqlhelperTotal.RecordTotalwritestats(context, false);
 						sqlhelperUid.RecordUidwritestats(context, false);
 						SQLHelperTotal.TableWiFiOrG23 = "wifi";
 					}
 					if (typeName.equals("mobile")) {
 						// 总流量与uid自动记录功能并修改网络属性
-						sqlhelperTotal.RecordTotalwritestats(context, false);
+						// trafficManager.statsTotalTraffic(context, false);
+						// sqlhelperTotal.RecordTotalwritestats(context, false);
 						sqlhelperUid.RecordUidwritestats(context, false);
 						SQLHelperTotal.TableWiFiOrG23 = "mobile";
 					}
 					// showLog("何种方式连线" + typeName);
-					// 启动闹钟
-					alset.StartAlarm(context);
 				} else {
-					sqlhelperTotal.RecordTotalwritestats(context, false);
+					// trafficManager.statsTotalTraffic(context, false);
+					// sqlhelperTotal.RecordTotalwritestats(context, false);
 					sqlhelperUid.RecordUidwritestats(context, false);
 					SQLHelperTotal.TableWiFiOrG23 = "";
 					showLog("无可用网络");

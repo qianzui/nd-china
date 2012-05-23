@@ -19,9 +19,9 @@ public class UpdateWidget extends BroadcastReceiver {
 		// TODO Auto-generated method stub
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		if (sharedData.isSQLinited() == true
-				|| sharedData.isWidGet14Open() == true) {
-			SetText.setText(context);
-			if (sharedData.isSQLinited()) {
+				&& (sharedData.isNotifyOpen() == true || sharedData
+						.isWidGet14Open() == true)) {
+			if (sharedData.isNotifyOpen()) {
 				ProgramNotify programNotify = new ProgramNotify();
 				programNotify.showNotice(context);
 			}

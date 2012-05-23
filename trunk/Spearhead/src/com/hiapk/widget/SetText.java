@@ -2,6 +2,7 @@ package com.hiapk.widget;
 
 import android.content.Context;
 import android.text.format.Time;
+import android.util.Log;
 
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
@@ -34,10 +35,11 @@ public class SetText {
 		int monthDay = t.monthDay;
 		UnitHandler unitHandler = new UnitHandler();
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
-		long[] monthUsed_this = trafficManager.getMobileMonthTraffic(context);
+		long[] monthUsed_this = new long[64];
+		monthUsed_this = TrafficManager.mobile_month_data;
 		long monthSetLong = sharedData.getMonthMobileSetOfLong();
 		long monthUsedLong = trafficManager.getMonthUseData(context);
-		trafficManager.setMonthUseDate(monthUsedLong);
+		// trafficManager.setMonthUseDate(monthUsedLong);
 		long todayUsedLong = monthUsed_this[monthDay]
 				+ monthUsed_this[monthDay + 31];
 		String monthUsedStr = unitHandler.unitHandlerAccurate(monthUsedLong);
@@ -52,6 +54,7 @@ public class SetText {
 		text1 = textUp;
 		text2 = "本月流量: " + monthUsedStr + " / " + monthSetStr;
 		text3 = "结算日期: " + date;
+		// showLog(textUp);
 	}
 
 	private static String getdate(Context context, int year, int month,
@@ -120,5 +123,15 @@ public class SetText {
 			}
 		}
 		return 31;
+	}
+
+	/**
+	 * 用于显示日志
+	 * 
+	 * @param string
+	 */
+	private static void showLog(String string) {
+		// TODO Auto-generated method stub
+		Log.d("SetText", string);
 	}
 }

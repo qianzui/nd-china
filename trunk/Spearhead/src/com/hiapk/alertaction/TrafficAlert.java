@@ -165,8 +165,8 @@ public class TrafficAlert {
 		int year = t.year;
 		int month = t.month + 1;
 		// showLog(year+" "+month);
-		TrafficManager trafficManager = new TrafficManager();
-		monthTraffic = trafficManager.getMobileMonthTraffic(context);
+//		TrafficManager trafficManager = new TrafficManager();
+		monthTraffic = TrafficManager.mobile_month_data;
 	}
 
 	/**
