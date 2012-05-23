@@ -623,8 +623,8 @@ public class SQLHelperTotal {
 	/**
 	 * 进行Wifi历史流量查询
 	 * 
-	 * @param context
-	 *            context
+	 * @param sqlDataBase
+	 *            sqlDataBase
 	 * @param year
 	 *            输入查询的年份2000.
 	 * @param month
@@ -632,15 +632,15 @@ public class SQLHelperTotal {
 	 * @return 返回一个64位数组。a[0]为总计上传流量a[63]为总计下载流量
 	 *         a[1]-a[31]为1号到31号上传流量，a[32]-a[62]为1号到31号下载流量
 	 */
-	public long[] SelectWifiData(Context context, int year, int month) {
-		return SelectData(context, year, month, TableWiFi);
+	public long[] SelectWifiData(SQLiteDatabase sqlDataBase, int year, int month) {
+		return SelectData(sqlDataBase, year, month, TableWiFi);
 	}
 
 	/**
 	 * 进行移动数据流量历史流量查询
 	 * 
-	 * @param context
-	 *            context
+	 * @param sqlDataBase
+	 *            sqlDataBase
 	 * @param year
 	 *            输入查询的年份2000.
 	 * @param month
@@ -648,16 +648,17 @@ public class SQLHelperTotal {
 	 * @return 返回一个64位数组。a[0]为总计上传流量a[63]为总计下载流量
 	 *         a[1]-a[31]为1号到31号上传流量，a[32]-a[62]为1号到31号下载流量
 	 */
-	//specialfortext  TableWiFi- TableMobile
-	public long[] SelectMobileData(Context context, int year, int month) {
-		return SelectData(context, year, month, TableWiFi);
+	// specialfortext TableWiFi- TableMobile
+	public long[] SelectMobileData(SQLiteDatabase sqlDataBase, int year,
+			int month) {
+		return SelectData(sqlDataBase, year, month, TableWiFi);
 	}
 
 	/**
 	 * 进行移动数据流量历史流量查询从某一天到另一设定天
 	 * 
-	 * @param context
-	 *            context
+	 * @param sqlDataBase
+	 *            sqlDataBase
 	 * @param year
 	 *            输入查询的年份2000.
 	 * @param month
@@ -671,16 +672,16 @@ public class SQLHelperTotal {
 	 * @return 返回一个3位数组。a[0]为总计流量a[1]总计上传流量a[2]总计下载流量
 	 */
 	// specialfortext TableWiFi----TableMobile
-	public long[] SelectMobileData(Context context, int year, int month,
+	public long[] SelectMobileData(SQLiteDatabase sqlDataBase, int year, int month,
 			int day, int dayset) {
-		return SelectData(context, year, month, day, dayset, TableWiFi);
+		return SelectData( sqlDataBase, year, month, day, dayset, TableWiFi);
 	}
 
 	/**
 	 * 进行移动数据流量从设定时间点到当前的流量查询
 	 * 
-	 * @param context
-	 *            context
+	 * @param sqlDataBase
+	 *            sqlDataBase
 	 * @param year
 	 *            输入查询的年份2000.
 	 * @param month
@@ -693,17 +694,17 @@ public class SQLHelperTotal {
 	 * 
 	 */
 	// specialfortext TableMobile----------TableWiFi
-	public long[] SelectMobileData(Context context, int year, int month,
+	public long[] SelectMobileData(SQLiteDatabase sqlDataBase, int year, int month,
 			int day, String time) {
 
-		return SelectData(context, year, month, day, time, TableWiFi);
+		return SelectData( sqlDataBase, year, month, day, time, TableWiFi);
 	}
 
 	/**
 	 * 进行数据流量历史流量查询
 	 * 
-	 * @param context
-	 *            context
+	 * @param sqlDataBase
+	 *            sqlDataBase
 	 * @param year
 	 *            输入查询的年份2000.
 	 * @param month
@@ -713,9 +714,9 @@ public class SQLHelperTotal {
 	 * @return 返回一个64位数组。a[0]为总计上传流量a[63]为总计下载流量
 	 *         a[1]-a[31]为1号到31号上传流量，a[32]-a[62]为1号到31号下载流量
 	 */
-	private long[] SelectData(Context context, int year, int month, String table) {
+	private long[] SelectData(SQLiteDatabase sqlDataBase, int year, int month,
+			String table) {
 		long[] a = new long[64];
-		SQLiteDatabase sqlDataBase = creatSQLTotal(context);
 		String month2 = month + "";
 		if (month < 10)
 			month2 = "0" + month2;
@@ -802,7 +803,6 @@ public class SQLHelperTotal {
 			}
 		}
 		cur.close();
-		closeSQL(sqlDataBase);
 		// for (int j = 0; j < a.length; j++) {
 		// showLog(j + "liuliang" + a[j] + "");
 		// }
@@ -829,8 +829,8 @@ public class SQLHelperTotal {
 	/**
 	 * 进行数据流量历史累计返回的是到setday之前的那天的数据记录
 	 * 
-	 * @param context
-	 *            context
+	 * @param sqlDataBase
+	 *            sqlDataBase
 	 * @param year
 	 *            输入查询的年份2000.
 	 * @param month
@@ -843,10 +843,9 @@ public class SQLHelperTotal {
 	 *            要查询的数据类型
 	 * @return 返回一个3位数组。a[0]为总计流量a[1]总计上传流量a[2]总计下载流量
 	 */
-	private long[] SelectData(Context context, int year, int month, int day,
+	private long[] SelectData(SQLiteDatabase sqlDataBase, int year, int month, int day,
 			int setday, String table) {
 		long[] a = new long[3];
-		SQLiteDatabase sqlDataBase = creatSQLTotal(context);
 		String month2 = formateMonthAndDay(month);
 		String day2 = formateMonthAndDay(day);
 		String setday2 = formateMonthAndDay(setday - 1);
@@ -907,7 +906,6 @@ public class SQLHelperTotal {
 			}
 		}
 		cur.close();
-		closeSQL(sqlDataBase);
 		a[0] = countup + countdown;
 		a[1] = countup;
 		a[2] = countdown;
@@ -920,8 +918,8 @@ public class SQLHelperTotal {
 	/**
 	 * 输出从输入时间到当天截至的某网络总流量
 	 * 
-	 * @param context
-	 *            context
+	 * @param sqlDataBase
+	 *            sqlDataBase
 	 * @param year
 	 *            输入查询的年份2000.
 	 * @param month
@@ -934,10 +932,9 @@ public class SQLHelperTotal {
 	 *            要查询的数据类型
 	 * @return 返回一个3位数组。a[0]为总计流量a[1]为上传流量a[2]下载流量
 	 */
-	private long[] SelectData(Context context, int year, int month, int day,
+	private long[] SelectData(SQLiteDatabase sqlDataBase, int year, int month, int day,
 			String time, String table) {
 		long[] a = new long[3];
-		SQLiteDatabase sqlDataBase = creatSQLTotal(context);
 		String month2 = month + "";
 		if (month < 10)
 			month2 = "0" + month2;
@@ -977,7 +974,6 @@ public class SQLHelperTotal {
 			}
 		}
 		cur.close();
-		closeSQL(sqlDataBase);
 		a[0] = countdown + countup;
 		a[1] = countup;
 		a[2] = countdown;
@@ -990,8 +986,8 @@ public class SQLHelperTotal {
 	/**
 	 * 进行数据周使用量查询
 	 * 
-	 * @param context
-	 *            context
+	 * @param sqlDataBase
+	 *            sqlDataBase
 	 * @param year
 	 *            输入查询的年份2000.
 	 * @param month
@@ -1003,14 +999,13 @@ public class SQLHelperTotal {
 	 * @return 返回一个6位数组。a[0]为移动网络总计流量a[5]为wifi网络总计流量
 	 *         a[1]-a[2]移动网络的上传，下载流量，a[3]-a[4]为wifi网络的上传，下载流量
 	 */
-	public long[] SelectWeekData(Context context, int year, int month,
+	public long[] SelectWeekData(SQLiteDatabase sqlDataBase, int year, int month,
 			int monthDay, int weekDay) {
 		if (weekDay == 0) {
 			weekDay = 7;
 		}
 		// showLog(weekDay + "");
 		String weekStart = null;
-		SQLiteDatabase sqlDataBase = creatSQLTotal(context);
 		String string = null;
 		string = "select date('now'" + ",'-" + weekDay + " day'" + ")";
 		// showLog(string);
@@ -1113,7 +1108,6 @@ public class SQLHelperTotal {
 			}
 		}
 		cur.close();
-		closeSQL(sqlDataBase);
 		// for (int j = 0; j < a.length; j++) {
 		// showLog(j + "liuliang" + a[j] + "");
 		// }

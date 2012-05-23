@@ -52,11 +52,14 @@ public class AlarmSet {
 
 	public void StartAlarmMobile(Context context) {
 		setdefaulttime(context);
-		TotalAlarmStart(context, totalrefreshtime);
+		setwidgetdefaulttime(context);
+		int totaltime = totalrefreshtime < widgetrefreshtime ? totalrefreshtime
+				: widgetrefreshtime;
+		TotalAlarmStart(context, totaltime);
 		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
 	}
 
-	public void StartAlarmWifi(Context context) {
+	public void StartAlarmUid(Context context) {
 		setdefaulttime(context);
 		UidAlarmStart(context, uidrefreshtime);
 		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
@@ -93,8 +96,8 @@ public class AlarmSet {
 	 */
 	private void setdefaulttime(Context context) {
 		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-		totalrefreshtime = prefs.getInt(TOTAL_REFLASH, 31);
-		uidrefreshtime = prefs.getInt(UID_REFLASH, 121);
+		totalrefreshtime = prefs.getInt(TOTAL_REFLASH, 30);
+		uidrefreshtime = prefs.getInt(UID_REFLASH, 3600);
 	}
 
 	/**
@@ -274,7 +277,7 @@ public class AlarmSet {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("Receiver", string);
+		Log.d("AlarmSet", string);
 	}
 
 }

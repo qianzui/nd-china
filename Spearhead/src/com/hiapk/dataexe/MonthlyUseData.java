@@ -1,9 +1,12 @@
 package com.hiapk.dataexe;
 
+import java.sql.SQLData;
+
 import com.hiapk.sqlhelper.SQLHelperTotal;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.text.format.Time;
 import android.util.Log;
 
@@ -39,10 +42,10 @@ public class MonthlyUseData {
 	/**
 	 * 获取月度使用流量
 	 * 
-	 * @param context
+	 * @param sqlDataBase
 	 * @return 返回使用流量数值
 	 */
-	public long getMonthUseData(Context context) {
+	public long getMonthUseData(Context context, SQLiteDatabase sqlDataBase) {
 		long mobile_month_use = 0;
 		// 取得系统时间。
 		Time t = new Time();
@@ -64,7 +67,8 @@ public class MonthlyUseData {
 		//
 		// 初始化流量获取函数
 		TrafficManager trafficMan = new TrafficManager();
-		mobileTraffic = sqlhelperTotal.SelectMobileData(context, year, month);
+		mobileTraffic = sqlhelperTotal.SelectMobileData(sqlDataBase, year,
+				month);
 		// 月度流量设置
 		// 设置结算日期及结算日期的设施时间，日期等
 		// 结算日期
@@ -98,10 +102,10 @@ public class MonthlyUseData {
 								&& (mobilecountSetYear == year) && ((mobilecountSetMonth + 1) == month))
 						|| ((monthDay < mobilecountSetDay)
 								&& ((mobilecountSetYear + 1) == year) && ((mobilecountSetMonth - 11) == month))) {
-					oneday = sqlhelperTotal.SelectMobileData(context,
+					oneday = sqlhelperTotal.SelectMobileData(sqlDataBase,
 							mobilecountSetYear, mobilecountSetMonth,
 							mobilecountSetDay, mobilecountSetTime);
-					leftday = sqlhelperTotal.SelectMobileData(context,
+					leftday = sqlhelperTotal.SelectMobileData(sqlDataBase,
 							mobilecountSetYear, mobilecountSetMonth,
 							mobilecountSetDay + 1, mobilecountDay);
 					mobile_month_use = oneday[0] + leftday[0];
@@ -120,13 +124,13 @@ public class MonthlyUseData {
 						// 判断跨年
 						if (month != 1) {
 							showlog("非当月，当天到这个月结算日无跨年");
-							leftday = sqlhelperTotal.SelectMobileData(context,
+							leftday = sqlhelperTotal.SelectMobileData(sqlDataBase,
 									year, month - 1, mobilecountDay,
 									mobilecountDay);
 							mobile_month_use = leftday[0];
 						} else {
 							showlog("非当月，当天到这个月结算日跨年去年12月结算日到今年1月结算日");
-							leftday = sqlhelperTotal.SelectMobileData(context,
+							leftday = sqlhelperTotal.SelectMobileData(sqlDataBase,
 									year - 1, 12, mobilecountDay,
 									mobilecountDay);
 							mobile_month_use = leftday[0];
@@ -135,7 +139,7 @@ public class MonthlyUseData {
 					} else {
 						showlog("非当月，当天到下个月结算日");
 						showlog("monthDay >= mobilecountDay");
-						leftday = sqlhelperTotal.SelectMobileData(context,
+						leftday = sqlhelperTotal.SelectMobileData(sqlDataBase,
 								year, month, mobilecountDay, mobilecountDay);
 						mobile_month_use = leftday[0];
 					}
@@ -161,10 +165,10 @@ public class MonthlyUseData {
 						|| ((monthDay < mobilecountSetDay)
 								&& ((mobilecountSetYear + 1) == year) && ((mobilecountSetMonth - 11) == month))) {
 					showlog("当月，今天开始到下个月结算日");
-					oneday = sqlhelperTotal.SelectMobileData(context,
+					oneday = sqlhelperTotal.SelectMobileData(sqlDataBase,
 							mobilecountSetYear, mobilecountSetMonth,
 							mobilecountSetDay, mobilecountSetTime);
-					leftday = sqlhelperTotal.SelectMobileData(context,
+					leftday = sqlhelperTotal.SelectMobileData(sqlDataBase,
 							mobilecountSetYear, mobilecountSetMonth,
 							mobilecountSetDay + 1, mobilecountDay);
 					mobile_month_use = oneday[0] + leftday[0];
@@ -173,13 +177,13 @@ public class MonthlyUseData {
 						// 判断跨年
 						if (month != 1) {
 							showlog("非当月，当天到这个月结算日无跨年");
-							leftday = sqlhelperTotal.SelectMobileData(context,
+							leftday = sqlhelperTotal.SelectMobileData(sqlDataBase,
 									year, month - 1, mobilecountDay,
 									mobilecountDay);
 							mobile_month_use = leftday[0];
 						} else {
 							showlog("非当月，当天到这个月结算日跨年去年12月结算日到今年1月结算日");
-							leftday = sqlhelperTotal.SelectMobileData(context,
+							leftday = sqlhelperTotal.SelectMobileData(sqlDataBase,
 									year - 1, 12, mobilecountDay,
 									mobilecountDay);
 							mobile_month_use = leftday[0];
@@ -187,7 +191,7 @@ public class MonthlyUseData {
 						// 当前日期在设置的结算日之后
 					} else {
 						showlog("非当月，当天到下个月结算日");
-						leftday = sqlhelperTotal.SelectMobileData(context,
+						leftday = sqlhelperTotal.SelectMobileData(sqlDataBase,
 								year, month, mobilecountDay, mobilecountDay);
 						mobile_month_use = leftday[0];
 					}
@@ -213,16 +217,16 @@ public class MonthlyUseData {
 								&& ((mobilecountSetYear + 1) == year) && ((mobilecountSetMonth - 11) == month))) {
 					if ((mobilecountSetDay + 1) == mobilecountDay) {
 						showlog("当月，今天开始今天结束");
-						oneday = sqlhelperTotal.SelectMobileData(context,
+						oneday = sqlhelperTotal.SelectMobileData(sqlDataBase,
 								mobilecountSetYear, mobilecountSetMonth,
 								mobilecountSetDay, mobilecountSetTime);
 						mobile_month_use = oneday[0];
 					} else {
 						showlog("当月，今天开始到这个月结算日");
-						oneday = sqlhelperTotal.SelectMobileData(context,
+						oneday = sqlhelperTotal.SelectMobileData(sqlDataBase,
 								mobilecountSetYear, mobilecountSetMonth,
 								mobilecountSetDay, mobilecountSetTime);
-						leftday = sqlhelperTotal.SelectMobileData(context,
+						leftday = sqlhelperTotal.SelectMobileData(sqlDataBase,
 								mobilecountSetYear, mobilecountSetMonth,
 								mobilecountSetDay + 1, mobilecountDay);
 						mobile_month_use = oneday[0] + leftday[0];
@@ -234,13 +238,13 @@ public class MonthlyUseData {
 						// 判断跨年
 						if (month != 1) {
 							showlog("非当月，当天到这个月结算日无跨年");
-							leftday = sqlhelperTotal.SelectMobileData(context,
+							leftday = sqlhelperTotal.SelectMobileData(sqlDataBase,
 									year, month - 1, mobilecountDay,
 									mobilecountDay);
 							mobile_month_use = leftday[0];
 						} else {
 							showlog("非当月，当天到这个月结算日跨年去年的12月结算日到今年1月的结算日");
-							leftday = sqlhelperTotal.SelectMobileData(context,
+							leftday = sqlhelperTotal.SelectMobileData(sqlDataBase,
 									year - 1, 12, mobilecountDay,
 									mobilecountDay);
 							mobile_month_use = leftday[0];
@@ -248,7 +252,7 @@ public class MonthlyUseData {
 						// 当前日期在设置的结算日之后
 					} else {
 						showlog("非当月，当天到下个月结算日");
-						leftday = sqlhelperTotal.SelectMobileData(context,
+						leftday = sqlhelperTotal.SelectMobileData(sqlDataBase,
 								year, month, mobilecountDay, mobilecountDay);
 						mobile_month_use = leftday[0];
 					}

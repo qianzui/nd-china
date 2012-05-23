@@ -2,6 +2,8 @@ package com.hiapk.spearhead;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
@@ -19,6 +21,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.DisplayMetrics;
@@ -67,7 +70,8 @@ public class Main extends Activity {
 	String SYS_PRE_CLEAR_DATA = "cleardata";
 	SharedPrefrenceData sharedData;
 	TrafficManager trafficManager = new TrafficManager();
-
+	// fortest
+		long time;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -286,6 +290,15 @@ public class Main extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+
+		if (TrafficManager.mobile_month_data[0] == 0
+				&& TrafficManager.wifi_month_data[0] == 0
+				&& TrafficManager.mobile_month_data[63] == 0
+				&& TrafficManager.wifi_month_data[63] == 0) {
+
+			new AsyncTaskonRefreshMain().execute(context);
+		}
+
 		// 数据记录功能，放在flesh上面
 		// AlarmSet alset = new AlarmSet();
 		// // 初始化网络状态
@@ -300,11 +313,35 @@ public class Main extends Activity {
 		// alset.StartAlarmMobile(context);
 		// sqlhelperTotal.initTablemobileAndwifi(context);
 		// }
+//		time=System.currentTimeMillis();
 		initValues();
 		initProgressBar();
 		initPieBar();
 		initWifiBar();
+//		time = System.currentTimeMillis() - time;
+//		showlog("更新main" + time);
+	}
 
+	private class AsyncTaskonRefreshMain extends AsyncTask<Context, Long, Long> {
+		@Override
+		protected Long doInBackground(Context... params) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Long result) {
+			// TODO Auto-generated method stub
+			initValues();
+			initProgressBar();
+			initPieBar();
+			initWifiBar();
+		}
 	}
 
 	private void setonrefreshclicklistens() {
