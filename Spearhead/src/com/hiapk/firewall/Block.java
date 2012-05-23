@@ -3,7 +3,6 @@ package com.hiapk.firewall;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
@@ -13,23 +12,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.spearhead.R;
-
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.util.Log;
 import android.widget.Toast;
 
 public class Block {
-	/** application version string */
+
 	private static final String VERSION = "1.5.1c";
 	/** special application UID used to indicate "any application" */
 	private static final int SPECIAL_UID_ANY = -10;
@@ -160,12 +152,30 @@ public class Block {
 				script.append("$IPTABLES -A droidwall -o ").append(itf)
 						.append(" -j droidwall-wifi || exit\n");
 			}
-
+			
 			script.append("# Filtering rules\n");
 			final String targetRule = (whitelist ? "RETURN"
 					: "droidwall-reject");
 			final boolean any_3g = uids3g.indexOf(SPECIAL_UID_ANY) >= 0;
 			final boolean any_wifi = uidsWifi.indexOf(SPECIAL_UID_ANY) >= 0;
+			if (whitelist && !any_wifi) {
+				// When "white listing" wifi, we need to ensure that the dhcp
+				// and wifi users are allowed
+				int uid = android.os.Process.getUidForName("dhcp");
+				if (uid != -1) {
+					script.append("# dhcp user\n");
+					script.append(
+							"$IPTABLES -A droidwall-wifi -m owner --uid-owner ")
+							.append(uid).append(" -j RETURN || exit\n");
+				}
+				uid = android.os.Process.getUidForName("wifi");
+				if (uid != -1) {
+					script.append("# wifi user\n");
+					script.append(
+							"$IPTABLES -A droidwall-wifi -m owner --uid-owner ")
+							.append(uid).append(" -j RETURN || exit\n");
+				}
+			}
 			if (any_3g) {
 				if (blacklist) {
 					/* block any application on this interface */
@@ -228,7 +238,8 @@ public class Block {
 				}
 			}
 			final StringBuilder res = new StringBuilder();
-			code = runScript(ctx, script.toString(), res);
+			code = runScriptAsRoot(ctx, script.toString(), res);
+//			code = runScript(ctx, script.toString(), res);
 			if (showErrors && code != 0) {
 				String msg = res.toString();
 				Log.e("DroidWall", msg);
@@ -239,15 +250,10 @@ public class Block {
 									"\nTry `iptables -h' or 'iptables --help' for more information.",
 									"");
 				}
-				{
-					SharedPrefrenceData sharedData = new SharedPrefrenceData(
-							ctx);
-					sharedData.setHasRoot(false);
 					alert(ctx, "Ó¦ÓÃ·À»ðÇ½³ö´í: " + code + "\n\n"
-					// + msg.trim()
+					 + msg.trim()
 					);
-				}
-				Log.i("...000", code + "");
+			
 			} else {
 				return true;
 			}
@@ -317,7 +323,7 @@ public class Block {
 	public static boolean purgeIptables(Context ctx, boolean showErrors) {
 		StringBuilder res = new StringBuilder();
 		try {
-			// assertBinaries(ctx, showErrors);
+			 GetRoot.assertBinaries(ctx, showErrors);
 			int code = runScriptAsRoot(ctx, scriptHeader(ctx)
 					+ "$IPTABLES -F droidwall\n"
 					+ "$IPTABLES -F droidwall-reject\n"
@@ -337,22 +343,6 @@ public class Block {
 		}
 	}
 
-	// /**
-	// * Display iptables rules output
-	// *
-	// * @param ctx
-	// * application context
-	// */
-	// public static void showIptablesRules(Context ctx) {
-	// try {
-	// final StringBuilder res = new StringBuilder();
-	// runScriptAsRoot(ctx, scriptHeader(ctx) + "$ECHO $IPTABLES\n"
-	// + "$IPTABLES -L -v\n", res);
-	// alert(ctx, res);
-	// } catch (Exception e) {
-	// alert(ctx, "error: " + e);
-	// }
-	// }
 
 	/**
 	 * Runs a script as root (multiple commands separated by "\n").
@@ -390,7 +380,7 @@ public class Block {
 	 */
 	public static int runScriptAsRoot(Context ctx, String script,
 			StringBuilder res) throws IOException {
-		return runScriptAsRoot(ctx, script, res, 40000);
+		return runScriptAsRoot(ctx, script, res, 20000);
 	}
 
 	/**
@@ -591,7 +581,6 @@ public class Block {
 					newuids_3g.append('|');
 				newuids_3g.append(entry.getKey());
 			}
-
 		}
 
 		final Editor edit = prefs.edit();
@@ -692,8 +681,6 @@ public class Block {
 		final Editor edit = prefs.edit();
 		edit.putBoolean(PREF_SHOW, isShow);
 		edit.commit();
-		Log.i("............", isShow + "");
-		Log.i("............", prefs.getBoolean(PREF_SHOW, true) + "");
 	}
 
 }
