@@ -13,6 +13,13 @@
 	<string name="weekUsed">本周已用:\u0020</string>
 	<string name="monthTotal">本月统计:\u0020</string>
 	
+	<string name="tip">注意</string>
+	<string name="tip_content">自定义应用程序的联网方式需要Root权限! 
+	    \n (更多信息请查看FAQ)</string>
+	<string name="tip_content_isroot">\n 是否获取？</string>  
+	<string name="ok">确定</string>
+	<string name="cancle">取消</string>
+	<string name="fire_applyed">防火墙已应用成功！</string>
 	<item type="id" name="tag_holder"></item>
 	<item type="id" name="tag_pkgname"></item>
 	<item type="id" name="tag_traffic_up"></item>
