@@ -11,7 +11,7 @@ import com.hiapk.firewall.MyListView;
 import com.hiapk.firewall.MyListView.OnRefreshListener;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
-
+import com.hiapk.uidtraff.UidMonthTraff;
 
 import android.Manifest;
 import android.app.Activity;
@@ -64,13 +64,13 @@ public class FireWallActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main2);
-		
-		if(Block.fireTip(mContext)){
-		    Toast toast_refresh = 
-		    Toast.makeText(mContext, "下拉列表可以进行刷新!", Toast.LENGTH_SHORT);
-		    toast_refresh.show();
+
+		if (Block.fireTip(mContext)) {
+			Toast toast_refresh = Toast.makeText(mContext, "下拉列表可以进行刷新!",
+					Toast.LENGTH_SHORT);
+			toast_refresh.show();
 		}
-		
+
 		initList();
 
 	}
@@ -87,7 +87,7 @@ public class FireWallActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				map = (HashMap)arg1.getTag(R.id.tag_map);
+				map = (HashMap) arg1.getTag(R.id.tag_map);
 				menuDialog(arg1);
 			}
 		});
@@ -98,6 +98,7 @@ public class FireWallActivity extends Activity {
 					protected Void doInBackground(Void... params) {
 						return null;
 					}
+
 					@Override
 					protected void onPostExecute(Void result) {
 						appListAdapter.notifyDataSetChanged();
@@ -107,32 +108,32 @@ public class FireWallActivity extends Activity {
 			}
 		});
 	}
-	//排序
-	public ArrayList<PackageInfo> getCompList( ArrayList<PackageInfo> appList)
-	{
-        traffic = new  long[appList.size()];
-        int[] number = new int[traffic.length];
-        
+
+	// 排序
+	public ArrayList<PackageInfo> getCompList(ArrayList<PackageInfo> appList) {
+		traffic = new long[appList.size()];
+		int[] number = new int[traffic.length];
+
 		for (int i = 0; i < traffic.length; i++) {
 			int uid = appList.get(i).applicationInfo.uid;
-			traffic[i]=TrafficStats.getUidRxBytes(uid)
-    		+ TrafficStats.getUidTxBytes(uid) ;	
+			traffic[i] = TrafficStats.getUidRxBytes(uid)
+					+ TrafficStats.getUidTxBytes(uid);
 		}
-		
+
 		for (int i = 0; i < traffic.length; i++) {
 			number[i] = i;
 		}
 		for (int i = 0; i < traffic.length; i++) {
 			long temp = 0;
-			int k=0;
+			int k = 0;
 			for (int j = i; j < traffic.length; j++) {
 				if (traffic[j] > temp) {
 					temp = traffic[j];
-					traffic[j]=traffic[i];
-					traffic[i]=temp;
-					k=number[j];
-					number[j]=number[i];
-					number[i]=k;
+					traffic[j] = traffic[i];
+					traffic[i] = temp;
+					k = number[j];
+					number[j] = number[i];
+					number[i] = k;
 				}
 			}
 		}
@@ -144,7 +145,7 @@ public class FireWallActivity extends Activity {
 		return myAppList;
 	}
 
-	//获取应用列表
+	// 获取应用列表
 	public ArrayList<PackageInfo> getInstalledPackageInfo(Context context) {
 		packageInfo = context.getPackageManager().getInstalledPackages(0);
 		ArrayList<PackageInfo> appList = new ArrayList<PackageInfo>();
@@ -160,17 +161,18 @@ public class FireWallActivity extends Activity {
 				// 获取总流量
 				if ((pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0
 						&& (pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == 0) {
-					
-//					 if(TrafficStats.getUidRxBytes(pkgInfo.applicationInfo.uid)
-//	                    		+ TrafficStats.getUidTxBytes(pkgInfo.applicationInfo.uid) > 0)
-//	                    {
+
+					// if(TrafficStats.getUidRxBytes(pkgInfo.applicationInfo.uid)
+					// + TrafficStats.getUidTxBytes(pkgInfo.applicationInfo.uid)
+					// > 0)
+					// {
 					appList.add(pkgInfo);
-//	                    }
+					// }
 				} else {
 				}
 			}
 		}
-		
+
 		return appList;
 	}
 
@@ -192,21 +194,21 @@ public class FireWallActivity extends Activity {
 	public void menuDialog(View arg1) {
 
 		final CharSequence[] items = { "应用管理", "卸载", "流量详情", "返回" };
-		
-		final PackageInfo pkgInfo = (PackageInfo)arg1.getTag(R.id.tag_pkginfo);
-		final Drawable icon = pkgInfo.applicationInfo.loadIcon(mContext.getPackageManager());
+
+		final PackageInfo pkgInfo = (PackageInfo) arg1.getTag(R.id.tag_pkginfo);
+		final Drawable icon = pkgInfo.applicationInfo.loadIcon(mContext
+				.getPackageManager());
 		final int uid = pkgInfo.applicationInfo.uid;
 		final String pkname = pkgInfo.applicationInfo.packageName;
-		final String appname = pkgInfo.applicationInfo.loadLabel(mContext.getPackageManager()).toString();
-		
+		final String appname = pkgInfo.applicationInfo.loadLabel(
+				mContext.getPackageManager()).toString();
+
 		long down = judge(TrafficStats.getUidRxBytes(uid));
 		long up = judge(TrafficStats.getUidTxBytes(uid));
 		final String trafficup = unitHandler(up);
 		final String trafficdown = unitHandler(down);
-		
-		final 
-		
-		AlertDialog dlg = new AlertDialog.Builder(FireWallActivity.this)
+
+		final AlertDialog dlg = new AlertDialog.Builder(FireWallActivity.this)
 				.setTitle("请选择")
 				.setItems(items, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int item) {
@@ -240,8 +242,9 @@ public class FireWallActivity extends Activity {
 
 												}
 											})
-									 .setNegativeButton(
-											 "历史记录", new DialogInterface.OnClickListener() {
+									.setNegativeButton(
+											"历史统计",
+											new DialogInterface.OnClickListener() {
 
 												@Override
 												public void onClick(
@@ -249,7 +252,13 @@ public class FireWallActivity extends Activity {
 														int which) {
 													// TODO Auto-generated
 													// method stub
-
+													Intent intent=new Intent();
+													intent.setClass(mContext, UidMonthTraff.class);
+													Bundle bData = new Bundle();
+													bData.putInt("uid", uid);
+													bData.putString("appname", appname);
+													intent.putExtras(bData);
+													mContext.startActivity(intent);
 												}
 											}).show();
 						} else {
@@ -258,17 +267,13 @@ public class FireWallActivity extends Activity {
 				}).create();
 		dlg.show();
 	}
-	
-	public long judge(long tff)
-	{
-		if(tff == -1)
-		tff = 0 ;
+
+	public long judge(long tff) {
+		if (tff == -1)
+			tff = 0;
 		return tff;
 	}
-	
 
-	
-	
 	public static void showInstalledAppDetails(Context context,
 			String packageName) {
 		Intent intent = new Intent();
@@ -287,7 +292,7 @@ public class FireWallActivity extends Activity {
 		}
 		context.startActivity(intent);
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
@@ -297,7 +302,4 @@ public class FireWallActivity extends Activity {
 		return super.onKeyDown(keyCode, event);
 	}
 
-
-	
-	
 }

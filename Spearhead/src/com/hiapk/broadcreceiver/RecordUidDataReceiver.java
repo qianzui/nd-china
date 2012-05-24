@@ -18,6 +18,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 	SQLHelperUid sqlhelperUid = new SQLHelperUid();
 	SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 	long time;
+	private String network;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -25,6 +26,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 		// showLog("TableWiFiOrG23=" + SQLHelperTotal.TableWiFiOrG23);
 		if (sqlhelperTotal.getIsInit(context)) {
 			if (SQLHelperTotal.TableWiFiOrG23 != "") {
+				network=SQLHelperTotal.TableWiFiOrG23;
 				if (SQLHelperTotal.isSQLUidOnUsed != true) {
 					new AsyncTaskonRecordUidData().execute(context);
 					// showLog(SQLHelperTotal.TableWiFiOrG23);
@@ -66,9 +68,10 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 		try {
 			// 更新数据
 			sqlhelperUid.updateSQLUidTypes(sqlDataBase,
-					SQLHelperUid.uidnumbers, 1, SQLHelperTotal.TableWiFiOrG23,
+					SQLHelperUid.uidnumbers, 1, network,
 					1);
-
+			//记录数据
+			sqlhelperUid.RecordUidwritestats(sqlDataBase, SQLHelperUid.uidnumbers, false, network);
 			sqlDataBase.setTransactionSuccessful();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -88,6 +91,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			super.onPreExecute();
 			time = System.currentTimeMillis();
 			SQLHelperTotal.isSQLUidOnUsed = true;
+			
 		}
 
 		@Override
@@ -143,7 +147,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			}
 
 			SQLHelperUidTotal sqlUidTotal = new SQLHelperUidTotal();
-			sqlUidTotal.updateSQLUidTypes(params[0], SQLHelperUid.uidnumbers,SQLHelperTotal.TableWiFiOrG23);
+			sqlUidTotal.updateSQLUidTypes(params[0], SQLHelperUid.uidnumbers,network);
 			return 1;
 		}
 

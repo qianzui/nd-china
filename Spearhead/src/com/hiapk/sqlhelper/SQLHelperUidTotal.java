@@ -429,6 +429,82 @@ public class SQLHelperUidTotal {
 	}
 
 	/**
+	 * 查询uid总流量
+	 * 
+	 * @param sqlDataBase
+	 *            sqlDataBase
+	 * @param uidnumber
+	 *            要查询的uid
+	 * @return 返回一个2位数组。rate[0]为总计mobile，rate[1]为wifi
+	 */
+	public long[] SelectUidNetData(Context context, int uidnumber) {
+		SQLiteDatabase sqlDataBase = creatSQLUidTotal(context);
+		long[] mobileData = new long[3];
+		long[] wifiData = new long[3];
+		mobileData = SelectUidNetTotalData(sqlDataBase, uidnumber, "mobile");
+		wifiData = SelectUidNetTotalData(sqlDataBase, uidnumber, "wifi");
+		closeSQL(sqlDataBase);
+		long[] rate = new long[2];
+		rate[0] = mobileData[0];
+		rate[1] = wifiData[0];
+		// for (int j = 0; j < a.length; j++) {
+		// showLog(j + "liuliang" + a[j] + "");
+		// }
+		return rate;
+	}
+
+	/**
+	 * 查询uid分流量
+	 * 
+	 * @param sqlDataBase
+	 *            sqlDataBase
+	 * @param uidnumber
+	 *            要查询的uid
+	 * @return 返回一个3位数组。a[0]为总流量a[1]为总计上传流量a[2]为总计下载流量
+	 */
+	private long[] SelectUidNetTotalData(SQLiteDatabase sqlDataBase,
+			int uidnumber, String other) {
+		long[] a = new long[3];
+		String string = null;
+		// select oldest upload and download 之前记录的数据的查询操作
+		// SELECT * FROM table WHERE type=0
+		string = SelectTable + TableUidTotal + Where + "type='" + 2 + AND
+				+ "uid='" + uidnumber + AND + "other='" + other + "'";
+		// showLog(string);
+		try {
+			cur = sqlDataBase.rawQuery(string, null);
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog("error@" + string);
+		}
+		long newup = 0;
+		long newdown = 0;
+		if (cur != null) {
+			try {
+				int uploadIndex = cur.getColumnIndex("upload");
+				int downloadIndex = cur.getColumnIndex("download");
+				// showLog(cur.getColumnIndex("minute") + "");
+				if (cur.moveToFirst()) {
+					newup = cur.getLong(uploadIndex);
+					newdown = cur.getLong(downloadIndex);
+					a[1] = newup;
+					a[2] = newdown;
+					a[0] = newup + newdown;
+					// showLog("a[0]="+a[0]);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				showLog("cur-searchfail");
+			}
+		}
+		cur.close();
+		// for (int j = 0; j < a.length; j++) {
+		// showLog(j + "liuliang" + a[j] + "");
+		// }
+		return a;
+	}
+
+	/**
 	 * 初始化流量数据
 	 * 
 	 * @param uidnumber
