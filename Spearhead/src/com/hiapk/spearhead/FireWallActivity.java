@@ -229,6 +229,18 @@ public class FireWallActivity extends Activity {
 													// method stub
 
 												}
+											})
+									 .setNegativeButton(
+											 "ÀúÊ·¼ÇÂ¼", new DialogInterface.OnClickListener() {
+
+												@Override
+												public void onClick(
+														DialogInterface dialog,
+														int which) {
+													// TODO Auto-generated
+													// method stub
+
+												}
 											}).show();
 						} else {
 						}
