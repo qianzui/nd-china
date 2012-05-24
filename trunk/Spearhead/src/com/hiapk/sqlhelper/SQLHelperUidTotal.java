@@ -205,20 +205,21 @@ public class SQLHelperUidTotal {
 	 * @param typechange
 	 *            改变type值
 	 */
-	public void updateSQLUidTypes(Context context, int[] uidnumbers) {
+	public void updateSQLUidTypes(Context context, int[] uidnumbers,
+			String network) {
 		// TODO Auto-generated method stub
 		SQLHelperTotal.isSQLUidTotalOnUsed = true;
-		String other = SQLHelperTotal.TableWiFiOrG23;
+		// String other = SQLHelperTotal.TableWiFiOrG23;
 		SQLiteDatabase sqlDataBase = creatSQLUidTotal(context);
 		sqlDataBase.beginTransaction();
 		try {
 			for (int uidnumber : uidnumbers) {
-				updateSQLUidType(sqlDataBase, uidnumber, other);
+				updateSQLUidTotal(sqlDataBase, uidnumber, network);
 			}
 			sqlDataBase.setTransactionSuccessful();
 		} catch (Exception e) {
 			// TODO: handle exception
-			showLog("批量输入uid网络数据失败");
+			showLog("批量输入uidTotal网络数据失败");
 		} finally {
 			sqlDataBase.endTransaction();
 			SQLHelperTotal.isSQLUidTotalOnUsed = false;
@@ -340,7 +341,7 @@ public class SQLHelperUidTotal {
 	 * @param uidnumber
 	 *            数据库的表：uid的table表的uid号
 	 */
-	private void updateSQLUidType(SQLiteDatabase mySQL, int uidnumber,
+	private void updateSQLUidTotal(SQLiteDatabase mySQL, int uidnumber,
 			String other) {
 		// 获得之前记录的临时数据流量
 		long[] beforeData1 = SelectUidTotalData(mySQL, uidnumber, 1);
@@ -365,9 +366,9 @@ public class SQLHelperUidTotal {
 				newdownload = uiddownload;
 			}
 			// 更新两个数据
-			updateSQLUidType(mySQL, uidnumber, beforeData2[1] + newupload,
+			updateSQLUidTotalType(mySQL, uidnumber, beforeData2[1] + newupload,
 					beforeData2[2] + newdownload, 2, other);
-			updateSQLUidType(mySQL, uidnumber, uidupload, uiddownload, 1);
+			updateSQLUidTotalType(mySQL, uidnumber, uidupload, uiddownload, 1);
 		}
 
 	}
@@ -381,7 +382,7 @@ public class SQLHelperUidTotal {
 	 * @param upload
 	 * @param download
 	 */
-	private void updateSQLUidType(SQLiteDatabase mySQL, int uidnumber,
+	private void updateSQLUidTotalType(SQLiteDatabase mySQL, int uidnumber,
 			long upload, long download, int type, String other) {
 		String string = null;
 		string = UpdateTable + TableUidTotal + UpdateSet + "upload='" + upload
@@ -409,7 +410,7 @@ public class SQLHelperUidTotal {
 	 * @param upload
 	 * @param download
 	 */
-	private void updateSQLUidType(SQLiteDatabase mySQL, int uidnumber,
+	private void updateSQLUidTotalType(SQLiteDatabase mySQL, int uidnumber,
 			long upload, long download, int type) {
 		String string = null;
 		string = UpdateTable + TableUidTotal + UpdateSet + "upload='" + upload

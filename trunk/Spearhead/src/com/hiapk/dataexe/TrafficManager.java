@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.sqlhelper.SQLHelperTotal;
+import com.hiapk.sqlhelper.SQLHelperUid;
 
 /**
  * 用于获取各种流量数据的总类
@@ -15,6 +16,7 @@ import com.hiapk.sqlhelper.SQLHelperTotal;
  */
 public class TrafficManager {
 	SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
+	SQLHelperUid sqlhelperUid = new SQLHelperUid();
 	MobileTraffic mobileTraffic = new MobileTraffic();
 	public static long mobile_month_use_afterSet = 0;
 	public static long[] wifi_month_data = new long[64];
@@ -99,24 +101,54 @@ public class TrafficManager {
 	// return monthtraffic;
 	// }
 
-	/**
-	 * 记录wifi，mobile流量数据
-	 * 
-	 * @param context
-	 * @param forcerecored
-	 *            true则强制记录，false则不记录流量为0的数据固定为false
-	 */
-	public void statsTotalTraffic(Context context, boolean forcerecored) {
-		if (SQLHelperTotal.isSQLTotalOnUsed != true) {
-			SQLHelperTotal.isSQLTotalOnUsed = true;
-			sqlhelperTotal.RecordTotalwritestats(context, true);
-			SQLHelperTotal.isSQLTotalOnUsed = false;
-			showLog("数据记录成功");
-		} else {
-			showLog("特殊情况未进行记录记录");
-		}
-
-	}
+//	/**
+//	 * 记录wifi，mobile流量数据
+//	 * 
+//	 * @param context
+//	 * @param forcerecored
+//	 *            true则强制记录，false则不记录流量为0的数据固定为false
+//	 */
+//	public void statsTotalTraffic(Context context, boolean forcerecored,
+//			String network) {
+//		if (SQLHelperTotal.isSQLTotalOnUsed != true) {
+//			SQLHelperTotal.isSQLTotalOnUsed = true;
+//			sqlhelperTotal.RecordTotalwritestats(context, true, network);
+//			SQLHelperTotal.isSQLTotalOnUsed = false;
+//			showLog("数据total记录成功");
+//		} else {
+//			showLog("特殊情况未进行记录记录");
+//		}
+//	}
+//
+//	/**
+//	 * 记录wifi，mobile流量数据
+//	 * 
+//	 * @param context
+//	 * @param forcerecored
+//	 *            true则强制记录，false则不记录流量为0的数据固定为false
+//	 */
+//	public void statsUidTraffic(Context context, boolean forcerecored,
+//			String network) {
+//		if (SQLHelperTotal.isSQLUidOnUsed != true) {
+//			SQLHelperTotal.isSQLUidOnUsed = true;
+//			if (SQLHelperUid.uidnumbers == null) {
+//				if (SQLHelperTotal.isSQLIndexOnUsed == false) {
+//					SQLHelperTotal.isSQLIndexOnUsed = true;
+//					SQLHelperUid.uidnumbers = sqlhelperUid
+//							.selectSQLUidnumbers(context);
+//					SQLHelperTotal.isSQLIndexOnUsed = false;
+//				}
+//
+//			}
+//			if (SQLHelperUid.uidnumbers != null)
+//				sqlhelperUid.RecordUidwritestats(context,
+//						SQLHelperUid.uidnumbers, true, network);
+//			SQLHelperTotal.isSQLUidOnUsed = false;
+//			showLog("数据uid记录成功-traff");
+//		} else {
+//			showLog("特殊情况未进行记录记录");
+//		}
+//	}
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub

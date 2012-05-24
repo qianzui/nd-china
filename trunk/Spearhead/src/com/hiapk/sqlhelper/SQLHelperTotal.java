@@ -74,6 +74,10 @@ public class SQLHelperTotal {
 	public static boolean isSQLIndexOnUsed = false;
 	public static boolean isSQLUidTotalOnUsed = false;
 
+	public static void setTableWiFiOrG23(String temp) {
+
+	}
+
 	/**
 	 * 创建总数据库
 	 * 
@@ -587,15 +591,16 @@ public class SQLHelperTotal {
 	 * @param daily
 	 *            true则强制记录，false则不记录流量为0的数据
 	 */
-	public void RecordTotalwritestats(SQLiteDatabase sqlDataBase, boolean daily) {
+	public void RecordTotalwritestats(SQLiteDatabase sqlDataBase,
+			boolean daily, String network) {
 		// TODO Auto-generated method stub
 		// 自动进行数据记录---不记录上传下载为0的数据
-		if (!TableWiFiOrG23.equals("")) {
+		if (!network.equals("")) {
 			// SQLiteDatabase sqlDataBase = creatSQLTotal(context);
-			initTotalData(TableWiFiOrG23);
+			initTotalData(network);
 			initTime();
-			statsSQLtotal(sqlDataBase, TableWiFiOrG23, date, time, upload,
-					download, 2, null, daily);
+			statsSQLtotal(sqlDataBase, network, date, time, upload, download,
+					2, null, daily);
 			// closeSQL(sqlDataBase);
 		}
 	}
@@ -607,15 +612,16 @@ public class SQLHelperTotal {
 	 * @param daily
 	 *            true则强制记录，false则不记录流量为0的数据
 	 */
-	public void RecordTotalwritestats(Context context, boolean daily) {
+	public void RecordTotalwritestats(Context context, boolean daily,
+			String network) {
 		// TODO Auto-generated method stub
 		// 自动进行数据记录---不记录上传下载为0的数据
-		if (!TableWiFiOrG23.equals("")) {
+		if (!network.equals("")) {
 			SQLiteDatabase sqlDataBase = creatSQLTotal(context);
-			initTotalData(TableWiFiOrG23);
+			initTotalData(network);
 			initTime();
-			statsSQLtotal(sqlDataBase, TableWiFiOrG23, date, time, upload,
-					download, 2, null, daily);
+			statsSQLtotal(sqlDataBase, network, date, time, upload, download,
+					2, null, daily);
 			closeSQL(sqlDataBase);
 		}
 	}
@@ -672,9 +678,9 @@ public class SQLHelperTotal {
 	 * @return 返回一个3位数组。a[0]为总计流量a[1]总计上传流量a[2]总计下载流量
 	 */
 	// specialfortext TableWiFi----TableMobile
-	public long[] SelectMobileData(SQLiteDatabase sqlDataBase, int year, int month,
-			int day, int dayset) {
-		return SelectData( sqlDataBase, year, month, day, dayset, TableWiFi);
+	public long[] SelectMobileData(SQLiteDatabase sqlDataBase, int year,
+			int month, int day, int dayset) {
+		return SelectData(sqlDataBase, year, month, day, dayset, TableWiFi);
 	}
 
 	/**
@@ -694,10 +700,10 @@ public class SQLHelperTotal {
 	 * 
 	 */
 	// specialfortext TableMobile----------TableWiFi
-	public long[] SelectMobileData(SQLiteDatabase sqlDataBase, int year, int month,
-			int day, String time) {
+	public long[] SelectMobileData(SQLiteDatabase sqlDataBase, int year,
+			int month, int day, String time) {
 
-		return SelectData( sqlDataBase, year, month, day, time, TableWiFi);
+		return SelectData(sqlDataBase, year, month, day, time, TableWiFi);
 	}
 
 	/**
@@ -843,8 +849,8 @@ public class SQLHelperTotal {
 	 *            要查询的数据类型
 	 * @return 返回一个3位数组。a[0]为总计流量a[1]总计上传流量a[2]总计下载流量
 	 */
-	private long[] SelectData(SQLiteDatabase sqlDataBase, int year, int month, int day,
-			int setday, String table) {
+	private long[] SelectData(SQLiteDatabase sqlDataBase, int year, int month,
+			int day, int setday, String table) {
 		long[] a = new long[3];
 		String month2 = formateMonthAndDay(month);
 		String day2 = formateMonthAndDay(day);
@@ -932,8 +938,8 @@ public class SQLHelperTotal {
 	 *            要查询的数据类型
 	 * @return 返回一个3位数组。a[0]为总计流量a[1]为上传流量a[2]下载流量
 	 */
-	private long[] SelectData(SQLiteDatabase sqlDataBase, int year, int month, int day,
-			String time, String table) {
+	private long[] SelectData(SQLiteDatabase sqlDataBase, int year, int month,
+			int day, String time, String table) {
 		long[] a = new long[3];
 		String month2 = month + "";
 		if (month < 10)
@@ -999,8 +1005,8 @@ public class SQLHelperTotal {
 	 * @return 返回一个6位数组。a[0]为移动网络总计流量a[5]为wifi网络总计流量
 	 *         a[1]-a[2]移动网络的上传，下载流量，a[3]-a[4]为wifi网络的上传，下载流量
 	 */
-	public long[] SelectWeekData(SQLiteDatabase sqlDataBase, int year, int month,
-			int monthDay, int weekDay) {
+	public long[] SelectWeekData(SQLiteDatabase sqlDataBase, int year,
+			int month, int monthDay, int weekDay) {
 		if (weekDay == 0) {
 			weekDay = 7;
 		}

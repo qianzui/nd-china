@@ -71,7 +71,8 @@ public class Main extends Activity {
 	SharedPrefrenceData sharedData;
 	TrafficManager trafficManager = new TrafficManager();
 	// fortest
-		long time;
+	long time;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -313,13 +314,13 @@ public class Main extends Activity {
 		// alset.StartAlarmMobile(context);
 		// sqlhelperTotal.initTablemobileAndwifi(context);
 		// }
-//		time=System.currentTimeMillis();
+		// time=System.currentTimeMillis();
 		initValues();
 		initProgressBar();
 		initPieBar();
 		initWifiBar();
-//		time = System.currentTimeMillis() - time;
-//		showlog("更新main" + time);
+		// time = System.currentTimeMillis() - time;
+		// showlog("更新main" + time);
 	}
 
 	private class AsyncTaskonRefreshMain extends AsyncTask<Context, Long, Long> {

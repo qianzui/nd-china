@@ -61,7 +61,7 @@ public class Splash extends Activity {
 			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 			if (result == 1) {
 				// 进行数据记录
-				sqlhelperUid.RecordUidwritestats(context, false);
+//				sqlhelperUid.RecordUidwritestats(context, false);
 //				sqlhelperTotal.RecordTotalwritestats(context, false);
 			} else {
 				// 进行数据记录
