@@ -99,11 +99,7 @@ public class AppListAdapter extends BaseAdapter {
 		  holder.wifi_toggle.setOnClickListener(new WifiListener(holder.wifi_toggle,ic));
 		  holder.e_toggle.setChecked(ic.selected_3g);
 		  holder.wifi_toggle.setChecked(ic.selected_wifi);
-		  Log.i("...."+ pkgInfo.applicationInfo.loadLabel(mContext.getPackageManager()),"......" + pkgInfo.applicationInfo.uid);
-		  Log.i("...."+ pkgInfo.applicationInfo.loadLabel(mContext.getPackageManager()),"......" + holder.wifi_toggle.isChecked());
-		  convertView.setTag(R.id.tag_pkgname,pkgInfo.applicationInfo.packageName);
-		  convertView.setTag(R.id.tag_traffic_up ,unitHandler(up));
-		  convertView.setTag(R.id.tag_traffic_down ,unitHandler(down));
+		  convertView.setTag(R.id.tag_pkginfo,pkgInfo);
 		  return convertView;
 	}
 	
