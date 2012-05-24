@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.TrafficStats;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -191,11 +192,20 @@ public class FireWallActivity extends Activity {
 	public void menuDialog(View arg1) {
 
 		final CharSequence[] items = { "应用管理", "卸载", "流量详情", "返回" };
-		final String pkname = arg1.getTag(R.id.tag_pkgname).toString();
-		final String trafficup = arg1.getTag(R.id.tag_traffic_up).toString();
-		final String trafficdown = arg1.getTag(R.id.tag_traffic_down)
-				.toString();
-
+		
+		final PackageInfo pkgInfo = (PackageInfo)arg1.getTag(R.id.tag_pkginfo);
+		final Drawable icon = pkgInfo.applicationInfo.loadIcon(mContext.getPackageManager());
+		final int uid = pkgInfo.applicationInfo.uid;
+		final String pkname = pkgInfo.applicationInfo.packageName;
+		final String appname = pkgInfo.applicationInfo.loadLabel(mContext.getPackageManager()).toString();
+		
+		long down = judge(TrafficStats.getUidRxBytes(uid));
+		long up = judge(TrafficStats.getUidTxBytes(uid));
+		final String trafficup = unitHandler(up);
+		final String trafficdown = unitHandler(down);
+		
+		final 
+		
 		AlertDialog dlg = new AlertDialog.Builder(FireWallActivity.this)
 				.setTitle("请选择")
 				.setItems(items, new DialogInterface.OnClickListener() {
@@ -248,7 +258,17 @@ public class FireWallActivity extends Activity {
 				}).create();
 		dlg.show();
 	}
+	
+	public long judge(long tff)
+	{
+		if(tff == -1)
+		tff = 0 ;
+		return tff;
+	}
+	
 
+	
+	
 	public static void showInstalledAppDetails(Context context,
 			String packageName) {
 		Intent intent = new Intent();
