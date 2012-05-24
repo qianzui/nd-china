@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteTransactionListener;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -16,6 +17,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 	// use database
 	SQLHelperUid sqlhelperUid = new SQLHelperUid();
 	SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
+	long time;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -26,10 +28,12 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 				if (SQLHelperTotal.isSQLUidOnUsed != true) {
 					new AsyncTaskonRecordUidData().execute(context);
 					// showLog(SQLHelperTotal.TableWiFiOrG23);
-				}
+				} else
+					showLog("Uid数据库忙");
 				if (SQLHelperTotal.isSQLUidTotalOnUsed != true) {
 					new AsyncTaskonRecordUidTotal().execute(context);
-				}
+				} else
+					showLog("UidTotal数据库忙");
 			}
 		} else {
 			// sqlhelper.initSQL(context);
@@ -42,18 +46,38 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 	 * 
 	 * @param context
 	 */
-	private void uidRecord(Context context) {
+	private int uidRecord(Context context) {
 		// 实时更新数据两个1代表数据更新
-		if (SQLHelperTotal.isSQLIndexOnUsed == false) {
-			SQLHelperTotal.isSQLIndexOnUsed = true;
-			int[] uidnumbers = sqlhelperUid.selectSQLUidnumbers(context);
-			SQLHelperTotal.isSQLIndexOnUsed = false;
-			sqlhelperUid.updateSQLUidTypes(context, uidnumbers, 1,
-					SQLHelperTotal.TableWiFiOrG23, 1);
-			showLog("uid数据更新");
-		} else {
-			showLog("Index数据库忙uid数据更新失败");
+		// showLog(SQLHelperTotal.isSQLIndexOnUsed+"");
+		if (SQLHelperUid.uidnumbers == null) {
+			if (SQLHelperTotal.isSQLIndexOnUsed == false) {
+				SQLHelperTotal.isSQLIndexOnUsed = true;
+				SQLHelperUid.uidnumbers = sqlhelperUid
+						.selectSQLUidnumbers(context);
+				SQLHelperTotal.isSQLIndexOnUsed = false;
+			}
+
 		}
+		if (SQLHelperUid.uidnumbers == null) {
+			return 0;
+		}
+		SQLiteDatabase sqlDataBase = sqlhelperUid.creatSQLUid(context);
+		sqlDataBase.beginTransaction();
+		try {
+			// 更新数据
+			sqlhelperUid.updateSQLUidTypes(sqlDataBase,
+					SQLHelperUid.uidnumbers, 1, SQLHelperTotal.TableWiFiOrG23,
+					1);
+
+			sqlDataBase.setTransactionSuccessful();
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog("批量输入uid网络数据失败");
+		} finally {
+			sqlDataBase.endTransaction();
+		}
+		sqlhelperUid.closeSQL(sqlDataBase);
+		return 1;
 	}
 
 	private class AsyncTaskonRecordUidData extends
@@ -62,19 +86,28 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
+			time = System.currentTimeMillis();
 			SQLHelperTotal.isSQLUidOnUsed = true;
 		}
 
 		@Override
 		protected Integer doInBackground(Context... params) {
-			uidRecord(params[0]);
-			return null;
+			return uidRecord(params[0]);
 		}
 
 		@Override
 		protected void onPostExecute(Integer result) {
 			// TODO Auto-generated method stub
 			SQLHelperTotal.isSQLUidOnUsed = false;
+			time = System.currentTimeMillis() - time;
+			showLog("更新记录完毕" + time);
+			if (result == 0) {
+				showLog("获取uid表失败");
+			}
+			if (result == 1) {
+				showLog("uid数据更新");
+			}
+
 		}
 
 	}
@@ -90,29 +123,28 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 
 		@Override
 		protected Integer doInBackground(Context... params) {
-			int timetap = 0;
-			while (SQLHelperTotal.isSQLIndexOnUsed == true) {
-				try {
-					Thread.sleep(150);
-					timetap += 1;
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				if (timetap > 4) {
-					return 2;
-				}
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			if (SQLHelperTotal.isSQLIndexOnUsed == false) {
-				SQLHelperTotal.isSQLIndexOnUsed = true;
-				SQLHelperUid sqlUid = new SQLHelperUid();
-				int[] uidnumbers = sqlUid.selectSQLUidnumbers(params[0]);
-				SQLHelperTotal.isSQLIndexOnUsed = false;
-				SQLHelperUidTotal sqlUidTotal = new SQLHelperUidTotal();
-				sqlUidTotal.updateSQLUidTypes(params[0], uidnumbers);
-				return 1;
+			if (SQLHelperUid.uidnumbers == null) {
+				if (SQLHelperTotal.isSQLIndexOnUsed == false) {
+					SQLHelperTotal.isSQLIndexOnUsed = true;
+					SQLHelperUid.uidnumbers = sqlhelperUid
+							.selectSQLUidnumbers(params[0]);
+					SQLHelperTotal.isSQLIndexOnUsed = false;
+				}
+
 			}
-			return 3;
+			if (SQLHelperUid.uidnumbers == null) {
+				return 0;
+			}
+
+			SQLHelperUidTotal sqlUidTotal = new SQLHelperUidTotal();
+			sqlUidTotal.updateSQLUidTypes(params[0], SQLHelperUid.uidnumbers,SQLHelperTotal.TableWiFiOrG23);
+			return 1;
 		}
 
 		@Override
@@ -122,12 +154,13 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 				showLog("uidTotal更新成功");
 				SQLHelperTotal.isSQLUidTotalOnUsed = false;
 			}
-			if (result == 2) {
-				showLog("uidTotal更新失败");
+			if (result == 0) {
+				showLog("uidTotal更新失败无uidindex");
+				SQLHelperTotal.isSQLUidTotalOnUsed = false;
 			}
-			if (result == 3) {
-				showLog("uidTotalUnknow");
-			}
+			// if (result == 3) {
+			// showLog("uidTotalUnknow");
+			// }
 		}
 
 	}

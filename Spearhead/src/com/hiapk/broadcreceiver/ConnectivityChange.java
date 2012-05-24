@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.TrafficStats;
 import android.util.Log;
 
 public class ConnectivityChange extends BroadcastReceiver {
@@ -48,23 +49,27 @@ public class ConnectivityChange extends BroadcastReceiver {
 					String typeName = info.getTypeName(); // mobile@wifi
 					if (typeName.equals("WIFI")) {
 						// 总流量与uid自动记录功能并修改网络属性
-						// trafficManager.statsTotalTraffic(context, false);
+//						trafficManager.statsTotalTraffic(context, false,
+//								SQLHelperTotal.TableWiFiOrG23);
+//						trafficManager.statsUidTraffic(context, false,
+//								SQLHelperTotal.TableWiFiOrG23);
 						// sqlhelperTotal.RecordTotalwritestats(context, false);
-						sqlhelperUid.RecordUidwritestats(context, false);
+						// sqlhelperUid.RecordUidwritestats(context, false);
 						SQLHelperTotal.TableWiFiOrG23 = "wifi";
 					}
 					if (typeName.equals("mobile")) {
 						// 总流量与uid自动记录功能并修改网络属性
 						// trafficManager.statsTotalTraffic(context, false);
 						// sqlhelperTotal.RecordTotalwritestats(context, false);
-						sqlhelperUid.RecordUidwritestats(context, false);
+						// sqlhelperUid.RecordUidwritestats(context, false);
 						SQLHelperTotal.TableWiFiOrG23 = "mobile";
 					}
 					// showLog("何种方式连线" + typeName);
 				} else {
 					// trafficManager.statsTotalTraffic(context, false);
 					// sqlhelperTotal.RecordTotalwritestats(context, false);
-					sqlhelperUid.RecordUidwritestats(context, false);
+					// sqlhelperUid.RecordUidwritestats(context, false);
+					alset.StartAlarm(context);
 					SQLHelperTotal.TableWiFiOrG23 = "";
 					showLog("无可用网络");
 					alset.StopAlarm(context);

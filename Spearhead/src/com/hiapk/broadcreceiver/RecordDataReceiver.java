@@ -53,11 +53,47 @@ public class RecordDataReceiver extends BroadcastReceiver {
 					// showLog(SQLHelperTotal.TableWiFiOrG23);
 				} else
 					showLog("数据库忙，未记录");
+			} else {
+				// initDataWithnoNetwork(context);
 			}
 		} else {
 			// sqlhelper.initSQL(context);
 			showLog("please init the database");
 		}
+	}
+
+	private void initDataWithnoNetwork(Context context) {
+		sqlDataBase.beginTransaction();
+		try {
+			// 生成基本常用数据
+			initTime();
+			long mobile_month_use_afterSet = 0;
+			long[] wifi_month_data = new long[64];
+			long[] mobile_month_data = new long[64];
+			long[] mobile_week_data = new long[6];
+			MonthlyUseData monthlyUseData = new MonthlyUseData();
+			mobile_month_use_afterSet = monthlyUseData.getMonthUseData(context,
+					sqlDataBase);
+			wifi_month_data = sqlhelperTotal.SelectWifiData(sqlDataBase, year,
+					month);
+			mobile_month_data = sqlhelperTotal.SelectMobileData(sqlDataBase,
+					year, month);
+			mobile_week_data = sqlhelperTotal.SelectWeekData(sqlDataBase, year,
+					month, monthDay, weekDay);
+
+			// 对数据进行赋值
+			TrafficManager.mobile_month_use_afterSet = mobile_month_use_afterSet;
+			TrafficManager.wifi_month_data = wifi_month_data;
+			TrafficManager.mobile_month_data = mobile_month_data;
+			TrafficManager.mobile_week_data = mobile_week_data;
+			// showLog("wifitotal=" + wifi_month_data[0] + "");
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog("数据记录失败");
+		} finally {
+			sqlDataBase.endTransaction();
+		}
+		sqlhelperTotal.closeSQL(sqlDataBase);
 	}
 
 	/**
@@ -94,19 +130,19 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	 */
 	private void totalRecord(Context context) {
 		// 进行数据更新以及记录
+		long mobile_month_use_afterSet = 0;
+		long[] wifi_month_data = new long[64];
+		long[] mobile_month_data = new long[64];
+		long[] mobile_week_data = new long[6];
+		MonthlyUseData monthlyUseData = new MonthlyUseData();
 		sqlDataBase.beginTransaction();
 		try {
-
 			sqlhelperTotal.updateSQLtotalType(sqlDataBase,
 					SQLHelperTotal.TableWiFiOrG23, 1, null, 1);
-			sqlhelperTotal.RecordTotalwritestats(sqlDataBase, false);
+			sqlhelperTotal.RecordTotalwritestats(sqlDataBase, false,
+					SQLHelperTotal.TableWiFiOrG23);
 			// 生成基本常用数据
 			initTime();
-			long mobile_month_use_afterSet = 0;
-			long[] wifi_month_data = new long[64];
-			long[] mobile_month_data = new long[64];
-			long[] mobile_week_data = new long[6];
-			MonthlyUseData monthlyUseData = new MonthlyUseData();
 			mobile_month_use_afterSet = monthlyUseData.getMonthUseData(context,
 					sqlDataBase);
 			wifi_month_data = sqlhelperTotal.SelectWifiData(sqlDataBase, year,
@@ -115,7 +151,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 					year, month);
 			mobile_week_data = sqlhelperTotal.SelectWeekData(sqlDataBase, year,
 					month, monthDay, weekDay);
-
+			sqlDataBase.setTransactionSuccessful();
 			// 对数据进行赋值
 			TrafficManager.mobile_month_use_afterSet = mobile_month_use_afterSet;
 			TrafficManager.wifi_month_data = wifi_month_data;
@@ -185,7 +221,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("Receiver", string);
+		Log.d("ReceiverTotal", string);
 	}
 
 }

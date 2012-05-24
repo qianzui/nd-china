@@ -40,40 +40,35 @@ public class BootAndShutdownBroadcast extends BroadcastReceiver {
 				if (sharedData.isNotifyOpen()) {
 					alset.StartWidgetAlarm(context);
 				}
-				// 开启总流量与uid自动记录功能并进行首次记录
-				if (SQLHelperTotal.isSQLTotalOnUsed != true) {
-					SQLHelperTotal.isSQLTotalOnUsed = true;
-					trafficManager.statsTotalTraffic(context, true);
-//					sqlhelperTotal.RecordTotalwritestats(context, false);
-					SQLHelperTotal.isSQLTotalOnUsed = false;
-				}
-				if (SQLHelperTotal.isSQLUidOnUsed != true) {
-					SQLHelperTotal.isSQLUidOnUsed = true;
-					sqlhelperUid.RecordUidwritestats(context, false);
-					SQLHelperTotal.isSQLUidOnUsed = false;
-				}
+				// 开启总流量与uid自动记录功能并进行首次记录(startAlarm已经记录)
+				// if (SQLHelperTotal.isSQLTotalOnUsed != true) {
+				// SQLHelperTotal.isSQLTotalOnUsed = true;
+				// trafficManager.statsTotalTraffic(context, true);
+				// // sqlhelperTotal.RecordTotalwritestats(context, false);
+				// SQLHelperTotal.isSQLTotalOnUsed = false;
+				// }
+				// if (SQLHelperTotal.isSQLUidOnUsed != true) {
+				// SQLHelperTotal.isSQLUidOnUsed = true;
+				// sqlhelperUid.RecordUidwritestats(context, false);
+				// SQLHelperTotal.isSQLUidOnUsed = false;
+				// }
 				showLog(sqlhelperTotal.gettime() + "onboot the system");
 			}
 		}
 		// 识别到关机信号
 		if (intent.getAction().equals(Intent.ACTION_SHUTDOWN)) {
 			// 关闭wifi自动记录并记录当前数据
-			alset.StopAlarm(context);
 			if (sqlhelperTotal.getIsInit(context)) {
 				if (SQLHelperTotal.TableWiFiOrG23 != "") {
-					if (SQLHelperTotal.isSQLTotalOnUsed != true) {
-						SQLHelperTotal.isSQLTotalOnUsed = true;
-						trafficManager.statsTotalTraffic(context, false);
-//						sqlhelperTotal.RecordTotalwritestats(context, false);
-						SQLHelperTotal.isSQLTotalOnUsed = false;
-					}
-					if (SQLHelperTotal.isSQLUidOnUsed != true) {
-						SQLHelperTotal.isSQLUidOnUsed = true;
-						sqlhelperUid.RecordUidwritestats(context, false);
-						SQLHelperTotal.isSQLUidOnUsed = false;
-					}
+					alset.StartAlarm(context);
+					// trafficManager.statsTotalTraffic(context, true,
+					// SQLHelperTotal.TableWiFiOrG23);
+					// // sqlhelperTotal.RecordTotalwritestats(context, false);
+					// trafficManager.statsUidTraffic(context, true,
+					// SQLHelperTotal.TableWiFiOrG23);
 				}
 			}
+			alset.StopAlarm(context);
 			showLog(sqlhelperTotal.gettime() + "shutdown the system");
 		}
 

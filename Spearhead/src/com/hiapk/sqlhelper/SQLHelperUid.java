@@ -55,6 +55,8 @@ public class SQLHelperUid {
 	private long uidupload;
 	private long uiddownload;
 	private static final int MODE_PRIVATE = 0;
+	// 库存的uid表
+	public static int[] uidnumbers = null;
 
 	/**
 	 * 创建总数据库
@@ -232,20 +234,23 @@ public class SQLHelperUid {
 			String time, int uidnumber, int type, String other, int typechange) {
 		initUidData(uidnumber);
 		// TODO Auto-generated method stub
-		String string = null;
-		string = UpdateTable + "uid" + uidnumber + UpdateSet + "date='" + date
-				+ "',time='" + time + "',upload='" + uidupload + "',download='"
-				+ uiddownload + "' ,type=" + typechange + ", other=" + "'"
-				+ other + "'" + Where + "type=" + type;
-		// UPDATE Person SET
-		// date='date',time='time',upload='upload',download='download'
-		// ,type='typechange' WHERE type=type
-		try {
-			mySQL.execSQL(string);
-		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
+		if (uidupload != 0 || uiddownload != 0) {
+			String string = null;
+			string = UpdateTable + "uid" + uidnumber + UpdateSet + "date='"
+					+ date + "',time='" + time + "',upload='" + uidupload
+					+ "',download='" + uiddownload + "' ,type=" + typechange
+					+ ", other=" + "'" + other + "'" + Where + "type=" + type;
+			// UPDATE Person SET
+			// date='date',time='time',upload='upload',download='download'
+			// ,type='typechange' WHERE type=type
+			try {
+				mySQL.execSQL(string);
+			} catch (Exception e) {
+				// TODO: handle exception
+				showLog(string);
+			}
 		}
+
 	}
 
 	/**
@@ -294,7 +299,7 @@ public class SQLHelperUid {
 	 * 对数据库uid数据进行批量更新，自动生成时间和上传下载数据
 	 * 
 	 * @param sqlDataBase
-	 *            进行操作的数据库SQLiteDatagase
+	 *            进行操作的数据库sqlDataBase
 	 * @param uidnumbers
 	 *            数据库的表数组集合：uid的table表的uid号，
 	 * @param type
@@ -304,27 +309,14 @@ public class SQLHelperUid {
 	 * @param typechange
 	 *            改变type值
 	 */
-	public void updateSQLUidTypes(Context context, int[] uidnumbers, int type,
-			String other, int typechange) {
+	public void updateSQLUidTypes(SQLiteDatabase sqlDataBase, int[] uidnumbers,
+			int type, String other, int typechange) {
 		// TODO Auto-generated method stub
 		initTime();
-		SQLHelperTotal.isSQLUidOnUsed = true;
-		SQLiteDatabase sqlDataBase = creatSQLUid(context);
-		sqlDataBase.beginTransaction();
-		try {
-			for (int uidnumber : uidnumbers) {
-				updateSQLUidType(sqlDataBase, date, time, uidnumber, type,
-						other, typechange);
-			}
-			sqlDataBase.setTransactionSuccessful();
-		} catch (Exception e) {
-			// TODO: handle exception
-			showLog("批量输入uid网络数据失败");
-		} finally {
-			sqlDataBase.endTransaction();
-			SQLHelperTotal.isSQLUidOnUsed = false;
+		for (int uidnumber : uidnumbers) {
+			updateSQLUidType(sqlDataBase, date, time, uidnumber, type, other,
+					typechange);
 		}
-		closeSQL(sqlDataBase);
 
 	}
 
@@ -889,14 +881,37 @@ public class SQLHelperUid {
 	 * @param daily
 	 *            true则强制记录，false则不记录流量为0的数据
 	 */
-	public void RecordUidwritestats(Context context, boolean daily) {
+	public void RecordUidwritestats(Context context, int[] uidnumbers,
+			boolean daily, String network) {
 		// TODO Auto-generated method stub
-		if (!SQLHelperTotal.TableWiFiOrG23.equals("")) {
-			// isUsingSQL = true;
+		if (!network.equals("")) {
 			SQLiteDatabase sqlDataBase = creatSQLUid(context);
-			uidRecordwritestats(context, sqlDataBase, daily);
+			sqlDataBase.beginTransaction();
+			try {
+				uidRecordwritestats(sqlDataBase, uidnumbers, daily, network);
+				sqlDataBase.setTransactionSuccessful();
+			} catch (Exception e) {
+				// TODO: handle exception
+				showLog("批量更新uid数据失败-Context");
+			} finally {
+				sqlDataBase.endTransaction();
+			}
 			closeSQL(sqlDataBase);
-			// isUsingSQL = false;
+		}
+	}
+
+	/**
+	 * 记录uid的流量数据
+	 * 
+	 * @param context
+	 * @param daily
+	 *            true则强制记录，false则不记录流量为0的数据
+	 */
+	public void RecordUidwritestats(SQLiteDatabase sqlDataBase,
+			int[] uidnumbers, boolean daily, String network) {
+		// TODO Auto-generated method stub
+		if (!network.equals("")) {
+			uidRecordwritestats(sqlDataBase, uidnumbers, daily, network);
 		}
 	}
 
@@ -907,27 +922,22 @@ public class SQLHelperUid {
 	 * @param daily
 	 *            true则强制记录，false则不记录流量为0的数据
 	 */
-	private void uidRecordwritestats(Context context,
-			SQLiteDatabase sqlDataBase, boolean daily) {
+	private void uidRecordwritestats(SQLiteDatabase sqlDataBase,
+			int[] uidnumbers, boolean daily, String network) {
 		// TODO Auto-generated method stub
-		int[] uidnumbers = null;
-		try {
-			uidnumbers = selectSQLUidnumbers(context);
-		} catch (Exception e) {
-			// TODO: handle exception
-			showLog("获取uid列表失败");
-		}
-		sqlDataBase.beginTransaction();
-		try {
-			initTime();
-			statsSQLuids(sqlDataBase, uidnumbers, date, time, 2, null, daily);
-			sqlDataBase.setTransactionSuccessful();
-		} catch (Exception e) {
-			// TODO: handle exception
-			showLog("批量更新uid数据失败");
-		} finally {
-			sqlDataBase.endTransaction();
-		}
+
+		// sqlDataBase.beginTransaction();
+		// try {
+		initTime();
+		statsSQLuids(sqlDataBase, uidnumbers, date, time, 2, null, daily,
+				network);
+		// sqlDataBase.setTransactionSuccessful();
+		// } catch (Exception e) {
+		// // TODO: handle exception
+		// showLog("批量更新uid数据失败");
+		// } finally {
+		// sqlDataBase.endTransaction();
+		// }
 	}
 
 	/**
@@ -949,13 +959,16 @@ public class SQLHelperUid {
 	 *            true则强制记录，false则不记录流量为0的数据
 	 */
 	private void statsSQLuids(SQLiteDatabase sqlDataBase, int[] uidnumbers,
-			String date, String time, int type, String other, boolean daily) {
+			String date, String time, int type, String other, boolean daily,
+			String network) {
 		// TODO Auto-generated method stub
 
 		for (int uidnumber : uidnumbers) {
 			initUidData(uidnumber);
-			statsSQLuid(sqlDataBase, uidnumber, date, time, uidupload,
-					uiddownload, type, other, daily);
+			if (uidupload != 0 || uiddownload != 0) {
+				statsSQLuid(sqlDataBase, uidnumber, date, time, uidupload,
+						uiddownload, type, other, daily, network);
+			}
 		}
 
 	}
@@ -984,7 +997,7 @@ public class SQLHelperUid {
 	 */
 	private void statsSQLuid(SQLiteDatabase mySQL, int uidnumber, String date,
 			String time, long upload, long download, int type, String other,
-			boolean daily) {
+			boolean daily, String network) {
 		String string = null;
 		// select oldest upload and download 之前记录的数据的查询操作
 		// SELECT * FROM table WHERE type=0
@@ -1027,23 +1040,22 @@ public class SQLHelperUid {
 			// + uidnumber + "数据" + olddown + "B");
 			// 输入实际数据进入数据库
 			updateSQLUidType(mySQL, date, time, oldup, olddown, uidnumber, 0,
-					SQLHelperTotal.TableWiFiOrG23, 2);
+					network, 2);
 			// 添加新的两行数据
 			updateSQLUidType(mySQL, date, time, upload, download, uidnumber, 1,
-					SQLHelperTotal.TableWiFiOrG23, 0);
-			exeSQLcreateUidtable(mySQL, uidnumber, 1,
-					SQLHelperTotal.TableWiFiOrG23);
-		} else if (oldup != 0 && olddown != 0) {
+					network, 0);
+			exeSQLcreateUidtable(mySQL, uidnumber, 1, network);
+		} else if ((oldup != 0 || olddown != 0)
+				&& ((olddown > 1024) || (oldup > 1024))) {
 			// showLog("上传uid" + uidnumber + "数据" + oldup + "B" + "  " + "下载uid"
 			// + uidnumber + "数据" + olddown + "B");
 			// 输入实际数据进入数据库
 			updateSQLUidType(mySQL, date, time, oldup, olddown, uidnumber, 0,
-					SQLHelperTotal.TableWiFiOrG23, 2);
+					network, 2);
 			// 添加新的两行数据
 			updateSQLUidType(mySQL, date, time, upload, download, uidnumber, 1,
-					SQLHelperTotal.TableWiFiOrG23, 0);
-			exeSQLcreateUidtable(mySQL, uidnumber, 1,
-					SQLHelperTotal.TableWiFiOrG23);
+					network, 0);
+			exeSQLcreateUidtable(mySQL, uidnumber, 1, network);
 		}
 
 	}
