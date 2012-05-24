@@ -427,8 +427,8 @@ public class Main extends Activity {
 			chartbar.setyMaxvalue(1);
 			chartbar.setMaxTraffic(1);
 		} else {
-			chartbar.setMaxTraffic((double) (int) maxwifiTraffic / 1048576 * 1.2);
-			chartbar.setyMaxvalue((double) (int) maxwifiTraffic / 1048576 * 1.2);
+			chartbar.setMaxTraffic((double) (long) maxwifiTraffic / 1048576 * 1.2);
+			chartbar.setyMaxvalue((double) (long) maxwifiTraffic / 1048576 * 1.2);
 		}
 
 		// 设置背景色（被隐藏的条）

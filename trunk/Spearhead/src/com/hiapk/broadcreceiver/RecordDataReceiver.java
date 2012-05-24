@@ -36,6 +36,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	private int month;
 	private int monthDay;
 	private int weekDay;
+	private String network;
 	// fortest
 	long time;
 
@@ -137,10 +138,8 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		MonthlyUseData monthlyUseData = new MonthlyUseData();
 		sqlDataBase.beginTransaction();
 		try {
-			sqlhelperTotal.updateSQLtotalType(sqlDataBase,
-					SQLHelperTotal.TableWiFiOrG23, 1, null, 1);
-			sqlhelperTotal.RecordTotalwritestats(sqlDataBase, false,
-					SQLHelperTotal.TableWiFiOrG23);
+			sqlhelperTotal.updateSQLtotalType(sqlDataBase, network, 1, null, 1);
+			sqlhelperTotal.RecordTotalwritestats(sqlDataBase, false, network);
 			// 生成基本常用数据
 			initTime();
 			mobile_month_use_afterSet = monthlyUseData.getMonthUseData(context,
@@ -168,11 +167,11 @@ public class RecordDataReceiver extends BroadcastReceiver {
 
 		// TrafficManager.setMonthUseDate(context);
 		// 输出日志
-		showLog("实时总体更新数据" + SQLHelperTotal.TableWiFiOrG23 + "  "
-				+ "TotalTxBytes()=" + TrafficStats.getTotalTxBytes()
-				+ "TotalRxBytes()=" + TrafficStats.getTotalRxBytes()
-				+ "MobileTxBytes()=" + TrafficStats.getMobileTxBytes()
-				+ "MobileRxBytes()=" + TrafficStats.getMobileRxBytes());
+		showLog("实时总体更新数据" + network + "  " + "TotalTxBytes()="
+				+ TrafficStats.getTotalTxBytes() + "TotalRxBytes()="
+				+ TrafficStats.getTotalRxBytes() + "MobileTxBytes()="
+				+ TrafficStats.getMobileTxBytes() + "MobileRxBytes()="
+				+ TrafficStats.getMobileRxBytes());
 	}
 
 	private class AsyncTaskonRecordTotalData extends
@@ -182,6 +181,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
 			SQLHelperTotal.isSQLTotalOnUsed = true;
+			network = SQLHelperTotal.TableWiFiOrG23;
 		}
 
 		@Override
