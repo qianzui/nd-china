@@ -29,7 +29,7 @@
 
     <PreferenceScreen
         android:key="cleardata"
-        android:title="清空主界面统计数据" >
+        android:title="清空历史数据" >
         </PreferenceScreen>
 
     

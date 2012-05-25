@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.firewall.Block;
+import com.hiapk.spearhead.Main3;
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.SpearheadActivity;
 import com.hiapk.spearhead.Splash;
@@ -14,6 +15,7 @@ import com.hiapk.widget.ProgramNotify;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -59,7 +61,7 @@ public class PrefrenceSetting extends PreferenceActivity {
 		isfloatIndicatorOpen = (CheckBoxPreference) findPreference(SYS_PRE_FLOAT_CTRL);
 		refreshFres = (ListPreference) findPreference(SYS_PRE_REFRESH_FRZ);
 		clearData = (PreferenceScreen) findPreference(SYS_PRE_CLEAR_DATA);
-		fireTip = (CheckBoxPreference)findPreference(SYS_PRE_CLEAR_FIRE);
+		fireTip = (CheckBoxPreference) findPreference(SYS_PRE_CLEAR_FIRE);
 		// 监听
 		isNotifyOpen.setOnPreferenceClickListener(oclick);
 		isfloatIndicatorOpen.setOnPreferenceClickListener(oclick);
@@ -98,39 +100,17 @@ public class PrefrenceSetting extends PreferenceActivity {
 				}
 				return true;
 			}
-			if(preference.equals(fireTip)){
+			if (preference.equals(fireTip)) {
 				boolean tip = fireTip.isChecked();
-				if(tip){
-					Block.fireTipSet(context,true);
-				}else{
-					Block.fireTipSet(context,false);
+				if (tip) {
+					Block.fireTipSet(context, true);
+				} else {
+					Block.fireTipSet(context, false);
 				}
 			}
 			if (preference.equals(clearData)) {
-				mydialog = ProgressDialog.show(context, "请稍等...", "正在清空数据...",
-						true);
-				int timetap = 0;
-				while (SQLHelperTotal.isSQLTotalOnUsed == true
-						|| SQLHelperTotal.isSQLUidOnUsed == true
-						|| SQLHelperTotal.isSQLIndexOnUsed == true) {
-					try {
-						Thread.sleep(200);
-						timetap += 1;
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					if (timetap > 3) {
-						mydialog.dismiss();
-						return alert(context, "清空数据失败请重试");
-					}
+				dialogClearDataBaseConfirm().show();
 
-				}
-				sharedData.setSQLinited(false);
-				new AsyncTaskonClearSQL().execute(context);
-				// SQLHelperTotal aa=new SQLHelperTotal();
-				// showLog(aa.getIsInit(context)+"");
-				return true;
 			}
 			return false;
 		}
@@ -166,6 +146,7 @@ public class PrefrenceSetting extends PreferenceActivity {
 			SQLHelperTotal.isSQLTotalOnUsed = true;
 			SQLHelperTotal.isSQLUidOnUsed = true;
 			SQLHelperTotal.isSQLIndexOnUsed = true;
+			SQLHelperTotal.isSQLUidTotalOnUsed = true;
 			super.onPreExecute();
 		}
 
@@ -175,6 +156,7 @@ public class PrefrenceSetting extends PreferenceActivity {
 			params[0].deleteDatabase("SQLTotal.db");
 			params[0].deleteDatabase("SQLUid.db");
 			params[0].deleteDatabase("SQLUidIndex.db");
+			params[0].deleteDatabase("SQLTotaldata.db");
 			// 重新初始化数据库
 			List<PackageInfo> packages = params[0].getPackageManager()
 					.getInstalledPackages(0);
@@ -197,6 +179,7 @@ public class PrefrenceSetting extends PreferenceActivity {
 			SQLHelperTotal.isSQLTotalOnUsed = false;
 			SQLHelperTotal.isSQLUidOnUsed = false;
 			SQLHelperTotal.isSQLIndexOnUsed = false;
+			SQLHelperTotal.isSQLUidTotalOnUsed = false;
 			sharedData.setSQLinited(true);
 			mydialog.dismiss();
 		}
@@ -208,6 +191,53 @@ public class PrefrenceSetting extends PreferenceActivity {
 	}
 
 	/**
+	 * 进行清空数据库确认对话框
+	 * 
+	 * @return
+	 */
+	public AlertDialog dialogClearDataBaseConfirm() {
+		AlertDialog dayWarning = new AlertDialog.Builder(context)
+				.setTitle("注意！")
+				.setMessage("该操作将清除所有历史数据，您确定要继续吗？")
+				// .setView(textEntryView)
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						mydialog = ProgressDialog.show(context, "请稍等...",
+								"正在清空数据...", true);
+						int timetap = 0;
+						while (SQLHelperTotal.isSQLTotalOnUsed == true
+								|| SQLHelperTotal.isSQLUidOnUsed == true
+								|| SQLHelperTotal.isSQLIndexOnUsed == true
+								|| SQLHelperTotal.isSQLUidTotalOnUsed) {
+							try {
+								Thread.sleep(100);
+								timetap += 1;
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							if (timetap > 8) {
+								mydialog.dismiss();
+								alert(context, "清空数据失败请重试").show();
+							}
+
+						}
+						sharedData.setSQLinited(false);
+						new AsyncTaskonClearSQL().execute(context);
+						// SQLHelperTotal aa=new SQLHelperTotal();
+						// showLog(aa.getIsInit(context)+"");
+						// return true;
+					}
+				})
+				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+					}
+				}).create();
+		return dayWarning;
+
+	}
+
+	/**
 	 * Display a simple alert box
 	 * 
 	 * @param ctx
@@ -215,13 +245,13 @@ public class PrefrenceSetting extends PreferenceActivity {
 	 * @param msg
 	 *            message
 	 */
-	public static boolean alert(Context ctx, CharSequence msg) {
+	public AlertDialog alert(Context ctx, CharSequence msg) {
 		if (ctx != null) {
-			new AlertDialog.Builder(ctx)
+			AlertDialog dayWarning = new AlertDialog.Builder(ctx)
 					.setNeutralButton(android.R.string.ok, null)
-					.setMessage(msg).show();
+					.setMessage(msg).create();
+			return dayWarning;
 		}
-
-		return true;
+		return null;
 	}
 }

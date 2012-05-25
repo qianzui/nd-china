@@ -55,7 +55,13 @@ public class RecordDataReceiver extends BroadcastReceiver {
 				} else
 					showLog("数据库忙，未记录");
 			} else {
-				// initDataWithnoNetwork(context);
+				if (SQLHelperTotal.isSQLTotalOnUsed != true) {
+					SQLHelperTotal.isSQLTotalOnUsed = true;
+					initDataWithnoNetwork(context);
+					SQLHelperTotal.isSQLTotalOnUsed = false;
+					// showLog(SQLHelperTotal.TableWiFiOrG23);
+				} else
+					showLog("数据库忙，未记录");
 			}
 		} else {
 			// sqlhelper.initSQL(context);
@@ -87,6 +93,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			TrafficManager.wifi_month_data = wifi_month_data;
 			TrafficManager.mobile_month_data = mobile_month_data;
 			TrafficManager.mobile_week_data = mobile_week_data;
+			sqlDataBase.setTransactionSuccessful();
 			// showLog("wifitotal=" + wifi_month_data[0] + "");
 		} catch (Exception e) {
 			// TODO: handle exception
