@@ -167,6 +167,7 @@ public class AppListAdapter extends BaseAdapter {
 					  			     Block.saveRules(mContext, map);
 				  				}
 					       }else{
+					    	   Block.isShowTipSet(mContext, true);
 					    	   cb.setChecked(ic.selected_3g);
 					       }
 
