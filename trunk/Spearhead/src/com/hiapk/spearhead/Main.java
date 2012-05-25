@@ -146,12 +146,13 @@ public class Main extends Activity {
 		// 月度流量设置
 		mobile_month_use = TrafficManager.mobile_month_use_afterSet;
 		long mobileSet = sharedData.getMonthMobileSetOfLong();
+		long mobileHasUseSet = sharedData.getMonthMobileHasUse();
 		if (mobile_month_use > mobileSet)
 			monthMobil.setTextColor(Color.RED);
 		else
 			monthMobil.setTextColor(Color.GREEN);
 
-		monthMobil.setText(unitHandler(mobile_month_use, monthMobilunit));
+		monthMobil.setText(unitHandler(mobile_month_use+mobileHasUseSet, monthMobilunit));
 		monthMobil2.setText("/" + unitHandler(mobileSet, monthMobilunit2));
 		// todayWifi.setText(unitHandler(wifi[monthDay] + wifi[monthDay + 31],
 		// todayWifiunit));

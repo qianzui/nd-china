@@ -28,7 +28,7 @@ public class SharedPrefrenceData {
 	String MOBILE_COUNT_SET_DAY = "mobileMonthSetCountDay";
 	String MOBILE_COUNT_SET_TIME = "mobileMonthSetCountTime";
 	// 已使用总流量int
-	String VALUE_MOBILE_HASUSED_OF_INT = "mobileHasusedint";
+	String VALUE_MOBILE_HASUSED_OF_FLOAT = "mobileHasusedint";
 	String MONTH_USED_DATA_TEMP="monthtempuseddata";
 	// 设置单位（已使用）
 	String MOBILE_HASUSED_SET_UNIT = "mobileHasusedUnit";
@@ -126,13 +126,13 @@ public class SharedPrefrenceData {
 		UseEditor_sys.commit();
 	}
 
-	public int getMonthMobileHasUseOfint() {
-		int mobileUseInt = prefs.getInt(VALUE_MOBILE_HASUSED_OF_INT, 0);
-		return mobileUseInt;
+	public float getMonthMobileHasUseOffloat() {
+		float mobileUseFloat = prefs.getFloat(VALUE_MOBILE_HASUSED_OF_FLOAT, 0);
+		return mobileUseFloat;
 	}
 
-	public void setMonthMobileHasUseOfint(int monthMobileHasUseOfint) {
-		UseEditor.putInt(VALUE_MOBILE_HASUSED_OF_INT, monthMobileHasUseOfint);
+	public void setMonthMobileHasUseOffloat(float monthMobileHasUseOffloat) {
+		UseEditor.putFloat(VALUE_MOBILE_HASUSED_OF_FLOAT, monthMobileHasUseOffloat);
 		UseEditor.commit();
 		
 	}
