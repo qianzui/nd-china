@@ -48,7 +48,7 @@ public class SetText {
 		String date = getdate(context, year, month, monthDay);
 		// textUp = "今日已用：xxx kB(MB)";
 		// textDown = "xx MB / 50 MB --> 2012.06.01";
-		textUp = "今日已用: " + todayUsedStr + (int) (30 * Math.random());
+		textUp = "今日已用: " + todayUsedStr;// + (int) (30 * Math.random());
 		textDown = monthUsedStr + " / " + monthSetStr + " --> " + date;
 		// text1 = "今日已用: " + todayUsedStr + (int) (30 * Math.random());
 		text1 = textUp;
