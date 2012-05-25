@@ -224,7 +224,7 @@
                 android:id="@+id/linearlayout_bar_mobile"
                 android:layout_width="0dip"
                 android:layout_height="fill_parent"
-                android:layout_weight="0.8"
+                android:layout_weight="0.7"
                 android:orientation="vertical" >
 
                 <!-- 用于显示饼图 -->
