@@ -404,6 +404,7 @@ public class Main extends Activity {
 		// windowswidesize = dm.widthPixels / 10;
 		windowswidesize = dm.densityDpi;
 		StackedBarChart chartbar = new StackedBarChart(context, windowswidesize);
+		chartbar.setXaxisText(year+"年");
 		// 进行参数设置
 		// 设置x轴显示范围
 		int monthtotalDay = countDay(year, month);

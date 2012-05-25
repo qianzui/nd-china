@@ -65,6 +65,11 @@ public class ProjectStatusChart extends ViewBase{
 	// 本月的最大流量数
 	double MaxTraffic = 10;
 	double MinTraffic = 0;
+	//X轴显示的字
+	String XaxisText="日期";
+	public void setXaxisText(String XaxisText) {
+		this.XaxisText = XaxisText;
+	}
 
 	/**
 	 * 初始化日期(先初始化日期再初始化数据)
@@ -242,7 +247,7 @@ public class ProjectStatusChart extends ViewBase{
 			renderer.addTextLabel(i, name);
 		}
 
-		setChartSettings(renderer, "", "日期", "流量（MB）", showDay - 5.5,
+		setChartSettings(renderer, "", XaxisText, "流量（MB）", showDay - 5.5,
 				showDay + 0.5, MinTraffic, MaxTraffic, Color.LTGRAY,
 				Color.LTGRAY);
 		// setChartSettings(renderer, mainTitle, XaxisText, YaxisText,

@@ -260,6 +260,7 @@ public class UidMonthTraff extends Activity {
 				projectChart.initDate(year, month, monthDay);
 				projectChart.initData(mobileBefore, mobileNow, wifiBefore,
 						wifiNow);
+				projectChart.setXaxisText(year+"Äê");
 				view = projectChart.execute(context);
 			} else {
 				LayoutInflater factory = LayoutInflater.from(context);

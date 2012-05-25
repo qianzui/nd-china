@@ -5,15 +5,15 @@
     android:orientation="horizontal" >
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/widget1X4LinnerLayout1"
+        android:layout_width="0dip"
         android:layout_height="fill_parent"
         android:layout_marginBottom="12sp"
         android:layout_marginLeft="5sp"
         android:layout_marginTop="8sp"
-        android:layout_weight="2"
+        android:layout_weight="1.0"
         android:background="@drawable/widgetbackground"
-        android:orientation="vertical" 
-        android:id="@+id/widget1X4LinnerLayout1">
+        android:orientation="vertical" >
 
         <ImageView
             android:id="@+id/widgetImage1"
@@ -30,7 +30,7 @@
             android:id="@+id/widgetImageText1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-           android:layout_gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="5sp"
             android:layout_weight="1.0"
             android:maxHeight="72sp"
@@ -40,14 +40,14 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/widget1X4LinnerLayout2"
+        android:layout_width="0dip"
         android:layout_height="fill_parent"
         android:layout_marginBottom="12sp"
         android:layout_marginTop="8sp"
         android:layout_weight="1.0"
         android:background="@drawable/widgetbackground"
-        android:orientation="vertical" 
-        android:id="@+id/widget1X4LinnerLayout2">
+        android:orientation="vertical" >
 
         <ImageView
             android:id="@+id/widgetImage2"
@@ -64,8 +64,8 @@
             android:id="@+id/widgetImageText2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5sp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5sp"
             android:layout_weight="1.0"
             android:maxHeight="72sp"
             android:maxWidth="72sp"
@@ -74,40 +74,39 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/widget1X4LinnerLayout3"
+        android:layout_width="0dip"
         android:layout_height="fill_parent"
         android:layout_marginBottom="12sp"
         android:layout_marginRight="7sp"
         android:layout_marginTop="8sp"
-        android:layout_weight="3.0"
+        android:layout_weight="4.0"
         android:background="@drawable/widgetbackground"
-        android:orientation="vertical" 
-        android:id="@+id/widget1X4LinnerLayout3">
+        android:orientation="vertical" >
 
         <TextView
+            android:paddingTop="1sp"
             android:id="@+id/widgetTextview1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3sp"
-            android:layout_marginLeft="10sp"
+            android:layout_height="0dip"
+            android:layout_weight="1"
             android:text="今日已用:"
             android:textColor="@color/gray" />
 
         <TextView
             android:id="@+id/widgetTextview2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10sp"
-            android:layout_marginTop="3sp"
+            android:layout_height="0dip"
+            android:layout_weight="1"
             android:text="本月已用:"
             android:textColor="@color/gray" />
 
         <TextView
+            android:paddingBottom="1sp"
             android:id="@+id/widgetTextview3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10sp"
-            android:layout_marginTop="3sp"
+            android:layout_height="0dip"
+            android:layout_weight="1"
             android:text="当前日期:"
             android:textColor="@color/gray" />
     </LinearLayout>
