@@ -4,6 +4,7 @@ import com.hiapk.alertaction.AlertActionNotify;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
+import com.hiapk.firewall.Block;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.regulate.Regulate;
 
@@ -30,6 +31,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -93,6 +95,13 @@ public class Main3 extends Activity {
 		init_dayWarning();
 		init_warningAct();
 		combo = (Button) findViewById(R.id.combo);
+		
+		if (Block.fireTip(Main3.this)) {
+			Toast toast_refresh = Toast.makeText(Main3.this, "请校正已用流量和包月套餐!",
+					Toast.LENGTH_LONG);
+			toast_refresh.show();
+		}
+		
 		combo.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
