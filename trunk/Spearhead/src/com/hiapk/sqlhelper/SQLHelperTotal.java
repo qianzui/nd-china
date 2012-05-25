@@ -657,7 +657,7 @@ public class SQLHelperTotal {
 	// specialfortext TableWiFi- TableMobile
 	public long[] SelectMobileData(SQLiteDatabase sqlDataBase, int year,
 			int month) {
-		return SelectData(sqlDataBase, year, month, TableWiFi);
+		return SelectData(sqlDataBase, year, month, TableMobile);
 	}
 
 	/**
@@ -680,7 +680,7 @@ public class SQLHelperTotal {
 	// specialfortext TableWiFi----TableMobile
 	public long[] SelectMobileData(SQLiteDatabase sqlDataBase, int year,
 			int month, int day, int dayset) {
-		return SelectData(sqlDataBase, year, month, day, dayset, TableWiFi);
+		return SelectData(sqlDataBase, year, month, day, dayset, TableMobile);
 	}
 
 	/**
@@ -703,7 +703,7 @@ public class SQLHelperTotal {
 	public long[] SelectMobileData(SQLiteDatabase sqlDataBase, int year,
 			int month, int day, String time) {
 
-		return SelectData(sqlDataBase, year, month, day, time, TableWiFi);
+		return SelectData(sqlDataBase, year, month, day, time, TableMobile);
 	}
 
 	/**
@@ -1045,7 +1045,7 @@ public class SQLHelperTotal {
 		// select oldest upload and download 之前记录的数据的查询操作
 		// SELECT * FROM table WHERE type=0
 		// specialfortext TableMobile-----TableWiFi
-		string = SelectTable + TableWiFi + Where + "date" + Between + weekStart
+		string = SelectTable + TableMobile + Where + "date" + Between + weekStart
 				+ AND_B + year + "-" + month2 + "-" + monthDay2 + AND + "type="
 				+ 2;
 		// showLog(string);
