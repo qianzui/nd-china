@@ -18,6 +18,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.Time;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +47,7 @@ public class UidMonthTraff extends Activity {
 	 * true的话，表示可以进行uidTotal数据读取
 	 */
 	boolean uidtraff_UidTotalSQL = false;
-
+	int windowswidesize=200;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -60,6 +61,12 @@ public class UidMonthTraff extends Activity {
 		// 初始化数据
 		initTime();
 		initSurface(uidnumber, appname, pkname);
+		// 取得窗口属性
+		DisplayMetrics dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		// 窗口的宽度
+		// windowswidesize = dm.widthPixels / 10;
+		windowswidesize = dm.densityDpi;
 		// 初始化视图
 		new AsyncTaskonInitProChart().execute(context);
 		new AsyncTaskonInitPieChart().execute(context);
@@ -142,16 +149,14 @@ public class UidMonthTraff extends Activity {
 			if (result == true) {
 				SQLHelperTotal.isSQLUidTotalOnUsed = false;
 				uidtraff_UidTotalSQL = false;
-				BudgetPie budgetPie = new BudgetPie();
+				BudgetPie budgetPie = new BudgetPie(context,windowswidesize);
 				budgetPie.setValues(pieValue);
 				view = budgetPie.execute(context);
 				TextView tv_mobile = (TextView) findViewById(R.id.tv_mobile);
 				TextView tv_wifi = (TextView) findViewById(R.id.tv_wifi);
 				UnitHandler unitHandler = new UnitHandler();
-				tv_mobile.setText("移动数据流量"
-						+ unitHandler.unitHandlerAccurate(pieValue[0]));
-				tv_wifi.setText("WIFI数据流量"
-						+ unitHandler.unitHandlerAccurate(pieValue[1]));
+				tv_mobile.setText(unitHandler.unitHandlerAccurate(pieValue[0]));
+				tv_wifi.setText(unitHandler.unitHandlerAccurate(pieValue[1]));
 			} else {
 				LayoutInflater factory = LayoutInflater.from(context);
 				view = factory.inflate(R.layout.load_fail, null);
@@ -251,7 +256,7 @@ public class UidMonthTraff extends Activity {
 			if (result == true) {
 				SQLHelperTotal.isSQLUidOnUsed = false;
 				uidtraff_UidSQL = false;
-				ProjectStatusChart projectChart = new ProjectStatusChart();
+				ProjectStatusChart projectChart = new ProjectStatusChart(context,windowswidesize);
 				projectChart.initDate(year, month, monthDay);
 				projectChart.initData(mobileBefore, mobileNow, wifiBefore,
 						wifiNow);
@@ -300,7 +305,7 @@ public class UidMonthTraff extends Activity {
 
 	private View initProjectChart(int uidnumber) {
 		SQLHelperUid sqlhelperUid = new SQLHelperUid();
-		ProjectStatusChart projectChart = new ProjectStatusChart();
+		ProjectStatusChart projectChart = new ProjectStatusChart(context,windowswidesize);
 		projectChart.initDate(year, month, monthDay);
 		mobileBefore = new long[64];
 		mobileNow = new long[64];
@@ -332,7 +337,7 @@ public class UidMonthTraff extends Activity {
 
 	private View initPie(int uidnumber) {
 		SQLHelperUidTotal sqlUidTotal = new SQLHelperUidTotal();
-		BudgetPie budgetPie = new BudgetPie();
+		BudgetPie budgetPie = new BudgetPie(context,windowswidesize);
 		if (SQLHelperTotal.isSQLUidOnUsed != true) {
 			SQLHelperTotal.isSQLUidOnUsed = true;
 			pieValue = sqlUidTotal.SelectUidNetData(context, uidnumber);

@@ -10,7 +10,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 
-public class BudgetPie {
+public class BudgetPie extends ViewBase {
+	int windowswidesize = 300;
+
+	public BudgetPie(Context context, int windowswidesize) {
+		super(context);
+		this.windowswidesize = windowswidesize;
+		// TODO Auto-generated constructor stub
+	}
 
 	long[] values = new long[] { 100000000, 100000000 };
 
@@ -19,13 +26,13 @@ public class BudgetPie {
 	float ChartTitleTextSize = 20;
 
 	float LabelsTextSize = 20;
-	float Scale = (float) 0.8;
+	float Scale = (float) 0.7;
 
 	public void setValues(long[] values) {
-		if (values[0]==values[1]) {
-			this.values =new long[]{1,1};
-		}else
-		this.values = values;
+		if (values[0] == values[1]) {
+			this.values = new long[] { 1, 1 };
+		} else
+			this.values = values;
 	}
 
 	public void setColors(int[] colors) {
@@ -48,7 +55,7 @@ public class BudgetPie {
 		DefaultRenderer renderer = buildCategoryRenderer(colors);
 		// renderer.setZoomButtonsVisible(true);
 		// renderer.setZoomEnabled(true);
-		renderer.setChartTitleTextSize(ChartTitleTextSize);
+		renderer.setChartTitleTextSize(windowswidesize / 20);
 		renderer.setScale(Scale);
 		// 设置边界等
 		// Log.d("main", width+"");
@@ -74,8 +81,9 @@ public class BudgetPie {
 	 */
 	protected DefaultRenderer buildCategoryRenderer(int[] colors) {
 		DefaultRenderer renderer = new DefaultRenderer();
-		renderer.setLabelsTextSize(LabelsTextSize);
-		renderer.setLegendTextSize(LegendTextSize);
+		renderer.setLabelsTextSize(windowswidesize / 12);
+		// 左下
+		renderer.setLegendTextSize(windowswidesize / 11);
 		renderer.setMargins(new int[] { 0, 0, 0, 0 });
 		for (int color : colors) {
 			SimpleSeriesRenderer r = new SimpleSeriesRenderer();
