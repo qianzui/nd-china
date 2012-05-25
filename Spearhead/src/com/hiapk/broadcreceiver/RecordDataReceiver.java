@@ -70,6 +70,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	}
 
 	private void initDataWithnoNetwork(Context context) {
+		sqlDataBase = sqlhelperTotal.creatSQLTotal(context);
 		sqlDataBase.beginTransaction();
 		try {
 			// 生成基本常用数据
