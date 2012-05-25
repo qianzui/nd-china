@@ -67,7 +67,7 @@ public class FireWallActivity extends Activity {
 
 		if (Block.fireTip(mContext)) {
 			Toast toast_refresh = Toast.makeText(mContext, "下拉列表可以进行刷新!",
-					Toast.LENGTH_SHORT);
+					Toast.LENGTH_LONG);
 			toast_refresh.show();
 		}
 
