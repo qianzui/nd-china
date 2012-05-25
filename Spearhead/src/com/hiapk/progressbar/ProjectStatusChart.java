@@ -43,8 +43,13 @@ import android.view.View;
 /**
  * Project status demo chart.
  */
-public class ProjectStatusChart {
-	int windowswidesize = 300;
+public class ProjectStatusChart extends ViewBase{
+	int windowswidesize=300;
+	public ProjectStatusChart(Context context,int windowswidesize) {
+		super(context);
+		// Log.d("main", windowswidesize+"windowswidesize");
+		// TODO Auto-generated constructor stub
+	}
 	// 名称数的个数要与data数与color数统一！
 	// 需要写入的数据1前方
 	double[] dataMobile = new double[] { 1402, 1023, 1042, 1502, 1409 };
@@ -87,14 +92,14 @@ public class ProjectStatusChart {
 				xaxles[i] = (month - 1) + "月" + (i + 1) + "日";
 			} else {
 				xaxles[i] = 12 + "月" + (i + 1) + "日";
-				showlog(xaxles[i]);
+//				showlog(xaxles[i]);
 			}
 		}
 		int j = 0;
 		for (int i = beforeDayofMonth; i < xaxles.length; i++) {
 			j++;
 			xaxles[i] = month + "月" + j + "日";
-			showlog(xaxles[i]);
+//			showlog(xaxles[i]);
 		}
 		this.xaxles = xaxles;
 
@@ -237,7 +242,7 @@ public class ProjectStatusChart {
 			renderer.addTextLabel(i, name);
 		}
 
-		setChartSettings(renderer, "历史流量统计", "日期", "流量（MB）", showDay - 5.5,
+		setChartSettings(renderer, "", "日期", "流量（MB）", showDay - 5.5,
 				showDay + 0.5, MinTraffic, MaxTraffic, Color.LTGRAY,
 				Color.LTGRAY);
 		// setChartSettings(renderer, mainTitle, XaxisText, YaxisText,
@@ -296,10 +301,13 @@ public class ProjectStatusChart {
 
 	private void setRenderer(XYMultipleSeriesRenderer renderer, int[] colors,
 			PointStyle[] styles) {
-		renderer.setAxisTitleTextSize(16);
-		renderer.setChartTitleTextSize(20);
-		renderer.setLabelsTextSize(15);
-		renderer.setLegendTextSize(15);
+		//轴上的日期
+		renderer.setAxisTitleTextSize(windowswidesize/20);
+		renderer.setChartTitleTextSize(windowswidesize/23);
+		//12345等数字
+		renderer.setLabelsTextSize(windowswidesize/25);
+		//有颜色的左下小标题
+		renderer.setLegendTextSize(windowswidesize/14);
 		renderer.setPointSize(5f);
 		renderer.setMargins(new int[] { 20, 30, 15, 20 });
 		int length = colors.length;
