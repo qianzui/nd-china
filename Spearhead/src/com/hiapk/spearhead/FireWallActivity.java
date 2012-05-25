@@ -257,6 +257,7 @@ public class FireWallActivity extends Activity {
 													Bundle bData = new Bundle();
 													bData.putInt("uid", uid);
 													bData.putString("appname", appname);
+													bData.putString("pkname", pkname);
 													intent.putExtras(bData);
 													mContext.startActivity(intent);
 												}

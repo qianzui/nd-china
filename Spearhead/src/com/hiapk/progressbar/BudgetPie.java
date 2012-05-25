@@ -22,6 +22,9 @@ public class BudgetPie {
 	float Scale = (float) 0.8;
 
 	public void setValues(long[] values) {
+		if (values[0]==values[1]) {
+			this.values =new long[]{1,1};
+		}else
 		this.values = values;
 	}
 
