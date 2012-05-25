@@ -1,10 +1,11 @@
 package com.hiapk.spearhead;
 
+import java.text.DecimalFormat;
+
 import com.hiapk.alertaction.AlertActionNotify;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
-import com.hiapk.firewall.Block;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.regulate.Regulate;
 
@@ -31,7 +32,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
-import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -53,7 +53,7 @@ public class Main3 extends Activity {
 	String MOBILE_COUNT_SET_DAY = "mobileMonthSetCountDay";
 	String MOBILE_COUNT_SET_TIME = "mobileMonthSetCountTime";
 	// 已使用总流量int
-	String VALUE_MOBILE_HASUSED_OF_INT = "mobileHasusedint";
+	String VALUE_MOBILE_HASUSED_OF_FLOAT = "mobileHasusedint";
 	// 设置单位（已使用）
 	String MOBILE_HASUSED_SET_UNIT = "mobileHasusedUnit";
 	// 已使用总流量long
@@ -82,6 +82,8 @@ public class Main3 extends Activity {
 	TrafficManager trafficManager = new TrafficManager();
 	// 获取固定存放数据
 	SharedPrefrenceData sharedData;
+	// 格式化固定数据
+	DecimalFormat format = new DecimalFormat("0.##");
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -95,13 +97,6 @@ public class Main3 extends Activity {
 		init_dayWarning();
 		init_warningAct();
 		combo = (Button) findViewById(R.id.combo);
-		
-		if (Block.fireTip(Main3.this)) {
-			Toast toast_refresh = Toast.makeText(Main3.this, "请校正已用流量和包月套餐!",
-					Toast.LENGTH_LONG);
-			toast_refresh.show();
-		}
-		
 		combo.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -231,13 +226,13 @@ public class Main3 extends Activity {
 					// Log.d("main3", i + "");
 					passfileEditor.putInt(MOBILE_COUNT_SET_YEAR, 1977);
 					passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG, 0);
-					passfileEditor.putInt(VALUE_MOBILE_HASUSED_OF_INT, 0);
+					passfileEditor.putFloat(VALUE_MOBILE_HASUSED_OF_FLOAT, 0);
 					passfileEditor.commit();// 委托，存入数据
-					//重置月已用流量
+					// 重置月已用流量
 					init_btn_HasUsed();
-					//弹出建议设置已用流量对话框
+					// 弹出建议设置已用流量对话框
 					dialogCountDaySelected().show();
-					//刷新小部件与通知栏
+					// 刷新小部件与通知栏
 					AlarmSet alset = new AlarmSet();
 					alset.StartWidgetAlarm(context);
 				}
@@ -258,12 +253,12 @@ public class Main3 extends Activity {
 		final Button btn_HasUsed = (Button) findViewById(R.id.btn_monthHasUseSet_Unit);
 		// 设置默认显示值
 		// 设置的使用值
-//		long mobileUsedSet = sharedData.getMonthMobileHasUse();
+		// long mobileUsedSet = sharedData.getMonthMobileHasUse();
 		// 计算出来的设置数值之后计算出来的使用量
 		long month_used = trafficManager.getMonthUseData(context);
-//		showlog(mobileUsedSet + "");
-		showlog(month_used + "");
-		btn_HasUsed.setText(FormatUnit.unitHandler( month_used));
+		// showlog(mobileUsedSet + "");
+		// showlog(month_used + "");
+		btn_HasUsed.setText(FormatUnit.unitHandler(month_used));
 		// 设置监听
 		btn_HasUsed.setOnClickListener(new OnClickListener() {
 			@Override
@@ -282,7 +277,7 @@ public class Main3 extends Activity {
 		final Button btn_month = (Button) findViewById(R.id.btn_monthSet_Unit);
 		// 设置默认显示值
 		long mobileSetLong = sharedData.getMonthMobileSetOfLong();
-		showlog(mobileSetLong + "");
+		// showlog(mobileSetLong + "");
 		btn_month.setText(FormatUnit.unitHandler(mobileSetLong));
 		// 设置监听
 		btn_month.setOnClickListener(new OnClickListener() {
@@ -335,7 +330,7 @@ public class Main3 extends Activity {
 						} catch (NumberFormatException e) {
 							// TODO: handle exception
 						}
-						showlog(i + "");
+						// showlog(i + "");
 						int mobileUnit = spin_unit.getSelectedItemPosition();
 						Editor passfileEditor = context.getSharedPreferences(
 								PREFS_NAME, 0).edit();
@@ -343,7 +338,7 @@ public class Main3 extends Activity {
 
 						if (mobileUnit == 0) {
 							long monthsetTraffMB = (long) i * 1024 * 1024;
-							showlog(monthsetTraffMB + "");
+							// showlog(monthsetTraffMB + "");
 							passfileEditor.putLong(VALUE_MOBILE_SET,
 									monthsetTraffMB);
 							passfileEditor.putLong(MOBILE_WARNING_MONTH,
@@ -352,7 +347,7 @@ public class Main3 extends Activity {
 									monthsetTraffMB / 10);
 						} else if (mobileUnit == 1) {
 							long monthsetTraffGB = (long) i * 1024 * 1024 * 1024;
-							showlog(monthsetTraffGB + "");
+							// showlog(monthsetTraffGB + "");
 							passfileEditor.putLong(VALUE_MOBILE_SET,
 									monthsetTraffGB);
 							passfileEditor.putLong(MOBILE_WARNING_MONTH,
@@ -391,7 +386,7 @@ public class Main3 extends Activity {
 	protected AlertDialog dialogMonthHasUsed(final Button btn_Used) {
 		// TODO Auto-generated method stub
 		int mobileUseUnit = sharedData.getMonthHasUsedUnit();
-		int mobileUseInt = sharedData.getMonthMobileHasUseOfint();
+		float mobileUsefloat = sharedData.getMonthMobileHasUseOffloat();
 		// 初始化窗体
 		LayoutInflater factory = LayoutInflater.from(Main3.this);
 		final View textEntryView = factory.inflate(
@@ -406,8 +401,8 @@ public class Main3 extends Activity {
 		spin_unit.setAdapter(adp);
 		// 初始化数值
 		spin_unit.setSelection(mobileUseUnit);
-		et_month.setText(mobileUseInt + "");
-		et_month.setSelection(String.valueOf(mobileUseInt).length());
+		et_month.setText(mobileUsefloat + "");
+		et_month.setSelection(String.valueOf(mobileUsefloat).length());
 
 		AlertDialog monthHasUsedAlert = new AlertDialog.Builder(Main3.this)
 				.setTitle("请设置本月已用流量")
@@ -415,30 +410,33 @@ public class Main3 extends Activity {
 				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						// 输入的数值
-						int i = 0;
+						float i = 0;
 						try {
-							i = Integer.valueOf(et_month.getText().toString());
+							i = Float.valueOf(et_month.getText().toString());
 						} catch (NumberFormatException e) {
 							// TODO: handle exception
+							showlog(i + "shuziError"
+									+ et_month.getText().toString());
 						}
-						btn_Used.setText(String.valueOf(i) + " ");
+
+						btn_Used.setText(format.format(i));
 						int mobileHasUsedUnit = spin_unit
 								.getSelectedItemPosition();
 						Editor passfileEditor = context.getSharedPreferences(
 								PREFS_NAME, 0).edit();
 						// Log.d("main3", i + "");
 						//
-
 						//
 
 						if (mobileHasUsedUnit == 0) {
 							passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
-									(long) i * 1048576);
+									(long) (i * 1048576));
 						} else {
 							passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
-									(long) i * 1048576 * 1024);
+									(long) (i * 1048576 * 1024));
 						}
-						passfileEditor.putInt(VALUE_MOBILE_HASUSED_OF_INT, i);
+						passfileEditor.putFloat(VALUE_MOBILE_HASUSED_OF_FLOAT,
+								i);
 
 						passfileEditor.putInt(MOBILE_HASUSED_SET_UNIT,
 								mobileHasUsedUnit);
@@ -591,8 +589,7 @@ public class Main3 extends Activity {
 	 */
 	public AlertDialog dialogHasUsedLongTooMuch() {
 		AlertDialog dayWarning = new AlertDialog.Builder(Main3.this)
-				.setTitle("注意！")
-				.setMessage("您设置的本月已用流量超过包月流量！")
+				.setTitle("注意！").setMessage("您设置的本月已用流量超过包月流量！")
 				// .setView(textEntryView)
 				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
