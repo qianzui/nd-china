@@ -37,8 +37,8 @@
 
                 <ImageView
                     android:id="@+id/img_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dip"
+                    android:layout_height="32dip"
                     android:src="@drawable/ic_launcher" />
 
                 <TextView
@@ -48,13 +48,13 @@
                     android:text="TextView" />
 
                 <TextView
-                    android:id="@+id/tv_wifi"
+                    android:id="@+id/tv_mobile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TextView" />
 
                 <TextView
-                    android:id="@+id/tv_mobile"
+                    android:id="@+id/tv_wifi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TextView" />
