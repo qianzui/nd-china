@@ -18,7 +18,7 @@
         android:defaultValue="true"
         android:summaryOff="已关闭"
         android:summaryOn="已开启"
-        android:title="防火墙提示信息 " />
+        android:title="显示软件提示信息" />
 
     <ListPreference
         android:entries="@array/refreshwidget"
