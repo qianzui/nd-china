@@ -128,7 +128,7 @@ public class SpearheadActivity extends TabActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
-		menu.add(0, 1, 1, "系统设置");
+		menu.add(0, 1, 1, "设置");
 		menu.add(0, 2, 2, "FAQ");
 		menu.add(0, 3, 3, "关于");
 		menu.add(0, 4, 4, "退出");
