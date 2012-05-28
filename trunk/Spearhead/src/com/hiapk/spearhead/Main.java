@@ -326,12 +326,23 @@ public class Main extends Activity {
 	private class AsyncTaskonRefreshMain extends AsyncTask<Context, Long, Long> {
 		@Override
 		protected Long doInBackground(Context... params) {
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			int timetap = 0;
+			while (TrafficManager.mobile_month_data[0] == 0
+					&& TrafficManager.wifi_month_data[0] == 0
+					&& TrafficManager.mobile_month_data[63] == 0
+					&& TrafficManager.wifi_month_data[63] == 0) {
+				try {
+					Thread.sleep(500);
+					timetap += 1;
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if (timetap > 3)
+					break;
+
 			}
+
 			return null;
 		}
 
