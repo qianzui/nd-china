@@ -61,6 +61,7 @@ public class Regulate extends Activity{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				
 				sms();
 			}
 		});
@@ -70,7 +71,12 @@ public class Regulate extends Activity{
 	public void sms(){
 		String num = smsNum.getText().toString();
 		String text = smsText.getText().toString();	
-		Log.v("+++++++++++++++++++++++++", text);
+//		Log.v("+++++++++++++++++++++++++", text);
+		sr =  new SmsRead();
+		sr.Sms(this);
+		if(!SmsRead.isRead){
+			smsResult.setText("读取短信失败，请手动设置");
+		}
 //		SmsManager sman = SmsManager.getDefault();
 //		sman.sendTextMessage(num, null, text, null, null);
 		Uri uri = Uri.parse("smsto:"+num);
@@ -82,7 +88,7 @@ public class Regulate extends Activity{
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		sr =  new SmsRead();
-		Log.v("----------------",sr.Sms(this));
+//		sr =  new SmsRead();
+//		Log.v("----------------",sr.Sms(this));
 	}
 }
