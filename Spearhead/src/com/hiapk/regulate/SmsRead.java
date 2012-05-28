@@ -1,18 +1,16 @@
 package com.hiapk.regulate;
 
-import com.hiapk.spearhead.Main3;
-
 import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.util.Log;
-import android.widget.Toast;
 
 public class SmsRead  {
-	
+	static boolean isRead=true;
 
 	public String Sms(Activity at){
+		
 		String[] projection =  new String[]{
 				"_id",
 				"address",
@@ -47,9 +45,15 @@ public class SmsRead  {
 			int smsColumn = cur.getColumnIndex("body");
 
 			do {
+						
 				name = cur.getString(nameColumn);             
 				phoneNum = cur.getString(phoneColumn);
 				sms = cur.getString(smsColumn);
+				
+				if (null==sms){
+					sms="";
+					isRead = false;
+				}
 				
 				count = judge(name, phoneNum, sms);
 //				strBuilder.append(start+",");
@@ -61,9 +65,7 @@ public class SmsRead  {
 				Regulate.smsResult.setText("本月已用流量为:"+count+" MB");
 
 
-				if (null==sms){
-					sms="";
-				}					
+							
 				if (!count.equalsIgnoreCase("0")){
 					break;
 				}
@@ -71,7 +73,8 @@ public class SmsRead  {
 			} while (cur.moveToNext());
 		}
 		else{
-			strBuilder.append("no result!");
+			isRead = false;
+			strBuilder.append("无短信内容!");
 		}
 		
 		return strBuilder;
