@@ -62,13 +62,18 @@ public class SmsRead  {
 //				strBuilder.append(sms);
 //				strBuilder.append(end+",");
 				strBuilder.append(count);
-				Regulate.smsResult.setText("本月已用流量为:"+count+" MB");
+				
 
 
 							
-				if (!count.equalsIgnoreCase("0")){
+				if (!count.equalsIgnoreCase("无短信内容")){		
+					Regulate.smsResult.setText("本月已用流量为:"+count+" MB");
 					break;
 				}
+				else {
+					isRead = false;
+				}
+				
 			
 			} while (cur.moveToNext());
 		}
@@ -84,13 +89,17 @@ public class SmsRead  {
 		String num;
 		int start;
 		int end;
-		String count = "0";
+		String count = "无短信内容";
 		
 		num = Regulate.smsNum.getText().toString();
 		if(phoneNum.equalsIgnoreCase(num)){
 			start = sms.indexOf("为");
 			end = sms.indexOf("M");
-			count = sms.substring(start+1, end);
+			if(start != -1){
+				isRead = true;
+				count = sms.substring(start+1, end);
+			}
+			
 		}
 		return count;
 	}

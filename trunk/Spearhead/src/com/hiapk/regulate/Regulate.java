@@ -19,6 +19,7 @@ import android.widget.Toast;
 public class Regulate extends Activity{
 	public static Button chooseBtn;
 	Button smsSend;	
+	Button smsRead;	
 	public static TextView smsText;
 	public static TextView smsNum;
 	public static TextView smsResult;
@@ -34,61 +35,75 @@ public class Regulate extends Activity{
 		sharedData = new SharedPrefrenceData(this);
 		chooseBtn = (Button)findViewById(R.id.choose);
 		smsSend = (Button)findViewById(R.id.smsSend);
+		smsRead = (Button)findViewById(R.id.smsRead);
 		smsText = (TextView)findViewById(R.id.smsText);
 		smsNum = (TextView)findViewById(R.id.smsNum);
 		smsResult = (TextView)findViewById(R.id.smsResult);
 		city = sharedData.getCity();
 		brand = sharedData.getBrand();
-		
+
 		chooseBtn.setText(city+brand);
 		smsNum.setText(sharedData.getSmsNum());
 		smsText.setText(sharedData.getSmsText());
-		
-		
+
+
 		chooseBtn.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent it = new Intent(Regulate.this,PhoneSet.class);
 				startActivity(it);
-				
+
 			}
 		});
-		
+
 		smsSend.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				
-				sms();
+
+				smsSend();
 			}
 		});
-		
-		
+
+		smsRead.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
+				smsRead();
+			}
+		});
+
+
 	}
-	public void sms(){
+	public void smsSend(){
 		String num = smsNum.getText().toString();
 		String text = smsText.getText().toString();	
-//		Log.v("+++++++++++++++++++++++++", text);
-		sr =  new SmsRead();
-		sr.Sms(this);
-		if(!SmsRead.isRead){
-			smsResult.setText("读取短信失败，请手动设置");
-		}
-//		SmsManager sman = SmsManager.getDefault();
-//		sman.sendTextMessage(num, null, text, null, null);
 		Uri uri = Uri.parse("smsto:"+num);
 		Intent it = new Intent(Intent.ACTION_VIEW,uri);	
 		it.putExtra("sms_body", text);
 		startActivity(it);
 	}	
+
+	public void smsRead(){
+		sr =  new SmsRead();
+		sr.Sms(this);
+		if(!SmsRead.isRead){
+			smsResult.setText("读取短信失败或短信内容有误，请手动设置");
+		}
+		Log.v("+++++++++++++++++++++", "读取短信");
+	}
+
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-//		sr =  new SmsRead();
-//		Log.v("----------------",sr.Sms(this));
+		//		sr =  new SmsRead();
+		//		Log.v("----------------",sr.Sms(this));
 	}
 }
