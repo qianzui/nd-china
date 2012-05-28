@@ -26,7 +26,16 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 		// showLog("TableWiFiOrG23=" + SQLHelperTotal.TableWiFiOrG23);
 		if (sqlhelperTotal.getIsInit(context)) {
 			if (SQLHelperTotal.TableWiFiOrG23 != "") {
-				network=SQLHelperTotal.TableWiFiOrG23;
+				// 进行之前使用的网络是何种网络进行判断
+				// network = SQLHelperTotal.TableWiFiOrG23;
+				if (SQLHelperTotal.UidWiFiOrG23 == "") {
+					network = SQLHelperTotal.TableWiFiOrG23;
+					SQLHelperTotal.UidWiFiOrG23 = SQLHelperTotal.TableWiFiOrG23;
+				} else {
+					network = SQLHelperTotal.UidWiFiOrG23;
+					SQLHelperTotal.UidWiFiOrG23 = SQLHelperTotal.TableWiFiOrG23;
+				}
+				// 进行两种数据的记录
 				if (SQLHelperTotal.isSQLUidOnUsed != true) {
 					new AsyncTaskonRecordUidData().execute(context);
 					// showLog(SQLHelperTotal.TableWiFiOrG23);
@@ -36,6 +45,22 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 					new AsyncTaskonRecordUidTotal().execute(context);
 				} else
 					showLog("UidTotal数据库忙");
+			} else {
+				// 无网络条件下进行最后一次记录
+				if (SQLHelperTotal.UidWiFiOrG23 != "") {
+					network = SQLHelperTotal.UidWiFiOrG23;
+					SQLHelperTotal.UidWiFiOrG23 = SQLHelperTotal.TableWiFiOrG23;
+					// 进行两种数据的记录
+					if (SQLHelperTotal.isSQLUidOnUsed != true) {
+						new AsyncTaskonRecordUidData().execute(context);
+						// showLog(SQLHelperTotal.TableWiFiOrG23);
+					} else
+						showLog("Uid数据库忙");
+					if (SQLHelperTotal.isSQLUidTotalOnUsed != true) {
+						new AsyncTaskonRecordUidTotal().execute(context);
+					} else
+						showLog("UidTotal数据库忙");
+				}
 			}
 		} else {
 			// sqlhelper.initSQL(context);
@@ -68,10 +93,10 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 		try {
 			// 更新数据
 			sqlhelperUid.updateSQLUidTypes(sqlDataBase,
-					SQLHelperUid.uidnumbers, 1, network,
-					1);
-			//记录数据
-			sqlhelperUid.RecordUidwritestats(sqlDataBase, SQLHelperUid.uidnumbers, false, network);
+					SQLHelperUid.uidnumbers, 1, network, 1);
+			// 记录数据
+			sqlhelperUid.RecordUidwritestats(sqlDataBase,
+					SQLHelperUid.uidnumbers, false, network);
 			sqlDataBase.setTransactionSuccessful();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -91,7 +116,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			super.onPreExecute();
 			time = System.currentTimeMillis();
 			SQLHelperTotal.isSQLUidOnUsed = true;
-			
+
 		}
 
 		@Override
@@ -147,7 +172,8 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			}
 
 			SQLHelperUidTotal sqlUidTotal = new SQLHelperUidTotal();
-			sqlUidTotal.updateSQLUidTypes(params[0], SQLHelperUid.uidnumbers,network);
+			sqlUidTotal.updateSQLUidTypes(params[0], SQLHelperUid.uidnumbers,
+					network);
 			return 1;
 		}
 

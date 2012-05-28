@@ -31,6 +31,8 @@ public class SQLHelperTotal {
 	private String SQLTime = "date date,time time";
 	private String CreateparamWiFiAnd23G = ",upload INTEGER, download INTEGER,type INTEGER,other varchar(15)";
 	public static String TableWiFiOrG23 = "mobile";
+	public static String UidWiFiOrG23 = "";
+	public static String TotalWiFiOrG23 = "";
 	private String TableWiFi = "wifi";
 	private String TableMobile = "mobile";
 	private String InsertTable = "INSERT INTO ";
@@ -337,7 +339,7 @@ public class SQLHelperTotal {
 	 */
 	public void initSQL(Context context, int[] uidnumbers, String[] packagename) {
 		// 初始化网络状态
-		initTablemobileAndwifi(context);
+		initTablemobileAndwifi(context, true);
 		initTime();
 		// 初始化数据库
 		boolean initsuccess = true;
@@ -475,8 +477,11 @@ public class SQLHelperTotal {
 	 * 用于初始化网络状态确定当前使用何种网络
 	 * 
 	 * @param context
+	 * 
+	 * @param allset
+	 *            是否改变uid与total的记录值
 	 */
-	public void initTablemobileAndwifi(Context context) {
+	public void initTablemobileAndwifi(Context context, boolean allset) {
 		ConnectivityManager connec = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		if (connec.getActiveNetworkInfo() != null) {
@@ -490,6 +495,10 @@ public class SQLHelperTotal {
 		} else {
 			TableWiFiOrG23 = "";
 			// showLog("无可用网络");
+		}
+		if (allset) {
+			UidWiFiOrG23 = TableWiFiOrG23;
+			TotalWiFiOrG23 = TableWiFiOrG23;
 		}
 	}
 
@@ -1045,9 +1054,9 @@ public class SQLHelperTotal {
 		// select oldest upload and download 之前记录的数据的查询操作
 		// SELECT * FROM table WHERE type=0
 		// specialfortext TableMobile-----TableWiFi
-		string = SelectTable + TableMobile + Where + "date" + Between + weekStart
-				+ AND_B + year + "-" + month2 + "-" + monthDay2 + AND + "type="
-				+ 2;
+		string = SelectTable + TableMobile + Where + "date" + Between
+				+ weekStart + AND_B + year + "-" + month2 + "-" + monthDay2
+				+ AND + "type=" + 2;
 		// showLog(string);
 		try {
 			cur = sqlDataBase.rawQuery(string, null);

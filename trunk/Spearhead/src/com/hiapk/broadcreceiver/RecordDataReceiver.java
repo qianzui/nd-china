@@ -39,17 +39,18 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	private String network;
 	// fortest
 	long time;
+	Context context;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
+		this.context = context;
 		// showLog("TableWiFiOrG23=" + SQLHelperTotal.TableWiFiOrG23);
 		// 初始化数据库后进行操作
 		if (sqlhelperTotal.getIsInit(context)) {
 			if (SQLHelperTotal.TableWiFiOrG23 != "") {
 				if (SQLHelperTotal.isSQLTotalOnUsed != true) {
 					time = System.currentTimeMillis();
-					sqlDataBase = sqlhelperTotal.creatSQLTotal(context);
 					new AsyncTaskonRecordTotalData().execute(context);
 					// showLog(SQLHelperTotal.TableWiFiOrG23);
 				} else
@@ -70,31 +71,54 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	}
 
 	private void initDataWithnoNetwork(Context context) {
+		long mobile_month_use_afterSet = 0;
+		long[] wifi_month_data = new long[64];
+		long[] mobile_month_data = new long[64];
+		long[] mobile_week_data = new long[6];
+		MonthlyUseData monthlyUseData = new MonthlyUseData();
 		sqlDataBase = sqlhelperTotal.creatSQLTotal(context);
 		sqlDataBase.beginTransaction();
 		try {
 			// 生成基本常用数据
 			initTime();
-			long mobile_month_use_afterSet = 0;
-			long[] wifi_month_data = new long[64];
-			long[] mobile_month_data = new long[64];
-			long[] mobile_week_data = new long[6];
-			MonthlyUseData monthlyUseData = new MonthlyUseData();
-			mobile_month_use_afterSet = monthlyUseData.getMonthUseData(context,
-					sqlDataBase);
-			wifi_month_data = sqlhelperTotal.SelectWifiData(sqlDataBase, year,
-					month);
-			mobile_month_data = sqlhelperTotal.SelectMobileData(sqlDataBase,
-					year, month);
-			mobile_week_data = sqlhelperTotal.SelectWeekData(sqlDataBase, year,
-					month, monthDay, weekDay);
 
+			if (SQLHelperTotal.TotalWiFiOrG23 != "") {
+				network = SQLHelperTotal.TotalWiFiOrG23;
+				SQLHelperTotal.TotalWiFiOrG23 = SQLHelperTotal.TableWiFiOrG23;
+				// 断网后的最后一次记录
+				sqlhelperTotal.updateSQLtotalType(sqlDataBase, network, 1,
+						null, 1);
+				sqlhelperTotal.RecordTotalwritestats(sqlDataBase, false,
+						network);
+				// 生成基本常用数据
+				initTime();
+				mobile_month_use_afterSet = monthlyUseData.getMonthUseData(
+						context, sqlDataBase);
+				wifi_month_data = sqlhelperTotal.SelectWifiData(sqlDataBase,
+						year, month);
+				mobile_month_data = sqlhelperTotal.SelectMobileData(
+						sqlDataBase, year, month);
+				mobile_week_data = sqlhelperTotal.SelectWeekData(sqlDataBase,
+						year, month, monthDay, weekDay);
+			} else {
+				network = SQLHelperTotal.TotalWiFiOrG23;
+				// 无网络进行数据显示，不进行记录
+				//
+				mobile_month_use_afterSet = monthlyUseData.getMonthUseData(
+						context, sqlDataBase);
+				wifi_month_data = sqlhelperTotal.SelectWifiData(sqlDataBase,
+						year, month);
+				mobile_month_data = sqlhelperTotal.SelectMobileData(
+						sqlDataBase, year, month);
+				mobile_week_data = sqlhelperTotal.SelectWeekData(sqlDataBase,
+						year, month, monthDay, weekDay);
+			}
+			sqlDataBase.setTransactionSuccessful();
 			// 对数据进行赋值
 			TrafficManager.mobile_month_use_afterSet = mobile_month_use_afterSet;
 			TrafficManager.wifi_month_data = wifi_month_data;
 			TrafficManager.mobile_month_data = mobile_month_data;
 			TrafficManager.mobile_week_data = mobile_week_data;
-			sqlDataBase.setTransactionSuccessful();
 			// showLog("wifitotal=" + wifi_month_data[0] + "");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -171,7 +195,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		} finally {
 			sqlDataBase.endTransaction();
 		}
-		sqlhelperTotal.closeSQL(sqlDataBase);
 
 		// TrafficManager.setMonthUseDate(context);
 		// 输出日志
@@ -189,7 +212,15 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
 			SQLHelperTotal.isSQLTotalOnUsed = true;
-			network = SQLHelperTotal.TableWiFiOrG23;
+			sqlDataBase = sqlhelperTotal.creatSQLTotal(context);
+			if (SQLHelperTotal.TotalWiFiOrG23 == "") {
+				network = SQLHelperTotal.TableWiFiOrG23;
+				SQLHelperTotal.TotalWiFiOrG23 = SQLHelperTotal.TableWiFiOrG23;
+			} else {
+				network = SQLHelperTotal.TotalWiFiOrG23;
+				SQLHelperTotal.TotalWiFiOrG23 = SQLHelperTotal.TableWiFiOrG23;
+			}
+
 		}
 
 		@Override
@@ -206,6 +237,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		@Override
 		protected void onPostExecute(Long result) {
 			// TODO Auto-generated method stub
+			sqlhelperTotal.closeSQL(sqlDataBase);
 			SQLHelperTotal.isSQLTotalOnUsed = false;
 			// time = System.currentTimeMillis() - time;
 			// showLog("更新记录完毕" + time);

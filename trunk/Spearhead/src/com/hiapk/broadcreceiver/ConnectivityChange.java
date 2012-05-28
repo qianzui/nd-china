@@ -22,9 +22,7 @@ public class ConnectivityChange extends BroadcastReceiver {
 		// TODO Auto-generated method stub
 		// 设置闹钟与数据库操作
 		AlarmSet alset = new AlarmSet();
-		TrafficManager trafficManager = new TrafficManager();
 		SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
-		SQLHelperUid sqlhelperUid = new SQLHelperUid();
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		if (sqlhelperTotal.getIsInit(context)) {
 			// 网络状态变化时
@@ -48,30 +46,16 @@ public class ConnectivityChange extends BroadcastReceiver {
 					NetworkInfo info = connec.getActiveNetworkInfo();
 					String typeName = info.getTypeName(); // mobile@wifi
 					if (typeName.equals("WIFI")) {
-						// 总流量与uid自动记录功能并修改网络属性
-//						trafficManager.statsTotalTraffic(context, false,
-//								SQLHelperTotal.TableWiFiOrG23);
-//						trafficManager.statsUidTraffic(context, false,
-//								SQLHelperTotal.TableWiFiOrG23);
-						// sqlhelperTotal.RecordTotalwritestats(context, false);
-						// sqlhelperUid.RecordUidwritestats(context, false);
 						SQLHelperTotal.TableWiFiOrG23 = "wifi";
 					}
 					if (typeName.equals("mobile")) {
-						// 总流量与uid自动记录功能并修改网络属性
-						// trafficManager.statsTotalTraffic(context, false);
-						// sqlhelperTotal.RecordTotalwritestats(context, false);
-						// sqlhelperUid.RecordUidwritestats(context, false);
 						SQLHelperTotal.TableWiFiOrG23 = "mobile";
 					}
-					// showLog("何种方式连线" + typeName);
+					 showLog("何种方式连线" + typeName);
 				} else {
-					// trafficManager.statsTotalTraffic(context, false);
-					// sqlhelperTotal.RecordTotalwritestats(context, false);
-					// sqlhelperUid.RecordUidwritestats(context, false);
 					alset.StartAlarm(context);
 					SQLHelperTotal.TableWiFiOrG23 = "";
-					showLog("无可用网络");
+					 showLog("无可用网络");
 					alset.StopAlarm(context);
 				}
 			}
@@ -81,6 +65,6 @@ public class ConnectivityChange extends BroadcastReceiver {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("Receiver", string);
+		Log.d("ConnectivityChange", string);
 	}
 }

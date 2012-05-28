@@ -29,7 +29,7 @@ public class PackageReceiver extends BroadcastReceiver {
 					.equals("android.intent.action.PACKAGE_ADDED")) {
 				// 检查为自身安装
 				if (packageNames.equals("package:com.hiapk.spearhead")) {
-					sqlhelperTotal.initTablemobileAndwifi(context);
+					sqlhelperTotal.initTablemobileAndwifi(context,false);
 				} else {
 					// 其他软件安装
 					// 检测网络权限
