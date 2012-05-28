@@ -41,11 +41,10 @@ public class TrafficAlert {
 		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
 		long monthWarning = prefs.getLong(MOBILE_WARNING_MONTH,
 				45 * 1024 * 1024);
-//		if ((monthTraffic[0] + monthTraffic[63]) == 0) {
-//			getMonthMobileTraffic(context);
-//		}
-		TrafficManager trafficManager=new TrafficManager();
-		long mobile_month_use = trafficManager.getMonthUseData(context);
+		// if ((monthTraffic[0] + monthTraffic[63]) == 0) {
+		// getMonthMobileTraffic(context);
+		// }
+		long mobile_month_use = TrafficManager.getMonthUseData(context);
 		if (monthWarning > mobile_month_use) {
 			// showLog(monthTraffic[0]+"");
 			// showLog(monthTraffic[63]+"");
@@ -63,16 +62,21 @@ public class TrafficAlert {
 	 * @return
 	 */
 	public boolean isTrafficOverDaySet(Context context) {
-		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-		long warningDayset = prefs.getLong(MOBILE_WARNING_DAY, 5 * 1024 * 1024);
-		if ((monthTraffic[0] + monthTraffic[63]) == 0) {
-			getMonthMobileTraffic(context);
-		}
-		if (warningDayset > (monthTraffic[getDay()] + monthTraffic[getDay() + 31])) {
+		if (TrafficManager.mobile_month_data[0] == 0
+				&& TrafficManager.mobile_month_data[63] == 0) {
 			return false;
 		} else {
-			return true;
+			SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME,
+					0);
+			long warningDayset = prefs.getLong(MOBILE_WARNING_DAY,
+					5 * 1024 * 1024);
+			if (warningDayset > (TrafficManager.mobile_month_data[getDay()] + TrafficManager.mobile_month_data[getDay() + 31])) {
+				return false;
+			} else {
+				return true;
+			}
 		}
+
 	}
 
 	/**
@@ -154,20 +158,20 @@ public class TrafficAlert {
 		UseEditor.commit();
 	}
 
-	/**
-	 * 获取流量信息
-	 * 
-	 * @param context
-	 */
-	private void getMonthMobileTraffic(Context context) {
-		Time t = new Time();
-		t.setToNow();
-		int year = t.year;
-		int month = t.month + 1;
-		// showLog(year+" "+month);
-//		TrafficManager trafficManager = new TrafficManager();
-		monthTraffic = TrafficManager.mobile_month_data;
-	}
+	// /**
+	// * 获取流量信息
+	// *
+	// * @param context
+	// */
+	// private void getMonthMobileTraffic(Context context) {
+	// Time t = new Time();
+	// t.setToNow();
+	// int year = t.year;
+	// int month = t.month + 1;
+	// // showLog(year+" "+month);
+	// // TrafficManager trafficManager = new TrafficManager();
+	// monthTraffic = TrafficManager.mobile_month_data;
+	// }
 
 	/**
 	 * 获取日期
@@ -186,7 +190,7 @@ public class TrafficAlert {
 		SharedPreferences prefs_setting = PreferenceManager
 				.getDefaultSharedPreferences(context);
 		boolean allowNotify = prefs_setting.getBoolean(SYS_PRE_NOTIFY, true);
-//		showLog(allowNotify + "");
+		// showLog(allowNotify + "");
 		if (allowNotify) {
 			AlertActionNotify actNotify = new AlertActionNotify();
 			actNotify.startNotifyMonth(context, vibrate);
@@ -197,7 +201,7 @@ public class TrafficAlert {
 		SharedPreferences prefs_setting = PreferenceManager
 				.getDefaultSharedPreferences(context);
 		boolean allowNotify = prefs_setting.getBoolean(SYS_PRE_NOTIFY, true);
-//		showLog(allowNotify + "");
+		// showLog(allowNotify + "");
 		if (allowNotify) {
 			AlertActionNotify actNotify = new AlertActionNotify();
 			actNotify.startNotifyDay(context, vibrate);
