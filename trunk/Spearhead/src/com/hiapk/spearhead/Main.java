@@ -144,15 +144,14 @@ public class Main extends Activity {
 		// todayMobil.setText(unitHandler(8888080, todayMobilunit));
 		weekMobil.setText(unitHandler(weektraffic[0], weekMobilunit));
 		// 月度流量设置
-		mobile_month_use = TrafficManager.mobile_month_use_afterSet;
+		mobile_month_use = TrafficManager.getMonthUseData(context);
 		long mobileSet = sharedData.getMonthMobileSetOfLong();
-		long mobileHasUseSet = sharedData.getMonthMobileHasUse();
 		if (mobile_month_use > mobileSet)
 			monthMobil.setTextColor(Color.RED);
 		else
 			monthMobil.setTextColor(Color.GREEN);
 
-		monthMobil.setText(unitHandler(mobile_month_use+mobileHasUseSet, monthMobilunit));
+		monthMobil.setText(unitHandler(mobile_month_use, monthMobilunit));
 		monthMobil2.setText("/" + unitHandler(mobileSet, monthMobilunit2));
 		// todayWifi.setText(unitHandler(wifi[monthDay] + wifi[monthDay + 31],
 		// todayWifiunit));
@@ -404,7 +403,7 @@ public class Main extends Activity {
 		// windowswidesize = dm.widthPixels / 10;
 		windowswidesize = dm.densityDpi;
 		StackedBarChart chartbar = new StackedBarChart(context, windowswidesize);
-		chartbar.setXaxisText(year+"年");
+		chartbar.setXaxisText(year + "年");
 		// 进行参数设置
 		// 设置x轴显示范围
 		int monthtotalDay = countDay(year, month);
@@ -468,7 +467,7 @@ public class Main extends Activity {
 		} else if (mobileSet == 0) {
 			usePercent = 360;
 		} else {
-			usePercent = (int) (((float) mobile_month_use / mobileSet) * 360);
+			usePercent = (int) (((double) mobile_month_use / mobileSet) * 360);
 		}
 		if (usePercent > 360)
 			usePercent = 360;
@@ -484,7 +483,7 @@ public class Main extends Activity {
 			if (mobile_month_use > mobileSet)
 				mobilePersent = 100;
 			else
-				mobilePersent = (int) ((float) mobile_month_use * 100 / mobileSet);
+				mobilePersent = (int) ((double) mobile_month_use * 100 / mobileSet);
 		}
 		int[] percent = new int[] { usePercent, 360 - usePercent };
 		final PieView pieView_mobile = new PieView(context, percent,
