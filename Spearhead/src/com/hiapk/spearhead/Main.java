@@ -295,7 +295,8 @@ public class Main extends Activity {
 		if (TrafficManager.mobile_month_data[0] == 0
 				&& TrafficManager.wifi_month_data[0] == 0
 				&& TrafficManager.mobile_month_data[63] == 0
-				&& TrafficManager.wifi_month_data[63] == 0) {
+				&& TrafficManager.wifi_month_data[63] == 0
+				&& sharedData.getMonthMobileHasUse() == 0) {
 
 			new AsyncTaskonRefreshMain().execute(context);
 		}
@@ -365,7 +366,7 @@ public class Main extends Activity {
 				// TODO Auto-generated method stub
 				AlarmSet alset = new AlarmSet();
 				// ³õÊ¼»¯ÍøÂç×´Ì¬
-				sqlhelperTotal.initTablemobileAndwifi(context);
+				sqlhelperTotal.initTablemobileAndwifi(context, false);
 				if (SQLHelperTotal.TableWiFiOrG23 != ""
 						&& sqlhelperTotal.getIsInit(context)) {
 					// Æô¶¯ÄÖÖÓ
@@ -375,7 +376,7 @@ public class Main extends Activity {
 					// sqlhelperTotal.RecordTotalwritestats(context, false);
 				} else if (SQLHelperTotal.TableWiFiOrG23 != "") {
 					alset.StartAlarmMobile(context);
-					sqlhelperTotal.initTablemobileAndwifi(context);
+					sqlhelperTotal.initTablemobileAndwifi(context, false);
 				}
 				initValues();
 				initProgressBar();

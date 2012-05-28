@@ -38,7 +38,7 @@ public class Splash extends Activity {
 			AlarmSet alset = new AlarmSet();
 			// 初始化网络状态
 			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
-			sqlhelperTotal.initTablemobileAndwifi(params[0]);
+			sqlhelperTotal.initTablemobileAndwifi(params[0],false);
 			if (SQLHelperTotal.TableWiFiOrG23 != ""
 					&& sqlhelperTotal.getIsInit(params[0])) {
 				// 启动闹钟
@@ -57,18 +57,6 @@ public class Splash extends Activity {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// TODO Auto-generated method stub
-			SQLHelperUid sqlhelperUid = new SQLHelperUid();
-			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
-			if (result == 1) {
-				// 进行数据记录
-//				sqlhelperUid.RecordUidwritestats(context, false);
-//				sqlhelperTotal.RecordTotalwritestats(context, false);
-			} else {
-				// 进行数据记录
-				sqlhelperTotal.initTablemobileAndwifi(context);
-			}
-			SQLHelperTotal.isSQLTotalOnUsed = false;
-			SQLHelperTotal.isSQLUidOnUsed = false;
 			Intent mainIntent = new Intent(Splash.this, SpearheadActivity.class);
 			Bundle choosetab = new Bundle();
 			choosetab.putInt("TAB", 1);

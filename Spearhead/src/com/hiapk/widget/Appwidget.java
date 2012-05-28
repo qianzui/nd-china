@@ -33,6 +33,7 @@ public class Appwidget extends AppWidgetProvider {
 	String BROADCAST_WIFI = "com.hiapk.wifiwidget";
 	String BROADCAST_GPRS = "com.hiapk.prgswidget";
 	String BROADCAST_TRAFF = "com.hiapk.traffwidget";
+	//≥ı ºªØwifi”Îmobile◊¥Ã¨
 	String APPWIDGET_UPDATE = "com.hiapkAPPWIDGET_UPDATE";
 	SharedPrefrenceData sharedData;
 
