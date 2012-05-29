@@ -3,6 +3,7 @@ package com.hiapk.broadcreceiver;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
 import com.hiapk.sqlhelper.SQLHelperUidTotal;
+import com.hiapk.sqlhelper.SQLStatic;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -36,12 +37,12 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 					SQLHelperTotal.UidWiFiOrG23 = SQLHelperTotal.TableWiFiOrG23;
 				}
 				// 进行两种数据的记录
-				if (SQLHelperTotal.isSQLUidOnUsed != true) {
+				if (SQLStatic.setSQLUidOnUsed(true)) {
 					new AsyncTaskonRecordUidData().execute(context);
 					// showLog(SQLHelperTotal.TableWiFiOrG23);
 				} else
 					showLog("Uid数据库忙");
-				if (SQLHelperTotal.isSQLUidTotalOnUsed != true) {
+				if (SQLStatic.setSQLUidTotalOnUsed(true)) {
 					new AsyncTaskonRecordUidTotal().execute(context);
 				} else
 					showLog("UidTotal数据库忙");
@@ -51,12 +52,12 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 					network = SQLHelperTotal.UidWiFiOrG23;
 					SQLHelperTotal.UidWiFiOrG23 = SQLHelperTotal.TableWiFiOrG23;
 					// 进行两种数据的记录
-					if (SQLHelperTotal.isSQLUidOnUsed != true) {
+					if (SQLStatic.setSQLUidOnUsed(true)) {
 						new AsyncTaskonRecordUidData().execute(context);
 						// showLog(SQLHelperTotal.TableWiFiOrG23);
 					} else
 						showLog("Uid数据库忙");
-					if (SQLHelperTotal.isSQLUidTotalOnUsed != true) {
+					if (SQLStatic.setSQLUidTotalOnUsed(true)) {
 						new AsyncTaskonRecordUidTotal().execute(context);
 					} else
 						showLog("UidTotal数据库忙");
@@ -77,12 +78,15 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 		// 实时更新数据两个1代表数据更新
 		// showLog(SQLHelperTotal.isSQLIndexOnUsed+"");
 		if (SQLHelperUid.uidnumbers == null) {
-			if (SQLHelperTotal.isSQLIndexOnUsed == false) {
-				SQLHelperTotal.isSQLIndexOnUsed = true;
+			// if (SQLHelperTotal.isSQLIndexOnUsed == false) {
+			// SQLHelperTotal.isSQLIndexOnUsed = true;
+			if (SQLStatic.setSQLIndexOnUsed(true)) {
 				SQLHelperUid.uidnumbers = sqlhelperUid
 						.selectSQLUidnumbers(context);
-				SQLHelperTotal.isSQLIndexOnUsed = false;
+				SQLStatic.setSQLIndexOnUsed(false);
 			}
+			// SQLHelperTotal.isSQLIndexOnUsed = false;
+			// }
 
 		}
 		if (SQLHelperUid.uidnumbers == null) {
@@ -115,7 +119,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
 			time = System.currentTimeMillis();
-			SQLHelperTotal.isSQLUidOnUsed = true;
+			// SQLHelperTotal.isSQLUidOnUsed = true;
 
 		}
 
@@ -127,7 +131,8 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// TODO Auto-generated method stub
-			SQLHelperTotal.isSQLUidOnUsed = false;
+			// SQLHelperTotal.isSQLUidOnUsed = false;
+			SQLStatic.setSQLUidOnUsed(false);
 			time = System.currentTimeMillis() - time;
 			showLog("更新记录完毕" + time);
 			if (result == 0) {
@@ -147,7 +152,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
-			SQLHelperTotal.isSQLUidTotalOnUsed = true;
+			// SQLHelperTotal.isSQLUidTotalOnUsed = true;
 		}
 
 		@Override
@@ -159,12 +164,15 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 				e.printStackTrace();
 			}
 			if (SQLHelperUid.uidnumbers == null) {
-				if (SQLHelperTotal.isSQLIndexOnUsed == false) {
-					SQLHelperTotal.isSQLIndexOnUsed = true;
+				// if (SQLHelperTotal.isSQLIndexOnUsed == false) {
+				// SQLHelperTotal.isSQLIndexOnUsed = true;
+				if (SQLStatic.setSQLIndexOnUsed(true)) {
 					SQLHelperUid.uidnumbers = sqlhelperUid
 							.selectSQLUidnumbers(params[0]);
-					SQLHelperTotal.isSQLIndexOnUsed = false;
+					SQLStatic.setSQLIndexOnUsed(false);
 				}
+				// SQLHelperTotal.isSQLIndexOnUsed = false;
+				// }
 
 			}
 			if (SQLHelperUid.uidnumbers == null) {
@@ -182,11 +190,13 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			// TODO Auto-generated method stub
 			if (result == 1) {
 				showLog("uidTotal更新成功");
-				SQLHelperTotal.isSQLUidTotalOnUsed = false;
+				// SQLHelperTotal.isSQLUidTotalOnUsed = false;
+				SQLStatic.setSQLUidTotalOnUsed(false);
 			}
 			if (result == 0) {
 				showLog("uidTotal更新失败无uidindex");
-				SQLHelperTotal.isSQLUidTotalOnUsed = false;
+				// SQLHelperTotal.isSQLUidTotalOnUsed = false;
+				SQLStatic.setSQLUidTotalOnUsed(false);
 			}
 			// if (result == 3) {
 			// showLog("uidTotalUnknow");

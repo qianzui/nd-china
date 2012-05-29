@@ -119,42 +119,95 @@ public class SQLHelperUid {
 	 * @param packageName
 	 *            新增的程序包名
 	 * @param other
-	 *            程序状态
+	 *            程序状态 返回要进行处理的uid数组覆盖安装返回null，唯一新安装返回{1019}
 	 */
-	public void updateSQLUidIndexOnInstall(Context context, int uidnumber,
+	public int[] updateSQLUidIndexOnInstall(Context context, int uidnumber,
 			String packageName, String other) {
-		SQLHelperTotal.isSQLIndexOnUsed = true;
-		SQLiteDatabase mySQL = creatSQLUid(context);
+		int[] uids = null;
+		// 更新uidIndex数据
+		SQLiteDatabase mySQL = creatSQLUidIndex(context);
 		mySQL.beginTransaction();
+		int j = 0;
 		try {
 			exeSQLUidIndextable(mySQL, uidnumber, packageName, other);
+			SQLStatic.isCoverInstall = isCoveringInstall(mySQL, packageName,
+					uidnumber);
 			// 判断是否覆盖安装。
-			// showLog(isCoveringInstall(mySQL, packageName) + "" + packageName
-			// + uidnumber);
-			if (isCoveringInstall(mySQL, packageName)) {
+			showLog(SQLStatic.isCoverInstall + "是否覆盖安装" + packageName
+					+ uidnumber);
+			if (SQLStatic.isCoverInstall) {
 				// showLog("覆盖安装" + packageName + uidnumber);
 				updateSQLUidIndexOther(mySQL, packageName, uidnumber, other);
 				sortSQLUidIndex(mySQL);
-				delSQLUidIndexAndTable(mySQL);
-
-			} else {
-				// showLog("新安装软件" + packageName + uidnumber);
-				delSQLUidIndexAndTable(mySQL);
-				initTime();
-				initUidTable(mySQL, uidnumber);
-				exeSQLcreateUidtable(mySQL, date, time, uidnumber, 0, null);
-				exeSQLcreateUidtable(mySQL, date, time, uidnumber, 1, null);
+				return new int[] { uidnumber };
 			}
 
+			uids = delSQLUidIndexAndTable(mySQL);
+			for (int i = 0; i < uids.length; i++) {
+				if (isUidExistingInUidIndex(mySQL, packageName, uids[i])) {
+					uids[i] = 0;
+					j++;
+				}
+			}
 			mySQL.setTransactionSuccessful();
 		} catch (Exception e) {
 			// TODO: handle exception
 			showLog("更新索引表失败");
 		} finally {
 			mySQL.endTransaction();
-			SQLHelperTotal.isSQLIndexOnUsed = false;
 		}
 		closeSQL(mySQL);
+		// 重新定义静态的uid集合
+		SQLHelperUid.uidnumbers = selectSQLUidnumbers(context);
+		if ((uids.length - j) > 0) {
+			int[] uidnumbers = new int[uids.length - j];
+			int k = 0;
+			for (int i = 0; i < uids.length; i++) {
+				if (uids[i] != 0) {
+					uidnumbers[k] = uids[i];
+					k++;
+				}
+			}
+			return uidnumbers;
+		} else {
+			return new int[] { 1019 };
+		}
+
+	}
+
+	public void updateSQLUidOnInstall(Context context, int uidnumber,
+			String packageName, String other, int[] uids) {
+		SQLiteDatabase mySQL = creatSQLUidIndex(context);
+		// 更新Uid数据库
+		mySQL = creatSQLUid(context);
+		mySQL.beginTransaction();
+		try {
+			if (uids != null && uids[0] != 1019) {
+				for (int i = 0; i < uids.length; i++) {
+					if (uids[i] != 0) {
+						DropUnusedUidTable(mySQL, uids[i]);
+					}
+				}
+			}
+
+			// showLog("新安装软件" + packageName + uidnumber);
+			// 清除表再建表
+			if (uids != null) {
+				DropUnusedUidTable(mySQL, uidnumber);
+				initTime();
+				initUidTable(mySQL, uidnumber);
+				exeSQLcreateUidtable(mySQL, date, time, uidnumber, 0, null);
+				exeSQLcreateUidtable(mySQL, date, time, uidnumber, 1, null);
+			}
+			mySQL.setTransactionSuccessful();
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog("更新索引表失败");
+		} finally {
+			mySQL.endTransaction();
+		}
+		closeSQL(mySQL);
+
 	}
 
 	/**
@@ -173,8 +226,8 @@ public class SQLHelperUid {
 		// TODO Auto-generated method stub
 		String string = null;
 		string = UpdateTable + TableUidIndex + UpdateSet + "other='" + other
-				+ "', uid=" + uidnumber + Where + "packagename='" + packagename
-				+ "'";
+				+ "'" + Where + "packagename='" + packagename + AND + " uid="
+				+ uidnumber;
 		// UPDATE Person SET
 		// date='date',time='time',upload='upload',download='download'
 		// ,type='typechange' WHERE type=type
@@ -210,6 +263,7 @@ public class SQLHelperUid {
 			// TODO: handle exception
 			showLog(string);
 		}
+		// 更新
 	}
 
 	/**
@@ -368,6 +422,53 @@ public class SQLHelperUid {
 	}
 
 	/**
+	 * 提取所有应用的不重复uid集合
+	 * 
+	 * @param sqlDataBase
+	 *            进行操作的数据库
+	 * @return
+	 */
+	public int[] selectSQLUidnumbers(SQLiteDatabase sqlDataBase) {
+		// TODO Auto-generated method stub
+		// SQLiteDatabase sqlDataBase = creatSQLUidIndex(context);
+		String string = null;
+		// select oldest upload and download 之前记录的数据的查询操作
+		// SELECT * FROM table WHERE type=0
+		string = "SELECT DISTINCT uid FROM " + TableUidIndex + Where
+				+ "other='" + "Install" + "'";
+		try {
+			cur = sqlDataBase.rawQuery(string, null);
+			// showLog(string);
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog(string);
+		}
+		int[] uids = new int[cur.getCount()];
+		if (cur != null) {
+			try {
+				int mindown = cur.getColumnIndex("uid");
+				// showLog(cur.getColumnIndex("minute") + "");
+				int i = 0;
+				if (cur.moveToFirst()) {
+					do {
+						uids[i] = (int) cur.getLong(mindown);
+						i++;
+					} while (cur.moveToNext());
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				showLog("cur-searchfail");
+			}
+		}
+		cur.close();
+		// for (int i = 0; i < uids.length; i++) {
+		// showLog(uids[i] + "");
+		// }
+		// closeSQL(sqlDataBase);
+		return uids;
+	}
+
+	/**
 	 * 对数据库进行uid数据的写入操作的操作
 	 * 
 	 * @param mySQL
@@ -456,11 +557,11 @@ public class SQLHelperUid {
 	}
 
 	/**
-	 * 删除多余的UidIndex数据项并清空多余的uid表
+	 * 删除多余的UidIndex数据项返回删除的uid[]
 	 * 
 	 * @param mySQL
 	 */
-	private void delSQLUidIndexAndTable(SQLiteDatabase mySQL) {
+	private int[] delSQLUidIndexAndTable(SQLiteDatabase mySQL) {
 		String string = null;
 		// select oldest upload and download 之前记录的数据的查询操作
 		// SELECT * FROM table WHERE type=0
@@ -480,7 +581,10 @@ public class SQLHelperUid {
 				// showLog(cur.getColumnIndex("minute") + "");
 				if (cur.moveToFirst()) {
 					do {
-						uids[i] = cur.getInt(uidIndex);
+						if (cur.getInt(uidIndex) != 0) {
+							uids[i] = cur.getInt(uidIndex);
+							i++;
+						}
 					} while (cur.moveToNext());
 				}
 			} catch (Exception e) {
@@ -491,16 +595,13 @@ public class SQLHelperUid {
 		cur.close();
 		// 删除other为UnInstall的项目
 		delSQLUidIndex(mySQL);
-		for (int j = 0; j < uids.length; j++) {
-			// showLog(uids[j] + "");
-			// showLog(isUidExistingInUidIndex(mySQL, uids[j]) + "");
-			// 不能清空uid=0的表
-			if (uids[j] != 0) {
-				if (!isUidExistingInUidIndex(mySQL, uids[j])) {
-					DropUnusedUidTable(mySQL, uids[j]);
-				}
-			}
-		}
+		// for (int j = 0; j < uids.length; j++) {
+		// // showLog(uids[j] + "");
+		// // showLog(isUidExistingInUidIndex(mySQL, uids[j]) + "");
+		// // 不能清空uid=0的表
+		//
+		// }
+		return uids;
 	}
 
 	/**
@@ -541,11 +642,13 @@ public class SQLHelperUid {
 	 *            进行判断的uid
 	 * @return 存在返回true，不存在返回false
 	 */
-	private boolean isUidExistingInUidIndex(SQLiteDatabase mySQL, int uidnumber) {
+	private boolean isUidExistingInUidIndex(SQLiteDatabase mySQL,
+			String packageName, int uidnumber) {
 		String string = null;
 		// select oldest upload and download 之前记录的数据的查询操作
 		// SELECT * FROM table WHERE type=0
-		string = SelectTable + TableUidIndex + Where + "uid=" + uidnumber;
+		string = SelectTable + TableUidIndex + Where + "uid='" + uidnumber
+				+ AND + "packagename='" + packageName + "'";
 		try {
 			cur = mySQL.rawQuery(string, null);
 		} catch (Exception e) {
@@ -569,12 +672,13 @@ public class SQLHelperUid {
 	 *            包名
 	 * @return 是覆盖安装，返回true，新安装软件返回false
 	 */
-	private boolean isCoveringInstall(SQLiteDatabase mySQL, String packagename) {
+	private boolean isCoveringInstall(SQLiteDatabase mySQL, String packagename,
+			int uidnumber) {
 		String string = null;
 		// select oldest upload and download 之前记录的数据的查询操作
 		// SELECT * FROM table WHERE type=0
 		string = SelectTable + TableUidIndex + Where + "packagename='"
-				+ packagename + "'";
+				+ packagename + AND + "uid='" + uidnumber + "'";
 		// showLog(string);
 		try {
 			cur = mySQL.rawQuery(string, null);

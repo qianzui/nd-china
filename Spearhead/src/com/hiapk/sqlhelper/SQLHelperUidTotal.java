@@ -16,9 +16,9 @@ public class SQLHelperUidTotal {
 	private String SQLUidTotaldata = "SQLTotaldata.db";
 	private String CreateTable = "CREATE TABLE IF NOT EXISTS ";
 	private String SQLId = "_id INTEGER PRIMARY KEY,";
-	private String CreateparamUid = "date date,time time,upload INTEGER,download INTEGER,type INTEGER ,other varchar(15)";
+	private String CreateparamUid = "date date,time time,upload INTEGER,download INTEGER,type INTEGER ,other varchar(15),states varchar(15)";
 	private String CreateparamUidIndex = "uid INTEGER,packagename varchar(255),permission INTEGER,type INTEGER ,other varchar(15)";
-	private String CreateparamUidTotal = "uid INTEGER,upload INTEGER,download INTEGER,permission INTEGER ,type INTEGER ,other varchar(15)";
+	private String CreateparamUidTotal = "uid INTEGER,upload INTEGER,download INTEGER,permission INTEGER ,type INTEGER ,other varchar(15),states varchar(15)";
 	private String TableUid = "uid";
 	private String TableUidTotal = "uidtotal";
 	private String InsertTable = "INSERT INTO ";
@@ -34,7 +34,7 @@ public class SQLHelperUidTotal {
 	private String End = ") ";
 	private String InsertUidColumnTotal = "date,time,upload,download,type,other";
 	private String InsertUidIndexColumnTotal = "uid,packagename,permission";
-	private String InsertUidTotalColumn = "uid,upload,download,permission,type,other";
+	private String InsertUidTotalColumn = "uid,upload,download,permission,type,other,states";
 	private String Value = "values('";
 	private String split = "','";
 	private Cursor cur;
@@ -178,7 +178,8 @@ public class SQLHelperUidTotal {
 		String string = null;
 		string = InsertTable + TableUidTotal + Start + InsertUidTotalColumn
 				+ End + Value + uidnumber + split + upload + split + download
-				+ split + 0 + split + type + split + other + "'" + End;
+				+ split + 0 + split + type + split + other + split + "Install"
+				+ "'" + End;
 		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
 		// ('1','1','1','1','1','1')
 		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
@@ -208,7 +209,7 @@ public class SQLHelperUidTotal {
 	public void updateSQLUidTypes(Context context, int[] uidnumbers,
 			String network) {
 		// TODO Auto-generated method stub
-		SQLHelperTotal.isSQLUidTotalOnUsed = true;
+		// SQLHelperTotal.isSQLUidTotalOnUsed = true;
 		// String other = SQLHelperTotal.TableWiFiOrG23;
 		SQLiteDatabase sqlDataBase = creatSQLUidTotal(context);
 		sqlDataBase.beginTransaction();
@@ -222,10 +223,36 @@ public class SQLHelperUidTotal {
 			showLog("批量输入uidTotal网络数据失败");
 		} finally {
 			sqlDataBase.endTransaction();
-			SQLHelperTotal.isSQLUidTotalOnUsed = false;
+			// SQLHelperTotal.isSQLUidTotalOnUsed = false;
 		}
 		closeSQL(sqlDataBase);
 
+	}
+
+	/**
+	 * 卸载程序时对数据库uidTotal表进行更新
+	 * 
+	 * @param mySQL
+	 * @param uid
+	 *            uid
+	 * @param states
+	 *            程序状态记录
+	 */
+	public void updateSQLUidTotalStatesOnUnInstall(SQLiteDatabase mySQL,
+			int uidname, String states) {
+		// TODO Auto-generated method stub
+		String string = null;
+		string = UpdateTable + TableUidTotal + UpdateSet + "states='" + states
+				+ "'" + Where + "uid='" + uidname + "'";
+		// UPDATE Person SET
+		// date='date',time='time',upload='upload',download='download'
+		// ,type='typechange' WHERE type=type
+		try {
+			mySQL.execSQL(string);
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog(string);
+		}
 	}
 
 	/**
@@ -502,6 +529,65 @@ public class SQLHelperUidTotal {
 		// showLog(j + "liuliang" + a[j] + "");
 		// }
 		return a;
+	}
+
+	/**
+	 * 清空uidTotal对应UID
+	 * 
+	 * @param mySQL
+	 * @param uidnumber
+	 *            要清空的uid表
+	 */
+	public void DeleteUnusedUidTotalData(SQLiteDatabase mySQL, int uidnumber) {
+		String string = null;
+		// delete from Yookey where tit not in (select min(tit) from Yookey
+		// group by SID)
+		string = DeleteTable + "uidtotal" + Where + "uid=" + uidnumber;
+		// string = InsertTable + TableUidIndex + Start
+		// + InsertUidIndexColumnTotal + ",other" + End + Value
+		// + uidnumber + split + packagename + split + 0 + split
+		// + "Install" + "'" + End;
+		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
+		// ('1','1','1','1','1','1')
+		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
+		// ('date','time','upload','download','uid','type')
+		// showLog(string);
+		try {
+			mySQL.execSQL(string);
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog(string + "fail");
+		}
+	}
+
+	public void updateSQLUidTotalOnInstall(Context context, int uidnumber,
+			String packageName, String other, int[] uids) {
+		SQLiteDatabase mySQL = creatSQLUidIndex(context);
+		// 更新UidTotal数据库
+		mySQL = creatSQLUidTotal(context);
+		mySQL.beginTransaction();
+		try {
+			if (uids != null && uids[0] != 1019) {
+				for (int i = 0; i < uids.length; i++) {
+					DeleteUnusedUidTotalData(mySQL, uids[i]);
+				}
+			}
+
+			if (uids != null) {
+				// showLog("新安装软件" + packageName + uidnumber);
+				// 添加新数据
+				DeleteUnusedUidTotalData(mySQL, uidnumber);
+				exeSQLcreateUidTotaltables(mySQL, new int[] { uidnumber });
+			}
+
+			mySQL.setTransactionSuccessful();
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog("更新索引表失败");
+		} finally {
+			mySQL.endTransaction();
+		}
+		closeSQL(mySQL);
 	}
 
 	/**

@@ -10,6 +10,7 @@ import com.hiapk.spearhead.SpearheadActivity;
 import com.hiapk.spearhead.Splash;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
+import com.hiapk.sqlhelper.SQLStatic;
 import com.hiapk.widget.ProgramNotify;
 
 import android.app.AlertDialog;
@@ -143,15 +144,55 @@ public class PrefrenceSetting extends PreferenceActivity {
 		@Override
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
-			SQLHelperTotal.isSQLTotalOnUsed = true;
-			SQLHelperTotal.isSQLUidOnUsed = true;
-			SQLHelperTotal.isSQLIndexOnUsed = true;
-			SQLHelperTotal.isSQLUidTotalOnUsed = true;
+			mydialog = ProgressDialog
+					.show(context, "请稍等...", "正在清空数据...", true);
+
 			super.onPreExecute();
 		}
 
 		@Override
 		protected Integer doInBackground(Context... params) {
+			int timetap = 0;
+			while (!SQLStatic.setSQLTotalOnUsed(true)) {
+				timetap++;
+				if (timetap > 10) {
+					publishProgress(1);
+					SQLStatic.setSQLTotalOnUsed(false);
+					return 1;
+				}
+			}
+			while (!SQLStatic.setSQLUidOnUsed(true)) {
+				timetap++;
+				if (timetap > 10) {
+					publishProgress(1);
+					SQLStatic.setSQLTotalOnUsed(false);
+					SQLStatic.setSQLUidOnUsed(false);
+					return 1;
+				}
+			}
+			while (!SQLStatic.setSQLIndexOnUsed(true)) {
+				timetap++;
+				if (timetap > 10) {
+					publishProgress(1);
+					SQLStatic.setSQLTotalOnUsed(false);
+					SQLStatic.setSQLUidOnUsed(false);
+					SQLStatic.setSQLIndexOnUsed(false);
+					return 1;
+				}
+			}
+			while (!SQLStatic.setSQLUidTotalOnUsed(true)) {
+				timetap++;
+				if (timetap > 10) {
+					publishProgress(1);
+					SQLStatic.setSQLTotalOnUsed(false);
+					SQLStatic.setSQLUidOnUsed(false);
+					SQLStatic.setSQLIndexOnUsed(false);
+					SQLStatic.setSQLUidTotalOnUsed(false);
+					return 1;
+				}
+			}
+
+			sharedData.setSQLinited(false);
 			// 删除数据库
 			params[0].deleteDatabase("SQLTotal.db");
 			params[0].deleteDatabase("SQLUid.db");
@@ -170,18 +211,31 @@ public class PrefrenceSetting extends PreferenceActivity {
 			}
 			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 			sqlhelperTotal.initSQL(params[0], uids, packagenames);
-			return null;
+			return 0;
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// TODO Auto-generated method stub
+			super.onProgressUpdate(values);
+			if (values[0] == 1) {
+				mydialog.dismiss();
+				alert(context, "清空数据失败请重试").show();
+			}
 		}
 
 		@Override
 		protected void onPostExecute(Integer result) {
 			// TODO Auto-generated method stub
-			SQLHelperTotal.isSQLTotalOnUsed = false;
-			SQLHelperTotal.isSQLUidOnUsed = false;
-			SQLHelperTotal.isSQLIndexOnUsed = false;
-			SQLHelperTotal.isSQLUidTotalOnUsed = false;
-			sharedData.setSQLinited(true);
-			mydialog.dismiss();
+			if (result == 0) {
+				SQLStatic.setSQLTotalOnUsed(false);
+				SQLStatic.setSQLUidOnUsed(false);
+				SQLStatic.setSQLIndexOnUsed(false);
+				SQLStatic.setSQLUidTotalOnUsed(false);
+				sharedData.setSQLinited(true);
+				mydialog.dismiss();
+			}
+
 		}
 	}
 
@@ -202,27 +256,6 @@ public class PrefrenceSetting extends PreferenceActivity {
 				// .setView(textEntryView)
 				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
-						mydialog = ProgressDialog.show(context, "请稍等...",
-								"正在清空数据...", true);
-						int timetap = 0;
-						while (SQLHelperTotal.isSQLTotalOnUsed == true
-								|| SQLHelperTotal.isSQLUidOnUsed == true
-								|| SQLHelperTotal.isSQLIndexOnUsed == true
-								|| SQLHelperTotal.isSQLUidTotalOnUsed) {
-							try {
-								Thread.sleep(100);
-								timetap += 1;
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							if (timetap > 8) {
-								mydialog.dismiss();
-								alert(context, "清空数据失败请重试").show();
-							}
-
-						}
-						sharedData.setSQLinited(false);
 						new AsyncTaskonClearSQL().execute(context);
 						// SQLHelperTotal aa=new SQLHelperTotal();
 						// showLog(aa.getIsInit(context)+"");
