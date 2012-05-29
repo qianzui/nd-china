@@ -37,7 +37,7 @@ public class SpearheadActivity extends TabActivity {
 	public static final String TAB_WARNING = "tabWarning";
 	Context context = this;
 	// 按两次退出
-	private static Boolean isExit = false;
+	public static Boolean isExit = false;
 	private static Boolean hasTask = false;
 	private Timer tExit = new Timer();
 	private TimerTask task = new TimerTask() {
