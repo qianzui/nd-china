@@ -16,6 +16,7 @@
 	<string name="tip">注意</string>
 	<string name="tip_content">自定义应用程序的联网方式需要Root权限! 
 	    \n (更多信息请查看FAQ)</string>
+	<string name="tip_content_root">此功能需要root权限，请确保您的手机已破解并获得root权限！</string>  
 	<string name="tip_content_isroot">\n 是否获取？</string>  
 	<string name="ok">确定</string>
 	<string name="cancle">取消</string>
