@@ -20,9 +20,9 @@ public class SMS_Received extends BroadcastReceiver {
 				&&sharedData.getIsSend()&&!SpearheadActivity.isExit){
 			sharedData.setIsReceive(true);
 //			Toast.makeText(context, "ÐÂ¶ÌÐÅ", Toast.LENGTH_LONG).show();
-			Intent it = new Intent(context, Regulate.class);
-			it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			context.startActivity(it);
+//			Intent it = new Intent(context, Regulate.class);
+//			it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//			context.startActivity(it);
 			
 //			sr.Sms(getParent());		
 //			if(!SmsRead.isRead){
