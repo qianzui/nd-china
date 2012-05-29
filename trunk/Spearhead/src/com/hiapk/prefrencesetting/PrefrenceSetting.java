@@ -154,6 +154,12 @@ public class PrefrenceSetting extends PreferenceActivity {
 		protected Integer doInBackground(Context... params) {
 			int timetap = 0;
 			while (!SQLStatic.setSQLTotalOnUsed(true)) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				timetap++;
 				if (timetap > 10) {
 					publishProgress(1);
@@ -162,6 +168,12 @@ public class PrefrenceSetting extends PreferenceActivity {
 				}
 			}
 			while (!SQLStatic.setSQLUidOnUsed(true)) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				timetap++;
 				if (timetap > 10) {
 					publishProgress(1);
@@ -171,6 +183,12 @@ public class PrefrenceSetting extends PreferenceActivity {
 				}
 			}
 			while (!SQLStatic.setSQLIndexOnUsed(true)) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				timetap++;
 				if (timetap > 10) {
 					publishProgress(1);
@@ -181,6 +199,12 @@ public class PrefrenceSetting extends PreferenceActivity {
 				}
 			}
 			while (!SQLStatic.setSQLUidTotalOnUsed(true)) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				timetap++;
 				if (timetap > 10) {
 					publishProgress(1);
