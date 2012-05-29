@@ -6,6 +6,7 @@ import com.hiapk.alertaction.TrafficAlert;
 import com.hiapk.dataexe.MonthlyUseData;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.sqlhelper.SQLHelperTotal;
+import com.hiapk.sqlhelper.SQLStatic;
 
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -49,17 +50,17 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		// 初始化数据库后进行操作
 		if (sqlhelperTotal.getIsInit(context)) {
 			if (SQLHelperTotal.TableWiFiOrG23 != "") {
-				if (SQLHelperTotal.isSQLTotalOnUsed != true) {
+				if (SQLStatic.setSQLTotalOnUsed(true)) {
 					time = System.currentTimeMillis();
 					new AsyncTaskonRecordTotalData().execute(context);
 					// showLog(SQLHelperTotal.TableWiFiOrG23);
 				} else
 					showLog("数据库忙，未记录");
 			} else {
-				if (SQLHelperTotal.isSQLTotalOnUsed != true) {
-					SQLHelperTotal.isSQLTotalOnUsed = true;
+				if (SQLStatic.setSQLTotalOnUsed(true)) {
+					// SQLHelperTotal.isSQLTotalOnUsed = true;
 					initDataWithnoNetwork(context);
-					SQLHelperTotal.isSQLTotalOnUsed = false;
+					SQLStatic.setSQLTotalOnUsed(false);
 					// showLog(SQLHelperTotal.TableWiFiOrG23);
 				} else
 					showLog("数据库忙，未记录");
@@ -211,7 +212,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
-			SQLHelperTotal.isSQLTotalOnUsed = true;
+			// SQLHelperTotal.isSQLTotalOnUsed = true;
 			sqlDataBase = sqlhelperTotal.creatSQLTotal(context);
 			if (SQLHelperTotal.TotalWiFiOrG23 == "") {
 				network = SQLHelperTotal.TableWiFiOrG23;
@@ -238,7 +239,8 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		protected void onPostExecute(Long result) {
 			// TODO Auto-generated method stub
 			sqlhelperTotal.closeSQL(sqlDataBase);
-			SQLHelperTotal.isSQLTotalOnUsed = false;
+			// SQLHelperTotal.isSQLTotalOnUsed = false;
+			SQLStatic.setSQLTotalOnUsed(false);
 			// time = System.currentTimeMillis() - time;
 			// showLog("更新记录完毕" + time);
 		}

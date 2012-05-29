@@ -7,6 +7,7 @@ import com.hiapk.spearhead.R;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
 import com.hiapk.sqlhelper.SQLHelperUidTotal;
+import com.hiapk.sqlhelper.SQLStatic;
 
 import android.app.Activity;
 import android.content.Context;
@@ -47,7 +48,8 @@ public class UidMonthTraff extends Activity {
 	 * true的话，表示可以进行uidTotal数据读取
 	 */
 	boolean uidtraff_UidTotalSQL = false;
-	int windowswidesize=200;
+	int windowswidesize = 200;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -99,7 +101,7 @@ public class UidMonthTraff extends Activity {
 		@Override
 		protected Boolean doInBackground(Context... params) {
 			int timetap = 0;
-			while (SQLHelperTotal.isSQLUidTotalOnUsed == true) {
+			while (!SQLStatic.setSQLUidTotalOnUsed(true)) {
 				try {
 					Thread.sleep(300);
 					timetap += 1;
@@ -111,15 +113,15 @@ public class UidMonthTraff extends Activity {
 					return false;
 				}
 			}
-			onProgressUpdate((long) 1);
-			try {
-				Thread.sleep(20);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if (uidtraff_UidTotalSQL == false)
-				return false;
+			// onProgressUpdate((long) 1);
+			// try {
+			// Thread.sleep(20);
+			// } catch (InterruptedException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			// if (uidtraff_UidTotalSQL == false)
+			// return false;
 			SQLHelperUidTotal sqlUidTotal = new SQLHelperUidTotal();
 			pieValue = sqlUidTotal.SelectUidNetData(params[0], uidnumber);
 			// if ((pieValue[0] == 0 )&& (pieValue[1] == 0)) {
@@ -129,27 +131,28 @@ public class UidMonthTraff extends Activity {
 			return true;
 		}
 
-		@Override
-		protected void onProgressUpdate(Long... values) {
-			// TODO Auto-generated method stub
-			super.onProgressUpdate(values);
-			if (values[0] == 1) {
-				if (SQLHelperTotal.isSQLUidTotalOnUsed == false) {
-					SQLHelperTotal.isSQLUidTotalOnUsed = true;
-					uidtraff_UidTotalSQL = true;
-				}
-				showlog("values[0]==1");
-			}
-		}
+		// @Override
+		// protected void onProgressUpdate(Long... values) {
+		// // TODO Auto-generated method stub
+		// super.onProgressUpdate(values);
+		// if (values[0] == 1) {
+		// if (SQLHelperTotal.isSQLUidTotalOnUsed == false) {
+		// SQLHelperTotal.isSQLUidTotalOnUsed = true;
+		// uidtraff_UidTotalSQL = true;
+		// }
+		// showlog("values[0]==1");
+		// }
+		// }
 
 		@Override
 		protected void onPostExecute(Boolean result) {
 			View view = null;
 			final LinearLayout linearPie = (LinearLayout) findViewById(R.id.new_budget);
 			if (result == true) {
-				SQLHelperTotal.isSQLUidTotalOnUsed = false;
-				uidtraff_UidTotalSQL = false;
-				BudgetPie budgetPie = new BudgetPie(context,windowswidesize);
+				// SQLHelperTotal.isSQLUidTotalOnUsed = false;
+				SQLStatic.setSQLUidTotalOnUsed(false);
+				// uidtraff_UidTotalSQL = false;
+				BudgetPie budgetPie = new BudgetPie(context, windowswidesize);
 				budgetPie.setValues(pieValue);
 				view = budgetPie.execute(context);
 				TextView tv_mobile = (TextView) findViewById(R.id.tv_mobile);
@@ -192,7 +195,8 @@ public class UidMonthTraff extends Activity {
 		@Override
 		protected Boolean doInBackground(Context... params) {
 			int timetap = 0;
-			while (SQLHelperTotal.isSQLUidOnUsed == true) {
+			// while (SQLHelperTotal.isSQLUidOnUsed == true) {
+			while (!SQLStatic.setSQLUidOnUsed(true)) {
 				try {
 					Thread.sleep(300);
 					timetap += 1;
@@ -204,15 +208,15 @@ public class UidMonthTraff extends Activity {
 					return false;
 				}
 			}
-			onProgressUpdate((long) 1);
-			try {
-				Thread.sleep(20);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if (uidtraff_UidSQL == false)
-				return false;
+			// onProgressUpdate((long) 1);
+			// try {
+			// Thread.sleep(20);
+			// } catch (InterruptedException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			// if (uidtraff_UidSQL == false)
+			// return false;
 			SQLHelperUid sqlhelperUid = new SQLHelperUid();
 			mobileBefore = new long[64];
 			mobileNow = new long[64];
@@ -236,31 +240,33 @@ public class UidMonthTraff extends Activity {
 			return true;
 		}
 
-		@Override
-		protected void onProgressUpdate(Long... values) {
-			// TODO Auto-generated method stub
-			super.onProgressUpdate(values);
-			if (values[0] == 1) {
-				if (SQLHelperTotal.isSQLUidOnUsed == false) {
-					SQLHelperTotal.isSQLUidOnUsed = true;
-					uidtraff_UidSQL = true;
-				}
-				showlog("values[0]==1");
-			}
-		}
+		// @Override
+		// protected void onProgressUpdate(Long... values) {
+		// // TODO Auto-generated method stub
+		// super.onProgressUpdate(values);
+		// if (values[0] == 1) {
+		// if (SQLHelperTotal.isSQLUidOnUsed == false) {
+		// SQLHelperTotal.isSQLUidOnUsed = true;
+		// uidtraff_UidSQL = true;
+		// }
+		// showlog("values[0]==1");
+		// }
+		// }
 
 		@Override
 		protected void onPostExecute(Boolean result) {
 			View view = null;
 			final LinearLayout linear = (LinearLayout) findViewById(R.id.new_series);
 			if (result == true) {
-				SQLHelperTotal.isSQLUidOnUsed = false;
-				uidtraff_UidSQL = false;
-				ProjectStatusChart projectChart = new ProjectStatusChart(context,windowswidesize);
+				// SQLHelperTotal.isSQLUidOnUsed = false;
+				// uidtraff_UidSQL = false;
+				SQLStatic.setSQLUidOnUsed(false);
+				ProjectStatusChart projectChart = new ProjectStatusChart(
+						context, windowswidesize);
 				projectChart.initDate(year, month, monthDay);
 				projectChart.initData(mobileBefore, mobileNow, wifiBefore,
 						wifiNow);
-				projectChart.setXaxisText(year+"年");
+				projectChart.setXaxisText(year + "年");
 				view = projectChart.execute(context);
 			} else {
 				LayoutInflater factory = LayoutInflater.from(context);
@@ -304,53 +310,54 @@ public class UidMonthTraff extends Activity {
 		tv_wifi.setText("加载中..");
 	}
 
-	private View initProjectChart(int uidnumber) {
-		SQLHelperUid sqlhelperUid = new SQLHelperUid();
-		ProjectStatusChart projectChart = new ProjectStatusChart(context,windowswidesize);
-		projectChart.initDate(year, month, monthDay);
-		mobileBefore = new long[64];
-		mobileNow = new long[64];
-		wifiBefore = new long[64];
-		wifiNow = new long[64];
-		if (SQLHelperTotal.isSQLUidOnUsed != true) {
-			SQLHelperTotal.isSQLUidOnUsed = true;
-			mobileNow = sqlhelperUid.SelectuidWifiorMobileData(context, year,
-					month, uidnumber, "mobile");
-			wifiNow = sqlhelperUid.SelectuidWifiorMobileData(context, year,
-					month, uidnumber, "wifi");
-			if (month == 1) {
-				mobileBefore = sqlhelperUid.SelectuidWifiorMobileData(context,
-						year - 1, 12, uidnumber, "mobile");
-				wifiBefore = sqlhelperUid.SelectuidWifiorMobileData(context,
-						year - 1, 12, uidnumber, "wifi");
-			} else {
-				mobileBefore = sqlhelperUid.SelectuidWifiorMobileData(context,
-						year, month, uidnumber, "mobile");
-				wifiBefore = sqlhelperUid.SelectuidWifiorMobileData(context,
-						year, month, uidnumber, "wifi");
-			}
-			SQLHelperTotal.isSQLUidOnUsed = false;
-		}
-		projectChart.initData(mobileBefore, mobileNow, wifiBefore, wifiNow);
-		View viewPro = projectChart.execute(this);
-		return viewPro;
-	}
-
-	private View initPie(int uidnumber) {
-		SQLHelperUidTotal sqlUidTotal = new SQLHelperUidTotal();
-		BudgetPie budgetPie = new BudgetPie(context,windowswidesize);
-		if (SQLHelperTotal.isSQLUidOnUsed != true) {
-			SQLHelperTotal.isSQLUidOnUsed = true;
-			pieValue = sqlUidTotal.SelectUidNetData(context, uidnumber);
-			SQLHelperTotal.isSQLUidOnUsed = false;
-		}
-		// if ((pieValue[0] == 0 )&& (pieValue[1] == 0)) {
-		// budgetPie.setValues(new long[] { 1, 1 });
-		// }
-		budgetPie.setValues(pieValue);
-		View viewPie = budgetPie.execute(this);
-		return viewPie;
-	}
+	// private View initProjectChart(int uidnumber) {
+	// SQLHelperUid sqlhelperUid = new SQLHelperUid();
+	// ProjectStatusChart projectChart = new ProjectStatusChart(context,
+	// windowswidesize);
+	// projectChart.initDate(year, month, monthDay);
+	// mobileBefore = new long[64];
+	// mobileNow = new long[64];
+	// wifiBefore = new long[64];
+	// wifiNow = new long[64];
+	// if (SQLHelperTotal.isSQLUidOnUsed != true) {
+	// SQLHelperTotal.isSQLUidOnUsed = true;
+	// mobileNow = sqlhelperUid.SelectuidWifiorMobileData(context, year,
+	// month, uidnumber, "mobile");
+	// wifiNow = sqlhelperUid.SelectuidWifiorMobileData(context, year,
+	// month, uidnumber, "wifi");
+	// if (month == 1) {
+	// mobileBefore = sqlhelperUid.SelectuidWifiorMobileData(context,
+	// year - 1, 12, uidnumber, "mobile");
+	// wifiBefore = sqlhelperUid.SelectuidWifiorMobileData(context,
+	// year - 1, 12, uidnumber, "wifi");
+	// } else {
+	// mobileBefore = sqlhelperUid.SelectuidWifiorMobileData(context,
+	// year, month, uidnumber, "mobile");
+	// wifiBefore = sqlhelperUid.SelectuidWifiorMobileData(context,
+	// year, month, uidnumber, "wifi");
+	// }
+	// SQLHelperTotal.isSQLUidOnUsed = false;
+	// }
+	// projectChart.initData(mobileBefore, mobileNow, wifiBefore, wifiNow);
+	// View viewPro = projectChart.execute(this);
+	// return viewPro;
+	// }
+	//
+	// private View initPie(int uidnumber) {
+	// SQLHelperUidTotal sqlUidTotal = new SQLHelperUidTotal();
+	// BudgetPie budgetPie = new BudgetPie(context, windowswidesize);
+	// if (SQLHelperTotal.isSQLUidOnUsed != true) {
+	// SQLHelperTotal.isSQLUidOnUsed = true;
+	// pieValue = sqlUidTotal.SelectUidNetData(context, uidnumber);
+	// SQLHelperTotal.isSQLUidOnUsed = false;
+	// }
+	// // if ((pieValue[0] == 0 )&& (pieValue[1] == 0)) {
+	// // budgetPie.setValues(new long[] { 1, 1 });
+	// // }
+	// budgetPie.setValues(pieValue);
+	// View viewPie = budgetPie.execute(this);
+	// return viewPie;
+	// }
 
 	/**
 	 * 初始化系统时间

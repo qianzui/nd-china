@@ -3,6 +3,8 @@ package com.hiapk.broadcreceiver;
 import com.hiapk.rebootandstartaction.Onreinstall;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
+import com.hiapk.sqlhelper.SQLHelperUidTotal;
+import com.hiapk.sqlhelper.SQLStatic;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
@@ -11,6 +13,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.util.Log;
 
 public class PackageReceiver extends BroadcastReceiver {
@@ -20,41 +23,39 @@ public class PackageReceiver extends BroadcastReceiver {
 		// TODO Auto-generated method stub
 		// 设置数据库
 		SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
-		SQLHelperUid sqlhelperUid = new SQLHelperUid();
 		String packageNames = intent.getDataString();
-		String packageName[] = packageNames.split(":");
+		SQLStatic.packageName = packageNames.split(":");
 		if (sqlhelperTotal.getIsInit(context)) {
 			// 监听包的安装
 			if (intent.getAction()
 					.equals("android.intent.action.PACKAGE_ADDED")) {
 				// 检查为自身安装
 				if (packageNames.equals("package:com.hiapk.spearhead")) {
-					sqlhelperTotal.initTablemobileAndwifi(context,false);
+					sqlhelperTotal.initTablemobileAndwifi(context, false);
 				} else {
 					// 其他软件安装
 					// 检测网络权限
 					PackageManager pkgmanager = context.getPackageManager();
 					if (PackageManager.PERMISSION_GRANTED != pkgmanager
 							.checkPermission(Manifest.permission.INTERNET,
-									packageName[1])) {
+									SQLStatic.packageName[1])) {
 						// 无网络权限
 						// showLog("没网络权限的安装");
 					} else {
 						// 有网络权限进行更新表格
-						// showLog("有网络权限的安装");
-						int uidnumber = 99999;
+						showLog("有网络权限的安装");
+						SQLStatic.uidnumber = 999999;
 						try {
-							uidnumber = context.getPackageManager()
-									.getPackageInfo(packageName[1],
+							SQLStatic.uidnumber = context.getPackageManager()
+									.getPackageInfo(SQLStatic.packageName[1],
 											getResultCode()).applicationInfo.uid;
 						} catch (NameNotFoundException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 							showLog("获取包信息失败");
 						}
-						if (uidnumber != 99999) {
-							sqlhelperUid.updateSQLUidIndexOnInstall(context,
-									uidnumber, packageName[1], "Install");
+						if (SQLStatic.uidnumber != 999999) {
+							new AsyTaskOnInstall().execute(context);
 						}
 					}
 				}
@@ -66,20 +67,164 @@ public class PackageReceiver extends BroadcastReceiver {
 				if (packageNames.equals("package:com.hiapk.spearhead")) {
 					Onreinstall reinstall = new Onreinstall();
 					reinstall.reInstallAction(context);
-					// showLog("自身安装");
-					showLog("卸载" + packageName[1]);
+					showLog("卸载" + SQLStatic.packageName[1]);
 				} else {
-					SQLiteDatabase mySQL = sqlhelperUid
-							.creatSQLUidIndex(context);
-					sqlhelperUid.updateSQLUidIndexOtherOnUnInstall(mySQL,
-							packageName[1], "UnInstall");
-					sqlhelperUid.closeSQL(mySQL);
-					showLog("其他卸载" + packageName[1]);
+					new AsyTaskOnUninstall().execute(context);
+					showLog("其他卸载" + SQLStatic.packageName[1]);
 				}
 
 			}
 		}
 
+	}
+
+	private class AsyTaskOnUninstall extends
+			AsyncTask<Context, Integer, Integer> {
+		private int uid;
+		private String pacName;
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			this.uid = SQLStatic.uidnumber;
+			this.pacName = SQLStatic.packageName[1];
+			// showLog("其他卸载exeIndexPre" + packageName[1]);
+		}
+
+		@Override
+		protected Integer doInBackground(Context... params) {
+			// TODO Auto-generated method stub
+			SQLHelperUid sqlhelperUid = new SQLHelperUid();
+			while (!SQLStatic.setSQLIndexOnUsed(true)) {
+				// publishProgress(1);
+				// publishProgress(1);
+				// try {
+				// Thread.sleep(50 + (long) (200 * Math.random()));
+				// } catch (InterruptedException e) {
+				// // TODO Auto-generated catch block
+				// e.printStackTrace();
+				// }
+			}
+			// publishProgress(0);
+			SQLiteDatabase mySQL = sqlhelperUid.creatSQLUidIndex(params[0]);
+			sqlhelperUid.updateSQLUidIndexOtherOnUnInstall(mySQL, pacName,
+					"UnInstall");
+			// 重新定义静态的uid集合
+			SQLHelperUid.uidnumbers = sqlhelperUid.selectSQLUidnumbers(mySQL);
+			sqlhelperUid.closeSQL(mySQL);
+
+			return null;
+		}
+
+		// @Override
+		// protected void onProgressUpdate(Integer... values) {
+		// // TODO Auto-generated method stub
+		// super.onProgressUpdate(values);
+		// if (values[0] == 0) {
+		// showLog("其他卸载outwhile" + pacName);
+		// }
+		// if (values[0] == 1) {
+		// showLog("其他卸载inwhile" + pacName);
+		// }
+		//
+		// // if (values[0] == 1) {
+		// // if (SQLHelperTotal.isSQLIndexOnUsed == false) {
+		// // SQLHelperTotal.isSQLIndexOnUsed = true;
+		// // isUidIndexSQLonUse_AsyUninstall = true;
+		// // }
+		// // }
+		// }
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			// SQLHelperTotal.isSQLIndexOnUsed = false;
+			// isUidIndexSQLonUse_AsyUninstall = false;
+			// showLog("其他卸载post" + SQLStatic.isSQLIndexOnUsed);
+			SQLStatic.setSQLIndexOnUsed(false);
+			// showLog("其他卸载post" + SQLStatic.isSQLIndexOnUsed);
+			// showLog("其他卸载exeIndexpost" + packageName[1]);
+		}
+	}
+
+	private class AsyTaskOnInstall extends AsyncTask<Context, Integer, Integer> {
+		private int uid;
+		private String pacName;
+
+		// private boolean isUidIndexSQLonUse_Asy = false;
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			this.uid = SQLStatic.uidnumber;
+			this.pacName = SQLStatic.packageName[1];
+			// isUidIndexSQLonUse_Asy = false;
+		}
+
+		@Override
+		protected Integer doInBackground(Context... params) {
+			// TODO Auto-generated method stub
+
+			// while (!(isUidIndexSQLonUse_Asy == true
+			// && SQLHelperTotal.isSQLIndexOnUsed == true
+			// && SQLHelperTotal.isSQLUidOnUsed == true &&
+			// SQLHelperTotal.isSQLUidTotalOnUsed == true)) {
+			// publishProgress(1);
+			// try {
+			// Thread.sleep(50 + (long) (200 * Math.random()));
+			// } catch (InterruptedException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			// }
+			SQLHelperUid sqlhelperUid = new SQLHelperUid();
+			while (!SQLStatic.setSQLIndexOnUsed(true)) {
+			}
+			int[] uids = sqlhelperUid.updateSQLUidIndexOnInstall(params[0],
+					uid, pacName, "Install");
+			while (!SQLStatic.setSQLUidOnUsed(true)) {
+			}
+			sqlhelperUid.updateSQLUidOnInstall(params[0], uid, pacName,
+					"Install", uids);
+			while (!SQLStatic.setSQLUidTotalOnUsed(true)) {
+			}
+			SQLHelperUidTotal sqlhelperUidTotal = new SQLHelperUidTotal();
+			sqlhelperUidTotal.updateSQLUidTotalOnInstall(params[0], uid,
+					pacName, "Install", uids);
+			return null;
+		}
+
+		// @Override
+		// protected void onProgressUpdate(Integer... values) {
+		// // TODO Auto-generated method stub
+		// super.onProgressUpdate(values);
+		// if (values[0] == 1) {
+		// if (SQLHelperTotal.isSQLIndexOnUsed == false
+		// && SQLHelperTotal.isSQLUidOnUsed == false
+		// && SQLHelperTotal.isSQLUidTotalOnUsed == false) {
+		// SQLHelperTotal.isSQLIndexOnUsed = true;
+		// SQLHelperTotal.isSQLUidOnUsed = true;
+		// SQLHelperTotal.isSQLUidTotalOnUsed = true;
+		// isUidIndexSQLonUse_Asy = true;
+		// }
+		// }
+		// }
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			// SQLHelperTotal.isSQLIndexOnUsed = false;
+			// SQLHelperTotal.isSQLUidOnUsed = false;
+			// SQLHelperTotal.isSQLUidTotalOnUsed = false;
+			// isUidIndexSQLonUse_Asy = false;
+			SQLStatic.setSQLUidOnUsed(false);
+			SQLStatic.setSQLIndexOnUsed(false);
+			SQLStatic.setSQLUidTotalOnUsed(false);
+		}
 	}
 
 	private void showLog(String string) {

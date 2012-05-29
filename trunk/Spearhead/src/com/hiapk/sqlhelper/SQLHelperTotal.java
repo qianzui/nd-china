@@ -70,15 +70,8 @@ public class SQLHelperTotal {
 	// classes
 	SQLHelperUid SQLhelperuid = new SQLHelperUid();
 	SQLHelperUidTotal SQLhelperuidTotal = new SQLHelperUidTotal();
-	// 数据库正在使用。重要中。
-	public static boolean isSQLTotalOnUsed = false;
-	public static boolean isSQLUidOnUsed = false;
-	public static boolean isSQLIndexOnUsed = false;
-	public static boolean isSQLUidTotalOnUsed = false;
-
-	public static void setTableWiFiOrG23(String temp) {
-
-	}
+	
+	
 
 	/**
 	 * 创建总数据库
