@@ -249,6 +249,27 @@ public class SharedPrefrenceData {
 		
 		UseEditor.commit();
 	}
+	
+	public void setIsSend(Boolean isSend) {
+		UseEditor.putBoolean("IS_SEND", isSend);
+		UseEditor.commit();
+	}
+	public void setIsReceive(Boolean isReceive) {
+		UseEditor.putBoolean("IS_RECEIVE", isReceive);
+		UseEditor.commit();
+	}
+	
+	public boolean getIsSend() {
+		boolean isSend = prefs.getBoolean("IS_SEND", false);
+		return isSend;
+		
+	}
+	public boolean getIsReceive() {
+		boolean isReceive = prefs.getBoolean("IS_RECEIVE", false);
+		return isReceive;
+	}
+	
+	
 	public String getCity(){
 		String city = prefs.getString(CITY, "进入地区选择页");
 		return city;
