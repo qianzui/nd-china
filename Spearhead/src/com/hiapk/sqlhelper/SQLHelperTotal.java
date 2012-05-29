@@ -888,7 +888,7 @@ public class SQLHelperTotal {
 						+ "01" + "-" + setday2 + AND + "type=" + 2;
 			}
 		}
-		showLog("testmonthUsetraff" + string);
+//		showLog("testmonthUsetraff" + string);
 		try {
 			cur = sqlDataBase.rawQuery(string, null);
 		} catch (Exception e) {
