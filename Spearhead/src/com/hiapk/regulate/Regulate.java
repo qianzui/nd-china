@@ -1,22 +1,16 @@
 package com.hiapk.regulate;
 
-import com.hiapk.broadcreceiver.SMS_Received;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.spearhead.R;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class Regulate extends Activity {
 	public static Button chooseBtn;
@@ -70,9 +64,9 @@ public class Regulate extends Activity {
 			}
 		});
 		
-		if(sharedData.getIsReceive()){			
-			smsRead();
-		}
+//		if(sharedData.getIsReceive()){			
+//			smsRead();
+//		}
 
 
 		//		smsRead.setOnClickListener(new OnClickListener() {
@@ -96,7 +90,7 @@ public class Regulate extends Activity {
 		Uri uri = Uri.parse("smsto:"+num);
 		Intent it = new Intent(Intent.ACTION_VIEW,uri);	
 		it.putExtra("sms_body", text);
-		Toast.makeText(this, "如果程序未退出，短信接收成功后，程序将自动读取短信", Toast.LENGTH_LONG).show();
+//		Toast.makeText(this, "如果程序未退出，短信接收成功后，程序将自动读取短信", Toast.LENGTH_LONG).show();
 		startActivity(it);
 		sharedData.setIsSend(true);
 		
@@ -104,11 +98,11 @@ public class Regulate extends Activity {
 
 	public void smsRead(){
 		
-		sr.Sms(this);		
-		if(!SmsRead.isRead){
-			smsResult.setText("短信内容可能有误，请手动设置");
-		}
-		Log.v("+++++++++++++++++++++", "读取短信");
+//		sr.Sms(this);		
+//		if(!SmsRead.isRead){
+//			smsResult.setText("短信内容可能有误，请手动设置");
+//		}
+//		Log.v("+++++++++++++++++++++", "读取短信");
 //		Toast.makeText(this, SMS_Received.isReceive+" ", Toast.LENGTH_LONG).show();
 	}
 	
