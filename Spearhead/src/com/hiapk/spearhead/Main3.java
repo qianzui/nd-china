@@ -474,7 +474,7 @@ public class Main3 extends Activity {
 		final TextView tv_month_Traff = (TextView) textEntryView
 				.findViewById(R.id.tv_show_Traff);
 		tv_month_Traff.setTextSize(20);
-		tv_month_Traff.setTextColor(Color.BLACK);
+//		tv_month_Traff.setTextColor(Color.BLACK);
 		// tv_month_warning.setText("月度预警流量：");
 		// tv_month_warning.setGravity(Gravity.CENTER);
 		// 设置拖动进度条
@@ -615,7 +615,7 @@ public class Main3 extends Activity {
 		final TextView tv_month_Traff = (TextView) textEntryView
 				.findViewById(R.id.tv_show_Traff);
 		tv_month_Traff.setTextSize(20);
-		tv_month_Traff.setTextColor(Color.BLACK);
+//		tv_month_Traff.setTextColor(Color.BLACK);
 		// tv_day_warning.setText("日预警流量：");
 		// tv_day_warning.setGravity(Gravity.CENTER);
 		// 设置拖动进度条
