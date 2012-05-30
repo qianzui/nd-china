@@ -1,6 +1,7 @@
 package com.hiapk.sqlhelper;
 
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.prefrencesetting.SharedPrefrenceData;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,6 +13,7 @@ import android.net.NetworkInfo;
 import android.net.TrafficStats;
 import android.text.format.Time;
 import android.util.Log;
+import android.widget.TabWidget;
 
 public class SQLHelperTotal {
 
@@ -57,6 +59,7 @@ public class SQLHelperTotal {
 	private int minute;
 	private int second;
 	private String date;
+	private String dateDelete;
 	private String time;
 	// data
 	private long upload;
@@ -70,8 +73,6 @@ public class SQLHelperTotal {
 	// classes
 	SQLHelperUid SQLhelperuid = new SQLHelperUid();
 	SQLHelperUidTotal SQLhelperuidTotal = new SQLHelperUidTotal();
-	
-	
 
 	/**
 	 * 创建总数据库
@@ -278,6 +279,7 @@ public class SQLHelperTotal {
 			updateSQLtotalType(mySQL, table, upload, download, 1, other, 0);
 			exeSQLtotal(mySQL, table, 1, other);
 		}
+
 	}
 
 	/**
@@ -888,7 +890,7 @@ public class SQLHelperTotal {
 						+ "01" + "-" + setday2 + AND + "type=" + 2;
 			}
 		}
-//		showLog("testmonthUsetraff" + string);
+		// showLog("testmonthUsetraff" + string);
 		try {
 			cur = sqlDataBase.rawQuery(string, null);
 		} catch (Exception e) {
@@ -1120,6 +1122,64 @@ public class SQLHelperTotal {
 		// showLog(j + "liuliang" + a[j] + "");
 		// }
 		return a;
+	}
+
+	/**
+	 * 只有13号才进入判断
+	 * 
+	 * @param mySQL
+	 */
+	public void autoClearData(Context context, SQLiteDatabase mySQL) {
+		// 进行自动数据清理
+		String[] date = DeleteDate();
+		if (hour == 3) {
+			String string = null;
+			// delete from Yookey where tit not in (select min(tit) from
+			// Yookey
+			// group by SID)
+			string = "DELETE   FROM " + TableMobile + Where + "date" + Between
+					+ date[0] + AND_B + date[1] + "'";
+			try {
+				mySQL.execSQL(string);
+			} catch (Exception e) {
+				// TODO: handle exception
+				showLog(string + "fail");
+			}
+			string = "DELETE   FROM " + TableWiFi + Where + "date" + Between
+					+ date[0] + AND_B + date[1] + "'";
+			try {
+				mySQL.execSQL(string);
+			} catch (Exception e) {
+				// TODO: handle exception
+				showLog(string + "fail");
+			}
+			SharedPrefrenceData sharedpref = new SharedPrefrenceData(context);
+			sharedpref.setHAS_Cleared(true);
+		}
+	}
+
+	private String[] DeleteDate() {
+		String date1 = null;
+		String date2 = null;
+		if (month > 2) {
+			String month2 = (month - 2) + "";
+			if ((month - 2) < 10)
+				month2 = "0" + month2;
+			date1 = year + "-" + month2 + "-" + "00";
+			date2 = year + "-" + month2 + "-" + "32";
+		}
+		if (month == 2) {
+			date1 = (year - 1) + "-" + "12" + "-" + "00";
+			date2 = (year - 1) + "-" + "12" + "-" + "32";
+		}
+		if (month == 1) {
+			date1 = (year - 1) + "-" + "11" + "-" + "00";
+			date2 = (year - 1) + "-" + "11" + "-" + "32";
+		}
+		String[] date = new String[2];
+		date[0] = date1;
+		date[1] = date2;
+		return date;
 	}
 
 	/**

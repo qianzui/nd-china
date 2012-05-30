@@ -5,6 +5,7 @@ import java.util.List;
 import com.hiapk.alertaction.TrafficAlert;
 import com.hiapk.dataexe.MonthlyUseData;
 import com.hiapk.dataexe.TrafficManager;
+import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLStatic;
 
@@ -37,6 +38,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	private int month;
 	private int monthDay;
 	private int weekDay;
+	private int hour;
 	private String network;
 	// fortest
 	long time;
@@ -82,7 +84,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		try {
 			// 生成基本常用数据
 			initTime();
-
 			if (SQLHelperTotal.TotalWiFiOrG23 != "") {
 				network = SQLHelperTotal.TotalWiFiOrG23;
 				SQLHelperTotal.TotalWiFiOrG23 = SQLHelperTotal.TableWiFiOrG23;
@@ -113,6 +114,14 @@ public class RecordDataReceiver extends BroadcastReceiver {
 						sqlDataBase, year, month);
 				mobile_week_data = sqlhelperTotal.SelectWeekData(sqlDataBase,
 						year, month, monthDay, weekDay);
+				SharedPrefrenceData sharedpref = new SharedPrefrenceData(
+						context);
+				if (monthDay == 13 && hour == 2) {
+					sharedpref.setHAS_Cleared(false);
+				}
+				if (monthDay == 13 && !sharedpref.isHAS_Cleared()) {
+					sqlhelperTotal.autoClearData(context, sqlDataBase);
+				}
 			}
 			sqlDataBase.setTransactionSuccessful();
 			// 对数据进行赋值
@@ -189,6 +198,13 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			TrafficManager.wifi_month_data = wifi_month_data;
 			TrafficManager.mobile_month_data = mobile_month_data;
 			TrafficManager.mobile_week_data = mobile_week_data;
+			SharedPrefrenceData sharedpref = new SharedPrefrenceData(context);
+			if (monthDay == 13 && hour == 2) {
+				sharedpref.setHAS_Cleared(false);
+			}
+			if (monthDay == 13 && !sharedpref.isHAS_Cleared()) {
+				sqlhelperTotal.autoClearData(context, sqlDataBase);
+			}
 			// showLog("wifitotal=" + wifi_month_data[0] + "");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -258,6 +274,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		month = t.month + 1;
 		monthDay = t.monthDay;
 		weekDay = t.weekDay;
+		hour = t.hour;
 
 	}
 

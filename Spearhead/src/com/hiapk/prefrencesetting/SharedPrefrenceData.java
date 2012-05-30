@@ -29,7 +29,7 @@ public class SharedPrefrenceData {
 	String MOBILE_COUNT_SET_TIME = "mobileMonthSetCountTime";
 	// 已使用总流量int
 	String VALUE_MOBILE_HASUSED_OF_FLOAT = "mobileHasusedint";
-	String MONTH_USED_DATA_TEMP="monthtempuseddata";
+	String MONTH_USED_DATA_TEMP = "monthtempuseddata";
 	// 设置单位（已使用）
 	String MOBILE_HASUSED_SET_UNIT = "mobileHasusedUnit";
 	// 流量预警
@@ -48,14 +48,15 @@ public class SharedPrefrenceData {
 	private final String PREF_INITSQL = "isSQLINIT";
 	private final String MODE_NOTINIT = "SQLisnotINIT";
 	private final String MODE_HASINIT = "SQLhasINIT";
-	
-	//保存地区品牌设置
-	
+	// 用于系统自动清理
+	private String HAS_Cleared = "hasdatacleared";
+	// 保存地区品牌设置
+
 	String CITY = "city_data";
 	String BRAND = "brand_data";
 	String PROVINCE_ID = "province_id";
 	String SMSNUM = "sms_num";
-	String SMSTEXT ="sms_text";
+	String SMSTEXT = "sms_text";
 
 	public SharedPrefrenceData(Context context) {
 		this.context = context;
@@ -132,9 +133,10 @@ public class SharedPrefrenceData {
 	}
 
 	public void setMonthMobileHasUseOffloat(float monthMobileHasUseOffloat) {
-		UseEditor.putFloat(VALUE_MOBILE_HASUSED_OF_FLOAT, monthMobileHasUseOffloat);
+		UseEditor.putFloat(VALUE_MOBILE_HASUSED_OF_FLOAT,
+				monthMobileHasUseOffloat);
 		UseEditor.commit();
-		
+
 	}
 
 	int countDay = 0;
@@ -144,8 +146,9 @@ public class SharedPrefrenceData {
 	int monthMobileSetUnit = 0;
 	int monthHasUsedUnit = 0;
 	long monthUseDataTemp;
+
 	public long getMonthUseDataTemp() {
-		long monthUseDataTemp=prefs.getLong(MONTH_USED_DATA_TEMP, 0);
+		long monthUseDataTemp = prefs.getLong(MONTH_USED_DATA_TEMP, 0);
 		return monthUseDataTemp;
 	}
 
@@ -157,6 +160,16 @@ public class SharedPrefrenceData {
 	public int getMonthMobileSetUnit() {
 		int mobileUnit = prefs.getInt(MOBILE_SET_UNIT, 0);
 		return mobileUnit;
+	}
+
+	public boolean isHAS_Cleared() {
+		boolean isClear = prefs.getBoolean(HAS_Cleared, true);
+		return isClear;
+	}
+
+	public void setHAS_Cleared(boolean is_Cleared) {
+		UseEditor.putBoolean(HAS_Cleared, is_Cleared);
+		UseEditor.commit();
 	}
 
 	public void setMonthMobileSetUnit(int monthMobileSetUnit) {
@@ -183,7 +196,7 @@ public class SharedPrefrenceData {
 	}
 
 	public int getMonthMobileSetOfint() {
-		int monthMobileSetOfint=prefs.getInt(VALUE_MOBILE_SET_OF_INT, 50);
+		int monthMobileSetOfint = prefs.getInt(VALUE_MOBILE_SET_OF_INT, 50);
 		return monthMobileSetOfint;
 	}
 
@@ -238,65 +251,67 @@ public class SharedPrefrenceData {
 	public void setAlertAction(int alertAction) {
 		this.alertAction = alertAction;
 	}
-	
-	public void setPhoneInfo
-			(String city,String brand,int shengfenId,String smsNum,String smsText){
+
+	public void setPhoneInfo(String city, String brand, int shengfenId,
+			String smsNum, String smsText) {
 		UseEditor.putString(CITY, city);
 		UseEditor.putString(BRAND, brand);
 		UseEditor.putInt(PROVINCE_ID, shengfenId);
 		UseEditor.putString(SMSNUM, smsNum);
 		UseEditor.putString(SMSTEXT, smsText);
-		
+
 		UseEditor.commit();
 	}
-	
+
 	public void setIsSend(Boolean isSend) {
 		UseEditor.putBoolean("IS_SEND", isSend);
 		UseEditor.commit();
 	}
+
 	public void setIsReceive(Boolean isReceive) {
 		UseEditor.putBoolean("IS_RECEIVE", isReceive);
 		UseEditor.commit();
 	}
-	
+
 	public boolean getIsSend() {
 		boolean isSend = prefs.getBoolean("IS_SEND", false);
 		return isSend;
-		
+
 	}
+
 	public boolean getIsReceive() {
 		boolean isReceive = prefs.getBoolean("IS_RECEIVE", false);
 		return isReceive;
 	}
-	
-	
-	public String getCity(){
+
+	public String getCity() {
 		String city = prefs.getString(CITY, "进入地区选择页");
 		return city;
-		
+
 	}
-	public String getBrand(){
+
+	public String getBrand() {
 		String brand = prefs.getString(BRAND, "");
 		return brand;
-		
+
 	}
-	
-	
-	public int getProvinceID(){
+
+	public int getProvinceID() {
 		int city = prefs.getInt(PROVINCE_ID, 0);
 		return city;
-		
+
 	}
-	public String getSmsNum(){
+
+	public String getSmsNum() {
 		String smsNum = prefs.getString(SMSNUM, "10086");
 		return smsNum;
-		
+
 	}
-	public String getSmsText(){
+
+	public String getSmsText() {
 		String smsText = prefs.getString(SMSTEXT, "CXLL");
 		return smsText;
-		
+
 	}
-	
 
 }

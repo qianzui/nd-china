@@ -19,7 +19,7 @@ public class Splash extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
 		// 获取root权限
-//		 GetRoot.cmdRoot("chmod 777 " + getPackageCodePath());
+		// GetRoot.cmdRoot("chmod 777 " + getPackageCodePath());
 		new AsyncTaskonResume().execute(context);
 	}
 
@@ -29,10 +29,10 @@ public class Splash extends Activity {
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
-//			SQLHelperTotal.isSQLTotalOnUsed = true;
-//			SQLHelperTotal.isSQLUidOnUsed = true;
+			// SQLHelperTotal.isSQLTotalOnUsed = true;
+			// SQLHelperTotal.isSQLUidOnUsed = true;
 			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
-			sqlhelperTotal.initTablemobileAndwifi(context,false);
+			sqlhelperTotal.initTablemobileAndwifi(context, false);
 		}
 
 		@Override
@@ -40,7 +40,7 @@ public class Splash extends Activity {
 			AlarmSet alset = new AlarmSet();
 			// 初始化网络状态
 			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
-//			sqlhelperTotal.initTablemobileAndwifi(params[0],false);
+			// sqlhelperTotal.initTablemobileAndwifi(params[0],false);
 			if (SQLHelperTotal.TableWiFiOrG23 != ""
 					&& sqlhelperTotal.getIsInit(params[0])) {
 				// 启动闹钟
@@ -50,7 +50,10 @@ public class Splash extends Activity {
 			} else if (SQLHelperTotal.TableWiFiOrG23 != "") {
 				alset.StartAlarm(params[0]);
 				return 2;
-
+			}
+			if (SQLHelperTotal.TableWiFiOrG23 == "") {
+				alset.StartAlarm(params[0]);
+				alset.StopAlarm(params[0]);
 			}
 			return 3;
 			// TODO Auto-generated method stub
