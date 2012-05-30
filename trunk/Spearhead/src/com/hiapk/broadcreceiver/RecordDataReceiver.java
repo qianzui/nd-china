@@ -119,7 +119,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 				if (monthDay == 13 && hour == 2) {
 					sharedpref.setHAS_Cleared(false);
 				}
-				if (monthDay == 13 && !sharedpref.isHAS_Cleared()) {
+				if (hour == 3 && !sharedpref.isHAS_Cleared()) {
 					sqlhelperTotal.autoClearData(context, sqlDataBase);
 				}
 			}
