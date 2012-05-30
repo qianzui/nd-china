@@ -69,7 +69,7 @@
         <receiver
             android:name="com.hiapk.widget.Appwidget"
             android:icon="@drawable/ic_launcher"
-            android:label="先锋流量监控" >
+            android:label="先锋流量监控(4X1)" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.hiapkAPPWIDGET_UPDATE" />
