@@ -31,6 +31,8 @@ public class Splash extends Activity {
 			super.onPreExecute();
 //			SQLHelperTotal.isSQLTotalOnUsed = true;
 //			SQLHelperTotal.isSQLUidOnUsed = true;
+			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
+			sqlhelperTotal.initTablemobileAndwifi(context,false);
 		}
 
 		@Override
@@ -38,7 +40,7 @@ public class Splash extends Activity {
 			AlarmSet alset = new AlarmSet();
 			// ³õÊ¼»¯ÍøÂç×´Ì¬
 			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
-			sqlhelperTotal.initTablemobileAndwifi(params[0],false);
+//			sqlhelperTotal.initTablemobileAndwifi(params[0],false);
 			if (SQLHelperTotal.TableWiFiOrG23 != ""
 					&& sqlhelperTotal.getIsInit(params[0])) {
 				// Æô¶¯ÄÖÖÓ
