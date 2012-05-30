@@ -333,13 +333,13 @@ public class Main extends Activity {
 					&& TrafficManager.mobile_month_data[63] == 0
 					&& TrafficManager.wifi_month_data[63] == 0) {
 				try {
-					Thread.sleep(500);
+					Thread.sleep(300);
 					timetap += 1;
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if (timetap > 3)
+				if (timetap > 5)
 					break;
 
 			}

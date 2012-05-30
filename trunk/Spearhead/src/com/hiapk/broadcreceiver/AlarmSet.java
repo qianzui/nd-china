@@ -33,7 +33,7 @@ public class AlarmSet {
 		setwidgetdefaulttime(context);
 		int totaltime = totalrefreshtime < widgetrefreshtime ? totalrefreshtime
 				: widgetrefreshtime;
-		showLog(totaltime + "");
+//		showLog(totaltime + "");
 		TotalAlarmStart(context, totaltime);
 		UidAlarmStart(context, uidrefreshtime);
 		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
@@ -109,7 +109,7 @@ public class AlarmSet {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(context);
 		String set = prefs.getString(SYS_PRE_REFRESH_FRZ, "2");
-		showLog(set + "");
+//		showLog(set + "");
 		switch (Integer.valueOf(set)) {
 		case 0:
 			widgetrefreshtime = 5;

@@ -1158,6 +1158,7 @@ public class SQLHelperTotal {
 		}
 	}
 
+	// 生成前三个月的日期格式
 	private String[] DeleteDate() {
 		String date1 = null;
 		String date2 = null;
