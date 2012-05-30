@@ -89,16 +89,7 @@
             android:textSize="18sp"
             android:textColor="@color/whitesmoke" />
         
-         <Button
-            android:id="@+id/smsRead"
-            android:layout_width="130dip"
-            android:layout_height="45dip"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/content"
-            android:layout_marginTop="10dip"
-            android:text="读取校正短信"
-            android:textSize="18sp"
-            android:textColor="@color/whitesmoke" />
+
     </LinearLayout>
 
 </LinearLayout>
