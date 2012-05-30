@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.firewall.AppListAdapter;
 import com.hiapk.firewall.Block;
 import com.hiapk.firewall.MyListView;
@@ -64,7 +65,6 @@ public class FireWallActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main2);
-
 		if (Block.fireTip(mContext)) {
 			Toast toast_refresh = Toast.makeText(mContext, "下拉列表可以进行刷新!",
 					Toast.LENGTH_LONG);
@@ -293,7 +293,13 @@ public class FireWallActivity extends Activity {
 		}
 		context.startActivity(intent);
 	}
-
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		AlarmSet alrset=new AlarmSet();
+		alrset.StartAlarmUid(mContext);
+	}
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
