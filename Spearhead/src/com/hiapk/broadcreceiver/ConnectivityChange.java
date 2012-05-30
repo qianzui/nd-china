@@ -43,6 +43,9 @@ public class ConnectivityChange extends BroadcastReceiver {
 				if (connec.getActiveNetworkInfo() != null) {
 					// 启动闹钟
 					alset.StartAlarm(context);
+					if (sharedData.isNotifyOpen()) {
+						alset.StartWidgetAlarm(context);
+					}
 					NetworkInfo info = connec.getActiveNetworkInfo();
 					String typeName = info.getTypeName(); // mobile@wifi
 					if (typeName.equals("WIFI")) {
@@ -51,11 +54,14 @@ public class ConnectivityChange extends BroadcastReceiver {
 					if (typeName.equals("mobile")) {
 						SQLHelperTotal.TableWiFiOrG23 = "mobile";
 					}
-					 showLog("何种方式连线" + typeName);
+					showLog("何种方式连线" + typeName);
 				} else {
 					alset.StartAlarm(context);
+					if (sharedData.isNotifyOpen()) {
+						alset.StartWidgetAlarm(context);
+					}
 					SQLHelperTotal.TableWiFiOrG23 = "";
-					 showLog("无可用网络");
+					showLog("无可用网络");
 					alset.StopAlarm(context);
 				}
 			}
