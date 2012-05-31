@@ -1,6 +1,7 @@
 package com.hiapk.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.Time;
 import android.util.Log;
 
@@ -55,6 +56,31 @@ public class SetText {
 		text2 = "本月流量: " + monthUsedStr + " / " + monthSetStr;
 		text3 = "结算日期: " + date;
 		// showLog(textUp);
+	}
+
+	/**
+	 * 更新小部件与通知栏
+	 * 
+	 * @param context
+	 */
+	public static void resetWidgetAndNotify(Context context) {
+		String BROADCAST_TRAFF = "com.hiapk.traffwidget";
+		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		boolean isNotifyOpen = sharedData.isNotifyOpen();
+		boolean isWidGet14Open = sharedData.isWidGet14Open();
+		if (isNotifyOpen) {
+			ProgramNotify programNotify = new ProgramNotify();
+			programNotify.showNotice(context);
+			// }
+		}
+		if (isWidGet14Open) {
+			if (!isNotifyOpen) {
+				setText(context);
+			}
+			Intent intentTextUpdate = new Intent();
+			intentTextUpdate.setAction(BROADCAST_TRAFF);
+			context.sendBroadcast(intentTextUpdate);
+		}
 	}
 
 	private static String getdate(Context context, int year, int month,

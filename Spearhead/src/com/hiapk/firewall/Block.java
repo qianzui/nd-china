@@ -251,16 +251,17 @@ public class Block {
 									"\nTry `iptables -h' or 'iptables --help' for more information.",
 									"");
 				}
-					alert(ctx, "应用防火墙出错: " + code + "\n\n"
-					 + msg.trim()
-					);
+//					alert(ctx, "应用防火墙出错: " + code + "\n\n"
+//					 + msg.trim()
+//					);
+				alert(ctx, "部分机型不支持防火墙设置");
 			
 			} else {
 				return true;
 			}
 		} catch (Exception e) {
 			if (showErrors)
-				alert(ctx, "更新 iptables 出错: " + e);
+				alert(ctx, "应用防火墙出错" + e);
 		}
 		return false;
 	}

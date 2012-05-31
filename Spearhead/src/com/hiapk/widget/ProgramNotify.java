@@ -32,7 +32,7 @@ public class ProgramNotify {
 	String textUp = "11";
 	String textDown = "22";
 	// Notification±êÊ¾ID
-	private static final int ID = 1;
+	private static final int ID = 5;
 
 	public void showNotice(Context context) {
 

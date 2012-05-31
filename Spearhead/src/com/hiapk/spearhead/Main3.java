@@ -9,6 +9,8 @@ import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.firewall.Block;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.regulate.Regulate;
+import com.hiapk.widget.ProgramNotify;
+import com.hiapk.widget.SetText;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -235,8 +237,9 @@ public class Main3 extends Activity {
 					// 弹出建议设置已用流量对话框
 					dialogCountDaySelected().show();
 					// 刷新小部件与通知栏
-					AlarmSet alset = new AlarmSet();
-					alset.StartWidgetAlarm(context);
+//					AlarmSet alset = new AlarmSet();
+//					alset.StartWidgetAlarm(context);
+					SetText.resetWidgetAndNotify(context);
 				}
 			}
 
@@ -365,6 +368,7 @@ public class Main3 extends Activity {
 						init_monthWarning();
 						// 重置预警状态
 						resetHasWarning();
+						SetText.resetWidgetAndNotify(context);
 						/* User clicked OK so do some stuff */
 					}
 				})
@@ -451,6 +455,7 @@ public class Main3 extends Activity {
 						if (hasusedlong > setlong) {
 							dialogHasUsedLongTooMuch().show();
 						}
+						SetText.resetWidgetAndNotify(context);
 					}
 				})
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -778,6 +783,7 @@ public class Main3 extends Activity {
 		UseEditor.putBoolean(MOBILE_HAS_WARNING_DAY, false);
 		UseEditor.commit();
 	}
+
 
 	/**
 	 * 显示日志

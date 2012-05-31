@@ -90,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dip"
             android:layout_weight="1"
-            android:text="今日已用:"
+            android:text="今日已用:加载中...."
             android:textColor="@color/gray" />
 
         <TextView
@@ -98,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dip"
             android:layout_weight="1"
-            android:text="本月已用:"
+            android:text="本月已用:加载中...."
             android:textColor="@color/gray" />
 
         <TextView
@@ -107,7 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dip"
             android:layout_weight="1"
-            android:text="当前日期:"
+            android:text="当前日期:加载中...."
             android:textColor="@color/gray" />
     </LinearLayout>
 
