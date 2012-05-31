@@ -22,6 +22,7 @@ public class Onsysreboot {
 		if (sqlhelperTotal.getIsInit(context)) {
 			boolean isNotifyOpen = sharedData.isNotifyOpen();
 			boolean isFloatOpen = sharedData.isFloatOpen();
+			boolean isWidget1X4Open = sharedData.isWidGet14Open();
 			// showLog("isNotifyOpen"+isNotifyOpen);
 			// showLog("isFloatOpen"+isFloatOpen);
 			alset.StartAlarm(context);
@@ -34,6 +35,9 @@ public class Onsysreboot {
 				alset.StartWidgetAlarm(context);
 			} else {
 				alset.StopWidgetAlarm(context);
+			}
+			if (isWidget1X4Open) {
+				alset.StartWidgetAlarm(context);
 			}
 		}
 		// ∆Ù∂Øƒ÷÷”

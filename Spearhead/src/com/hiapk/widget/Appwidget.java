@@ -19,6 +19,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.provider.Settings.System;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,7 +35,7 @@ public class Appwidget extends AppWidgetProvider {
 	String BROADCAST_WIFI = "com.hiapk.wifiwidget";
 	String BROADCAST_GPRS = "com.hiapk.prgswidget";
 	String BROADCAST_TRAFF = "com.hiapk.traffwidget";
-	//初始化wifi与mobile状态
+	// 初始化wifi与mobile状态
 	String APPWIDGET_UPDATE = "com.hiapkAPPWIDGET_UPDATE";
 	SharedPrefrenceData sharedData;
 
@@ -86,21 +88,24 @@ public class Appwidget extends AppWidgetProvider {
 			// Get the layout for the App Widget and attach an on-click listener
 			// to the button
 			RemoteViews views = new RemoteViews(context.getPackageName(),
-					R.layout.appwidget_layout); 
+					R.layout.appwidget_layout);
 			// 设置监听
-//			views.setOnClickPendingIntent(R.id.widgetImage1, pendingIntentwifi);
-			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout1, pendingIntentwifi);
-//			views.setOnClickPendingIntent(R.id.widgetImageText1,
-//					pendingIntentwifi);
-			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout2, pendingIntentgprs);
-//			views.setOnClickPendingIntent(R.id.widgetImageText2,
-//					pendingIntentgprs);
+			// views.setOnClickPendingIntent(R.id.widgetImage1,
+			// pendingIntentwifi);
+			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout1,
+					pendingIntentwifi);
+			// views.setOnClickPendingIntent(R.id.widgetImageText1,
+			// pendingIntentwifi);
+			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout2,
+					pendingIntentgprs);
+			// views.setOnClickPendingIntent(R.id.widgetImageText2,
+			// pendingIntentgprs);
 			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout3,
 					pendingIntenttraff);
-//			views.setOnClickPendingIntent(R.id.widgetTextview2,
-//					pendingIntenttraff);
-//			views.setOnClickPendingIntent(R.id.widgetTextview3,
-//					pendingIntenttraff);
+			// views.setOnClickPendingIntent(R.id.widgetTextview2,
+			// pendingIntenttraff);
+			// views.setOnClickPendingIntent(R.id.widgetTextview3,
+			// pendingIntenttraff);
 			initWidget(context, views);
 			// 设置文本状态
 			// TextView aa;
@@ -169,20 +174,30 @@ public class Appwidget extends AppWidgetProvider {
 		}
 		// 初始化mobile
 		AlertActionMobileDataControl mobile_on_of = new AlertActionMobileDataControl();
-		if (mobile_on_of.isMobileDataEnable(context)) {
-			views.setImageViewResource(R.id.widgetImage2,
-					R.drawable.icon_mobile_on);
-			views.setInt(R.id.widgetImageText2, "setTextColor", Color.GREEN);
-			// views.setInt(R.id.widgetImage2, "setBackgroundResource",
-			// R.drawable.icon_mobile_on);
-
-		} else {
+		TelephonyManager tm = (TelephonyManager) context
+				.getSystemService(Context.TELEPHONY_SERVICE);
+		if (tm.getSimState() != TelephonyManager.SIM_STATE_READY) {
+			mobile_on_of.setMobileDataDisable(context);
 			views.setImageViewResource(R.id.widgetImage2,
 					R.drawable.icon_mobile_off);
 			views.setInt(R.id.widgetImageText2, "setTextColor", Color.GRAY);
-			// views.setInt(R.id.widgetImage2, "setBackgroundResource",
-			// R.drawable.icon_mobile_off);
+		} else {
+			if (mobile_on_of.isMobileDataEnable(context)) {
+				views.setImageViewResource(R.id.widgetImage2,
+						R.drawable.icon_mobile_on);
+				views.setInt(R.id.widgetImageText2, "setTextColor", Color.GREEN);
+				// views.setInt(R.id.widgetImage2, "setBackgroundResource",
+				// R.drawable.icon_mobile_on);
+
+			} else {
+				views.setImageViewResource(R.id.widgetImage2,
+						R.drawable.icon_mobile_off);
+				views.setInt(R.id.widgetImageText2, "setTextColor", Color.GRAY);
+				// views.setInt(R.id.widgetImage2, "setBackgroundResource",
+				// R.drawable.icon_mobile_off);
+			}
 		}
+
 		AppWidgetManager appWidgetManager = AppWidgetManager
 				.getInstance(context);
 		appWidgetManager.updateAppWidget(new ComponentName(context,
@@ -298,25 +313,38 @@ public class Appwidget extends AppWidgetProvider {
 	 * @param views
 	 */
 	private void mobileswitch(Context context, RemoteViews views) {
+		TelephonyManager tm = (TelephonyManager) context
+				.getSystemService(Context.TELEPHONY_SERVICE);
 		AlertActionMobileDataControl mobile_on_of = new AlertActionMobileDataControl();
-		if (mobile_on_of.isMobileDataEnable(context)) {
+		tm.getSimState();
+		if (tm.getSimState() != TelephonyManager.SIM_STATE_READY) {
 			mobile_on_of.setMobileDataDisable(context);
-			// views.setInt(R.id.widgetImage2, "setBackgroundResource",
-			// R.drawable.icon_mobile_off);
 			views.setImageViewResource(R.id.widgetImage2,
 					R.drawable.icon_mobile_off);
 			views.setInt(R.id.widgetImageText2, "setTextColor", Color.GRAY);
-			Toast.makeText(context, "移动网络正在关闭", Toast.LENGTH_SHORT).show();
-
+			Toast.makeText(context, "为检测到SIM卡或者SIM卡未就绪，无法启动移动网络",
+					Toast.LENGTH_SHORT).show();
 		} else {
-			mobile_on_of.setMobileDataEnable(context);
-			// views.setInt(R.id.widgetImage2, "setBackgroundResource",
-			// R.drawable.icon_mobile_on);
-			views.setImageViewResource(R.id.widgetImage2,
-					R.drawable.icon_mobile_on);
-			views.setInt(R.id.widgetImageText2, "setTextColor", Color.GREEN);
-			Toast.makeText(context, "移动网络正在开启", Toast.LENGTH_SHORT).show();
+			if (mobile_on_of.isMobileDataEnable(context)) {
+				mobile_on_of.setMobileDataDisable(context);
+				// views.setInt(R.id.widgetImage2, "setBackgroundResource",
+				// R.drawable.icon_mobile_off);
+				views.setImageViewResource(R.id.widgetImage2,
+						R.drawable.icon_mobile_off);
+				views.setInt(R.id.widgetImageText2, "setTextColor", Color.GRAY);
+				Toast.makeText(context, "移动网络正在关闭", Toast.LENGTH_SHORT).show();
+
+			} else {
+				mobile_on_of.setMobileDataEnable(context);
+				// views.setInt(R.id.widgetImage2, "setBackgroundResource",
+				// R.drawable.icon_mobile_on);
+				views.setImageViewResource(R.id.widgetImage2,
+						R.drawable.icon_mobile_on);
+				views.setInt(R.id.widgetImageText2, "setTextColor", Color.GREEN);
+				Toast.makeText(context, "移动网络正在开启", Toast.LENGTH_SHORT).show();
+			}
 		}
+
 	}
 
 	/**

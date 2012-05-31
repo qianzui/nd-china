@@ -291,14 +291,20 @@ public class Main extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-
+		AlarmSet alset = new AlarmSet();
+		alset.StartAlarm(context);
+		initWifiBar();
 		if (TrafficManager.mobile_month_data[0] == 0
 				&& TrafficManager.wifi_month_data[0] == 0
 				&& TrafficManager.mobile_month_data[63] == 0
-				&& TrafficManager.wifi_month_data[63] == 0
-				&& sharedData.getMonthMobileHasUse() == 0) {
+				&& TrafficManager.wifi_month_data[63] == 0) {
 
 			new AsyncTaskonRefreshMain().execute(context);
+		} else {
+			initValues();
+			initProgressBar();
+			initPieBar();
+			initWifiBar();
 		}
 
 		// 数据记录功能，放在flesh上面
@@ -316,10 +322,7 @@ public class Main extends Activity {
 		// sqlhelperTotal.initTablemobileAndwifi(context);
 		// }
 		// time=System.currentTimeMillis();
-		initValues();
-		initProgressBar();
-		initPieBar();
-		initWifiBar();
+
 		// time = System.currentTimeMillis() - time;
 		// showlog("更新main" + time);
 	}
@@ -333,13 +336,13 @@ public class Main extends Activity {
 					&& TrafficManager.mobile_month_data[63] == 0
 					&& TrafficManager.wifi_month_data[63] == 0) {
 				try {
-					Thread.sleep(300);
+					Thread.sleep(50);
 					timetap += 1;
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if (timetap > 5)
+				if (timetap > 40)
 					break;
 
 			}
@@ -426,7 +429,7 @@ public class Main extends Activity {
 		// DecimalFormat format = new DecimalFormat("0.#");
 		// wifi[0] = (double) (wifiTraffic[0] + wifiTraffic[63]) / 1000000;
 		for (int i = 0; i < wifi.length; i++) {
-			long temp = wifiTraffic[i + 1] + wifiTraffic[i + 32];
+			long temp = TrafficManager.wifi_month_data[i + 1] + TrafficManager.wifi_month_data[i + 32];
 			// 小数点2位
 			wifi[i] = (double) ((long) temp * 100 / 1024 / 1024) / 100;
 			// format.format(wifi[i]);
