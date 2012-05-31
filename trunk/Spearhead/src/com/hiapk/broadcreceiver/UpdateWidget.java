@@ -4,7 +4,6 @@ import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.spearhead.R;
 import com.hiapk.widget.ProgramNotify;
-import com.hiapk.widget.SetText;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -27,13 +26,13 @@ public class UpdateWidget extends BroadcastReceiver {
 						.isWidGet14Open() == true)) {
 			if (sharedData.isNotifyOpen()) {
 				ProgramNotify programNotify = new ProgramNotify();
-				programNotify.showNotice(context);
 				if (TrafficManager.mobile_month_data[0] == 0
 						&& TrafficManager.wifi_month_data[0] == 0
 						&& TrafficManager.mobile_month_data[63] == 0
-						&& TrafficManager.wifi_month_data[63] == 0
-						&& sharedData.getMonthMobileHasUse() == 0) {
+						&& TrafficManager.wifi_month_data[63] == 0) {
 					new AsyncTaskonRefreshNotify().execute(context);
+				} else {
+					programNotify.showNotice(context);
 				}
 			}
 
@@ -47,7 +46,8 @@ public class UpdateWidget extends BroadcastReceiver {
 		}
 	}
 
-	private class AsyncTaskonRefreshNotify extends AsyncTask<Context, Long, Long> {
+	private class AsyncTaskonRefreshNotify extends
+			AsyncTask<Context, Long, Long> {
 		@Override
 		protected Long doInBackground(Context... params) {
 			int timetap = 0;
@@ -56,13 +56,13 @@ public class UpdateWidget extends BroadcastReceiver {
 					&& TrafficManager.mobile_month_data[63] == 0
 					&& TrafficManager.wifi_month_data[63] == 0) {
 				try {
-					Thread.sleep(300);
+					Thread.sleep(50);
 					timetap += 1;
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if (timetap > 5)
+				if (timetap > 50)
 					break;
 
 			}

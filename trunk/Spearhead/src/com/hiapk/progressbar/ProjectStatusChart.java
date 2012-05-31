@@ -43,13 +43,16 @@ import android.view.View;
 /**
  * Project status demo chart.
  */
-public class ProjectStatusChart extends ViewBase{
-	int windowswidesize=300;
-	public ProjectStatusChart(Context context,int windowswidesize) {
+public class ProjectStatusChart extends ViewBase {
+	int windowswidesize = 300;
+
+	public ProjectStatusChart(Context context, int windowswidesize) {
 		super(context);
+		this.windowswidesize = windowswidesize;
 		// Log.d("main", windowswidesize+"windowswidesize");
 		// TODO Auto-generated constructor stub
 	}
+
 	// 名称数的个数要与data数与color数统一！
 	// 需要写入的数据1前方
 	double[] dataMobile = new double[] { 1402, 1023, 1042, 1502, 1409 };
@@ -65,8 +68,9 @@ public class ProjectStatusChart extends ViewBase{
 	// 本月的最大流量数
 	double MaxTraffic = 10;
 	double MinTraffic = 0;
-	//X轴显示的字
-	String XaxisText="日期";
+	// X轴显示的字
+	String XaxisText = "日期";
+
 	public void setXaxisText(String XaxisText) {
 		this.XaxisText = XaxisText;
 	}
@@ -97,14 +101,14 @@ public class ProjectStatusChart extends ViewBase{
 				xaxles[i] = (month - 1) + "月" + (i + 1) + "日";
 			} else {
 				xaxles[i] = 12 + "月" + (i + 1) + "日";
-//				showlog(xaxles[i]);
+				// showlog(xaxles[i]);
 			}
 		}
 		int j = 0;
 		for (int i = beforeDayofMonth; i < xaxles.length; i++) {
 			j++;
 			xaxles[i] = month + "月" + j + "日";
-//			showlog(xaxles[i]);
+			// showlog(xaxles[i]);
 		}
 		this.xaxles = xaxles;
 
@@ -235,6 +239,7 @@ public class ProjectStatusChart extends ViewBase{
 				PointStyle.DIAMOND };
 		XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
 		for (int i = 0; i < length; i++) {
+			
 			((XYSeriesRenderer) renderer.getSeriesRendererAt(i))
 					.setFillPoints(true);
 		}
@@ -246,7 +251,8 @@ public class ProjectStatusChart extends ViewBase{
 			String name = xaxis;
 			renderer.addTextLabel(i, name);
 		}
-
+		renderer.setPointSize(windowswidesize/70);
+		renderer.setChartValuesTextSize(windowswidesize / 11);
 		setChartSettings(renderer, "", XaxisText, "流量（MB）", showDay - 5.5,
 				showDay + 0.5, MinTraffic, MaxTraffic, Color.LTGRAY,
 				Color.LTGRAY);
@@ -304,15 +310,16 @@ public class ProjectStatusChart extends ViewBase{
 		return renderer;
 	}
 
+	@SuppressWarnings("deprecation")
 	private void setRenderer(XYMultipleSeriesRenderer renderer, int[] colors,
 			PointStyle[] styles) {
-		//轴上的日期
-		renderer.setAxisTitleTextSize(windowswidesize/20);
-		renderer.setChartTitleTextSize(windowswidesize/23);
-		//12345等数字
-		renderer.setLabelsTextSize(windowswidesize/25);
-		//有颜色的左下小标题
-		renderer.setLegendTextSize(windowswidesize/14);
+		// 轴上的日期
+		renderer.setAxisTitleTextSize(windowswidesize / 16);
+		renderer.setChartTitleTextSize(windowswidesize / 16);
+		// 12345等数字
+		renderer.setLabelsTextSize(windowswidesize / 18);
+		// 有颜色的左下小标题
+		renderer.setLegendTextSize(windowswidesize / 11);
 		renderer.setPointSize(5f);
 		renderer.setMargins(new int[] { 20, 30, 15, 20 });
 		int length = colors.length;
