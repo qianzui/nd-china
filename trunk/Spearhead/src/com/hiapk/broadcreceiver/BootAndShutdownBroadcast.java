@@ -20,9 +20,11 @@ public class BootAndShutdownBroadcast extends BroadcastReceiver {
 		// TODO Auto-generated method stub
 		// 设置闹钟与数据库操作
 		// 识别到开机信号
+		showLog("getaction");
 		if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
 			Onsysreboot sysreboot = new Onsysreboot();
 			sysreboot.onsysreboot(context);
+			showLog("getbootaction");
 			// showLog("onboot the system");
 		}
 		// 识别到关机信号
@@ -30,6 +32,7 @@ public class BootAndShutdownBroadcast extends BroadcastReceiver {
 			Onshutdown sysshutdown = new Onshutdown();
 			sysshutdown.onsysshutdown(context);
 			// showLog("shutdown the system");
+			showLog("getshutdownaction");
 		}
 
 	}

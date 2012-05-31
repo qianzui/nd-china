@@ -4,6 +4,7 @@ import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.spearhead.R;
 import com.hiapk.widget.ProgramNotify;
+import com.hiapk.widget.SetText;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -21,22 +22,25 @@ public class UpdateWidget extends BroadcastReceiver {
 		// TODO Auto-generated method stub
 		this.context = context;
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
-		if (sharedData.isSQLinited() == true
-				&& (sharedData.isNotifyOpen() == true || sharedData
-						.isWidGet14Open() == true)) {
-			if (sharedData.isNotifyOpen()) {
+		boolean isNotifyOpen = sharedData.isNotifyOpen();
+		boolean isWidGet14Open = sharedData.isWidGet14Open();
+		if (sharedData.isSQLinited() && (isNotifyOpen || isWidGet14Open)) {
+			if (isNotifyOpen) {
 				ProgramNotify programNotify = new ProgramNotify();
-				if (TrafficManager.mobile_month_data[0] == 0
-						&& TrafficManager.wifi_month_data[0] == 0
-						&& TrafficManager.mobile_month_data[63] == 0
-						&& TrafficManager.wifi_month_data[63] == 0) {
-					new AsyncTaskonRefreshNotify().execute(context);
-				} else {
-					programNotify.showNotice(context);
-				}
+				// if (TrafficManager.mobile_month_data[0] == 0
+				// && TrafficManager.wifi_month_data[0] == 0
+				// && TrafficManager.mobile_month_data[63] == 0
+				// && TrafficManager.wifi_month_data[63] == 0) {
+				// new AsyncTaskonRefreshNotify().execute(context);
+				// } else {
+				programNotify.showNotice(context);
+				// }
 			}
 
-			if (sharedData.isWidGet14Open()) {
+			if (isWidGet14Open) {
+				if (!isNotifyOpen) {
+					SetText.setText(context);
+				}
 				Intent intentTextUpdate = new Intent();
 				intentTextUpdate.setAction(BROADCAST_TRAFF);
 				context.sendBroadcast(intentTextUpdate);
@@ -56,13 +60,13 @@ public class UpdateWidget extends BroadcastReceiver {
 					&& TrafficManager.mobile_month_data[63] == 0
 					&& TrafficManager.wifi_month_data[63] == 0) {
 				try {
-					Thread.sleep(50);
+					Thread.sleep(500);
 					timetap += 1;
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if (timetap > 50)
+				if (timetap > 30)
 					break;
 
 			}
@@ -75,6 +79,9 @@ public class UpdateWidget extends BroadcastReceiver {
 			// TODO Auto-generated method stub
 			ProgramNotify programNotify = new ProgramNotify();
 			programNotify.showNotice(context);
+			Intent intentTextUpdate = new Intent();
+			intentTextUpdate.setAction(BROADCAST_TRAFF);
+			context.sendBroadcast(intentTextUpdate);
 		}
 	}
 

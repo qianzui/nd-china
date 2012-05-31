@@ -228,7 +228,7 @@ public class AlarmSet {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());
 		alarmManager.setRepeating(AlarmManager.RTC,
-				calendar.getTimeInMillis() + 100, i * 1000, pendingIntent);
+				calendar.getTimeInMillis(), i * 1000, pendingIntent);
 	}
 
 	/**

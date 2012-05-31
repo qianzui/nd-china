@@ -16,6 +16,7 @@ import com.hiapk.progressbar.StackedBarChart;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUidTotal;
 import com.hiapk.widget.ProgramNotify;
+import com.hiapk.widget.SetText;
 
 import android.app.Activity;
 import android.content.Context;
@@ -336,13 +337,13 @@ public class Main extends Activity {
 					&& TrafficManager.mobile_month_data[63] == 0
 					&& TrafficManager.wifi_month_data[63] == 0) {
 				try {
-					Thread.sleep(50);
+					Thread.sleep(200);
 					timetap += 1;
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if (timetap > 40)
+				if (timetap > 50)
 					break;
 
 			}
@@ -353,6 +354,7 @@ public class Main extends Activity {
 		@Override
 		protected void onPostExecute(Long result) {
 			// TODO Auto-generated method stub
+			SetText.resetWidgetAndNotify(context);
 			initValues();
 			initProgressBar();
 			initPieBar();
@@ -429,7 +431,8 @@ public class Main extends Activity {
 		// DecimalFormat format = new DecimalFormat("0.#");
 		// wifi[0] = (double) (wifiTraffic[0] + wifiTraffic[63]) / 1000000;
 		for (int i = 0; i < wifi.length; i++) {
-			long temp = TrafficManager.wifi_month_data[i + 1] + TrafficManager.wifi_month_data[i + 32];
+			long temp = TrafficManager.wifi_month_data[i + 1]
+					+ TrafficManager.wifi_month_data[i + 32];
 			// 小数点2位
 			wifi[i] = (double) ((long) temp * 100 / 1024 / 1024) / 100;
 			// format.format(wifi[i]);

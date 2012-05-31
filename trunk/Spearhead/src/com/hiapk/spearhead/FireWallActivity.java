@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.firewall.AppListAdapter;
 import com.hiapk.firewall.Block;
 import com.hiapk.firewall.MyListView;
@@ -65,11 +64,6 @@ public class FireWallActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main2);
-		if (Block.fireTip(mContext)) {
-			Toast toast_refresh = Toast.makeText(mContext, "下拉列表可以进行刷新!",
-					Toast.LENGTH_LONG);
-			toast_refresh.show();
-		}
 
 		initList();
 
@@ -252,12 +246,15 @@ public class FireWallActivity extends Activity {
 														int which) {
 													// TODO Auto-generated
 													// method stub
-													Intent intent=new Intent();
-													intent.setClass(mContext, UidMonthTraff.class);
+													Intent intent = new Intent();
+													intent.setClass(mContext,
+															UidMonthTraff.class);
 													Bundle bData = new Bundle();
 													bData.putInt("uid", uid);
-													bData.putString("appname", appname);
-													bData.putString("pkname", pkname);
+													bData.putString("appname",
+															appname);
+													bData.putString("pkname",
+															pkname);
 													intent.putExtras(bData);
 													mContext.startActivity(intent);
 												}
@@ -293,13 +290,18 @@ public class FireWallActivity extends Activity {
 		}
 		context.startActivity(intent);
 	}
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		AlarmSet alrset=new AlarmSet();
-		alrset.StartAlarmUid(mContext);
+		if (Block.fireTip(mContext)) {
+			Toast toast_refresh = Toast.makeText(mContext, "下拉列表可以进行刷新!",
+					Toast.LENGTH_LONG);
+			toast_refresh.show();
+		}
 	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
