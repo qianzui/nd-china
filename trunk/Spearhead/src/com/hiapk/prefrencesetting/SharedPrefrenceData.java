@@ -57,6 +57,8 @@ public class SharedPrefrenceData {
 	String PROVINCE_ID = "province_id";
 	String SMSNUM = "sms_num";
 	String SMSTEXT = "sms_text";
+	// ฐüร๛รว
+	String PACKAGE_NAMES = "allpackagenames";
 
 	public SharedPrefrenceData(Context context) {
 		this.context = context;
@@ -154,6 +156,16 @@ public class SharedPrefrenceData {
 
 	public void setMonthUseDataTemp(long monthUseDataTemp) {
 		UseEditor.putLong(MONTH_USED_DATA_TEMP, monthUseDataTemp);
+		UseEditor.commit();
+	}
+
+	public String getPackageNames() {
+		String PackageNames = prefs.getString(PACKAGE_NAMES, "");
+		return PackageNames;
+	}
+
+	public void setPackageNames(String PackageNames) {
+		UseEditor.putString(PACKAGE_NAMES, PackageNames);
 		UseEditor.commit();
 	}
 

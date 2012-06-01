@@ -14,13 +14,16 @@ import com.hiapk.progressbar.PieView;
 import com.hiapk.progressbar.ProgressBarForV;
 import com.hiapk.progressbar.StackedBarChart;
 import com.hiapk.sqlhelper.SQLHelperTotal;
+import com.hiapk.sqlhelper.SQLHelperUid;
 import com.hiapk.sqlhelper.SQLHelperUidTotal;
 import com.hiapk.widget.ProgramNotify;
 import com.hiapk.widget.SetText;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -126,12 +129,6 @@ public class Main extends Activity {
 		});
 		// 流量获取函数
 		wifiTraffic = new long[64];
-		// 取得系统时间。
-		Time t = new Time();
-		t.setToNow();
-		year = t.year;
-		month = t.month + 1;
-		monthDay = t.monthDay;
 		// 初始化流量获取函数
 		// 取得每周的流量
 		long[] weektraffic = new long[6];
@@ -190,17 +187,40 @@ public class Main extends Activity {
 	 * 临时函数
 	 */
 	private void getuids() {
+		int j = 0;
+		PackageManager pkgmanager = context.getPackageManager();
 		List<PackageInfo> packages = context.getPackageManager()
 				.getInstalledPackages(0);
-		uids = new int[packages.size()];
-		packagenames = new String[packages.size()];
+		int[] uidstp = new int[packages.size()];
+		String[] packagenamestp = new String[packages.size()];
 		for (int i = 0; i < packages.size(); i++) {
 			PackageInfo packageinfo = packages.get(i);
-			packagenames[i] = packageinfo.packageName;
-			// Log.d("pac", packagenames[i]);
-			uids[i] = packageinfo.applicationInfo.uid;
-			// Log.d("uid", uids[i] + "");
+			String fliter = "com.htc.android.fusion.calculator.com.htc.android.htcsetupwizard.com.htc.android.mail.com.htc.android.psclient.com.htc.android.worldclock.com.htc.appsharing.com.htc.autorotatewidget.com.htc.calendar.com.clock3dwidget.com.htc.dcs.service.stock.com.htc.dlnamiddlelayer.com.htc.dockmode.com.htc.fm.com.htc.fusion.htcbookmarkwidget.com.htc.googlereader.com.htc.googlereaderwidget.com.htc.home.personalize.com.htc.htcMessageUploader.com.htc.htccalendarwidgets.com.htc.htccontactwidgets_3d_fusion.com.htc.htchubsyncprovider.com.htc.htcmailwidgets.com.htc.htcmsgwidgets3dcom.htc.htcsettingwidgets.com.htc.idlescreen.base.com.htc.idlescreen.shortcut.com.htc.idlescreen.socialnetwork.com.htc.launcher.com.htc.livewallpaper.streak.com.htc.ml.PhotoLocaScreen.com.htc.music.com.htc.musicnhancer.com.htc.opensense.com.htc.provider.CustomizationSettings.com.htc.provider.settings.com.htc.provider.weather.com.htc.providersuploads.com.htc.ringtonetrimmer.com.htc.rosiewidgets.backgrounddata.com.htc.rosiewidgets.dataroaming.com.htc.rosiewidgets.datastripcom.htc.rosiewidgets.powerstrip.com.htc.rosiewidgets.screenbrightness.com.htc.rosiewigets.screentimeout.com.htc.sdm.com.htc.settings.accountsync.com.htc.soundrecorder.com.htc.streamplayer.com.htc.sync.provider.weather.com.htc.videa.com.htc.weather.agent.com.htc.weatheridlescreen.com.htc.widget.profile.com.htc.widget.ringtone.com.htc.widget3d.weather.com.htc.clock3dwidgetcom.htc.messagecscom.htc.ml.PhotoLockScreencom.htc.musicenhancercom.htc.providers.uploads.com.htc.rosiewidgets.screentimeout.com.htc.video.com.broadcom.bt.app.system.com.google.android.apps.uploader.com.google.android.partnersetup.com.htc.CustomizationSetup.com.htc.FMRadioWidget.com.htc.OnlineAssetDetails.com.htc.Sync3DWidget.com.htc.UpgradeSetup.com.htc.Weather.com.htc.WeatherWallpaper.com.htc.albumcom.htc.HtcBeatsNotify.com.htc.MediaAutoUploadSetting.com.htc.MediaCacheService.com.htc.MusicWidget3D.com.htc.WifiRouter.com.htc.android.WeatherLiveWallpaper.com.htc.android.htcime.com.htc.android.image_wallpaper.com.htc.android.tvout.com.htc.android.wallpaper.com.htc.china.callocation.com.htc.connectedMedia.com.htc.cspeoplesync.com.htc.dmc.com.htc.flashlight.com.htc.flashliteplugin.com.htc.fusion.FusionApk.com.htc.htccompressviewer.com.htc.lmwN.com.htc.lockscreen.com.htc.mysketcher.com.htc.pen.com.htc.photowidget3d.android.smartcard.com.android.deviceinfo.com.android.htccontacts.com.android.htcdialer.com.android.inputmethod.latin.com.android.providers.htcmessage.com.android.restartapp.com.android.setupwizard.com.android.updater.com.android.voicedialer.com.westtek.jcp"
+					+ "android.media.dlnaservicecom.android.cameracom.android.htmlviewer.com.android.music.com.android.providersuserdictionary.com.android.quicksearchbox.com.android.stk.com.android.vending.updater.com.google.android.location.com.google.android.street.com.google.android.talk.com.meizu.MzAutoInstaller.com.meizu.account.com.meizu.backupandrestore.com.meizu.cloud.com.meizu.filemanager.com.meizu.flyme.service.find.com.meizu.input.com.meizu.mzsimcontacts.com.meizu.mzsyncservice.com.meizu.notepaper.com.meizu.recent.app.com.meizu.vncviewer.com.meizu.wapisetting.android.tts.com.android.Unzip.com.android.alarmclock.com.android.providers.userdictionary.com.android.wallpaper.livpicker.com.cooliris.media.com.cooliris.video.media.com.google.android.apps.genie.geniewidget.com.meizu.mstore.com.meizu.musiconline.com.android.wallpaper.livepicker.com.svox.picoN.com.hyfsoft"
+					+ "com.android.certinstaller.com.android.fileexplorer.com.android.monitor.com.android.packageinstaller.com.android.sidekick.android,com.android.bluetoothcom.adobe.flashplayer,com.android.browsercom.android.calculator2com.android.calendarcom.android.contactscom.android.deskclockcom.android.defcontainercom.android.emailcom.android.gallerycom.android.launchercom.android.mmscom.android.phonecom.android.providers.applicationscom.android.providers.calendarcom.android.providers.contactscom.android.providers.downloadscom.android.providers.downloads.uicom.android.providers.drm  appnamecom.android.providers.mediacom.android.providers.settingscom.android.providers.subscribedfeedscom.android.providers.telephonycom.android.providers.telocationcom.android.server.vpncom.android.settingscom.android.soundrecordercom.android.systemuicom.google.android.apps.mapscom.google.android.gsfcom.google.android.inputmethod.pinyincom.google.android.syncadapters.calendarcom.google.android.syncadapters.contactscom.miui.antispamcom.miui.backupcom.miui.cameracom.miui.cloudservicecom.miui.notescom.miui.playercom.miui.uac";
+			String pacname = packageinfo.packageName;
+			int uid = packageinfo.applicationInfo.uid;
+			if (!(PackageManager.PERMISSION_GRANTED != pkgmanager
+					.checkPermission(Manifest.permission.INTERNET, pacname))) {
+				if (!fliter.contains(pacname)) {
+					uidstp[j] = uid;
+					packagenamestp[j] = pacname;
+					// showLog("进行显示的uid=" + uid);
+					j++;
+					// tmpInfo.packageName = pacname;
+					// tmpInfo.app_uid = packageinfo.applicationInfo.uid;
+				}
+			}
 		}
+		uids = new int[j];
+		packagenames = new String[j];
+		for (int i = 0; i < j; i++) {
+			uids[i] = uidstp[i];
+			packagenames[i] = packagenamestp[i];
+		}
+//		SQLHelperUid sqlhelpuid = new SQLHelperUid();
+//		uids = sqlhelpuid.selectUidnumbers(context);
+//		packagenames = sqlhelpuid.selectPackagenames(context);
 	}
 
 	// ------------
@@ -292,6 +312,12 @@ public class Main extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		// 取得系统时间。
+		Time t = new Time();
+		t.setToNow();
+		year = t.year;
+		month = t.month + 1;
+		monthDay = t.monthDay;
 		AlarmSet alset = new AlarmSet();
 		alset.StartAlarm(context);
 		initWifiBar();

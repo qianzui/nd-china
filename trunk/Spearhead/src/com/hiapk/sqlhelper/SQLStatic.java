@@ -8,9 +8,12 @@ public class SQLStatic {
 	public static boolean isSQLUidTotalOnUsed = false;
 	// 判断是否覆盖安装
 	public static boolean isCoverInstall = false;
-	// 包名与uid...
+	// 包名与uid...指的是当前安装的软件
 	public static String[] packageName = new String[2];
 	public static int uidnumber;
+	// 库存的uid表（所有）
+	public static int[] uidnumbers = null;
+	public static String packagename_ALL = null;
 
 	public static synchronized boolean setSQLTotalOnUsed(boolean SQLTotalOnUsed) {
 		if (SQLTotalOnUsed == true && isSQLTotalOnUsed == false) {
