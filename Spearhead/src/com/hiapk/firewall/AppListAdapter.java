@@ -19,12 +19,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
+import android.graphics.drawable.Drawable;
 import android.net.TrafficStats;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -39,13 +42,14 @@ public class AppListAdapter extends BaseAdapter {
 	private  LayoutInflater inflater;
 	private Context mContext;
 	HashMap map;
-//	map = Block.getMap(mContext, myAppList);
-	public AppListAdapter(Context context , ArrayList<PackageInfo> myAppList)
+	HashMap imageAndNameMap;
+	public AppListAdapter(Context context , ArrayList<PackageInfo> myAppList,HashMap imageAndNameMap)
 	{
 		inflater = LayoutInflater.from(context);
 		this.myAppList = myAppList;
 		this.mContext = context;
 		this.map = Block.getMap(context, myAppList);
+		this.imageAndNameMap = imageAndNameMap;
 	}
 
 	@Override
@@ -67,7 +71,7 @@ public class AppListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		ViewHolder holder ;
 		if(convertView == null)
@@ -79,37 +83,32 @@ public class AppListAdapter extends BaseAdapter {
 			holder.trafficup = (TextView)convertView.findViewById(R.id.trafficup);
 			holder.e_toggle = (CheckBox)convertView.findViewById(R.id.e_toggle);
 			holder.wifi_toggle = (CheckBox)convertView.findViewById(R.id.wifi_toggle);
-			
 			convertView.setTag(R.id.tag_holder,holder);
 		 }else{
 			holder = (ViewHolder)convertView.getTag(R.id.tag_holder);
 		 }
 		  PackageInfo pkgInfo = myAppList.get(position);
+		  IsChecked ic = (IsChecked)map.get(pkgInfo.applicationInfo.uid);
+		  Info info = (Info)imageAndNameMap.get(pkgInfo.applicationInfo.uid);
 		  
-		  long down = TrafficStats.getUidRxBytes(pkgInfo.applicationInfo.uid);
-		  down = judge(down);
-		  long up = TrafficStats.getUidTxBytes(pkgInfo.applicationInfo.uid);
-		  up = judge(up);
-		  holder.icon.setImageDrawable(pkgInfo.applicationInfo.loadIcon(mContext.getPackageManager()));
+		  long down = judge(TrafficStats.getUidRxBytes(pkgInfo.applicationInfo.uid));
+		  long up = judge(TrafficStats.getUidTxBytes(pkgInfo.applicationInfo.uid));
+		  holder.icon.setImageDrawable(info.d);
 		  holder.appname.setText(pkgInfo.applicationInfo.loadLabel(mContext.getPackageManager()));
 		  holder.trafficup.setText("×ÜÁ÷Á¿£º " + unitHandler(up + down));	
-		  
-		  IsChecked ic = (IsChecked)map.get(pkgInfo.applicationInfo.uid);
-		  holder.e_toggle.setOnClickListener(new EListener(holder.e_toggle,ic));
-		  holder.wifi_toggle.setOnClickListener(new WifiListener(holder.wifi_toggle,ic));
 		  holder.e_toggle.setChecked(ic.selected_3g);
 		  holder.wifi_toggle.setChecked(ic.selected_wifi);
+		  holder.e_toggle.setOnClickListener(new EListener(holder.e_toggle,ic));
+		  holder.wifi_toggle.setOnClickListener(new WifiListener(holder.wifi_toggle,ic));
 		  convertView.setTag(R.id.tag_pkginfo,pkgInfo);
 		  return convertView;
 	}
-	
 	public long judge(long tff)
 	{
 		if(tff == -1)
 		tff = 0 ;
 		return tff;
 	}
-	
 	class ViewHolder{
 		ImageView icon;
 		TextView appname;
@@ -200,7 +199,7 @@ public class AppListAdapter extends BaseAdapter {
 		        	 cb.setChecked(false);
 		        	 new AlertDialog.Builder(mContext)
 		 			 .setTitle(R.string.tip)
-		 			 .setMessage(R.string.tip_content)
+		 			 .setMessage(R.string.tip_content_root)
 		 			 .setPositiveButton(
 							 R.string.ok,
 							 new DialogInterface.OnClickListener() {
@@ -281,7 +280,7 @@ public class AppListAdapter extends BaseAdapter {
 		        	 cb.setChecked(false);
 		        	 new AlertDialog.Builder(mContext)
 		 			 .setTitle(R.string.tip)
-		 			 .setMessage(R.string.tip_content)
+		 			 .setMessage(R.string.tip_content_root)
 		 			 .setPositiveButton(
 							 R.string.ok,
 							 new DialogInterface.OnClickListener() {
