@@ -1,7 +1,9 @@
 package com.hiapk.regulate;
 
+import com.hiapk.firewall.Block;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.spearhead.R;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Regulate extends Activity {
 	public static Button chooseBtn;
@@ -28,6 +31,7 @@ public class Regulate extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.regulate);	
+		MobclickAgent.onError(this);
 		sharedData = new SharedPrefrenceData(this);
 		chooseBtn = (Button)findViewById(R.id.choose);
 		smsSend = (Button)findViewById(R.id.smsSend);
@@ -105,7 +109,20 @@ public class Regulate extends Activity {
 //		Log.v("+++++++++++++++++++++", "∂¡»°∂Ã–≈");
 //		Toast.makeText(this, SMS_Received.isReceive+" ", Toast.LENGTH_LONG).show();
 	}
-	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		// umeng
+		MobclickAgent.onResume(this);
+	}
+
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		// umeng
+		MobclickAgent.onPause(this);
+	}
 //	@Override
 //	protected void onResume() {
 //		// TODO Auto-generated method stub

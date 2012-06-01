@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.hiapk.firewall.AppListAdapter;
 import com.hiapk.firewall.Block;
+import com.hiapk.firewall.Info;
 import com.hiapk.firewall.MyListView;
 import com.hiapk.firewall.MyListView.OnRefreshListener;
 import com.hiapk.sqlhelper.SQLHelperTotal;
@@ -30,9 +31,12 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -51,14 +55,15 @@ public class FireWallActivity extends Activity {
 
 	private List<PackageInfo> packageInfo;
 	private AppListAdapter appListAdapter;
-	private MyListView appListView;
-	private ArrayList<PackageInfo> myAppList;
+	public static MyListView appListView;
+	public ArrayList<PackageInfo> myAppList;
 	private Context mContext = this;
 	private SQLHelperUid sqlhelperUid = new SQLHelperUid();
 	private SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 	ProgressDialog mydialog;
+	ProgressDialog pro;
 	long[] traffic;
-	HashMap map;
+	HashMap imageAndNameMap;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,23 +72,55 @@ public class FireWallActivity extends Activity {
 		MobclickAgent.onError(this);
 		setContentView(R.layout.main2);
 
+		if (Block.fireTip(mContext)) {
+			Toast toast_refresh = Toast.makeText(mContext, "下拉列表可以进行刷新!",
+					Toast.LENGTH_LONG);
+			toast_refresh.show();
+		}
 		initList();
 
 	}
 
 	public void initList() {
-		Log.i("get ---- list----start", System.currentTimeMillis() + "");
-		myAppList = getCompList(getInstalledPackageInfo(FireWallActivity.this));
-		Log.i("get ---- list----end", System.currentTimeMillis() + "");
-		appListAdapter = new AppListAdapter(FireWallActivity.this, myAppList);
+		pro = ProgressDialog.show(mContext, "提示", "获取列表中...");
+		final Handler handler = new Handler() {
+			public void handleMessage(Message msg) {
+				try {
+					setAdapter();
+					pro.dismiss();
+				} catch (Exception ex) {
+				}
+			}
+		};
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				Log.i("get ---- list----start", System.currentTimeMillis() + "");
+				myAppList = getCompList(getInstalledPackageInfo(FireWallActivity.this));
+				Log.i("get ---- list----end", System.currentTimeMillis() + "");
+				Log.i("get ---- list.size", myAppList.size() + "");
+				for (int i = 0; i < myAppList.size(); i++) {
+					Log.i("test",
+							myAppList.get(i).applicationInfo
+									.loadLabel(getPackageManager())
+									+ "----"
+									+ myAppList.get(i).applicationInfo.packageName);
+				}
+				handler.sendEmptyMessage(0);
+			}
+		}).start();
+	}
+
+	public void setAdapter() {
+		appListAdapter = new AppListAdapter(FireWallActivity.this, myAppList,
+				imageAndNameMap);
 		appListView = (MyListView) findViewById(R.id.app_list);
 		appListView.setAdapter(appListAdapter);
 		appListView.setOnItemClickListener(new OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				map = (HashMap) arg1.getTag(R.id.tag_map);
 				menuDialog(arg1);
 			}
 		});
@@ -144,31 +181,31 @@ public class FireWallActivity extends Activity {
 	// 获取应用列表
 	public ArrayList<PackageInfo> getInstalledPackageInfo(Context context) {
 		packageInfo = context.getPackageManager().getInstalledPackages(0);
+		PackageManager pm = getPackageManager();
 		ArrayList<PackageInfo> appList = new ArrayList<PackageInfo>();
-
+		imageAndNameMap = new HashMap<Integer, Info>();
 		for (int i = 0; i < packageInfo.size(); i++) {
 			PackageInfo pkgInfo = packageInfo.get(i);
-			PackageManager pkgmanager = context.getPackageManager();
-
-			if (PackageManager.PERMISSION_GRANTED != pkgmanager
-					.checkPermission(Manifest.permission.INTERNET,
+			if (pkgInfo.applicationInfo.uid >= 10000
+					&& PackageManager.PERMISSION_GRANTED == pm.checkPermission(
+							Manifest.permission.INTERNET,
 							pkgInfo.applicationInfo.packageName)) {
-			} else {
-				// 获取总流量
-				if ((pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0
-						&& (pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == 0) {
-
-					// if(TrafficStats.getUidRxBytes(pkgInfo.applicationInfo.uid)
-					// + TrafficStats.getUidTxBytes(pkgInfo.applicationInfo.uid)
-					// > 0)
-					// {
-					appList.add(pkgInfo);
-					// }
+				if (Block.filter.contains(pkgInfo.applicationInfo.packageName)) {
 				} else {
+					// if ((pkgInfo.applicationInfo.flags &
+					// ApplicationInfo.FLAG_SYSTEM) == 0
+					// && (pkgInfo.applicationInfo.flags &
+					// ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == 0) {
+					Info info = new Info(
+							pkgInfo.applicationInfo
+									.loadIcon(getPackageManager()),
+							pkgInfo.applicationInfo.loadLabel(
+									getPackageManager()).toString());
+					imageAndNameMap.put(pkgInfo.applicationInfo.uid, info);
+					appList.add(pkgInfo);
 				}
 			}
 		}
-
 		return appList;
 	}
 
@@ -294,14 +331,6 @@ public class FireWallActivity extends Activity {
 	}
 
 	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		// umeng
-		MobclickAgent.onPause(this);
-	}
-
-	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
@@ -312,6 +341,13 @@ public class FireWallActivity extends Activity {
 		}
 		// umeng
 		MobclickAgent.onResume(this);
+	}
+
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		// umeng
+		MobclickAgent.onPause(this);
 	}
 
 	@Override

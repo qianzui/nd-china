@@ -236,7 +236,7 @@ public class SQLHelperUid {
 						// 搜索失败则新建表
 						showLog("selectfail" + string);
 					}
-					if (cur == null) {
+					if (!cur.moveToFirst()) {
 						exeSQLcreateUidtable(mySQL, date, time, uid, 0, null);
 						exeSQLcreateUidtable(mySQL, date, time, uid, 1, null);
 					} else {
