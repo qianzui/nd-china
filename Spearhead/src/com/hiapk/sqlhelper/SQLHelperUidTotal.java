@@ -1,6 +1,13 @@
 package com.hiapk.sqlhelper;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import android.R.integer;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.TrafficStats;
@@ -18,7 +25,7 @@ public class SQLHelperUidTotal {
 	private String SQLId = "_id INTEGER PRIMARY KEY,";
 	private String CreateparamUid = "date date,time time,upload INTEGER,download INTEGER,type INTEGER ,other varchar(15),states varchar(15)";
 	private String CreateparamUidIndex = "uid INTEGER,packagename varchar(255),permission INTEGER,type INTEGER ,other varchar(15)";
-	private String CreateparamUidTotal = "uid INTEGER,upload INTEGER,download INTEGER,permission INTEGER ,type INTEGER ,other varchar(15),states varchar(15)";
+	private String CreateparamUidTotal = "uid INTEGER,packagename varchar(255),upload INTEGER,download INTEGER,permission INTEGER ,type INTEGER ,other varchar(15),states varchar(15)";
 	private String TableUid = "uid";
 	private String TableUidTotal = "uidtotal";
 	private String InsertTable = "INSERT INTO ";
@@ -34,7 +41,7 @@ public class SQLHelperUidTotal {
 	private String End = ") ";
 	private String InsertUidColumnTotal = "date,time,upload,download,type,other";
 	private String InsertUidIndexColumnTotal = "uid,packagename,permission";
-	private String InsertUidTotalColumn = "uid,upload,download,permission,type,other,states";
+	private String InsertUidTotalColumn = "uid,packagename,upload,download,permission,type,other,states";
 	private String Value = "values('";
 	private String split = "','";
 	private Cursor cur;
@@ -138,7 +145,7 @@ public class SQLHelperUidTotal {
 	 *            数据库的表集合
 	 */
 	protected void exeSQLcreateUidTotaltables(SQLiteDatabase mySQL,
-			int[] uidnumbers) {
+			int[] uidnumbers, String[] packagenames) {
 		for (int i = 0; i < uidnumbers.length; i++) {
 			if (uidnumbers[i] != -1) {
 				long upload = TrafficStats.getUidTxBytes(uidnumbers[i]);
@@ -151,13 +158,14 @@ public class SQLHelperUidTotal {
 				// 0为安装软件时系统记录的数据
 				// 1为临时变量
 				// 2为记录的软件使用流量情况
-				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i], upload,
-						download, 0, "");
-				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i], upload,
-						download, 1, "");
-				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i], 0, 0, 2, "wifi");
-				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i], 0, 0, 2,
-						"mobile");
+				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i],
+						packagenames[i], upload, download, 0, "");
+				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i],
+						packagenames[i], upload, download, 1, "");
+				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i],
+						packagenames[i], 0, 0, 2, "wifi");
+				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i],
+						packagenames[i], 0, 0, 2, "mobile");
 			}
 
 		}
@@ -174,12 +182,13 @@ public class SQLHelperUidTotal {
 	 *            包名
 	 */
 	private void exeSQLcreateUidTotaltable(SQLiteDatabase mySQL, int uidnumber,
-			long upload, long download, int type, String other) {
+			String packagename, long upload, long download, int type,
+			String other) {
 		String string = null;
 		string = InsertTable + TableUidTotal + Start + InsertUidTotalColumn
-				+ End + Value + uidnumber + split + upload + split + download
-				+ split + 0 + split + type + split + other + split + "Install"
-				+ "'" + End;
+				+ End + Value + uidnumber + split + packagename + split
+				+ upload + split + download + split + 0 + split + type + split
+				+ other + split + "Install" + "'" + End;
 		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
 		// ('1','1','1','1','1','1')
 		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
@@ -538,11 +547,11 @@ public class SQLHelperUidTotal {
 	 * @param uidnumber
 	 *            要清空的uid表
 	 */
-	public void DeleteUnusedUidTotalData(SQLiteDatabase mySQL, int uidnumber) {
+	public void DeleteUnusedUidTotalDatabyUid(SQLiteDatabase mySQL, int uid) {
 		String string = null;
 		// delete from Yookey where tit not in (select min(tit) from Yookey
 		// group by SID)
-		string = DeleteTable + "uidtotal" + Where + "uid=" + uidnumber;
+		string = DeleteTable + "uidtotal" + Where + "uid='" + uid + "'";
 		// string = InsertTable + TableUidIndex + Start
 		// + InsertUidIndexColumnTotal + ",other" + End + Value
 		// + uidnumber + split + packagename + split + 0 + split
@@ -560,24 +569,119 @@ public class SQLHelperUidTotal {
 		}
 	}
 
-	public void updateSQLUidTotalOnInstall(Context context, int uidnumber,
-			String packageName, String other, int[] uids) {
-		SQLiteDatabase mySQL = creatSQLUidIndex(context);
+	/**
+	 * 清空uidTotal对应UID
+	 * 
+	 * @param mySQL
+	 * @param uidnumber
+	 *            要清空的uid表
+	 */
+	public void DeleteUnusedUidTotalDatabyPacname(SQLiteDatabase mySQL,
+			String packagename) {
+		String string = null;
+		// delete from Yookey where tit not in (select min(tit) from Yookey
+		// group by SID)
+		string = DeleteTable + TableUidTotal + Where + " packagename= '"
+				+ packagename + "'";
+		// string = InsertTable + TableUidIndex + Start
+		// + InsertUidIndexColumnTotal + ",other" + End + Value
+		// + uidnumber + split + packagename + split + 0 + split
+		// + "Install" + "'" + End;
+		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
+		// ('1','1','1','1','1','1')
+		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
+		// ('date','time','upload','download','uid','type')
+		showLog(string);
+		try {
+			// mySQL.execSQL(string);
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog(string + "fail");
+		}
+	}
+
+	public List<Integer> updateSQLUidTotalOnInstallgetDel(Context context,
+			int uidnumber, String packageName, String other, int[] uids) {
+		List<Integer> uid_List_Del = new LinkedList<Integer>();
+		// List<Integer> uid_List_Add = new LinkedList<Integer>();
+		SQLiteDatabase mySQL = creatSQLUidTotal(context);
 		// 更新UidTotal数据库
 		mySQL = creatSQLUidTotal(context);
 		mySQL.beginTransaction();
 		try {
-			if (uids != null && uids[0] != 1019) {
-				for (int i = 0; i < uids.length; i++) {
-					DeleteUnusedUidTotalData(mySQL, uids[i]);
+			// 选择现有的uid数据
+			String string = null;
+			// select oldest upload and download 之前记录的数据的查询操作
+			// SELECT * FROM table WHERE type=0
+			string = "SELECT * FROM " + TableUidTotal + Where + "type='" + "0"
+					+ "'";
+			try {
+				cur = mySQL.rawQuery(string, null);
+				// showLog(string);
+			} catch (Exception e) {
+				// TODO: handle exception
+				showLog("fail-List-cur" + string);
+			}
+			String[] pacs_hasset = new String[cur.getCount()];
+			int[] uid_hasset = new int[cur.getCount()];
+			// showLog("curnumber="+cur.getCount()+"");
+			if (cur != null) {
+				try {
+					int pac = cur.getColumnIndex("packagename");
+					int uid = cur.getColumnIndex("uid");
+					// showLog(cur.getColumnIndex("minute") + "");
+					int i = 0;
+					// showLog("i ="+i );
+					if (cur.moveToFirst()) {
+						do {
+							pacs_hasset[i] = (String) cur.getString(pac);
+							uid_hasset[i] = cur.getInt(uid);
+							i++;
+						} while (cur.moveToNext());
+					}
+				} catch (Exception e) {
+					// TODO: handle exception
+					showLog("cur-searchfail" + e);
 				}
 			}
+			cur.close();
 
-			if (uids != null) {
-				// showLog("新安装软件" + packageName + uidnumber);
-				// 添加新数据
-				DeleteUnusedUidTotalData(mySQL, uidnumber);
-				exeSQLcreateUidTotaltables(mySQL, new int[] { uidnumber });
+			// if (uids != null && uids[0] != 1019) {
+			// for (int i = 0; i < uids.length; i++) {
+			// DeleteUnusedUidTotalData(mySQL, uids[i]);
+			// }
+			// }
+
+			// showLog("新安装软件" + packageName + uidnumber);
+			// 删除多余的uid数据
+			for (int i = 0; i < pacs_hasset.length; i++) {
+				// if (!SQLStatic.packagename_ALL.contains(pacs_hasset[i]))
+				// {
+				// 找出存在的新软件
+				if (!SQLStatic.packagename_ALL.contains(pacs_hasset[i])) {
+					// showLog("不包含的" + pacs_hasset[i]);
+					DeleteUnusedUidTotalDatabyPacname(mySQL,
+							pacs_hasset[i].trim());
+					uid_List_Del.add(uid_hasset[i]);
+					// } else {
+					// int uid = 999999;
+					// showLog("show！=-1packagenmae=" + pacs_hasset[i]);
+					// try {
+					// PackageManager pm = context.getPackageManager();
+					// ApplicationInfo ai = pm.getApplicationInfo(
+					// pacs_hasset[i],
+					// PackageManager.GET_ACTIVITIES);
+					// uid = ai.uid;
+					// // Log.d("!!", "!!" + ai.uid);
+					// } catch (NameNotFoundException e1) {
+					// // TODO Auto-generated catch block
+					// e1.printStackTrace();
+					// showLog("存在未添加的packagenmae=" + pacs_hasset[i] + uid);
+					// }
+					// uid_List.add(uid);
+					// exeSQLcreateUidTotaltables(mySQL, new int[] { uid },
+					// new String[] { pacs_hasset[i] });
+				}
 			}
 
 			mySQL.setTransactionSuccessful();
@@ -588,6 +692,115 @@ public class SQLHelperUidTotal {
 			mySQL.endTransaction();
 		}
 		closeSQL(mySQL);
+
+		return uid_List_Del;
+	}
+
+	public List<Integer> updateSQLUidTotalOnInstallgetAdd(Context context,
+			int uidnumber, String packageName, String other, int[] uids) {
+		// List<Integer> uid_List_Del = new LinkedList<Integer>();
+		List<Integer> uid_List_Add = new LinkedList<Integer>();
+		SQLiteDatabase mySQL = creatSQLUidTotal(context);
+		// 更新UidTotal数据库
+		mySQL = creatSQLUidTotal(context);
+		// mySQL.beginTransaction();
+		// try {
+		// // 选择现有的uid数据
+		// String string = null;
+		// // select oldest upload and download 之前记录的数据的查询操作
+		// // SELECT * FROM table WHERE type=0
+		// string = "SELECT * FROM " + TableUidTotal + Where + "type='" + "0"
+		// + "'";
+		// try {
+		// cur = mySQL.rawQuery(string, null);
+		// // showLog(string);
+		// } catch (Exception e) {
+		// // TODO: handle exception
+		// showLog("fail-List-cur" + string);
+		// }
+		// String[] pacs_hasset = new String[cur.getCount()];
+		// int[] uid_hasset = new int[cur.getCount()];
+		// // showLog("curnumber="+cur.getCount()+"");
+		// if (cur != null) {
+		// try {
+		// int pac = cur.getColumnIndex("packagename");
+		// int uid = cur.getColumnIndex("uid");
+		// // showLog(cur.getColumnIndex("minute") + "");
+		// int i = 0;
+		// // showLog("i ="+i );
+		// if (cur.moveToFirst()) {
+		// do {
+		// pacs_hasset[i] = (String) cur.getString(pac);
+		// uid_hasset[i] = cur.getInt(uid);
+		// i++;
+		// } while (cur.moveToNext());
+		// }
+		// } catch (Exception e) {
+		// // TODO: handle exception
+		// showLog("cur-searchfail" + e);
+		// }
+		// }
+		// cur.close();
+		//
+		// // if (uids != null && uids[0] != 1019) {
+		// // for (int i = 0; i < uids.length; i++) {
+		// // DeleteUnusedUidTotalData(mySQL, uids[i]);
+		// // }
+		// // }
+		//
+		// if (uids != null) {
+		// // showLog("新安装软件" + packageName + uidnumber);
+		// // 删除多余的uid数据
+		// for (int i = 0; i < pacs_hasset.length; i++) {
+		// if (!SQLStatic.packagename_ALL.contains(pacs_hasset[i]))
+		// {
+		// 找出存在的新软件
+		// if (!SQLStatic.packagename_ALL.contains(pacs_hasset[i]))
+		// {
+		// showLog("不包含的" + pacs_hasset[i]);
+		// DeleteUnusedUidTotalDatabyPacname(mySQL, pacs_hasset[i]);
+		// uid_List_Del.add(uid_hasset[i]);
+		// // } else {
+		// // int uid = 999999;
+		// // showLog("show！=-1packagenmae=" + pacs_hasset[i]);
+		// // try {
+		// // PackageManager pm = context.getPackageManager();
+		// // ApplicationInfo ai = pm.getApplicationInfo(
+		// // pacs_hasset[i],
+		// // PackageManager.GET_ACTIVITIES);
+		// // uid = ai.uid;
+		// // // Log.d("!!", "!!" + ai.uid);
+		// // } catch (NameNotFoundException e1) {
+		// // // TODO Auto-generated catch block
+		// // e1.printStackTrace();
+		// // showLog("存在未添加的packagenmae=" + pacs_hasset[i] + uid);
+		// // }
+		// // uid_List.add(uid);
+		// // exeSQLcreateUidTotaltables(mySQL, new int[] { uid },
+		// // new String[] { pacs_hasset[i] });
+		// }
+		// 不再表中的进行新加
+		// if (!(pacs_hasset[i].indexOf(SQLStatic.packagename_ALL) != -1)) {
+		uid_List_Add.add(uidnumber);
+		exeSQLcreateUidTotaltables(mySQL, new int[] { uidnumber },
+				new String[] { packageName });
+		// }
+
+		// }
+		// // 需要添加的包
+		// // uid_List.add(uidnumber);
+		//
+		// }
+		// mySQL.setTransactionSuccessful();
+		// } catch (Exception e) {
+		// // TODO: handle exception
+		// showLog("更新索引表失败");
+		// } finally {
+		// mySQL.endTransaction();
+		// }
+		closeSQL(mySQL);
+
+		return uid_List_Add;
 	}
 
 	/**
@@ -624,7 +837,7 @@ public class SQLHelperUidTotal {
 	 */
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("database", string);
+		Log.d("databaseUidTotal", string);
 	}
 
 }

@@ -439,7 +439,7 @@ public class SQLHelperTotal {
 				// showLog("建立tableIndex");
 				// 不包含uid=0的
 				SQLhelperuidTotal.exeSQLcreateUidTotaltables(
-						sqldatabaseUidTotal, uidnumbers);
+						sqldatabaseUidTotal, uidnumbers, packagename);
 				// showLog("初始化tableIndex");
 			}
 			sqldatabaseUidTotal.setTransactionSuccessful();
@@ -1190,6 +1190,6 @@ public class SQLHelperTotal {
 	 */
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("database", string);
+		Log.d("databaseTotal", string);
 	}
 }

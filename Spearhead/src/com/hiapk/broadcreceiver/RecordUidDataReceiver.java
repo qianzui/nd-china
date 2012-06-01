@@ -77,30 +77,32 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 	private int uidRecord(Context context) {
 		// 实时更新数据两个1代表数据更新
 		// showLog(SQLHelperTotal.isSQLIndexOnUsed+"");
-		if (SQLHelperUid.uidnumbers == null) {
+		if (SQLStatic.uidnumbers == null) {
+			// 重新定义静态的uid集合
+			SQLStatic.uidnumbers = sqlhelperUid.selectUidnumbers(context);
 			// if (SQLHelperTotal.isSQLIndexOnUsed == false) {
 			// SQLHelperTotal.isSQLIndexOnUsed = true;
-			if (SQLStatic.setSQLIndexOnUsed(true)) {
-				SQLHelperUid.uidnumbers = sqlhelperUid
-						.selectSQLUidnumbers(context);
-				SQLStatic.setSQLIndexOnUsed(false);
-			}
+			// if (SQLStatic.setSQLIndexOnUsed(true)) {
+			// SQLHelperUid.uidnumbers = sqlhelperUid
+			// .selectSQLUidnumbers(context);
+			// SQLStatic.setSQLIndexOnUsed(false);
+			// }
 			// SQLHelperTotal.isSQLIndexOnUsed = false;
 			// }
 
 		}
-		if (SQLHelperUid.uidnumbers == null) {
+		if (SQLStatic.uidnumbers == null) {
 			return 0;
 		}
 		SQLiteDatabase sqlDataBase = sqlhelperUid.creatSQLUid(context);
 		sqlDataBase.beginTransaction();
 		try {
 			// 更新数据
-			sqlhelperUid.updateSQLUidTypes(sqlDataBase,
-					SQLHelperUid.uidnumbers, 1, network, 1);
+			sqlhelperUid.updateSQLUidTypes(sqlDataBase, SQLStatic.uidnumbers,
+					1, network, 1);
 			// 记录数据
-			sqlhelperUid.RecordUidwritestats(sqlDataBase,
-					SQLHelperUid.uidnumbers, false, network);
+			sqlhelperUid.RecordUidwritestats(sqlDataBase, SQLStatic.uidnumbers,
+					false, network);
 			sqlDataBase.setTransactionSuccessful();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -163,24 +165,26 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if (SQLHelperUid.uidnumbers == null) {
+			if (SQLStatic.uidnumbers == null) {
 				// if (SQLHelperTotal.isSQLIndexOnUsed == false) {
 				// SQLHelperTotal.isSQLIndexOnUsed = true;
-				if (SQLStatic.setSQLIndexOnUsed(true)) {
-					SQLHelperUid.uidnumbers = sqlhelperUid
-							.selectSQLUidnumbers(params[0]);
-					SQLStatic.setSQLIndexOnUsed(false);
-				}
+				// if (SQLStatic.setSQLIndexOnUsed(true)) {
+				// SQLHelperUid.uidnumbers = sqlhelperUid
+				// .selectSQLUidnumbers(params[0]);
+				// SQLStatic.setSQLIndexOnUsed(false);
+				// }
+				// 重新定义静态的uid集合
+				SQLStatic.uidnumbers = sqlhelperUid.selectUidnumbers(params[0]);
 				// SQLHelperTotal.isSQLIndexOnUsed = false;
 				// }
 
 			}
-			if (SQLHelperUid.uidnumbers == null) {
+			if (SQLStatic.uidnumbers == null) {
 				return 0;
 			}
 
 			SQLHelperUidTotal sqlUidTotal = new SQLHelperUidTotal();
-			sqlUidTotal.updateSQLUidTypes(params[0], SQLHelperUid.uidnumbers,
+			sqlUidTotal.updateSQLUidTypes(params[0], SQLStatic.uidnumbers,
 					network);
 			return 1;
 		}
