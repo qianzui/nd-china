@@ -22,12 +22,8 @@
 	<string name="cancle">取消</string>
 	<string name="fire_applyed">防火墙已应用成功！</string>
 	<item type="id" name="tag_holder"></item>
-	<item type="id" name="tag_pkgname"></item>
-	<item type="id" name="tag_traffic_up"></item>
-	<item type="id" name="tag_traffic_down"></item>
-	<item type="id" name="tag_map"></item>
-	<item type="id" name="tag_uid"></item>
 	<item type="id" name="tag_pkginfo"></item>
+	<item type="id" name="tag_view"></item>
 	<string name="daySelect">请选择日期</string>
 	<string name="warningActionSelect">请选择预警动作</string>
 	<string name="unitSelect">请选择单位</string>
