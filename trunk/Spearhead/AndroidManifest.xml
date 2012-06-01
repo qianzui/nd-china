@@ -116,8 +116,20 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="4fc824845270157144000044" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Hiapk" />
     </application>
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.READ_LOGS" >
+    </uses-permission>
     <uses-permission android:name="android.permission.VIBRATE" >
     </uses-permission>
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" >
