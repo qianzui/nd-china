@@ -226,8 +226,23 @@ public class SQLHelperUid {
 					// DropUnusedUidTable(mySQL, uid);
 					initTime();
 					initUidTable(mySQL, uid);
-					exeSQLcreateUidtable(mySQL, date, time, uid, 0, null);
-					exeSQLcreateUidtable(mySQL, date, time, uid, 1, null);
+					String string = "";
+					string = SelectTable + "uid" + uid + Where + "type=" + 0;
+					// showLog(string);
+					try {
+						cur = mySQL.rawQuery(string, null);
+					} catch (Exception e) {
+						// TODO: handle exception
+						// 搜索失败则新建表
+						showLog("selectfail" + string);
+					}
+					if (cur == null) {
+						exeSQLcreateUidtable(mySQL, date, time, uid, 0, null);
+						exeSQLcreateUidtable(mySQL, date, time, uid, 1, null);
+					} else {
+						cur.close();
+					}
+
 				}
 
 			}
