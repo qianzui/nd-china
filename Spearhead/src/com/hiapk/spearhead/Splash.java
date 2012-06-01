@@ -4,6 +4,7 @@ import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.firewall.GetRoot;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,6 +19,7 @@ public class Splash extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
+		MobclickAgent.onError(this);
 		// 获取root权限
 		// GetRoot.cmdRoot("chmod 777 " + getPackageCodePath());
 		new AsyncTaskonResume().execute(context);
