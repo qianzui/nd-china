@@ -18,6 +18,7 @@ import com.hiapk.sqlhelper.SQLHelperUid;
 import com.hiapk.sqlhelper.SQLHelperUidTotal;
 import com.hiapk.widget.ProgramNotify;
 import com.hiapk.widget.SetText;
+import com.umeng.analytics.MobclickAgent;
 
 import android.Manifest;
 import android.app.Activity;
@@ -81,6 +82,8 @@ public class Main extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// umeng
+		MobclickAgent.onError(this);
 		setContentView(R.layout.main);
 		// 获取固定存放数据
 		sharedData = new SharedPrefrenceData(context);
@@ -218,9 +221,9 @@ public class Main extends Activity {
 			uids[i] = uidstp[i];
 			packagenames[i] = packagenamestp[i];
 		}
-//		SQLHelperUid sqlhelpuid = new SQLHelperUid();
-//		uids = sqlhelpuid.selectUidnumbers(context);
-//		packagenames = sqlhelpuid.selectPackagenames(context);
+		// SQLHelperUid sqlhelpuid = new SQLHelperUid();
+		// uids = sqlhelpuid.selectUidnumbers(context);
+		// packagenames = sqlhelpuid.selectPackagenames(context);
 	}
 
 	// ------------
@@ -309,9 +312,19 @@ public class Main extends Activity {
 	}
 
 	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		// umeng
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		// umeng
+		MobclickAgent.onResume(this);
 		// 取得系统时间。
 		Time t = new Time();
 		t.setToNow();
@@ -395,6 +408,8 @@ public class Main extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				// 记录点击刷新次数
+				MobclickAgent.onEvent(context, "refresh");
 				AlarmSet alset = new AlarmSet();
 				// 初始化网络状态
 				sqlhelperTotal.initTablemobileAndwifi(context, false);

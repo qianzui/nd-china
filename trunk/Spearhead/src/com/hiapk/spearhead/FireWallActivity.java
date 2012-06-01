@@ -12,6 +12,7 @@ import com.hiapk.firewall.MyListView.OnRefreshListener;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
 import com.hiapk.uidtraff.UidMonthTraff;
+import com.umeng.analytics.MobclickAgent;
 
 import android.Manifest;
 import android.app.Activity;
@@ -63,6 +64,7 @@ public class FireWallActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		MobclickAgent.onError(this);
 		setContentView(R.layout.main2);
 
 		initList();
@@ -292,6 +294,14 @@ public class FireWallActivity extends Activity {
 	}
 
 	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		// umeng
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
@@ -300,6 +310,8 @@ public class FireWallActivity extends Activity {
 					Toast.LENGTH_LONG);
 			toast_refresh.show();
 		}
+		// umeng
+		MobclickAgent.onResume(this);
 	}
 
 	@Override

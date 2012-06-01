@@ -11,6 +11,7 @@ import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.regulate.Regulate;
 import com.hiapk.widget.ProgramNotify;
 import com.hiapk.widget.SetText;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -93,6 +94,7 @@ public class Main3 extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		MobclickAgent.onError(this);
 		setContentView(R.layout.main3);
 		sharedData = new SharedPrefrenceData(context);
 		init_Spinner();
@@ -237,8 +239,8 @@ public class Main3 extends Activity {
 					// 弹出建议设置已用流量对话框
 					dialogCountDaySelected().show();
 					// 刷新小部件与通知栏
-//					AlarmSet alset = new AlarmSet();
-//					alset.StartWidgetAlarm(context);
+					// AlarmSet alset = new AlarmSet();
+					// alset.StartWidgetAlarm(context);
 					SetText.resetWidgetAndNotify(context);
 				}
 			}
@@ -370,6 +372,8 @@ public class Main3 extends Activity {
 						resetHasWarning();
 						SetText.resetWidgetAndNotify(context);
 						/* User clicked OK so do some stuff */
+						MobclickAgent.onEvent(context, "monthUse",
+								String.valueOf(i));
 					}
 				})
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -708,7 +712,13 @@ public class Main3 extends Activity {
 				.setPositiveButton("确定", null).show();
 
 	}
-
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		// umeng
+		MobclickAgent.onPause(this);
+	}
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
@@ -720,6 +730,8 @@ public class Main3 extends Activity {
 					Toast.LENGTH_LONG);
 			toast_refresh.show();
 		}
+			// umeng
+					MobclickAgent.onResume(this);
 
 	}
 
@@ -783,7 +795,6 @@ public class Main3 extends Activity {
 		UseEditor.putBoolean(MOBILE_HAS_WARNING_DAY, false);
 		UseEditor.commit();
 	}
-
 
 	/**
 	 * 显示日志

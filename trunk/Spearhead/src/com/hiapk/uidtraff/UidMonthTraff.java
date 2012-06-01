@@ -8,6 +8,7 @@ import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
 import com.hiapk.sqlhelper.SQLHelperUidTotal;
 import com.hiapk.sqlhelper.SQLStatic;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.content.Context;
@@ -51,10 +52,25 @@ public class UidMonthTraff extends Activity {
 	int windowswidesize = 200;
 
 	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		// umeng
+		MobclickAgent.onResume(this);
+	}
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		// umeng
+		MobclickAgent.onPause(this);
+	}
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.uid_traff);
+		MobclickAgent.onError(this);
 		// 获取导入数据
 		Bundle bData = this.getIntent().getExtras();
 		uidnumber = bData.getInt("uid");
