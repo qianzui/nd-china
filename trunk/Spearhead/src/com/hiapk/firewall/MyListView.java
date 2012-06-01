@@ -24,9 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class MyListView extends ListView implements OnScrollListener {
-
 	private static final String TAG = "listview";
-
 	private final static int RELEASE_To_REFRESH = 0;
 	private final static int PULL_To_REFRESH = 1;
 	private final static int REFRESHING = 2;
@@ -42,7 +40,6 @@ public class MyListView extends ListView implements OnScrollListener {
 	private RotateAnimation animation;
 	private RotateAnimation reverseAnimation;
 	private boolean isRecored;
-
 	private int headContentWidth;
 	private int headContentHeight;
 
@@ -117,12 +114,9 @@ public class MyListView extends ListView implements OnScrollListener {
 			int arg3) {
 		firstItemIndex = firstVisiableItem;
 	}
-
 	public void onScrollStateChanged(AbsListView arg0, int arg1) {
 	}
-
 	public boolean onTouchEvent(MotionEvent event) {
-
 		if (isRefreshable) {
 			switch (event.getAction()) {
 			case MotionEvent.ACTION_DOWN:
@@ -131,7 +125,6 @@ public class MyListView extends ListView implements OnScrollListener {
 					startY = (int) event.getY();
 				}
 				break;
-
 			case MotionEvent.ACTION_UP:
 
 				if (state != REFRESHING && state != LOADING) {
@@ -147,10 +140,8 @@ public class MyListView extends ListView implements OnScrollListener {
 						onRefresh();
 					}
 				}
-
 				isRecored = false;
 				isBack = false;
-
 				break;
 
 			case MotionEvent.ACTION_MOVE:
@@ -249,9 +240,7 @@ public class MyListView extends ListView implements OnScrollListener {
 			break;
 
 		case REFRESHING:
-
 			headView.setPadding(0, 0, 0, 0);
-
 			progressBar.setVisibility(View.VISIBLE);
 			arrowImageView.clearAnimation();
 			arrowImageView.setVisibility(View.GONE);
@@ -278,7 +267,6 @@ public class MyListView extends ListView implements OnScrollListener {
 	public interface OnRefreshListener {
 		public void onRefresh();
 	}
-
 	public void onRefreshComplete() {
 		state = DONE;
 		Time time = new  Time();
@@ -293,8 +281,6 @@ public class MyListView extends ListView implements OnScrollListener {
 				+ hour + ":" + minute + ":" + second);
 		changeHeaderViewByState();
 	}
-
-
 	private void onRefresh() {
 		if (refreshListener != null) {
 			refreshListener.onRefresh();
