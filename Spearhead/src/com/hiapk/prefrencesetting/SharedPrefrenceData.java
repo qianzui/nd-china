@@ -63,12 +63,12 @@ public class SharedPrefrenceData {
 	String ALERT_ON_FIRST_START = "isalertdialogonfirstdisplayed";
 	boolean isAlertDialogOnfirstOpenDisplayed = false;
 
-	public boolean isAlertDialogOnfirstOpenDisplayed() {
+	public boolean isFirstBoot() {
 		boolean hasDisplayed = prefs.getBoolean(ALERT_ON_FIRST_START, false);
 		return hasDisplayed;
 	}
 
-	public void setAlertDialogOnfirstOpenDisplayed(boolean hasDisplay) {
+	public void setFirstBoot(boolean hasDisplay) {
 		UseEditor.putBoolean(ALERT_ON_FIRST_START, hasDisplay);
 		UseEditor.commit();
 	}
