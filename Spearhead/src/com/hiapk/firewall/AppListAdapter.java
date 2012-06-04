@@ -89,7 +89,7 @@ public class AppListAdapter extends BaseAdapter {
 		 }
 		  PackageInfo pkgInfo = myAppList.get(position);
 		  IsChecked ic = (IsChecked)map.get(pkgInfo.applicationInfo.uid);
-		  Info info = (Info)imageAndNameMap.get(pkgInfo.applicationInfo.uid);
+		  Info info = (Info)imageAndNameMap.get(position);
 		  
 		  long down = judge(TrafficStats.getUidRxBytes(pkgInfo.applicationInfo.uid));
 		  long up = judge(TrafficStats.getUidTxBytes(pkgInfo.applicationInfo.uid));
