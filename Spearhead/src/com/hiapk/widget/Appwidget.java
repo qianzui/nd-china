@@ -3,6 +3,7 @@ package com.hiapk.widget;
 import java.lang.annotation.Annotation;
 
 import com.hiapk.alertaction.AlertActionMobileDataControl;
+import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.SpearheadActivity;
@@ -43,10 +44,15 @@ public class Appwidget extends AppWidgetProvider {
 	public void onEnabled(Context context) {
 		// TODO Auto-generated method stub
 		super.onEnabled(context);
+		showLog("onEnabled");
 		sharedData = new SharedPrefrenceData(context);
 		sharedData.setWidGet14Open(true);
-		boolean isNotifyOpen = sharedData.isNotifyOpen();
-		if (!isNotifyOpen) {
+		// boolean isNotifyOpen = sharedData.isNotifyOpen();
+		if (TrafficManager.mobile_month_data[0] == 0
+				&& TrafficManager.wifi_month_data[0] == 0
+				&& TrafficManager.mobile_month_data[63] == 0
+				&& TrafficManager.wifi_month_data[63] == 0) {
+		} else {
 			SetText.setText(context);
 		}
 		Intent intentTextUpdate = new Intent();
@@ -58,6 +64,7 @@ public class Appwidget extends AppWidgetProvider {
 	public void onDisabled(Context context) {
 		// TODO Auto-generated method stub
 		super.onDisabled(context);
+		showLog("onDisabled");
 		sharedData = new SharedPrefrenceData(context);
 		sharedData.setWidGet14Open(false);
 	}
@@ -80,18 +87,18 @@ public class Appwidget extends AppWidgetProvider {
 			Intent intentwifi = new Intent();
 			intentwifi.setAction(BROADCAST_WIFI);
 			PendingIntent pendingIntentwifi = PendingIntent.getBroadcast(
-					context, 0, intentwifi, 0);
+					context, 0, intentwifi, PendingIntent.FLAG_UPDATE_CURRENT);
 			Intent intentgpprs = new Intent();
 			intentgpprs.setAction(BROADCAST_GPRS);
 			PendingIntent pendingIntentgprs = PendingIntent.getBroadcast(
-					context, 0, intentgpprs, 0);
+					context, 0, intentgpprs, PendingIntent.FLAG_UPDATE_CURRENT);
 			Intent intenttraff = new Intent(context, SpearheadActivity.class);
 			Bundle choosetab = new Bundle();
 			choosetab.putInt("TAB", 1);
 			intenttraff.putExtras(choosetab);
 			// intenttraff.setAction(BROADCAST_TRAFF);
 			PendingIntent pendingIntenttraff = PendingIntent.getActivity(
-					context, 0, intenttraff, 0);
+					context, 0, intenttraff, PendingIntent.FLAG_UPDATE_CURRENT);
 			// Get the layout for the App Widget and attach an on-click listener
 			// to the button
 			RemoteViews views = new RemoteViews(context.getPackageName(),
@@ -215,7 +222,7 @@ public class Appwidget extends AppWidgetProvider {
 	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
 		super.onReceive(context, intent);
-		showLog(intent.getAction());
+		showLog("onReceive=" + intent.getAction());
 		// Intent intentAppUpdate = new Intent();
 		// intentAppUpdate.setAction(APPWIDGET_UPDATE);
 		RemoteViews views = new RemoteViews(context.getPackageName(),

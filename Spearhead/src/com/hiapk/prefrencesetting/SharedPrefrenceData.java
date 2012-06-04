@@ -59,6 +59,19 @@ public class SharedPrefrenceData {
 	String SMSTEXT = "sms_text";
 	// 包名们
 	String PACKAGE_NAMES = "allpackagenames";
+	// 第一次启动时弹出的提示框
+	String ALERT_ON_FIRST_START = "isalertdialogonfirstdisplayed";
+	boolean isAlertDialogOnfirstOpenDisplayed = false;
+
+	public boolean isAlertDialogOnfirstOpenDisplayed() {
+		boolean hasDisplayed = prefs.getBoolean(ALERT_ON_FIRST_START, false);
+		return hasDisplayed;
+	}
+
+	public void setAlertDialogOnfirstOpenDisplayed(boolean hasDisplay) {
+		UseEditor.putBoolean(ALERT_ON_FIRST_START, hasDisplay);
+		UseEditor.commit();
+	}
 
 	public SharedPrefrenceData(Context context) {
 		this.context = context;

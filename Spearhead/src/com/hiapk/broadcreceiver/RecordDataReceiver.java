@@ -54,6 +54,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			if (SQLHelperTotal.TableWiFiOrG23 != "") {
 				if (SQLStatic.setSQLTotalOnUsed(true)) {
 					time = System.currentTimeMillis();
+					sqlDataBase = sqlhelperTotal.creatSQLTotal(context);
 					new AsyncTaskonRecordTotalData().execute(context);
 					// showLog(SQLHelperTotal.TableWiFiOrG23);
 				} else {
@@ -235,7 +236,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
 			// SQLHelperTotal.isSQLTotalOnUsed = true;
-			sqlDataBase = sqlhelperTotal.creatSQLTotal(context);
 			if (SQLHelperTotal.TotalWiFiOrG23 == "") {
 				network = SQLHelperTotal.TableWiFiOrG23;
 				SQLHelperTotal.TotalWiFiOrG23 = SQLHelperTotal.TableWiFiOrG23;

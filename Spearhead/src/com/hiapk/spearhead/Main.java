@@ -22,7 +22,10 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -87,6 +90,10 @@ public class Main extends Activity {
 		setContentView(R.layout.main);
 		// 获取固定存放数据
 		sharedData = new SharedPrefrenceData(context);
+		// 显示提示对话框仅显示一次
+		if (!sharedData.isAlertDialogOnfirstOpenDisplayed()) {
+			dialogHintSetData().show();
+		}
 		// temp------------
 		getuids();
 		// ------------
@@ -97,6 +104,18 @@ public class Main extends Activity {
 		initSQLdatabase(uids, packagenames);
 		setonrefreshclicklistens();
 		// GetRoot.cmdRoot("chmod 777 "+getPackageCodePath());
+	}
+
+	private AlertDialog dialogHintSetData() {
+		// TODO Auto-generated method stub
+		AlertDialog dialogHint = new AlertDialog.Builder(Main.this)
+				.setTitle("请设置流量套餐，并校对已用流量")
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						sharedData.setAlertDialogOnfirstOpenDisplayed(true);
+					}
+				}).create();
+		return dialogHint;
 	}
 
 	/**

@@ -102,6 +102,12 @@ public class Main3 extends Activity {
 		init_monthWarning();
 		init_dayWarning();
 		init_warningAct();
+		// 显示提示信息
+		if (Block.fireTip(context)) {
+			Toast toast_refresh = Toast.makeText(context, "请校对 流量套餐 和 已用流量",
+					Toast.LENGTH_LONG);
+			toast_refresh.show();
+		}
 		combo = (Button) findViewById(R.id.combo);
 		combo.setOnClickListener(new OnClickListener() {
 			@Override
@@ -396,7 +402,8 @@ public class Main3 extends Activity {
 	protected AlertDialog dialogMonthHasUsed(final Button btn_Used) {
 		// TODO Auto-generated method stub
 		int mobileUseUnit = sharedData.getMonthHasUsedUnit();
-		float mobileUsefloat = sharedData.getMonthMobileHasUseOffloat();
+		// float mobileUsefloat = sharedData.getMonthMobileHasUseOffloat();
+		long mobileUselong = TrafficManager.getMonthUseData(context);
 		// 初始化窗体
 		LayoutInflater factory = LayoutInflater.from(Main3.this);
 		final View textEntryView = factory.inflate(
@@ -411,8 +418,10 @@ public class Main3 extends Activity {
 		spin_unit.setAdapter(adp);
 		// 初始化数值
 		spin_unit.setSelection(mobileUseUnit);
-		et_month.setText(mobileUsefloat + "");
-		et_month.setSelection(String.valueOf(mobileUsefloat).length());
+		String mobileUseString = format
+				.format(((double) mobileUselong) / 1024 / 1024);
+		et_month.setText(mobileUseString);
+		et_month.setSelection(String.valueOf(mobileUseString).length());
 
 		AlertDialog monthHasUsedAlert = new AlertDialog.Builder(Main3.this)
 				.setTitle("请设置本月已用流量")
@@ -712,6 +721,7 @@ public class Main3 extends Activity {
 				.setPositiveButton("确定", null).show();
 
 	}
+
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
@@ -719,19 +729,14 @@ public class Main3 extends Activity {
 		// umeng
 		MobclickAgent.onPause(this);
 	}
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 		init_btn_HasUsed();
-		// 显示提示信息
-		if (Block.fireTip(context)) {
-			Toast toast_refresh = Toast.makeText(context, "请校对 流量套餐 和 已用流量",
-					Toast.LENGTH_LONG);
-			toast_refresh.show();
-		}
-			// umeng
-					MobclickAgent.onResume(this);
+		// umeng
+		MobclickAgent.onResume(this);
 
 	}
 
