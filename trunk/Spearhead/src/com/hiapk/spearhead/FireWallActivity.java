@@ -63,7 +63,7 @@ public class FireWallActivity extends Activity {
 	ProgressDialog mydialog;
 	ProgressDialog pro;
 	long[] traffic;
-	HashMap imageAndNameMap;
+	HashMap<Integer, Info> imageAndNameMap = new HashMap<Integer, Info>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -119,8 +119,10 @@ public class FireWallActivity extends Activity {
 				// TODO Auto-generated method stub
 				Log.i("get ---- list----start", System.currentTimeMillis() + "");
 				myAppList = getCompList(getInstalledPackageInfo(FireWallActivity.this));
+				getImageMap(myAppList);
 				Log.i("get ---- list----end", System.currentTimeMillis() + "");
 				Log.i("get ---- list.size", myAppList.size() + "");
+				Log.i("get ---- imageAndNameMap", imageAndNameMap.size() + "");
 				handler.sendEmptyMessage(0);
 			}
 		}).start();
@@ -191,6 +193,21 @@ public class FireWallActivity extends Activity {
 		}
 		return myAppList;
 	}
+	
+	public HashMap<Integer, Info> getImageMap(ArrayList<PackageInfo> myAppList){
+		for (int i = 0; i < myAppList.size(); i++) {
+			PackageInfo pkgInfo = myAppList.get(i);
+			Info info = new Info(
+					pkgInfo.applicationInfo
+							.loadIcon(getPackageManager()),
+					pkgInfo.applicationInfo.loadLabel(
+							getPackageManager()).toString());
+			imageAndNameMap.put(i, info);
+		}
+		
+		return imageAndNameMap;
+		
+	}
 
 	// 获取应用列表
 	public ArrayList<PackageInfo> getInstalledPackageInfo(Context context) {
@@ -210,12 +227,12 @@ public class FireWallActivity extends Activity {
 					// ApplicationInfo.FLAG_SYSTEM) == 0
 					// && (pkgInfo.applicationInfo.flags &
 					// ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == 0) {
-					Info info = new Info(
-							pkgInfo.applicationInfo
-									.loadIcon(getPackageManager()),
-							pkgInfo.applicationInfo.loadLabel(
-									getPackageManager()).toString());
-					imageAndNameMap.put(pkgInfo.applicationInfo.uid, info);
+//					Info info = new Info(
+//							pkgInfo.applicationInfo
+//									.loadIcon(getPackageManager()),
+//							pkgInfo.applicationInfo.loadLabel(
+//									getPackageManager()).toString());
+//					imageAndNameMap.put(pkgInfo.applicationInfo.uid, info);
 					appList.add(pkgInfo);
 				}
 			}
