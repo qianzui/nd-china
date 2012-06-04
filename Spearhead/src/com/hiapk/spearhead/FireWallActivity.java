@@ -72,12 +72,34 @@ public class FireWallActivity extends Activity {
 		MobclickAgent.onError(this);
 		setContentView(R.layout.main2);
 		initList();
-		if (Block.fireTip(mContext)) {
-			Toast.makeText(mContext, "下拉列表可以进行刷新!",
-					Toast.LENGTH_SHORT).show();
-			Toast.makeText(mContext, "点击任意应用可查看更多选项!",
-					Toast.LENGTH_SHORT).show();
-		}
+		showtTip();
+		
+	}
+	public void showtTip(){
+		final Handler handler = new Handler() {
+			public void handleMessage(Message msg) {
+				try {
+					if (Block.fireTip(mContext)) {
+						Toast.makeText(mContext, "下拉列表可以进行刷新!",
+								Toast.LENGTH_SHORT).show();
+						Toast.makeText(mContext, "点击任意应用可查看更多选项!",
+								Toast.LENGTH_SHORT).show();
+					}
+				} catch (Exception ex) {
+				}
+			}
+		};
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				handler.sendEmptyMessage(0);
+			}
+		}).start();
 	}
 
 	public void initList() {
