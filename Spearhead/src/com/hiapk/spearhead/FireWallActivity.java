@@ -71,18 +71,17 @@ public class FireWallActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		MobclickAgent.onError(this);
 		setContentView(R.layout.main2);
-
-		if (Block.fireTip(mContext)) {
-			Toast toast_refresh = Toast.makeText(mContext, "下拉列表可以进行刷新!",
-					Toast.LENGTH_LONG);
-			toast_refresh.show();
-		}
 		initList();
-
+		if (Block.fireTip(mContext)) {
+			Toast.makeText(mContext, "下拉列表可以进行刷新!",
+					Toast.LENGTH_SHORT).show();
+			Toast.makeText(mContext, "点击任意应用可查看更多选项!",
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	public void initList() {
-		pro = ProgressDialog.show(mContext, "提示", "获取列表中...");
+		pro = ProgressDialog.show(mContext, "提示", "获取列表中,请耐心等待,获取的时间长短取决于您安装软件的数量...");
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
 				try {
@@ -100,13 +99,6 @@ public class FireWallActivity extends Activity {
 				myAppList = getCompList(getInstalledPackageInfo(FireWallActivity.this));
 				Log.i("get ---- list----end", System.currentTimeMillis() + "");
 				Log.i("get ---- list.size", myAppList.size() + "");
-				for (int i = 0; i < myAppList.size(); i++) {
-					Log.i("test",
-							myAppList.get(i).applicationInfo
-									.loadLabel(getPackageManager())
-									+ "----"
-									+ myAppList.get(i).applicationInfo.packageName);
-				}
 				handler.sendEmptyMessage(0);
 			}
 		}).start();
@@ -334,11 +326,7 @@ public class FireWallActivity extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		if (Block.fireTip(mContext)) {
-			Toast toast_refresh = Toast.makeText(mContext, "下拉列表可以进行刷新!",
-					Toast.LENGTH_LONG);
-			toast_refresh.show();
-		}
+
 		// umeng
 		MobclickAgent.onResume(this);
 	}
