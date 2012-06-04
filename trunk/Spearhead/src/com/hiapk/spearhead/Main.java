@@ -91,7 +91,7 @@ public class Main extends Activity {
 		// 获取固定存放数据
 		sharedData = new SharedPrefrenceData(context);
 		// 显示提示对话框仅显示一次
-		if (!sharedData.isAlertDialogOnfirstOpenDisplayed()) {
+		if (!sharedData.isFirstBoot()) {
 			dialogHintSetData().show();
 		}
 		// temp------------
@@ -112,7 +112,7 @@ public class Main extends Activity {
 				.setTitle("请设置流量套餐，并校对已用流量")
 				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
-						sharedData.setAlertDialogOnfirstOpenDisplayed(true);
+						sharedData.setFirstBoot(true);
 					}
 				}).create();
 		return dialogHint;
