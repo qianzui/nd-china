@@ -40,12 +40,17 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 				if (SQLStatic.setSQLUidOnUsed(true)) {
 					new AsyncTaskonRecordUidData().execute(context);
 					// showLog(SQLHelperTotal.TableWiFiOrG23);
-				} else
+				} else {
+					SQLStatic.setSQLUidOnUsed(false);
 					showLog("Uid数据库忙");
+				}
 				if (SQLStatic.setSQLUidTotalOnUsed(true)) {
 					new AsyncTaskonRecordUidTotal().execute(context);
-				} else
+				} else {
+					SQLStatic.setSQLUidTotalOnUsed(false);
 					showLog("UidTotal数据库忙");
+				}
+
 			} else {
 				// 无网络条件下进行最后一次记录
 				if (SQLHelperTotal.UidWiFiOrG23 != "") {
@@ -55,12 +60,18 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 					if (SQLStatic.setSQLUidOnUsed(true)) {
 						new AsyncTaskonRecordUidData().execute(context);
 						// showLog(SQLHelperTotal.TableWiFiOrG23);
-					} else
+					} else {
+						SQLStatic.setSQLUidOnUsed(false);
 						showLog("Uid数据库忙");
+					}
+
 					if (SQLStatic.setSQLUidTotalOnUsed(true)) {
 						new AsyncTaskonRecordUidTotal().execute(context);
-					} else
+					} else {
+						SQLStatic.setSQLUidTotalOnUsed(false);
 						showLog("UidTotal数据库忙");
+					}
+
 				}
 			}
 		} else {

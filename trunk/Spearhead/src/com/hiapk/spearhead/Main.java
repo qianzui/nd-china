@@ -382,7 +382,7 @@ public class Main extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if (timetap > 50)
+				if (timetap > 8)
 					break;
 
 			}

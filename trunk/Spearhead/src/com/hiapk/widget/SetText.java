@@ -101,6 +101,9 @@ public class SetText {
 				return year + "." + month + "." + setDay;
 			}
 
+		} else if (setDay == monthDay) {
+			month += 1;
+			return year + "." + month + "." + setDay;
 		} else {
 			return year + "." + month + "." + setDay;
 		}

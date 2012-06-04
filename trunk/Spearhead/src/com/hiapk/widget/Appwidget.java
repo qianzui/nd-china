@@ -45,6 +45,13 @@ public class Appwidget extends AppWidgetProvider {
 		super.onEnabled(context);
 		sharedData = new SharedPrefrenceData(context);
 		sharedData.setWidGet14Open(true);
+		boolean isNotifyOpen = sharedData.isNotifyOpen();
+		if (!isNotifyOpen) {
+			SetText.setText(context);
+		}
+		Intent intentTextUpdate = new Intent();
+		intentTextUpdate.setAction(BROADCAST_TRAFF);
+		context.sendBroadcast(intentTextUpdate);
 	}
 
 	@Override
