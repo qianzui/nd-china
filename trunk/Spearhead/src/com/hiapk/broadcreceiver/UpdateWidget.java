@@ -38,7 +38,9 @@ public class UpdateWidget extends BroadcastReceiver {
 			}
 
 			if (isWidGet14Open) {
-				if (!isNotifyOpen) {
+				if (!(TrafficManager.mobile_month_data[0] == 0
+						&& TrafficManager.wifi_month_data[0] == 0
+						&& TrafficManager.mobile_month_data[63] == 0 && TrafficManager.wifi_month_data[63] == 0)) {
 					SetText.setText(context);
 				}
 				Intent intentTextUpdate = new Intent();

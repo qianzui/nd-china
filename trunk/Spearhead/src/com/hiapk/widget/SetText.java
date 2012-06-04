@@ -24,9 +24,8 @@ public class SetText {
 	 *            i=0返回通知栏上，1返回通知栏下，2-4返回小部件上中下。
 	 * @return
 	 */
-	public static void setText(Context context) {
+	public static synchronized void setText(Context context) {
 		// TODO Auto-generated method stub
-		TrafficManager trafficManager = new TrafficManager();
 		// 记录数据命令
 		// trafficManager.statsTotalTraffic(context, false);
 		Time t = new Time();
@@ -39,7 +38,7 @@ public class SetText {
 		long[] monthUsed_this = new long[64];
 		monthUsed_this = TrafficManager.mobile_month_data;
 		long monthSetLong = sharedData.getMonthMobileSetOfLong();
-		long monthUsedLong = trafficManager.getMonthUseData(context);
+		long monthUsedLong = TrafficManager.getMonthUseData(context);
 		// trafficManager.setMonthUseDate(monthUsedLong);
 		long todayUsedLong = monthUsed_this[monthDay]
 				+ monthUsed_this[monthDay + 31];

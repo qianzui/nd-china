@@ -32,6 +32,7 @@ public class Onreinstall {
 			} else {
 				alset.StopWidgetAlarm(context);
 			}
+			alset.StopAlarm(context);  
 		}
 	}
 
