@@ -64,7 +64,7 @@ public class SharedPrefrenceData {
 	boolean isAlertDialogOnfirstOpenDisplayed = false;
 
 	public boolean isFirstBoot() {
-		boolean hasDisplayed = prefs.getBoolean(ALERT_ON_FIRST_START, false);
+		boolean hasDisplayed = prefs.getBoolean(ALERT_ON_FIRST_START, true);
 		return hasDisplayed;
 	}
 
