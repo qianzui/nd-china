@@ -48,7 +48,7 @@ public class UidMonthTraff extends Activity {
 	/**
 	 * true的话，表示可以进行uidTotal数据读取
 	 */
-	boolean uidtraff_UidTotalSQL = false;
+	// boolean uidtraff_UidTotalSQL = false;
 	int windowswidesize = 200;
 
 	@Override
@@ -58,6 +58,7 @@ public class UidMonthTraff extends Activity {
 		// umeng
 		MobclickAgent.onResume(this);
 	}
+
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
@@ -65,6 +66,7 @@ public class UidMonthTraff extends Activity {
 		// umeng
 		MobclickAgent.onPause(this);
 	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -107,7 +109,7 @@ public class UidMonthTraff extends Activity {
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
-			uidtraff_UidTotalSQL = false;
+			// uidtraff_UidTotalSQL = false;
 			LinearLayout linearPie = (LinearLayout) findViewById(R.id.new_budget);
 			LayoutInflater factory = LayoutInflater.from(context);
 			View loading = factory.inflate(R.layout.loading_layout, null);
@@ -126,6 +128,7 @@ public class UidMonthTraff extends Activity {
 					e.printStackTrace();
 				}
 				if (timetap > 3) {
+					SQLStatic.setSQLUidTotalOnUsed(false);
 					return false;
 				}
 			}
@@ -221,6 +224,7 @@ public class UidMonthTraff extends Activity {
 					e.printStackTrace();
 				}
 				if (timetap > 3) {
+					SQLStatic.setSQLUidOnUsed(false);
 					return false;
 				}
 			}

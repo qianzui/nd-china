@@ -56,16 +56,22 @@ public class RecordDataReceiver extends BroadcastReceiver {
 					time = System.currentTimeMillis();
 					new AsyncTaskonRecordTotalData().execute(context);
 					// showLog(SQLHelperTotal.TableWiFiOrG23);
-				} else
+				} else {
+					SQLStatic.setSQLTotalOnUsed(false);
 					showLog("数据库忙，未记录");
+				}
+
 			} else {
 				if (SQLStatic.setSQLTotalOnUsed(true)) {
 					// SQLHelperTotal.isSQLTotalOnUsed = true;
 					initDataWithnoNetwork(context);
 					SQLStatic.setSQLTotalOnUsed(false);
 					// showLog(SQLHelperTotal.TableWiFiOrG23);
-				} else
+				} else {
 					showLog("数据库忙，未记录");
+					SQLStatic.setSQLTotalOnUsed(false);
+				}
+
 			}
 		} else {
 			// sqlhelper.initSQL(context);

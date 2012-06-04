@@ -106,6 +106,7 @@ public class PackageReceiver extends BroadcastReceiver {
 												SQLStatic.packageName[1],
 												"Install", uids);
 							}
+							SQLStatic.setSQLUidTotalOnUsed(false);
 							if ((uid_List_Add != null)
 									|| (uid_List_Del != null)) {
 								if (uid_List_Add != null) {
@@ -121,6 +122,7 @@ public class PackageReceiver extends BroadcastReceiver {
 										SQLStatic.packageName[1], "Install",
 										uid_List_Add, uid_List_Del);
 							}
+							SQLStatic.setSQLUidOnUsed(false);
 							// new AsyTaskOnInstall().execute(context);
 						}
 					}
