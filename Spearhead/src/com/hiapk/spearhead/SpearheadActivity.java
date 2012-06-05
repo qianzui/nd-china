@@ -2,17 +2,21 @@ package com.hiapk.spearhead;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
 import com.hiapk.alertaction.AlertActionNotify;
 import com.hiapk.prefrencesetting.PrefrenceSetting;
 import com.umeng.analytics.MobclickAgent;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -40,6 +44,7 @@ public class SpearheadActivity extends TabActivity {
 	// 按两次退出
 	public static Boolean isExit = false;
 	private static Boolean hasTask = false;
+	public ProgressDialog pro;
 	private Timer tExit = new Timer();
 	private TimerTask task = new TimerTask() {
 		@Override
@@ -47,7 +52,6 @@ public class SpearheadActivity extends TabActivity {
 			isExit = false;
 		}
 	};
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -58,7 +62,6 @@ public class SpearheadActivity extends TabActivity {
 		initScene();
 		switchScene();
 	}
-
 	/**
 	 * 初始化
 	 */
@@ -87,7 +90,6 @@ public class SpearheadActivity extends TabActivity {
 				case R.id.radio_button2:
 					tabHost.setCurrentTabByTag(TAB_WARNING);
 					break;
-
 				default:
 					break;
 				}
