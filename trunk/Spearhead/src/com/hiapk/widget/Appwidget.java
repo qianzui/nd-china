@@ -39,6 +39,7 @@ public class Appwidget extends AppWidgetProvider {
 	// 初始化wifi与mobile状态
 	String APPWIDGET_UPDATE = "com.hiapkAPPWIDGET_UPDATE";
 	SharedPrefrenceData sharedData;
+	String MOTOROLA_WIDGET_ADD = "com.motorola.blur.home.ACTION_WIDGET_ADDED";
 
 	@Override
 	public void onEnabled(Context context) {
@@ -190,7 +191,8 @@ public class Appwidget extends AppWidgetProvider {
 		AlertActionMobileDataControl mobile_on_of = new AlertActionMobileDataControl();
 		TelephonyManager tm = (TelephonyManager) context
 				.getSystemService(Context.TELEPHONY_SERVICE);
-		if (tm.getSimState() != TelephonyManager.SIM_STATE_READY) {
+		if (tm.getSimState() != TelephonyManager.SIM_STATE_READY
+				|| (Integer.valueOf(android.os.Build.VERSION.SDK) < 10)) {
 			mobile_on_of.setMobileDataDisable(context);
 			views.setImageViewResource(R.id.widgetImage2,
 					R.drawable.icon_mobile_off);
@@ -283,7 +285,53 @@ public class Appwidget extends AppWidgetProvider {
 			// .getInstance(context);
 			// appWidgetManager.updateAppWidget(new ComponentName(context,
 			// Appwidget.class), views);
+		} else {
+			setwidgetListenerAndInit(context);
 		}
+	}
+
+	private void setwidgetListenerAndInit(Context context) {
+		// 设置监听广播
+		Intent intentwifi = new Intent();
+		intentwifi.setAction(BROADCAST_WIFI);
+		PendingIntent pendingIntentwifi = PendingIntent.getBroadcast(context,
+				0, intentwifi, PendingIntent.FLAG_UPDATE_CURRENT);
+		Intent intentgpprs = new Intent();
+		intentgpprs.setAction(BROADCAST_GPRS);
+		PendingIntent pendingIntentgprs = PendingIntent.getBroadcast(context,
+				0, intentgpprs, PendingIntent.FLAG_UPDATE_CURRENT);
+		Intent intenttraff = new Intent(context, SpearheadActivity.class);
+		Bundle choosetab = new Bundle();
+		choosetab.putInt("TAB", 1);
+		intenttraff.putExtras(choosetab);
+		// intenttraff.setAction(BROADCAST_TRAFF);
+		PendingIntent pendingIntenttraff = PendingIntent.getActivity(context,
+				0, intenttraff, PendingIntent.FLAG_UPDATE_CURRENT);
+		// Get the layout for the App Widget and attach an on-click listener
+		// to the button
+		RemoteViews views = new RemoteViews(context.getPackageName(),
+				R.layout.appwidget_layout);
+		// 设置监听
+		// views.setOnClickPendingIntent(R.id.widgetImage1,
+		// pendingIntentwifi);
+		views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout1,
+				pendingIntentwifi);
+		// views.setOnClickPendingIntent(R.id.widgetImageText1,
+		// pendingIntentwifi);
+		views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout2,
+				pendingIntentgprs);
+		// views.setOnClickPendingIntent(R.id.widgetImageText2,
+		// pendingIntentgprs);
+		views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout3,
+				pendingIntenttraff);
+		// views.setOnClickPendingIntent(R.id.widgetTextview2,
+		// pendingIntenttraff);
+		// views.setOnClickPendingIntent(R.id.widgetTextview3,
+		// pendingIntenttraff);
+		initWidget(context, views);
+		views.setCharSequence(R.id.widgetTextview1, "setText", SetText.text1);
+		views.setCharSequence(R.id.widgetTextview2, "setText", SetText.text2);
+		views.setCharSequence(R.id.widgetTextview3, "setText", SetText.text3);
 	}
 
 	/**
@@ -331,31 +379,40 @@ public class Appwidget extends AppWidgetProvider {
 				.getSystemService(Context.TELEPHONY_SERVICE);
 		AlertActionMobileDataControl mobile_on_of = new AlertActionMobileDataControl();
 		tm.getSimState();
-		if (tm.getSimState() != TelephonyManager.SIM_STATE_READY) {
-			mobile_on_of.setMobileDataDisable(context);
-			views.setImageViewResource(R.id.widgetImage2,
-					R.drawable.icon_mobile_off);
-			views.setInt(R.id.widgetImageText2, "setTextColor", Color.GRAY);
-			Toast.makeText(context, "为检测到SIM卡或者SIM卡未就绪，无法启动移动网络",
+		if (Integer.valueOf(android.os.Build.VERSION.SDK) < 10) {
+			Toast.makeText(context, "您的手机或者Android系统版本不支持操作移动数据开关",
 					Toast.LENGTH_SHORT).show();
 		} else {
-			if (mobile_on_of.isMobileDataEnable(context)) {
+			if (tm.getSimState() != TelephonyManager.SIM_STATE_READY) {
 				mobile_on_of.setMobileDataDisable(context);
-				// views.setInt(R.id.widgetImage2, "setBackgroundResource",
-				// R.drawable.icon_mobile_off);
 				views.setImageViewResource(R.id.widgetImage2,
 						R.drawable.icon_mobile_off);
 				views.setInt(R.id.widgetImageText2, "setTextColor", Color.GRAY);
-				Toast.makeText(context, "移动网络正在关闭", Toast.LENGTH_SHORT).show();
-
+				Toast.makeText(context, "未检测到SIM卡或者SIM卡未就绪，无法启动移动网络",
+						Toast.LENGTH_SHORT).show();
 			} else {
-				mobile_on_of.setMobileDataEnable(context);
-				// views.setInt(R.id.widgetImage2, "setBackgroundResource",
-				// R.drawable.icon_mobile_on);
-				views.setImageViewResource(R.id.widgetImage2,
-						R.drawable.icon_mobile_on);
-				views.setInt(R.id.widgetImageText2, "setTextColor", Color.GREEN);
-				Toast.makeText(context, "移动网络正在开启", Toast.LENGTH_SHORT).show();
+				if (mobile_on_of.isMobileDataEnable(context)) {
+					mobile_on_of.setMobileDataDisable(context);
+					// views.setInt(R.id.widgetImage2, "setBackgroundResource",
+					// R.drawable.icon_mobile_off);
+					views.setImageViewResource(R.id.widgetImage2,
+							R.drawable.icon_mobile_off);
+					views.setInt(R.id.widgetImageText2, "setTextColor",
+							Color.GRAY);
+					Toast.makeText(context, "移动网络正在关闭", Toast.LENGTH_SHORT)
+							.show();
+
+				} else {
+					mobile_on_of.setMobileDataEnable(context);
+					// views.setInt(R.id.widgetImage2, "setBackgroundResource",
+					// R.drawable.icon_mobile_on);
+					views.setImageViewResource(R.id.widgetImage2,
+							R.drawable.icon_mobile_on);
+					views.setInt(R.id.widgetImageText2, "setTextColor",
+							Color.GREEN);
+					Toast.makeText(context, "移动网络正在开启", Toast.LENGTH_SHORT)
+							.show();
+				}
 			}
 		}
 

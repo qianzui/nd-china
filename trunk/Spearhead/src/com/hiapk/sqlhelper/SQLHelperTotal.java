@@ -253,7 +253,9 @@ public class SQLHelperTotal {
 				showLog("数据库搜索失败");
 			}
 		}
-		cur.close();
+		if (cur != null) {
+			cur.close();
+		}
 		// 初始化写入数据（wifi以及mobile）
 		// 如果之前数据大于新的数据，则重新计数
 		if (oldup > upload || olddown > download) {
@@ -812,7 +814,9 @@ public class SQLHelperTotal {
 				showLog("datacur-searchfail");
 			}
 		}
-		cur.close();
+		if (cur != null) {
+			cur.close();
+		}
 		// for (int j = 0; j < a.length; j++) {
 		// showLog(j + "liuliang" + a[j] + "");
 		// }
@@ -915,7 +919,9 @@ public class SQLHelperTotal {
 				showLog("cur-searchfail");
 			}
 		}
-		cur.close();
+		if (cur != null) {
+			cur.close();
+		}
 		a[0] = countup + countdown;
 		a[1] = countup;
 		a[2] = countdown;
@@ -983,7 +989,9 @@ public class SQLHelperTotal {
 				showLog("cur-searchfail");
 			}
 		}
-		cur.close();
+		if (cur != null) {
+			cur.close();
+		}
 		a[0] = countdown + countup;
 		a[1] = countup;
 		a[2] = countdown;
@@ -1038,7 +1046,9 @@ public class SQLHelperTotal {
 				showLog("cur-searchfail");
 			}
 		}
-		cur.close();
+		if (cur != null) {
+			cur.close();
+		}
 		String month2 = month + "";
 		if (month < 10)
 			month2 = "0" + month2;
@@ -1082,7 +1092,9 @@ public class SQLHelperTotal {
 				showLog("cur-searchfail");
 			}
 		}
-		cur.close();
+		if (cur != null) {
+			cur.close();
+		}
 		string = SelectTable + TableWiFi + Where + "date" + Between + weekStart
 				+ AND_B + year + "-" + month2 + "-" + monthDay2 + AND + "type="
 				+ 2;
@@ -1117,7 +1129,9 @@ public class SQLHelperTotal {
 				showLog("cur-searchfail");
 			}
 		}
-		cur.close();
+		if (cur != null) {
+			cur.close();
+		}
 		// for (int j = 0; j < a.length; j++) {
 		// showLog(j + "liuliang" + a[j] + "");
 		// }

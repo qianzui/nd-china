@@ -21,7 +21,7 @@ public class Onreinstall {
 			boolean isFloatOpen = sharedData.isFloatOpen();
 			// showLog("isNotifyOpen"+isNotifyOpen);
 			// showLog("isFloatOpen"+isFloatOpen);
-			alset.StartAlarm(context); 
+			alset.StartAlarm(context);
 			if (isFloatOpen) {
 				context.startService(new Intent("com.hiapk.server"));
 			} else {
@@ -32,7 +32,7 @@ public class Onreinstall {
 			} else {
 				alset.StopWidgetAlarm(context);
 			}
-			alset.StopAlarm(context);  
+			// alset.StopAlarm(context);
 		}
 	}
 
