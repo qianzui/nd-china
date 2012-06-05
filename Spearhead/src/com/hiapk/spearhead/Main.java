@@ -29,14 +29,17 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.inputmethodservice.Keyboard.Key;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -98,11 +101,14 @@ public class Main extends Activity {
 		getuids();
 		// ------------
 		AlarmSet alset = new AlarmSet();
+		SetText.setText(context);
 		if (sharedData.isNotifyOpen()) {
 			alset.StartWidgetAlarm(context);
 		}
+
 		initSQLdatabase(uids, packagenames);
 		setonrefreshclicklistens();
+
 	}
 
 	private AlertDialog dialogHintSetData() {
@@ -420,32 +426,56 @@ public class Main extends Activity {
 	}
 
 	private void setonrefreshclicklistens() {
-		Button btn_refresh = (Button) findViewById(R.id.refresh);
+		final Button btn_refresh = (Button) findViewById(R.id.refresh);
+		btn_refresh.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				if (event.getAction() == KeyEvent.ACTION_DOWN) {
+					btn_refresh
+							.setBackgroundResource(R.drawable.arrow_refresh_icon_on);
+					return true;
+				}
+				if (event.getAction() == KeyEvent.ACTION_UP) {
+					btn_refresh
+							.setBackgroundResource(R.drawable.arrow_refresh_icon_off);
+					// showlog("Product Model: " + android.os.Build.MODEL + ","
+					// + android.os.Build.VERSION.SDK + ","
+					// + android.os.Build.VERSION.RELEASE);
+					// 记录点击刷新次数
+					MobclickAgent.onEvent(context, "refresh");
+					AlarmSet alset = new AlarmSet();
+					// 初始化网络状态
+					sqlhelperTotal.initTablemobileAndwifi(context, false);
+					if (SQLHelperTotal.TableWiFiOrG23 != ""
+							&& sqlhelperTotal.getIsInit(context)) {
+						// 启动闹钟
+						alset.StartAlarmMobile(context);
+						// 进行数据记录
+						// trafficManager.statsTotalTraffic(context, false);
+						// sqlhelperTotal.RecordTotalwritestats(context, false);
+					} else if (SQLHelperTotal.TableWiFiOrG23 != "") {
+						alset.StartAlarmMobile(context);
+						sqlhelperTotal.initTablemobileAndwifi(context, false);
+					}
+					SetText.resetWidgetAndNotify(context);
+					initValues();
+					initProgressBar();
+					initPieBar();
+					initWifiBar();
+					return true;
+				}
+				return false;
+			}
+		});
+
 		btn_refresh.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				// 记录点击刷新次数
-				MobclickAgent.onEvent(context, "refresh");
-				AlarmSet alset = new AlarmSet();
-				// 初始化网络状态
-				sqlhelperTotal.initTablemobileAndwifi(context, false);
-				if (SQLHelperTotal.TableWiFiOrG23 != ""
-						&& sqlhelperTotal.getIsInit(context)) {
-					// 启动闹钟
-					alset.StartAlarmMobile(context);
-					// 进行数据记录
-					// trafficManager.statsTotalTraffic(context, false);
-					// sqlhelperTotal.RecordTotalwritestats(context, false);
-				} else if (SQLHelperTotal.TableWiFiOrG23 != "") {
-					alset.StartAlarmMobile(context);
-					sqlhelperTotal.initTablemobileAndwifi(context, false);
-				}
-				initValues();
-				initProgressBar();
-				initPieBar();
-				initWifiBar();
+
 				// specialfortext----test
 				// SQLHelperUidTotal sqlUidTotal = new SQLHelperUidTotal();
 				// sqlUidTotal.updateSQLUidTypes(context, uids);
