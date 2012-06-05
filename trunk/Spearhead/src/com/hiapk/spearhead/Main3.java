@@ -105,7 +105,7 @@ public class Main3 extends Activity {
 		// 显示提示信息
 		if (Block.fireTip(context)) {
 			Toast toast_refresh = Toast.makeText(context, "请校对 流量套餐 和 已用流量",
-					Toast.LENGTH_LONG);
+					Toast.LENGTH_SHORT);
 			toast_refresh.show();
 		}
 		combo = (Button) findViewById(R.id.combo);
