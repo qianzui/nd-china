@@ -76,34 +76,7 @@ public class FireWallActivity extends Activity {
 					Toast.LENGTH_SHORT).show();
 		}
 		initList();
-		showtTip();
-		
 	}
-	public void showtTip(){
-		final Handler handler = new Handler() {
-			public void handleMessage(Message msg) {
-				try {
-					if (Block.fireTip(mContext)) {
-						Toast.makeText(mContext, "点击任意应用可查看更多选项!",
-								Toast.LENGTH_SHORT).show();
-					}
-				} catch (Exception ex) {
-				}
-			}
-		};
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(4000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				handler.sendEmptyMessage(0);
-			}
-		}).start();
-	}
-
 	public void initList() {
 		pro = ProgressDialog.show(mContext, "提示", "获取列表中,请耐心等待,获取的时间长短取决于您安装软件的数量...");
 		final Handler handler = new Handler() {
@@ -152,6 +125,10 @@ public class FireWallActivity extends Activity {
 
 					@Override
 					protected void onPostExecute(Void result) {
+						if (Block.fireTip(mContext)) {
+							Toast.makeText(mContext, "点击任意应用可查看更多选项!",
+									Toast.LENGTH_SHORT).show();
+						}
 						appListAdapter.notifyDataSetChanged();
 						appListView.onRefreshComplete();
 					}
