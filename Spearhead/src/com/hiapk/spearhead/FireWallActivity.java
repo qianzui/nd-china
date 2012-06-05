@@ -71,6 +71,10 @@ public class FireWallActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		MobclickAgent.onError(this);
 		setContentView(R.layout.main2);
+		if (Block.fireTip(mContext)) {
+			Toast.makeText(mContext, "下拉列表可以进行刷新!",
+					Toast.LENGTH_SHORT).show();
+		}
 		initList();
 		showtTip();
 		
@@ -80,8 +84,6 @@ public class FireWallActivity extends Activity {
 			public void handleMessage(Message msg) {
 				try {
 					if (Block.fireTip(mContext)) {
-						Toast.makeText(mContext, "下拉列表可以进行刷新!",
-								Toast.LENGTH_SHORT).show();
 						Toast.makeText(mContext, "点击任意应用可查看更多选项!",
 								Toast.LENGTH_SHORT).show();
 					}
@@ -93,7 +95,7 @@ public class FireWallActivity extends Activity {
 			@Override
 			public void run() {
 				try {
-					Thread.sleep(3000);
+					Thread.sleep(2000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
