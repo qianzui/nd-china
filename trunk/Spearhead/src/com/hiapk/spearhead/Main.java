@@ -103,7 +103,6 @@ public class Main extends Activity {
 		}
 		initSQLdatabase(uids, packagenames);
 		setonrefreshclicklistens();
-		// GetRoot.cmdRoot("chmod 777 "+getPackageCodePath());
 	}
 
 	private AlertDialog dialogHintSetData() {
