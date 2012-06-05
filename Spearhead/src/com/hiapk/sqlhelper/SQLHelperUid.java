@@ -740,7 +740,9 @@ public class SQLHelperUid {
 				showLog("cur-searchfail");
 			}
 		}
-		cur.close();
+		if (cur != null) {
+			cur.close();
+		}
 		// 删除other为UnInstall的项目
 		delSQLUidIndex(mySQL);
 		// for (int j = 0; j < uids.length; j++) {
@@ -851,7 +853,9 @@ public class SQLHelperUid {
 				showLog("cur-searchfail");
 			}
 		}
-		cur.close();
+		if (cur != null) {
+			cur.close();
+		}
 		// for (int i = 0; i < uids.length; i++) {
 		// showLog(uids[i] + "");
 		// }
@@ -1277,7 +1281,9 @@ public class SQLHelperUid {
 				showLog("cur-searchfail");
 			}
 		}
-		cur.close();
+		if (cur != null) {
+			cur.close();
+		}
 		// 初始化写入数据（wifi以及g23）
 		// 如果之前数据大于新的数据，则重新计数
 		if (oldup > upload || olddown > download) {
@@ -1483,6 +1489,7 @@ public class SQLHelperUid {
 			selectfails(sqlDataBase, table, uid);
 			cur = null;
 			showLog("selectfail" + string);
+			
 		}
 		String newdate = "";
 		String countdate = "";

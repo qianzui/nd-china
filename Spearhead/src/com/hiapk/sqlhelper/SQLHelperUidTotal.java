@@ -308,7 +308,9 @@ public class SQLHelperUidTotal {
 				showLog("cur-searchfail");
 			}
 		}
-		cur.close();
+		if (cur != null) {
+			cur.close();
+		}
 		// for (int j = 0; j < a.length; j++) {
 		// showLog(j + "liuliang" + a[j] + "");
 		// }
@@ -362,7 +364,9 @@ public class SQLHelperUidTotal {
 				showLog("cur-searchfail");
 			}
 		}
-		cur.close();
+		if (cur != null) {
+			cur.close();
+		}
 		// for (int j = 0; j < a.length; j++) {
 		// showLog(j + "liuliang" + a[j] + "");
 		// }
@@ -533,7 +537,10 @@ public class SQLHelperUidTotal {
 				showLog("cur-searchfail");
 			}
 		}
-		cur.close();
+		if (cur != null) {
+			cur.close();
+		}
+
 		// for (int j = 0; j < a.length; j++) {
 		// showLog(j + "liuliang" + a[j] + "");
 		// }
@@ -551,7 +558,7 @@ public class SQLHelperUidTotal {
 		String string = null;
 		// delete from Yookey where tit not in (select min(tit) from Yookey
 		// group by SID)
-		string = DeleteTable + "uidtotal" + Where + "uid='" + uid + "'";
+		string = DeleteTable + TableUidTotal + Where + "uid='" + uid + "'";
 		// string = InsertTable + TableUidIndex + Start
 		// + InsertUidIndexColumnTotal + ",other" + End + Value
 		// + uidnumber + split + packagename + split + 0 + split
@@ -581,7 +588,7 @@ public class SQLHelperUidTotal {
 		String string = null;
 		// delete from Yookey where tit not in (select min(tit) from Yookey
 		// group by SID)
-		string = DeleteTable + TableUidTotal + Where + " packagename= '"
+		string = DeleteTable + TableUidTotal + Where + " packagename='"
 				+ packagename + "'";
 		// string = InsertTable + TableUidIndex + Start
 		// + InsertUidIndexColumnTotal + ",other" + End + Value
@@ -593,7 +600,7 @@ public class SQLHelperUidTotal {
 		// ('date','time','upload','download','uid','type')
 		showLog(string);
 		try {
-			// mySQL.execSQL(string);
+			mySQL.execSQL(string);
 		} catch (Exception e) {
 			// TODO: handle exception
 			showLog(string + "fail");
@@ -644,7 +651,9 @@ public class SQLHelperUidTotal {
 					showLog("cur-searchfail" + e);
 				}
 			}
-			cur.close();
+			if (cur != null) {
+				cur.close();
+			}
 
 			// if (uids != null && uids[0] != 1019) {
 			// for (int i = 0; i < uids.length; i++) {

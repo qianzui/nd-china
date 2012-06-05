@@ -47,6 +47,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
+		SQLStatic.isTotalAlarmRecording = true;
 		this.context = context;
 		// showLog("TableWiFiOrG23=" + SQLHelperTotal.TableWiFiOrG23);
 		// 初始化数据库后进行操作
@@ -142,6 +143,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			showLog("数据记录失败");
 		} finally {
 			sqlDataBase.endTransaction();
+			SQLStatic.isTotalAlarmRecording=false;
 		}
 		sqlhelperTotal.closeSQL(sqlDataBase);
 	}
@@ -260,6 +262,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		@Override
 		protected void onPostExecute(Long result) {
 			// TODO Auto-generated method stub
+			SQLStatic.isTotalAlarmRecording=false;
 			sqlhelperTotal.closeSQL(sqlDataBase);
 			// SQLHelperTotal.isSQLTotalOnUsed = false;
 			SQLStatic.setSQLTotalOnUsed(false);

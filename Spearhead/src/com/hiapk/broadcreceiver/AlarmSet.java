@@ -2,6 +2,7 @@ package com.hiapk.broadcreceiver;
 
 import java.util.Calendar;
 
+import com.hiapk.sqlhelper.SQLStatic;
 import com.hiapk.widget.ProgramNotify;
 
 import android.app.AlarmManager;
@@ -33,8 +34,10 @@ public class AlarmSet {
 		setwidgetdefaulttime(context);
 		int totaltime = totalrefreshtime < widgetrefreshtime ? totalrefreshtime
 				: widgetrefreshtime;
-//		showLog(totaltime + "");
-		TotalAlarmStart(context, totaltime);
+		// showLog(totaltime + "");
+		if (SQLStatic.isTotalAlarmRecording != true) {
+			TotalAlarmStart(context, totaltime);
+		}
 		UidAlarmStart(context, uidrefreshtime);
 		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
 	}
@@ -109,7 +112,7 @@ public class AlarmSet {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(context);
 		String set = prefs.getString(SYS_PRE_REFRESH_FRZ, "2");
-//		showLog(set + "");
+		// showLog(set + "");
 		switch (Integer.valueOf(set)) {
 		case 0:
 			widgetrefreshtime = 5;
@@ -227,8 +230,8 @@ public class AlarmSet {
 				.getSystemService("alarm");
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());
-		alarmManager.setRepeating(AlarmManager.RTC,
-				calendar.getTimeInMillis(), i * 1000, pendingIntent);
+		alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
+				i * 1000, pendingIntent);
 	}
 
 	/**

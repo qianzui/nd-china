@@ -14,6 +14,8 @@ public class SQLStatic {
 	// 库存的uid表（所有）
 	public static int[] uidnumbers = null;
 	public static String packagename_ALL = null;
+	// TotalAlarm记录中
+	public static boolean isTotalAlarmRecording = false;
 
 	public static synchronized boolean setSQLTotalOnUsed(boolean SQLTotalOnUsed) {
 		if (SQLTotalOnUsed == true && isSQLTotalOnUsed == false) {

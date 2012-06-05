@@ -3,19 +3,25 @@ package com.hiapk.broadcreceiver;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.spearhead.R;
+import com.hiapk.spearhead.SpearheadActivity;
 import com.hiapk.widget.ProgramNotify;
 import com.hiapk.widget.SetText;
 
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 public class UpdateWidget extends BroadcastReceiver {
 	String BROADCAST_TRAFF = "com.hiapk.traffwidget";
 	Context context;
+	String BROADCAST_WIFI = "com.hiapk.wifiwidget";
+	String BROADCAST_GPRS = "com.hiapk.prgswidget";
+	
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -43,6 +49,7 @@ public class UpdateWidget extends BroadcastReceiver {
 						&& TrafficManager.mobile_month_data[63] == 0 && TrafficManager.wifi_month_data[63] == 0)) {
 					SetText.setText(context);
 				}
+//				setWidgetOnlistener(context);
 				Intent intentTextUpdate = new Intent();
 				intentTextUpdate.setAction(BROADCAST_TRAFF);
 				context.sendBroadcast(intentTextUpdate);
@@ -50,6 +57,49 @@ public class UpdateWidget extends BroadcastReceiver {
 			// RemoteViews views = new RemoteViews(context.getPackageName(),
 			// R.layout.appwidget_layout);
 		}
+	}
+
+	private void setWidgetOnlistener(Context context) {
+		// …Ë÷√º‡Ã˝π„≤•
+		Intent intentwifi = new Intent();
+		intentwifi.setAction(BROADCAST_WIFI);
+		PendingIntent pendingIntentwifi = PendingIntent.getBroadcast(context,
+				0, intentwifi, PendingIntent.FLAG_UPDATE_CURRENT);
+		Intent intentgpprs = new Intent();
+		intentgpprs.setAction(BROADCAST_GPRS);
+		PendingIntent pendingIntentgprs = PendingIntent.getBroadcast(context,
+				0, intentgpprs, PendingIntent.FLAG_UPDATE_CURRENT);
+		Intent intenttraff = new Intent(context, SpearheadActivity.class);
+		Bundle choosetab = new Bundle();
+		choosetab.putInt("TAB", 1);
+		intenttraff.putExtras(choosetab);
+		// intenttraff.setAction(BROADCAST_TRAFF);
+		PendingIntent pendingIntenttraff = PendingIntent.getActivity(context,
+				0, intenttraff, PendingIntent.FLAG_UPDATE_CURRENT);
+		// Get the layout for the App Widget and attach an on-click listener
+		// to the button
+		RemoteViews views = new RemoteViews(context.getPackageName(),
+				R.layout.appwidget_layout);
+		// …Ë÷√º‡Ã˝
+		// views.setOnClickPendingIntent(R.id.widgetImage1,
+		// pendingIntentwifi);
+		views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout1,
+				pendingIntentwifi);
+		// views.setOnClickPendingIntent(R.id.widgetImageText1,
+		// pendingIntentwifi);
+		views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout2,
+				pendingIntentgprs);
+		// views.setOnClickPendingIntent(R.id.widgetImageText2,
+		// pendingIntentgprs);
+		views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout3,
+				pendingIntenttraff);
+		// views.setOnClickPendingIntent(R.id.widgetTextview2,
+		// pendingIntenttraff);
+		// views.setOnClickPendingIntent(R.id.widgetTextview3,
+		// pendingIntenttraff);
+		views.setCharSequence(R.id.widgetTextview1, "setText", SetText.text1);
+		views.setCharSequence(R.id.widgetTextview2, "setText", SetText.text2);
+		views.setCharSequence(R.id.widgetTextview3, "setText", SetText.text3);
 	}
 
 	private class AsyncTaskonRefreshNotify extends

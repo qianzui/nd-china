@@ -10,11 +10,11 @@ import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 
 public class SetText {
-	public static String textUp;
+	public static String textUp = "今日已用: 0 B";
 	public static String textDown;
-	public static String text1;
-	public static String text2;
-	public static String text3;
+	public static String text1 = "今日已用:加载中....";
+	public static String text2 = "本月已用:加载中....";
+	public static String text3 = "当前日期:加载中....";
 
 	/**
 	 * 获取通知栏与小部件显示文字
