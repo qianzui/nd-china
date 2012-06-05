@@ -253,9 +253,9 @@ public class UidMonthTraff extends Activity {
 						year - 1, 12, uidnumber, "wifi");
 			} else {
 				mobileBefore = sqlhelperUid.SelectuidWifiorMobileData(
-						params[0], year, month, uidnumber, "mobile");
+						params[0], year, month - 1, uidnumber, "mobile");
 				wifiBefore = sqlhelperUid.SelectuidWifiorMobileData(params[0],
-						year, month, uidnumber, "wifi");
+						year, month - 1, uidnumber, "wifi");
 			}
 			return true;
 		}
