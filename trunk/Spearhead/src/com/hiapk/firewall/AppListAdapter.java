@@ -1,37 +1,20 @@
 package com.hiapk.firewall;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import com.hiapk.spearhead.FireWallActivity;
-import com.hiapk.spearhead.Main;
 import com.hiapk.spearhead.R;
-
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
-import android.graphics.drawable.Drawable;
 import android.net.TrafficStats;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -117,7 +100,6 @@ public class AppListAdapter extends BaseAdapter {
 		CheckBox wifi_toggle;
 	}
 	
-	//单位处理
 	public String unitHandler(long count) {
 		String value = null;
 		long temp = count;
@@ -219,7 +201,6 @@ public class AppListAdapter extends BaseAdapter {
     class WifiListener implements OnClickListener{
     	CheckBox cb;
     	IsChecked ic;
-//    	final String cmd = "chmod 777 "+mContext.getPackageCodePath();
     	public  WifiListener(CheckBox cb,IsChecked ic){
     		this.cb = cb;
     		this.ic = ic;
@@ -261,7 +242,6 @@ public class AppListAdapter extends BaseAdapter {
 					}
 				}).show();
 				 }else{
-//					 GetRoot.cmdRoot("chmod 777 "+mContext.getPackageCodePath());
 					 if(GetRoot.assertBinaries(mContext,true)){
 						    ic.selected_wifi = cb.isChecked();
 				            Block.saveRules(mContext,map);
