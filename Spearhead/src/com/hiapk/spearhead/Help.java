@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
@@ -59,6 +60,8 @@ public class Help extends Activity implements OnGestureListener{
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
 		// TODO Auto-generated method stub
+		
+		
 		if(e1.getX() - e2.getX() > 120){//如果是从右向左滑动  
 			//注册flipper的进出效果
 			this.flipper.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.left_in));
@@ -94,13 +97,36 @@ public class Help extends Activity implements OnGestureListener{
 	@Override
 	public boolean onSingleTapUp(MotionEvent e) {
 		// TODO Auto-generated method stub
-		Intent i = new Intent();
-		i.setClass(ct, Splash.class);
-		Log.v("+++++++","onSingleTapUp");
-		if(flipper.getDisplayedChild()==2){
+		float x;
+		float y;
+		x =  e.getX();
+		y =  e.getY();
+		Display dp = getWindowManager().getDefaultDisplay();
+		
+		
+		
+		Log.v("+++++++", x+"--"+y+"实际"+dp.getWidth()+"-"+dp.getHeight());
+		
+		if(dp.getWidth()-x<100 && dp.getHeight()-y<100 && flipper.getDisplayedChild()!=2){			
+				this.flipper.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.left_in));
+				this.flipper.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.left_out));
+				this.flipper.showNext();			
+		}
+		else if(dp.getWidth()-x>(dp.getWidth()-100) && dp.getHeight()-y<100 && flipper.getDisplayedChild()!=0){
+			this.flipper.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.right_in));  
+			this.flipper.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.right_out));  
+			this.flipper.showPrevious();  
+		}
+		else if(flipper.getDisplayedChild()==2){
+			Intent i = new Intent();
+			i.setClass(ct, Splash.class);
+			Log.v("+++++++","onSingleTapUp");
 			startActivity(i);
 			this.finish();
-		}
+		}	
+
+		
+		
 
 		return false;
 	}
