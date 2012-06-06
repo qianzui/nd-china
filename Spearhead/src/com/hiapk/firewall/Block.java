@@ -17,8 +17,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
-import android.util.Log;
-import android.widget.Toast;
 
 public class Block {
 
@@ -249,7 +247,6 @@ public class Block {
 //			code = runScript(ctx, script.toString(), res);
 			if (showErrors && code != 0) {
 				String msg = res.toString();
-				Log.e("DroidWall", msg);
 				// Remove unnecessary help message from output
 				if (msg.indexOf("\nTry `iptables -h' or 'iptables --help' for more information.") != -1) {
 					msg = msg
@@ -485,9 +482,7 @@ public class Block {
 			try {
 				file.createNewFile();
 				final String abspath = file.getAbsolutePath();
-				// make sure we have execution permission on the script file
 				Runtime.getRuntime().exec("chmod 777 " + abspath).waitFor();
-				// Write the script to be executed
 				final OutputStreamWriter out = new OutputStreamWriter(
 						new FileOutputStream(file));
 				if (new File("/system/bin/sh").exists()) {
@@ -500,29 +495,24 @@ public class Block {
 				out.flush();
 				out.close();
 				if (this.asroot) {
-					// Create the "su" request to run the script
 					exec = Runtime.getRuntime().exec("su -c " + abspath);
 				} else {
-					// Create the "sh" request to run the script
 					exec = Runtime.getRuntime().exec("sh " + abspath);
 				}
 				InputStreamReader r = new InputStreamReader(
 						exec.getInputStream());
 				final char buf[] = new char[1024];
 				int read = 0;
-				// Consume the "stdout"
 				while ((read = r.read(buf)) != -1) {
 					if (res != null)
 						res.append(buf, 0, read);
 				}
-				// Consume the "stderr"
 				r = new InputStreamReader(exec.getErrorStream());
 				read = 0;
 				while ((read = r.read(buf)) != -1) {
 					if (res != null)
 						res.append(buf, 0, read);
 				}
-				// get the process exit code
 				if (exec != null)
 					this.exitcode = exec.waitFor();
 			} catch (InterruptedException ex) {
