@@ -36,7 +36,6 @@ import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -92,12 +91,8 @@ public class FireWallActivity extends Activity {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				Log.i("get ---- list----start", System.currentTimeMillis() + "");
 				myAppList = getCompList(getInstalledPackageInfo(FireWallActivity.this));
 				getImageMap(myAppList);
-				Log.i("get ---- list----end", System.currentTimeMillis() + "");
-				Log.i("get ---- list.size", myAppList.size() + "");
-				Log.i("get ---- imageAndNameMap", imageAndNameMap.size() + "");
 				handler.sendEmptyMessage(0);
 			}
 		}).start();
@@ -188,7 +183,6 @@ public class FireWallActivity extends Activity {
 		
 	}
 
-	// 获取应用列表
 	public ArrayList<PackageInfo> getInstalledPackageInfo(Context context) {
 		packageInfo = context.getPackageManager().getInstalledPackages(0);
 		PackageManager pm = getPackageManager();
@@ -206,12 +200,6 @@ public class FireWallActivity extends Activity {
 					// ApplicationInfo.FLAG_SYSTEM) == 0
 					// && (pkgInfo.applicationInfo.flags &
 					// ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == 0) {
-//					Info info = new Info(
-//							pkgInfo.applicationInfo
-//									.loadIcon(getPackageManager()),
-//							pkgInfo.applicationInfo.loadLabel(
-//									getPackageManager()).toString());
-//					imageAndNameMap.put(pkgInfo.applicationInfo.uid, info);
 					appList.add(pkgInfo);
 				}
 			}
@@ -235,9 +223,7 @@ public class FireWallActivity extends Activity {
 	}
 
 	public void menuDialog(View arg1) {
-
 		final CharSequence[] items = { "应用管理", "卸载", "流量详情", "返回" };
-
 		final PackageInfo pkgInfo = (PackageInfo) arg1.getTag(R.id.tag_pkginfo);
 		final Drawable icon = pkgInfo.applicationInfo.loadIcon(mContext
 				.getPackageManager());
@@ -281,8 +267,6 @@ public class FireWallActivity extends Activity {
 														DialogInterface dialog,
 														int which) {
 													// TODO Auto-generated
-													// method stub
-
 												}
 											})
 									.setNegativeButton(
@@ -344,8 +328,6 @@ public class FireWallActivity extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-
-		// umeng
 		MobclickAgent.onResume(this);
 	}
 
