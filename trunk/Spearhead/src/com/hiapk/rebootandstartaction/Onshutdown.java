@@ -32,6 +32,6 @@ public class Onshutdown {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("Onshutdown", string);
+//		Log.d("Onshutdown", string);
 	}
 }

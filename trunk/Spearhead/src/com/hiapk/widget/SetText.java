@@ -160,6 +160,6 @@ public class SetText {
 	 */
 	private static void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("SetText", string);
+//		Log.d("SetText", string);
 	}
 }

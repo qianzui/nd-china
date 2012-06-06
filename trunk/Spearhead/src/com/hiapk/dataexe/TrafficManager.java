@@ -152,6 +152,6 @@ public class TrafficManager {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("TrafficManager", string);
+//		Log.d("TrafficManager", string);
 	}
 }

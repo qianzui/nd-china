@@ -807,7 +807,7 @@ public class Main3 extends Activity {
 	 * @param string
 	 */
 	private void showlog(String string) {
-		Log.d("main3", string);
+//		Log.d("main3", string);
 	}
 
 	@Override

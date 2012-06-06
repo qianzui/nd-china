@@ -846,7 +846,7 @@ public class SQLHelperUidTotal {
 	 */
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("databaseUidTotal", string);
+//		Log.d("databaseUidTotal", string);
 	}
 
 }

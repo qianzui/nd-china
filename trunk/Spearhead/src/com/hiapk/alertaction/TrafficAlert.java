@@ -210,6 +210,6 @@ public class TrafficAlert {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("alertaction", string);
+//		Log.d("alertaction", string);
 	}
 }

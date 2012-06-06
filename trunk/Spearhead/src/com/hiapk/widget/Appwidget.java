@@ -3,6 +3,7 @@ package com.hiapk.widget;
 import java.lang.annotation.Annotation;
 
 import com.hiapk.alertaction.AlertActionMobileDataControl;
+import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.spearhead.R;
@@ -49,13 +50,9 @@ public class Appwidget extends AppWidgetProvider {
 		sharedData = new SharedPrefrenceData(context);
 		sharedData.setWidGet14Open(true);
 		// boolean isNotifyOpen = sharedData.isNotifyOpen();
-		if (TrafficManager.mobile_month_data[0] == 0
-				&& TrafficManager.wifi_month_data[0] == 0
-				&& TrafficManager.mobile_month_data[63] == 0
-				&& TrafficManager.wifi_month_data[63] == 0) {
-		} else {
-			SetText.setText(context);
-		}
+		 AlarmSet alset = new AlarmSet();
+		 alset.StartAlarm(context);
+		// SetText.setText(context);
 		Intent intentTextUpdate = new Intent();
 		intentTextUpdate.setAction(BROADCAST_TRAFF);
 		context.sendBroadcast(intentTextUpdate);
@@ -246,6 +243,7 @@ public class Appwidget extends AppWidgetProvider {
 					Appwidget.class), views);
 			// context.sendBroadcast(intentAppUpdate);
 		} else if (intent.getAction().equals(BROADCAST_TRAFF)) {
+			SetText.setText(context);
 			views.setCharSequence(R.id.widgetTextview1, "setText",
 					SetText.text1);
 			views.setCharSequence(R.id.widgetTextview2, "setText",
@@ -425,6 +423,6 @@ public class Appwidget extends AppWidgetProvider {
 	 */
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("appwidget", string);
+//		Log.d("appwidget", string);
 	}
 }

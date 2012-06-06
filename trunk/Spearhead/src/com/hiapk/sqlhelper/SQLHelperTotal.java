@@ -1204,6 +1204,6 @@ public class SQLHelperTotal {
 	 */
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("databaseTotal", string);
+//		Log.d("databaseTotal", string);
 	}
 }

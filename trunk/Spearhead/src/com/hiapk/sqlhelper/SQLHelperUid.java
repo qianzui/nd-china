@@ -1573,6 +1573,6 @@ public class SQLHelperUid {
 	 */
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("databaseUid", string);
+//		Log.d("databaseUid", string);
 	}
 }

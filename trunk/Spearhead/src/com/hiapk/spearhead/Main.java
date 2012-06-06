@@ -705,7 +705,7 @@ public class Main extends Activity {
 	 * @param string
 	 */
 	private void showlog(String string) {
-		Log.d("main", string);
+//		Log.d("main", string);
 	}
 
 	@Override

@@ -397,6 +397,6 @@ public class UidMonthTraff extends Activity {
 	 * @param string
 	 */
 	private void showlog(String string) {
-		Log.d("UidMonthTraff", string);
+//		Log.d("UidMonthTraff", string);
 	}
 }

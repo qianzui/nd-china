@@ -183,6 +183,6 @@ public class FloatService extends Service {
 	 */
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("FloatService", string);
+//		Log.d("FloatService", string);
 	}
 }

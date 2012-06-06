@@ -38,6 +38,6 @@ public class Onreinstall {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("Onreinstall", string);
+//		Log.d("Onreinstall", string);
 	}
 }
