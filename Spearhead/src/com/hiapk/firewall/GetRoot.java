@@ -20,7 +20,6 @@ public class GetRoot {
 	public static boolean hasRoot = false;
 	private static final String SCRIPT_FILE = "firewall.sh";
 
-	// 获取root权限
 	public static boolean cmdRoot(String cmd) {
 		Process process = null;
 		DataOutputStream os = null;
@@ -47,7 +46,6 @@ public class GetRoot {
 	
 	
 
-	// 是否root过
 	public static boolean isRoot() {
 		boolean blnResult = false;
 		File su = new File("/tmp/su.txt");
@@ -76,14 +74,6 @@ public class GetRoot {
 		return blnResult;
 	}
 
-	/**
-	 * 查看是否有root权限
-	 * 
-	 * @param context
-	 * @param showErrors
-	 *            是否显示错误信息
-	 * @return 返回是否具有root权限
-	 */
 	public static boolean hasRootAccess(Context context, boolean showErrors) {
 		if (hasRoot)
 			return true;
@@ -99,29 +89,12 @@ public class GetRoot {
 		if (showErrors) {
 			new AlertDialog.Builder(context).setNeutralButton("确定", null)
 					.setMessage("无法获取root权限.\n"
-					// + "You need a rooted phone to run DroidWall.\n\n"
-					// +
-					// "If this phone is already rooted, please make sure DroidWall has enough permissions to execute the \"su\" command.\n"
 							+ "错误信息: " + res.toString()).show();
 		}
 		return false;
 	}
 
 
-	/**
-	 * Runs a script, wither as root or as a regular user (multiple commands
-	 * separated by "\n").
-	 * 
-	 * @param ctx
-	 *            mandatory context
-	 * @param script
-	 *            the script to be executed
-	 * @param res
-	 *            the script output response (stdout + stderr)
-	 * @param timeout
-	 *            timeout in milliseconds (-1 for none)
-	 * @return the script exit code
-	 */
 	public static int runScript(Context context, String script,
 			StringBuilder res, long timeout, boolean asroot) {
 		final File file = new File(context.getDir("bin", 0), SCRIPT_FILE);
@@ -185,29 +158,24 @@ public class GetRoot {
 				out.flush();
 				out.close();
 				if (this.asroot) {
-					// Create the "su" request to run the script
 					exec = Runtime.getRuntime().exec("su -c " + abspath);
 				} else {
-					// Create the "sh" request to run the script
 					exec = Runtime.getRuntime().exec("sh " + abspath);
 				}
 				InputStreamReader r = new InputStreamReader(
 						exec.getInputStream());
 				final char buf[] = new char[1024];
 				int read = 0;
-				// Consume the "stdout"
 				while ((read = r.read(buf)) != -1) {
 					if (res != null)
 						res.append(buf, 0, read);
 				}
-				// Consume the "stderr"
 				r = new InputStreamReader(exec.getErrorStream());
 				read = 0;
 				while ((read = r.read(buf)) != -1) {
 					if (res != null)
 						res.append(buf, 0, read);
 				}
-				// get the process exit code
 				if (exec != null)
 					this.exitcode = exec.waitFor();
 			} catch (InterruptedException ex) {
@@ -244,13 +212,11 @@ public class GetRoot {
 	public static boolean assertBinaries(Context ctx, boolean showErrors) {
 		boolean changed = false;
 		try {
-			// Check iptables_armv5
 			File file = new File(ctx.getDir("bin", 0), "iptables_armv5");
 			if (!file.exists()) {
 				copyRawFile(ctx, R.raw.iptables_armv5, file, "755");
 				changed = true;
 			}
-			// Check busybox
 			file = new File(ctx.getDir("bin", 0), "busybox_g1");
 			if (!file.exists()) {
 				copyRawFile(ctx, R.raw.busybox_g1, file, "755");
@@ -287,7 +253,6 @@ public class GetRoot {
 	private static void copyRawFile(Context ctx, int resid, File file,
 			String mode) throws IOException, InterruptedException {
 		final String abspath = file.getAbsolutePath();
-		// Write the iptables binary
 		final FileOutputStream out = new FileOutputStream(file);
 		final InputStream is = ctx.getResources().openRawResource(resid);
 		byte buf[] = new byte[1024];
@@ -297,7 +262,6 @@ public class GetRoot {
 		}
 		out.close();
 		is.close();
-		// Change the permissions
 		Runtime.getRuntime().exec("chmod " + mode + " " + abspath).waitFor();
 	}
 
