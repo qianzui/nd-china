@@ -132,6 +132,6 @@ public class Onsysreboot {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("Onsysreboot", string);
+//		Log.d("Onsysreboot", string);
 	}
 }

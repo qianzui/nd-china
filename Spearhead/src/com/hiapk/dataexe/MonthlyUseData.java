@@ -274,7 +274,7 @@ public class MonthlyUseData {
 	 * @param string
 	 */
 	private void showlog(String string) {
-		Log.d("MonthlyUseData", string);
+//		Log.d("MonthlyUseData", string);
 	}
 
 }

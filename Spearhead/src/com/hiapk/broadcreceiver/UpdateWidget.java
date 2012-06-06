@@ -144,7 +144,7 @@ public class UpdateWidget extends BroadcastReceiver {
 	 */
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("Receiver", string);
+//		Log.d("Receiver", string);
 	}
 
 }

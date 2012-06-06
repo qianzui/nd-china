@@ -15,7 +15,13 @@ public class TrafficInfomation {
 			long old = traff;
 			traff = TrafficStats.getTotalRxBytes()
 					+ TrafficStats.getTotalTxBytes();
-			return (traff - old);
+			long returnTraff = traff - old;
+			if (returnTraff < 0) {
+				return 0;
+			} else {
+				return returnTraff;
+			}
+
 		}
 	}
 }

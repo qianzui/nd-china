@@ -280,7 +280,7 @@ public class AlarmSet {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("AlarmSet", string);
+//		Log.d("AlarmSet", string);
 	}
 
 }

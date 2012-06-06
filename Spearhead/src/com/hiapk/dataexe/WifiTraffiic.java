@@ -39,6 +39,6 @@ class WifiTraffiic {
 	 * @param string
 	 */
 	private void showLog(String string) {
-		Log.d("traffic", string);
+//		Log.d("traffic", string);
 	}
 }

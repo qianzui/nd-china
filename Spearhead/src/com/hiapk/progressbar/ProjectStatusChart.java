@@ -473,6 +473,6 @@ public class ProjectStatusChart extends ViewBase {
 	 * @param string
 	 */
 	private void showlog(String string) {
-		Log.d("project", string);
+//		Log.d("project", string);
 	}
 }
