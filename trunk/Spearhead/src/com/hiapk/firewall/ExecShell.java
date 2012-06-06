@@ -6,9 +6,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
-import android.util.Log;
-
-
 /**
  * @author Kevin Kowalewski
  *
@@ -45,15 +42,11 @@ public class ExecShell {
 
         try {
             while ((line = in.readLine()) != null) {
-                Log.d(LOG_TAG, "--> Line received: " + line);
                 fullResponse.add(line);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        Log.d(LOG_TAG, "--> Full response was: " + fullResponse);
-
         return fullResponse;
     }
 
