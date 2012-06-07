@@ -23,25 +23,21 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		SQLStatic.isUidAlarmRecording = true;
 		// TODO Auto-generated method stub
 		// showLog("TableWiFiOrG23=" + SQLHelperTotal.TableWiFiOrG23);
 		if (sqlhelperTotal.getIsInit(context)) {
 			if (SQLHelperTotal.TableWiFiOrG23 != "") {
 				// 进行之前使用的网络是何种网络进行判断
 				// network = SQLHelperTotal.TableWiFiOrG23;
-				if (SQLHelperTotal.UidWiFiOrG23 == "") {
-					network = SQLHelperTotal.TableWiFiOrG23;
-					SQLHelperTotal.UidWiFiOrG23 = SQLHelperTotal.TableWiFiOrG23;
-				} else {
-					network = SQLHelperTotal.UidWiFiOrG23;
-					SQLHelperTotal.UidWiFiOrG23 = SQLHelperTotal.TableWiFiOrG23;
-				}
+				network = SQLHelperTotal.TableWiFiOrG23;
 				// 进行两种数据的记录
 				if (SQLStatic.setSQLUidOnUsed(true)) {
 					new AsyncTaskonRecordUidData().execute(context);
 					// showLog(SQLHelperTotal.TableWiFiOrG23);
 				} else {
 					SQLStatic.setSQLUidOnUsed(false);
+					SQLStatic.isUidAlarmRecording = false;
 					showLog("Uid数据库忙");
 				}
 				if (SQLStatic.setSQLUidTotalOnUsed(true)) {
@@ -53,30 +49,28 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 
 			} else {
 				// 无网络条件下进行最后一次记录
-				if (SQLHelperTotal.UidWiFiOrG23 != "") {
-					network = SQLHelperTotal.UidWiFiOrG23;
-					SQLHelperTotal.UidWiFiOrG23 = SQLHelperTotal.TableWiFiOrG23;
-					// 进行两种数据的记录
-					if (SQLStatic.setSQLUidOnUsed(true)) {
-						new AsyncTaskonRecordUidData().execute(context);
-						// showLog(SQLHelperTotal.TableWiFiOrG23);
-					} else {
-						SQLStatic.setSQLUidOnUsed(false);
-						showLog("Uid数据库忙");
-					}
-
-					if (SQLStatic.setSQLUidTotalOnUsed(true)) {
-						new AsyncTaskonRecordUidTotal().execute(context);
-					} else {
-						SQLStatic.setSQLUidTotalOnUsed(false);
-						showLog("UidTotal数据库忙");
-					}
-
+				network = SQLHelperTotal.TableWiFiOrG23;
+				// 进行两种数据的记录
+				if (SQLStatic.setSQLUidOnUsed(true)) {
+					new AsyncTaskonRecordUidData().execute(context);
+					// showLog(SQLHelperTotal.TableWiFiOrG23);
+				} else {
+					SQLStatic.setSQLUidOnUsed(false);
+					SQLStatic.isUidAlarmRecording = false;
+					showLog("Uid数据库忙");
 				}
+				if (SQLStatic.setSQLUidTotalOnUsed(true)) {
+					new AsyncTaskonRecordUidTotal().execute(context);
+				} else {
+					SQLStatic.setSQLUidTotalOnUsed(false);
+					showLog("UidTotal数据库忙");
+				}
+
 			}
 		} else {
 			// sqlhelper.initSQL(context);
 			showLog("please init the database");
+			SQLStatic.isUidAlarmRecording = false;
 		}
 	}
 
@@ -146,6 +140,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			// TODO Auto-generated method stub
 			// SQLHelperTotal.isSQLUidOnUsed = false;
 			SQLStatic.setSQLUidOnUsed(false);
+			SQLStatic.isUidAlarmRecording = false;
 			time = System.currentTimeMillis() - time;
 			showLog("更新记录完毕" + time);
 			if (result == 0) {
@@ -222,7 +217,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-//		Log.d("ReceiverUid", string);
+		// Log.d("ReceiverUid", string);
 	}
 
 }

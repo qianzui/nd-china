@@ -16,6 +16,15 @@ public class SQLStatic {
 	public static String packagename_ALL = null;
 	// TotalAlarm记录中
 	public static boolean isTotalAlarmRecording = false;
+	public static boolean isUidAlarmRecording = false;
+	/**
+	 * 初始化用uids
+	 */
+	public static int[] uids=null;
+	/**
+	 * 初始化用pacs
+	 */
+	public static String[] packagenames=null;
 
 	public static synchronized boolean setSQLTotalOnUsed(boolean SQLTotalOnUsed) {
 		if (SQLTotalOnUsed == true && isSQLTotalOnUsed == false) {
