@@ -268,7 +268,7 @@ public class Main3 extends Activity {
 		// 设置的使用值
 		// long mobileUsedSet = sharedData.getMonthMobileHasUse();
 		// 计算出来的设置数值之后计算出来的使用量
-		long month_used = trafficManager.getMonthUseData(context);
+		long month_used = TrafficManager.getMonthUseData(context);
 		// showlog(mobileUsedSet + "");
 		// showlog(month_used + "");
 		btn_HasUsed.setText(FormatUnit.unitHandler(month_used));

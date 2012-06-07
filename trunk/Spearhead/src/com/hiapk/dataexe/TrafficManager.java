@@ -2,6 +2,7 @@ package com.hiapk.dataexe;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.format.Time;
 import android.util.Log;
 
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
@@ -22,6 +23,7 @@ public class TrafficManager {
 	public static long[] wifi_month_data = new long[64];
 	public static long[] mobile_month_data = new long[64];
 	public static long[] mobile_week_data = new long[6];
+	private static int monthDay;
 
 	/**
 	 * 获取月度移动使用流量
@@ -30,7 +32,22 @@ public class TrafficManager {
 	 * @return
 	 */
 	public static long getMonthUseData(Context context) {
+		initTime();
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		// 获得结算日其
+		int mobilecountDay = sharedData.getCountDay() + 1;
+		boolean hasReset = sharedData.getHasUsedClearOnCountDay();
+		if (monthDay == mobilecountDay) {
+			if (!hasReset) {
+				sharedData.setMonthMobileHasUse(0);
+				sharedData.setHasUsedClearOnCountDay(true);
+			}
+		} else {
+			if (hasReset) {
+				sharedData.setHasUsedClearOnCountDay(false);
+			}
+		}
+
 		long mobile_month_use = 0;
 		// statsTotalTraffic(context, false);
 		// MonthlyUseData monthData = new MonthlyUseData();
@@ -38,6 +55,16 @@ public class TrafficManager {
 		mobile_month_use = mobile_month_use_afterSet;
 		mobile_month_use += sharedData.getMonthMobileHasUse();
 		return mobile_month_use;
+	}
+
+	/**
+	 * 初始化系统时间
+	 */
+	private static void initTime() {
+		// Time t = new Time("GMT+8");
+		Time t = new Time();
+		t.setToNow(); // 取得系统时间。
+		monthDay = t.monthDay;
 	}
 
 	// /**
@@ -101,57 +128,57 @@ public class TrafficManager {
 	// return monthtraffic;
 	// }
 
-//	/**
-//	 * 记录wifi，mobile流量数据
-//	 * 
-//	 * @param context
-//	 * @param forcerecored
-//	 *            true则强制记录，false则不记录流量为0的数据固定为false
-//	 */
-//	public void statsTotalTraffic(Context context, boolean forcerecored,
-//			String network) {
-//		if (SQLHelperTotal.isSQLTotalOnUsed != true) {
-//			SQLHelperTotal.isSQLTotalOnUsed = true;
-//			sqlhelperTotal.RecordTotalwritestats(context, true, network);
-//			SQLHelperTotal.isSQLTotalOnUsed = false;
-//			showLog("数据total记录成功");
-//		} else {
-//			showLog("特殊情况未进行记录记录");
-//		}
-//	}
-//
-//	/**
-//	 * 记录wifi，mobile流量数据
-//	 * 
-//	 * @param context
-//	 * @param forcerecored
-//	 *            true则强制记录，false则不记录流量为0的数据固定为false
-//	 */
-//	public void statsUidTraffic(Context context, boolean forcerecored,
-//			String network) {
-//		if (SQLHelperTotal.isSQLUidOnUsed != true) {
-//			SQLHelperTotal.isSQLUidOnUsed = true;
-//			if (SQLHelperUid.uidnumbers == null) {
-//				if (SQLHelperTotal.isSQLIndexOnUsed == false) {
-//					SQLHelperTotal.isSQLIndexOnUsed = true;
-//					SQLHelperUid.uidnumbers = sqlhelperUid
-//							.selectSQLUidnumbers(context);
-//					SQLHelperTotal.isSQLIndexOnUsed = false;
-//				}
-//
-//			}
-//			if (SQLHelperUid.uidnumbers != null)
-//				sqlhelperUid.RecordUidwritestats(context,
-//						SQLHelperUid.uidnumbers, true, network);
-//			SQLHelperTotal.isSQLUidOnUsed = false;
-//			showLog("数据uid记录成功-traff");
-//		} else {
-//			showLog("特殊情况未进行记录记录");
-//		}
-//	}
+	// /**
+	// * 记录wifi，mobile流量数据
+	// *
+	// * @param context
+	// * @param forcerecored
+	// * true则强制记录，false则不记录流量为0的数据固定为false
+	// */
+	// public void statsTotalTraffic(Context context, boolean forcerecored,
+	// String network) {
+	// if (SQLHelperTotal.isSQLTotalOnUsed != true) {
+	// SQLHelperTotal.isSQLTotalOnUsed = true;
+	// sqlhelperTotal.RecordTotalwritestats(context, true, network);
+	// SQLHelperTotal.isSQLTotalOnUsed = false;
+	// showLog("数据total记录成功");
+	// } else {
+	// showLog("特殊情况未进行记录记录");
+	// }
+	// }
+	//
+	// /**
+	// * 记录wifi，mobile流量数据
+	// *
+	// * @param context
+	// * @param forcerecored
+	// * true则强制记录，false则不记录流量为0的数据固定为false
+	// */
+	// public void statsUidTraffic(Context context, boolean forcerecored,
+	// String network) {
+	// if (SQLHelperTotal.isSQLUidOnUsed != true) {
+	// SQLHelperTotal.isSQLUidOnUsed = true;
+	// if (SQLHelperUid.uidnumbers == null) {
+	// if (SQLHelperTotal.isSQLIndexOnUsed == false) {
+	// SQLHelperTotal.isSQLIndexOnUsed = true;
+	// SQLHelperUid.uidnumbers = sqlhelperUid
+	// .selectSQLUidnumbers(context);
+	// SQLHelperTotal.isSQLIndexOnUsed = false;
+	// }
+	//
+	// }
+	// if (SQLHelperUid.uidnumbers != null)
+	// sqlhelperUid.RecordUidwritestats(context,
+	// SQLHelperUid.uidnumbers, true, network);
+	// SQLHelperTotal.isSQLUidOnUsed = false;
+	// showLog("数据uid记录成功-traff");
+	// } else {
+	// showLog("特殊情况未进行记录记录");
+	// }
+	// }
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-//		Log.d("TrafficManager", string);
+		// Log.d("TrafficManager", string);
 	}
 }

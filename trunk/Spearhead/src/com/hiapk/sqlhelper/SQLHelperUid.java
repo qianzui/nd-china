@@ -1477,7 +1477,7 @@ public class SQLHelperUid {
 		string = SelectTable + table + Where + "date" + Between + year + "-"
 				+ month2 + "-" + "01" + AND_B + year + "-" + month2 + "-"
 				+ "31" + AND + "other=" + "'" + other + AND + "type=" + 2;
-		// showLog(string);
+		showLog(string);
 		try {
 			cur = sqlDataBase.rawQuery(string, null);
 		} catch (Exception e) {
@@ -1486,7 +1486,7 @@ public class SQLHelperUid {
 			selectfails(sqlDataBase, table, uid);
 			cur = null;
 			showLog("selectfail" + string);
-			
+
 		}
 		String newdate = "";
 		String countdate = "";
@@ -1517,14 +1517,27 @@ public class SQLHelperUid {
 							a[0] += a[i];
 							a[63] += a[i + 31];
 							while (!newdate.equals(countdate)) {
+								// 用于跨越天数
 								i++;
 								if (i < 10)
 									countdate = dateStr1 + i;
 								else
 									countdate = dateStr2 + i;
 								if (i > 31) {
+									// 如果天数顺序不正确，进行恢复
+									for (int j = 1; j < 32; j++) {
+										if (j < 10)
+											countdate = dateStr1 + j;
+										else
+											countdate = dateStr2 + j;
+										if (newdate.equals(countdate)) {
+											i = j;
+											break;
+										}
+									}
 									break;
 								}
+
 							}
 							a[i] += newup;
 							a[i + 31] += newdown;
@@ -1542,9 +1555,9 @@ public class SQLHelperUid {
 			cur.close();
 		}
 		closeSQL(sqlDataBase);
-		// for (int j = 0; j < a.length; j++) {
-		// showLog(j + "liuliang" + a[j] + "");
-		// }
+//		for (int j = 0; j < a.length; j++) {
+//			showLog(j + "liuliang" + a[j] + "");
+//		}
 		return a;
 	}
 
