@@ -27,6 +27,8 @@ public class SharedPrefrenceData {
 	String MOBILE_COUNT_SET_MONTH = "mobileMonthSetCountMonth";
 	String MOBILE_COUNT_SET_DAY = "mobileMonthSetCountDay";
 	String MOBILE_COUNT_SET_TIME = "mobileMonthSetCountTime";
+	// 已经进行月度已用流量清零，在到达结算日的时候
+	String MOBILE_HAS_USED_CLEAR_ON_COUNT_DAY = "mobileMonthHasUseDayClear";
 	// 已使用总流量int
 	String VALUE_MOBILE_HASUSED_OF_FLOAT = "mobileHasusedint";
 	String MONTH_USED_DATA_TEMP = "monthtempuseddata";
@@ -246,7 +248,19 @@ public class SharedPrefrenceData {
 	}
 
 	public void setCountDay(int countDay) {
-		this.countDay = countDay;
+		UseEditor.putInt(MOBILE_COUNT_DAY, countDay);
+		UseEditor.commit();
+	}
+
+	public boolean getHasUsedClearOnCountDay() {
+		boolean hasClear = prefs.getBoolean(MOBILE_HAS_USED_CLEAR_ON_COUNT_DAY,
+				false);
+		return hasClear;
+	}
+
+	public void setHasUsedClearOnCountDay(boolean countDay) {
+		UseEditor.putBoolean(MOBILE_HAS_USED_CLEAR_ON_COUNT_DAY, countDay);
+		UseEditor.commit();
 	}
 
 	public long getAlertWarningMonth() {

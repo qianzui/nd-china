@@ -90,9 +90,9 @@ public class Main extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
 		// umeng
 		MobclickAgent.onError(this);
-		setContentView(R.layout.main);
 		// 获取固定存放数据
 		sharedData = new SharedPrefrenceData(context);
 		// 显示提示对话框仅显示一次
@@ -407,13 +407,13 @@ public class Main extends Activity {
 					&& TrafficManager.mobile_month_data[63] == 0
 					&& TrafficManager.wifi_month_data[63] == 0) {
 				try {
-					Thread.sleep(200);
+					Thread.sleep(20);
 					timetap += 1;
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if (timetap > 8)
+				if (timetap > 50)
 					break;
 
 			}
