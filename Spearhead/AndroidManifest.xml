@@ -13,7 +13,9 @@
             android:name=".Main"
             android:label="@string/app_name" >
         </activity>
-        <activity android:name="com.hiapk.prefrencesetting.PrefrenceSetting" >
+        <activity android:name="com.hiapk.prefrencesetting.PrefrenceSetting" 
+           android:screenOrientation="portrait"
+            >
         </activity>
         <activity android:name=".FireWallActivity" >
         </activity>
@@ -52,7 +54,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/noTitle" >
             <intent-filter>
-             
+             <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
@@ -61,8 +64,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/noTitle" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                
             </intent-filter>
             
             </activity>

@@ -60,6 +60,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 					// showLog(SQLHelperTotal.TableWiFiOrG23);
 				} else {
 					SQLStatic.setSQLTotalOnUsed(false);
+					SQLStatic.isTotalAlarmRecording = false;
 					showLog("数据库忙，未记录");
 				}
 
@@ -72,11 +73,13 @@ public class RecordDataReceiver extends BroadcastReceiver {
 				} else {
 					showLog("数据库忙，未记录");
 					SQLStatic.setSQLTotalOnUsed(false);
+					SQLStatic.isTotalAlarmRecording = false;
 				}
 
 			}
 		} else {
 			// sqlhelper.initSQL(context);
+			SQLStatic.isTotalAlarmRecording = false;
 			showLog("please init the database");
 		}
 	}
@@ -102,14 +105,19 @@ public class RecordDataReceiver extends BroadcastReceiver {
 						network);
 				// 生成基本常用数据
 				initTime();
+				showLog(monthDay + "0");
 				mobile_month_use_afterSet = monthlyUseData.getMonthUseData(
 						context, sqlDataBase);
+				showLog(monthDay + "1");
 				wifi_month_data = sqlhelperTotal.SelectWifiData(sqlDataBase,
 						year, month);
+				showLog(monthDay + "2");
 				mobile_month_data = sqlhelperTotal.SelectMobileData(
 						sqlDataBase, year, month);
+				showLog(monthDay + "3");
 				mobile_week_data = sqlhelperTotal.SelectWeekData(sqlDataBase,
 						year, month, monthDay, weekDay);
+				showLog(monthDay + "4");
 			} else {
 				network = SQLHelperTotal.TotalWiFiOrG23;
 				// 无网络进行数据显示，不进行记录
@@ -143,7 +151,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			showLog("数据记录失败");
 		} finally {
 			sqlDataBase.endTransaction();
-			SQLStatic.isTotalAlarmRecording=false;
+			SQLStatic.isTotalAlarmRecording = false;
 		}
 		sqlhelperTotal.closeSQL(sqlDataBase);
 	}
@@ -262,7 +270,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		@Override
 		protected void onPostExecute(Long result) {
 			// TODO Auto-generated method stub
-			SQLStatic.isTotalAlarmRecording=false;
+			SQLStatic.isTotalAlarmRecording = false;
 			sqlhelperTotal.closeSQL(sqlDataBase);
 			// SQLHelperTotal.isSQLTotalOnUsed = false;
 			SQLStatic.setSQLTotalOnUsed(false);
@@ -289,7 +297,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-//		Log.d("ReceiverTotal", string);
+		// Log.d("ReceiverTotal", string);
 	}
 
 }

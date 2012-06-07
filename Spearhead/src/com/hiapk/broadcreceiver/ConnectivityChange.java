@@ -28,6 +28,8 @@ public class ConnectivityChange extends BroadcastReceiver {
 			// 网络状态变化时
 			if (intent.getAction().equals(
 					"android.net.conn.CONNECTIVITY_CHANGE")) {
+				// 记录之前的
+				alset.StartAlarm(context);
 				// 更新小部件
 				if (sharedData.isWidGet14Open()) {
 					Intent intentNetUpdate = new Intent();
@@ -41,8 +43,8 @@ public class ConnectivityChange extends BroadcastReceiver {
 				ConnectivityManager connec = (ConnectivityManager) context
 						.getSystemService(Context.CONNECTIVITY_SERVICE);
 				if (connec.getActiveNetworkInfo() != null) {
-					// 启动闹钟
-					alset.StartAlarm(context);
+					// // 启动闹钟
+					// alset.StartAlarm(context);
 					if (sharedData.isNotifyOpen()) {
 						alset.StartWidgetAlarm(context);
 					}
@@ -56,7 +58,7 @@ public class ConnectivityChange extends BroadcastReceiver {
 					}
 					showLog("何种方式连线" + typeName);
 				} else {
-					alset.StartAlarm(context);
+
 					if (sharedData.isNotifyOpen()) {
 						alset.StartWidgetAlarm(context);
 					}
@@ -71,6 +73,6 @@ public class ConnectivityChange extends BroadcastReceiver {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-//		Log.d("ConnectivityChange", string);
+		// Log.d("ConnectivityChange", string);
 	}
 }

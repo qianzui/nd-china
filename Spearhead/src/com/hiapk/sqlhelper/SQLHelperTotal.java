@@ -33,7 +33,7 @@ public class SQLHelperTotal {
 	private String SQLTime = "date date,time time";
 	private String CreateparamWiFiAnd23G = ",upload INTEGER, download INTEGER,type INTEGER,other varchar(15)";
 	public static String TableWiFiOrG23 = "mobile";
-	public static String UidWiFiOrG23 = "";
+	// public static String UidWiFiOrG23 = "";
 	public static String TotalWiFiOrG23 = "";
 	private String TableWiFi = "wifi";
 	private String TableMobile = "mobile";
@@ -494,7 +494,6 @@ public class SQLHelperTotal {
 			// showLog("无可用网络");
 		}
 		if (allset) {
-			UidWiFiOrG23 = TableWiFiOrG23;
 			TotalWiFiOrG23 = TableWiFiOrG23;
 		}
 	}
@@ -1020,13 +1019,15 @@ public class SQLHelperTotal {
 	public long[] SelectWeekData(SQLiteDatabase sqlDataBase, int year,
 			int month, int monthDay, int weekDay) {
 		if (weekDay == 0) {
-			weekDay = 7;
+			weekDay = 6;
+		} else {
+			weekDay = weekDay - 1;
 		}
 		// showLog(weekDay + "");
 		String weekStart = null;
 		String string = null;
 		string = "select date('now'" + ",'-" + weekDay + " day'" + ")";
-		// showLog(string);
+		showLog(string);
 		try {
 			cur = sqlDataBase.rawQuery(string, null);
 		} catch (Exception e) {
@@ -1037,7 +1038,7 @@ public class SQLHelperTotal {
 			try {
 				int dateIndex = cur.getColumnIndex("date('now'" + ",'-"
 						+ weekDay + " day'" + ")");
-				// showLog(cur.getColumnIndex("minute") + "");
+				showLog("date('now'" + ",'-" + weekDay + " day'" + ")");
 				if (cur.moveToFirst()) {
 					weekStart = cur.getString(dateIndex);
 				}
@@ -1054,7 +1055,7 @@ public class SQLHelperTotal {
 			month2 = "0" + month2;
 		String monthDay2 = monthDay + "";
 		if (monthDay < 10)
-			monthDay2 = "0" + month2;
+			monthDay2 = "0" + monthDay2;
 		long[] a = new long[6];
 		// select oldest upload and download 之前记录的数据的查询操作
 		// SELECT * FROM table WHERE type=0
@@ -1062,7 +1063,7 @@ public class SQLHelperTotal {
 		string = SelectTable + TableMobile + Where + "date" + Between
 				+ weekStart + AND_B + year + "-" + month2 + "-" + monthDay2
 				+ AND + "type=" + 2;
-		// showLog(string);
+		showLog(string);
 		try {
 			cur = sqlDataBase.rawQuery(string, null);
 		} catch (Exception e) {
@@ -1095,10 +1096,11 @@ public class SQLHelperTotal {
 		if (cur != null) {
 			cur.close();
 		}
+		showLog(weekStart);
 		string = SelectTable + TableWiFi + Where + "date" + Between + weekStart
 				+ AND_B + year + "-" + month2 + "-" + monthDay2 + AND + "type="
 				+ 2;
-		// showLog(string);
+		showLog(string);
 		try {
 			cur = sqlDataBase.rawQuery(string, null);
 		} catch (Exception e) {
@@ -1132,9 +1134,9 @@ public class SQLHelperTotal {
 		if (cur != null) {
 			cur.close();
 		}
-		// for (int j = 0; j < a.length; j++) {
-		// showLog(j + "liuliang" + a[j] + "");
-		// }
+		for (int j = 0; j < a.length; j++) {
+			showLog(j + "liuliang" + a[j] + "");
+		}
 		return a;
 	}
 

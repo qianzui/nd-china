@@ -38,7 +38,9 @@ public class AlarmSet {
 		if (SQLStatic.isTotalAlarmRecording != true) {
 			TotalAlarmStart(context, totaltime);
 		}
-		UidAlarmStart(context, uidrefreshtime);
+		if (SQLStatic.isUidAlarmRecording != true) {
+			UidAlarmStart(context, uidrefreshtime);
+		}
 		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
 	}
 
@@ -280,7 +282,7 @@ public class AlarmSet {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-//		Log.d("AlarmSet", string);
+		// Log.d("AlarmSet", string);
 	}
 
 }

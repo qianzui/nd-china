@@ -317,7 +317,7 @@ public class Main3 extends Activity {
 		// 初始化窗体
 		LayoutInflater factory = LayoutInflater.from(Main3.this);
 		final View textEntryView = factory.inflate(
-				R.layout.alert_dialog_text_entry, null);
+				R.layout.alert_dialog_text_entry_monthset, null);
 		final EditText et_month = (EditText) textEntryView
 				.findViewById(R.id.ev_alert);
 		final Spinner spin_unit = (Spinner) textEntryView
@@ -418,8 +418,16 @@ public class Main3 extends Activity {
 		spin_unit.setAdapter(adp);
 		// 初始化数值
 		spin_unit.setSelection(mobileUseUnit);
-		String mobileUseString = format
-				.format(((double) mobileUselong) / 1024 / 1024);
+		int mobileHasUsedUnit = spin_unit.getSelectedItemPosition();
+		String mobileUseString;
+		if (mobileHasUsedUnit == 0) {
+			mobileUseString = format
+					.format(((double) mobileUselong) / 1024 / 1024);
+		} else {
+			mobileUseString = format
+					.format(((double) mobileUselong) / 1024 / 1024 / 1024);
+		}
+
 		et_month.setText(mobileUseString);
 		et_month.setSelection(String.valueOf(mobileUseString).length());
 
@@ -807,7 +815,7 @@ public class Main3 extends Activity {
 	 * @param string
 	 */
 	private void showlog(String string) {
-//		Log.d("main3", string);
+		// Log.d("main3", string);
 	}
 
 	@Override

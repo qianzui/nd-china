@@ -1,3 +1,24 @@
+/**
+ * Contains shared programming interfaces.
+ * All iptables "communication" is handled by this class.
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @author Rodrigo Zechin Rosauro
+ * @version 1.0+
+ * 
+ */
 package com.hiapk.firewall;
 
 import java.io.File;
@@ -18,6 +39,11 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 
+/**
+ * 
+ * @author Administrator
+ * 
+ */
 public class Block {
 
 	private static final String VERSION = "1.5.1c";
@@ -36,12 +62,13 @@ public class Block {
 	// Preferences
 	private static final String PREFS_NAME = "DroidWallPrefs";
 	public static boolean isChanged = false;
-	
-	public static String filter = "android.media.dlnaservicecom.android.cameracom.android.htmlviewer.com.android.music.com.android.providersuserdictionary.com.android.quicksearchbox.com.android.stk.com.android.vending.updater.com.google.android.location.com.google.android.street.com.google.android.talk.com.meizu.MzAutoInstaller.com.meizu.account.com.meizu.backupandrestore.com.meizu.cloud.com.meizu.filemanager.com.meizu.flyme.service.find.com.meizu.input.com.meizu.mzsimcontacts.com.meizu.mzsyncservice.com.meizu.notepaper.com.meizu.recent.app"+".com.meizu.vncviewer.com.meizu.wapisetting.android.tts.com.android.Unzip.com.android.alarmclock.com.android.providers.userdictionary.com.android.wallpaper.livpicker.com.cooliris.media.com.cooliris.video.media.com.google.android.apps.genie.geniewidget.com.meizu.mstore.com.meizu.musiconline.com.android.wallpaper.livepicker.com.svox.picoN.com.hyfsoft"+
-	"me.uubook.library.artwisdomcom.scoreloop.games.gearedcom.htc.android.fusion.calculator.com.htc.android.htcsetupwizard.com.htc.android.mail.com.htc.android.psclient.com.htc.android.worldclock.com.htc.appsharing.com.htc.autorotatewidget.com.htc.calendar.com.clock3dwidget.com.htc.dcs.service.stock.com.htc.dlnamiddlelayer.com.htc.dockmode.com.htc.fm.com.htc.fusion.htcbookmarkwidget.com.htc.googlereader.com.htc.googlereaderwidget.com.htc.home.personalize.com.htc.htcMessageUploader.com.htc.htccalendarwidgets.com.htc.htccontactwidgets_3d_fusion.com.htc.htchubsyncprovider.com.htc.htcmailwidgets.com.htc.htcmsgwidgets3dcom.htc.htcsettingwidgets.com.htc.idlescreen.base.com.htc.idlescreen.shortcut.com.htc.idlescreen.socialnetwork.com.htc.launcher.com.htc.livewallpaper.streak.com.htc.ml.PhotoLocaScreen.com.htc.music.com.htc.musicnhancer.com.htc.opensense.com.htc.provider.CustomizationSettings.com.htc.provider.settings.com.htc.provider.weather.com.htc.providersuploads.com.htc.ringtonetrimmer.com.htc.rosiewidgets.backgrounddata.com.htc.rosiewidgets.dataroaming.com.htc.rosiew			idgets.datastripcom.htc.rosiewidgets.powerstrip.com.htc.rosiewidgets.screenbrightness.com.htc.rosiewigets.screentimeout.com.htc.sdm.com.htc.settings.accountsync.com.htc.soundrecorder.com.htc.streamplayer.com.htc.sync.provider.weather.com.htc.videa.com.htc.weather.agent.com.htc.weatheridlescreen.com.htc.widget.profile.com.htc.widget.ringtone.com.htc.widget3d.weather.com.htc.clock3dwidgetcom.htc.messagecscom.htc.ml.PhotoLockScreencom.htc.musicenhancercom.htc.providers.uploads.com.htc.rosiewidgets.screentimeout.com.htc.video.com.broadcom.bt.app.system.com.google.android.apps.uploader.com.google.android.partnersetup.com.htc.CustomizationSetup.com.htc.FMRadioWidget.com.htc.OnlineAssetDetails.com.htc.Sync3DWidget.com.htc.UpgradeSetup.com.htc.Weather.com.htc.WeatherWallpaper.com.htc.albumcom.htc.HtcBeatsNotify.com.htc.MediaAutoUploadSetting.com.htc.MediaCacheService.com.htc.MusicWidget3D.com.htc.WifiRouter.com.htc.android.WeatherLiveWallpaper.com.htc.android.htcime.com.htc.android.image_wallpaper.com.htc.android.tvo			ut.com.htc.android.wallpaper.com.htc.china.callocation.com.htc.connectedMedia.com.htc.cspeoplesync.com.htc.dmc.com.htc.flashlight.com.htc.flashliteplugin.com.htc.fusion.FusionApk.com.htc.htccompressviewer.com.htc.lmwN.com.htc.lockscreen.com.htc.mysketcher.com.htc.pen.com.htc.photowidget3d.android.smartcard.com.android.deviceinfo.com.android.htccontacts.com.android.htcdialer.com.android.inputmethod.latin.com.android.providers.htcmessage.com.android.restartapp.com.android.setupwizard.com.android.updater.com.android.voicedialer.com.westtek.jcp"+
-	"com.motorola.soundrecordercom.unit9.nanopandaandroid.ttscom.motorola.searchcom.android.calendarjoybits.doodlegodcom.pawprintgames.kamiretro.globalcom.gamelion.DrawSlashercom.motorola.wappushcom.motorola.android.syncml.servicecom.thepilltree.drawpongfullcom.motorola.protipscom.motorola.eventremindercom.motorola.widgetapp.weathercom.android.certinstaller.com.android.fileexplorer.com.android.monitor.com.android.packageinstaller.com.android.sidekick.android,com.android.bluetoothcom.adobe.flashplayer,com.android.browsercom.android.calculator2com.android.calendarcom.android.contactscom.android.deskclockcom.android.defcontainercom.android.emailcom.android.gallerycom.android.launchercom.android.mmscom.android.phonecom.android.providers.applicationscom.android.providers.calendarcom.android.providers.contactscom.android.providers.downloadscom.android.providers.downloads.uicom.android.providers.drm  appnamecom.android.providers.mediacom.android.providers.settingscom.android.providers.subscribedfeedscom.android.providers.telephonycom.android.providers.telocationcom.android.server.vpncom.android.settingscom.android.soundrecordercom.android.systemuicom.google.android.apps.mapscom.google.android.gsfcom.google.android.inputmethod.pinyincom.google.android.syncadapters.calendarcom.google.android.syncadapters.contactscom.miui.antispamcom.miui.backupcom.miui.cameracom.miui.cloudservicecom.miui.notescom.miui.playercom.miui.uac"
-    +"com.google.android.feedbackcom.motorola.blur.service.blur.xmpp.fakeblurcom.motorola.blur.provider.myspacecom.android.htmlviewercom.android.contactscom.android.defcontainercom.android.providers.calendarcom.android.bluetoothcom.motorola.cardockcom.motorola.android.motophoneportal.androiduicom.motorola.chargeonlymodecom.motorola.blur.policymgr.providercom.motorola.dock.servicecom.android.soundrecordercom.motorola.blur.messaging.universalcom.android.packageinstallercom.adobe.flashplayercom.motorola.blur.provider.photobucketcom.android.calculator2com.motorola.blur.taskscom.motorola.blur.blurchoosercom.android.wallpapercom.motorola.blur.provider.facebookcom.android.providers.applicationscom.motorola.blur.provider.linkedincom.motorola.certificatemanagercom.motorola.contacts.preloadedcom.google.android.gsfcom.google.android.locationcom.google.android.syncadapters.calendarcom.google.android.syncadapters.contactscom.android.providers.drmcom.android.providers.downloads.uicom.motorola.android.omadownloadcom.android.providers.mediacom.android.providers.downloadscom.motorola.gallery.com.motorola.photowidget.com.motorola.android.omadrm.com.motorola.mediasync.com.motorola.android.wmdrm.dla.com.motorola.Dlna.com.motorola.blur.friendfeed.com.motorola.blur.service.snmessaging.engine.com.android.setupwizard.com.safenet.vpnclient.com.motorola.android.AudioEffectSettings.com.motorola.inputmethod.entry.com.motorola.blur.quickcontact.com.motorola.spellingcheckservice.com.motorola.blur.home.clock.com.motorola.dialer.com.motorola.inputmethod.gpinyin.com.arcsoft.photoworkshop.com.motorola.android.mtlr.com.motorola.blur.provider.suggestions.com.motorola.android.provisioning.com.motorola.android.mobad.service.com.motorola.blur.provider.lastfm.com.motorola.PerformanceManager.com.motorola.blur.provider.flickr.com.motorola.stickynote.com.motorola.mediashare.com.motorola.blur.provider.orkut.com.motorola.blur.provider.activesync.com.motorola.blur.provider.youtube.com.motorola.blur.suggestions.rulechecker.core.com.motorola.blur.adminfeed.com.motorola.blur.calendar.sync.activesync.com.motorola.blur.home.status.com.motorola.globalunplug.com.motorola.filemanager.com.motorola.togglewidgets.com.motorola.blur.service.blur.com.motorola.dlauncher.com.motorola.blur.richtext.com.motorola.blur.provider.picasa.com.motorola.blur.socialmessaging.com.motorola.blur.msexchangesvc.com.android.musicvis.com.motorola.quicksms.com.motorola.blur.email.com.motorola.blur.contacts.sync.com.motorola.android.simcontactadapter.com.motorola.blur.setupprovider.com.motorola.blur.home.com.motorola.blur.conversations.com.motorola.atcmd.plugin.com.motorola.blur.datacollector.service.com.motorola.bookmarkswidget.com.motorola.blur.updater.com.motorola.bluetooth.com.motorola.blur.service.email.com.motorola.blur.contacts.sync.activesync.com.motorola.blur.messaging.com.motorola.android.wmdrm.webpush.com.motorola.blur.policymgr.service.com.motorola.batterymanager.com.motorola.blur.provider.datacollector.com.motorola.blur.provider.email.com.motorola.inputmethod.latin.com.motorola.inputmethod.entry.tutorial.com.motorola.videoplayer.com.motorola.blur.service.storagemon.com.motorola.blur.providers.contacts.com.motorola.inputmethod.motosmarthandwriting.com.motorola.blur.provider.twitter.com.motorola.blur.alarmclock.com.motorola.android.dm.service.com.motorola.blur.setup.com.motorola.blur.news.com.motorola.blur.simmanager.com.motorola.blur.suggestions.scheduler.com.motorola.blur.service.search.com.motorola.usb.com.motorola.blur.provider.skyrock.com.motorola.blur.socialshare.com.motorola.zoom.com.motorola.blur.contacts.data.com.motorola.blur.home.message";
 
+	public static String filter = "android.media.dlnaservicecom.android.cameracom.android.htmlviewer.com.android.music.com.android.providersuserdictionary.com.android.quicksearchbox.com.android.stk.com.android.vending.updater.com.google.android.location.com.google.android.street.com.google.android.talk.com.meizu.MzAutoInstaller.com.meizu.account.com.meizu.backupandrestore.com.meizu.cloud.com.meizu.filemanager.com.meizu.flyme.service.find.com.meizu.input.com.meizu.mzsimcontacts.com.meizu.mzsyncservice.com.meizu.notepaper.com.meizu.recent.app"
+			+ ".com.meizu.vncviewer.com.meizu.wapisetting.android.tts.com.android.Unzip.com.android.alarmclock.com.android.providers.userdictionary.com.android.wallpaper.livpicker.com.cooliris.media.com.cooliris.video.media.com.google.android.apps.genie.geniewidget.com.meizu.mstore.com.meizu.musiconline.com.android.wallpaper.livepicker.com.svox.picoN.com.hyfsoft"
+			+ "me.uubook.library.artwisdomcom.scoreloop.games.gearedcom.htc.android.fusion.calculator.com.htc.android.htcsetupwizard.com.htc.android.mail.com.htc.android.psclient.com.htc.android.worldclock.com.htc.appsharing.com.htc.autorotatewidget.com.htc.calendar.com.clock3dwidget.com.htc.dcs.service.stock.com.htc.dlnamiddlelayer.com.htc.dockmode.com.htc.fm.com.htc.fusion.htcbookmarkwidget.com.htc.googlereader.com.htc.googlereaderwidget.com.htc.home.personalize.com.htc.htcMessageUploader.com.htc.htccalendarwidgets.com.htc.htccontactwidgets_3d_fusion.com.htc.htchubsyncprovider.com.htc.htcmailwidgets.com.htc.htcmsgwidgets3dcom.htc.htcsettingwidgets.com.htc.idlescreen.base.com.htc.idlescreen.shortcut.com.htc.idlescreen.socialnetwork.com.htc.launcher.com.htc.livewallpaper.streak.com.htc.ml.PhotoLocaScreen.com.htc.music.com.htc.musicnhancer.com.htc.opensense.com.htc.provider.CustomizationSettings.com.htc.provider.settings.com.htc.provider.weather.com.htc.providersuploads.com.htc.ringtonetrimmer.com.htc.rosiewidgets.backgrounddata.com.htc.rosiewidgets.dataroaming.com.htc.rosiew			idgets.datastripcom.htc.rosiewidgets.powerstrip.com.htc.rosiewidgets.screenbrightness.com.htc.rosiewigets.screentimeout.com.htc.sdm.com.htc.settings.accountsync.com.htc.soundrecorder.com.htc.streamplayer.com.htc.sync.provider.weather.com.htc.videa.com.htc.weather.agent.com.htc.weatheridlescreen.com.htc.widget.profile.com.htc.widget.ringtone.com.htc.widget3d.weather.com.htc.clock3dwidgetcom.htc.messagecscom.htc.ml.PhotoLockScreencom.htc.musicenhancercom.htc.providers.uploads.com.htc.rosiewidgets.screentimeout.com.htc.video.com.broadcom.bt.app.system.com.google.android.apps.uploader.com.google.android.partnersetup.com.htc.CustomizationSetup.com.htc.FMRadioWidget.com.htc.OnlineAssetDetails.com.htc.Sync3DWidget.com.htc.UpgradeSetup.com.htc.Weather.com.htc.WeatherWallpaper.com.htc.albumcom.htc.HtcBeatsNotify.com.htc.MediaAutoUploadSetting.com.htc.MediaCacheService.com.htc.MusicWidget3D.com.htc.WifiRouter.com.htc.android.WeatherLiveWallpaper.com.htc.android.htcime.com.htc.android.image_wallpaper.com.htc.android.tvo			ut.com.htc.android.wallpaper.com.htc.china.callocation.com.htc.connectedMedia.com.htc.cspeoplesync.com.htc.dmc.com.htc.flashlight.com.htc.flashliteplugin.com.htc.fusion.FusionApk.com.htc.htccompressviewer.com.htc.lmwN.com.htc.lockscreen.com.htc.mysketcher.com.htc.pen.com.htc.photowidget3d.android.smartcard.com.android.deviceinfo.com.android.htccontacts.com.android.htcdialer.com.android.inputmethod.latin.com.android.providers.htcmessage.com.android.restartapp.com.android.setupwizard.com.android.updater.com.android.voicedialer.com.westtek.jcp"
+			+ "com.motorola.soundrecordercom.unit9.nanopandaandroid.ttscom.motorola.searchcom.android.calendarjoybits.doodlegodcom.pawprintgames.kamiretro.globalcom.gamelion.DrawSlashercom.motorola.wappushcom.motorola.android.syncml.servicecom.thepilltree.drawpongfullcom.motorola.protipscom.motorola.eventremindercom.motorola.widgetapp.weathercom.android.certinstaller.com.android.fileexplorer.com.android.monitor.com.android.packageinstaller.com.android.sidekick.android,com.android.bluetoothcom.adobe.flashplayer,com.android.browsercom.android.calculator2com.android.calendarcom.android.contactscom.android.deskclockcom.android.defcontainercom.android.emailcom.android.gallerycom.android.launchercom.android.mmscom.android.phonecom.android.providers.applicationscom.android.providers.calendarcom.android.providers.contactscom.android.providers.downloadscom.android.providers.downloads.uicom.android.providers.drm  appnamecom.android.providers.mediacom.android.providers.settingscom.android.providers.subscribedfeedscom.android.providers.telephonycom.android.providers.telocationcom.android.server.vpncom.android.settingscom.android.soundrecordercom.android.systemuicom.google.android.apps.mapscom.google.android.gsfcom.google.android.inputmethod.pinyincom.google.android.syncadapters.calendarcom.google.android.syncadapters.contactscom.miui.antispamcom.miui.backupcom.miui.cameracom.miui.cloudservicecom.miui.notescom.miui.playercom.miui.uac"
+			+ "com.google.android.feedbackcom.motorola.blur.service.blur.xmpp.fakeblurcom.motorola.blur.provider.myspacecom.android.htmlviewercom.android.contactscom.android.defcontainercom.android.providers.calendarcom.android.bluetoothcom.motorola.cardockcom.motorola.android.motophoneportal.androiduicom.motorola.chargeonlymodecom.motorola.blur.policymgr.providercom.motorola.dock.servicecom.android.soundrecordercom.motorola.blur.messaging.universalcom.android.packageinstallercom.adobe.flashplayercom.motorola.blur.provider.photobucketcom.android.calculator2com.motorola.blur.taskscom.motorola.blur.blurchoosercom.android.wallpapercom.motorola.blur.provider.facebookcom.android.providers.applicationscom.motorola.blur.provider.linkedincom.motorola.certificatemanagercom.motorola.contacts.preloadedcom.google.android.gsfcom.google.android.locationcom.google.android.syncadapters.calendarcom.google.android.syncadapters.contactscom.android.providers.drmcom.android.providers.downloads.uicom.motorola.android.omadownloadcom.android.providers.mediacom.android.providers.downloadscom.motorola.gallery.com.motorola.photowidget.com.motorola.android.omadrm.com.motorola.mediasync.com.motorola.android.wmdrm.dla.com.motorola.Dlna.com.motorola.blur.friendfeed.com.motorola.blur.service.snmessaging.engine.com.android.setupwizard.com.safenet.vpnclient.com.motorola.android.AudioEffectSettings.com.motorola.inputmethod.entry.com.motorola.blur.quickcontact.com.motorola.spellingcheckservice.com.motorola.blur.home.clock.com.motorola.dialer.com.motorola.inputmethod.gpinyin.com.arcsoft.photoworkshop.com.motorola.android.mtlr.com.motorola.blur.provider.suggestions.com.motorola.android.provisioning.com.motorola.android.mobad.service.com.motorola.blur.provider.lastfm.com.motorola.PerformanceManager.com.motorola.blur.provider.flickr.com.motorola.stickynote.com.motorola.mediashare.com.motorola.blur.provider.orkut.com.motorola.blur.provider.activesync.com.motorola.blur.provider.youtube.com.motorola.blur.suggestions.rulechecker.core.com.motorola.blur.adminfeed.com.motorola.blur.calendar.sync.activesync.com.motorola.blur.home.status.com.motorola.globalunplug.com.motorola.filemanager.com.motorola.togglewidgets.com.motorola.blur.service.blur.com.motorola.dlauncher.com.motorola.blur.richtext.com.motorola.blur.provider.picasa.com.motorola.blur.socialmessaging.com.motorola.blur.msexchangesvc.com.android.musicvis.com.motorola.quicksms.com.motorola.blur.email.com.motorola.blur.contacts.sync.com.motorola.android.simcontactadapter.com.motorola.blur.setupprovider.com.motorola.blur.home.com.motorola.blur.conversations.com.motorola.atcmd.plugin.com.motorola.blur.datacollector.service.com.motorola.bookmarkswidget.com.motorola.blur.updater.com.motorola.bluetooth.com.motorola.blur.service.email.com.motorola.blur.contacts.sync.activesync.com.motorola.blur.messaging.com.motorola.android.wmdrm.webpush.com.motorola.blur.policymgr.service.com.motorola.batterymanager.com.motorola.blur.provider.datacollector.com.motorola.blur.provider.email.com.motorola.inputmethod.latin.com.motorola.inputmethod.entry.tutorial.com.motorola.videoplayer.com.motorola.blur.service.storagemon.com.motorola.blur.providers.contacts.com.motorola.inputmethod.motosmarthandwriting.com.motorola.blur.provider.twitter.com.motorola.blur.alarmclock.com.motorola.android.dm.service.com.motorola.blur.setup.com.motorola.blur.news.com.motorola.blur.simmanager.com.motorola.blur.suggestions.scheduler.com.motorola.blur.service.search.com.motorola.usb.com.motorola.blur.provider.skyrock.com.motorola.blur.socialshare.com.motorola.zoom.com.motorola.blur.contacts.data.com.motorola.blur.home.message"
+			+ "com.google.android.system.providercom.sec.android.app.drmuacom.sec.android.app.memocom.sec.android.app.samsungappscom.sec.android.app.samsungapps.una2com.sec.android.app.clockpackagecom.sec.android.app.FileTransferClientcom.sec.android.app.FileTransferManagercom.sec.android.app.FileTransferServercom.sec.android.app.memocom.sec.android.app.samsungappscom.sec.android.app.samsungapps.una2com.sec.android.app.snscom.sec.android.app.snsdisclaimercom.sec.android.app.snsimagecachecom.sec.android.app.soundplayercom.sec.android.app.twlaunchercom.sec.android.app.videoplayercom.sec.android.daemonapp.accuweathercom.sec.android.provider.logsprovidercom.sec.android.providers.downloadscom.sec.android.widgetapp.TwCalendarAppWidgetcom.sec.android.widgetapp.analogclockcom.sec.android.widgetapp.programmonitorwidgetcom.sec.android.widgetapp.postitcom.sec.pcw.devicecom.smldscom.broadcom.bt.app.pbapcom.android.providers.tasks";
 
 	/**
 	 * Create the generic shell script header used to determine which iptables
@@ -157,7 +184,7 @@ public class Block {
 				script.append("$IPTABLES -A droidwall -o ").append(itf)
 						.append(" -j droidwall-wifi || exit\n");
 			}
-			
+
 			script.append("# Filtering rules\n");
 			final String targetRule = (whitelist ? "RETURN"
 					: "droidwall-reject");
@@ -244,7 +271,7 @@ public class Block {
 			}
 			final StringBuilder res = new StringBuilder();
 			code = runScriptAsRoot(ctx, script.toString(), res);
-//			code = runScript(ctx, script.toString(), res);
+			// code = runScript(ctx, script.toString(), res);
 			if (showErrors && code != 0) {
 				String msg = res.toString();
 				// Remove unnecessary help message from output
@@ -254,11 +281,11 @@ public class Block {
 									"\nTry `iptables -h' or 'iptables --help' for more information.",
 									"");
 				}
-//					alert(ctx, "应用防火墙出错: " + code + "\n\n"
-//					 + msg.trim()
-//					);
+				// alert(ctx, "应用防火墙出错: " + code + "\n\n"
+				// + msg.trim()
+				// );
 				alert(ctx, "部分机型不支持防火墙设置");
-			
+
 			} else {
 				return true;
 			}
@@ -328,7 +355,7 @@ public class Block {
 	public static boolean purgeIptables(Context ctx, boolean showErrors) {
 		StringBuilder res = new StringBuilder();
 		try {
-			 GetRoot.assertBinaries(ctx, showErrors);
+			GetRoot.assertBinaries(ctx, showErrors);
 			int code = runScriptAsRoot(ctx, scriptHeader(ctx)
 					+ "$IPTABLES -F droidwall\n"
 					+ "$IPTABLES -F droidwall-reject\n"
@@ -347,7 +374,6 @@ public class Block {
 			return false;
 		}
 	}
-
 
 	/**
 	 * Runs a script as root (multiple commands separated by "\n").
