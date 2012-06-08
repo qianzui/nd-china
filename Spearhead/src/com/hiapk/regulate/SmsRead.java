@@ -2,22 +2,22 @@ package com.hiapk.regulate;
 
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 
-import android.app.Activity;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.util.Log;
 
 public class SmsRead {
-	static boolean isRead = true;
+	public boolean isRead = true;
 	SharedPrefrenceData sharedData;
 
-	public String Sms(Activity at) {
-		sharedData = new SharedPrefrenceData(at);
+	public String Sms(Context context) {
+		sharedData = new SharedPrefrenceData(context);
 		String[] projection = new String[] { "_id", "address", "person", "body" };
 		StringBuilder strBuilder = new StringBuilder();
 		try {
-			Cursor myCursor = at.managedQuery(Uri.parse("content://sms/inbox"),
+			Cursor myCursor = context.getContentResolver().query(Uri.parse("content://sms/inbox"),
 					projection, null, null, "date desc");
 			strBuilder.append(processResults(myCursor, true));
 
@@ -59,11 +59,11 @@ public class SmsRead {
 				strBuilder.append(count);
 
 				if (!count.equalsIgnoreCase("无短信内容")) {
-					Regulate.smsResult.setText("本月已用流量为:" + count + " MB");
 					float monthHasUse = Float.valueOf(count);
 					sharedData.setMonthMobileHasUseOffloat(monthHasUse);
 					sharedData
-							.setMonthMobileHasUse((long) (monthHasUse * 1024) * 1024);
+					.setMonthMobileHasUse((long) (monthHasUse * 1024) * 1024);
+					isRead = true;
 					break;
 				} else {
 					isRead = false;
@@ -84,18 +84,50 @@ public class SmsRead {
 		int start;
 		int end;
 		String count = "无短信内容";
+		//		String regEx ="\\d*";
+		String result = "无短信内容";
+		//		Pattern p = Pattern.compile(regEx);
 
 		num = Regulate.smsNum.getText().toString();
 		if (phoneNum.equalsIgnoreCase(num)) {
-			start = sms.indexOf("为");
-			end = sms.indexOf("M");
-			if (start != -1) {
-				isRead = true;
-				count = sms.substring(start + 1, end);
+			if(num.equalsIgnoreCase("10086")){
+				start = sms.indexOf("为");
+				end = sms.indexOf("M");
+				if (start != -1) {
+					isRead = true;
+					count = sms.substring(start + 1, end);
+
+				}
+
+			}
+			else if(num.equalsIgnoreCase("10010")){
+				start = sms.indexOf("量");
+				end = sms.indexOf("M");
+				if (start != -1) {
+					isRead = true;
+					count = sms.substring(start + 1, end);
+				}
+			}
+			else if(num.equalsIgnoreCase("10001")){
+				start = sms.lastIndexOf("用");
+				end = sms.indexOf("兆");
+				if (start != -1) {
+					isRead = true;
+					count = sms.substring(start + 1, end);
+				}
 			}
 
 		}
-		return count;
+
+		if(Character.isDigit(count.charAt(0))){
+			result = count;
+		}
+
+
+		//		Log.v("++++++++++", m.replaceAll("").trim()+"");
+
+
+		return result;
 	}
 
 }
