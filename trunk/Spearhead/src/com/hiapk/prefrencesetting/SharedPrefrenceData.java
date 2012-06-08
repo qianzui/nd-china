@@ -312,6 +312,9 @@ public class SharedPrefrenceData {
 		UseEditor.commit();
 	}
 
+	
+	
+	
 	public boolean getIsSend() {
 		boolean isSend = prefs.getBoolean("IS_SEND", false);
 		return isSend;
@@ -353,4 +356,15 @@ public class SharedPrefrenceData {
 
 	}
 
+	
+	public void setIsFirstRegulate(Boolean isFirstRegulate) {
+		UseEditor.putBoolean("IS_FIRST_REGULAT", isFirstRegulate);
+		UseEditor.commit();
+	}
+	
+	public boolean getIsFirstRegulate() {
+		boolean isFirstRegulate = prefs.getBoolean("IS_FIRST_REGULAT", true);
+		return isFirstRegulate;
+
+	}
 }
