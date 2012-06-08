@@ -24,13 +24,8 @@ public class SMS_Received extends BroadcastReceiver {
 				&&sharedData.getIsSend()){
 			sharedData.setIsReceive(true);
 			count = sr.Sms(context);
-			if(sr.isRead){
-				float monthHasUse = Float.valueOf(count);
-				sharedData.setMonthMobileHasUseOffloat(monthHasUse);
-				sharedData
-				.setMonthMobileHasUse((long) (monthHasUse * 1024) * 1024);
-				
-				Toast.makeText(context, "已接收到短信，并设置月已用流量成功", Toast.LENGTH_LONG).show();
+			if(sr.isRead){							
+				Toast.makeText(context, "已接收到短信，正在设置本月已用流量", Toast.LENGTH_LONG).show();
 			}
 			else {
 				Toast.makeText(context, "短信读取失败，请手动设置", Toast.LENGTH_LONG).show();
