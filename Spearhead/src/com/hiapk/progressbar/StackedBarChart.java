@@ -55,7 +55,7 @@ public class StackedBarChart extends ViewBase {
 	// Y轴标识
 	String YaxisText = "流量（MB）";
 	// 柱状条的名称
-	String[] paramstitles = new String[] { "总流量", topTitle };
+	String[] paramstitles = new String[] { topTitle, topTitle };
 	// 需要写入的数据1前方
 	double[] data1 = new double[] { 14230, 12300, 14240, 15244, 15900, 19200,
 			22030, 21200, 19500, 15500, 12600, 14000 };
@@ -142,9 +142,11 @@ public class StackedBarChart extends ViewBase {
 	public void setMainTitle(String mainTitle) {
 		this.mainTitle = mainTitle;
 	}
+
 	public void setTopTitle(String topTitle) {
-		this.topTitle = topTitle;
+		paramstitles = new String[] { "", topTitle };
 	}
+
 	/**
 	 * X轴文字
 	 * 
