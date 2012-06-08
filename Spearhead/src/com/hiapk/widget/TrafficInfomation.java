@@ -19,7 +19,7 @@ public class TrafficInfomation {
 			if (returnTraff < 0) {
 				return 0;
 			} else {
-				return returnTraff;
+				return returnTraff/3;
 			}
 
 		}

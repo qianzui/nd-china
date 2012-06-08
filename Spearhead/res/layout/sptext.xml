@@ -4,5 +4,5 @@
     android:layout_height="wrap_content" 
     android:layout_centerHorizontal="true"
     android:textStyle="bold"
-    android:textColor="@color/darkgray">
+    android:textColor="@color/lightgreen">
 </TextView>
