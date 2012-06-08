@@ -23,9 +23,9 @@ public class BudgetPie extends ViewBase {
 
 	int[] colors = new int[] { Color.BLUE, Color.GREEN };
 
-	float ChartTitleTextSize = 20;
-
-	float LabelsTextSize = 20;
+	// float ChartTitleTextSize = 20;
+	//
+	// float LabelsTextSize = 20;
 	float Scale = (float) 0.7;
 
 	public void setValues(long[] values) {
@@ -39,7 +39,7 @@ public class BudgetPie extends ViewBase {
 		this.colors = colors;
 	}
 
-	float LegendTextSize = 20;
+	// float LegendTextSize = 20;
 
 	/**
 	 * Executes the chart demo.
@@ -81,7 +81,7 @@ public class BudgetPie extends ViewBase {
 	 */
 	protected DefaultRenderer buildCategoryRenderer(int[] colors) {
 		DefaultRenderer renderer = new DefaultRenderer();
-		renderer.setLabelsTextSize(windowswidesize / 12);
+		renderer.setLabelsTextSize(windowswidesize / 17);
 		// 左下
 		renderer.setLegendTextSize(windowswidesize / 11);
 		renderer.setMargins(new int[] { 0, 0, 0, 0 });
@@ -110,8 +110,19 @@ public class BudgetPie extends ViewBase {
 		CategorySeries series = new CategorySeries(title);
 		// int k = 0;
 		// for (double value : values) {
-		series.add("移动 ", values[0]);
-		series.add("WIFI ", values[1]);
+		int percentMobile = (int) (100 * values[0] / (values[0] + values[1]));
+		int percentWifi = 100 - percentMobile;
+
+		if (percentMobile < 2) {
+			series.add("移动 " + percentMobile + "%", 1);
+			series.add("WIFI " + percentWifi + "%", 100);
+		} else if (percentWifi < 2) {
+			series.add("移动 " + percentMobile + "%", 100);
+			series.add("WIFI " + percentWifi + "%", 1);
+		} else {
+			series.add("移动 " + percentMobile + "%", values[0]);
+			series.add("WIFI " + percentWifi + "%", values[1]);
+		}
 		// }
 
 		return series;
