@@ -113,15 +113,15 @@ public class Regulate extends Activity {
 
 	}	
 
-	public void smsRead(){
-
-		sr.Sms(this);		
-		if(sr.isRead){
-			smsResult.setText("短信内容可能有误，请手动设置");
-		}
-				Log.v("+++++++++++++++++++++", "读取短信");
-				Toast.makeText(this, sharedData.getIsReceive()+" ", Toast.LENGTH_LONG).show();
-	}
+//	public void smsRead(){
+//
+//		sr.Sms(this);		
+//		if(sr.isRead){
+//			smsResult.setText("短信内容可能有误，请手动设置");
+//		}
+//				Log.v("+++++++++++++++++++++", "读取短信");
+//				Toast.makeText(this, sharedData.getIsReceive()+" ", Toast.LENGTH_LONG).show();
+//	}
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
@@ -136,15 +136,7 @@ public class Regulate extends Activity {
 		// umeng
 		MobclickAgent.onPause(this);
 	}
-	//	@Override
-	//	protected void onResume() {
-	//		// TODO Auto-generated method stub
-	//		if(SMS_Received.isReceive){			
-	//			smsRead();
-	//		}
-	//		Toast.makeText(this, SMS_Received.isReceive+"onResume() ", Toast.LENGTH_LONG).show();
-	//		super.onResume();
-	//	}
+	
 
 
 
