@@ -33,7 +33,7 @@ public class FloatService extends Service {
 	ImageView iv;
 	private float StartX;
 	private float StartY;
-	int delaytime = 1000;
+	int delaytime = 3000;
 
 	@Override
 	public void onCreate() {

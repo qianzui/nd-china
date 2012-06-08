@@ -85,6 +85,8 @@ public class Main extends Activity {
 	TrafficManager trafficManager = new TrafficManager();
 	// fortest
 	long time;
+	// 柱状图标识0为总流量1为mobile，2为wifi
+	int stackflag = 0;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -116,7 +118,7 @@ public class Main extends Activity {
 		}
 
 		setonrefreshclicklistens();
-
+		setontvclicklisten();
 	}
 
 	private AlertDialog dialogHintSetData() {
@@ -432,6 +434,22 @@ public class Main extends Activity {
 		}
 	}
 
+	private void setontvclicklisten() {
+		final TextView tvtraff = (TextView) findViewById(R.id.tv_stackChart);
+		tvtraff.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if (stackflag < 2) {
+					stackflag++;
+				} else
+					stackflag = 0;
+				initWifiBar();
+			}
+		});
+	}
+
 	private void setonrefreshclicklistens() {
 		final Button btn_refresh = (Button) findViewById(R.id.refresh);
 		btn_refresh.setOnTouchListener(new OnTouchListener() {
@@ -522,22 +540,77 @@ public class Main extends Activity {
 		int monthtotalDay = countDay(year, month);
 		chartbar.setMonthDay(monthtotalDay);
 		// 设置y轴显示值及范围
-		double[] wifi = new double[monthDay];
+		double[] totalTraff = new double[monthDay];
 		long maxwifiTraffic = 0;
 		// DecimalFormat format = new DecimalFormat("0.#");
 		// wifi[0] = (double) (wifiTraffic[0] + wifiTraffic[63]) / 1000000;
-		for (int i = 0; i < wifi.length; i++) {
-			long temp = TrafficManager.wifi_month_data[i + 1]
-					+ TrafficManager.wifi_month_data[i + 32];
-			// 小数点2位
-			wifi[i] = (double) ((long) temp * 100 / 1024 / 1024) / 100;
-			// format.format(wifi[i]);
-			if (temp > maxwifiTraffic) {
-				maxwifiTraffic = temp;
+		TextView tvtraff = (TextView) findViewById(R.id.tv_stackChart);
+		switch (stackflag) {
+		case 0:
+			for (int i = 0; i < totalTraff.length; i++) {
+				long temp = TrafficManager.wifi_month_data[i + 1]
+						+ TrafficManager.wifi_month_data[i + 32]
+						+ TrafficManager.mobile_month_data[i + 1]
+						+ TrafficManager.mobile_month_data[i + 32];
+				// 小数点2位
+				totalTraff[i] = (double) ((long) temp * 100 / 1024 / 1024) / 100;
+				// format.format(wifi[i]);
+				if (temp > maxwifiTraffic) {
+					maxwifiTraffic = temp;
+				}
 			}
+			chartbar.setMainTitle("总流量统计");
+			chartbar.setTopTitle("总流量");
+			tvtraff.setText("   总流量");
+			break;
+		case 1:
+			for (int i = 0; i < totalTraff.length; i++) {
+				long temp = TrafficManager.mobile_month_data[i + 1]
+						+ TrafficManager.mobile_month_data[i + 32];
+				// 小数点2位
+				totalTraff[i] = (double) ((long) temp * 100 / 1024 / 1024) / 100;
+				// format.format(wifi[i]);
+				if (temp > maxwifiTraffic) {
+					maxwifiTraffic = temp;
+				}
+			}
+			chartbar.setMainTitle("移动流量统计");
+			chartbar.setTopTitle("移动流量");
+			tvtraff.setText("   移动流量");
+			break;
+		case 2:
+			for (int i = 0; i < totalTraff.length; i++) {
+				long temp = TrafficManager.wifi_month_data[i + 1]
+						+ TrafficManager.wifi_month_data[i + 32];
+				// 小数点2位
+				totalTraff[i] = (double) ((long) temp * 100 / 1024 / 1024) / 100;
+				// format.format(wifi[i]);
+				if (temp > maxwifiTraffic) {
+					maxwifiTraffic = temp;
+				}
+			}
+			chartbar.setMainTitle("WIFI流量统计");
+			chartbar.setTopTitle("WIFI流量");
+			tvtraff.setText("   WIFI流量");
+			break;
+		default:
+			for (int i = 0; i < totalTraff.length; i++) {
+				long temp = TrafficManager.wifi_month_data[i + 1]
+						+ TrafficManager.wifi_month_data[i + 32]
+						+ TrafficManager.mobile_month_data[i + 1]
+						+ TrafficManager.mobile_month_data[i + 32];
+				// 小数点2位
+				totalTraff[i] = (double) ((long) temp * 100 / 1024 / 1024) / 100;
+				// format.format(wifi[i]);
+				if (temp > maxwifiTraffic) {
+					maxwifiTraffic = temp;
+				}
+			}
+			chartbar.setMainTitle("总流量统计");
+			chartbar.setTopTitle("总流量");
+			break;
 		}
-		chartbar.setData1(wifi);
-
+		chartbar.setData1(totalTraff);
 		if (maxwifiTraffic < 848576) {
 			chartbar.setyMaxvalue(1);
 			chartbar.setMaxTraffic(1);

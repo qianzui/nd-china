@@ -160,6 +160,7 @@
                     android:layout_toLeftOf="@+id/monthSet"
                     android:background="@drawable/content"
                     android:entries="@array/day"
+                    android:textColor="@color/lightgreen"
                     android:prompt="@string/daySelect" />
             </RelativeLayout>
         </LinearLayout>
@@ -198,9 +199,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/content"
-                android:text="手动查询流量套餐"
+                android:text="查询流量套餐"
                 android:textSize="15sp"
-                android:textColor="@color/darkgray" />
+                android:textColor="@color/lightgreen" />
         </RelativeLayout>
     </LinearLayout>
     <!-- 第二个框框结束 -->
@@ -250,7 +251,7 @@
                     android:layout_alignParentRight="true"
                     android:background="@drawable/content"
                     android:text="点击设置"
-                    android:textColor="@color/darkgray" />
+                    android:textColor="@color/lightgreen" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -281,7 +282,7 @@
                     android:layout_alignParentRight="true"
                     android:background="@drawable/content"
                     android:text="点击设置"
-                    android:textColor="@color/darkgray" />
+                    android:textColor="@color/lightgreen" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -313,7 +314,7 @@
                     android:background="@drawable/content"
                     android:prompt="@string/warningActionSelect"
                     android:text="点击设置"
-                    android:textColor="@color/darkgray" />
+                    android:textColor="@color/lightgreen" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

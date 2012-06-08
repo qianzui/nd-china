@@ -269,6 +269,7 @@
         <!-- 第二行的第一行标题 开始 -->
 
         <TextView
+            android:id="@+id/tv_stackChart"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/wireless"
