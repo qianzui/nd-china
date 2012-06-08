@@ -24,6 +24,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		SQLStatic.isUidAlarmRecording = true;
+		SQLStatic.isUidTotalAlarmRecording = true;
 		// TODO Auto-generated method stub
 		// showLog("TableWiFiOrG23=" + SQLHelperTotal.TableWiFiOrG23);
 		if (sqlhelperTotal.getIsInit(context)) {
@@ -44,6 +45,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 					new AsyncTaskonRecordUidTotal().execute(context);
 				} else {
 					SQLStatic.setSQLUidTotalOnUsed(false);
+					SQLStatic.isUidTotalAlarmRecording = false;
 					showLog("UidTotal数据库忙");
 				}
 
@@ -63,6 +65,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 					new AsyncTaskonRecordUidTotal().execute(context);
 				} else {
 					SQLStatic.setSQLUidTotalOnUsed(false);
+					SQLStatic.isUidTotalAlarmRecording = false;
 					showLog("UidTotal数据库忙");
 				}
 
@@ -71,6 +74,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			// sqlhelper.initSQL(context);
 			showLog("please init the database");
 			SQLStatic.isUidAlarmRecording = false;
+			SQLStatic.isUidTotalAlarmRecording = false;
 		}
 	}
 
@@ -208,6 +212,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 				// SQLHelperTotal.isSQLUidTotalOnUsed = false;
 				SQLStatic.setSQLUidTotalOnUsed(false);
 			}
+			SQLStatic.isUidTotalAlarmRecording = false;
 			// if (result == 3) {
 			// showLog("uidTotalUnknow");
 			// }

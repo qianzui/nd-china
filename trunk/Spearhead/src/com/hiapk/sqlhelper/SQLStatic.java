@@ -17,6 +17,7 @@ public class SQLStatic {
 	// TotalAlarm记录中
 	public static boolean isTotalAlarmRecording = false;
 	public static boolean isUidAlarmRecording = false;
+	public static boolean isUidTotalAlarmRecording = false;
 	/**
 	 * 初始化用uids
 	 */
