@@ -8,8 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-public class Onreinstall {
-	public void reInstallAction(Context context) {
+public class OnUninstallitself {
+	public void unInstallAction(Context context) {
 		AlarmSet alset = new AlarmSet();
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
@@ -38,6 +38,6 @@ public class Onreinstall {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-//		Log.d("Onreinstall", string);
+		// Log.d("Onreinstall", string);
 	}
 }

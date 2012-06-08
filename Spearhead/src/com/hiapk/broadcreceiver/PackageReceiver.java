@@ -4,7 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.rebootandstartaction.Onreinstall;
+import com.hiapk.rebootandstartaction.OnReinstallitself;
+import com.hiapk.rebootandstartaction.OnUninstallitself;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
 import com.hiapk.sqlhelper.SQLHelperUidTotal;
@@ -34,8 +35,9 @@ public class PackageReceiver extends BroadcastReceiver {
 			if (intent.getAction().equals(
 					"android.intent.action.PACKAGE_REMOVED")) {
 				if (packageNames.equals("package:com.hiapk.spearhead")) {
-					Onreinstall reinstall = new Onreinstall();
-					reinstall.reInstallAction(context);
+					// OnUninstallitself uninstall = new OnUninstallitself();
+					// uninstall.unInstallAction(context);
+					new AsyTaskOnItselfUninstall().execute(context);
 					showLog("卸载" + SQLStatic.packageName[1]);
 				} else {
 					// new AsyTaskOnUninstall().execute(context);
@@ -51,7 +53,9 @@ public class PackageReceiver extends BroadcastReceiver {
 					.equals("android.intent.action.PACKAGE_ADDED")) {
 				// 检查为自身安装
 				if (packageNames.equals("package:com.hiapk.spearhead")) {
-					sqlhelperTotal.initTablemobileAndwifi(context, false);
+					// OnReinstallitself reInstall = new OnReinstallitself();
+					// reInstall.reInstallAction(context);
+					showLog("安装" + SQLStatic.packageName[1]);
 				} else {
 					// 其他软件安装
 					// 检测网络权限
@@ -62,6 +66,7 @@ public class PackageReceiver extends BroadcastReceiver {
 						// 无网络权限
 						showLog("没网络权限的安装");
 					} else {
+						sqlhelperTotal.initTablemobileAndwifi(context, false);
 						// 有网络权限进行更新表格
 						showLog("有网络权限的安装");
 						SQLStatic.uidnumber = 999999;
@@ -254,8 +259,40 @@ public class PackageReceiver extends BroadcastReceiver {
 		}
 	}
 
+	private class AsyTaskOnItselfUninstall extends
+			AsyncTask<Context, Integer, Integer> {
+		// private int uid;
+		// private String pacName;
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+		}
+
+		@Override
+		protected Integer doInBackground(Context... params) {
+			// TODO Auto-generated method stub
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			OnUninstallitself uninstall = new OnUninstallitself();
+			uninstall.unInstallAction(params[0]);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+		}
+	}
+
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-//		Log.d("Receiver", string);
+		Log.d("Receiver", string);
 	}
 }
