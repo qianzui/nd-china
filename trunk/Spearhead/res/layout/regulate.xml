@@ -5,13 +5,13 @@
     android:orientation="vertical" >
 
     <TextView
-        android:layout_width="fill_parent"    
-        android:layout_height="48dip"    
+        android:layout_width="fill_parent"
+        android:layout_height="48dip"
         android:background="@drawable/maintab_toolbar_bg"
-        android:text="与运营商核对流量数据"
         android:gravity="center"
-        android:textSize="18dip"        
-        android:textColor="@color/whitesmoke" />
+        android:text="与运营商核对流量数据"
+        android:textColor="@color/whitesmoke"
+        android:textSize="18dip" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
             android:layout_marginBottom="10dip"
             android:background="@drawable/content"
             android:text="进入地区选择页"
-            android:textColor="@color/whitesmoke" />
+            android:textColor="@color/lightgreen" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -85,11 +85,9 @@
             android:layout_height="45dip"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/content"
-            android:text="发送校正短信"
-            android:textSize="18sp"
-            android:textColor="@color/whitesmoke" />
-        
-
+            android:text="自动校正"
+            android:textColor="@color/lightgreen" 
+            android:textSize="18sp" />
     </LinearLayout>
 
 </LinearLayout>

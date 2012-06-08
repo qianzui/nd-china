@@ -165,7 +165,7 @@
                             android:layout_height="fill_parent"
                             android:background="@drawable/content"
                             android:text="  校正  "
-                            android:textColor="@color/darkgray" />
+                            android:textColor="@color/lightgreen"  />
                     </LinearLayout>
 
                     <LinearLayout
