@@ -6,6 +6,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,6 +39,7 @@ public class PhoneSet extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				sharedData.setIsFirstRegulate(false);
 				end();
 
 			}
@@ -506,6 +508,8 @@ public class PhoneSet extends Activity {
 
 		sharedData.setPhoneInfo(chengshi, pinpai, shengfenId, smsNum, smsText);
 		Regulate.chooseBtn.setText(chengshi + pinpai);
+		Intent i = new Intent(PhoneSet.this,Regulate.class);
+		startActivity(i);
 		finish();
 	}
 

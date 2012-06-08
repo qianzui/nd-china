@@ -52,8 +52,14 @@ public class Regulate extends Activity {
 		smsNum.setText(sharedData.getSmsNum());
 		smsText.setText(sharedData.getSmsText());
 		sr =  new SmsRead();
-
-
+		
+		if(sharedData.getIsFirstRegulate()){
+			Intent i = new Intent(Regulate.this,PhoneSet.class);
+			startActivity(i);
+			finish();
+		}
+		
+		
 		chooseBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -61,6 +67,7 @@ public class Regulate extends Activity {
 				// TODO Auto-generated method stub
 				Intent it = new Intent(Regulate.this,PhoneSet.class);
 				startActivity(it);
+				finish();
 
 			}
 		});
