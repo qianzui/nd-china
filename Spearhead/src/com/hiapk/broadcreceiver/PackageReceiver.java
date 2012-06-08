@@ -35,9 +35,9 @@ public class PackageReceiver extends BroadcastReceiver {
 			if (intent.getAction().equals(
 					"android.intent.action.PACKAGE_REMOVED")) {
 				if (packageNames.equals("package:com.hiapk.spearhead")) {
-					// OnUninstallitself uninstall = new OnUninstallitself();
-					// uninstall.unInstallAction(context);
-					new AsyTaskOnItselfUninstall().execute(context);
+					 OnUninstallitself uninstall = new OnUninstallitself();
+					 uninstall.unInstallAction(context);
+//					new AsyTaskOnItselfUninstall().execute(context);
 					showLog("п╤ть" + SQLStatic.packageName[1]);
 				} else {
 					// new AsyTaskOnUninstall().execute(context);
