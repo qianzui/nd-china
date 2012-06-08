@@ -253,8 +253,8 @@ public class SQLHelperUid {
 			showLog("更新索引表失败");
 		} finally {
 			mySQL.endTransaction();
+			closeSQL(mySQL);
 		}
-		closeSQL(mySQL);
 
 	}
 
@@ -1555,9 +1555,9 @@ public class SQLHelperUid {
 			cur.close();
 		}
 		closeSQL(sqlDataBase);
-//		for (int j = 0; j < a.length; j++) {
-//			showLog(j + "liuliang" + a[j] + "");
-//		}
+		// for (int j = 0; j < a.length; j++) {
+		// showLog(j + "liuliang" + a[j] + "");
+		// }
 		return a;
 	}
 
@@ -1583,6 +1583,6 @@ public class SQLHelperUid {
 	 */
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-//		Log.d("databaseUid", string);
+		// Log.d("databaseUid", string);
 	}
 }

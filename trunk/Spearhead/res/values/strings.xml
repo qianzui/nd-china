@@ -10,7 +10,7 @@
 	<string name="wifi">\u0020\u0020 总流量</string>
 	<string name="todayUsed">今日已用:\u0020</string>
 	<string name="rate">0</string>
-	<string name="weekUsed">本周已用:\u0020</string>
+	<string name="weekUsed">剩余流量:\u0020</string>
 	<string name="monthTotal">本月统计:\u0020</string>
 	
 	<string name="tip">注意</string>
