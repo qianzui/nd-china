@@ -93,6 +93,10 @@ public class FireWallActivity extends Activity {
 				// TODO Auto-generated method stub
 				myAppList = getCompList(getInstalledPackageInfo(FireWallActivity.this));
 				getImageMap(myAppList);
+				for (int i = 0; i < myAppList.size(); i++) {
+					PackageInfo info = myAppList.get(i);
+					Log.i("....test",info.applicationInfo.loadLabel(getPackageManager()) +"--"+info.packageName );
+				}
 				handler.sendEmptyMessage(0);
 			}
 		}).start();
@@ -124,6 +128,9 @@ public class FireWallActivity extends Activity {
 							Toast.makeText(mContext, "点击任意应用可查看更多选项!",
 									Toast.LENGTH_SHORT).show();
 						}
+						myAppList = getCompList(getInstalledPackageInfo(FireWallActivity.this));
+						getImageMap(myAppList);
+						setAdapter();
 						appListAdapter.notifyDataSetChanged();
 						appListView.onRefreshComplete();
 					}
