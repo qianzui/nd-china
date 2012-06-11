@@ -30,7 +30,7 @@ public class PhoneSet extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.phoneset);
-		MobclickAgent.onError(this);
+	//	MobclickAgent.onError(this);
 		sharedData = new SharedPrefrenceData(this);
 		init_Spinner();
 		next = (Button) findViewById(R.id.next);
@@ -518,13 +518,13 @@ public class PhoneSet extends Activity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		// umeng
-		MobclickAgent.onResume(this);
+	//	MobclickAgent.onResume(this);
 	}
 
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
 		// umeng
-		MobclickAgent.onPause(this);
+	//	MobclickAgent.onPause(this);
 	}
 }
