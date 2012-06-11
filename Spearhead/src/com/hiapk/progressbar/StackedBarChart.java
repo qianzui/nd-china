@@ -122,7 +122,7 @@ public class StackedBarChart extends ViewBase {
 	}
 
 	// Öù×´ÌõÑÕÉ«
-	int[] chartbarcolor = new int[] { backgroundcolor, Color.CYAN };
+	int[] chartbarcolor = new int[] { Color.BLUE, Color.CYAN };
 	// int[] chartbarcolor = new int[] { Color.CYAN };
 	float AxisTitleTextSize = windowswidesize / 2;
 	float ChartTitleTextSize = windowswidesize / 2;
@@ -144,7 +144,7 @@ public class StackedBarChart extends ViewBase {
 	}
 
 	public void setTopTitle(String topTitle) {
-		paramstitles = new String[] { "", topTitle };
+		paramstitles = new String[] { "WIFIÍøÂç    ", topTitle };
 	}
 
 	/**
@@ -170,9 +170,9 @@ public class StackedBarChart extends ViewBase {
 	 * 
 	 * @param data1
 	 */
-	public void setData1(double[] data1) {
+	public void setData1(double[] data1, double[] data2) {
 		this.data1 = data1;
-		this.data2 = data1;
+		this.data2 = data2;
 	}
 
 	/**
@@ -307,14 +307,14 @@ public class StackedBarChart extends ViewBase {
 		renderer.setZoomRate(1.1f);
 		renderer.setBarSpacing(1f);
 		return ChartFactory.getBarChartView(context,
-				buildBarDataset(paramstitles, values), renderer, Type.STACKED);
+				buildBarDataset(paramstitles, values), renderer, Type.DEFAULT);
 	}
 
 	private void initSize() {
 		// TODO Auto-generated method stub
 		AxisTitleTextSize = windowswidesize / 16;
-		ChartTitleTextSize = windowswidesize / 14;
-		LabelsTextSize = windowswidesize / 20;
+		ChartTitleTextSize = windowswidesize / 12;
+		LabelsTextSize = windowswidesize / 16;
 		LegendTextSize = windowswidesize / 15;
 		ChartValuesTextsize = windowswidesize / 15;
 	}
