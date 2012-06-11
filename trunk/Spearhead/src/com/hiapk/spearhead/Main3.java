@@ -94,7 +94,7 @@ public class Main3 extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		MobclickAgent.onError(this);
+		//MobclickAgent.onError(this);
 		setContentView(R.layout.main3);
 		sharedData = new SharedPrefrenceData(context);
 		init_Spinner();
@@ -378,8 +378,8 @@ public class Main3 extends Activity {
 						resetHasWarning();
 						SetText.resetWidgetAndNotify(context);
 						/* User clicked OK so do some stuff */
-						MobclickAgent.onEvent(context, "monthUse",
-								String.valueOf(i));
+					//	MobclickAgent.onEvent(context, "monthUse",
+					//			String.valueOf(i));
 					}
 				})
 				.setNegativeButton("È¡Ïû", new DialogInterface.OnClickListener() {
@@ -735,7 +735,7 @@ public class Main3 extends Activity {
 		// TODO Auto-generated method stub
 		super.onPause();
 		// umeng
-		MobclickAgent.onPause(this);
+	//	MobclickAgent.onPause(this);
 	}
 
 	@Override
@@ -744,7 +744,7 @@ public class Main3 extends Activity {
 		super.onResume();
 		init_btn_HasUsed();
 		// umeng
-		MobclickAgent.onResume(this);
+	//	MobclickAgent.onResume(this);
 
 	}
 

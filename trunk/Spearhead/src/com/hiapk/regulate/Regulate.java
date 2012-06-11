@@ -37,7 +37,7 @@ public class Regulate extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.regulate);	
-		MobclickAgent.onError(this);
+	//	MobclickAgent.onError(this);
 		sharedData = new SharedPrefrenceData(this);
 		chooseBtn = (Button)findViewById(R.id.choose);
 		smsSend = (Button)findViewById(R.id.smsSend);
@@ -134,14 +134,14 @@ public class Regulate extends Activity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		// umeng
-		MobclickAgent.onResume(this);
+	//	MobclickAgent.onResume(this);
 	}
 
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
 		// umeng
-		MobclickAgent.onPause(this);
+	//	MobclickAgent.onPause(this);
 	}
 	
 

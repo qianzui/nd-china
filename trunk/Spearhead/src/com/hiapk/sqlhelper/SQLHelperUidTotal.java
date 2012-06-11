@@ -232,9 +232,9 @@ public class SQLHelperUidTotal {
 			showLog("批量输入uidTotal网络数据失败");
 		} finally {
 			sqlDataBase.endTransaction();
+			closeSQL(sqlDataBase);
 			// SQLHelperTotal.isSQLUidTotalOnUsed = false;
 		}
-		closeSQL(sqlDataBase);
 
 	}
 

@@ -56,7 +56,7 @@ public class UidMonthTraff extends Activity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		// umeng
-		MobclickAgent.onResume(this);
+	//	MobclickAgent.onResume(this);
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class UidMonthTraff extends Activity {
 		// TODO Auto-generated method stub
 		super.onPause();
 		// umeng
-		MobclickAgent.onPause(this);
+		//MobclickAgent.onPause(this);
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class UidMonthTraff extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.uid_traff);
-		MobclickAgent.onError(this);
+	//	MobclickAgent.onError(this);
 		// 获取导入数据
 		Bundle bData = this.getIntent().getExtras();
 		uidnumber = bData.getInt("uid");

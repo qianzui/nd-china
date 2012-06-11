@@ -56,7 +56,7 @@ public class SpearheadActivity extends TabActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		MobclickAgent.onError(this);
+	//	MobclickAgent.onError(this);
 		setContentView(R.layout.maintabs);	
 		
 		initScene();
@@ -209,14 +209,14 @@ public class SpearheadActivity extends TabActivity {
 		notifyctrl.cancelAlertNotify(context);
 		isExit = false;
 		hasTask = false;
-					MobclickAgent.onResume(this);
+				//	MobclickAgent.onResume(this);
 	}
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
 		// umeng
-		MobclickAgent.onPause(this);
+	//	MobclickAgent.onPause(this);
 	}
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {

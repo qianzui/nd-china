@@ -28,7 +28,7 @@ public class Splash extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
-		MobclickAgent.onError(this);
+		//MobclickAgent.onError(this);
 		SharedPrefrenceData sp = new SharedPrefrenceData(context);
 		if (sp.isFirstBoot()) {
 			// Intent i = new Intent();

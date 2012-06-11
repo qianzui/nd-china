@@ -94,7 +94,7 @@ public class Main extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		// umeng
-		MobclickAgent.onError(this);
+//	..	MobclickAgent.onError(this);
 		// 获取固定存放数据
 		sharedData = new SharedPrefrenceData(context);
 		// 显示提示对话框仅显示一次
@@ -349,7 +349,7 @@ public class Main extends Activity {
 		// TODO Auto-generated method stub
 		super.onPause();
 		// umeng
-		MobclickAgent.onPause(this);
+	//	MobclickAgent.onPause(this);
 	}
 
 	@Override
@@ -357,7 +357,7 @@ public class Main extends Activity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		// umeng
-		MobclickAgent.onResume(this);
+	//	MobclickAgent.onResume(this);
 		// 取得系统时间。
 		Time t = new Time();
 		t.setToNow();
@@ -469,7 +469,7 @@ public class Main extends Activity {
 					// + android.os.Build.VERSION.SDK + ","
 					// + android.os.Build.VERSION.RELEASE);
 					// 记录点击刷新次数
-					MobclickAgent.onEvent(context, "refresh");
+				//	MobclickAgent.onEvent(context, "refresh");
 					AlarmSet alset = new AlarmSet();
 					// 初始化网络状态
 					sqlhelperTotal.initTablemobileAndwifi(context, false);

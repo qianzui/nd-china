@@ -68,16 +68,17 @@ public class FireWallActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		MobclickAgent.onError(this);
+	//	MobclickAgent.onError(this);
 		setContentView(R.layout.main2);
 		if (Block.fireTip(mContext)) {
-			Toast.makeText(mContext, "下拉列表可以进行刷新!",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(mContext, "下拉列表可以进行刷新!", Toast.LENGTH_SHORT).show();
 		}
 		initList();
 	}
+
 	public void initList() {
-		pro = ProgressDialog.show(mContext, "提示", "获取列表中,请耐心等待,获取的时间长短取决于您安装软件的数量...");
+		pro = ProgressDialog.show(mContext, "提示",
+				"获取列表中,请耐心等待,获取的时间长短取决于您安装软件的数量...");
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
 				try {
@@ -95,7 +96,9 @@ public class FireWallActivity extends Activity {
 				getImageMap(myAppList);
 				for (int i = 0; i < myAppList.size(); i++) {
 					PackageInfo info = myAppList.get(i);
-					Log.i("....test",info.applicationInfo.loadLabel(getPackageManager()) +"--"+info.packageName );
+					Log.i("....test",
+							info.applicationInfo.loadLabel(getPackageManager())
+									+ "--" + info.packageName);
 				}
 				handler.sendEmptyMessage(0);
 			}
@@ -174,20 +177,19 @@ public class FireWallActivity extends Activity {
 		}
 		return myAppList;
 	}
-	
-	public HashMap<Integer, Info> getImageMap(ArrayList<PackageInfo> myAppList){
+
+	public HashMap<Integer, Info> getImageMap(ArrayList<PackageInfo> myAppList) {
 		for (int i = 0; i < myAppList.size(); i++) {
 			PackageInfo pkgInfo = myAppList.get(i);
 			Info info = new Info(
-					pkgInfo.applicationInfo
-							.loadIcon(getPackageManager()),
-					pkgInfo.applicationInfo.loadLabel(
-							getPackageManager()).toString());
+					pkgInfo.applicationInfo.loadIcon(getPackageManager()),
+					pkgInfo.applicationInfo.loadLabel(getPackageManager())
+							.toString());
 			imageAndNameMap.put(i, info);
 		}
-		
+
 		return imageAndNameMap;
-		
+
 	}
 
 	public ArrayList<PackageInfo> getInstalledPackageInfo(Context context) {
@@ -335,14 +337,14 @@ public class FireWallActivity extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		MobclickAgent.onResume(this);
+		// MobclickAgent.onResume(this);
 	}
 
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
 		// umeng
-		MobclickAgent.onPause(this);
+		// MobclickAgent.onPause(this);
 	}
 
 	@Override
