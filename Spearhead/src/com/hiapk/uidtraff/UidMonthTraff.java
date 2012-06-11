@@ -3,6 +3,7 @@ package com.hiapk.uidtraff;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.progressbar.BudgetPie;
 import com.hiapk.progressbar.ProjectStatusChart;
+import com.hiapk.progressbar.SimplePie;
 import com.hiapk.spearhead.R;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
@@ -56,7 +57,7 @@ public class UidMonthTraff extends Activity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		// umeng
-	//	MobclickAgent.onResume(this);
+		// MobclickAgent.onResume(this);
 	}
 
 	@Override
@@ -64,7 +65,7 @@ public class UidMonthTraff extends Activity {
 		// TODO Auto-generated method stub
 		super.onPause();
 		// umeng
-		//MobclickAgent.onPause(this);
+		// MobclickAgent.onPause(this);
 	}
 
 	@Override
@@ -72,7 +73,7 @@ public class UidMonthTraff extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.uid_traff);
-	//	MobclickAgent.onError(this);
+		// MobclickAgent.onError(this);
 		// 获取导入数据
 		Bundle bData = this.getIntent().getExtras();
 		uidnumber = bData.getInt("uid");
@@ -171,9 +172,44 @@ public class UidMonthTraff extends Activity {
 				// SQLHelperTotal.isSQLUidTotalOnUsed = false;
 				SQLStatic.setSQLUidTotalOnUsed(false);
 				// uidtraff_UidTotalSQL = false;
-				BudgetPie budgetPie = new BudgetPie(context, windowswidesize);
-				budgetPie.setValues(pieValue);
-				view = budgetPie.execute(context);
+				// -----------------初始化数据
+				int useMobilePercent = 0;
+				if (pieValue[0] == 0 && pieValue[1] == 0) {
+					useMobilePercent = 180;
+
+				} else if (pieValue[1] == 0) {
+					useMobilePercent = 359;
+				} else if (pieValue[0] == 0) {
+					useMobilePercent = 1;
+				} else {
+					useMobilePercent = (int) (((double) pieValue[0] / (pieValue[0] + pieValue[1])) * 360);
+				}
+				if (useMobilePercent > 359)
+					useMobilePercent = 359;
+
+				int mobilePersent = 0;
+				// 月度流量为0判断
+				if (pieValue[0] == 0 && pieValue[1] == 0) {
+					mobilePersent = 50;
+
+				} else if (pieValue[1] == 0) {
+					mobilePersent = 100;
+				} else if (pieValue[0] == 0) {
+					mobilePersent = 0;
+				} else {
+
+					// 进行超百判断
+					mobilePersent = (int) ((double) pieValue[0] * 100 / (pieValue[0] + pieValue[1]));
+				}
+				int[] percent = new int[] { useMobilePercent,
+						360 - useMobilePercent };
+				SimplePie simplePie = new SimplePie(context, percent,
+						mobilePersent);
+				// BudgetPie budgetPie = new BudgetPie(context,
+				// windowswidesize);
+				// budgetPie.setValues(pieValue);
+				view = simplePie;
+
 				TextView tv_mobile = (TextView) findViewById(R.id.tv_mobile);
 				TextView tv_wifi = (TextView) findViewById(R.id.tv_wifi);
 				UnitHandler unitHandler = new UnitHandler();
@@ -397,6 +433,6 @@ public class UidMonthTraff extends Activity {
 	 * @param string
 	 */
 	private void showlog(String string) {
-//		Log.d("UidMonthTraff", string);
+		// Log.d("UidMonthTraff", string);
 	}
 }

@@ -63,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="TextView"
-                    android:textSize="18sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -77,7 +77,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:paddingLeft="14dp"
-                    android:text="移动数据流量:" />
+                    android:text="移动数据流量:"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tv_mobile"
@@ -85,7 +86,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:paddingLeft="14dp"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -99,7 +101,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:paddingLeft="14dp"
-                    android:text="WIFI数据流量:" />
+                    android:text="WIFI数据流量:"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tv_wifi"
@@ -107,7 +110,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:paddingLeft="14dp"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
 
