@@ -34,14 +34,6 @@ public class Help extends Activity implements OnGestureListener {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.help);
-		// if(!sp.isFirstBoot()){
-		// Intent i = new Intent();
-		// i.setClass(ct, Splash.class);
-		// startActivity(i);
-		// Log.v("+++++++++++", "跳过");
-		// this.finish();
-		// }
-		// Log.v("+++++++++++",sp.isFirstBoot()+"");
 		detector = new GestureDetector(this);
 		flipper = (ViewFlipper) findViewById(R.id.viewFlipper);
 		flipper.addView(addImageViewOne());
@@ -60,23 +52,34 @@ public class Help extends Activity implements OnGestureListener {
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
 		// TODO Auto-generated method stub
-
-		if (e1.getX() - e2.getX() > 120) {// 如果是从右向左滑动
-			// 注册flipper的进出效果
-			this.flipper.setInAnimation(AnimationUtils.loadAnimation(this,
-					R.anim.left_in));
-			this.flipper.setOutAnimation(AnimationUtils.loadAnimation(this,
-					R.anim.left_out));
-			this.flipper.showNext();
-			return true;
-		} else if (e1.getX() - e2.getX() < -120) {// 如果是从左向右滑动
-			this.flipper.setInAnimation(AnimationUtils.loadAnimation(this,
-					R.anim.right_in));
-			this.flipper.setOutAnimation(AnimationUtils.loadAnimation(this,
-					R.anim.right_out));
-			this.flipper.showPrevious();
-			return true;
+		if (flipper.getDisplayedChild() == 2 && e1.getX() - e2.getX() > 120 ) {
+			Log.v("+++++++", "flipper.getDisplayedChild() == 2");
+			Intent mainIntent = new Intent(Help.this, SpearheadActivity.class);
+			Bundle choosetab = new Bundle();
+			choosetab.putInt("TAB", 1);
+			mainIntent.putExtras(choosetab);
+			Help.this.startActivity(mainIntent);
+			Help.this.finish();
 		}
+		else 
+			if (e1.getX() - e2.getX() > 120 && flipper.getDisplayedChild() != 2) {// 如果是从右向左滑动
+				// 注册flipper的进出效果
+				this.flipper.setInAnimation(AnimationUtils.loadAnimation(this,
+						R.anim.left_in));
+				this.flipper.setOutAnimation(AnimationUtils.loadAnimation(this,
+						R.anim.left_out));
+				this.flipper.showNext();
+				return true;
+			} else if (e1.getX() - e2.getX() < -120  && flipper.getDisplayedChild() != 0) {// 如果是从左向右滑动
+				this.flipper.setInAnimation(AnimationUtils.loadAnimation(this,
+						R.anim.right_in));
+				this.flipper.setOutAnimation(AnimationUtils.loadAnimation(this,
+						R.anim.right_out));
+				this.flipper.showPrevious();
+				return true;
+			}
+
+
 		Log.v("+++++++", flipper.getDisplayedChild() + "");
 		return false;
 	}
@@ -127,10 +130,10 @@ public class Help extends Activity implements OnGestureListener {
 					R.anim.right_out));
 			this.flipper.showPrevious();
 		} else if (flipper.getDisplayedChild() == 2) {
-//			Intent i = new Intent();
-//			i.setClass(ct, Splash.class);
-//			Log.v("+++++++", "onSingleTapUp");
-//			startActivity(i);
+			//			Intent i = new Intent();
+			//			i.setClass(ct, Splash.class);
+			//			Log.v("+++++++", "onSingleTapUp");
+			//			startActivity(i);
 			Intent mainIntent = new Intent(Help.this, SpearheadActivity.class);
 			Bundle choosetab = new Bundle();
 			choosetab.putInt("TAB", 1);
