@@ -94,7 +94,7 @@ public class Main3 extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		//MobclickAgent.onError(this);
+		// MobclickAgent.onError(this);
 		setContentView(R.layout.main3);
 		sharedData = new SharedPrefrenceData(context);
 		init_Spinner();
@@ -323,7 +323,7 @@ public class Main3 extends Activity {
 		final Spinner spin_unit = (Spinner) textEntryView
 				.findViewById(R.id.sp_unit);
 		ArrayAdapter<CharSequence> adp = ArrayAdapter.createFromResource(this,
-				R.array.unit, R.layout.sptext);
+				R.array.unit, R.layout.sptext_on_alert);
 		adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spin_unit.setAdapter(adp);
 		// 初始化数值
@@ -378,8 +378,8 @@ public class Main3 extends Activity {
 						resetHasWarning();
 						SetText.resetWidgetAndNotify(context);
 						/* User clicked OK so do some stuff */
-					//	MobclickAgent.onEvent(context, "monthUse",
-					//			String.valueOf(i));
+						// MobclickAgent.onEvent(context, "monthUse",
+						// String.valueOf(i));
 					}
 				})
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -413,7 +413,7 @@ public class Main3 extends Activity {
 		final Spinner spin_unit = (Spinner) textEntryView
 				.findViewById(R.id.sp_unit);
 		ArrayAdapter<CharSequence> adp = ArrayAdapter.createFromResource(this,
-				R.array.unit, R.layout.sptext);
+				R.array.unit, R.layout.sptext_on_alert);
 		adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spin_unit.setAdapter(adp);
 		// 初始化数值
@@ -735,7 +735,7 @@ public class Main3 extends Activity {
 		// TODO Auto-generated method stub
 		super.onPause();
 		// umeng
-	//	MobclickAgent.onPause(this);
+		// MobclickAgent.onPause(this);
 	}
 
 	@Override
@@ -744,7 +744,7 @@ public class Main3 extends Activity {
 		super.onResume();
 		init_btn_HasUsed();
 		// umeng
-	//	MobclickAgent.onResume(this);
+		// MobclickAgent.onResume(this);
 
 	}
 

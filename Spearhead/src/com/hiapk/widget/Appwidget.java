@@ -50,8 +50,8 @@ public class Appwidget extends AppWidgetProvider {
 		sharedData = new SharedPrefrenceData(context);
 		sharedData.setWidGet14Open(true);
 		// boolean isNotifyOpen = sharedData.isNotifyOpen();
-		 AlarmSet alset = new AlarmSet();
-		 alset.StartAlarm(context);
+		AlarmSet alset = new AlarmSet();
+		alset.StartAlarm(context);
 		// SetText.setText(context);
 		Intent intentTextUpdate = new Intent();
 		intentTextUpdate.setAction(BROADCAST_TRAFF);
@@ -243,33 +243,7 @@ public class Appwidget extends AppWidgetProvider {
 					Appwidget.class), views);
 			// context.sendBroadcast(intentAppUpdate);
 		} else if (intent.getAction().equals(BROADCAST_TRAFF)) {
-			SetText.setText(context);
-			views.setCharSequence(R.id.widgetTextview1, "setText",
-					SetText.text1);
-			views.setCharSequence(R.id.widgetTextview2, "setText",
-					SetText.text2);
-			views.setCharSequence(R.id.widgetTextview3, "setText",
-					SetText.text3);
-			// Ë¢ÐÂgsmÍøÂç
-			AlertActionMobileDataControl mobile_on_of = new AlertActionMobileDataControl();
-			if (mobile_on_of.isMobileDataEnable(context)) {
-				views.setImageViewResource(R.id.widgetImage2,
-						R.drawable.icon_mobile_on);
-				views.setInt(R.id.widgetImageText2, "setTextColor", Color.GREEN);
-				// views.setInt(R.id.widgetImage2, "setBackgroundResource",
-				// R.drawable.icon_mobile_on);
-
-			} else {
-				views.setImageViewResource(R.id.widgetImage2,
-						R.drawable.icon_mobile_off);
-				views.setInt(R.id.widgetImageText2, "setTextColor", Color.GRAY);
-				// views.setInt(R.id.widgetImage2, "setBackgroundResource",
-				// R.drawable.icon_mobile_off);
-			}
-			AppWidgetManager appWidgetManager = AppWidgetManager
-					.getInstance(context);
-			appWidgetManager.updateAppWidget(new ComponentName(context,
-					Appwidget.class), views);
+			setwidgetListenerAndInit(context);
 			// context.sendBroadcast(intentAppUpdate);
 		} else if (intent.getAction().equals(APPWIDGET_UPDATE)) {
 			initWidget(context, views);
@@ -326,10 +300,10 @@ public class Appwidget extends AppWidgetProvider {
 		// pendingIntenttraff);
 		// views.setOnClickPendingIntent(R.id.widgetTextview3,
 		// pendingIntenttraff);
-		initWidget(context, views);
 		views.setCharSequence(R.id.widgetTextview1, "setText", SetText.text1);
 		views.setCharSequence(R.id.widgetTextview2, "setText", SetText.text2);
 		views.setCharSequence(R.id.widgetTextview3, "setText", SetText.text3);
+		initWidget(context, views);
 	}
 
 	/**
@@ -423,6 +397,6 @@ public class Appwidget extends AppWidgetProvider {
 	 */
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-//		Log.d("appwidget", string);
+		// Log.d("appwidget", string);
 	}
 }
