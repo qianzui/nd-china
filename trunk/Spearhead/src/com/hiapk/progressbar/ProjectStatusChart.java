@@ -243,6 +243,10 @@ public class ProjectStatusChart extends ViewBase {
 			((XYSeriesRenderer) renderer.getSeriesRendererAt(i))
 					.setFillPoints(true);
 		}
+		//…Ë÷√±≥æ∞…´
+		renderer.setMarginsColor(Color.argb(255, 40, 40, 40));
+		renderer.setBackgroundColor(Color.argb(255, 40, 40, 40));
+		renderer.setApplyBackgroundColor(true);
 		// X÷·
 		renderer.setXLabels(0);
 		int i = 0;
@@ -265,7 +269,6 @@ public class ProjectStatusChart extends ViewBase {
 		// Color.GRAY, Color.LTGRAY);
 		renderer.getSeriesRendererAt(0).setDisplayChartValues(true);
 		renderer.getSeriesRendererAt(1).setDisplayChartValues(true);
-
 		// renderer.setXLabels(5);
 		renderer.setYLabels(10);
 		length = renderer.getSeriesRendererCount();

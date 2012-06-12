@@ -75,7 +75,7 @@ public class StackedBarChart extends ViewBase {
 	// 数轴标识颜色
 	int lableColor = Color.LTGRAY;
 	// 背景颜色
-	int backgroundcolor = Color.argb(0, 255, 0, 0);
+	int backgroundcolor = Color.argb(0, 60, 60, 60);
 
 	// 本月的天数
 	double monthDay = 31;
@@ -144,7 +144,7 @@ public class StackedBarChart extends ViewBase {
 	}
 
 	public void setTopTitle(String topTitle) {
-		paramstitles = new String[] { "WIFI网络    ", topTitle };
+		paramstitles = new String[] { topTitle + "    ", "WIFI网络" };
 	}
 
 	/**
@@ -338,6 +338,10 @@ public class StackedBarChart extends ViewBase {
 			r.setColor(colors[i]);
 			renderer.addSeriesRenderer(r);
 		}
+		// renderer.setMargins(new int[] {20, 30, 15,0}); // 设置4边留白
+		renderer.setMarginsColor(Color.argb(255, 40, 40, 40));
+		renderer.setBackgroundColor(Color.argb(255, 40, 40, 40));
+		renderer.setApplyBackgroundColor(true);
 		return renderer;
 	}
 
