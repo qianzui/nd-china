@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background="@drawable/bground_dark">
 
     <!-- 标题栏开始 -->
 
@@ -41,128 +42,137 @@
         android:background="@drawable/content"
         android:orientation="vertical" >
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="流量设置"
-            android:textColor="@color/darkgray"
-            android:textSize="23dp" />
-
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1.0"
-            android:orientation="horizontal"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip" >
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
 
-            <RelativeLayout
+            <TextView
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:gravity="center_vertical" >
+                android:layout_height="wrap_content"
+                android:text="流量设置"
+                android:textColor="@color/darkgray"
+                android:textSize="23dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="包月流量:  "
-                    android:textColor="@color/darkgray"
-                    android:textSize="20dp" />
-
-                <Button
-                    android:id="@+id/btn_monthSet_Unit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/content"
-                    android:textColor="@color/lightgreen" />
-
-                <TextView
-                    android:id="@+id/tv_month"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/spinnerUnit"
-                    android:textColor="@color/lightgreen"
-                    android:textSize="20dp" />
-            </RelativeLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1.0"
-            android:orientation="horizontal"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip" >
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:gravity="center_vertical" >
+                android:layout_height="0dip"
+                android:layout_weight="1.0"
+                android:background="@drawable/bground_dark_up"
+                android:orientation="horizontal"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="本月已用:  "
-                    android:textColor="@color/darkgray"
-                    android:textSize="20dp" />
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical" >
 
-                <Button
-                    android:id="@+id/btn_monthHasUseSet_Unit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/content"
-                    android:textColor="@color/lightgreen" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="包月流量:  "
+                        android:textColor="@color/darkgray"
+                        android:textSize="20dp" />
 
-                <TextView
-                    android:id="@+id/tv_hasused"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/spinnerhasused"
-                    android:textColor="@color/lightgreen"
-                    android:textSize="20dp" />
-            </RelativeLayout>
-        </LinearLayout>
+                    <Button
+                        android:id="@+id/btn_monthSet_Unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/content"
+                        android:textColor="@color/lightgreen" />
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1.0"
-            android:orientation="horizontal"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip" >
+                    <TextView
+                        android:id="@+id/tv_month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/spinnerUnit"
+                        android:textColor="@color/lightgreen"
+                        android:textSize="20dp" />
+                </RelativeLayout>
+            </LinearLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:gravity="center_vertical" >
+                android:layout_height="0dip"
+                android:layout_weight="1.0"
+                android:background="@drawable/bground_dark_up"
+                android:orientation="horizontal"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="月结算日:  "
-                    android:textColor="@color/darkgray"
-                    android:textSize="20dp" />
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical" >
 
-                <TextView
-                    android:id="@+id/monthSet"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text=" 日"
-                    android:textColor="@color/darkgray"
-                    android:textSize="20dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="本月已用:  "
+                        android:textColor="@color/darkgray"
+                        android:textSize="20dp" />
 
-                <Spinner
-                    android:id="@+id/dayUnit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/monthSet"
-                    android:background="@drawable/content"
-                    android:entries="@array/day"
-                    android:textColor="@color/lightgreen"
-                    android:prompt="@string/daySelect" />
-            </RelativeLayout>
+                    <Button
+                        android:id="@+id/btn_monthHasUseSet_Unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/content"
+                        android:textColor="@color/lightgreen" />
+
+                    <TextView
+                        android:id="@+id/tv_hasused"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/spinnerhasused"
+                        android:textColor="@color/lightgreen"
+                        android:textSize="20dp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1.0"
+                android:background="@drawable/bground_dark_up"
+                android:orientation="horizontal"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip" >
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="月结算日:  "
+                        android:textColor="@color/darkgray"
+                        android:textSize="20dp" />
+
+                    <TextView
+                        android:id="@+id/monthSet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text=" 日"
+                        android:textColor="@color/darkgray"
+                        android:textSize="20dp" />
+
+                    <Spinner
+                        android:id="@+id/dayUnit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/monthSet"
+                        android:background="@drawable/content"
+                        android:entries="@array/day"
+                        android:prompt="@string/daySelect"
+                        android:textColor="@color/lightgreen" />
+                </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
     <!-- 第一个框框结束 -->
@@ -182,7 +192,8 @@
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+            android:layout_height="fill_parent"
+            android:background="@drawable/bground_dark_up" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -200,8 +211,8 @@
                 android:layout_centerVertical="true"
                 android:background="@drawable/content"
                 android:text="查询流量套餐"
-                android:textSize="15sp"
-                android:textColor="@color/lightgreen" />
+                android:textColor="@color/lightgreen"
+                android:textSize="15sp" />
         </RelativeLayout>
     </LinearLayout>
     <!-- 第二个框框结束 -->
@@ -228,6 +239,7 @@
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1.0"
+            android:background="@drawable/bground_dark_up"
             android:orientation="horizontal"
             android:paddingLeft="20dip"
             android:paddingRight="20dip" >
@@ -259,6 +271,7 @@
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1.0"
+            android:background="@drawable/bground_dark_up"
             android:orientation="horizontal"
             android:paddingLeft="20dip"
             android:paddingRight="20dip" >
@@ -290,6 +303,7 @@
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1.0"
+            android:background="@drawable/bground_dark_up"
             android:orientation="horizontal"
             android:paddingLeft="20dip"
             android:paddingRight="20dip" >

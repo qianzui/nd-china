@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/bground_dark"
     android:orientation="vertical" >
 
     <!-- 标题栏开始 -->
@@ -41,7 +42,6 @@
         android:layout_height="0dip"
         android:layout_margin="5dp"
         android:layout_weight="1.0"
-        android:background="@color/black"
         android:orientation="vertical" >
 
         <!-- 第一行的第一行标题开始 -->
@@ -66,6 +66,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dip"
                 android:layout_weight="1.0"
+                android:background="@drawable/bground_dark_up"
                 android:orientation="horizontal"
                 android:paddingLeft="5dip"
                 android:paddingRight="5dip" >
@@ -114,6 +115,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dip"
                 android:layout_weight="1.0"
+                android:background="@drawable/bground_dark_up"
                 android:orientation="horizontal"
                 android:paddingLeft="5dip"
                 android:paddingRight="5dip" >
@@ -156,6 +158,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dip"
                 android:layout_weight="1.0"
+                android:background="@drawable/bground_dark_up"
                 android:orientation="horizontal"
                 android:paddingLeft="5dip"
                 android:paddingRight="5dip" >
@@ -210,14 +213,13 @@
         android:layout_height="0dip"
         android:layout_margin="5dip"
         android:layout_weight="1.0"
-        android:background="@color/black"
+        android:background="@drawable/content"
         android:orientation="vertical" >
 
         <LinearLayout
             android:id="@+id/linearlayout_wifi"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@drawable/content"
             android:orientation="vertical" >
         </LinearLayout>
     </LinearLayout>

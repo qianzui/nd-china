@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.achartengine.GraphicalView;
+
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.Block;
@@ -144,10 +146,12 @@ public class Main extends Activity {
 		TextView todayMobilunit = (TextView) findViewById(R.id.unit1);
 		TextView leftMobil = (TextView) findViewById(R.id.weekRate);
 		TextView leftMobilunit = (TextView) findViewById(R.id.unit2);
-//		TextView monthMobil = (TextView) findViewById(R.id.monthRate);
-//		TextView monthMobilunit = (TextView) findViewById(R.id.unit3);
-//		TextView monthMobil2 = (TextView) findViewById(R.id.traffic_month_set);
-//		TextView monthMobilunit2 = (TextView) findViewById(R.id.unit_month_set);
+		// TextView monthMobil = (TextView) findViewById(R.id.monthRate);
+		// TextView monthMobilunit = (TextView) findViewById(R.id.unit3);
+		// TextView monthMobil2 = (TextView)
+		// findViewById(R.id.traffic_month_set);
+		// TextView monthMobilunit2 = (TextView)
+		// findViewById(R.id.unit_month_set);
 		// TextView todayWifi = (TextView) findViewById(R.id.wifiTodayRate);
 		// TextView todayWifiunit = (TextView) findViewById(R.id.unit4);
 		// TextView weekWifi = (TextView) findViewById(R.id.wifiWeekRate);
@@ -181,13 +185,13 @@ public class Main extends Activity {
 		// 月度流量设置
 		mobile_month_use = TrafficManager.getMonthUseData(context);
 		long mobileSet = sharedData.getMonthMobileSetOfLong();
-//		if (mobile_month_use > mobileSet)
-//			monthMobil.setTextColor(Color.RED);
-//		else
-//			monthMobil.setTextColor(Color.GREEN);
-//
-//		monthMobil.setText(unitHandler(mobile_month_use, monthMobilunit));
-//		monthMobil2.setText("/" + unitHandler(mobileSet, monthMobilunit2));
+		// if (mobile_month_use > mobileSet)
+		// monthMobil.setTextColor(Color.RED);
+		// else
+		// monthMobil.setTextColor(Color.GREEN);
+		//
+		// monthMobil.setText(unitHandler(mobile_month_use, monthMobilunit));
+		// monthMobil2.setText("/" + unitHandler(mobileSet, monthMobilunit2));
 		leftMobil.setText(unitHandler(mobileSet - mobile_month_use,
 				leftMobilunit));
 		// todayWifi.setText(unitHandler(wifi[monthDay] + wifi[monthDay + 31],
@@ -273,21 +277,22 @@ public class Main extends Activity {
 	private void RefreshProgressBar(int i, int j) {
 		// ProgressBar myProgressBar = (ProgressBar)
 		// findViewById(R.id.progressbar);
-//		MyProgressBar myProgressBar_mobile = (MyProgressBar) findViewById(R.id.progressbar_mobile);
+		// MyProgressBar myProgressBar_mobile = (MyProgressBar)
+		// findViewById(R.id.progressbar_mobile);
 		// MyProgressBar myProgressBar_wifi = (MyProgressBar)
 		// findViewById(R.id.progressbar_wifi);
-//		DisplayMetrics dm = new DisplayMetrics();
+		// DisplayMetrics dm = new DisplayMetrics();
 		// 取得窗口属性
-//		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		// getWindowManager().getDefaultDisplay().getMetrics(dm);
 		// 窗口的宽度
 		// windowswidesize = dm.widthPixels / 10;
-//		windowswidesize = dm.densityDpi / 5;
+		// windowswidesize = dm.densityDpi / 5;
 		// showlog(screenWidth+"");
-//		myProgressBar_mobile.setTextsize(windowswidesize);
-//		// myProgressBar_wifi.setTextsize(fontsize);
-//		ProgressBarForV progforv_mobile = new ProgressBarForV();
-//		progforv_mobile.j = i;
-//		progforv_mobile.execute(myProgressBar_mobile);
+		// myProgressBar_mobile.setTextsize(windowswidesize);
+		// // myProgressBar_wifi.setTextsize(fontsize);
+		// ProgressBarForV progforv_mobile = new ProgressBarForV();
+		// progforv_mobile.j = i;
+		// progforv_mobile.execute(myProgressBar_mobile);
 		// ProgressBarForV progforv_wifi = new ProgressBarForV();
 		// progforv_wifi.j = j;
 		// progforv_wifi.execute(myProgressBar_wifi);
@@ -302,10 +307,11 @@ public class Main extends Activity {
 	 *            wifi
 	 */
 	private void ProgressBarSet(int i, int j) {
-//		MyProgressBar myProgressBar_mobile = (MyProgressBar) findViewById(R.id.progressbar_mobile);
+		// MyProgressBar myProgressBar_mobile = (MyProgressBar)
+		// findViewById(R.id.progressbar_mobile);
 		// MyProgressBar myProgressBar_wifi = (MyProgressBar)
 		// findViewById(R.id.progressbar_wifi);
-//		myProgressBar_mobile.setProgress(i);
+		// myProgressBar_mobile.setProgress(i);
 		// myProgressBar_wifi.setProgress(j);
 	}
 
@@ -515,6 +521,7 @@ public class Main extends Activity {
 	 */
 	private void initWifiBar() {
 		// TODO Auto-generated method stub
+		
 		LinearLayout layout_mobile = (LinearLayout) findViewById(R.id.linearlayout_wifi);
 		StackedBarChart chartbar = initStackedBarChart(context);
 		View view = chartbar.execute(context);
@@ -536,7 +543,7 @@ public class Main extends Activity {
 		// windowswidesize = dm.widthPixels / 10;
 		windowswidesize = dm.densityDpi;
 		StackedBarChart chartbar = new StackedBarChart(context, windowswidesize);
-//		chartbar.setXaxisText(year + "年");
+		// chartbar.setXaxisText(year + "年");
 		chartbar.setXaxisText("");
 		// 进行参数设置
 		// 设置x轴显示范围
@@ -547,7 +554,7 @@ public class Main extends Activity {
 		long maxTraffic = 0;
 		// DecimalFormat format = new DecimalFormat("0.#");
 		// wifi[0] = (double) (wifiTraffic[0] + wifiTraffic[63]) / 1000000;
-//		TextView tvtraff = (TextView) findViewById(R.id.tv_stackChart);
+		// TextView tvtraff = (TextView) findViewById(R.id.tv_stackChart);
 		// switch (stackflag) {
 		// case 0:
 		for (int i = 0; i < totalTraff.length; i++) {
@@ -565,7 +572,7 @@ public class Main extends Activity {
 		}
 		chartbar.setMainTitle("流量统计");
 		chartbar.setTopTitle("移动网络");
-//		tvtraff.setText("   总流量");
+		// tvtraff.setText("   总流量");
 		double[] mobileTraff = new double[monthDay];
 		// break;
 		// case 1:
@@ -615,7 +622,7 @@ public class Main extends Activity {
 		// chartbar.setTopTitle("总流量");
 		// break;
 		// }
-		chartbar.setData1(totalTraff, mobileTraff);
+		chartbar.setData1(mobileTraff, totalTraff);
 		if (maxTraffic < 848576) {
 			chartbar.setyMaxvalue(1);
 			chartbar.setMaxTraffic(1);
@@ -681,26 +688,28 @@ public class Main extends Activity {
 		final PieView pieView_mobile = new PieView(context, percent,
 				mobilePersent);
 		// View PieView=findViewById(R.id.pie_bar_mobile);
-//		LinearLayout layout_mobile = (LinearLayout) findViewById(R.id.linearlayout_bar_mobile);
-//		final LinearLayout laout_mobile_pie = (LinearLayout) findViewById(R.id.linearlayout_piebar_mobile);
-//		laout_mobile_pie.removeAllViews();
+		// LinearLayout layout_mobile = (LinearLayout)
+		// findViewById(R.id.linearlayout_bar_mobile);
+		// final LinearLayout laout_mobile_pie = (LinearLayout)
+		// findViewById(R.id.linearlayout_piebar_mobile);
+		// laout_mobile_pie.removeAllViews();
 		//
 		// laout_mobile_pie.setBackgroundColor(Color.WHITE);
 		//
 		ismobileshowpie = false;
-//		layout_mobile.setOnClickListener(new OnClickListener() {
-			
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				laout_mobile_pie.removeAllViews();
-//				if (ismobileshowpie) {
-//					ismobileshowpie = false;
-//				} else {
-//					laout_mobile_pie.addView(pieView_mobile);
-//					ismobileshowpie = true;
-//				}
-//			}
-//		});
+		// layout_mobile.setOnClickListener(new OnClickListener() {
+
+		// public void onClick(View v) {
+		// // TODO Auto-generated method stub
+		// laout_mobile_pie.removeAllViews();
+		// if (ismobileshowpie) {
+		// ismobileshowpie = false;
+		// } else {
+		// laout_mobile_pie.addView(pieView_mobile);
+		// ismobileshowpie = true;
+		// }
+		// }
+		// });
 		// laout_mobile_pie.removeAllViews();
 		// laout_mobile_pie.addView(pieView_mobile);
 		// laout_mobile.removeAllViews();
