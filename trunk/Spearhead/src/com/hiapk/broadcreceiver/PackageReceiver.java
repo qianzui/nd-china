@@ -44,6 +44,9 @@ public class PackageReceiver extends BroadcastReceiver {
 					SQLHelperUid sqlhelperUid = new SQLHelperUid();
 					SQLStatic.uidnumbers = sqlhelperUid
 							.selectUidnumbers(context);
+					SQLStatic.uiddata=null;
+					AlarmSet alset = new AlarmSet();
+					alset.StartAlarmUidTotal(context);
 					showLog("∆‰À˚–∂‘ÿ" + SQLStatic.packageName[1]);
 				}
 
