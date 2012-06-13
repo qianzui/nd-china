@@ -267,10 +267,8 @@ public class SQLHelperFireWall {
 	 * Small structure to hold an application info
 	 */
 	public static class Data {
-		/** linux user id */
-		public static long upload;
-		/** application names belonging to this user id */
-		public static long download;
+		public  long upload;
+		public  long download;
 
 	}
 

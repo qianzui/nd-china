@@ -255,8 +255,8 @@ public class SQLHelperUidTotal {
 	 * @param typechange
 	 *            改变type值
 	 */
-	public HashMap<Integer, Data> updateSQLUidTypes(SQLiteDatabase sqlDataBase, int[] uidnumbers,
-			String network) {
+	public HashMap<Integer, Data> updateSQLUidTypes(SQLiteDatabase sqlDataBase,
+			int[] uidnumbers, String network) {
 		// TODO Auto-generated method stub
 		// SQLHelperTotal.isSQLUidTotalOnUsed = true;
 		// String other = SQLHelperTotal.TableWiFiOrG23;
@@ -264,10 +264,9 @@ public class SQLHelperUidTotal {
 		for (int uidnumber : uidnumbers) {
 			updateSQLUidTotal(sqlDataBase, uidnumber, network);
 		}
-		mp = SelectUidTotaldownloadAndupload(sqlDataBase,
-				uidnumbers);
+		mp = SelectUidTotaldownloadAndupload(sqlDataBase, uidnumbers);
 		// TODO: handle exception
-		showLog("批量输入uidTotal网络数据失败");
+		// showLog("批量输入uidTotal网络数据失败");
 		// SQLHelperTotal.isSQLUidTotalOnUsed = false;
 		return mp;
 	}
@@ -281,8 +280,14 @@ public class SQLHelperUidTotal {
 			temp.upload = get[1];
 			temp.download = get[2];
 			mp.put(uidnumber[i], temp);
+			// showLog(uidnumber[i]+"traff"+get[1]+"");
 		}
-
+		// Data temp = new Data();
+		// temp=mp.get(10045);
+		// Data temp2 = new Data();
+		// temp2=mp.get(10051);
+		// showLog(10045+"gettraf"+temp.upload);
+		// showLog(10051+"gettraf"+temp2.upload);
 		return mp;
 	}
 
@@ -870,7 +875,7 @@ public class SQLHelperUidTotal {
 	 */
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		// Log.d("databaseUidTotal", string);
+		Log.d("databaseUidTotal", string);
 	}
 
 }
