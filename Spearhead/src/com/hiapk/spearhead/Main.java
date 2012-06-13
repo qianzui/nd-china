@@ -499,18 +499,28 @@ public class Main extends Activity {
 					initPieBar();
 					initWifiBar();
 
-//					// test
+					// test
 //					SQLHelperUid sqlhelperUid = new SQLHelperUid();
 //					if (SQLStatic.uidnumbers == null) {
 //						SQLStatic.uidnumbers = sqlhelperUid
 //								.selectUidnumbers(context);
 //					}
+//					if (SQLStatic.uiddata == null) {
+//						alset.StartAlarmUidTotal(context);
 //
-//					 Data
-//					 uidtraff=SQLStatic.uiddata.get(SQLStatic.uidnumbers[1]);
-//					showlog(SQLStatic.uidnumbers[1] + "shangchuan"
-//					 + uidtraff.upload
-//					);
+//					}
+//					showlog(SQLStatic.uidnumbers.length+"");
+//					showlog(SQLStatic.uiddata.size()+"data");
+					
+//					for (int i = 0; i < SQLStatic.uidnumbers.length; i++) {
+//						int uid = SQLStatic.uidnumbers[i];
+//						Data datt=SQLStatic.uiddata.get(uid);
+//						
+//						Log.i("traffic...2", " ready to get traffic"
+////								+ SQLStatic.uiddata.get(uid).upload
+//								+datt.download
+//								);
+//					}
 
 					return true;
 				}

@@ -255,20 +255,21 @@ public class SQLHelperUidTotal {
 	 * @param typechange
 	 *            改变type值
 	 */
-	public void updateSQLUidTypes(SQLiteDatabase sqlDataBase, int[] uidnumbers,
+	public HashMap<Integer, Data> updateSQLUidTypes(SQLiteDatabase sqlDataBase, int[] uidnumbers,
 			String network) {
 		// TODO Auto-generated method stub
 		// SQLHelperTotal.isSQLUidTotalOnUsed = true;
 		// String other = SQLHelperTotal.TableWiFiOrG23;
+		HashMap<Integer, Data> mp = new HashMap<Integer, Data>();
 		for (int uidnumber : uidnumbers) {
 			updateSQLUidTotal(sqlDataBase, uidnumber, network);
 		}
-		SQLStatic.uiddata = SelectUidTotaldownloadAndupload(sqlDataBase,
-				SQLStatic.uidnumbers);
+		mp = SelectUidTotaldownloadAndupload(sqlDataBase,
+				uidnumbers);
 		// TODO: handle exception
 		showLog("批量输入uidTotal网络数据失败");
 		// SQLHelperTotal.isSQLUidTotalOnUsed = false;
-
+		return mp;
 	}
 
 	private HashMap<Integer, Data> SelectUidTotaldownloadAndupload(
