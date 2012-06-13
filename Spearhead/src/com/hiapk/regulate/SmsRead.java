@@ -95,49 +95,51 @@ public class SmsRead {
 
 		num = Regulate.smsNum.getText().toString();
 		if (phoneNum.equalsIgnoreCase(num)) {
+			if(num.equalsIgnoreCase("10086")){
+				String ss = sms;
+				String regex = "[\\d]+[\\.]{1}[\\d]+";
+				Pattern p = Pattern.compile(regex);
+				Matcher m = p.matcher(ss);	
+				String[] a = new String[10];
+				int i =0;
+				String val = null;  
+				try {
+					while (m.find()){  			
+						val = m.group();					
+						Log.v("MATCH: ",val); 	
+						a[i]=val;	
+						i++;
 
-			String ss = sms;
-			String regex = "[\\d]+[\\.]{1}[\\d]+";
-			Pattern p = Pattern.compile(regex);
-			Matcher m = p.matcher(ss);	
-			String[] a = new String[10];
-			int i =0;
-			String val = null;  
-			try {
-				while (m.find()){  			
-					val = m.group();					
-					Log.v("MATCH: ",val); 	
-					a[i]=val;	
-					i++;
+					}
 
+
+				} catch (Exception e) {
+					// TODO: handle exception
 				}
 
-				
-			} catch (Exception e) {
-				// TODO: handle exception
+				if(val!=null){
+					count = a[0];
+				}
 			}
-			
-			if(val!=null){
-				count = a[0];
-			}
-		}
-		else if(num.equalsIgnoreCase("10010")){
-			start = sms.indexOf("量");
-			end = sms.indexOf("M");
-			if (start != -1) {
-				isRead = true;
-				count = sms.substring(start + 1, end);
-			}
-		}
-		else if(num.equalsIgnoreCase("10001")){
-			start = sms.lastIndexOf("用");
-			end = sms.indexOf("兆");
-			if (start != -1) {
-				isRead = true;
-				count = sms.substring(start + 1, end);
-			}
-		}
 
+
+			else if(num.equalsIgnoreCase("10010")){
+				start = sms.indexOf("量");
+				end = sms.indexOf("M");
+				if (start != -1) {
+					isRead = true;
+					count = sms.substring(start + 1, end);
+				}
+			}
+			else if(num.equalsIgnoreCase("10001")){
+				start = sms.lastIndexOf("用");
+				end = sms.indexOf("兆");
+				if (start != -1) {
+					isRead = true;
+					count = sms.substring(start + 1, end);
+				}
+			}
+		}
 
 
 		if(Character.isDigit(count.charAt(0))){
