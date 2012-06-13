@@ -348,6 +348,7 @@ public class SQLHelperUid {
 			try {
 				mySQL.execSQL(string);
 			} catch (Exception e) {
+				initUidTables(mySQL, new int[] { uidnumber });
 				// TODO: handle exception
 				showLog(string);
 			}
@@ -430,43 +431,7 @@ public class SQLHelperUid {
 	 * @return
 	 */
 	public int[] selectUidnumbers(Context context) {
-		// TODO Auto-generated method stub
-		// SQLiteDatabase sqlDataBase = creatSQLUidIndex(context);
-		// String string = null;
-		// // select oldest upload and download 之前记录的数据的查询操作
-		// // SELECT * FROM table WHERE type=0
-		// string = "SELECT DISTINCT uid FROM " + TableUidIndex + Where
-		// + "other='" + "Install" + "'";
-		// try {
-		// cur = sqlDataBase.rawQuery(string, null);
-		// // showLog(string);
-		// } catch (Exception e) {
-		// // TODO: handle exception
-		// showLog(string);
-		// }
-		// int[] uids = new int[cur.getCount()];
-		// if (cur != null) {
-		// try {
-		// int mindown = cur.getColumnIndex("uid");
-		// // showLog(cur.getColumnIndex("minute") + "");
-		// int i = 0;
-		// if (cur.moveToFirst()) {
-		// do {
-		// uids[i] = (int) cur.getLong(mindown);
-		// i++;
-		// } while (cur.moveToNext());
-		// }
-		// } catch (Exception e) {
-		// // TODO: handle exception
-		// showLog("cur-searchfail");
-		// }
-		// }
-		// cur.close();
-		// // for (int i = 0; i < uids.length; i++) {
-		// // showLog(uids[i] + "");
-		// // }
-		// closeSQL(sqlDataBase);
-		// return uids;
+		
 		int j = 0;
 		PackageManager pkgmanager = context.getPackageManager();
 		List<PackageInfo> packages = context.getPackageManager()

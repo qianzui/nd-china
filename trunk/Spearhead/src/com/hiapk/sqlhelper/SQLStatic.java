@@ -1,5 +1,9 @@
 package com.hiapk.sqlhelper;
 
+import java.util.HashMap;
+
+import com.hiapk.sqlhelper.SQLHelperFireWall.Data;
+
 public class SQLStatic {
 	// 数据库正在使用。重要中。
 	public static boolean isSQLTotalOnUsed = false;
@@ -14,6 +18,9 @@ public class SQLStatic {
 	// 库存的uid表（所有）
 	public static int[] uidnumbers = null;
 	public static String packagename_ALL = null;
+	public static HashMap<Integer, Data> uiddata = null;
+	// 正在读取uid流量
+	public static boolean isuiddataRecording = false;
 	// TotalAlarm记录中
 	public static boolean isTotalAlarmRecording = false;
 	public static boolean isUidAlarmRecording = false;
@@ -21,11 +28,11 @@ public class SQLStatic {
 	/**
 	 * 初始化用uids
 	 */
-	public static int[] uids=null;
+	public static int[] uids = null;
 	/**
 	 * 初始化用pacs
 	 */
-	public static String[] packagenames=null;
+	public static String[] packagenames = null;
 
 	public static synchronized boolean setSQLTotalOnUsed(boolean SQLTotalOnUsed) {
 		if (SQLTotalOnUsed == true && isSQLTotalOnUsed == false) {

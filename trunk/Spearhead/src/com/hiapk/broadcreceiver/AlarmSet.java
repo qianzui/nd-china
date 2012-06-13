@@ -38,10 +38,13 @@ public class AlarmSet {
 		if (SQLStatic.isTotalAlarmRecording != true) {
 			TotalAlarmStart(context, totaltime);
 		}
-		if (SQLStatic.isUidAlarmRecording != true
-				&& SQLStatic.isUidTotalAlarmRecording != true) {
+		if (SQLStatic.isUidAlarmRecording != true) {
 			UidAlarmStart(context, uidrefreshtime);
 		}
+		if (SQLStatic.isUidTotalAlarmRecording != true) {
+			UidTotalAlarmStart(context, uidrefreshtime);
+		}
+
 		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
 	}
 
@@ -61,13 +64,25 @@ public class AlarmSet {
 		setwidgetdefaulttime(context);
 		int totaltime = totalrefreshtime < widgetrefreshtime ? totalrefreshtime
 				: widgetrefreshtime;
-		TotalAlarmStart(context, totaltime);
+		if (SQLStatic.isTotalAlarmRecording != true) {
+			TotalAlarmStart(context, totaltime);
+		}
 		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
 	}
 
 	public void StartAlarmUid(Context context) {
 		setdefaulttime(context);
-		UidAlarmStart(context, uidrefreshtime);
+		if (SQLStatic.isUidAlarmRecording != true) {
+			UidAlarmStart(context, uidrefreshtime);
+		}
+		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
+	}
+
+	public void StartAlarmUidTotal(Context context) {
+		setdefaulttime(context);
+		if (SQLStatic.isUidTotalAlarmRecording != true) {
+			UidTotalAlarmStart(context, uidrefreshtime);
+		}
 		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
 	}
 
@@ -207,6 +222,26 @@ public class AlarmSet {
 	private void UidAlarmStart(Context context, int i) {
 		// TODO Auto-generated method stub
 		Intent intent = new Intent(context, RecordUidDataReceiver.class);
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
+				intent, 0);
+		AlarmManager alarmManager = (AlarmManager) context
+				.getSystemService("alarm");
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(System.currentTimeMillis());
+		alarmManager.setRepeating(AlarmManager.RTC,
+				calendar.getTimeInMillis() + 200, i * 60000, pendingIntent);
+	}
+
+	/**
+	 * 启动uid总流量计时器
+	 * 
+	 * @param context
+	 * @param i
+	 *            i为设置计时间隔分钟数
+	 */
+	private void UidTotalAlarmStart(Context context, int i) {
+		// TODO Auto-generated method stub
+		Intent intent = new Intent(context, RecordUidTotalDataReceiver.class);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
 				intent, 0);
 		AlarmManager alarmManager = (AlarmManager) context
