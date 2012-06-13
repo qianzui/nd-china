@@ -121,6 +121,8 @@
         </receiver>
         <receiver android:name="com.hiapk.broadcreceiver.RecordUidDataReceiver" >
         </receiver>
+        <receiver android:name="com.hiapk.broadcreceiver.RecordUidTotalDataReceiver" >
+        </receiver>
         <receiver android:name="com.hiapk.broadcreceiver.UpdateWidget" >
         </receiver>
         <receiver android:name="com.hiapk.broadcreceiver.SMS_Received" >

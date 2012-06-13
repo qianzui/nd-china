@@ -16,6 +16,7 @@ import com.hiapk.progressbar.MyProgressBar;
 import com.hiapk.progressbar.PieView;
 import com.hiapk.progressbar.ProgressBarForV;
 import com.hiapk.progressbar.StackedBarChart;
+import com.hiapk.sqlhelper.SQLHelperFireWall.Data;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
 import com.hiapk.sqlhelper.SQLHelperUidTotal;
@@ -497,6 +498,20 @@ public class Main extends Activity {
 					initProgressBar();
 					initPieBar();
 					initWifiBar();
+
+//					// test
+//					SQLHelperUid sqlhelperUid = new SQLHelperUid();
+//					if (SQLStatic.uidnumbers == null) {
+//						SQLStatic.uidnumbers = sqlhelperUid
+//								.selectUidnumbers(context);
+//					}
+//
+//					 Data
+//					 uidtraff=SQLStatic.uiddata.get(SQLStatic.uidnumbers[1]);
+//					showlog(SQLStatic.uidnumbers[1] + "shangchuan"
+//					 + uidtraff.upload
+//					);
+
 					return true;
 				}
 				return false;
@@ -521,7 +536,7 @@ public class Main extends Activity {
 	 */
 	private void initWifiBar() {
 		// TODO Auto-generated method stub
-		
+
 		LinearLayout layout_mobile = (LinearLayout) findViewById(R.id.linearlayout_wifi);
 		StackedBarChart chartbar = initStackedBarChart(context);
 		View view = chartbar.execute(context);
@@ -799,7 +814,7 @@ public class Main extends Activity {
 	 * @param string
 	 */
 	private void showlog(String string) {
-		// Log.d("main", string);
+		Log.d("main", string);
 	}
 
 	@Override
