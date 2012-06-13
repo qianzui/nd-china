@@ -48,13 +48,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class FireWallActivity extends Activity {
 	private static final String APP_PKG_NAME_21 = "com.android.settings.ApplicationPkgName";
-	/**
-	 * 调用系统InstalledAppDetails界面所需的Extra名称(用于Android 2.1及之前版本)
-	 */
 	private static final String APP_PKG_NAME_22 = "pkg";
-	/**
-	 * 调用系统InstalledAppDetails界面所需的Extra名称(用于Android 2.2)
-	 */
 	private static final String APP_DETAILS_PACKAGE_NAME = "com.android.settings";
 	private static final String APP_DETAILS_CLASS_NAME = "com.android.settings.InstalledAppDetails";
 	private List<PackageInfo> packageInfo;
@@ -175,12 +169,6 @@ public class FireWallActivity extends Activity {
 		if (SQLStatic.uidnumbers == null) {
 						SQLStatic.uidnumbers = sqlhelperUid.selectUidnumbers(mContext);
 					}
-//		for (int i = 0; i < SQLStatic.uidnumbers.length; i++) {
-//			int uid = SQLStatic.uidnumbers[i];
-//			Log.i("traffic...data"," ready to get traffic" + SQLStatic.uiddata.get(uid).upload
-//						+ SQLStatic.uiddata.get(uid).download);
-//		}
-//		
 		traffic = new long[appList.size()];
 		int[] number = new int[traffic.length];
 		for (int i = 0; i < traffic.length; i++) {
