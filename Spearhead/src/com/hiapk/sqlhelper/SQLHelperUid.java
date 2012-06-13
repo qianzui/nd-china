@@ -134,7 +134,6 @@ public class SQLHelperUid {
 		// 重新定义静态的uid集合
 		// String newpackage = selectPackagenames(context);
 		SQLStatic.uidnumbers = selectUidnumbers(context);
-		SQLStatic.uiddata=null;
 		AlarmSet alset = new AlarmSet();
 		alset.StartAlarmUidTotal(context);
 		// SQLStatic.packagename_ALL = selectPackagenames(context);
