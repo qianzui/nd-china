@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
      android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    
+     android:layout_width="fill_parent"
+     android:layout_height="fill_parent"
     >
+     
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="48dip"
@@ -24,20 +24,20 @@
         <ImageView
             android:id="@+id/wifi_icon"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:src="@drawable/main2wifi"
+            android:layout_centerVertical="true"
+            android:src="@drawable/wifi_fire"
             />
         <ImageView
             android:id="@+id/e_icon"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/wifi_icon"
-            android:paddingRight="8dip"
-            android:src="@drawable/main2mobile"
+            android:layout_centerVertical="true"
+            android:src="@drawable/mobile_fire"
             />   
      </RelativeLayout>
-
      <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
@@ -50,5 +50,5 @@
         android:layout_height="wrap_content"
         />       
      </LinearLayout>
-
+     
 </LinearLayout>
