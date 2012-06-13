@@ -1,5 +1,8 @@
 package com.hiapk.regulate;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 
 import android.content.Context;
@@ -7,6 +10,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 public class SmsRead {
 	public boolean isRead = true;
@@ -59,6 +63,7 @@ public class SmsRead {
 				strBuilder.append(count);
 
 				if (!count.equalsIgnoreCase("无短信内容")) {
+					Regulate.smsResult.setText(count);
 					float monthHasUse = Float.valueOf(count);
 					sharedData.setMonthMobileHasUseOffloat(monthHasUse);
 					sharedData
@@ -90,34 +95,50 @@ public class SmsRead {
 
 		num = Regulate.smsNum.getText().toString();
 		if (phoneNum.equalsIgnoreCase(num)) {
-			if(num.equalsIgnoreCase("10086")){
-				start = sms.indexOf("为");
-				end = sms.indexOf("M");
-				if (start != -1) {
-					isRead = true;
-					count = sms.substring(start + 1, end);
+
+			String ss = sms;
+			String regex = "[\\d]+[\\.]{1}[\\d]+";
+			Pattern p = Pattern.compile(regex);
+			Matcher m = p.matcher(ss);	
+			String[] a = new String[10];
+			int i =0;
+			String val = null;  
+			try {
+				while (m.find()){  			
+					val = m.group();					
+					Log.v("MATCH: ",val); 	
+					a[i]=val;	
+					i++;
 
 				}
 
+				
+			} catch (Exception e) {
+				// TODO: handle exception
 			}
-			else if(num.equalsIgnoreCase("10010")){
-				start = sms.indexOf("量");
-				end = sms.indexOf("M");
-				if (start != -1) {
-					isRead = true;
-					count = sms.substring(start + 1, end);
-				}
+			
+			if(val!=null){
+				count = a[0];
 			}
-			else if(num.equalsIgnoreCase("10001")){
-				start = sms.lastIndexOf("用");
-				end = sms.indexOf("兆");
-				if (start != -1) {
-					isRead = true;
-					count = sms.substring(start + 1, end);
-				}
-			}
-
 		}
+		else if(num.equalsIgnoreCase("10010")){
+			start = sms.indexOf("量");
+			end = sms.indexOf("M");
+			if (start != -1) {
+				isRead = true;
+				count = sms.substring(start + 1, end);
+			}
+		}
+		else if(num.equalsIgnoreCase("10001")){
+			start = sms.lastIndexOf("用");
+			end = sms.indexOf("兆");
+			if (start != -1) {
+				isRead = true;
+				count = sms.substring(start + 1, end);
+			}
+		}
+
+
 
 		if(Character.isDigit(count.charAt(0))){
 			result = count;
