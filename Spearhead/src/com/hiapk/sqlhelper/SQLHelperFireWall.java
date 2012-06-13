@@ -268,9 +268,9 @@ public class SQLHelperFireWall {
 	 */
 	public static class Data {
 		/** linux user id */
-		long upload;
+		public static long upload;
 		/** application names belonging to this user id */
-		long download;
+		public static long download;
 
 	}
 

@@ -133,7 +133,7 @@ public class RecordUidTotalDataReceiver extends BroadcastReceiver {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		// Log.d("ReceiverUid", string);
+//		 Log.d("ReceiverUidTotal", string);
 	}
 
 }
