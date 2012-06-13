@@ -2,6 +2,7 @@ package com.hiapk.sqlhelper;
 
 import java.util.List;
 
+import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.firewall.Block;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 
@@ -133,6 +134,9 @@ public class SQLHelperUid {
 		// 重新定义静态的uid集合
 		// String newpackage = selectPackagenames(context);
 		SQLStatic.uidnumbers = selectUidnumbers(context);
+		SQLStatic.uiddata=null;
+		AlarmSet alset = new AlarmSet();
+		alset.StartAlarmUidTotal(context);
 		// SQLStatic.packagename_ALL = selectPackagenames(context);
 		SQLStatic.packagename_ALL = sharedData.getPackageNames();
 		if (SQLStatic.packagename_ALL.contains(packageName)) {
