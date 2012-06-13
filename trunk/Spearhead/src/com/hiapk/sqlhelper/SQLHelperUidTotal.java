@@ -501,12 +501,12 @@ public class SQLHelperUidTotal {
 			long newupload;
 			long newdownload;
 			// 计算增加的流量
-			if (uidupload > beforeData1[1]) {
+			if ((uidupload - beforeData1[1]) > 50) {
 				newupload = uidupload - beforeData1[1];
 			} else {
 				newupload = uidupload;
 			}
-			if (uiddownload > beforeData1[2]) {
+			if ((uiddownload - beforeData1[2]) > 50) {
 				newdownload = uiddownload - beforeData1[2];
 			} else {
 				newdownload = uiddownload;
