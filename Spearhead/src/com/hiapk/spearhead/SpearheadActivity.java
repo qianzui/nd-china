@@ -6,6 +6,7 @@ import java.util.TimerTask;
 import com.hiapk.alertaction.AlertActionNotify;
 import com.hiapk.prefrencesetting.PrefrenceSetting;
 import com.umeng.analytics.MobclickAgent;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -13,6 +14,7 @@ import android.app.TabActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -90,7 +92,6 @@ public class SpearheadActivity extends TabActivity {
 					break;
 				case R.id.radio_button1:
 					tabHost.setCurrentTabByTag(TAB_FIREWALL);
-//					showHelp();
 					break;
 				case R.id.radio_button2:
 					tabHost.setCurrentTabByTag(TAB_WARNING);
@@ -101,9 +102,9 @@ public class SpearheadActivity extends TabActivity {
 			}
 		});
 	}
-
-	public static void showHelp(){
-		firehelp.setImageResource(R.drawable.fire_help);
+	public static void showHelp(Context mContext){
+		Drawable d = mContext.getResources().getDrawable(R.drawable.fire_help);
+		firehelp.setBackgroundDrawable(d);
 		firehelp.setVisibility(View.VISIBLE);
 		firehelp.setOnClickListener(new OnClickListener(){
 			@Override
