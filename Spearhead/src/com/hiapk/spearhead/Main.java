@@ -500,27 +500,24 @@ public class Main extends Activity {
 					initWifiBar();
 
 					// test
-//					SQLHelperUid sqlhelperUid = new SQLHelperUid();
-//					if (SQLStatic.uidnumbers == null) {
-//						SQLStatic.uidnumbers = sqlhelperUid
-//								.selectUidnumbers(context);
-//					}
-//					if (SQLStatic.uiddata == null) {
-//						alset.StartAlarmUidTotal(context);
-//
-//					}
-//					showlog(SQLStatic.uidnumbers.length+"");
-//					showlog(SQLStatic.uiddata.size()+"data");
-					
-//					for (int i = 0; i < SQLStatic.uidnumbers.length; i++) {
-//						int uid = SQLStatic.uidnumbers[i];
-//						Data datt=SQLStatic.uiddata.get(uid);
-//						
-//						Log.i("traffic...2", " ready to get traffic"
-////								+ SQLStatic.uiddata.get(uid).upload
-//								+datt.download
-//								);
-//					}
+					// SQLHelperUid sqlhelperUid = new SQLHelperUid();
+					// if (SQLStatic.uidnumbers == null) {
+					// SQLStatic.uidnumbers = sqlhelperUid
+					// .selectUidnumbers(context);
+					// }
+					// if (SQLStatic.uiddata == null) {
+					// alset.StartAlarmUidTotal(context);
+					//
+					// }
+					// showlog(SQLStatic.uidnumbers.length + "");
+					// showlog(SQLStatic.uiddata.size() + "data");
+					//
+					// for (int i = 0; i < SQLStatic.uidnumbers.length; i++) {
+					// int uid = SQLStatic.uidnumbers[i];
+					// Data datt = SQLStatic.uiddata.get(uid);
+					// showlog("" + SQLStatic.uiddata.get(uid).download
+					// + datt.download);
+					// }
 
 					return true;
 				}
