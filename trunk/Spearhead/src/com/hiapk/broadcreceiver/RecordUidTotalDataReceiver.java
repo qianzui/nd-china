@@ -93,7 +93,7 @@ public class RecordUidTotalDataReceiver extends BroadcastReceiver {
 					.creatSQLUidTotal(params[0]);
 			sqlDataBase.beginTransaction();
 			try {
-				sqlUidTotal.updateSQLUidTypes(sqlDataBase,
+				SQLStatic.uiddata = sqlUidTotal.updateSQLUidTypes(sqlDataBase,
 						SQLStatic.uidnumbers, network);
 				sqlDataBase.setTransactionSuccessful();
 			} catch (Exception e) {
@@ -133,7 +133,7 @@ public class RecordUidTotalDataReceiver extends BroadcastReceiver {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-//		 Log.d("ReceiverUidTotal", string);
+		Log.d("ReceiverUidTotal", string);
 	}
 
 }
