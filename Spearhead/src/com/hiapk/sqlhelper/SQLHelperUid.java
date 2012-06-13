@@ -447,7 +447,7 @@ public class SQLHelperUid {
 			int uid = packageinfo.applicationInfo.uid;
 			if (!(PackageManager.PERMISSION_GRANTED != pkgmanager
 					.checkPermission(Manifest.permission.INTERNET, pacname))) {
-				if (!fliter.contains(pacname)) {
+				if (!fliter.contains(pacname)&&!(uid<10000)) {
 					uidstemp[j] = uid;
 					showLog("进行显示的uid=" + uid);
 					j++;
