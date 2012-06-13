@@ -25,8 +25,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.View.OnClickListener;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -45,6 +47,7 @@ public class SpearheadActivity extends TabActivity {
 	public static Boolean isExit = false;
 	private static Boolean hasTask = false;
 	public ProgressDialog pro;
+	public static  ImageView firehelp;
 	private Timer tExit = new Timer();
 	private TimerTask task = new TimerTask() {
 		@Override
@@ -58,6 +61,7 @@ public class SpearheadActivity extends TabActivity {
 		super.onCreate(savedInstanceState);
 	//	MobclickAgent.onError(this);
 		setContentView(R.layout.maintabs);	
+		firehelp = (ImageView)findViewById(R.id.help_image);
 		
 		initScene();
 		switchScene();
@@ -86,6 +90,7 @@ public class SpearheadActivity extends TabActivity {
 					break;
 				case R.id.radio_button1:
 					tabHost.setCurrentTabByTag(TAB_FIREWALL);
+//					showHelp();
 					break;
 				case R.id.radio_button2:
 					tabHost.setCurrentTabByTag(TAB_WARNING);
@@ -97,6 +102,17 @@ public class SpearheadActivity extends TabActivity {
 		});
 	}
 
+	public static void showHelp(){
+		firehelp.setImageResource(R.drawable.fire_help);
+		firehelp.setVisibility(View.VISIBLE);
+		firehelp.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				firehelp.setVisibility(View.INVISIBLE);
+			}
+		});
+	}
 	/**
 	 * 初始显示第几个页面
 	 */

@@ -36,7 +36,9 @@ import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -51,10 +53,9 @@ public class FireWallActivity extends Activity {
 	 */
 	private static final String APP_DETAILS_PACKAGE_NAME = "com.android.settings";
 	private static final String APP_DETAILS_CLASS_NAME = "com.android.settings.InstalledAppDetails";
-
 	private List<PackageInfo> packageInfo;
-	private AppListAdapter appListAdapter;
-	public static MyListView appListView;
+	private AppListAdapter appListAdapter; 
+	public  MyListView appListView;
 	public ArrayList<PackageInfo> myAppList;
 	private Context mContext = this;
 	private SQLHelperUid sqlhelperUid = new SQLHelperUid();
@@ -74,8 +75,34 @@ public class FireWallActivity extends Activity {
 			Toast.makeText(mContext, "下拉列表可以进行刷新!", Toast.LENGTH_SHORT).show();
 		}
 		initList();
+		if(Block.isShowTip(mContext)){
+			showHelp();
+		}
 	}
-
+	
+	public void showHelp(){
+		final Handler handler = new Handler() {
+			public void handleMessage(Message msg) {
+				try {
+					SpearheadActivity.showHelp();
+				} catch (Exception ex) {
+				}
+			}
+		};
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				handler.sendEmptyMessage(0);
+			}
+		}).start();
+	}
+	
+	
 	public void initList() {
 		pro = ProgressDialog.show(mContext, "提示",
 				"获取列表中,请耐心等待,获取的时间长短取决于您安装软件的数量...");
@@ -94,16 +121,11 @@ public class FireWallActivity extends Activity {
 				// TODO Auto-generated method stub
 				myAppList = getCompList(getInstalledPackageInfo(FireWallActivity.this));
 				getImageMap(myAppList);
-				for (int i = 0; i < myAppList.size(); i++) {
-					PackageInfo info = myAppList.get(i);
-					Log.i("....test",
-							info.applicationInfo.loadLabel(getPackageManager())
-									+ "--" + info.packageName);
-				}
 				handler.sendEmptyMessage(0);
 			}
 		}).start();
 	}
+
 
 	public void setAdapter() {
 		appListAdapter = new AppListAdapter(FireWallActivity.this, myAppList,
