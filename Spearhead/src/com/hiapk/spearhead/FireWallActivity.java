@@ -74,10 +74,10 @@ public class FireWallActivity extends Activity {
 			Toast.makeText(mContext, "下拉列表可以进行刷新!", Toast.LENGTH_SHORT).show();
 		}
 		initList();
-		if(Block.isShowHelp(mContext)){
-			showHelp();
-			Block.isShowHelpSet(mContext,false);
-		}
+//		if(Block.isShowHelp(mContext)){
+//			showHelp();
+//			Block.isShowHelpSet(mContext,false);
+//		}
 	}
 	
 	public void showHelp(){
@@ -116,7 +116,7 @@ public class FireWallActivity extends Activity {
 			}
 		};
 		new Thread(new Runnable() {
-			@Override  
+			@Override     
 			public void run() {
 				// TODO Auto-generated method stub
 				while(SQLStatic.uiddata == null){
@@ -162,6 +162,8 @@ public class FireWallActivity extends Activity {
 							Toast.makeText(mContext, "点击任意应用可查看更多选项!",
 									Toast.LENGTH_SHORT).show();
 						}
+						AlarmSet alset = new AlarmSet();
+						alset.StartAlarmUidTotal(mContext);
 						myAppList = getCompList(getInstalledPackageInfo(FireWallActivity.this));
 						getImageMap(myAppList);
 						setAdapter();
