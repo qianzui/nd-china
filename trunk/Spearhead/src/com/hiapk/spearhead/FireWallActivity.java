@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.firewall.AppListAdapter;
 import com.hiapk.firewall.Block;
 import com.hiapk.firewall.Info;
@@ -45,7 +46,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
-
+ 
 public class FireWallActivity extends Activity {
 	private static final String APP_PKG_NAME_21 = "com.android.settings.ApplicationPkgName";
 	private static final String APP_PKG_NAME_22 = "pkg";
@@ -73,8 +74,9 @@ public class FireWallActivity extends Activity {
 			Toast.makeText(mContext, "下拉列表可以进行刷新!", Toast.LENGTH_SHORT).show();
 		}
 		initList();
-		if(Block.isShowTip(mContext)){
+		if(Block.isShowHelp(mContext)){
 			showHelp();
+			Block.isShowHelpSet(mContext,false);
 		}
 	}
 	
@@ -82,7 +84,7 @@ public class FireWallActivity extends Activity {
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
 				try {
-					SpearheadActivity.showHelp();
+					SpearheadActivity.showHelp(mContext);
 				} catch (Exception ex) {
 				}
 			}
@@ -107,16 +109,26 @@ public class FireWallActivity extends Activity {
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
 				try {
-					setAdapter();
-					pro.dismiss();
+				      	setAdapter();
+				     	pro.dismiss();
 				} catch (Exception ex) {
 				}
 			}
 		};
 		new Thread(new Runnable() {
-			@Override
+			@Override  
 			public void run() {
 				// TODO Auto-generated method stub
+				while(SQLStatic.uiddata == null){
+					AlarmSet alset = new AlarmSet();
+					alset.StartAlarmUidTotal(mContext);
+					try {
+						Thread.sleep(300);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				myAppList = getCompList(getInstalledPackageInfo(FireWallActivity.this));
 				getImageMap(myAppList);
 				handler.sendEmptyMessage(0);
@@ -144,7 +156,6 @@ public class FireWallActivity extends Activity {
 					protected Void doInBackground(Void... params) {
 						return null;
 					}
-
 					@Override
 					protected void onPostExecute(Void result) {
 						if (Block.fireTip(mContext)) {
