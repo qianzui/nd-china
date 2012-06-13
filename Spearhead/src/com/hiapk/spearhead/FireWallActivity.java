@@ -2,7 +2,9 @@ package com.hiapk.spearhead;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import com.hiapk.firewall.AppListAdapter;
@@ -10,8 +12,10 @@ import com.hiapk.firewall.Block;
 import com.hiapk.firewall.Info;
 import com.hiapk.firewall.MyListView;
 import com.hiapk.firewall.MyListView.OnRefreshListener;
+import com.hiapk.sqlhelper.SQLHelperFireWall.Data;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
+import com.hiapk.sqlhelper.SQLStatic;
 import com.hiapk.uidtraff.UidMonthTraff;
 import com.umeng.analytics.MobclickAgent;
 
@@ -166,15 +170,26 @@ public class FireWallActivity extends Activity {
 
 	// ≈≈–Ú
 	public ArrayList<PackageInfo> getCompList(ArrayList<PackageInfo> appList) {
+		Log.i("traffic..."," ready to get traffic");
+		SQLHelperUid sqlhelperUid = new SQLHelperUid();
+		if (SQLStatic.uidnumbers == null) {
+						SQLStatic.uidnumbers = sqlhelperUid.selectUidnumbers(mContext);
+					}
+//		for (int i = 0; i < SQLStatic.uidnumbers.length; i++) {
+//			int uid = SQLStatic.uidnumbers[i];
+//			Log.i("traffic...data"," ready to get traffic" + SQLStatic.uiddata.get(uid).upload
+//						+ SQLStatic.uiddata.get(uid).download);
+//		}
+//		
 		traffic = new long[appList.size()];
 		int[] number = new int[traffic.length];
-
 		for (int i = 0; i < traffic.length; i++) {
 			int uid = appList.get(i).applicationInfo.uid;
-			traffic[i] = TrafficStats.getUidRxBytes(uid)
-					+ TrafficStats.getUidTxBytes(uid);
+			traffic[i] = SQLStatic.uiddata.get(uid).upload
+					+ SQLStatic.uiddata.get(uid).download;
+			Log.i("traffic...", traffic[i]+ "");
 		}
-
+		Log.i("traffic...2"," get traffic success");
 		for (int i = 0; i < traffic.length; i++) {
 			number[i] = i;
 		}
@@ -263,8 +278,8 @@ public class FireWallActivity extends Activity {
 		final String appname = pkgInfo.applicationInfo.loadLabel(
 				mContext.getPackageManager()).toString();
 
-		long down = judge(TrafficStats.getUidRxBytes(uid));
-		long up = judge(TrafficStats.getUidTxBytes(uid));
+		long down = judge(SQLStatic.uiddata.get(pkgInfo.applicationInfo.uid).download);
+		long up = judge(SQLStatic.uiddata.get(pkgInfo.applicationInfo.uid).upload);
 		final String trafficup = unitHandler(up);
 		final String trafficdown = unitHandler(down);
 

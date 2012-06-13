@@ -4,6 +4,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import com.hiapk.spearhead.R;
+import com.hiapk.sqlhelper.SQLStatic;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -73,9 +75,8 @@ public class AppListAdapter extends BaseAdapter {
 		  PackageInfo pkgInfo = myAppList.get(position);
 		  IsChecked ic = (IsChecked)map.get(pkgInfo.applicationInfo.uid);
 		  Info info = (Info)imageAndNameMap.get(position);
-		  
-		  long down = judge(TrafficStats.getUidRxBytes(pkgInfo.applicationInfo.uid));
-		  long up = judge(TrafficStats.getUidTxBytes(pkgInfo.applicationInfo.uid));
+		  long down = judge(SQLStatic.uiddata.get(pkgInfo.applicationInfo.uid).download);
+		  long up = judge(SQLStatic.uiddata.get(pkgInfo.applicationInfo.uid).upload);
 		  holder.icon.setImageDrawable(info.d);
 		  holder.appname.setText(pkgInfo.applicationInfo.loadLabel(mContext.getPackageManager()));
 		  holder.trafficup.setText("×ÜÁ÷Á¿£º " + unitHandler(up + down));	
