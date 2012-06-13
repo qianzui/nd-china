@@ -25,7 +25,6 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		SQLStatic.isUidAlarmRecording = true;
-		SQLStatic.isUidTotalAlarmRecording = true;
 		// TODO Auto-generated method stub
 		// showLog("TableWiFiOrG23=" + SQLHelperTotal.TableWiFiOrG23);
 		if (sqlhelperTotal.getIsInit(context)) {
@@ -42,13 +41,6 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 					SQLStatic.isUidAlarmRecording = false;
 					showLog("Uid数据库忙");
 				}
-				if (SQLStatic.setSQLUidTotalOnUsed(true)) {
-					new AsyncTaskonRecordUidTotal().execute(context);
-				} else {
-					SQLStatic.setSQLUidTotalOnUsed(false);
-					SQLStatic.isUidTotalAlarmRecording = false;
-					showLog("UidTotal数据库忙");
-				}
 
 			} else {
 				// 无网络条件下进行最后一次记录
@@ -62,20 +54,12 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 					SQLStatic.isUidAlarmRecording = false;
 					showLog("Uid数据库忙");
 				}
-				if (SQLStatic.setSQLUidTotalOnUsed(true)) {
-					new AsyncTaskonRecordUidTotal().execute(context);
-				} else {
-					SQLStatic.setSQLUidTotalOnUsed(false);
-					SQLStatic.isUidTotalAlarmRecording = false;
-					showLog("UidTotal数据库忙");
-				}
 
 			}
 		} else {
 			// sqlhelper.initSQL(context);
 			showLog("please init the database");
 			SQLStatic.isUidAlarmRecording = false;
-			SQLStatic.isUidTotalAlarmRecording = false;
 		}
 	}
 
@@ -155,68 +139,6 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 				showLog("uid数据更新");
 			}
 
-		}
-
-	}
-
-	private class AsyncTaskonRecordUidTotal extends
-			AsyncTask<Context, Integer, Integer> {
-		@Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			super.onPreExecute();
-			// SQLHelperTotal.isSQLUidTotalOnUsed = true;
-		}
-
-		@Override
-		protected Integer doInBackground(Context... params) {
-			try {
-				Thread.sleep(200);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if (SQLStatic.uidnumbers == null) {
-				// if (SQLHelperTotal.isSQLIndexOnUsed == false) {
-				// SQLHelperTotal.isSQLIndexOnUsed = true;
-				// if (SQLStatic.setSQLIndexOnUsed(true)) {
-				// SQLHelperUid.uidnumbers = sqlhelperUid
-				// .selectSQLUidnumbers(params[0]);
-				// SQLStatic.setSQLIndexOnUsed(false);
-				// }
-				// 重新定义静态的uid集合
-				SQLStatic.uidnumbers = sqlhelperUid.selectUidnumbers(params[0]);
-				// SQLHelperTotal.isSQLIndexOnUsed = false;
-				// }
-
-			}
-			if (SQLStatic.uidnumbers == null) {
-				return 0;
-			}
-
-			SQLHelperUidTotal sqlUidTotal = new SQLHelperUidTotal();
-			sqlUidTotal.updateSQLUidTypes(params[0], SQLStatic.uidnumbers,
-					network);
-			return 1;
-		}
-
-		@Override
-		protected void onPostExecute(Integer result) {
-			// TODO Auto-generated method stub
-			if (result == 1) {
-				showLog("uidTotal更新成功");
-				// SQLHelperTotal.isSQLUidTotalOnUsed = false;
-				SQLStatic.setSQLUidTotalOnUsed(false);
-			}
-			if (result == 0) {
-				showLog("uidTotal更新失败无uidindex");
-				// SQLHelperTotal.isSQLUidTotalOnUsed = false;
-				SQLStatic.setSQLUidTotalOnUsed(false);
-			}
-			SQLStatic.isUidTotalAlarmRecording = false;
-			// if (result == 3) {
-			// showLog("uidTotalUnknow");
-			// }
 		}
 
 	}
