@@ -498,16 +498,16 @@ public class SQLHelperUidTotal {
 		} else {
 			// 获取之前记录的数据
 			long[] beforeData2 = SelectUidTotalData(mySQL, uidnumber, 2, other);
-			long newupload;
-			long newdownload;
+			long newupload = uidupload - beforeData1[1];
+			long newdownload = uiddownload - beforeData1[2];
 			// 计算增加的流量
-			if ((uidupload - beforeData1[1]) > 50) {
-				newupload = uidupload - beforeData1[1];
+			if (newupload > 0) {
+				
 			} else {
 				newupload = uidupload;
 			}
-			if ((uiddownload - beforeData1[2]) > 50) {
-				newdownload = uiddownload - beforeData1[2];
+			if (newdownload > 0) {
+				
 			} else {
 				newdownload = uiddownload;
 			}
