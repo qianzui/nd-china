@@ -35,16 +35,18 @@ public class PackageReceiver extends BroadcastReceiver {
 			if (intent.getAction().equals(
 					"android.intent.action.PACKAGE_REMOVED")) {
 				if (packageNames.equals("package:com.hiapk.spearhead")) {
-					 OnUninstallitself uninstall = new OnUninstallitself();
-					 uninstall.unInstallAction(context);
-//					new AsyTaskOnItselfUninstall().execute(context);
+					OnUninstallitself uninstall = new OnUninstallitself();
+					uninstall.unInstallAction(context);
+					// new AsyTaskOnItselfUninstall().execute(context);
 					showLog("卸载" + SQLStatic.packageName[1]);
 				} else {
 					// new AsyTaskOnUninstall().execute(context);
 					SQLHelperUid sqlhelperUid = new SQLHelperUid();
-					SQLStatic.uidnumbers = sqlhelperUid
-							.selectUidnumbers(context);
-					SQLStatic.uiddata=null;
+					SQLStatic.isuidnumbersOperating = true;
+					int[] uids = sqlhelperUid.selectUidnumbers(context);
+					SQLStatic.uidnumbers = uids;
+					SQLStatic.isuiddataOperating = true;
+					SQLStatic.uiddata = null;
 					AlarmSet alset = new AlarmSet();
 					alset.StartAlarmUidTotal(context);
 					showLog("其他卸载" + SQLStatic.packageName[1]);
@@ -72,67 +74,8 @@ public class PackageReceiver extends BroadcastReceiver {
 						sqlhelperTotal.initTablemobileAndwifi(context, false);
 						// 有网络权限进行更新表格
 						showLog("有网络权限的安装");
-						SQLStatic.uidnumber = 999999;
-						try {
-							SQLStatic.uidnumber = context.getPackageManager()
-									.getPackageInfo(SQLStatic.packageName[1],
-											getResultCode()).applicationInfo.uid;
-						} catch (NameNotFoundException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-							showLog("获取包信息失败");
-						}
-						if (SQLStatic.uidnumber != 999999) {
-							showLog("安装" + SQLStatic.packageName[1]
-									+ SQLStatic.uidnumber);
-							SQLHelperUid sqlhelperUid = new SQLHelperUid();
-							// 判断是否是新安装程序
-							int[] uids = sqlhelperUid.updateSQLUidOnInstall(
-									context, SQLStatic.uidnumber,
-									SQLStatic.packageName[1], "Install");
-							// 依据返回值进行软件uid表清空
-							List<Integer> uid_List_Add = new LinkedList<Integer>();
-							List<Integer> uid_List_Del = new LinkedList<Integer>();
-							if (uids == null) {
-								showLog("N覆盖安装");
-							}
-							if (uids != null) {
-								showLog("Nuids!=null");
-								while (!SQLStatic.setSQLUidTotalOnUsed(true)) {
-								}
-								// list不是空即有新添加软件
-								showLog("building list");
-								SQLHelperUidTotal sqlhelperUidTotal = new SQLHelperUidTotal();
-								uid_List_Add = sqlhelperUidTotal
-										.updateSQLUidTotalOnInstallgetAdd(
-												context, SQLStatic.uidnumber,
-												SQLStatic.packageName[1],
-												"Install", uids);
-								uid_List_Del = sqlhelperUidTotal
-										.updateSQLUidTotalOnInstallgetDel(
-												context, SQLStatic.uidnumber,
-												SQLStatic.packageName[1],
-												"Install", uids);
-							}
-							SQLStatic.setSQLUidTotalOnUsed(false);
-							if ((uid_List_Add != null)
-									|| (uid_List_Del != null)) {
-								if (uid_List_Add != null) {
-									// showLog("N新安装软件");
-								}
-								if (uid_List_Del != null) {
-									// showLog("N有软件要删除");
-								}
-								while (!SQLStatic.setSQLUidOnUsed(true)) {
-								}
-								sqlhelperUid.updateSQLUidOnInstall(context,
-										SQLStatic.uidnumber,
-										SQLStatic.packageName[1], "Install",
-										uid_List_Add, uid_List_Del);
-							}
-							SQLStatic.setSQLUidOnUsed(false);
-							// new AsyTaskOnInstall().execute(context);
-						}
+						new AsyTaskOnInstall().execute(context);
+
 					}
 				}
 
@@ -213,10 +156,6 @@ public class PackageReceiver extends BroadcastReceiver {
 	}
 
 	private class AsyTaskOnInstall extends AsyncTask<Context, Integer, Integer> {
-		// private int uid;
-		// private String pacName;
-
-		// private boolean isUidIndexSQLonUse_Asy = false;
 
 		@Override
 		protected void onPreExecute() {
@@ -229,36 +168,81 @@ public class PackageReceiver extends BroadcastReceiver {
 
 		@Override
 		protected Integer doInBackground(Context... params) {
+			SQLStatic.uidnumber = 999999;
+			try {
+				SQLStatic.uidnumber = params[0].getPackageManager()
+						.getPackageInfo(SQLStatic.packageName[1],
+								getResultCode()).applicationInfo.uid;
+			} catch (NameNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				showLog("获取包信息失败");
+			}
+			if (SQLStatic.uidnumber != 999999) {
+				showLog("安装" + SQLStatic.packageName[1] + SQLStatic.uidnumber);
+				SQLHelperUid sqlhelperUid = new SQLHelperUid();
+				// 判断是否是新安装程序
+				int[] uids = sqlhelperUid.updateSQLUidOnInstall(params[0],
+						SQLStatic.uidnumber, SQLStatic.packageName[1],
+						"Install");
+				// 依据返回值进行软件uid表清空
+				List<Integer> uid_List_Add = new LinkedList<Integer>();
+				List<Integer> uid_List_Del = new LinkedList<Integer>();
+				if (uids == null) {
+					showLog("N覆盖安装");
+				}
+				if (uids != null) {
+					showLog("Nuids!=null");
+					while (!SQLStatic.setSQLUidTotalOnUsed(true)) {
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					// list不是空即有新添加软件
+					showLog("building list");
+					SQLHelperUidTotal sqlhelperUidTotal = new SQLHelperUidTotal();
+					uid_List_Add = sqlhelperUidTotal
+							.updateSQLUidTotalOnInstallgetAdd(params[0],
+									SQLStatic.uidnumber,
+									SQLStatic.packageName[1], "Install", uids);
+					uid_List_Del = sqlhelperUidTotal
+							.updateSQLUidTotalOnInstallgetDel(params[0],
+									SQLStatic.uidnumber,
+									SQLStatic.packageName[1], "Install", uids);
+				}
+				SQLStatic.setSQLUidTotalOnUsed(false);
+				if ((uid_List_Add != null) || (uid_List_Del != null)) {
+					if (uid_List_Add != null) {
+						// showLog("N新安装软件");
+					}
+					if (uid_List_Del != null) {
+						// showLog("N有软件要删除");
+					}
+					while (!SQLStatic.setSQLUidOnUsed(true)) {
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					sqlhelperUid.updateSQLUidOnInstall(params[0],
+							SQLStatic.uidnumber, SQLStatic.packageName[1],
+							"Install", uid_List_Add, uid_List_Del);
+				}
+				SQLStatic.setSQLUidOnUsed(false);
+				// new AsyTaskOnInstall().execute(context);
+			}
 			return null;
 		}
-
-		// @Override
-		// protected void onProgressUpdate(Integer... values) {
-		// // TODO Auto-generated method stub
-		// super.onProgressUpdate(values);
-		// if (values[0] == 1) {
-		// if (SQLHelperTotal.isSQLIndexOnUsed == false
-		// && SQLHelperTotal.isSQLUidOnUsed == false
-		// && SQLHelperTotal.isSQLUidTotalOnUsed == false) {
-		// SQLHelperTotal.isSQLIndexOnUsed = true;
-		// SQLHelperTotal.isSQLUidOnUsed = true;
-		// SQLHelperTotal.isSQLUidTotalOnUsed = true;
-		// isUidIndexSQLonUse_Asy = true;
-		// }
-		// }
-		// }
 
 		@Override
 		protected void onPostExecute(Integer result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
-			// SQLHelperTotal.isSQLIndexOnUsed = false;
-			// SQLHelperTotal.isSQLUidOnUsed = false;
-			// SQLHelperTotal.isSQLUidTotalOnUsed = false;
-			// isUidIndexSQLonUse_Asy = false;
-			SQLStatic.setSQLUidOnUsed(false);
-			SQLStatic.setSQLIndexOnUsed(false);
-			SQLStatic.setSQLUidTotalOnUsed(false);
 		}
 	}
 

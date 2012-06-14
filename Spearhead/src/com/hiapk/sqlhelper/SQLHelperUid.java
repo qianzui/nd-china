@@ -133,6 +133,7 @@ public class SQLHelperUid {
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		// 重新定义静态的uid集合
 		// String newpackage = selectPackagenames(context);
+		SQLStatic.isuidnumbersOperating=true;
 		SQLStatic.uidnumbers = selectUidnumbers(context);
 		// SQLStatic.packagename_ALL = selectPackagenames(context);
 		SQLStatic.packagename_ALL = sharedData.getPackageNames();
@@ -143,7 +144,8 @@ public class SQLHelperUid {
 			// 新安装软件
 			SQLStatic.packagename_ALL = selectPackagenames(context);
 			sharedData.setPackageNames(SQLStatic.packagename_ALL);
-			SQLStatic.uiddata=null;
+			SQLStatic.isuiddataOperating=true;
+			SQLStatic.uiddata = null;
 			AlarmSet alset = new AlarmSet();
 			alset.StartAlarmUidTotal(context);
 			return new int[] { 1019 };
@@ -435,7 +437,7 @@ public class SQLHelperUid {
 	 * @return
 	 */
 	public int[] selectUidnumbers(Context context) {
-		
+
 		int j = 0;
 		PackageManager pkgmanager = context.getPackageManager();
 		List<PackageInfo> packages = context.getPackageManager()
@@ -448,10 +450,20 @@ public class SQLHelperUid {
 			int uid = packageinfo.applicationInfo.uid;
 			if (!(PackageManager.PERMISSION_GRANTED != pkgmanager
 					.checkPermission(Manifest.permission.INTERNET, pacname))) {
-				if (!fliter.contains(pacname)&&!(uid<10000)) {
-					uidstemp[j] = uid;
-					showLog("进行显示的uid=" + uid);
-					j++;
+				if (!fliter.contains(pacname)) {
+					boolean issameUid = false;
+					for (int k = 0; k < j; k++) {
+						if (uidstemp[k] == uid) {
+							issameUid = true;
+							break;
+						}
+					}
+					if (!issameUid) {
+						uidstemp[j] = uid;
+						showLog("进行显示的uid=" + uid);
+						j++;
+					}
+
 					// tmpInfo.packageName = pacname;
 					// tmpInfo.app_uid = packageinfo.applicationInfo.uid;
 				}
@@ -461,6 +473,7 @@ public class SQLHelperUid {
 		for (int i = 0; i < j; i++) {
 			uids[i] = uidstemp[i];
 		}
+		SQLStatic.isuidnumbersOperating=false;
 		return uids;
 	}
 

@@ -19,6 +19,8 @@ public class SQLStatic {
 	public static int[] uidnumbers = null;
 	public static String packagename_ALL = null;
 	public static HashMap<Integer, Data> uiddata = null;
+	public static boolean isuiddataOperating = false;
+	public static boolean isuidnumbersOperating = false;
 	// 正在读取uid流量
 	public static boolean isuiddataRecording = false;
 	// TotalAlarm记录中

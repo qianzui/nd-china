@@ -1,5 +1,8 @@
 package com.hiapk.broadcreceiver;
 
+import java.util.HashMap;
+
+import com.hiapk.sqlhelper.SQLHelperFireWall.Data;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
 import com.hiapk.sqlhelper.SQLHelperUidTotal;
@@ -24,9 +27,9 @@ public class RecordUidTotalDataReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		showLog(SQLStatic.isUidTotalAlarmRecording+"-before");
+		showLog(SQLStatic.isUidTotalAlarmRecording + "-before");
 		SQLStatic.isUidTotalAlarmRecording = true;
-		time=System.currentTimeMillis();
+		time = System.currentTimeMillis();
 		// TODO Auto-generated method stub
 		// showLog("TableWiFiOrG23=" + SQLHelperTotal.TableWiFiOrG23);
 		if (sqlhelperTotal.getIsInit(context)) {
@@ -39,8 +42,8 @@ public class RecordUidTotalDataReceiver extends BroadcastReceiver {
 				} else {
 					SQLStatic.setSQLUidTotalOnUsed(false);
 					SQLStatic.isUidTotalAlarmRecording = false;
-					time=System.currentTimeMillis()-time;
-					showLog("fail1"+time+"ms");
+					time = System.currentTimeMillis() - time;
+					showLog("fail1" + time + "ms");
 					showLog("UidTotal数据库忙");
 				}
 
@@ -53,7 +56,7 @@ public class RecordUidTotalDataReceiver extends BroadcastReceiver {
 				} else {
 					SQLStatic.setSQLUidTotalOnUsed(false);
 					SQLStatic.isUidTotalAlarmRecording = false;
-					showLog("fail2"+time+"ms");
+					showLog("fail2" + time + "ms");
 					showLog("UidTotal数据库忙");
 				}
 
@@ -76,38 +79,41 @@ public class RecordUidTotalDataReceiver extends BroadcastReceiver {
 
 		@Override
 		protected Integer doInBackground(Context... params) {
+			int[] numbers = null;
 			if (SQLStatic.uidnumbers == null) {
-				// if (SQLHelperTotal.isSQLIndexOnUsed == false) {
-				// SQLHelperTotal.isSQLIndexOnUsed = true;
-				// if (SQLStatic.setSQLIndexOnUsed(true)) {
-				// SQLHelperUid.uidnumbers = sqlhelperUid
-				// .selectSQLUidnumbers(params[0]);
-				// SQLStatic.setSQLIndexOnUsed(false);
-				// }
 				// 重新定义静态的uid集合
+				SQLStatic.isuidnumbersOperating=true;
 				SQLStatic.uidnumbers = sqlhelperUid.selectUidnumbers(params[0]);
 				// SQLHelperTotal.isSQLIndexOnUsed = false;
 				// }
 
 			}
-			if (SQLStatic.uidnumbers == null) {
+			if (SQLStatic.uidnumbers != null) {
+				numbers = SQLStatic.uidnumbers;
+			} else {
 				return 0;
 			}
+			HashMap<Integer, Data> mp = null;
 			SQLHelperUidTotal sqlUidTotal = new SQLHelperUidTotal();
 			SQLiteDatabase sqlDataBase = sqlUidTotal
 					.creatSQLUidTotal(params[0]);
 			sqlDataBase.beginTransaction();
+			boolean success = true;
 			try {
-				SQLStatic.uiddata = sqlUidTotal.updateSQLUidTypes(sqlDataBase,
-						SQLStatic.uidnumbers, network);
+				mp = sqlUidTotal.updateSQLUidTypes(sqlDataBase, numbers,
+						network);
 				sqlDataBase.setTransactionSuccessful();
 			} catch (Exception e) {
 				// TODO: handle exception
 				showLog("批量读取uid流量-Context");
+				success = false;
 			} finally {
 				sqlDataBase.endTransaction();
 			}
 			sqlUidTotal.closeSQL(sqlDataBase);
+			if (success) {
+				SQLStatic.uiddata = mp;
+			}
 
 			// sqlUidTotal.updateSQLUidTypes(params[0], SQLStatic.uidnumbers,
 			// network);
@@ -120,19 +126,20 @@ public class RecordUidTotalDataReceiver extends BroadcastReceiver {
 			// TODO Auto-generated method stub
 			if (result == 1) {
 				showLog("uidTotal更新成功");
-				time=System.currentTimeMillis()-time;
-				showLog("success"+time+"ms");
+				time = System.currentTimeMillis() - time;
+				showLog("success" + time + "ms");
 				// SQLHelperTotal.isSQLUidTotalOnUsed = false;
 				SQLStatic.setSQLUidTotalOnUsed(false);
 			}
 			if (result == 0) {
 				showLog("uidTotal更新失败无uidindex");
 				// SQLHelperTotal.isSQLUidTotalOnUsed = false;
-				time=System.currentTimeMillis()-time;
-				showLog("无uidindex"+time+"ms");
+				time = System.currentTimeMillis() - time;
+				showLog("无uidindex" + time + "ms");
 				SQLStatic.setSQLUidTotalOnUsed(false);
 			}
 			SQLStatic.isUidTotalAlarmRecording = false;
+			SQLStatic.isuiddataOperating = false;
 			// if (result == 3) {
 			// showLog("uidTotalUnknow");
 			// }

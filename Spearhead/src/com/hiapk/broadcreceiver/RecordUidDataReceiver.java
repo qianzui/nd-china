@@ -71,9 +71,12 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 	private int uidRecord(Context context) {
 		// 实时更新数据两个1代表数据更新
 		// showLog(SQLHelperTotal.isSQLIndexOnUsed+"");
+		int[] numbers = null;
 		if (SQLStatic.uidnumbers == null) {
 			// 重新定义静态的uid集合
-			SQLStatic.uidnumbers = sqlhelperUid.selectUidnumbers(context);
+			SQLStatic.isuidnumbersOperating=true;
+			SQLStatic.uidnumbers=sqlhelperUid.selectUidnumbers(context);
+			
 			// if (SQLHelperTotal.isSQLIndexOnUsed == false) {
 			// SQLHelperTotal.isSQLIndexOnUsed = true;
 			// if (SQLStatic.setSQLIndexOnUsed(true)) {
@@ -85,18 +88,19 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			// }
 
 		}
-		if (SQLStatic.uidnumbers == null) {
+		if (SQLStatic.uidnumbers != null) {
+			numbers = SQLStatic.uidnumbers;
+		} else {
 			return 0;
 		}
 		SQLiteDatabase sqlDataBase = sqlhelperUid.creatSQLUid(context);
 		sqlDataBase.beginTransaction();
 		try {
 			// 更新数据
-			sqlhelperUid.updateSQLUidTypes(sqlDataBase, SQLStatic.uidnumbers,
-					1, network, 1);
+			sqlhelperUid.updateSQLUidTypes(sqlDataBase, numbers, 1, network, 1);
 			// 记录数据
-			sqlhelperUid.RecordUidwritestats(sqlDataBase, SQLStatic.uidnumbers,
-					false, network);
+			sqlhelperUid.RecordUidwritestats(sqlDataBase, numbers, false,
+					network);
 			sqlDataBase.setTransactionSuccessful();
 		} catch (Exception e) {
 			// TODO: handle exception
