@@ -47,40 +47,43 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
-		SQLStatic.isTotalAlarmRecording = true;
-		this.context = context;
-		// showLog("TableWiFiOrG23=" + SQLHelperTotal.TableWiFiOrG23);
-		// 初始化数据库后进行操作
-		if (sqlhelperTotal.getIsInit(context)) {
-			if (SQLHelperTotal.TableWiFiOrG23 != "") {
-				if (SQLStatic.setSQLTotalOnUsed(true)) {
-					time = System.currentTimeMillis();
-					sqlDataBase = sqlhelperTotal.creatSQLTotal(context);
-					new AsyncTaskonRecordTotalData().execute(context);
-					// showLog(SQLHelperTotal.TableWiFiOrG23);
-				} else {
-					SQLStatic.setSQLTotalOnUsed(false);
-					SQLStatic.isTotalAlarmRecording = false;
-					showLog("数据库忙，未记录");
-				}
+		if (SQLStatic.isTotalAlarmRecording == false) {
 
+			SQLStatic.isTotalAlarmRecording = true;
+			this.context = context;
+			// showLog("TableWiFiOrG23=" + SQLHelperTotal.TableWiFiOrG23);
+			// 初始化数据库后进行操作
+			if (sqlhelperTotal.getIsInit(context)) {
+				if (SQLHelperTotal.TableWiFiOrG23 != "") {
+					if (SQLStatic.setSQLTotalOnUsed(true)) {
+						time = System.currentTimeMillis();
+						sqlDataBase = sqlhelperTotal.creatSQLTotal(context);
+						new AsyncTaskonRecordTotalData().execute(context);
+						// showLog(SQLHelperTotal.TableWiFiOrG23);
+					} else {
+						SQLStatic.setSQLTotalOnUsed(false);
+						SQLStatic.isTotalAlarmRecording = false;
+						showLog("数据库忙，未记录");
+					}
+
+				} else {
+					if (SQLStatic.setSQLTotalOnUsed(true)) {
+						// SQLHelperTotal.isSQLTotalOnUsed = true;
+						initDataWithnoNetwork(context);
+						SQLStatic.setSQLTotalOnUsed(false);
+						// showLog(SQLHelperTotal.TableWiFiOrG23);
+					} else {
+						showLog("数据库忙，未记录");
+						SQLStatic.setSQLTotalOnUsed(false);
+						SQLStatic.isTotalAlarmRecording = false;
+					}
+
+				}
 			} else {
-				if (SQLStatic.setSQLTotalOnUsed(true)) {
-					// SQLHelperTotal.isSQLTotalOnUsed = true;
-					initDataWithnoNetwork(context);
-					SQLStatic.setSQLTotalOnUsed(false);
-					// showLog(SQLHelperTotal.TableWiFiOrG23);
-				} else {
-					showLog("数据库忙，未记录");
-					SQLStatic.setSQLTotalOnUsed(false);
-					SQLStatic.isTotalAlarmRecording = false;
-				}
-
+				// sqlhelper.initSQL(context);
+				SQLStatic.isTotalAlarmRecording = false;
+				showLog("please init the database");
 			}
-		} else {
-			// sqlhelper.initSQL(context);
-			SQLStatic.isTotalAlarmRecording = false;
-			showLog("please init the database");
 		}
 	}
 
