@@ -46,15 +46,15 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
- 
+
 public class FireWallActivity extends Activity {
 	private static final String APP_PKG_NAME_21 = "com.android.settings.ApplicationPkgName";
 	private static final String APP_PKG_NAME_22 = "pkg";
 	private static final String APP_DETAILS_PACKAGE_NAME = "com.android.settings";
 	private static final String APP_DETAILS_CLASS_NAME = "com.android.settings.InstalledAppDetails";
 	private List<PackageInfo> packageInfo;
-	private AppListAdapter appListAdapter; 
-	public  MyListView appListView;
+	private AppListAdapter appListAdapter;
+	public MyListView appListView;
 	public ArrayList<PackageInfo> myAppList;
 	private Context mContext = this;
 	private SQLHelperUid sqlhelperUid = new SQLHelperUid();
@@ -62,25 +62,26 @@ public class FireWallActivity extends Activity {
 	ProgressDialog mydialog;
 	ProgressDialog pro;
 	long[] traffic;
+	HashMap<Integer, Data> mp ;
 	HashMap<Integer, Info> imageAndNameMap = new HashMap<Integer, Info>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-	//	MobclickAgent.onError(this);
+		// MobclickAgent.onError(this);
 		setContentView(R.layout.main2);
 		if (Block.fireTip(mContext)) {
 			Toast.makeText(mContext, "下拉列表可以进行刷新!", Toast.LENGTH_SHORT).show();
 		}
 		initList();
-//		if(Block.isShowHelp(mContext)){
-//			showHelp();
-//			Block.isShowHelpSet(mContext,false);
-//		}
+		if (Block.isShowHelp(mContext)) {
+			showHelp();
+			Block.isShowHelpSet(mContext, false);
+		}
 	}
-	
-	public void showHelp(){
+
+	public void showHelp() {
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
 				try {
@@ -101,31 +102,35 @@ public class FireWallActivity extends Activity {
 			}
 		}).start();
 	}
-	
-	
+
 	public void initList() {
 		pro = ProgressDialog.show(mContext, "提示",
 				"获取列表中,请耐心等待,获取的时间长短取决于您安装软件的数量...");
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
 				try {
-				      	setAdapter();
-				     	pro.dismiss();
+					setAdapter();
+					pro.dismiss();
 				} catch (Exception ex) {
 				}
 			}
 		};
 		new Thread(new Runnable() {
-			@Override     
+			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				while(SQLStatic.uiddata == null){
-					AlarmSet alset = new AlarmSet();
-					alset.StartAlarmUidTotal(mContext);
+				
+				while (mp == null) {
+					if (SQLStatic.isuiddataOperating == true) {
+						AlarmSet alset = new AlarmSet();
+						alset.StartAlarmUidTotal(mContext);
+					}
+					if (SQLStatic.isuiddataOperating == false) {
+						mp = SQLStatic.uiddata;
+					}
 					try {
 						Thread.sleep(300);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -135,7 +140,6 @@ public class FireWallActivity extends Activity {
 			}
 		}).start();
 	}
-
 
 	public void setAdapter() {
 		appListAdapter = new AppListAdapter(FireWallActivity.this, myAppList,
@@ -151,9 +155,23 @@ public class FireWallActivity extends Activity {
 		});
 		appListView.setonRefreshListener(new OnRefreshListener() {
 			public void onRefresh() {
-				new AsyncTask<Void, Void, Void>() {
+				new AsyncTask<Context, Void, Void>() {
 					@Override
-					protected Void doInBackground(Void... params) {
+					protected Void doInBackground(Context... params) {
+						while (mp == null) {
+							if (SQLStatic.isuiddataOperating == true) {
+								AlarmSet alset = new AlarmSet();
+								alset.StartAlarmUidTotal(mContext);
+							}
+							if (SQLStatic.isuiddataOperating == false&&SQLStatic.uiddata!=null) {
+								mp = SQLStatic.uiddata;
+							}
+							try {
+								Thread.sleep(300);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
 						return null;
 					}
 					@Override
@@ -162,35 +180,59 @@ public class FireWallActivity extends Activity {
 							Toast.makeText(mContext, "点击任意应用可查看更多选项!",
 									Toast.LENGTH_SHORT).show();
 						}
-						AlarmSet alset = new AlarmSet();
-						alset.StartAlarmUidTotal(mContext);
 						myAppList = getCompList(getInstalledPackageInfo(FireWallActivity.this));
 						getImageMap(myAppList);
 						setAdapter();
 						appListAdapter.notifyDataSetChanged();
 						appListView.onRefreshComplete();
 					}
-				}.execute(null);
+				}.execute(mContext);
 			}
 		});
 	}
 
 	// 排序
 	public ArrayList<PackageInfo> getCompList(ArrayList<PackageInfo> appList) {
-		Log.i("traffic..."," ready to get traffic");
-		SQLHelperUid sqlhelperUid = new SQLHelperUid();
-		if (SQLStatic.uidnumbers == null) {
-						SQLStatic.uidnumbers = sqlhelperUid.selectUidnumbers(mContext);
-					}
 		traffic = new long[appList.size()];
 		int[] number = new int[traffic.length];
 		for (int i = 0; i < traffic.length; i++) {
 			int uid = appList.get(i).applicationInfo.uid;
-			traffic[i] = SQLStatic.uiddata.get(uid).upload
-					+ SQLStatic.uiddata.get(uid).download;
-			Log.i("traffic...", traffic[i]+ "");
+			
+			if(mp == null) {
+				if (SQLStatic.isuiddataOperating == true) {
+					AlarmSet alset = new AlarmSet();
+					alset.StartAlarmUidTotal(mContext);
+				}
+				if (SQLStatic.isuiddataOperating == false) {
+					mp = SQLStatic.uiddata;
+					if(mp.containsKey(uid)){
+					traffic[i] = mp.get(uid).upload
+				      +  mp.get(uid).download;
+					}else{
+						traffic[i] = -1000;
+					}
+				}
+			 }else{
+				if (SQLStatic.isuiddataOperating == true) {
+					if(mp.containsKey(uid)){
+						traffic[i] = mp.get(uid).upload
+					      +  mp.get(uid).download;
+						Log.i("traffic long ", traffic[i] + "");
+						}else{
+							traffic[i] = -1000;
+						}
+				}else{
+					mp = SQLStatic.uiddata;
+					if(mp.containsKey(uid)){
+						traffic[i] = mp.get(uid).upload
+					      +  mp.get(uid).download;
+						Log.i("traffic long ", traffic[i] + "");
+						}else{
+							traffic[i] = -1000;
+						}
+				}
+			}
 		}
-		Log.i("traffic...2"," get traffic success");
 		for (int i = 0; i < traffic.length; i++) {
 			number[i] = i;
 		}
@@ -215,19 +257,36 @@ public class FireWallActivity extends Activity {
 		}
 		return myAppList;
 	}
-
+	public ArrayList<PackageInfo> getCompList2(ArrayList<PackageInfo> list){
+		ArrayList<PackageInfo> list2 = new ArrayList<PackageInfo>();
+		for (int i = 0; i < list.size(); i++) {
+			int uid  = list.get(i).applicationInfo.uid;
+		}
+		
+		
+		return list;
+	}
 	public HashMap<Integer, Info> getImageMap(ArrayList<PackageInfo> myAppList) {
 		for (int i = 0; i < myAppList.size(); i++) {
 			PackageInfo pkgInfo = myAppList.get(i);
+			int uid = pkgInfo.applicationInfo.uid;
+			final long up;
+			final long down;
+			if(mp.containsKey(uid)){
+				up = mp.get(uid).upload;
+				down =  mp.get(uid).download;
+				}else{
+					up = -1000;
+					down = -1000;
+				}
 			Info info = new Info(
 					pkgInfo.applicationInfo.loadIcon(getPackageManager()),
 					pkgInfo.applicationInfo.loadLabel(getPackageManager())
-							.toString());
+							.toString(),
+				    up,down);
 			imageAndNameMap.put(i, info);
 		}
-
 		return imageAndNameMap;
-
 	}
 
 	public ArrayList<PackageInfo> getInstalledPackageInfo(Context context) {
@@ -243,13 +302,9 @@ public class FireWallActivity extends Activity {
 							pkgInfo.applicationInfo.packageName)) {
 				if (Block.filter.contains(pkgInfo.applicationInfo.packageName)) {
 				} else {
-					// if ((pkgInfo.applicationInfo.flags &
-					// ApplicationInfo.FLAG_SYSTEM) == 0
-					// && (pkgInfo.applicationInfo.flags &
-					// ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == 0) {
 					appList.add(pkgInfo);
-				}
-			}
+			     }   
+	      	}
 		}
 		return appList;
 	}
@@ -278,12 +333,26 @@ public class FireWallActivity extends Activity {
 		final String pkname = pkgInfo.applicationInfo.packageName;
 		final String appname = pkgInfo.applicationInfo.loadLabel(
 				mContext.getPackageManager()).toString();
-
-		long down = judge(SQLStatic.uiddata.get(pkgInfo.applicationInfo.uid).download);
-		long up = judge(SQLStatic.uiddata.get(pkgInfo.applicationInfo.uid).upload);
-		final String trafficup = unitHandler(up);
-		final String trafficdown = unitHandler(down);
-
+		final long up;
+		final long down;
+		if(mp.containsKey(uid)){
+			up = mp.get(uid).upload;
+			down =  mp.get(uid).download;
+			}else{
+				up = -1000;
+				down = -1000;
+			}
+//		long down = judge(SQLStatic.uiddata.get(pkgInfo.applicationInfo.uid).download);
+//		long up = judge(SQLStatic.uiddata.get(pkgInfo.applicationInfo.uid).upload);
+		final String trafficup;
+		final String trafficdown;
+		if(up == -1000 && down == -1000 ){
+		     trafficup = unitHandler(0);
+		     trafficdown = unitHandler(0);
+		}else{
+		     trafficup = unitHandler(up);
+			 trafficdown = unitHandler(down);
+		}
 		final AlertDialog dlg = new AlertDialog.Builder(FireWallActivity.this)
 				.setTitle("请选择")
 				.setItems(items, new DialogInterface.OnClickListener() {
