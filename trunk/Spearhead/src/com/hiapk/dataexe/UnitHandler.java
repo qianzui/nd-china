@@ -60,7 +60,8 @@ public class UnitHandler {
 			DecimalFormat format = new DecimalFormat("0.##");
 			value = format.format(temp) + " KB";
 		} else if ((floatnum = (float) temp / 1024) < 1) {
-			value = temp + " KB";
+			DecimalFormat format = new DecimalFormat("0.##");
+			value =  format.format(temp) + " KB";
 		} else if ((floatGB = floatnum / 1024) < 1) {
 			DecimalFormat format = new DecimalFormat("0.##");
 			value = format.format(floatnum) + " MB";
