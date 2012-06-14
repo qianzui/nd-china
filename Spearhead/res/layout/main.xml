@@ -59,7 +59,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@drawable/content"
+            android:background="@drawable/bg_about"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -84,6 +84,8 @@
                         android:textColor="@color/darkgray2"
                         android:textSize="20dp" />
                 </LinearLayout>
+
+               
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -110,6 +112,13 @@
                 </LinearLayout>
             </LinearLayout>
 
+            
+             <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/divider" />
+             
+             
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dip"
@@ -144,7 +153,7 @@
                         android:id="@+id/gotoThree"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/content"
+                        android:background="@drawable/bg_about"
                         android:paddingLeft="15dip"
                         android:text="未设置  "
                         android:textColor="@color/darkgreen"
@@ -152,6 +161,11 @@
                 </LinearLayout>
             </LinearLayout>
 
+             <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/divider" />
+            
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dip"
@@ -198,7 +212,7 @@
                         android:textColor="@color/darkgray2"
                         android:textSize="20dp" />
                 </LinearLayout>
-            </LinearLayout>  
+            </LinearLayout>
         </LinearLayout>
         <!-- 第一行结束 -->
     </LinearLayout>

@@ -39,7 +39,7 @@
         android:layout_height="0dip"
         android:layout_margin="5dip"
         android:layout_weight="1.0"
-        android:background="@drawable/content"
+        android:background="@drawable/bg_about"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -50,15 +50,20 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="5.0dip"
                 android:text="流量设置"
-                android:textColor="@color/darkgray"
+                android:textColor="@color/darkgray2"
                 android:textSize="23dp" />
 
+            <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/divider" />
+            
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dip"
                 android:layout_weight="1.0"
-                android:background="@drawable/bground_dark_up"
                 android:orientation="horizontal"
                 android:paddingLeft="20dip"
                 android:paddingRight="20dip" >
@@ -72,7 +77,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="包月流量:  "
-                        android:textColor="@color/darkgray"
+                        android:textColor="@color/darkgray2"
                         android:textSize="20dp" />
 
                     <Button
@@ -80,24 +85,28 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:background="@drawable/content"
-                        android:textColor="@color/lightgreen" />
+                        android:background="@drawable/bg_about"
+                        android:textColor="@color/darkgreen" />
 
                     <TextView
                         android:id="@+id/tv_month"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toLeftOf="@+id/spinnerUnit"
-                        android:textColor="@color/lightgreen"
+                        android:textColor="@color/darkgreen"
                         android:textSize="20dp" />
                 </RelativeLayout>
             </LinearLayout>
 
+            <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/divider" />
+            
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dip"
                 android:layout_weight="1.0"
-                android:background="@drawable/bground_dark_up"
                 android:orientation="horizontal"
                 android:paddingLeft="20dip"
                 android:paddingRight="20dip" >
@@ -111,7 +120,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="本月已用:  "
-                        android:textColor="@color/darkgray"
+                        android:textColor="@color/darkgray2"
                         android:textSize="20dp" />
 
                     <Button
@@ -119,8 +128,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:background="@drawable/content"
-                        android:textColor="@color/lightgreen" />
+                        android:background="@drawable/bg_about"
+                        android:textColor="@color/darkgreen" />
 
                     <TextView
                         android:id="@+id/tv_hasused"
@@ -132,11 +141,15 @@
                 </RelativeLayout>
             </LinearLayout>
 
+            <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/divider" />
+            
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dip"
                 android:layout_weight="1.0"
-                android:background="@drawable/bground_dark_up"
                 android:orientation="horizontal"
                 android:paddingLeft="20dip"
                 android:paddingRight="20dip" >
@@ -150,7 +163,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="月结算日:  "
-                        android:textColor="@color/darkgray"
+                        android:textColor="@color/darkgray2"
                         android:textSize="20dp" />
 
                     <TextView
@@ -159,7 +172,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:text=" 日"
-                        android:textColor="@color/darkgray"
+                        android:textColor="@color/darkgray2"
                         android:textSize="20dp" />
 
                     <Spinner
@@ -167,7 +180,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toLeftOf="@+id/monthSet"
-                        android:background="@drawable/content"
+                        android:background="@drawable/bg_about"
                         android:entries="@array/day"
                         android:prompt="@string/daySelect"
                         android:textColor="@color/lightgreen" />
@@ -186,21 +199,21 @@
         android:layout_marginLeft="5dip"
         android:layout_marginRight="5dip"
         android:layout_weight="0.3"
-        android:background="@drawable/content"
+        android:background="@drawable/bg_about"
         android:orientation="horizontal"
         android:paddingRight="20dip" >
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@drawable/bground_dark_up" >
+            android:layout_height="fill_parent" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingLeft="5.0dip"
                 android:layout_centerVertical="true"
                 android:text="流量校正"
-                android:textColor="@color/darkgray"
+                android:textColor="@color/darkgray2"
                 android:textSize="23dp" />
 
             <Button
@@ -209,9 +222,9 @@
                 android:layout_height="50dip"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/content"
+                android:background="@drawable/bg_about"
                 android:text="查询流量套餐"
-                android:textColor="@color/lightgreen"
+                android:textColor="@color/darkgreen"
                 android:textSize="15sp" />
         </RelativeLayout>
     </LinearLayout>
@@ -225,21 +238,26 @@
         android:layout_height="0dip"
         android:layout_margin="5dip"
         android:layout_weight="1.0"
-        android:background="@drawable/content"
+        android:background="@drawable/bg_about"
         android:orientation="vertical" >
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="5.0dip"
             android:text="流量提醒"
-            android:textColor="@color/darkgray"
+            android:textColor="@color/darkgray2"
             android:textSize="23dp" />
 
+        <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/divider" />
+        
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1.0"
-            android:background="@drawable/bground_dark_up"
             android:orientation="horizontal"
             android:paddingLeft="20dip"
             android:paddingRight="20dip" >
@@ -253,7 +271,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="月流量预警值:  "
-                    android:textColor="@color/darkgray"
+                    android:textColor="@color/darkgray2"
                     android:textSize="20dp" />
 
                 <Button
@@ -261,17 +279,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:background="@drawable/content"
+                    android:background="@drawable/bg_about"
                     android:text="点击设置"
-                    android:textColor="@color/lightgreen" />
+                    android:textColor="@color/darkgreen" />
             </RelativeLayout>
         </LinearLayout>
 
+        <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/divider" />
+        
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1.0"
-            android:background="@drawable/bground_dark_up"
             android:orientation="horizontal"
             android:paddingLeft="20dip"
             android:paddingRight="20dip" >
@@ -285,7 +307,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="日流量预警值:  "
-                    android:textColor="@color/darkgray"
+                    android:textColor="@color/darkgray2"
                     android:textSize="20dp" />
 
                 <Button
@@ -293,17 +315,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:background="@drawable/content"
+                    android:background="@drawable/bg_about"
                     android:text="点击设置"
-                    android:textColor="@color/lightgreen" />
+                    android:textColor="@color/darkgreen" />
             </RelativeLayout>
         </LinearLayout>
 
+        <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/divider" />
+        
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1.0"
-            android:background="@drawable/bground_dark_up"
             android:orientation="horizontal"
             android:paddingLeft="20dip"
             android:paddingRight="20dip" >
@@ -317,7 +343,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="预警动作:  "
-                    android:textColor="@color/darkgray"
+                    android:textColor="@color/darkgray2"
                     android:textSize="20dp" />
 
                 <Spinner
@@ -325,7 +351,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:background="@drawable/content"
+                    android:background="@drawable/bg_about"
                     android:prompt="@string/warningActionSelect"
                     android:text="点击设置"
                     android:textColor="@color/lightgreen" />

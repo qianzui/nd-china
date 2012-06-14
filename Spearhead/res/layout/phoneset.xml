@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@drawable/bground_dark" >
 
     <TextView
         android:layout_width="fill_parent"
@@ -23,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="省份"
-            android:textColor="@color/whitesmoke" />
+            android:textColor="@color/darkgray2" />
 
         <Spinner
             android:id="@+id/province"
@@ -37,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="城市"
-            android:textColor="@color/whitesmoke" />
+            android:textColor="@color/darkgray2" />
 
         <Spinner
             android:id="@+id/city"
@@ -51,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="运营商"
-            android:textColor="@color/whitesmoke" />
+            android:textColor="@color/darkgray2" />
 
         <Spinner
             android:id="@+id/operator"
@@ -65,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="手机卡品牌"
-            android:textColor="@color/whitesmoke" />
+            android:textColor="@color/darkgray2" />
 
         <Spinner
             android:id="@+id/brand"
@@ -80,10 +81,10 @@
             android:layout_width="130dip"
             android:layout_height="45dip"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/content"
+            android:background="@drawable/bg_about"
             android:text="下一步"
             android:textSize="18sp"
-            android:textColor="@color/whitesmoke" />
+            android:textColor="@color/darkgreen" />
     </LinearLayout>
 
 </LinearLayout>
