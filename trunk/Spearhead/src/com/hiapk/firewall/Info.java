@@ -7,9 +7,13 @@ public class Info {
 	public String appname;
 	public int uid;
 	public String pkgname;
-	public Info(Drawable d,String appname){
+	public long up;
+	public long down;
+	public Info(Drawable d,String appname,long up,long down){
 		this.d = d;
 		this.appname = appname;
+		this.up = up;
+		this.down = down;
 
 	}
 	

@@ -3,6 +3,8 @@ package com.hiapk.firewall;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.spearhead.R;
 import com.hiapk.sqlhelper.SQLStatic;
 
@@ -75,11 +77,16 @@ public class AppListAdapter extends BaseAdapter {
 		  PackageInfo pkgInfo = myAppList.get(position);
 		  IsChecked ic = (IsChecked)map.get(pkgInfo.applicationInfo.uid);
 		  Info info = (Info)imageAndNameMap.get(position);
-		  long down = judge(SQLStatic.uiddata.get(pkgInfo.applicationInfo.uid).download);
-		  long up = judge(SQLStatic.uiddata.get(pkgInfo.applicationInfo.uid).upload);
+//		  long down = judge(SQLStatic.uiddata.get(pkgInfo.applicationInfo.uid).download);
+//		  long up = judge(SQLStatic.uiddata.get(pkgInfo.applicationInfo.uid).upload);
 		  holder.icon.setImageDrawable(info.d);
 		  holder.appname.setText(pkgInfo.applicationInfo.loadLabel(mContext.getPackageManager()));
-		  holder.trafficup.setText("总流量： " + unitHandler(up + down));	
+		  if(info.up == -1000 && info.down == -1000){
+			  holder.trafficup.setText("总流量： " + "获取中..." );	
+		  }else{
+		  holder.trafficup.setText("总流量： "  + unitHandler(info.up + info.down));	
+		  }
+		  
 		  holder.e_toggle.setChecked(ic.selected_3g);
 		  holder.wifi_toggle.setChecked(ic.selected_wifi);
 		  holder.e_toggle.setOnClickListener(new EListener(holder.e_toggle,ic));
