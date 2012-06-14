@@ -42,11 +42,8 @@ public class PackageReceiver extends BroadcastReceiver {
 				} else {
 					// new AsyTaskOnUninstall().execute(context);
 					SQLHelperUid sqlhelperUid = new SQLHelperUid();
-					SQLStatic.isuidnumbersOperating = true;
-					int[] uids = sqlhelperUid.selectUidnumbers(context);
-					SQLStatic.uidnumbers = uids;
-					SQLStatic.isuiddataOperating = true;
-					SQLStatic.uiddata = null;
+					SQLStatic.uidnumbers = sqlhelperUid
+							.selectUidnumbers(context);
 					AlarmSet alset = new AlarmSet();
 					alset.StartAlarmUidTotal(context);
 					showLog("∆‰À˚–∂‘ÿ" + SQLStatic.packageName[1]);

@@ -133,7 +133,6 @@ public class SQLHelperUid {
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		// 重新定义静态的uid集合
 		// String newpackage = selectPackagenames(context);
-		SQLStatic.isuidnumbersOperating=true;
 		SQLStatic.uidnumbers = selectUidnumbers(context);
 		// SQLStatic.packagename_ALL = selectPackagenames(context);
 		SQLStatic.packagename_ALL = sharedData.getPackageNames();
@@ -144,8 +143,6 @@ public class SQLHelperUid {
 			// 新安装软件
 			SQLStatic.packagename_ALL = selectPackagenames(context);
 			sharedData.setPackageNames(SQLStatic.packagename_ALL);
-			SQLStatic.isuiddataOperating=true;
-			SQLStatic.uiddata = null;
 			AlarmSet alset = new AlarmSet();
 			alset.StartAlarmUidTotal(context);
 			return new int[] { 1019 };
@@ -473,7 +470,6 @@ public class SQLHelperUid {
 		for (int i = 0; i < j; i++) {
 			uids[i] = uidstemp[i];
 		}
-		SQLStatic.isuidnumbersOperating=false;
 		return uids;
 	}
 
