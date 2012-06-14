@@ -132,7 +132,7 @@
                     android:layout_height="fill_parent"
                     android:layout_weight="1.0"
                     android:gravity="center"
-                    android:orientation="horizontal" >
+                    android:orientation="vertical" >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -141,6 +141,16 @@
                         android:textColor="@color/darkgray2"
                         android:textSize="20dp" />
                 </LinearLayout>
+                
+                 <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:orientation="horizontal" 
+                    android:background="@drawable/shu">
+                    
+                    
+                      </LinearLayout>
+                 
 
                 <LinearLayout
                     android:layout_width="0dp"
