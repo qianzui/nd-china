@@ -26,13 +26,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.0"
             android:visibility="gone" />
-
+
         <RadioGroup
             android:id="@+id/main_radio"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="@drawable/maintab_toolbar_bg"
+            android:layout_weight="0.01"
+            android:background="@drawable/maintab_bg"
             android:gravity="center_vertical"
             android:orientation="horizontal" >
 
