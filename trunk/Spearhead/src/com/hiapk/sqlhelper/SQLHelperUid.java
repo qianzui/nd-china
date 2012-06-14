@@ -134,8 +134,6 @@ public class SQLHelperUid {
 		// 重新定义静态的uid集合
 		// String newpackage = selectPackagenames(context);
 		SQLStatic.uidnumbers = selectUidnumbers(context);
-		AlarmSet alset = new AlarmSet();
-		alset.StartAlarmUidTotal(context);
 		// SQLStatic.packagename_ALL = selectPackagenames(context);
 		SQLStatic.packagename_ALL = sharedData.getPackageNames();
 		if (SQLStatic.packagename_ALL.contains(packageName)) {
@@ -145,6 +143,9 @@ public class SQLHelperUid {
 			// 新安装软件
 			SQLStatic.packagename_ALL = selectPackagenames(context);
 			sharedData.setPackageNames(SQLStatic.packagename_ALL);
+			SQLStatic.uiddata=null;
+			AlarmSet alset = new AlarmSet();
+			alset.StartAlarmUidTotal(context);
 			return new int[] { 1019 };
 		}
 

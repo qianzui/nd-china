@@ -146,4 +146,5 @@
 <color name="navy">#000080</color><!--海军色 --> 
 <color name="black">#000000</color><!--黑色 --> 
 <color name="transparent">#00000000</color>
+<color name="darkgray2">#505050</color>
 </resources> 

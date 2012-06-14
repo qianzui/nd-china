@@ -17,9 +17,9 @@
             android:id="@android:id/tabcontent"
             android:layout_width="fill_parent"
             android:layout_height="0.0dip"
-            android:layout_weight="1.0"
+            android:layout_weight="1.0"  
             android:background="@color/black" />
-
+ 
         <TabWidget
             android:id="@android:id/tabs"
             android:layout_width="fill_parent"
@@ -39,7 +39,6 @@
             <RadioButton
                 android:id="@+id/radio_button0"
                 style="@style/main_tab_bottom"
-                android:layout_marginTop="2.0dip"
                 android:drawableTop="@drawable/icon_1_n"
                 android:tag="radio_button0"
                 android:text="@string/main_1" />
@@ -47,7 +46,6 @@
             <RadioButton
                 android:id="@+id/radio_button1"
                 style="@style/main_tab_bottom"
-                android:layout_marginTop="2.0dip"
                 android:drawableTop="@drawable/icon_2_n"
                 android:tag="radio_button1"
                 android:text="@string/main_2" />
@@ -55,7 +53,6 @@
             <RadioButton
                 android:id="@+id/radio_button2"
                 style="@style/main_tab_bottom"
-                android:layout_marginTop="2.0dip"
                 android:drawableTop="@drawable/icon_3_n"
                 android:tag="radio_button2"
                 android:text="@string/main_3" />

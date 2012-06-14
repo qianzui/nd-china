@@ -52,8 +52,10 @@ public class SetText {
 		textDown = monthUsedStr + " / " + monthSetStr + " --> " + date;
 		// text1 = "今日已用: " + todayUsedStr + (int) (30 * Math.random());
 		text1 = textUp;
-		text2 = "本月流量: " + monthUsedStr + "/" + monthSetStr;
-		text3 = "结算日期: " + date;
+//		text2 = "本月流量: " + monthUsedStr + "/" + monthSetStr;
+//		text3 = "结算日期: " + date;
+		text2 = "本月流量: " ;
+		text3 = "" + monthUsedStr + " / " + monthSetStr; 
 		// showLog(textUp);
 	}
 

@@ -52,12 +52,13 @@ public class UnitHandler {
 	 */
 	public String unitHandlerAccurate(long count) {
 		String value = null;
-		long temp = count;
+		float temp = count;
 		float floatnum = count;
 		float floatGB = count;
 		float floatTB = count;
 		if ((temp = temp / 1024) < 1) {
-			value = count + " B";
+			DecimalFormat format = new DecimalFormat("0.##");
+			value = format.format(temp) + " KB";
 		} else if ((floatnum = (float) temp / 1024) < 1) {
 			value = temp + " KB";
 		} else if ((floatGB = floatnum / 1024) < 1) {
