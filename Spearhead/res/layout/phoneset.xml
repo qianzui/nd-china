@@ -31,7 +31,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
-            android:background="@drawable/content"
+            android:background="@drawable/bg_about"
             android:prompt="@string/provinceSelect" />
 
         <TextView
@@ -45,7 +45,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
-            android:background="@drawable/content"
+            android:background="@drawable/bg_about"
             android:prompt="@string/citySelect" />
 
         <TextView
@@ -59,7 +59,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
-            android:background="@drawable/content"
+            android:background="@drawable/bg_about"
             android:prompt="@string/operatorSelect" />
 
         <TextView
@@ -73,7 +73,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
-            android:background="@drawable/content"
+            android:background="@drawable/bg_about"
             android:prompt="@string/brankSelect" />
 
         <Button
