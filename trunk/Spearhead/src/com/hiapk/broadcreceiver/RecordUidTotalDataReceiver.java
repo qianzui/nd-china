@@ -84,7 +84,6 @@ public class RecordUidTotalDataReceiver extends BroadcastReceiver {
 			int[] numbers = null;
 			if (SQLStatic.uidnumbers == null) {
 				// 重新定义静态的uid集合
-				SQLStatic.isuidnumbersOperating = true;
 				SQLStatic.uidnumbers = sqlhelperUid.selectUidnumbers(params[0]);
 				// SQLHelperTotal.isSQLIndexOnUsed = false;
 				// }
@@ -143,7 +142,6 @@ public class RecordUidTotalDataReceiver extends BroadcastReceiver {
 				SQLStatic.setSQLUidTotalOnUsed(false);
 			}
 			SQLStatic.isUidTotalAlarmRecording = false;
-			SQLStatic.isuiddataOperating = false;
 			// if (result == 3) {
 			// showLog("uidTotalUnknow");
 			// }

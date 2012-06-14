@@ -76,7 +76,6 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 		int[] numbers = null;
 		if (SQLStatic.uidnumbers == null) {
 			// 重新定义静态的uid集合
-			SQLStatic.isuidnumbersOperating = true;
 			SQLStatic.uidnumbers = sqlhelperUid.selectUidnumbers(context);
 
 			// if (SQLHelperTotal.isSQLIndexOnUsed == false) {

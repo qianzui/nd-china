@@ -62,7 +62,7 @@ public class FireWallActivity extends Activity {
 	ProgressDialog mydialog;
 	ProgressDialog pro;
 	long[] traffic;
-	HashMap<Integer, Data> mp ;
+	HashMap<Integer, Data> mp;
 	HashMap<Integer, Info> imageAndNameMap = new HashMap<Integer, Info>();
 
 	@Override
@@ -119,15 +119,15 @@ public class FireWallActivity extends Activity {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				
+
 				while (mp == null) {
-					if (SQLStatic.isuiddataOperating == true) {
+					if (SQLStatic.uiddata != null) {
+						mp = SQLStatic.uiddata;
+					} else {
 						AlarmSet alset = new AlarmSet();
 						alset.StartAlarmUidTotal(mContext);
 					}
-					if (SQLStatic.isuiddataOperating == false) {
-						mp = SQLStatic.uiddata;
-					}
+
 					try {
 						Thread.sleep(300);
 					} catch (InterruptedException e) {
@@ -159,12 +159,11 @@ public class FireWallActivity extends Activity {
 					@Override
 					protected Void doInBackground(Context... params) {
 						while (mp == null) {
-							if (SQLStatic.isuiddataOperating == true) {
+							if (SQLStatic.uiddata != null) {
+								mp = SQLStatic.uiddata;
+							} else {
 								AlarmSet alset = new AlarmSet();
 								alset.StartAlarmUidTotal(mContext);
-							}
-							if (SQLStatic.isuiddataOperating == false&&SQLStatic.uiddata!=null) {
-								mp = SQLStatic.uiddata;
 							}
 							try {
 								Thread.sleep(300);
@@ -174,6 +173,7 @@ public class FireWallActivity extends Activity {
 						}
 						return null;
 					}
+
 					@Override
 					protected void onPostExecute(Void result) {
 						if (Block.fireTip(mContext)) {
@@ -197,39 +197,38 @@ public class FireWallActivity extends Activity {
 		int[] number = new int[traffic.length];
 		for (int i = 0; i < traffic.length; i++) {
 			int uid = appList.get(i).applicationInfo.uid;
-			
-			if(mp == null) {
-				if (SQLStatic.isuiddataOperating == true) {
+
+			if (mp == null) {
+				if (SQLStatic.uiddata != null) {
+					mp = SQLStatic.uiddata;
+				} else {
 					AlarmSet alset = new AlarmSet();
 					alset.StartAlarmUidTotal(mContext);
 				}
-				if (SQLStatic.isuiddataOperating == false) {
+				if (SQLStatic.uiddata != null) {
 					mp = SQLStatic.uiddata;
-					if(mp.containsKey(uid)){
-					traffic[i] = mp.get(uid).upload
-				      +  mp.get(uid).download;
-					}else{
+					if (mp.containsKey(uid)) {
+						traffic[i] = mp.get(uid).upload + mp.get(uid).download;
+					} else {
 						traffic[i] = -1000;
 					}
 				}
-			 }else{
-				if (SQLStatic.isuiddataOperating == true) {
-					if(mp.containsKey(uid)){
-						traffic[i] = mp.get(uid).upload
-					      +  mp.get(uid).download;
+			} else {
+				if (SQLStatic.uiddata == null) {
+					if (mp.containsKey(uid)) {
+						traffic[i] = mp.get(uid).upload + mp.get(uid).download;
 						Log.i("traffic long ", traffic[i] + "");
-						}else{
-							traffic[i] = -1000;
-						}
-				}else{
+					} else {
+						traffic[i] = -1000;
+					}
+				} else {
 					mp = SQLStatic.uiddata;
-					if(mp.containsKey(uid)){
-						traffic[i] = mp.get(uid).upload
-					      +  mp.get(uid).download;
+					if (mp.containsKey(uid)) {
+						traffic[i] = mp.get(uid).upload + mp.get(uid).download;
 						Log.i("traffic long ", traffic[i] + "");
-						}else{
-							traffic[i] = -1000;
-						}
+					} else {
+						traffic[i] = -1000;
+					}
 				}
 			}
 		}
@@ -257,33 +256,33 @@ public class FireWallActivity extends Activity {
 		}
 		return myAppList;
 	}
-	public ArrayList<PackageInfo> getCompList2(ArrayList<PackageInfo> list){
+
+	public ArrayList<PackageInfo> getCompList2(ArrayList<PackageInfo> list) {
 		ArrayList<PackageInfo> list2 = new ArrayList<PackageInfo>();
 		for (int i = 0; i < list.size(); i++) {
-			int uid  = list.get(i).applicationInfo.uid;
+			int uid = list.get(i).applicationInfo.uid;
 		}
-		
-		
+
 		return list;
 	}
+
 	public HashMap<Integer, Info> getImageMap(ArrayList<PackageInfo> myAppList) {
 		for (int i = 0; i < myAppList.size(); i++) {
 			PackageInfo pkgInfo = myAppList.get(i);
 			int uid = pkgInfo.applicationInfo.uid;
 			final long up;
 			final long down;
-			if(mp.containsKey(uid)){
+			if (mp.containsKey(uid)) {
 				up = mp.get(uid).upload;
-				down =  mp.get(uid).download;
-				}else{
-					up = -1000;
-					down = -1000;
-				}
+				down = mp.get(uid).download;
+			} else {
+				up = -1000;
+				down = -1000;
+			}
 			Info info = new Info(
 					pkgInfo.applicationInfo.loadIcon(getPackageManager()),
 					pkgInfo.applicationInfo.loadLabel(getPackageManager())
-							.toString(),
-				    up,down);
+							.toString(), up, down);
 			imageAndNameMap.put(i, info);
 		}
 		return imageAndNameMap;
@@ -303,8 +302,8 @@ public class FireWallActivity extends Activity {
 				if (Block.filter.contains(pkgInfo.applicationInfo.packageName)) {
 				} else {
 					appList.add(pkgInfo);
-			     }   
-	      	}
+				}
+			}
 		}
 		return appList;
 	}
@@ -335,23 +334,25 @@ public class FireWallActivity extends Activity {
 				mContext.getPackageManager()).toString();
 		final long up;
 		final long down;
-		if(mp.containsKey(uid)){
+		if (mp.containsKey(uid)) {
 			up = mp.get(uid).upload;
-			down =  mp.get(uid).download;
-			}else{
-				up = -1000;
-				down = -1000;
-			}
-//		long down = judge(SQLStatic.uiddata.get(pkgInfo.applicationInfo.uid).download);
-//		long up = judge(SQLStatic.uiddata.get(pkgInfo.applicationInfo.uid).upload);
+			down = mp.get(uid).download;
+		} else {
+			up = -1000;
+			down = -1000;
+		}
+		// long down =
+		// judge(SQLStatic.uiddata.get(pkgInfo.applicationInfo.uid).download);
+		// long up =
+		// judge(SQLStatic.uiddata.get(pkgInfo.applicationInfo.uid).upload);
 		final String trafficup;
 		final String trafficdown;
-		if(up == -1000 && down == -1000 ){
-		     trafficup = unitHandler(0);
-		     trafficdown = unitHandler(0);
-		}else{
-		     trafficup = unitHandler(up);
-			 trafficdown = unitHandler(down);
+		if (up == -1000 && down == -1000) {
+			trafficup = unitHandler(0);
+			trafficdown = unitHandler(0);
+		} else {
+			trafficup = unitHandler(up);
+			trafficdown = unitHandler(down);
 		}
 		final AlertDialog dlg = new AlertDialog.Builder(FireWallActivity.this)
 				.setTitle("ÇëÑ¡Ôñ")
