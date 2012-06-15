@@ -85,8 +85,6 @@
                         android:textSize="20dp" />
                 </LinearLayout>
 
-               
-
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
@@ -112,13 +110,175 @@
                 </LinearLayout>
             </LinearLayout>
 
-            
-             <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/divider" />
-             
-             
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/divider" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dip"
+                android:layout_weight="2.0"
+                android:orientation="horizontal"
+                android:paddingLeft="5dip"
+                android:paddingRight="5dip" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="1.0"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="本月"
+                            android:textColor="@color/darkgray2"
+                            android:textSize="20dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="1.0"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="已用:"
+                            android:textColor="@color/darkgray2"
+                            android:textSize="20dp" />
+                    </LinearLayout>
+                </LinearLayout>
+                
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="1.0"
+                        android:gravity="center" 
+                        android:orientation="horizontal">
+
+                        
+                        <TextView
+                            android:id="@+id/monthRate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="@string/rate"
+                            android:textColor="@color/darkgreen"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:id="@+id/unit3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="B"
+                            android:textColor="@color/darkgray2"
+                            android:textSize="20dp" />
+                    </LinearLayout>
+
+                    
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="@drawable/shu"
+                    android:orientation="horizontal" >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="1.0"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="本月"
+                            android:textColor="@color/darkgray2"
+                            android:textSize="20dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="1.0"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="剩余:"
+                            android:textColor="@color/darkgray2"
+                            android:textSize="20dp" />
+                    </LinearLayout>
+                </LinearLayout>
+                
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="1.0"
+                        android:gravity="center" 
+                        android:orientation="horizontal">
+
+                        
+                        <TextView
+                            android:id="@+id/monthRemain"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="@string/rate"
+                            android:textColor="@color/darkgreen"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:id="@+id/unit3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="B"
+                            android:textColor="@color/darkgray2"
+                            android:textSize="20dp" />
+                    </LinearLayout>
+
+                    
+                </LinearLayout>
+                
+                
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/divider" />
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dip"
@@ -132,25 +292,15 @@
                     android:layout_height="fill_parent"
                     android:layout_weight="1.0"
                     android:gravity="center"
-                    android:orientation="vertical" >
+                    android:orientation="horizontal" >
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/monthTotal"
+                        android:text="包月套餐:"
                         android:textColor="@color/darkgray2"
                         android:textSize="20dp" />
                 </LinearLayout>
-                
-                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:orientation="horizontal" 
-                    android:background="@drawable/shu">
-                    
-                    
-                      </LinearLayout>
-                 
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -170,59 +320,6 @@
                         android:textSize="18sp" />
                 </LinearLayout>
             </LinearLayout>
-
-             <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/divider" />
-            
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="0dip"
-                android:layout_weight="1.0"
-                android:orientation="horizontal"
-                android:paddingLeft="5dip"
-                android:paddingRight="5dip" >
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1.0"
-                    android:gravity="center"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/weekUsed"
-                        android:textColor="@color/darkgray2"
-                        android:textSize="20dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1.0"
-                    android:gravity="center"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        android:id="@+id/weekRate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/rate"
-                        android:textColor="@color/darkgray2"
-                        android:textSize="20dp" />
-
-                    <TextView
-                        android:id="@+id/unit2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="KB"
-                        android:textColor="@color/darkgray2"
-                        android:textSize="20dp" />
-                </LinearLayout>
-            </LinearLayout>
         </LinearLayout>
         <!-- 第一行结束 -->
     </LinearLayout>
@@ -233,7 +330,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_margin="5dip"
-        android:layout_weight="1.0"
+        android:layout_weight="0.8"
         android:background="@drawable/content"
         android:orientation="vertical" >
 
