@@ -47,7 +47,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
-		if (SQLStatic.isTotalAlarmRecording == false) {
+		if (SQLStatic.isTotalAlarmRecording == false) { 
 
 			SQLStatic.isTotalAlarmRecording = true;
 			this.context = context;
