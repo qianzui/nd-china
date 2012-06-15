@@ -3,6 +3,7 @@
      android:orientation="vertical"
      android:layout_width="fill_parent"
      android:layout_height="fill_parent"
+     android:background="@drawable/bground_dark"
     >
      
     <RelativeLayout
@@ -10,8 +11,7 @@
         android:layout_height="48dip"
         android:background="@drawable/maintab_toolbar_bg"
         android:orientation="horizontal"
-        android:paddingRight="5dip" 
-        >  
+        android:paddingRight="10dip" > 
         <TextView
             android:id="@+id/firewall"
             android:layout_width="wrap_content"
@@ -42,12 +42,13 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#000000"
         >
       <com.hiapk.firewall.MyListView
         android:id="@+id/app_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:divider="#B7B7B7"
+        android:dividerHeight="1dip"
         />       
      </LinearLayout>
      
