@@ -112,9 +112,9 @@ public class AppListAdapter extends BaseAdapter {
 		String value = null;
 		long temp = count;
 		float floatnum = count;
-		if ((temp = temp / 1000) < 1) {
+		if ((temp = temp / 1024) < 1) {
 			value = count + "B";
-		} else if ((floatnum = (float) temp / 1000) < 1) {
+		} else if ((floatnum = (float) temp / 1024) < 1) {
 			value = temp + "KB";
 		} else {
 			DecimalFormat format = new DecimalFormat("0.##");
