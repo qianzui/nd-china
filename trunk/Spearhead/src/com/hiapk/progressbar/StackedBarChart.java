@@ -71,11 +71,11 @@ public class StackedBarChart extends ViewBase {
 	// Y轴尾部范围
 	double yMaxvalue = 24000;
 	// 数轴颜色
-	int AxisColor = Color.GRAY;
+	int AxisColor = Color.rgb(80, 80, 80);
 	// 数轴标识颜色
-	int lableColor = Color.LTGRAY;
+	int lableColor = Color.rgb(80, 80, 80);
 	// 背景颜色
-	int backgroundcolor = Color.argb(255, 50, 50, 50);
+	int backgroundcolor = Color.WHITE;
 
 	// 本月的天数
 	double monthDay = 31;
@@ -122,7 +122,7 @@ public class StackedBarChart extends ViewBase {
 	}
 
 	// 柱状条颜色
-	int[] chartbarcolor = new int[] { Color.BLUE, Color.CYAN };
+	int[] chartbarcolor = new int[] { Color.BLUE, Color.GREEN };
 	// int[] chartbarcolor = new int[] { Color.CYAN };
 	float AxisTitleTextSize = windowswidesize / 2;
 	float ChartTitleTextSize = windowswidesize / 2;
@@ -339,8 +339,8 @@ public class StackedBarChart extends ViewBase {
 			renderer.addSeriesRenderer(r);
 		}
 		// renderer.setMargins(new int[] {20, 30, 15,0}); // 设置4边留白
-		renderer.setMarginsColor(Color.rgb( 213, 213, 213));
-		renderer.setBackgroundColor(Color.rgb( 213, 213, 213));
+		renderer.setMarginsColor(Color.WHITE);
+		renderer.setBackgroundColor(Color.WHITE);
 		renderer.setApplyBackgroundColor(true);
 		return renderer;
 	}
