@@ -77,14 +77,12 @@ public class AppListAdapter extends BaseAdapter {
 		  PackageInfo pkgInfo = myAppList.get(position);
 		  IsChecked ic = (IsChecked)map.get(pkgInfo.applicationInfo.uid);
 		  Info info = (Info)imageAndNameMap.get(position);
-//		  long down = judge(SQLStatic.uiddata.get(pkgInfo.applicationInfo.uid).download);
-//		  long up = judge(SQLStatic.uiddata.get(pkgInfo.applicationInfo.uid).upload);
 		  holder.icon.setImageDrawable(info.d);
 		  holder.appname.setText(pkgInfo.applicationInfo.loadLabel(mContext.getPackageManager()));
 		  if(info.up == -1000 && info.down == -1000){
 			  holder.trafficup.setText("总流量： " + "获取中..." );	
 		  }else{
-		  holder.trafficup.setText("总流量： "  + unitHandler(info.up + info.down));	
+		  holder.trafficup.setText("总流量： " + unitHandler(info.up + info.down));	
 		  }
 		  
 		  holder.e_toggle.setChecked(ic.selected_3g);

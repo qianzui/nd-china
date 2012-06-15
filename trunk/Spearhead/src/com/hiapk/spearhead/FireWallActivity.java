@@ -162,12 +162,11 @@ public class FireWallActivity extends Activity {
 				new AsyncTask<Context, Void, Void>() {
 					@Override
 					protected Void doInBackground(Context... params) {
+						AlarmSet alset = new AlarmSet();
+						alset.StartAlarmUidTotal(mContext);
 						while (mp == null) {
 							if (SQLStatic.uiddata != null) {
 								mp = SQLStatic.uiddata;
-							} else {
-								AlarmSet alset = new AlarmSet();
-								alset.StartAlarmUidTotal(mContext);
 							}
 							try {
 								Thread.sleep(300);
@@ -251,54 +250,38 @@ public class FireWallActivity extends Activity {
 				}
 			}
 		}
-		for (int i = 0; i < traffic.length; i++) {
-			Log.i("appname", traffic[i] + "");
-		}
-		
 		//获取流量大小排序
 		ArrayList<PackageInfo> myAppList = new ArrayList<PackageInfo>();
-		for (int i = 0; i < number.length; i++) {
-			PackageInfo pk = appList.get(number[i]);
-			myAppList.add(pk);
-		}
-		
-		//按首字母排序
 		ArrayList<PackageInfo> myAppList2 = new ArrayList<PackageInfo>();
 		ArrayList<PackageInfo> showList = new ArrayList<PackageInfo>();
-		for (int i = 0; i < myAppList.size(); i++) {
-			PackageInfo pk = appList.get(i);
+		for (int i = 0; i < number.length; i++) {
+			PackageInfo pk = appList.get(number[i]);
 			int uid = pk.applicationInfo.uid;
+			
+			myAppList.add(pk);
+			
 			if(( mp.get(uid).upload + mp.get(uid).download) > 0){
 				showList.add(pk);
-				Log.i("appname1", pk.applicationInfo.loadLabel(getPackageManager()) + ":" + mp.get(uid).upload + mp.get(uid).download);
 			}else{
 				myAppList2.add(pk);
 			}
 		}
-		
+		//按首字母排序
 		for (int i = 0; i < showList.size(); i++) {
 			PackageInfo pk = showList.get(i);
 			int uid = pk.applicationInfo.uid;
-			Log.i("showList",pk.applicationInfo.loadLabel(getPackageManager())+ ":" +mp.get(uid).upload + mp.get(uid).download );
 		}
-		
-		
 		String[] appname = new String[myAppList2.size()];
 		for (int i = 0; i < appname.length; i++) {
 			appname[i] = myAppList2.get(i).applicationInfo.loadLabel(getPackageManager()).toString()
-			   .replaceAll(" ","");
-			Log.i("appname", appname[i]);
+			   .replaceAll(" ","").replaceAll(" ","");
 		}
 		Comparator cmp = Collator.getInstance(java.util.Locale.CHINA);
 		Arrays.sort(appname,cmp);
-		for (int i = 0; i < appname.length; i++) {
-		Log.i("appname1", appname[i]);
-		}
 		int name[] = new int[appname.length];
 		for (int i = 0; i < appname.length; i++) {
-			Log.i("appname2", appname[i]);
 			for (int j = 0; j < myAppList2.size(); j++) {
-				if(appname[i].equals(myAppList2.get(j).applicationInfo.loadLabel(getPackageManager()).toString() .replaceAll(" ",""))){
+				if(appname[i].equals(myAppList2.get(j).applicationInfo.loadLabel(getPackageManager()).toString().replaceAll(" ","").replaceAll(" ",""))){
 					name[i] = j;
 				}
 			}
@@ -314,7 +297,6 @@ public class FireWallActivity extends Activity {
 		for (int i = 0; i < myAppList.size(); i++) {
 			PackageInfo pkgInfo = myAppList.get(i);
 			int uid = pkgInfo.applicationInfo.uid;
-			Log.i("info _traffic1", mp.get(uid).upload + mp.get(uid).download + mp.get(uid).upload + "");
 			final long up;
 			final long down;
 			if (mp.containsKey(uid)) {
@@ -328,7 +310,6 @@ public class FireWallActivity extends Activity {
 					pkgInfo.applicationInfo.loadIcon(getPackageManager()),
 					pkgInfo.applicationInfo.loadLabel(getPackageManager())
 							.toString(), up, down);
-			Log.i("info _traffic2", pkgInfo.applicationInfo.loadLabel(getPackageManager()) + "::" + up + down);
 			imageAndNameMap.put(i, info);
 		}
 		return imageAndNameMap;
