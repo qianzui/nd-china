@@ -145,8 +145,8 @@ public class Main extends Activity {
 		// 初始化小部件
 		TextView todayMobil = (TextView) findViewById(R.id.todayRate);
 		TextView todayMobilunit = (TextView) findViewById(R.id.unit1);
-		TextView leftMobil = (TextView) findViewById(R.id.weekRate);
-		TextView leftMobilunit = (TextView) findViewById(R.id.unit2);
+//		TextView leftMobil = (TextView) findViewById(R.id.weekRate);
+//		TextView leftMobilunit = (TextView) findViewById(R.id.unit2);
 		// TextView monthMobil = (TextView) findViewById(R.id.monthRate);
 		// TextView monthMobilunit = (TextView) findViewById(R.id.unit3);
 		// TextView monthMobil2 = (TextView)
@@ -193,8 +193,8 @@ public class Main extends Activity {
 		//
 		// monthMobil.setText(unitHandler(mobile_month_use, monthMobilunit));
 		// monthMobil2.setText("/" + unitHandler(mobileSet, monthMobilunit2));
-		leftMobil.setText(unitHandler(mobileSet - mobile_month_use,
-				leftMobilunit));
+//		leftMobil.setText(unitHandler(mobileSet - mobile_month_use,
+//				leftMobilunit));
 		// todayWifi.setText(unitHandler(wifi[monthDay] + wifi[monthDay + 31],
 		// todayWifiunit));
 		// weekWifi.setText(unitHandler(weektraffic[5], weekWifiunit));
