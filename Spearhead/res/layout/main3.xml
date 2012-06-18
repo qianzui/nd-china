@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" 
-    android:background="@drawable/bground_dark">
+    android:background="@drawable/bground_dark"
+    android:orientation="vertical" >
 
     <!-- 标题栏开始 -->
 
@@ -38,7 +38,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_margin="5dip"
-        android:layout_weight="1.0"
+        android:layout_weight="0.7"
         android:background="@drawable/bg_about"
         android:orientation="vertical" >
 
@@ -53,13 +53,14 @@
                 android:paddingLeft="5.0dip"
                 android:text="流量设置"
                 android:textColor="@color/darkgray2"
-                android:textSize="23dp" />
+                android:textSize="23dp"
+                android:textStyle="bold" />
 
             <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/divider" />
-            
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/divider" />
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dip"
@@ -82,11 +83,13 @@
 
                     <Button
                         android:id="@+id/btn_monthSet_Unit"
-                        android:layout_width="wrap_content"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:background="@drawable/bg_about"
-                        android:textColor="@color/darkgreen" />
+                        android:text="1024.4MB"
+                        android:textColor="@color/darkgreen"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_month"
@@ -98,15 +101,10 @@
                 </RelativeLayout>
             </LinearLayout>
 
-            <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/divider" />
-            
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dip"
-                android:layout_weight="1.0"
+                android:layout_weight="0.0"
                 android:orientation="horizontal"
                 android:paddingLeft="20dip"
                 android:paddingRight="20dip" >
@@ -142,10 +140,10 @@
             </LinearLayout>
 
             <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/divider" />
-            
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/divider" />
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dip"
@@ -168,8 +166,8 @@
 
                     <TextView
                         android:id="@+id/monthSet"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dip"
+                        android:layout_height="0dip"
                         android:layout_alignParentRight="true"
                         android:text=" 日"
                         android:textColor="@color/darkgray2"
@@ -177,13 +175,13 @@
 
                     <Spinner
                         android:id="@+id/dayUnit"
-                        android:layout_width="wrap_content"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:layout_toLeftOf="@+id/monthSet"
                         android:background="@drawable/bg_about"
                         android:entries="@array/day"
                         android:prompt="@string/daySelect"
-                        android:textColor="@color/lightgreen" />
+                        android:textStyle="bold" />
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
@@ -210,8 +208,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5.0dip"
                 android:layout_centerVertical="true"
+                android:paddingLeft="5.0dip"
                 android:text="流量校正"
                 android:textColor="@color/darkgray2"
                 android:textSize="23dp" />
@@ -225,7 +223,7 @@
                 android:background="@drawable/bg_about"
                 android:text="查询流量套餐"
                 android:textColor="@color/darkgreen"
-                android:textSize="15sp" />
+                android:textStyle="bold" />
         </RelativeLayout>
     </LinearLayout>
     <!-- 第二个框框结束 -->
@@ -244,16 +242,16 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="流量提醒"
             android:paddingLeft="5dip"
+            android:text="流量提醒"
             android:textColor="@color/darkgray2"
             android:textSize="23dp" />
 
         <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/divider" />
-        
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/divider" />
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dip"
@@ -276,20 +274,21 @@
 
                 <Button
                     android:id="@+id/monthWarning"
-                    android:layout_width="wrap_content"
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:background="@drawable/bg_about"
                     android:text="点击设置"
-                    android:textColor="@color/darkgreen" />
+                    android:textColor="@color/darkgreen"
+                    android:textStyle="bold" />
             </RelativeLayout>
         </LinearLayout>
 
         <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/divider" />
-        
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/divider" />
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dip"
@@ -312,20 +311,21 @@
 
                 <Button
                     android:id="@+id/dayWarning"
-                    android:layout_width="wrap_content"
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:background="@drawable/bg_about"
                     android:text="点击设置"
-                    android:textColor="@color/darkgreen" />
+                    android:textColor="@color/darkgreen"
+                    android:textStyle="bold" />
             </RelativeLayout>
         </LinearLayout>
 
         <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/divider" />
-        
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/divider" />
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dip"
@@ -348,13 +348,13 @@
 
                 <Spinner
                     android:id="@+id/warningAct"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:background="@drawable/bg_about"
                     android:prompt="@string/warningActionSelect"
-                    android:text="点击设置"
-                    android:textColor="@color/lightgreen" />
+                    android:textColor="@color/lightgreen"
+                    android:textStyle="bold" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
