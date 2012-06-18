@@ -147,9 +147,15 @@ public class Splash extends Activity {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// TODO Auto-generated method stub
-			Intent i = new Intent();
-			i.setClass(context, Help.class);
-			startActivity(i);
+//			Intent i = new Intent();
+//			i.setClass(context, Help.class);
+//			startActivity(i);
+//			Splash.this.finish();
+			Intent mainIntent = new Intent(Splash.this, SpearheadActivity.class);
+			Bundle choosetab = new Bundle();
+			choosetab.putInt("TAB", 1);
+			mainIntent.putExtras(choosetab);
+			Splash.this.startActivity(mainIntent);
 			Splash.this.finish();
 		}
 	}

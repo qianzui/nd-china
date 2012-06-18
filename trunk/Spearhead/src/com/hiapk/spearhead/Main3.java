@@ -3,11 +3,14 @@ package com.hiapk.spearhead;
 import java.text.DecimalFormat;
 
 import com.hiapk.alertaction.AlertActionNotify;
+import com.hiapk.alertdialog.CustomDialogMain3Been;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.firewall.Block;
+import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
+import com.hiapk.regulate.PhoneSet;
 import com.hiapk.regulate.Regulate;
 import com.hiapk.widget.ProgramNotify;
 import com.hiapk.widget.SetText;
@@ -98,10 +101,6 @@ public class Main3 extends Activity {
 		setContentView(R.layout.main3);
 		sharedData = new SharedPrefrenceData(context);
 		init_Spinner();
-		init_btn_month();
-		init_monthWarning();
-		init_dayWarning();
-		init_warningAct();
 		// 显示提示信息
 		if (Block.fireTip(context)) {
 			Toast toast_refresh = Toast.makeText(context, "请校对 流量套餐 和 已用流量",
@@ -113,8 +112,13 @@ public class Main3 extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent it = new Intent(Main3.this, Regulate.class);
-				startActivity(it);
+				if (sharedData.getIsFirstRegulate()) {
+					Intent i = new Intent(Main3.this, PhoneSet.class);
+					startActivity(i);
+				} else {
+					Intent it = new Intent(Main3.this, Regulate.class);
+					startActivity(it);
+				}
 			}
 		});
 
@@ -292,104 +296,19 @@ public class Main3 extends Activity {
 		long mobileSetLong = sharedData.getMonthMobileSetOfLong();
 		// showlog(mobileSetLong + "");
 		btn_month.setText(FormatUnit.unitHandler(mobileSetLong));
+		final Button dayWarning = (Button) findViewById(R.id.dayWarning);
+		final Button monthWarning = (Button) findViewById(R.id.monthWarning);
 		// 设置监听
 		btn_month.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				dialogMonthSet(btn_month).show();
-
+				CustomDialogMain3Been customDialog = new CustomDialogMain3Been(
+						context);
+				customDialog.dialogMonthSet_Main3(btn_month, dayWarning,
+						monthWarning);
 			}
 		});
-	}
-
-	/**
-	 * 月度显示弹出的对话框
-	 * 
-	 * @param TextView_month
-	 *            传入点击的TextView
-	 * @return 返回对话框
-	 */
-	protected AlertDialog dialogMonthSet(final Button btn_month) {
-		// TODO Auto-generated method stub
-		int mobileUnit = sharedData.getMonthMobileSetUnit();
-		int mobileSetInt = sharedData.getMonthMobileSetOfint();
-		// 初始化窗体
-		LayoutInflater factory = LayoutInflater.from(Main3.this);
-		final View textEntryView = factory.inflate(
-				R.layout.alert_dialog_text_entry_monthset, null);
-		final EditText et_month = (EditText) textEntryView
-				.findViewById(R.id.ev_alert);
-		final Spinner spin_unit = (Spinner) textEntryView
-				.findViewById(R.id.sp_unit);
-		ArrayAdapter<CharSequence> adp = ArrayAdapter.createFromResource(this,
-				R.array.unit, R.layout.sptext_on_alert);
-		adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spin_unit.setAdapter(adp);
-		// 初始化数值
-		spin_unit.setSelection(mobileUnit);
-		et_month.setText(mobileSetInt + "");
-		et_month.setSelection(String.valueOf(mobileSetInt).length());
-
-		AlertDialog monthSetAlert = new AlertDialog.Builder(Main3.this)
-				.setTitle("请设置每月流量限额")
-				.setView(textEntryView)
-				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						// 输入的数值
-						int i = 0;
-						try {
-							i = Integer.valueOf(et_month.getText().toString());
-						} catch (NumberFormatException e) {
-							// TODO: handle exception
-						}
-						// showlog(i + "");
-						int mobileUnit = spin_unit.getSelectedItemPosition();
-						Editor passfileEditor = context.getSharedPreferences(
-								PREFS_NAME, 0).edit();
-						// Log.d("main3", i + "");
-
-						if (mobileUnit == 0) {
-							long monthsetTraffMB = (long) i * 1024 * 1024;
-							// showlog(monthsetTraffMB + "");
-							passfileEditor.putLong(VALUE_MOBILE_SET,
-									monthsetTraffMB);
-							passfileEditor.putLong(MOBILE_WARNING_MONTH,
-									monthsetTraffMB * 9 / 10);
-							passfileEditor.putLong(MOBILE_WARNING_DAY,
-									monthsetTraffMB / 10);
-						} else if (mobileUnit == 1) {
-							long monthsetTraffGB = (long) i * 1024 * 1024 * 1024;
-							// showlog(monthsetTraffGB + "");
-							passfileEditor.putLong(VALUE_MOBILE_SET,
-									monthsetTraffGB);
-							passfileEditor.putLong(MOBILE_WARNING_MONTH,
-									monthsetTraffGB * 9 / 10);
-							passfileEditor.putLong(MOBILE_WARNING_DAY,
-									monthsetTraffGB / 10);
-						}
-						passfileEditor.putInt(MOBILE_SET_UNIT, mobileUnit);
-						passfileEditor.putInt(VALUE_MOBILE_SET_OF_INT, i);
-						passfileEditor.commit();// 委托，存入数据
-						init_btn_month();
-						init_dayWarning();
-						init_monthWarning();
-						// 重置预警状态
-						resetHasWarning();
-						SetText.resetWidgetAndNotify(context);
-						/* User clicked OK so do some stuff */
-						// MobclickAgent.onEvent(context, "monthUse",
-						// String.valueOf(i));
-					}
-				})
-				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-
-						/* User clicked cancel so do some stuff */
-					}
-				}).create();
-		return monthSetAlert;
-
 	}
 
 	/**
@@ -559,7 +478,8 @@ public class Main3 extends Activity {
 									UseEditor.commit();
 									init_monthWarning();
 									// 重置预警状态
-									resetHasWarning();
+									PrefrenceOperatorUnit
+											.resetHasWarning(context);
 
 								}
 							})
@@ -621,7 +541,7 @@ public class Main3 extends Activity {
 				// .setView(textEntryView)
 				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
-						resetHasWarning();
+						PrefrenceOperatorUnit.resetHasWarning(context);
 					}
 				}).create();
 		return dayWarning;
@@ -698,7 +618,8 @@ public class Main3 extends Activity {
 									UseEditor.commit();
 									init_dayWarning();
 									// 重置预警状态
-									resetHasWarning();
+									PrefrenceOperatorUnit
+											.resetHasWarning(context);
 								}
 							})
 					.setNegativeButton("取消",
@@ -743,6 +664,10 @@ public class Main3 extends Activity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		init_btn_HasUsed();
+		init_btn_month();
+		init_monthWarning();
+		init_dayWarning();
+		init_warningAct();
 		// umeng
 		// MobclickAgent.onResume(this);
 
@@ -795,18 +720,6 @@ public class Main3 extends Activity {
 		if (second < 10)
 			second2 = "0" + second2;
 		time = hour2 + ":" + minute2 + ":" + second2;
-	}
-
-	/**
-	 * 重置预警状态
-	 */
-	private void resetHasWarning() {
-		String MOBILE_HAS_WARNING_MONTH = "mobilemonthhaswarning";
-		String MOBILE_HAS_WARNING_DAY = "mobiledayhaswarning";
-		Editor UseEditor = context.getSharedPreferences(PREFS_NAME, 0).edit();
-		UseEditor.putBoolean(MOBILE_HAS_WARNING_MONTH, false);
-		UseEditor.putBoolean(MOBILE_HAS_WARNING_DAY, false);
-		UseEditor.commit();
 	}
 
 	/**

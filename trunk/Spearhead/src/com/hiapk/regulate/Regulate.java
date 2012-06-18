@@ -23,49 +23,42 @@ import android.widget.Toast;
 
 public class Regulate extends Activity {
 	public static Button chooseBtn;
-	Button smsSend;	
-	//	Button smsRead;	
+	Button smsSend;
+	// Button smsRead;
 	public static TextView smsText;
 	public static TextView smsNum;
-	public static TextView smsResult;		
+	public static TextView smsResult;
 	SharedPrefrenceData sharedData;
 	String city;
-	String brand;	
-	SmsRead sr;	
+	String brand;
+	SmsRead sr;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.regulate);	
-	//	MobclickAgent.onError(this);
+		setContentView(R.layout.regulate);
+		// MobclickAgent.onError(this);
 		sharedData = new SharedPrefrenceData(this);
-		chooseBtn = (Button)findViewById(R.id.choose);
-		smsSend = (Button)findViewById(R.id.smsSend);
-		//		smsRead = (Button)findViewById(R.id.smsRead);
-		smsText = (TextView)findViewById(R.id.smsText);
-		smsNum = (TextView)findViewById(R.id.smsNum);
-		smsResult = (TextView)findViewById(R.id.smsResult);
-		city = sharedData.getCity();
-		brand = sharedData.getBrand();
+		chooseBtn = (Button) findViewById(R.id.choose);
+		smsSend = (Button) findViewById(R.id.smsSend);
+		// smsRead = (Button)findViewById(R.id.smsRead);
+		smsText = (TextView) findViewById(R.id.smsText);
+		smsNum = (TextView) findViewById(R.id.smsNum);
+		smsResult = (TextView) findViewById(R.id.smsResult);
+		// city = sharedData.getCity();
+		// brand = sharedData.getBrand();
+		//
+		// chooseBtn.setText(city + brand);
+		// smsNum.setText(sharedData.getSmsNum());
+		// smsText.setText(sharedData.getSmsText());
 
-		chooseBtn.setText(city+brand);
-		smsNum.setText(sharedData.getSmsNum());
-		smsText.setText(sharedData.getSmsText());
-		sr =  new SmsRead();
-		
-		if(sharedData.getIsFirstRegulate()){
-			Intent i = new Intent(Regulate.this,PhoneSet.class);
-			startActivity(i);
-			finish();
-		}
-		
-		
 		chooseBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent it = new Intent(Regulate.this,PhoneSet.class);
+				Intent it = new Intent(Regulate.this, PhoneSet.class);
 				startActivity(it);
 				finish();
 
@@ -78,73 +71,73 @@ public class Regulate extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 
-				smsSend();				
-				
+				smsSend();
+
 			}
 		});
 
-//				if(sharedData.getIsReceive()){			
-//					smsRead();
-//				}
+		// if(sharedData.getIsReceive()){
+		// smsRead();
+		// }
 
-
-		//		smsRead.setOnClickListener(new OnClickListener() {
+		// smsRead.setOnClickListener(new OnClickListener() {
 		//
-		//			@Override
-		//			public void onClick(View v) {
-		//				// TODO Auto-generated method stub
+		// @Override
+		// public void onClick(View v) {
+		// // TODO Auto-generated method stub
 		//
-		//				smsRead();
-		//			}
-		//		});
-
-
-
+		// smsRead();
+		// }
+		// });
 
 	}
-	public void smsSend(){
+
+	public void smsSend() {
 
 		String num = smsNum.getText().toString();
-		String text = smsText.getText().toString();	
-		TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-		if (tm.getSimState() == TelephonyManager.SIM_STATE_READY){
-			SmsManager sm ;
+		String text = smsText.getText().toString();
+		TelephonyManager tm = (TelephonyManager) this
+				.getSystemService(Context.TELEPHONY_SERVICE);
+		if (tm.getSimState() == TelephonyManager.SIM_STATE_READY) {
+			SmsManager sm;
 			sm = SmsManager.getDefault();
 			sm.sendTextMessage(num, null, text, null, null);
-			Toast.makeText(this, "已自动发送短信，短信接收后将自动设置本月已用流量", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "已自动发送短信，短信接收后将自动设置本月已用流量", Toast.LENGTH_LONG)
+					.show();
 			sharedData.setIsSend(true);
-		}
-		else{
+		} else {
 			Toast.makeText(this, "请插入SIM卡或者关闭飞行模式", Toast.LENGTH_LONG).show();
 		}
 
-	}	
+	}
 
-//	public void smsRead(){
-//
-//		sr.Sms(this);		
-//		if(sr.isRead){
-//			smsResult.setText("短信内容可能有误，请手动设置");
-//		}
-//				Log.v("+++++++++++++++++++++", "读取短信");
-//				Toast.makeText(this, sharedData.getIsReceive()+" ", Toast.LENGTH_LONG).show();
-//	}
+	// public void smsRead(){
+	//
+	// sr.Sms(this);
+	// if(sr.isRead){
+	// smsResult.setText("短信内容可能有误，请手动设置");
+	// }
+	// Log.v("+++++++++++++++++++++", "读取短信");
+	// Toast.makeText(this, sharedData.getIsReceive()+" ",
+	// Toast.LENGTH_LONG).show();
+	// }
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		Regulate.chooseBtn.setText(sharedData.getChooseCity());
+		Regulate.smsNum.setText(sharedData.getSmsNum());
+		Regulate.smsText.setText(sharedData.getSmsText());
+		sr = new SmsRead();
 		// umeng
-	//	MobclickAgent.onResume(this);
+		// MobclickAgent.onResume(this);
 	}
 
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
 		// umeng
-	//	MobclickAgent.onPause(this);
+		// MobclickAgent.onPause(this);
 	}
-	
-
-
 
 }

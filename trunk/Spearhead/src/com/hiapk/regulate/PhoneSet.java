@@ -30,7 +30,7 @@ public class PhoneSet extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.phoneset);
-	//	MobclickAgent.onError(this);
+		// MobclickAgent.onError(this);
 		sharedData = new SharedPrefrenceData(this);
 		init_Spinner();
 		next = (Button) findViewById(R.id.next);
@@ -40,6 +40,12 @@ public class PhoneSet extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				sharedData.setIsFirstRegulate(false);
+//				long monthSetofLong = sharedData.getMonthMobileSetOfLong();
+//				if (monthSetofLong == 0) {
+//					sharedData.setMonthSetHasSet(false);
+//				} else {
+//					sharedData.setMonthSetHasSet(true);
+//				}
 				end();
 
 			}
@@ -502,15 +508,25 @@ public class PhoneSet extends Activity {
 		pinpai = brand.getSelectedItem().toString();
 		shengfenId = province.getSelectedItemPosition();
 		// pinpaiId = brand.getSelectedItemPosition();
-		SmsSet.smsSet(shengfen, yunyingshang, pinpai);
-		smsNum = Regulate.smsNum.getText().toString();
-		smsText = Regulate.smsText.getText().toString();
+		// ¼ÇÂ¼½øxml
+		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		sharedData.setCurrentCity(chengshi);
+		sharedData.setCurrentProvince(shengfen);
+		sharedData.setCurrentYunyinshang(yunyingshang);
+		sharedData.setCurrentPinpai(pinpai);
+
+		SmsSet.smsSet(context, shengfen, yunyingshang, pinpai);
+		// smsNum = Regulate.smsNum.getText().toString();
+		// smsText = Regulate.smsText.getText().toString();
+		smsNum = sharedData.getSmsNum();
+		smsText = sharedData.getSmsText();
 
 		sharedData.setPhoneInfo(chengshi, pinpai, shengfenId, smsNum, smsText);
-		Regulate.chooseBtn.setText(chengshi + pinpai);
-		Intent i = new Intent(PhoneSet.this,Regulate.class);
-		startActivity(i);
+		// Regulate.chooseBtn.setText(chengshi + pinpai);
+		sharedData.setChooseCity(chengshi + pinpai);
 		finish();
+		Intent intent = new Intent(context, Regulate.class);
+		context.startActivity(intent);
 	}
 
 	@Override
@@ -518,13 +534,13 @@ public class PhoneSet extends Activity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		// umeng
-	//	MobclickAgent.onResume(this);
+		// MobclickAgent.onResume(this);
 	}
 
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
 		// umeng
-	//	MobclickAgent.onPause(this);
+		// MobclickAgent.onPause(this);
 	}
 }

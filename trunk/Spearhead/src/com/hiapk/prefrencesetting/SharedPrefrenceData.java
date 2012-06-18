@@ -34,6 +34,7 @@ public class SharedPrefrenceData {
 	String MONTH_USED_DATA_TEMP = "monthtempuseddata";
 	// 设置单位（已使用）
 	String MOBILE_HASUSED_SET_UNIT = "mobileHasusedUnit";
+	String MONTH_SET_HAS_SET = "monthuseHasSet";
 	// 流量预警
 	String MOBILE_WARNING_MONTH = "mobilemonthwarning";
 	String MOBILE_WARNING_DAY = "mobiledaywarning";
@@ -53,6 +54,11 @@ public class SharedPrefrenceData {
 	// 用于系统自动清理
 	private String HAS_Cleared = "hasdatacleared";
 	// 保存地区品牌设置
+	String CURRENT_CITY = "currentCity";
+	String CURRENT_PROVINCE = "currentProvince";
+	String CURRENT_YUNYINGSHANG = "currentYunyingsh";
+	String CURRENT_PINPAI = "currentPinpai";
+	String CHOOSED_CITY = "chooseedcity";
 
 	String CITY = "city_data";
 	String BRAND = "brand_data";
@@ -142,6 +148,16 @@ public class SharedPrefrenceData {
 	public void setNotifyOpen(boolean isNotifyOpen) {
 		UseEditor_sys.putBoolean(SYS_PRE_NOTIFY, isNotifyOpen);
 		UseEditor_sys.commit();
+	}
+
+	public boolean isMonthSetHasSet() {
+		boolean blean = prefs.getBoolean(MONTH_SET_HAS_SET, false);
+		return blean;
+	}
+
+	public void setMonthSetHasSet(boolean blean) {
+		UseEditor.putBoolean(MONTH_SET_HAS_SET, blean);
+		UseEditor.commit();
 	}
 
 	public float getMonthMobileHasUseOffloat() {
@@ -312,9 +328,6 @@ public class SharedPrefrenceData {
 		UseEditor.commit();
 	}
 
-	
-	
-	
 	public boolean getIsSend() {
 		boolean isSend = prefs.getBoolean("IS_SEND", false);
 		return isSend;
@@ -344,10 +357,26 @@ public class SharedPrefrenceData {
 
 	}
 
+	public String getChooseCity() {
+		String smsNum = prefs.getString(CHOOSED_CITY, "北京--神州行");
+		return smsNum;
+
+	}
+
+	public void setChooseCity(String str) {
+		UseEditor.putString(CHOOSED_CITY, str);
+		UseEditor.commit();
+	}
+
 	public String getSmsNum() {
 		String smsNum = prefs.getString(SMSNUM, "10086");
 		return smsNum;
 
+	}
+
+	public void setSmsNum(String str) {
+		UseEditor.putString(SMSNUM, str);
+		UseEditor.commit();
 	}
 
 	public String getSmsText() {
@@ -356,15 +385,63 @@ public class SharedPrefrenceData {
 
 	}
 
-	
+	public void setSmsText(String str) {
+		UseEditor.putString(SMSTEXT, str);
+		UseEditor.commit();
+	}
+
 	public void setIsFirstRegulate(Boolean isFirstRegulate) {
 		UseEditor.putBoolean("IS_FIRST_REGULAT", isFirstRegulate);
 		UseEditor.commit();
 	}
-	
+
 	public boolean getIsFirstRegulate() {
 		boolean isFirstRegulate = prefs.getBoolean("IS_FIRST_REGULAT", true);
 		return isFirstRegulate;
+
+	}
+
+	public void setCurrentCity(String str) {
+		UseEditor.putString(CURRENT_CITY, str);
+		UseEditor.commit();
+	}
+
+	public String getCurrentCity() {
+		String result = prefs.getString(CURRENT_CITY, "北京");
+		return result;
+
+	}
+
+	public void setCurrentProvince(String str) {
+		UseEditor.putString(CURRENT_PROVINCE, str);
+		UseEditor.commit();
+	}
+
+	public String getCurrentProvince() {
+		String result = prefs.getString(CURRENT_PROVINCE, "北京");
+		return result;
+
+	}
+
+	public void setCurrentYunyinshang(String str) {
+		UseEditor.putString(CURRENT_YUNYINGSHANG, str);
+		UseEditor.commit();
+	}
+
+	public String getCurrentYunyinshang() {
+		String result = prefs.getString(CURRENT_YUNYINGSHANG, "中国移动");
+		return result;
+
+	}
+
+	public void setCurrentPinpai(String str) {
+		UseEditor.putString(CURRENT_PINPAI, str);
+		UseEditor.commit();
+	}
+
+	public String getCurrentPinpai() {
+		String result = prefs.getString(CURRENT_PINPAI, "神州行");
+		return result;
 
 	}
 }
