@@ -160,16 +160,16 @@ public class Main extends Activity {
 		// TextView monthWifi = (TextView) findViewById(R.id.wifiMonthRate);
 		// TextView monthWifiunit = (TextView) findViewById(R.id.unit6);
 		// 跳转到校正页
-		Button gotoThree = (Button) findViewById(R.id.gotoThree);
-		gotoThree.setOnClickListener(new OnClickListener() {
+//		Button gotoThree = (Button) findViewById(R.id.gotoThree);
+//		gotoThree.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				gotoThree();
-
-			}
-		});
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				gotoThree();
+//
+//			}
+//		});
 		// 流量获取函数
 		wifiTraffic = new long[64];
 		// 初始化流量获取函数
