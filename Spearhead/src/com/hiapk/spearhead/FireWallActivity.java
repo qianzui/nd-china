@@ -198,17 +198,20 @@ public class FireWallActivity extends Activity {
 	public ArrayList<PackageInfo> getCompList(ArrayList<PackageInfo> appList) {
 		traffic = new long[appList.size()];
 		int[] number = new int[traffic.length];
+		
 		for (int i = 0; i < traffic.length; i++) {
 			int uid = appList.get(i).applicationInfo.uid;
-
 			if (mp == null) {
 				if (SQLStatic.uiddata != null) {
 					mp = SQLStatic.uiddata;
+					if (mp.containsKey(uid)) {
+						traffic[i] = mp.get(uid).upload + mp.get(uid).download;
+					} else {
+						traffic[i] = -1000;
+					}
 				} else {
 					AlarmSet alset = new AlarmSet();
 					alset.StartAlarmUidTotal(mContext);
-				}
-				if (SQLStatic.uiddata != null) {
 					mp = SQLStatic.uiddata;
 					if (mp.containsKey(uid)) {
 						traffic[i] = mp.get(uid).upload + mp.get(uid).download;
@@ -218,6 +221,10 @@ public class FireWallActivity extends Activity {
 				}
 			} else {
 				if (SQLStatic.uiddata == null) {
+					AlarmSet alset = new AlarmSet();
+					alset.StartAlarmUidTotal(mContext);
+					mp = SQLStatic.uiddata;
+					
 					if (mp.containsKey(uid)) {
 						traffic[i] = mp.get(uid).upload + mp.get(uid).download;
 					} else {
@@ -259,8 +266,11 @@ public class FireWallActivity extends Activity {
 			int uid = pk.applicationInfo.uid;
 			
 			myAppList.add(pk);
-			
-			if(( mp.get(uid).upload + mp.get(uid).download) > 0){
+			long trafficdata = -1000;
+			if (mp.containsKey(uid)) {
+			trafficdata = mp.get(uid).upload + mp.get(uid).download;
+			}
+			if( trafficdata > 0){
 				showList.add(pk);
 			}else{
 				myAppList2.add(pk);
