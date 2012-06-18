@@ -349,7 +349,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:background="@drawable/bg_about"
+                        android:background="@drawable/btnselector_main"
                         android:text="请设置流量套餐"
                         android:textColor="@color/darkgray2"
                         android:textSize="20dp" />
