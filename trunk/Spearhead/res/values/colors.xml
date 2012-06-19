@@ -147,4 +147,6 @@
 <color name="black">#000000</color><!--黑色 --> 
 <color name="transparent">#00000000</color>
 <color name="darkgray2">#505050</color>
+<color name="blue2">#97FFFF</color>
+
 </resources> 

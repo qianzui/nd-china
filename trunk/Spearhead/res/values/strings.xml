@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="hello">Hello World, main!</string>
-	<string name="app_name">   先锋流量监控</string>
+	<string name="app_name">  先锋流量监控</string>
 	<string name="main_1">流量监控</string>
 	<string name="main_2">防火墙</string>
 	<string name="main_3">流量预警</string>
@@ -14,8 +14,7 @@
 	<string name="monthTotal">本月统计:\u0020</string>
 	
 	<string name="tip">注意</string>
-	<string name="tip_content">自定义应用程序的联网方式需要Root权限! 
-	    \n (更多信息请查看FAQ)</string>
+	<string name="tip_content">  自定义应用程序的联网方式需要Root权限! (更多信息请查看FAQ)</string>
 	<string name="tip_content_root">此功能需要root权限，请确保您的手机已破解并获得root权限！</string>  
 	<string name="tip_content_isroot">\n 是否获取？</string>  
 	<string name="ok">确定</string>
