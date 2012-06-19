@@ -43,8 +43,8 @@
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
         android:layout_marginTop="5dip"
-        android:layout_marginBottom="10dip"
-        android:layout_weight="1.0"
+        android:layout_marginBottom="5dip"
+        android:layout_weight="1.2"
         android:background="@drawable/bg_about"
         android:orientation="vertical" >
 
@@ -177,8 +177,8 @@
                                 android:id="@+id/monthRate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_toLeftOf="@id/unit3"
-                                android:text="1024.2"
+                                 android:layout_alignParentLeft="true"
+                                android:text="0"
                                 android:textColor="@color/darkgreen"
                                 android:textSize="20dp" />
 
@@ -257,8 +257,8 @@
                                 android:id="@+id/monthRemain"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_toLeftOf="@id/unit4"
                                 android:text="0"
+                                android:layout_alignParentLeft="true"
                                 android:textColor="@color/darkgreen"
                                 android:textSize="20dp" />
                         </RelativeLayout>
@@ -350,9 +350,9 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:background="@drawable/btnselector_main"
-                        android:text="请设置流量套餐"
-                        android:textColor="@color/darkgray2"
-                        android:textSize="20dp" />
+                        android:text=" 请设置流量套餐 "
+                        android:textColor="@color/darkgray2" 
+                        android:textSize="18dp"/>
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
