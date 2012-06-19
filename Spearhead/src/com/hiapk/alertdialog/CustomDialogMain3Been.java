@@ -434,7 +434,7 @@ public class CustomDialogMain3Been {
 			});
 		} else {
 			final CustomDialog monthWarning = new CustomDialog.Builder(context)
-					.setTitle("请进行包月流量设置")
+					.setTitle("注意！").setMessage("您还没有设置流量套餐，请进行包月流量设置。")
 					// .setView(textEntryView)
 					.setPositiveButton("确定", null).create();
 			monthWarning.show();
@@ -559,7 +559,7 @@ public class CustomDialogMain3Been {
 			});
 		} else {
 			final CustomDialog monthWarning = new CustomDialog.Builder(context)
-					.setTitle("请进行包月流量设置")
+					.setTitle("注意！").setMessage("您还没有设置流量套餐，请进行包月流量设置。")
 					// .setView(textEntryView)
 					.setPositiveButton("确定", null).create();
 			monthWarning.show();

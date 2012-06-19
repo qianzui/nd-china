@@ -10,6 +10,7 @@ import org.achartengine.GraphicalView;
 import com.hiapk.alertdialog.CustomDialogMainBeen;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
+import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.firewall.Block;
 import com.hiapk.firewall.GetRoot;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
@@ -144,55 +145,54 @@ public class Main extends Activity {
 	private void initValues() {
 		// TODO Auto-generated method stub
 		// 初始化小部件
+		// 今日已用
 		TextView todayMobil = (TextView) findViewById(R.id.todayRate);
 		TextView todayMobilunit = (TextView) findViewById(R.id.unit1);
 		// TextView leftMobil = (TextView) findViewById(R.id.weekRate);
 		// TextView leftMobilunit = (TextView) findViewById(R.id.unit2);
-		// TextView monthMobil = (TextView) findViewById(R.id.monthRate);
-		// TextView monthMobilunit = (TextView) findViewById(R.id.unit3);
+		// 本月已用
+		TextView monthMobil = (TextView) findViewById(R.id.monthRate);
+		TextView monthMobilunit = (TextView) findViewById(R.id.unit3);
 		// TextView monthMobil2 = (TextView)
 		// findViewById(R.id.traffic_month_set);
 		// TextView monthMobilunit2 = (TextView)
 		// findViewById(R.id.unit_month_set);
-		// TextView todayWifi = (TextView) findViewById(R.id.wifiTodayRate);
-		// TextView todayWifiunit = (TextView) findViewById(R.id.unit4);
-		// TextView weekWifi = (TextView) findViewById(R.id.wifiWeekRate);
-		// TextView weekWifiunit = (TextView) findViewById(R.id.unit5);
+		// 本月剩余
+		TextView monthRemain = (TextView) findViewById(R.id.monthRemain);
+		TextView monthRemainunit = (TextView) findViewById(R.id.unit4);
+		// 包月流量
+		TextView monthSet = (TextView) findViewById(R.id.monthSet);
+		TextView monthSetunit = (TextView) findViewById(R.id.unit5);
 		// TextView monthWifi = (TextView) findViewById(R.id.wifiMonthRate);
 		// TextView monthWifiunit = (TextView) findViewById(R.id.unit6);
-		// 跳转到校正页
-		// Button gotoThree = (Button) findViewById(R.id.gotoThree);
-		// gotoThree.setOnClickListener(new OnClickListener() {
-
-		// @Override
-		// public void onClick(View v) {
-		// // TODO Auto-generated method stub
-		// gotoThree();
-		//
-		// }
-		// });
 		// 流量获取函数
 		wifiTraffic = new long[64];
 		// 初始化流量获取函数
-		// 取得每周的流量
-		long[] weektraffic = new long[6];
-		weektraffic = TrafficManager.mobile_week_data;
 		// 取得月度流量
 		mobileTraffic = TrafficManager.mobile_month_data;
 		wifiTraffic = TrafficManager.wifi_month_data;
 		// 进行流量设置
-		todayMobil.setText(unitHandler(mobileTraffic[monthDay]
-				+ mobileTraffic[monthDay + 31], todayMobilunit));
+		todayMobil.setText(UnitHandler.unitHandlerAcurrac(
+				mobileTraffic[monthDay] + mobileTraffic[monthDay + 31],
+				todayMobilunit));
 		// todayMobil.setText(unitHandler(8888080, todayMobilunit));
 		// 月度流量设置
 		mobile_month_use = TrafficManager.getMonthUseData(context);
 		long mobileSet = sharedData.getMonthMobileSetOfLong();
-		// if (mobile_month_use > mobileSet)
-		// monthMobil.setTextColor(Color.RED);
-		// else
-		// monthMobil.setTextColor(Color.GREEN);
+		long monthLeft = 0;
+		if (mobile_month_use > mobileSet) {
+			monthMobil.setTextColor(Color.RED);
+			monthLeft = 0;
+		} else {
+			monthMobil.setTextColor(Color.GREEN);
+			monthLeft = mobileSet - mobile_month_use;
+		}
 		//
-		// monthMobil.setText(unitHandler(mobile_month_use, monthMobilunit));
+		monthMobil.setText(UnitHandler.unitHandlerAcurrac(mobile_month_use,
+				monthMobilunit));
+		monthRemain
+				.setText(UnitHandler.unitHandler(monthLeft, monthRemainunit));
+		monthSet.setText(UnitHandler.unitHandler(mobileSet, monthSetunit));
 		// monthMobil2.setText("/" + unitHandler(mobileSet, monthMobilunit2));
 		// leftMobil.setText(unitHandler(mobileSet - mobile_month_use,
 		// leftMobilunit));
@@ -205,12 +205,6 @@ public class Main extends Activity {
 	}
 
 	// ----------
-
-	public void gotoThree() {
-		SpearheadActivity sp = new SpearheadActivity();
-
-		sp.tabThree();
-	}
 
 	// ----------
 	/**
@@ -315,43 +309,6 @@ public class Main extends Activity {
 		// findViewById(R.id.progressbar_wifi);
 		// myProgressBar_mobile.setProgress(i);
 		// myProgressBar_wifi.setProgress(j);
-	}
-
-	/**
-	 * 单位标准化，mb，gb等
-	 * 
-	 * @param count
-	 *            输入的long型数
-	 * @param unit
-	 *            数值后面要显示的textview
-	 * @return 返回String型值
-	 */
-	private String unitHandler(long count, TextView unit) {
-		String value = null;
-		long temp = count;
-		float floatnum = count;
-		float floatGB = count;
-		float floatTB = count;
-		if ((temp = temp / 1024) < 1) {
-			value = count + "";
-			unit.setText("B");
-		} else if ((floatnum = (float) temp / 1024) < 1) {
-			value = temp + "";
-			unit.setText("KB");
-		} else if ((floatGB = floatnum / 1024) < 1) {
-			DecimalFormat format = new DecimalFormat("0.##");
-			value = format.format(floatnum) + "";
-			unit.setText("MB");
-		} else if ((floatTB = floatGB / 1024) < 1) {
-			DecimalFormat format = new DecimalFormat("0.##");
-			value = format.format(floatGB) + "";
-			unit.setText("GB");
-		} else {
-			DecimalFormat format = new DecimalFormat("0.##");
-			value = format.format(floatTB) + "";
-			unit.setText("TB");
-		}
-		return value;
 	}
 
 	@Override
@@ -552,9 +509,16 @@ public class Main extends Activity {
 				boolean hasTraffSet = sharedData.isMonthSetHasSet();
 				if (!hasTraffSet) {
 					Button btn_toThree = (Button) findViewById(R.id.setTaoCan);
-					customDialog.dialogMonthSet_Main(btn_toThree);
+					// 包月流量
+					TextView monthSet = (TextView) findViewById(R.id.monthSet);
+					TextView monthSetunit = (TextView) findViewById(R.id.unit5);
+					customDialog.dialogMonthSet_Main(btn_toThree,monthSet,monthSetunit);
 				} else {
-					customDialog.dialogMonthHasUsed();
+					TextView monthMobil = (TextView) findViewById(R.id.monthRate);
+					TextView monthMobilunit = (TextView) findViewById(R.id.unit3);
+					TextView monthRemain = (TextView) findViewById(R.id.monthRemain);
+					TextView monthRemainunit = (TextView) findViewById(R.id.unit4);
+					customDialog.dialogMonthHasUsed(monthMobil,monthMobilunit,monthRemain,monthRemainunit);
 				}
 
 			}
