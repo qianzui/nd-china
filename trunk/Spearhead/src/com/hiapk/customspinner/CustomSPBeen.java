@@ -130,7 +130,7 @@ public class CustomSPBeen {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				sharedData.setCountDay(1);
+				sharedData.setAlertAction(1);
 				mainBtn.setText("震动提示");
 				operatorOnAlertClick();
 				notifySet.dismiss();
@@ -143,7 +143,7 @@ public class CustomSPBeen {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				sharedData.setCountDay(2);
+				sharedData.setAlertAction(2);
 				mainBtn.setText("自动断网");
 				operatorOnAlertClick();
 				notifySet.dismiss();
@@ -156,7 +156,7 @@ public class CustomSPBeen {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				sharedData.setCountDay(3);
+				sharedData.setAlertAction(3);
 				operatorOnAlertClick();
 				mainBtn.setText("震动+自动断网");
 				notifySet.dismiss();
