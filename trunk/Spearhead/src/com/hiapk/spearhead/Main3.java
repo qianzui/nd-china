@@ -365,7 +365,6 @@ public class Main3 extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		init_btn_HasUsed();
 		init_btn_month();
 		init_monthWarning();
 		init_dayWarning();
