@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:textColor="@color/palegreen" />
+        android:textColor="@color/darkgray2" />
 
     <SeekBar
         android:id="@+id/probar_warning_alert"

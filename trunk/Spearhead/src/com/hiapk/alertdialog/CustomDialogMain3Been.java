@@ -13,7 +13,10 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
@@ -64,7 +67,7 @@ public class CustomDialogMain3Been {
 	 *            传入点击的TextView
 	 * @return 返回对话框
 	 */
-	public void dialogMonthHasUsed() {
+	public void dialogMonthHasUsed(final Button btn_HasUsed) {
 		// TODO Auto-generated method stub
 		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		final DecimalFormat format = new DecimalFormat("0.##");
@@ -105,8 +108,8 @@ public class CustomDialogMain3Been {
 
 		final CustomDialog monthHasUsedAlert = new CustomDialog.Builder(context)
 				.setTitle("请设置本月已用流量").setContentView(textEntryView)
-				.setOtherButton("短信查询", null).setPositiveButton("确定", null)
-				.setNegativeButton("取消", null).create();
+				.setPositiveButton("确定", null).setNegativeButton("取消", null)
+				.create();
 		monthHasUsedAlert.show();
 
 		Button btn_other = (Button) monthHasUsedAlert
@@ -167,6 +170,11 @@ public class CustomDialogMain3Been {
 					dialogHasUsedLongTooMuch();
 				}
 				SetText.resetWidgetAndNotify(context);
+				PrefrenceOperatorUnit.resetHasWarning(context);
+				// 赋值
+				long month_used = TrafficManager.getMonthUseData(context);
+				UnitHandler FormatUnit = new UnitHandler();
+				btn_HasUsed.setText(FormatUnit.unitHandler(month_used));
 				monthHasUsedAlert.dismiss();
 
 			}
@@ -218,7 +226,6 @@ public class CustomDialogMain3Been {
 	 */
 	public void dialogMonthSet_Main3(final Button btn_month,
 			final Button dayWarning, final Button monthWarning) {
-
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		int mobileUnit = sharedData.getMonthMobileSetUnit();
 		int mobileSetInt = sharedData.getMonthMobileSetOfint();
@@ -239,10 +246,10 @@ public class CustomDialogMain3Been {
 		// 判断0
 		if (mobileSetInt != 0) {
 			et_month.setText(mobileSetInt + "");
+			et_month.setSelection(String.valueOf(mobileSetInt).length());
 		} else {
 			et_month.setText("");
 		}
-		et_month.setSelection(String.valueOf(mobileSetInt).length());
 		final CustomDialog monthSetAlert = new CustomDialog.Builder(context)
 				.setTitle("请设置每月流量限额").setContentView(textEntryView)
 				.setPositiveButton("确定", null).setNegativeButton("取消", null)
@@ -313,6 +320,7 @@ public class CustomDialogMain3Been {
 				} else {
 					sharedData.setMonthSetHasSet(true);
 				}
+				PrefrenceOperatorUnit.resetHasWarning(context);
 				monthSetAlert.dismiss();
 				/* User clicked OK so do some stuff */
 				// MobclickAgent.onEvent(context, "monthUse",
@@ -330,6 +338,275 @@ public class CustomDialogMain3Been {
 				monthSetAlert.dismiss();
 			}
 		});
+	}
+
+	/**
+	 * 月度预警弹出的对话框
+	 */
+	public void dialogMonthWarning(final Button button) {
+		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		final UnitHandler FormatUnit = new UnitHandler();
+		LayoutInflater factory = LayoutInflater.from(context);
+		View textEntryView = factory.inflate(
+				R.layout.month_warning_set_alert_dialog, null);
+		// 流量预警设置窗口上方的文本
+		final TextView tv_month_Traff = (TextView) textEntryView
+				.findViewById(R.id.tv_show_Traff);
+		tv_month_Traff.setTextSize(20);
+		// tv_month_Traff.setTextColor(Color.BLACK);
+		// tv_month_warning.setText("月度预警流量：");
+		// tv_month_warning.setGravity(Gravity.CENTER);
+		// 设置拖动进度条
+		final SeekBar seekbar_warning = (SeekBar) textEntryView
+				.findViewById(R.id.probar_warning_alert);
+		// 包月流量
+		final long monthset = sharedData.getMonthMobileSetOfLong();
+		// final int monthset_MB = (int) (monthset / 1024 / 1024);
+		long warningMonthset = sharedData.getAlertWarningMonth();
+		if (monthset != 0) {
+			// 进行初始化
+			// 流量数值前方的说明文字
+			final String text = "";
+			seekbar_warning
+					.setProgress((int) (warningMonthset * 100 / monthset));
+			tv_month_Traff.setText(text
+					+ FormatUnit.unitHandler(warningMonthset));
+			seekbar_warning
+					.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+						@Override
+						public void onStopTrackingTouch(SeekBar seekBar) {
+							// TODO Auto-generated method stub
+						}
+
+						@Override
+						public void onStartTrackingTouch(SeekBar seekBar) {
+							// TODO Auto-generated method stub
+						}
+
+						@Override
+						public void onProgressChanged(SeekBar seekBar,
+								int progress, boolean fromUser) {
+							// TODO Auto-generated method stub
+							tv_month_Traff.setText(text
+									+ FormatUnit.unitHandler(monthset
+											* progress / 100));
+						}
+					});
+			final CustomDialog monthWarning = new CustomDialog.Builder(context)
+					.setTitle("月流量达到下列数值时报警").setContentView(textEntryView)
+					.setPositiveButton("确定", null)
+					.setNegativeButton("取消", null).create();
+			monthWarning.show();
+			Button btn_ok = (Button) monthWarning
+					.findViewById(R.id.positiveButton);
+			btn_ok.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					// 输入的数值
+					Editor UseEditor = context.getSharedPreferences(PREFS_NAME,
+							0).edit();
+					int progre = seekbar_warning.getProgress();
+					long newmonthset = monthset * progre / 100;
+					// 最小值1M
+					UseEditor.putLong(MOBILE_WARNING_MONTH, newmonthset);
+					UseEditor.commit();
+					// 设置数值
+					long mobileWarning = sharedData.getAlertWarningMonth();
+					// float
+					// a=Float.valueOf(mobileWarning).floatValue();
+					button.setText(FormatUnit.unitHandler(mobileWarning));
+					// 重置预警状态
+					PrefrenceOperatorUnit.resetHasWarning(context);
+					monthWarning.dismiss();
+				}
+			});
+
+			Button btn_cancel = (Button) monthWarning
+					.findViewById(R.id.negativeButton);
+			btn_cancel.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					monthWarning.dismiss();
+				}
+			});
+		} else {
+			final CustomDialog monthWarning = new CustomDialog.Builder(context)
+					.setTitle("请进行包月流量设置")
+					// .setView(textEntryView)
+					.setPositiveButton("确定", null).create();
+			monthWarning.show();
+			Button btn_ok = (Button) monthWarning
+					.findViewById(R.id.positiveButton);
+			btn_ok.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					// 输入的数值
+					monthWarning.dismiss();
+				}
+			});
+
+			Button btn_cancel = (Button) monthWarning
+					.findViewById(R.id.negativeButton);
+			btn_cancel.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					monthWarning.dismiss();
+				}
+			});
+		}
+
+	}
+
+	/**
+	 * 日流量预警对话框
+	 * 
+	 * @param button
+	 * @return
+	 */
+	public void dialogDayWarning(final Button button) {
+		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		final UnitHandler FormatUnit = new UnitHandler();
+		LayoutInflater factory = LayoutInflater.from(context);
+		View textEntryView = factory.inflate(
+				R.layout.month_warning_set_alert_dialog, null);
+		// final TextView tv_day_warning = (TextView) textEntryView
+		// .findViewById(R.id.tv_warning_alert);
+		final TextView tv_month_Traff = (TextView) textEntryView
+				.findViewById(R.id.tv_show_Traff);
+		tv_month_Traff.setTextSize(20);
+		// tv_month_Traff.setTextColor(Color.BLACK);
+		// tv_day_warning.setText("日预警流量：");
+		// tv_day_warning.setGravity(Gravity.CENTER);
+		// 设置拖动进度条
+		final SeekBar seekbar_warning = (SeekBar) textEntryView
+				.findViewById(R.id.probar_warning_alert);
+		// 包月流量
+		long warningDayset = sharedData.getAlertWarningDay();
+		final long monthset = sharedData.getMonthMobileSetOfLong();
+		if (monthset != 0) {
+			// 进行初始化
+			final String text = "";
+			seekbar_warning.setProgress((int) (warningDayset * 100 / monthset));
+			tv_month_Traff
+					.setText(text + FormatUnit.unitHandler(warningDayset));
+			seekbar_warning
+					.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+
+						@Override
+						public void onStopTrackingTouch(SeekBar seekBar) {
+							// TODO Auto-generated method stub
+						}
+
+						@Override
+						public void onStartTrackingTouch(SeekBar seekBar) {
+							// TODO Auto-generated method stub
+						}
+
+						@Override
+						public void onProgressChanged(SeekBar seekBar,
+								int progress, boolean fromUser) {
+							// TODO Auto-generated method stub
+							tv_month_Traff.setText(text
+									+ FormatUnit.unitHandler(progress
+											* monthset / 100));
+						}
+					});
+			final CustomDialog dayWarning = new CustomDialog.Builder(context)
+					.setTitle("日流量达到下列数值报警").setContentView(textEntryView)
+					.setPositiveButton("确定", null)
+					.setNegativeButton("取消", null).create();
+			dayWarning.show();
+			Button btn_ok = (Button) dayWarning
+					.findViewById(R.id.positiveButton);
+			btn_ok.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					// 输入的数值
+					Editor UseEditor = context.getSharedPreferences(PREFS_NAME,
+							0).edit();
+					int progre = seekbar_warning.getProgress();
+					// 最小值1M
+					long newdayset = monthset * progre / 100;
+					UseEditor.putLong(MOBILE_WARNING_DAY, newdayset);
+					UseEditor.commit();
+					long mobileWarning = sharedData.getAlertWarningDay();
+					// float
+					// a=Float.valueOf(mobileWarning).floatValue();
+					button.setText(FormatUnit.unitHandler(mobileWarning));
+					// init_dayWarning();
+					// 重置预警状态
+					PrefrenceOperatorUnit.resetHasWarning(context);
+					dayWarning.dismiss();
+				}
+			});
+
+			Button btn_cancel = (Button) dayWarning
+					.findViewById(R.id.negativeButton);
+			btn_cancel.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					dayWarning.dismiss();
+				}
+			});
+		} else {
+			final CustomDialog monthWarning = new CustomDialog.Builder(context)
+					.setTitle("请进行包月流量设置")
+					// .setView(textEntryView)
+					.setPositiveButton("确定", null).create();
+			monthWarning.show();
+			Button btn_ok = (Button) monthWarning
+					.findViewById(R.id.positiveButton);
+			btn_ok.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					monthWarning.dismiss();
+				}
+			});
+
+			Button btn_cancel = (Button) monthWarning
+					.findViewById(R.id.negativeButton);
+			btn_cancel.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					monthWarning.dismiss();
+				}
+			});
+		}
+
+	}
+
+	/**
+	 * 本月已用弹出窗口
+	 * 
+	 * @return
+	 */
+	public void dialogCountDaySelected() {
+		final CustomDialog dayWarning = new CustomDialog.Builder(context)
+				.setTitle("设置结算日后建议重设本月已用流量信息")
+				// .setView(textEntryView)
+				.setPositiveButton("确定", null).create();
+		dayWarning.show();
+		Button btn_ok = (Button) dayWarning.findViewById(R.id.positiveButton);
+		btn_ok.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				dayWarning.dismiss();
+			}
+		});
+
 	}
 
 	/**
