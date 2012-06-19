@@ -169,19 +169,17 @@
                         android:layout_width="0dip"
                         android:layout_height="0dip"
                         android:layout_alignParentRight="true"
-                        android:text=" 日"
                         android:textColor="@color/darkgray2"
                         android:textSize="20dp" />
 
-                    <Spinner
+                     <Button
                         android:id="@+id/dayUnit"
-                        android:layout_width="80dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toLeftOf="@+id/monthSet"
                         android:background="@drawable/bg_about"
-                        android:entries="@array/day"
-                        android:prompt="@string/daySelect"
-                        android:textStyle="bold" />
+                        android:text="1 日"
+                        android:textColor="@color/darkgreen" />
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
@@ -346,14 +344,14 @@
                     android:textColor="@color/darkgray2"
                     android:textSize="20dp" />
 
-                <Spinner
+                <Button
                     android:id="@+id/warningAct"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:background="@drawable/bg_about"
-                    android:prompt="@string/warningActionSelect"
-                    android:textColor="@color/lightgreen"
+                     android:text="点击设置"
+                    android:textColor="@color/darkgreen"
                     android:textStyle="bold" />
             </RelativeLayout>
         </LinearLayout>

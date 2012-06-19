@@ -23,6 +23,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="1日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -35,6 +36,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="2日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -47,6 +49,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="3日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -59,6 +62,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="4日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -71,6 +75,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="5日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -83,6 +88,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="6日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -95,6 +101,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="7日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -107,6 +114,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="8日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -119,6 +127,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="9日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -131,6 +140,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="10日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -143,6 +153,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="11日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -155,6 +166,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="12日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -167,6 +179,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="13日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -179,6 +192,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="14日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -191,6 +205,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="15日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -203,6 +218,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="16日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -215,6 +231,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="17日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -227,6 +244,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="18日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -239,6 +257,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="19日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -251,6 +270,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="20日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -263,6 +283,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="21日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -275,6 +296,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="22日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -287,6 +309,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="23日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -299,6 +322,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="24日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -311,6 +335,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="25日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -323,6 +348,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="26日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -335,6 +361,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="27日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -347,6 +374,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="28日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -359,6 +387,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="29日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -371,6 +400,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="30日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
 
             <Button
@@ -383,6 +413,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:text="31日"
+                android:textColor="@color/darkgray2"
                 android:textSize="18sp" />
         </LinearLayout>
     </ScrollView>
