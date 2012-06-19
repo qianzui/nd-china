@@ -7,6 +7,7 @@ import java.util.TimerTask;
 
 import org.achartengine.GraphicalView;
 
+import com.hiapk.alertdialog.CustomDialogMainBeen;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.Block;
@@ -101,11 +102,7 @@ public class Main extends Activity {
 		// .. MobclickAgent.onError(this);
 		// 获取固定存放数据
 		sharedData = new SharedPrefrenceData(context);
-		// 显示提示对话框仅显示一次
-		if (sharedData.isFirstBoot()) {
-			dialogHintSetData().show();
-		}
-		// temp------------
+
 		if (sharedData.isSQLinited() == false) {
 			if (SQLStatic.uids == null) {
 				getuids();
@@ -121,20 +118,24 @@ public class Main extends Activity {
 			initSQLdatabase(SQLStatic.uids, SQLStatic.packagenames);
 		}
 
-		setonrefreshclicklistens();
+		setonclicklistens();
 		// setontvclicklisten();
 	}
 
-	private AlertDialog dialogHintSetData() {
+	/**
+	 * 初始化界面
+	 */
+	private void initScene() {
 		// TODO Auto-generated method stub
-		AlertDialog dialogHint = new AlertDialog.Builder(Main.this)
-				.setTitle("请设置流量套餐，并校对已用流量")
-				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						sharedData.setFirstBoot(false);
-					}
-				}).create();
-		return dialogHint;
+		// 设置按钮显示文字
+		boolean hasTraffSet = sharedData.isMonthSetHasSet();
+		Button btn_toThree = (Button) findViewById(R.id.setTaoCan);
+		if (hasTraffSet) {
+			btn_toThree.setText("  校准流量  ");
+		} else {
+			btn_toThree.setText("  请设置流量套餐  ");
+		}
+
 	}
 
 	/**
@@ -145,8 +146,8 @@ public class Main extends Activity {
 		// 初始化小部件
 		TextView todayMobil = (TextView) findViewById(R.id.todayRate);
 		TextView todayMobilunit = (TextView) findViewById(R.id.unit1);
-//		TextView leftMobil = (TextView) findViewById(R.id.weekRate);
-//		TextView leftMobilunit = (TextView) findViewById(R.id.unit2);
+		// TextView leftMobil = (TextView) findViewById(R.id.weekRate);
+		// TextView leftMobilunit = (TextView) findViewById(R.id.unit2);
 		// TextView monthMobil = (TextView) findViewById(R.id.monthRate);
 		// TextView monthMobilunit = (TextView) findViewById(R.id.unit3);
 		// TextView monthMobil2 = (TextView)
@@ -160,16 +161,16 @@ public class Main extends Activity {
 		// TextView monthWifi = (TextView) findViewById(R.id.wifiMonthRate);
 		// TextView monthWifiunit = (TextView) findViewById(R.id.unit6);
 		// 跳转到校正页
-//		Button gotoThree = (Button) findViewById(R.id.gotoThree);
-//		gotoThree.setOnClickListener(new OnClickListener() {
+		// Button gotoThree = (Button) findViewById(R.id.gotoThree);
+		// gotoThree.setOnClickListener(new OnClickListener() {
 
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				gotoThree();
-//
-//			}
-//		});
+		// @Override
+		// public void onClick(View v) {
+		// // TODO Auto-generated method stub
+		// gotoThree();
+		//
+		// }
+		// });
 		// 流量获取函数
 		wifiTraffic = new long[64];
 		// 初始化流量获取函数
@@ -193,8 +194,8 @@ public class Main extends Activity {
 		//
 		// monthMobil.setText(unitHandler(mobile_month_use, monthMobilunit));
 		// monthMobil2.setText("/" + unitHandler(mobileSet, monthMobilunit2));
-//		leftMobil.setText(unitHandler(mobileSet - mobile_month_use,
-//				leftMobilunit));
+		// leftMobil.setText(unitHandler(mobileSet - mobile_month_use,
+		// leftMobilunit));
 		// todayWifi.setText(unitHandler(wifi[monthDay] + wifi[monthDay + 31],
 		// todayWifiunit));
 		// weekWifi.setText(unitHandler(weektraffic[5], weekWifiunit));
@@ -365,6 +366,7 @@ public class Main extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		initScene();
 		// umeng
 		// MobclickAgent.onResume(this);
 		// 取得系统时间。
@@ -459,7 +461,7 @@ public class Main extends Activity {
 	// });
 	// }
 
-	private void setonrefreshclicklistens() {
+	private void setonclicklistens() {
 		final Button btn_refresh = (Button) findViewById(R.id.refresh);
 		btn_refresh.setOnTouchListener(new OnTouchListener() {
 
@@ -534,6 +536,27 @@ public class Main extends Activity {
 				// specialfortext----test
 				// SQLHelperUidTotal sqlUidTotal = new SQLHelperUidTotal();
 				// sqlUidTotal.updateSQLUidTypes(context, uids);
+			}
+		});
+
+		// 跳转到校正页
+		Button gotoThree = (Button) findViewById(R.id.setTaoCan);
+		gotoThree.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				// gotoThree();
+				CustomDialogMainBeen customDialog = new CustomDialogMainBeen(
+						context);
+				boolean hasTraffSet = sharedData.isMonthSetHasSet();
+				if (!hasTraffSet) {
+					Button btn_toThree = (Button) findViewById(R.id.setTaoCan);
+					customDialog.dialogMonthSet_Main(btn_toThree);
+				} else {
+					customDialog.dialogMonthHasUsed();
+				}
+
 			}
 		});
 	}
@@ -821,7 +844,7 @@ public class Main extends Activity {
 	 * @param string
 	 */
 	private void showlog(String string) {
-//		Log.d("main", string);
+		// Log.d("main", string);
 	}
 
 	@Override

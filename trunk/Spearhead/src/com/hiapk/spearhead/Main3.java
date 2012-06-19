@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import com.hiapk.alertaction.AlertActionNotify;
 import com.hiapk.alertdialog.CustomDialogMain3Been;
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.customspinner.CustomSPBeen;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.firewall.Block;
@@ -129,34 +130,63 @@ public class Main3 extends Activity {
 	 */
 	private void init_warningAct() {
 		// TODO Auto-generated method stub
-		Spinner warningAct = (Spinner) findViewById(R.id.warningAct);
-		// 设置Adapter
-		ArrayAdapter<CharSequence> adp2 = ArrayAdapter.createFromResource(this,
-				R.array.warningaction, R.layout.sptext);
-		adp2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		warningAct.setAdapter(adp2);
-		// 初始化数值
-		final int beforeWarningAction = sharedData.getAlertAction();
-		warningAct.setSelection(beforeWarningAction);
-		warningAct.setOnItemSelectedListener(new OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int position, long arg3) {
-				// TODO Auto-generated method stub
+		// Spinner warningAct = (Spinner) findViewById(R.id.warningAct);
+		// // 设置Adapter
+		// ArrayAdapter<CharSequence> adp2 =
+		// ArrayAdapter.createFromResource(this,
+		// R.array.warningaction, R.layout.sptext);
+		// adp2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// warningAct.setAdapter(adp2);
+		// // 初始化数值
+		// final int beforeWarningAction = sharedData.getAlertAction();
+		// warningAct.setSelection(beforeWarningAction);
+		// warningAct.setOnItemSelectedListener(new OnItemSelectedListener() {
+		// @Override
+		// public void onItemSelected(AdapterView<?> arg0, View arg1,
+		// int position, long arg3) {
+		// // TODO Auto-generated method stub
+		//
+		// if ((beforeWarningAction) != position) {
+		// // 结算日期变化时做日期变化并重置本月已用数值
+		// Editor passfileEditor = context.getSharedPreferences(
+		// PREFS_NAME, 0).edit();
+		// // Log.d("main3", i + "");
+		// passfileEditor.putInt(WARNING_ACTION, position);
+		// passfileEditor.commit();// 委托，存入数据
+		// }
+		// }
+		//
+		// @Override
+		// public void onNothingSelected(AdapterView<?> arg0) {
+		// // TODO Auto-generated method stub
+		// }
+		// });
+		final Button alertAction = (Button) findViewById(R.id.warningAct);
+		// 0-30代表1-31
+		int beforeDay = sharedData.getAlertAction();
+		switch (beforeDay) {
+		case 0:
+			alertAction.setText("仅通知栏提示");
+			break;
+		case 1:
+			alertAction.setText("震动提示");
+			break;
+		case 2:
+			alertAction.setText("自动断网");
+			break;
+		case 3:
+			alertAction.setText("震动+自动断网");
+			break;
+		default:
+			alertAction.setText("仅通知栏提示");
+			break;
+		}
 
-				if ((beforeWarningAction) != position) {
-					// 结算日期变化时做日期变化并重置本月已用数值
-					Editor passfileEditor = context.getSharedPreferences(
-							PREFS_NAME, 0).edit();
-					// Log.d("main3", i + "");
-					passfileEditor.putInt(WARNING_ACTION, position);
-					passfileEditor.commit();// 委托，存入数据
-				}
-			}
-
+		alertAction.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
+			public void onClick(View v) {
+				CustomSPBeen customSP = new CustomSPBeen(context);
+				customSP.dialogAlertType(alertAction);
 			}
 		});
 	}
@@ -174,7 +204,10 @@ public class Main3 extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				dialogDayWarning(dayWarning).show();
+				CustomDialogMain3Been customDialog = new CustomDialogMain3Been(
+						context);
+				customDialog.dialogDayWarning(dayWarning);
+				// dialogDayWarning(dayWarning).show();
 
 			}
 		});
@@ -192,7 +225,10 @@ public class Main3 extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				dialogMonthWarning(monthWarning).show();
+				CustomDialogMain3Been customDialog = new CustomDialogMain3Been(
+						context);
+				customDialog.dialogMonthWarning(monthWarning);
+				// dialogMonthWarning(monthWarning).show();
 
 			}
 		});
@@ -203,61 +239,65 @@ public class Main3 extends Activity {
 	 */
 	private void init_Spinner() {
 		// TODO Auto-generated method stub
-		// 初始化
-		// Spinner spinnerUnit = (Spinner) findViewById(R.id.spinnerUnit);
-		Spinner dayUnit = (Spinner) findViewById(R.id.dayUnit);
-		// Spinner spinnerHasUsed = (Spinner) findViewById(R.id.spinnerhasused);
-		// 设置Adapter
-		ArrayAdapter<CharSequence> adp1 = ArrayAdapter.createFromResource(this,
-				R.array.unit, R.layout.sptext);
-		ArrayAdapter<CharSequence> adp2 = ArrayAdapter.createFromResource(this,
-				R.array.day, R.layout.sptext);
-		ArrayAdapter<CharSequence> adp3 = ArrayAdapter.createFromResource(this,
-				R.array.unit, R.layout.sptext);
-		adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		adp2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		adp3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		// spinnerUnit.setAdapter(adp1);
-		dayUnit.setAdapter(adp2);
-		// spinnerHasUsed.setAdapter(adp3);
-		// 设置月度流量与结算日期的默认显示值
-		// 从0-30分别代表1-31日
-		int mobileSetCountDay = sharedData.getCountDay();
-		// 设置初始显示项目
-		// spinnerUnit.setSelection(mobileSetUnit);
-		dayUnit.setSelection(mobileSetCountDay);
-		// 设置监听 月结算日
-		dayUnit.setOnItemSelectedListener(new OnItemSelectedListener() {
+		// // 初始化
+		// Spinner dayUnit = (Spinner) findViewById(R.id.dayUnit);
+		// // 设置Adapter
+		// ArrayAdapter<CharSequence> adp2 =
+		// ArrayAdapter.createFromResource(this,
+		// R.array.day, R.layout.sptext);
+		// adp2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// dayUnit.setAdapter(adp2);
+		// // 设置月度流量与结算日期的默认显示值
+		// // 从0-30分别代表1-31日
+		// int mobileSetCountDay = sharedData.getCountDay();
+		// // 设置初始显示项目
+		// dayUnit.setSelection(mobileSetCountDay);
+		// // 设置监听 月结算日
+		// dayUnit.setOnItemSelectedListener(new OnItemSelectedListener() {
+		// @Override
+		// public void onItemSelected(AdapterView<?> arg0, View arg1,
+		// int position, long arg3) {
+		// // TODO Auto-generated method stub
+		// int beforeSetCount = sharedData.getCountDay();
+		// if ((beforeSetCount) != position) {
+		// // 结算日期变化时做日期变化并重置本月已用数值
+		// Editor passfileEditor = context.getSharedPreferences(
+		// PREFS_NAME, 0).edit();
+		// // Log.d("main3", i + "");
+		// passfileEditor.putInt(MOBILE_COUNT_DAY, position);
+		// // Log.d("main3", i + "");
+		// passfileEditor.putInt(MOBILE_COUNT_SET_YEAR, 1977);
+		// passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG, 0);
+		// passfileEditor.putFloat(VALUE_MOBILE_HASUSED_OF_FLOAT, 0);
+		// passfileEditor.commit();// 委托，存入数据
+		// // 重置月已用流量
+		// init_btn_HasUsed();
+		// // 弹出建议设置已用流量对话框
+		// CustomDialogMain3Been customDialog = new CustomDialogMain3Been(
+		// context);
+		// customDialog.dialogCountDaySelected();
+		// // 刷新小部件与通知栏
+		// // AlarmSet alset = new AlarmSet();
+		// // alset.StartWidgetAlarm(context);
+		// SetText.resetWidgetAndNotify(context);
+		// }
+		// }
+		//
+		// @Override
+		// public void onNothingSelected(AdapterView<?> arg0) {
+		// // TODO Auto-generated method stub
+		// }
+		// });
+		final Button dayUnit = (Button) findViewById(R.id.dayUnit);
+		final Button btn_HasUsed = (Button) findViewById(R.id.btn_monthHasUseSet_Unit);
+		// 0-30代表1-31
+		int beforeDay = sharedData.getCountDay();
+		dayUnit.setText((beforeDay + 1) + " 日");
+		dayUnit.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int position, long arg3) {
-				// TODO Auto-generated method stub
-				int beforeSetCount = sharedData.getCountDay();
-				if ((beforeSetCount) != position) {
-					// 结算日期变化时做日期变化并重置本月已用数值
-					Editor passfileEditor = context.getSharedPreferences(
-							PREFS_NAME, 0).edit();
-					// Log.d("main3", i + "");
-					passfileEditor.putInt(MOBILE_COUNT_DAY, position);
-					// Log.d("main3", i + "");
-					passfileEditor.putInt(MOBILE_COUNT_SET_YEAR, 1977);
-					passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG, 0);
-					passfileEditor.putFloat(VALUE_MOBILE_HASUSED_OF_FLOAT, 0);
-					passfileEditor.commit();// 委托，存入数据
-					// 重置月已用流量
-					init_btn_HasUsed();
-					// 弹出建议设置已用流量对话框
-					dialogCountDaySelected().show();
-					// 刷新小部件与通知栏
-					// AlarmSet alset = new AlarmSet();
-					// alset.StartWidgetAlarm(context);
-					SetText.resetWidgetAndNotify(context);
-				}
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
+			public void onClick(View v) {
+				CustomSPBeen customSP = new CustomSPBeen(context);
+				customSP.dialogDaySet(dayUnit, btn_HasUsed);
 			}
 		});
 	}
@@ -281,7 +321,9 @@ public class Main3 extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				dialogMonthHasUsed(btn_HasUsed).show();
+				CustomDialogMain3Been customDialog = new CustomDialogMain3Been(
+						context);
+				customDialog.dialogMonthHasUsed(btn_HasUsed);
 
 			}
 		});
@@ -309,346 +351,6 @@ public class Main3 extends Activity {
 						monthWarning);
 			}
 		});
-	}
-
-	/**
-	 * 本月已用弹出的对话框
-	 * 
-	 * @param TextView_month
-	 *            传入点击的TextView
-	 * @return 返回对话框
-	 */
-	protected AlertDialog dialogMonthHasUsed(final Button btn_Used) {
-		// TODO Auto-generated method stub
-		int mobileUseUnit = sharedData.getMonthHasUsedUnit();
-		// float mobileUsefloat = sharedData.getMonthMobileHasUseOffloat();
-		long mobileUselong = TrafficManager.getMonthUseData(context);
-		// 初始化窗体
-		LayoutInflater factory = LayoutInflater.from(Main3.this);
-		final View textEntryView = factory.inflate(
-				R.layout.alert_dialog_text_entry, null);
-		final EditText et_month = (EditText) textEntryView
-				.findViewById(R.id.ev_alert);
-		final Spinner spin_unit = (Spinner) textEntryView
-				.findViewById(R.id.sp_unit);
-		ArrayAdapter<CharSequence> adp = ArrayAdapter.createFromResource(this,
-				R.array.unit, R.layout.sptext_on_alert);
-		adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spin_unit.setAdapter(adp);
-		// 初始化数值
-		spin_unit.setSelection(mobileUseUnit);
-		int mobileHasUsedUnit = spin_unit.getSelectedItemPosition();
-		String mobileUseString;
-		if (mobileHasUsedUnit == 0) {
-			mobileUseString = format
-					.format(((double) mobileUselong) / 1024 / 1024);
-		} else {
-			mobileUseString = format
-					.format(((double) mobileUselong) / 1024 / 1024 / 1024);
-		}
-
-		et_month.setText(mobileUseString);
-		et_month.setSelection(String.valueOf(mobileUseString).length());
-
-		AlertDialog monthHasUsedAlert = new AlertDialog.Builder(Main3.this)
-				.setTitle("请设置本月已用流量")
-				.setView(textEntryView)
-				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						// 输入的数值
-						float i = 0;
-						try {
-							i = Float.valueOf(et_month.getText().toString());
-						} catch (NumberFormatException e) {
-							// TODO: handle exception
-							showlog(i + "shuziError"
-									+ et_month.getText().toString());
-						}
-
-						btn_Used.setText(format.format(i));
-						int mobileHasUsedUnit = spin_unit
-								.getSelectedItemPosition();
-						Editor passfileEditor = context.getSharedPreferences(
-								PREFS_NAME, 0).edit();
-						// Log.d("main3", i + "");
-						//
-						//
-
-						if (mobileHasUsedUnit == 0) {
-							passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
-									(long) (i * 1048576));
-						} else {
-							passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
-									(long) (i * 1048576 * 1024));
-						}
-						passfileEditor.putFloat(VALUE_MOBILE_HASUSED_OF_FLOAT,
-								i);
-
-						passfileEditor.putInt(MOBILE_HASUSED_SET_UNIT,
-								mobileHasUsedUnit);
-						passfileEditor.commit();// 委托，存入数据
-						commitUsedTrafficTime();
-						init_btn_HasUsed();
-						/* User clicked OK so do some stuff */
-						long hasusedlong = sharedData.getMonthMobileHasUse();
-						long setlong = sharedData.getMonthMobileSetOfLong();
-						if (hasusedlong > setlong) {
-							dialogHasUsedLongTooMuch().show();
-						}
-						SetText.resetWidgetAndNotify(context);
-					}
-				})
-				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-
-						/* User clicked cancel so do some stuff */
-					}
-				}).create();
-		return monthHasUsedAlert;
-
-	}
-
-	View textEntryView;
-
-	/**
-	 * 月度预警弹出的对话框
-	 */
-	public AlertDialog dialogMonthWarning(Button button) {
-		LayoutInflater factory = LayoutInflater.from(Main3.this);
-		textEntryView = factory.inflate(
-				R.layout.month_warning_set_alert_dialog, null);
-		// 流量预警设置窗口上方的文本
-		final TextView tv_month_Traff = (TextView) textEntryView
-				.findViewById(R.id.tv_show_Traff);
-		tv_month_Traff.setTextSize(20);
-		// tv_month_Traff.setTextColor(Color.BLACK);
-		// tv_month_warning.setText("月度预警流量：");
-		// tv_month_warning.setGravity(Gravity.CENTER);
-		// 设置拖动进度条
-		final SeekBar seekbar_warning = (SeekBar) textEntryView
-				.findViewById(R.id.probar_warning_alert);
-		// 包月流量
-		final long monthset = sharedData.getMonthMobileSetOfLong();
-		// final int monthset_MB = (int) (monthset / 1024 / 1024);
-		long warningMonthset = sharedData.getAlertWarningMonth();
-		if (monthset != 0) {
-			// 进行初始化
-			// 流量数值前方的说明文字
-			final String text = "";
-			seekbar_warning
-					.setProgress((int) (warningMonthset * 100 / monthset));
-			tv_month_Traff.setText(text
-					+ FormatUnit.unitHandler(warningMonthset));
-			seekbar_warning
-					.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-						@Override
-						public void onStopTrackingTouch(SeekBar seekBar) {
-							// TODO Auto-generated method stub
-						}
-
-						@Override
-						public void onStartTrackingTouch(SeekBar seekBar) {
-							// TODO Auto-generated method stub
-						}
-
-						@Override
-						public void onProgressChanged(SeekBar seekBar,
-								int progress, boolean fromUser) {
-							// TODO Auto-generated method stub
-							tv_month_Traff.setText(text
-									+ FormatUnit.unitHandler(monthset
-											* progress / 100));
-						}
-					});
-			AlertDialog monthWarning = new AlertDialog.Builder(Main3.this)
-					.setTitle("每月流量达到下列数值时，自动报警")
-					.setView(textEntryView)
-					.setPositiveButton("确定",
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-									Editor UseEditor = context
-											.getSharedPreferences(PREFS_NAME, 0)
-											.edit();
-									int progre = seekbar_warning.getProgress();
-									long newmonthset = monthset * progre / 100;
-									// 最小值1M
-									UseEditor.putLong(MOBILE_WARNING_MONTH,
-											newmonthset);
-									UseEditor.commit();
-									init_monthWarning();
-									// 重置预警状态
-									PrefrenceOperatorUnit
-											.resetHasWarning(context);
-
-								}
-							})
-					.setNegativeButton("取消",
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-
-								}
-							}).create();
-			return monthWarning;
-		} else {
-			AlertDialog monthWarning = new AlertDialog.Builder(Main3.this)
-					.setTitle("请进行包月流量设置")
-					// .setView(textEntryView)
-					.setPositiveButton("确定",
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-								}
-							}).create();
-			return monthWarning;
-		}
-
-	}
-
-	public void dialogCombo() {
-		new AlertDialog.Builder(this).setTitle("手动查询").setMessage("手动查询事件")
-				.setPositiveButton("确定", null).show();
-
-	}
-
-	/**
-	 * 本月已用弹出窗口
-	 * 
-	 * @return
-	 */
-	public AlertDialog dialogCountDaySelected() {
-		AlertDialog dayWarning = new AlertDialog.Builder(Main3.this)
-				.setTitle("设置结算日后建议重设本月已用流量信息")
-				// .setView(textEntryView)
-				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-
-					}
-				}).create();
-		return dayWarning;
-
-	}
-
-	/**
-	 * 设置的本月已用流量超过包月流量
-	 * 
-	 * @return
-	 */
-	public AlertDialog dialogHasUsedLongTooMuch() {
-		AlertDialog dayWarning = new AlertDialog.Builder(Main3.this)
-				.setTitle("注意！").setMessage("您设置的本月已用流量超过包月流量！")
-				// .setView(textEntryView)
-				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						PrefrenceOperatorUnit.resetHasWarning(context);
-					}
-				}).create();
-		return dayWarning;
-
-	}
-
-	/**
-	 * 日流量预警对话框
-	 * 
-	 * @param button
-	 * @return
-	 */
-	public AlertDialog dialogDayWarning(Button button) {
-		LayoutInflater factory = LayoutInflater.from(Main3.this);
-		textEntryView = factory.inflate(
-				R.layout.month_warning_set_alert_dialog, null);
-		// final TextView tv_day_warning = (TextView) textEntryView
-		// .findViewById(R.id.tv_warning_alert);
-		final TextView tv_month_Traff = (TextView) textEntryView
-				.findViewById(R.id.tv_show_Traff);
-		tv_month_Traff.setTextSize(20);
-		// tv_month_Traff.setTextColor(Color.BLACK);
-		// tv_day_warning.setText("日预警流量：");
-		// tv_day_warning.setGravity(Gravity.CENTER);
-		// 设置拖动进度条
-		final SeekBar seekbar_warning = (SeekBar) textEntryView
-				.findViewById(R.id.probar_warning_alert);
-		// 包月流量
-		long warningDayset = sharedData.getAlertWarningDay();
-		final long monthset = sharedData.getMonthMobileSetOfLong();
-		if (monthset != 0) {
-			// 进行初始化
-			final String text = "";
-			seekbar_warning.setProgress((int) (warningDayset * 100 / monthset));
-			tv_month_Traff
-					.setText(text + FormatUnit.unitHandler(warningDayset));
-			seekbar_warning
-					.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-
-						@Override
-						public void onStopTrackingTouch(SeekBar seekBar) {
-							// TODO Auto-generated method stub
-						}
-
-						@Override
-						public void onStartTrackingTouch(SeekBar seekBar) {
-							// TODO Auto-generated method stub
-						}
-
-						@Override
-						public void onProgressChanged(SeekBar seekBar,
-								int progress, boolean fromUser) {
-							// TODO Auto-generated method stub
-							tv_month_Traff.setText(text
-									+ FormatUnit.unitHandler(progress
-											* monthset / 100));
-						}
-					});
-			AlertDialog dayWarning = new AlertDialog.Builder(Main3.this)
-					.setTitle("当天流量达到下列数值时，自动报警")
-					.setView(textEntryView)
-					.setPositiveButton("确定",
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-									Editor UseEditor = context
-											.getSharedPreferences(PREFS_NAME, 0)
-											.edit();
-									int progre = seekbar_warning.getProgress();
-									// 最小值1M
-									long newdayset = monthset * progre / 100;
-									UseEditor.putLong(MOBILE_WARNING_DAY,
-											newdayset);
-									UseEditor.commit();
-									init_dayWarning();
-									// 重置预警状态
-									PrefrenceOperatorUnit
-											.resetHasWarning(context);
-								}
-							})
-					.setNegativeButton("取消",
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-
-								}
-							}).create();
-			return dayWarning;
-		} else {
-			AlertDialog monthWarning = new AlertDialog.Builder(Main3.this)
-					.setTitle("请进行包月流量设置")
-					// .setView(textEntryView)
-					.setPositiveButton("确定",
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-								}
-							}).create();
-			return monthWarning;
-		}
-
-	}
-
-	public void dialogWarningAct() {
-		new AlertDialog.Builder(this).setTitle("预警动作").setMessage("预警动作")
-				.setPositiveButton("确定", null).show();
-
 	}
 
 	@Override
