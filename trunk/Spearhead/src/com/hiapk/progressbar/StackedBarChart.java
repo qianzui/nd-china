@@ -293,7 +293,7 @@ public class StackedBarChart extends ViewBase {
 		renderer.setYLabels(10);
 		renderer.setXLabelsAlign(Align.CENTER);
 		renderer.setYLabelsAlign(Align.LEFT);
-		renderer.setPanEnabled(true, false);
+		renderer.setPanEnabled(false, false);
 		// renderer.setZoomEnabled(false);
 		// other
 		renderer.setShowGrid(true);
