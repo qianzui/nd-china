@@ -122,7 +122,7 @@ public class SimplePie extends ViewBase {
 		// String value = format.format(floatnum) + "";
 
 		// Á½¸öÊý×Ö
-		paint.setColor(Color.WHITE);
+		paint.setColor(Color.rgb(80, 80, 80));
 		paint.setTextSize(minpie / 8);
 		canvas.drawText(mobilePersent + "%", linespointmobile[2] - minpie / 12,
 				linespointmobile[3] + minpie / 12, paint);

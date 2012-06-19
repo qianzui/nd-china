@@ -239,13 +239,13 @@ public class ProjectStatusChart extends ViewBase {
 				PointStyle.DIAMOND };
 		XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
 		for (int i = 0; i < length; i++) {
-			
+
 			((XYSeriesRenderer) renderer.getSeriesRendererAt(i))
 					.setFillPoints(true);
 		}
-		//设置背景色
-		renderer.setMarginsColor(Color.argb(255, 40, 40, 40));
-		renderer.setBackgroundColor(Color.argb(255, 40, 40, 40));
+		// 设置背景色
+		renderer.setMarginsColor(Color.WHITE);
+		renderer.setBackgroundColor(Color.WHITE);
 		renderer.setApplyBackgroundColor(true);
 		// X轴
 		renderer.setXLabels(0);
@@ -255,11 +255,11 @@ public class ProjectStatusChart extends ViewBase {
 			String name = xaxis;
 			renderer.addTextLabel(i, name);
 		}
-		renderer.setPointSize(windowswidesize/70);
+		renderer.setPointSize(windowswidesize / 70);
 		renderer.setChartValuesTextSize(windowswidesize / 11);
 		setChartSettings(renderer, "", "", "流量（MB）", showDay - 5.5,
-				showDay + 0.5, MinTraffic, MaxTraffic, Color.LTGRAY,
-				Color.LTGRAY);
+				showDay + 0.5, MinTraffic, MaxTraffic, Color.rgb(80, 80, 80),
+				Color.rgb(80, 80, 80));
 		// setChartSettings(renderer, mainTitle, XaxisText, YaxisText,
 		// xMinvalue,
 		// xMaxvalue, yMinvalue, yMaxvalue, AxisColor, lableColor);
@@ -476,6 +476,6 @@ public class ProjectStatusChart extends ViewBase {
 	 * @param string
 	 */
 	private void showlog(String string) {
-//		Log.d("project", string);
+		// Log.d("project", string);
 	}
 }
