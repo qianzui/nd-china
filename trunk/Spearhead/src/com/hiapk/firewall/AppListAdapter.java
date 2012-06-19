@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.R;
 import com.hiapk.sqlhelper.SQLStatic;
 
@@ -15,9 +16,12 @@ import android.content.pm.PackageInfo;
 import android.net.TrafficStats;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -134,14 +138,29 @@ public class AppListAdapter extends BaseAdapter {
 			// TODO Auto-generated method stub
 			 if(Root.isDeviceRooted())
 	          {
-				 if(Block.isShowTip(mContext)){
-				 new AlertDialog.Builder(mContext)
-				 .setTitle(R.string.tip)
-				 .setMessage(R.string.tip_content)
-				 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+			  if(Block.isShowTip(mContext)){
+				LayoutInflater factory = LayoutInflater.from(mContext);
+				final View mDialogView = factory.inflate(R.layout.fire_root_tip, null);
+				final AlertDialog mDialog = new AlertDialog.Builder(mContext).create();
+			    mDialog.show();
+				Window window = mDialog.getWindow();
+				window.setContentView(mDialogView, new LayoutParams(
+						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+				final int heigh = window.getWindowManager().getDefaultDisplay().getHeight();
+				final int width = window.getWindowManager().getDefaultDisplay().getWidth();
+				window.setLayout((int) (width * 0.8),LayoutParams.WRAP_CONTENT);
+				
+				final TextView fire_tip = (TextView)mDialogView.findViewById(R.id.fire_tip);
+				final Button fire_ok = (Button)mDialogView.findViewById(R.id.fire_ok);
+				final Button fire_cancel = (Button)mDialogView.findViewById(R.id.fire_cancel);
+				
+				fire_tip.setText( mContext.getResources().getString(R.string.tip_content));
+				
+				fire_ok.setOnClickListener(new Button.OnClickListener(){
 					@Override
-					public void onClick(DialogInterface dialog, int which) {
-
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						mDialog.cancel();
 						Block.isShowTipSet(mContext, false);
 						if(GetRoot.assertBinaries(mContext,true)){
 				            ic.selected_3g = cb.isChecked();
@@ -158,16 +177,52 @@ public class AppListAdapter extends BaseAdapter {
 					    	   cb.setChecked(ic.selected_3g);
 					       }
 
-					   } 
-				    })
-				.setNegativeButton(R.string.cancle, new DialogInterface.OnClickListener() {
-					
+					}
+				});
+				
+				fire_cancel.setOnClickListener(new Button.OnClickListener(){
 					@Override
-					public void onClick(DialogInterface dialog, int which) {
+					public void onClick(View v) {
 						// TODO Auto-generated method stub
 						cb.setChecked(ic.selected_3g);
+						mDialog.cancel();
 					}
-				}).show();
+				});
+				
+//				 new AlertDialog.Builder(mContext)
+//				 .setTitle(R.string.tip)
+//				 .setMessage(R.string.tip_content)
+//				 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//
+//						Block.isShowTipSet(mContext, false);
+//						if(GetRoot.assertBinaries(mContext,true)){
+//				            ic.selected_3g = cb.isChecked();
+//				            Block.saveRules(mContext,map);
+//				  		    if(Block.applyIptablesRules(mContext,true)){
+//				  				   Toast.makeText(mContext, R.string.fire_applyed, Toast.LENGTH_SHORT).show();
+//				  			    }else{
+//				  			    	 cb.setChecked(!cb.isChecked());
+//					  			     ic.selected_3g = cb.isChecked();
+//					  			     Block.saveRules(mContext, map);
+//				  				}
+//					       }else{
+//					    	   Block.isShowTipSet(mContext, true);
+//					    	   cb.setChecked(ic.selected_3g);
+//					       }
+//
+//					   } 
+//				    })
+//				.setNegativeButton(R.string.cancle, new DialogInterface.OnClickListener() {
+//					
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//						// TODO Auto-generated method stub
+//						cb.setChecked(ic.selected_3g);
+//					}
+//				}).show();
+				 
 				 }else{
 					 if(GetRoot.assertBinaries(mContext,true)){
 				            ic.selected_3g = cb.isChecked();
@@ -185,20 +240,43 @@ public class AppListAdapter extends BaseAdapter {
 				 }
 		        }else{
 		        	 cb.setChecked(false);
-		        	 new AlertDialog.Builder(mContext)
-		 			 .setTitle(R.string.tip)
-		 			 .setMessage(R.string.tip_content_root)
-		 			 .setPositiveButton(
-							 R.string.ok,
-							 new DialogInterface.OnClickListener() {
-								 @Override
-								 public void onClick(
-										 DialogInterface dialog,
-										 int which) {
-									 // TODO Auto-generated
-									 // method stub
-								}
-							}).show();
+		        	 LayoutInflater factory = LayoutInflater.from(mContext);
+					 final View mDialogView = factory.inflate(R.layout.fire_tip, null);
+					 final AlertDialog mDialog = new AlertDialog.Builder(mContext).create();
+					 mDialog.show();
+					 Window window = mDialog.getWindow();
+					 window.setContentView(mDialogView, new LayoutParams(
+							 LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+					 final int heigh = window.getWindowManager().getDefaultDisplay().getHeight();
+					 final int width = window.getWindowManager().getDefaultDisplay().getWidth();
+					 window.setLayout((int) (width * 0.8),LayoutParams.WRAP_CONTENT);
+						
+					 final TextView fire_tip = (TextView)mDialogView.findViewById(R.id.fire_tip2);
+					 final Button fire_yes = (Button)mDialogView.findViewById(R.id.fire_yes);
+		        	 
+					 
+					 fire_tip.setText(mContext.getResources().getString(R.string.tip));
+					 fire_yes.setOnClickListener(new Button.OnClickListener(){
+							@Override
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								mDialog.cancel();
+							}
+						});
+//		        	 new AlertDialog.Builder(mContext)
+//		 			 .setTitle(R.string.tip)
+//		 			 .setMessage(R.string.tip_content_root)
+//		 			 .setPositiveButton(
+//							 R.string.ok,
+//							 new DialogInterface.OnClickListener() {
+//								 @Override
+//								 public void onClick(
+//										 DialogInterface dialog,
+//										 int which) {
+//									 // TODO Auto-generated
+//									 // method stub
+//								}
+//							}).show();
 		        	}
 		
 		}
@@ -217,36 +295,85 @@ public class AppListAdapter extends BaseAdapter {
 			 if(Root.isDeviceRooted())
 	          {
 				 if(Block.isShowTip(mContext)){
-				 new AlertDialog.Builder(mContext)
-				 .setTitle(R.string.tip)
-				 .setMessage(R.string.tip_content)
-				 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						if(GetRoot.hasRootAccess(mContext,true)){
-							Block.isShowTipSet(mContext, false);
-							ic.selected_wifi = cb.isChecked();
-				            Block.saveRules(mContext,map);
-				  		    if(Block.applyIptablesRules(mContext,true)){
-				  				   Toast.makeText(mContext, R.string.fire_applyed, Toast.LENGTH_SHORT).show();
-				  			    }else{
-				  			       cb.setChecked(!cb.isChecked());
-				  			       ic.selected_wifi = cb.isChecked();
-				  			       Block.saveRules(mContext,map);
-				  				}
-					       }else{
-					    	Block.isShowTipSet(mContext, true);
-					    	cb.setChecked(ic.selected_wifi);
-					       }
-					   } 
-				    })
-				.setNegativeButton(R.string.cancle, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						cb.setChecked(ic.selected_wifi);
-					}
-				}).show();
+						LayoutInflater factory = LayoutInflater.from(mContext);
+						final View mDialogView = factory.inflate(R.layout.fire_root_tip, null);
+						final AlertDialog mDialog = new AlertDialog.Builder(mContext).create();
+					    mDialog.show();
+						Window window = mDialog.getWindow();
+						window.setContentView(mDialogView, new LayoutParams(
+								LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+						final int heigh = window.getWindowManager().getDefaultDisplay().getHeight();
+						final int width = window.getWindowManager().getDefaultDisplay().getWidth();
+						window.setLayout((int) (width * 0.8),LayoutParams.WRAP_CONTENT);
+						
+						final TextView fire_tip = (TextView)mDialogView.findViewById(R.id.fire_tip);
+						final Button fire_ok = (Button)mDialogView.findViewById(R.id.fire_ok);
+						final Button fire_cancel = (Button)mDialogView.findViewById(R.id.fire_cancel);
+						
+						fire_tip.setText( mContext.getResources().getString(R.string.tip_content));
+						
+						fire_ok.setOnClickListener(new Button.OnClickListener(){
+							@Override
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								mDialog.cancel();
+								if(GetRoot.hasRootAccess(mContext,true)){
+									Block.isShowTipSet(mContext, false);
+									ic.selected_wifi = cb.isChecked();
+						            Block.saveRules(mContext,map);
+						  		    if(Block.applyIptablesRules(mContext,true)){
+						  				   Toast.makeText(mContext, R.string.fire_applyed, Toast.LENGTH_SHORT).show();
+						  			    }else{
+						  			       cb.setChecked(!cb.isChecked());
+						  			       ic.selected_wifi = cb.isChecked();
+						  			       Block.saveRules(mContext,map);
+						  				}
+							       }else{
+							    	Block.isShowTipSet(mContext, true);
+							    	cb.setChecked(ic.selected_wifi);
+							       }
+
+							}
+						});
+						
+						fire_cancel.setOnClickListener(new Button.OnClickListener(){
+							@Override
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								cb.setChecked(ic.selected_wifi);
+								mDialog.cancel();
+							}
+						});
+//				 new AlertDialog.Builder(mContext)
+//				 .setTitle(R.string.tip)
+//				 .setMessage(R.string.tip_content)
+//				 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//						if(GetRoot.hasRootAccess(mContext,true)){
+//							Block.isShowTipSet(mContext, false);
+//							ic.selected_wifi = cb.isChecked();
+//				            Block.saveRules(mContext,map);
+//				  		    if(Block.applyIptablesRules(mContext,true)){
+//				  				   Toast.makeText(mContext, R.string.fire_applyed, Toast.LENGTH_SHORT).show();
+//				  			    }else{
+//				  			       cb.setChecked(!cb.isChecked());
+//				  			       ic.selected_wifi = cb.isChecked();
+//				  			       Block.saveRules(mContext,map);
+//				  				}
+//					       }else{
+//					    	Block.isShowTipSet(mContext, true);
+//					    	cb.setChecked(ic.selected_wifi);
+//					       }
+//					   } 
+//				    })
+//				.setNegativeButton(R.string.cancle, new DialogInterface.OnClickListener() {
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//						// TODO Auto-generated method stub
+//						cb.setChecked(ic.selected_wifi);
+//					}
+//				}).show();
 				 }else{
 					 if(GetRoot.assertBinaries(mContext,true)){
 						    ic.selected_wifi = cb.isChecked();
@@ -264,20 +391,29 @@ public class AppListAdapter extends BaseAdapter {
 				 }
 		        }else{
 		        	 cb.setChecked(false);
-		        	 new AlertDialog.Builder(mContext)
-		 			 .setTitle(R.string.tip)
-		 			 .setMessage(R.string.tip_content_root)
-		 			 .setPositiveButton(
-							 R.string.ok,
-							 new DialogInterface.OnClickListener() {
-								 @Override
-								 public void onClick(
-										 DialogInterface dialog,
-										 int which) {
-									 // TODO Auto-generated
-									 // method stub
-								}
-							}).show();
+		        	 LayoutInflater factory = LayoutInflater.from(mContext);
+					 final View mDialogView = factory.inflate(R.layout.fire_tip, null);
+					 final AlertDialog mDialog = new AlertDialog.Builder(mContext).create();
+					 mDialog.show();
+					 Window window = mDialog.getWindow();
+					 window.setContentView(mDialogView, new LayoutParams(
+							 LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+					 final int heigh = window.getWindowManager().getDefaultDisplay().getHeight();
+					 final int width = window.getWindowManager().getDefaultDisplay().getWidth();
+					 window.setLayout((int) (width * 0.8),LayoutParams.WRAP_CONTENT);
+						
+					 final TextView fire_tip = (TextView)mDialogView.findViewById(R.id.fire_tip2);
+					 final Button fire_yes = (Button)mDialogView.findViewById(R.id.fire_yes);
+		        	 
+					 
+					 fire_tip.setText(mContext.getResources().getString(R.string.tip));
+					 fire_yes.setOnClickListener(new Button.OnClickListener(){
+							@Override
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								mDialog.cancel();
+							}
+						});
 		        	}
 		
 		}

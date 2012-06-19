@@ -1,16 +1,12 @@
 package com.hiapk.spearhead;
 
-import java.lang.reflect.Array;
 import java.text.Collator;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.firewall.AppListAdapter;
 import com.hiapk.firewall.Block;
@@ -22,7 +18,6 @@ import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
 import com.hiapk.sqlhelper.SQLStatic;
 import com.hiapk.uidtraff.UidMonthTraff;
-import com.umeng.analytics.MobclickAgent;
 
 import android.Manifest;
 import android.app.Activity;
@@ -31,23 +26,29 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.net.TrafficStats;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ImageView;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -148,7 +149,7 @@ public class FireWallActivity extends Activity {
 	public void setAdapter() {
 		appListAdapter = new AppListAdapter(FireWallActivity.this, myAppList,
 				imageAndNameMap);
-		appListView = (MyListView) findViewById(R.id.app_list);
+		appListView = (MyListView)findViewById(R.id.app_list);
 		appListView.setAdapter(appListAdapter);
 		appListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -359,9 +360,7 @@ public class FireWallActivity extends Activity {
 		}
 		return value;
 	}
-
 	public void menuDialog(View arg1) {
-		final CharSequence[] items = { "应用管理", "卸载", "流量详情", "返回" };
 		final PackageInfo pkgInfo = (PackageInfo) arg1.getTag(R.id.tag_pkginfo);
 		final Drawable icon = pkgInfo.applicationInfo.loadIcon(mContext
 				.getPackageManager());
@@ -378,10 +377,6 @@ public class FireWallActivity extends Activity {
 			up = -1000;
 			down = -1000;
 		}
-		// long down =
-		// judge(SQLStatic.uiddata.get(pkgInfo.applicationInfo.uid).download);
-		// long up =
-		// judge(SQLStatic.uiddata.get(pkgInfo.applicationInfo.uid).upload);
 		final String trafficup;
 		final String trafficdown;
 		if (up == -1000 && down == -1000) {
@@ -391,66 +386,108 @@ public class FireWallActivity extends Activity {
 			trafficup = unitHandler(up);
 			trafficdown = unitHandler(down);
 		}
-		final AlertDialog dlg = new AlertDialog.Builder(FireWallActivity.this)
-				.setTitle("请选择")
-				.setItems(items, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int item) {
-						if (item == 0) {
-							showInstalledAppDetails(FireWallActivity.this,
-									pkname);
-						}
-						if (item == 1) {
-							Uri uri = Uri.fromParts("package", pkname, null);
-							Intent intent = new Intent(Intent.ACTION_DELETE,
-									uri);
-							startActivity(intent);
-						}
-						if (item == 2) {
-							AlertDialog detail = new AlertDialog.Builder(
-									FireWallActivity.this)
-									.setTitle("详细信息")
-									.setMessage(
-											"上传：" + trafficup + "\n" + "下载："
-													+ trafficdown)
-									.setPositiveButton(
-											"确定",
-											new DialogInterface.OnClickListener() {
-
-												@Override
-												public void onClick(
-														DialogInterface dialog,
-														int which) {
-													// TODO Auto-generated
-												}
-											})
-									.setNegativeButton(
-											"历史统计",
-											new DialogInterface.OnClickListener() {
-
-												@Override
-												public void onClick(
-														DialogInterface dialog,
-														int which) {
-													// TODO Auto-generated
-													// method stub
-													Intent intent = new Intent();
-													intent.setClass(mContext,
-															UidMonthTraff.class);
-													Bundle bData = new Bundle();
-													bData.putInt("uid", uid);
-													bData.putString("appname",
-															appname);
-													bData.putString("pkname",
-															pkname);
-													intent.putExtras(bData);
-													mContext.startActivity(intent);
-												}
-											}).show();
-						} else {
-						}
+		final Drawable d = mContext.getResources().getDrawable(R.drawable.bg_fire_option);
+	    LayoutInflater factory = LayoutInflater.from(mContext);
+		final View mDialogView = factory.inflate(R.layout.fire_options, null);
+		final AlertDialog mDialog = new AlertDialog.Builder(FireWallActivity.this).create();
+		mDialog.show();
+		Window window = mDialog.getWindow();
+		window.setContentView(mDialogView, new LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		final int heigh = window.getWindowManager().getDefaultDisplay()
+		.getHeight();
+        final int width = window.getWindowManager().getDefaultDisplay()
+		.getWidth();
+    	window.setLayout((int) (width * 0.8),LayoutParams.WRAP_CONTENT);
+		final TextView manager = (TextView)mDialogView.findViewById(R.id.button_manager);
+		final TextView detail = (TextView)mDialogView.findViewById(R.id.button_detail);
+		final TextView uninstalled = (TextView)mDialogView.findViewById(R.id.button_uninstall);
+		final TextView back = (TextView)mDialogView.findViewById(R.id.button_back);
+		
+		manager.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				showInstalledAppDetails(FireWallActivity.this,
+						pkname);
+				manager.setBackgroundDrawable(d);
+				mDialog.cancel();
+				
+			}
+		});
+		
+		detail.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+			    LayoutInflater infalter = LayoutInflater.from(mContext);
+			    final View  mDetailView = infalter.inflate(R.layout.fire_detail,null);
+				final AlertDialog detailDialog = new AlertDialog.Builder(FireWallActivity.this).create();
+				detailDialog.show();
+				Window wd = detailDialog.getWindow();
+				wd.setContentView(mDetailView, new LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+				wd.setLayout((int) (width * 0.8),LayoutParams.WRAP_CONTENT);
+				
+				final TextView traffic_up = (TextView)mDetailView.findViewById(R.id.fire_traffic_up);
+				final TextView traffic_down = (TextView)mDetailView.findViewById(R.id.fire_traffic_down);
+				final Button detail_ok = (Button)mDetailView.findViewById(R.id.detail_ok);
+				final Button detail_history = (Button)mDetailView.findViewById(R.id.detail_history);
+				
+				traffic_up.setText("上传： "+ trafficup);
+				traffic_down.setText("下载： "+ trafficdown);
+				
+				detail_ok.setOnClickListener(new Button.OnClickListener(){
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						detailDialog.cancel();
 					}
-				}).create();
-		dlg.show();
+				});
+				detail_history.setOnClickListener(new Button.OnClickListener(){
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						Intent intent = new Intent();
+						intent.setClass(mContext,UidMonthTraff.class);
+						Bundle bData = new Bundle();
+						bData.putInt("uid", uid);
+						bData.putString("appname",appname);
+						bData.putString("pkname",pkname);
+						intent.putExtras(bData);
+						mContext.startActivity(intent);
+						detailDialog.cancel();
+					}
+				});
+				detail.setBackgroundDrawable(d);
+				mDialog.cancel();
+			} 
+		});
+		
+		uninstalled.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Uri uri = Uri.fromParts("package", pkname, null);
+				Intent intent = new Intent(Intent.ACTION_DELETE,
+						uri);
+				startActivity(intent);
+				uninstalled.setBackgroundDrawable(d);
+				mDialog.cancel();
+			}
+			
+		});
+		
+		back.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				back.setBackgroundDrawable(d);
+				mDialog.cancel();
+			}
+			
+		});
 	}
 
 	public long judge(long tff) {
