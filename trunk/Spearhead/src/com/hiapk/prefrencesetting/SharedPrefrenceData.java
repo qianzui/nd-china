@@ -229,7 +229,7 @@ public class SharedPrefrenceData {
 	}
 
 	public long getMonthMobileSetOfLong() {
-		long monthMobileSetOfLong = prefs.getLong(VALUE_MOBILE_SET, 52428800);
+		long monthMobileSetOfLong = prefs.getLong(VALUE_MOBILE_SET, 0);
 		return monthMobileSetOfLong;
 	}
 
@@ -239,7 +239,7 @@ public class SharedPrefrenceData {
 	}
 
 	public int getMonthMobileSetOfint() {
-		int monthMobileSetOfint = prefs.getInt(VALUE_MOBILE_SET_OF_INT, 50);
+		int monthMobileSetOfint = prefs.getInt(VALUE_MOBILE_SET_OF_INT, 0);
 		return monthMobileSetOfint;
 	}
 

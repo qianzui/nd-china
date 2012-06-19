@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,12 +15,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.hiapk.dataexe.TrafficManager;
+import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.regulate.PhoneSet;
 import com.hiapk.regulate.Regulate;
+import com.hiapk.spearhead.Main;
 import com.hiapk.spearhead.Main3;
 import com.hiapk.spearhead.R;
 import com.hiapk.widget.SetText;
@@ -63,7 +67,9 @@ public class CustomDialogMainBeen {
 	 *            传入点击的TextView
 	 * @return 返回对话框
 	 */
-	public void dialogMonthHasUsed() {
+	public void dialogMonthHasUsed(final TextView monthMobil,
+			final TextView monthMobilunit, final TextView monthRemain,
+			final TextView monthRemainunit) {
 		// TODO Auto-generated method stub
 		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		final DecimalFormat format = new DecimalFormat("0.##");
@@ -167,8 +173,24 @@ public class CustomDialogMainBeen {
 				}
 				SetText.resetWidgetAndNotify(context);
 				PrefrenceOperatorUnit.resetHasWarning(context);
+				// 月度流量设置
+				long mobile_month_use = TrafficManager.getMonthUseData(context);
+				long mobileSet = sharedData.getMonthMobileSetOfLong();
+				long monthLeft = 0;
+				if (mobile_month_use > mobileSet) {
+					monthMobil.setTextColor(Color.RED);
+					monthLeft = 0;
+				} else {
+					monthMobil.setTextColor(Color.GREEN);
+					monthLeft = mobileSet - mobile_month_use;
+				}
+				//
+				monthMobil.setText(UnitHandler.unitHandlerAcurrac(
+						mobile_month_use, monthMobilunit));
+				monthRemain.setText(UnitHandler.unitHandler(monthLeft,
+						monthRemainunit));
+				//清除对话框
 				monthHasUsedAlert.dismiss();
-
 			}
 		});
 		Button btn_cancel = (Button) monthHasUsedAlert
@@ -216,7 +238,8 @@ public class CustomDialogMainBeen {
 	 *            传入点击的TextView
 	 * @return 返回对话框
 	 */
-	public void dialogMonthSet_Main(final Button btn_toThree) {
+	public void dialogMonthSet_Main(final Button btn_toThree,
+			final TextView monthSet, final TextView monthSetunit) {
 
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		int mobileUnit = sharedData.getMonthMobileSetUnit();
@@ -299,6 +322,10 @@ public class CustomDialogMainBeen {
 					btn_toThree.setText("  校准流量  ");
 				}
 				PrefrenceOperatorUnit.resetHasWarning(context);
+				// 重设主界面数值
+				long mobileSet = sharedData.getMonthMobileSetOfLong();
+				monthSet.setText(UnitHandler.unitHandler(mobileSet,
+						monthSetunit));
 				monthSetAlert.dismiss();
 				// Intent intent = new Intent(context, PhoneSet.class);
 				// context.startActivity(intent);
