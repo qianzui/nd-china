@@ -304,7 +304,8 @@ public class SharedPrefrenceData {
 	}
 
 	public void setAlertAction(int alertAction) {
-		this.alertAction = alertAction;
+		UseEditor.putInt(WARNING_ACTION, alertAction);
+		UseEditor.commit();
 	}
 
 	public void setPhoneInfo(String city, String brand, int shengfenId,
