@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -587,27 +588,36 @@ public class CustomDialogMain3Been {
 
 	}
 
-	/**
-	 * 本月已用弹出窗口
-	 * 
-	 * @return
-	 */
-	public void dialogCountDaySelected() {
-		final CustomDialog dayWarning = new CustomDialog.Builder(context)
-				.setTitle("设置结算日后建议重设本月已用流量信息")
-				// .setView(textEntryView)
-				.setPositiveButton("确定", null).create();
-		dayWarning.show();
-		Button btn_ok = (Button) dayWarning.findViewById(R.id.positiveButton);
-		btn_ok.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				dayWarning.dismiss();
-			}
-		});
-
-	}
+	// /**
+	// * 本月已用弹出窗口
+	// *
+	// * @return
+	// */
+	// public void dialogCountDaySelected() {
+	// final CustomDialog dayWarning = new CustomDialog.Builder(context)
+	// .setTitle("设置结算日后建议重新进行流量校准")
+	// // .setView(textEntryView)
+	// .setPositiveButton("确定", null).setNegativeButton("取消", null)
+	// .create();
+	// dayWarning.show();
+	// Button btn_ok = (Button) dayWarning.findViewById(R.id.positiveButton);
+	// btn_ok.setOnClickListener(new OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// // TODO Auto-generated method stub
+	// dayWarning.dismiss();
+	// }
+	// });
+	// Button btn_cancel = (Button) dayWarning
+	// .findViewById(R.id.negativeButton);
+	// btn_cancel.setOnClickListener(new OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// // TODO Auto-generated method stub
+	// dayWarning.dismiss();
+	// }
+	// });
+	// }
 
 	/**
 	 * 显示日志

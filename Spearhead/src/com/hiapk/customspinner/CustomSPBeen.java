@@ -92,7 +92,8 @@ public class CustomSPBeen {
 				.create();
 		notifySet.show();
 		// 设置cancel的监听
-		Button btn_cancel = (Button) notifySet.findViewById(R.id.negativeButton);
+		Button btn_cancel = (Button) notifySet
+				.findViewById(R.id.negativeButton);
 		btn_cancel.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -252,12 +253,23 @@ public class CustomSPBeen {
 		btn_HasUsed.setText(FormatUnit.unitHandler(month_used));
 		// 弹出建议设置已用流量对话框
 		final CustomDialog dayWarning = new CustomDialog.Builder(context)
-				.setTitle("注意！").setMessage("设置结算日后建议重设本月已用流量信息")
+				.setTitle("注意！").setMessage("设置结算日后请重新对流量进行校准。")
 				// .setView(textEntryView)
-				.setPositiveButton("确定", null).create();
+				.setPositiveButton("确定", null).setNegativeButton("取消", null)
+				.create();
 		dayWarning.show();
 		Button btn_ok = (Button) dayWarning.findViewById(R.id.positiveButton);
 		btn_ok.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				dialogMonthHasUsed();
+				dayWarning.dismiss();
+			}
+		});
+		Button btn_cancel = (Button) dayWarning
+				.findViewById(R.id.negativeButton);
+		btn_cancel.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -774,6 +786,159 @@ public class CustomSPBeen {
 			break;
 		}
 		return btn_before;
+	}
+
+	/**
+	 * 本月已用弹出的对话框
+	 * 
+	 * @param TextView_month
+	 *            传入点击的TextView
+	 * @return 返回对话框
+	 */
+	private void dialogMonthHasUsed() {
+		// TODO Auto-generated method stub
+		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		final DecimalFormat format = new DecimalFormat("0.##");
+		int mobileUseUnit = sharedData.getMonthHasUsedUnit();
+		// float mobileUsefloat = sharedData.getMonthMobileHasUseOffloat();
+		long mobileUselong = TrafficManager.getMonthUseData(context);
+		// 初始化窗体
+		LayoutInflater factory = LayoutInflater.from(context);
+		final View textEntryView = factory.inflate(
+				R.layout.custom_dialog_on_main_text_entry, null);
+		final EditText et_month = (EditText) textEntryView
+				.findViewById(R.id.ev_alert);
+		final Spinner spin_unit = (Spinner) textEntryView
+				.findViewById(R.id.sp_unit);
+		ArrayAdapter<CharSequence> adp = ArrayAdapter.createFromResource(
+				context, R.array.unit, R.layout.sptext_on_alert);
+		adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spin_unit.setAdapter(adp);
+		// 初始化数值
+		spin_unit.setSelection(mobileUseUnit);
+		int mobileHasUsedUnit = spin_unit.getSelectedItemPosition();
+		// 若数值为0，则显示空
+		if (mobileUselong != 0) {
+			String mobileUseString;
+			if (mobileHasUsedUnit == 0) {
+				mobileUseString = format
+						.format(((double) mobileUselong) / 1024 / 1024);
+			} else {
+				mobileUseString = format
+						.format(((double) mobileUselong) / 1024 / 1024 / 1024);
+			}
+
+			et_month.setText(mobileUseString);
+			et_month.setSelection(String.valueOf(mobileUseString).length());
+		} else {
+			et_month.setText("");
+		}
+
+		final CustomDialog monthHasUsedAlert = new CustomDialog.Builder(context)
+				.setTitle("请设置本月已用流量").setContentView(textEntryView)
+				.setOtherButton("短信查询", null).setPositiveButton("确定", null)
+				.setNegativeButton("取消", null).create();
+		monthHasUsedAlert.show();
+
+		Button btn_other = (Button) monthHasUsedAlert
+				.findViewById(R.id.otherButton);
+		btn_other.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				monthHasUsedAlert.dismiss();
+				Intent intent = new Intent(context, Regulate.class);
+				context.startActivity(intent);
+
+			}
+		});
+		Button btn_ok = (Button) monthHasUsedAlert
+				.findViewById(R.id.positiveButton);
+		btn_ok.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				// 输入的数值
+				float i = 0;
+				try {
+					i = Float.valueOf(et_month.getText().toString());
+				} catch (NumberFormatException e) {
+					// TODO: handle exception
+					showlog(i + "shuziError" + et_month.getText().toString());
+				}
+
+				// btn_Used.setText(format.format(i));
+				int mobileHasUsedUnit = spin_unit.getSelectedItemPosition();
+				Editor passfileEditor = context.getSharedPreferences(
+						PREFS_NAME, 0).edit();
+				// Log.d("main3", i + "");
+				//
+				//
+
+				if (mobileHasUsedUnit == 0) {
+					passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
+							(long) (i * 1048576));
+				} else {
+					passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
+							(long) (i * 1048576 * 1024));
+				}
+				passfileEditor.putFloat(VALUE_MOBILE_HASUSED_OF_FLOAT, i);
+
+				passfileEditor.putInt(MOBILE_HASUSED_SET_UNIT,
+						mobileHasUsedUnit);
+				passfileEditor.commit();// 委托，存入数据
+				// commitUsedTrafficTime();
+				// init_btn_HasUsed();
+				/* User clicked OK so do some stuff */
+				long hasusedlong = sharedData.getMonthMobileHasUse();
+				long setlong = sharedData.getMonthMobileSetOfLong();
+				if (hasusedlong > setlong) {
+					dialogHasUsedLongTooMuch();
+				}
+				SetText.resetWidgetAndNotify(context);
+				PrefrenceOperatorUnit.resetHasWarning(context);
+				// 清除对话框
+				monthHasUsedAlert.dismiss();
+			}
+		});
+		Button btn_cancel = (Button) monthHasUsedAlert
+				.findViewById(R.id.negativeButton);
+		btn_cancel.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				monthHasUsedAlert.dismiss();
+			}
+		});
+
+	}
+
+	/**
+	 * 设置的本月已用流量超过包月流量
+	 * 
+	 * @return
+	 */
+	public void dialogHasUsedLongTooMuch() {
+		final CustomDialog dayWarning = new CustomDialog.Builder(context)
+				.setTitle("注意！").setMessage("您设置的本月已用流量超过包月流量！")
+				// .setView(textEntryView)
+				.setPositiveButton("确定", null).create();
+		dayWarning.show();
+		Button btn_cancel = (Button) dayWarning
+				.findViewById(R.id.positiveButton);
+		btn_cancel.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				PrefrenceOperatorUnit.resetHasWarning(context);
+				dayWarning.dismiss();
+			}
+		});
+
 	}
 
 	/**
