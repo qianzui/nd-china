@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="@drawable/bground_dark" >
+    android:background="@drawable/bground_dark"
+    android:orientation="vertical" >
 
     <TextView
         android:layout_width="fill_parent"
@@ -13,29 +13,30 @@
         android:text="历史详情"
         android:textColor="@color/whitesmoke"
         android:textSize="18dip" />
-	<LinearLayout
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_margin="5dip"
         android:layout_weight="1.0"
-        android:background="@drawable/content"
+        android:background="@drawable/bg_about"
         android:orientation="vertical" >
 
         <LinearLayout
             android:id="@+id/new_series"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@drawable/bground_dark_up"
+            android:background="@color/white"
             android:orientation="vertical" >
         </LinearLayout>
     </LinearLayout>
-    
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dip"
-        android:layout_weight="1.0"
-        android:background="@drawable/content"
         android:layout_margin="5dip"
+        android:layout_weight="1.0"
+        android:background="@drawable/bg_about"
         android:orientation="horizontal"
         android:padding="5dip" >
 
@@ -43,7 +44,7 @@
             android:layout_width="0dip"
             android:layout_height="fill_parent"
             android:layout_weight="1.0"
-            android:background="@drawable/bground_dark_up"
+            android:background="@color/white"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -64,6 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="     "
+                    android:textColor="@color/darkgray2"
                     android:textSize="6sp" />
 
                 <TextView
@@ -72,6 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="TextView"
+                    android:textColor="@color/darkgray2"
                     android:textSize="20sp" />
 
                 <TextView
@@ -79,6 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="     "
+                    android:textColor="@color/darkgray2"
                     android:textSize="6sp" />
 
                 <TextView
@@ -87,6 +91,7 @@
                     android:layout_gravity="left"
                     android:paddingLeft="14dp"
                     android:text="移动数据流量:"
+                    android:textColor="@color/darkgray2"
                     android:textSize="14sp" />
 
                 <TextView
@@ -96,6 +101,7 @@
                     android:layout_gravity="left"
                     android:paddingLeft="14dp"
                     android:text="TextView"
+                    android:textColor="@color/darkgray2"
                     android:textSize="14sp" />
 
                 <TextView
@@ -103,6 +109,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="     "
+                    android:textColor="@color/darkgray2"
                     android:textSize="6sp" />
 
                 <TextView
@@ -111,6 +118,7 @@
                     android:layout_gravity="left"
                     android:paddingLeft="14dp"
                     android:text="WIFI数据流量:"
+                    android:textColor="@color/darkgray2"
                     android:textSize="14sp" />
 
                 <TextView
@@ -120,16 +128,17 @@
                     android:layout_gravity="left"
                     android:paddingLeft="14dp"
                     android:text="TextView"
+                    android:textColor="@color/darkgray2"
                     android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/new_budget"
-            android:background="@drawable/bground_dark_up"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
+            android:background="@color/white"
             android:orientation="vertical" >
         </LinearLayout>
     </LinearLayout>
