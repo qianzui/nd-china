@@ -166,6 +166,7 @@ public class CustomDialogMainBeen {
 					dialogHasUsedLongTooMuch();
 				}
 				SetText.resetWidgetAndNotify(context);
+				PrefrenceOperatorUnit.resetHasWarning(context);
 				monthHasUsedAlert.dismiss();
 
 			}
@@ -215,7 +216,7 @@ public class CustomDialogMainBeen {
 	 *            传入点击的TextView
 	 * @return 返回对话框
 	 */
-	public void dialogMonthSet_Main() {
+	public void dialogMonthSet_Main(final Button btn_toThree) {
 
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		int mobileUnit = sharedData.getMonthMobileSetUnit();
@@ -292,9 +293,12 @@ public class CustomDialogMainBeen {
 						context);
 				if (i == 0) {
 					sharedData.setMonthSetHasSet(false);
+					btn_toThree.setText("  请设置流量套餐  ");
 				} else {
 					sharedData.setMonthSetHasSet(true);
+					btn_toThree.setText("  校准流量  ");
 				}
+				PrefrenceOperatorUnit.resetHasWarning(context);
 				monthSetAlert.dismiss();
 				// Intent intent = new Intent(context, PhoneSet.class);
 				// context.startActivity(intent);

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/notify_only"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/btnselector_spinner"
+                android:drawableRight="@drawable/btnselector_spinner_radio"
+                android:gravity="left|center"
+                android:paddingLeft="20dp"
+                android:paddingRight="15dp"
+                android:text="仅通知栏提示"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/notify_vitonly"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/btnselector_spinner"
+                android:drawableRight="@drawable/btnselector_spinner_radio"
+                android:gravity="left|center"
+                android:paddingLeft="20dp"
+                android:paddingRight="15dp"
+                android:text="震动提示"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/notify_autocut"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/btnselector_spinner"
+                android:drawableRight="@drawable/btnselector_spinner_radio"
+                android:gravity="left|center"
+                android:paddingLeft="20dp"
+                android:paddingRight="15dp"
+                android:text="自动断网"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/notify_vit_autocut"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/btnselector_spinner"
+                android:drawableRight="@drawable/btnselector_spinner_radio"
+                android:gravity="left|center"
+                android:paddingLeft="20dp"
+                android:paddingRight="15dp"
+                android:text="震动+自动断网"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
