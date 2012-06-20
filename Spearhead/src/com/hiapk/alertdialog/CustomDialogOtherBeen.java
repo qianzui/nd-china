@@ -4,6 +4,8 @@ import java.util.List;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.pm.PackageInfo;
 import android.os.AsyncTask;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
+import com.hiapk.progressdialog.CustomProgressDialog;
 import com.hiapk.spearhead.R;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLStatic;
@@ -69,16 +72,23 @@ public class CustomDialogOtherBeen {
 		});
 	}
 
-	ProgressDialog mydialog;
+	CustomProgressDialog customdialog;
 
 	private class AsyncTaskonClearSQL extends
 			AsyncTask<Context, Integer, Integer> {
 		@Override
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
-			mydialog = ProgressDialog
-					.show(context, "请稍等...", "正在清空数据...", true);
-
+			// mydialog = ProgressDialog
+			// .show(context, "请稍等...", "正在清空数据...", true);
+			CustomProgressDialog customProgressDialog = new CustomProgressDialog(
+					context);
+			
+			customdialog = customProgressDialog.createDialog(context);
+			customdialog.setCancelable(false);
+			customProgressDialog.setTitile("清除历史记录...");
+			customProgressDialog.setMessage("清除中，请稍候。。。");
+			customdialog.show();
 			super.onPreExecute();
 		}
 
@@ -175,7 +185,7 @@ public class CustomDialogOtherBeen {
 			// TODO Auto-generated method stub
 			super.onProgressUpdate(values);
 			if (values[0] == 1) {
-				mydialog.dismiss();
+				customdialog.dismiss();
 				dialogClearDataFail();
 			}
 		}
@@ -189,7 +199,7 @@ public class CustomDialogOtherBeen {
 				SQLStatic.setSQLIndexOnUsed(false);
 				SQLStatic.setSQLUidTotalOnUsed(false);
 				sharedData.setSQLinited(true);
-				mydialog.dismiss();
+				customdialog.dismiss();
 			}
 
 		}

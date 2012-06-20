@@ -32,16 +32,13 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dip"
-        android:layout_margin="12dp"
-        android:layout_marginBottom="5dip"
         android:layout_weight="0.9"
-        android:background="@drawable/bg_about"
         android:orientation="vertical" >
 
         <LinearLayout
             android:id="@+id/setting_notify"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:gravity="center_vertical"
             android:orientation="vertical" >
 
@@ -53,16 +50,11 @@
                 android:textColor="@color/darkgray2"
                 android:textSize="20dp" />
         </LinearLayout>
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="3dp"
-            android:background="@drawable/divider" />
 
         <LinearLayout
             android:id="@+id/setting_float"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:gravity="center_vertical"
             android:orientation="vertical" >
 
@@ -74,16 +66,11 @@
                 android:textColor="@color/darkgray2"
                 android:textSize="20dp" />
         </LinearLayout>
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="3dp"
-            android:background="@drawable/divider" />
 
         <LinearLayout
             android:id="@+id/setting_help_message"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:gravity="center_vertical"
             android:orientation="vertical" >
 
@@ -95,16 +82,11 @@
                 android:textColor="@color/darkgray2"
                 android:textSize="20dp" />
         </LinearLayout>
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="3dp"
-            android:background="@drawable/divider" />
 
         <LinearLayout
             android:id="@+id/setting_freshplv"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:gravity="center_vertical"
             android:orientation="vertical" >
 
@@ -116,16 +98,11 @@
                 android:textColor="@color/darkgray2"
                 android:textSize="20dp" />
         </LinearLayout>
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="3dp"
-            android:background="@drawable/divider" />
 
         <LinearLayout
             android:id="@+id/setting_cleardata"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:gravity="center_vertical"
             android:orientation="vertical" >
 
@@ -137,11 +114,6 @@
                 android:textColor="@color/darkgray2"
                 android:textSize="20dp" />
         </LinearLayout>
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="3dp"
-            android:background="@drawable/divider" />
     </LinearLayout>
 
 </LinearLayout>
