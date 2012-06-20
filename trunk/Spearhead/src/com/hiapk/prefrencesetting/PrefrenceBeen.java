@@ -44,7 +44,7 @@ public class PrefrenceBeen {
 		final View listView = factory.inflate(R.layout.settings_listbox, null);
 		final Button showText = (Button) listView
 				.findViewById(R.id.setting_tv_box);
-		showText.setText("设置小部件的更新频率");
+		showText.setText("更新频率");
 		layout_freshplv.removeAllViews();
 		layout_freshplv.addView(listView);
 		showText.setOnClickListener(new OnClickListener() {
@@ -176,20 +176,20 @@ public class PrefrenceBeen {
 	private void checkBoxRightDrawinit(Button btn, boolean on_off) {
 		if (!on_off) {
 			btn.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-					R.drawable.radiobtn_off, 0);
+					R.drawable.check_close, 0);
 		} else {
 			btn.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-					R.drawable.radiobtn_on, 0);
+					R.drawable.check_open, 0);
 		}
 	}
 
 	private void checkBoxRightDrawChange(Button btn, boolean on_off) {
 		if (on_off) {
 			btn.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-					R.drawable.radiobtn_off, 0);
+					R.drawable.check_close, 0);
 		} else {
 			btn.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-					R.drawable.radiobtn_on, 0);
+					R.drawable.check_open, 0);
 		}
 	}
 
