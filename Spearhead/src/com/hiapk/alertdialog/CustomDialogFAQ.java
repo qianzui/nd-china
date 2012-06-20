@@ -32,7 +32,6 @@ public class CustomDialogFAQ extends Dialog {
 	/**
 	 * Builder
 	 * 
-	 * @author wolf_jr
 	 * 
 	 */
 	public static class Builder {

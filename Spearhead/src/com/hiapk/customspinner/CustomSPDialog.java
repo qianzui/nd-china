@@ -29,7 +29,6 @@ public class CustomSPDialog extends Dialog {
 	/**
 	 * Builder
 	 * 
-	 * @author wolf_jr
 	 * 
 	 */
 	public static class Builder {
