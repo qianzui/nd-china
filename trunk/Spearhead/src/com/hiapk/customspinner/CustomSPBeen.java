@@ -75,6 +75,148 @@ public class CustomSPBeen {
 	 *            传入点击的TextView
 	 * @return 返回对话框
 	 */
+	public void dialogSettingFreshplv() {
+		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		int beforeFresh = sharedData.getWidgetFresh();
+		// 初始化窗体
+		LayoutInflater factory = LayoutInflater.from(context);
+		final View textEntryView = factory.inflate(
+				R.layout.list_spinner_freshtime, null);
+		// 确定之前点击过的按钮并设为开启
+		Button btn_before = findFreshButton(textEntryView, beforeFresh);
+		btn_before.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+				R.drawable.radiobtn_on, 0);
+		final CustomSPDialog freshtime;
+		CustomSPDialog.heighpar = 0.6;
+		freshtime = new CustomSPDialog.Builder(context)
+				.setTitle("状态栏和小部件的更新频率").setContentView(textEntryView)
+				.setNegativeButton("取消", null).create();
+		freshtime.show();
+		// 设置cancel的监听
+		Button btn_cancel = (Button) freshtime
+				.findViewById(R.id.negativeButton);
+		btn_cancel.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				// 0-30代表1-31
+				freshtime.dismiss();
+			}
+		});
+
+		// 设置中间按钮的监听
+		buttonFreshTimeSetonClick(textEntryView, freshtime);
+	}
+
+	private void buttonFreshTimeSetonClick(View textEntryView,
+			final CustomSPDialog freshtime) {
+		// TODO Auto-generated method stub
+		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		final Button btn_day0 = (Button) textEntryView
+				.findViewById(R.id.freshtime_0);
+		btn_day0.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				sharedData.setWidgetFresh(0);
+				freshtime.dismiss();
+			}
+		});
+		final Button btn_day1 = (Button) textEntryView
+				.findViewById(R.id.freshtime_1);
+		btn_day1.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				sharedData.setWidgetFresh(1);
+				freshtime.dismiss();
+			}
+		});
+
+		final Button btn_day2 = (Button) textEntryView
+				.findViewById(R.id.freshtime_2);
+		btn_day2.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				sharedData.setWidgetFresh(2);
+				freshtime.dismiss();
+			}
+		});
+
+		final Button btn_day3 = (Button) textEntryView
+				.findViewById(R.id.freshtime_3);
+		btn_day3.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				sharedData.setWidgetFresh(3);
+				freshtime.dismiss();
+			}
+		});
+
+		final Button btn_day4 = (Button) textEntryView
+				.findViewById(R.id.freshtime_4);
+		btn_day4.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				sharedData.setWidgetFresh(4);
+				freshtime.dismiss();
+			}
+		});
+
+		final Button btn_day5 = (Button) textEntryView
+				.findViewById(R.id.freshtime_5);
+		btn_day5.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				sharedData.setWidgetFresh(5);
+				freshtime.dismiss();
+			}
+		});
+
+	}
+
+	private Button findFreshButton(View textEntryView, int beforeFresh) {
+		// TODO Auto-generated method stub
+		Button btn_before = null;
+		switch (beforeFresh) {
+		case 0:
+			btn_before = (Button) textEntryView.findViewById(R.id.freshtime_0);
+			break;
+		case 1:
+			btn_before = (Button) textEntryView.findViewById(R.id.freshtime_1);
+			break;
+		case 2:
+			btn_before = (Button) textEntryView.findViewById(R.id.freshtime_2);
+			break;
+		case 3:
+			btn_before = (Button) textEntryView.findViewById(R.id.freshtime_3);
+			break;
+		case 4:
+			btn_before = (Button) textEntryView.findViewById(R.id.freshtime_4);
+			break;
+		case 5:
+			btn_before = (Button) textEntryView.findViewById(R.id.freshtime_5);
+			break;
+		default:
+			btn_before = (Button) textEntryView.findViewById(R.id.freshtime_2);
+			break;
+		}
+		return btn_before;
+	}
+
+	/**
+	 * 设置提醒方式弹出的对话框
+	 * 
+	 * @param btn_HasUsed
+	 * 
+	 * @param TextView_month
+	 *            传入点击的TextView
+	 * @return 返回对话框
+	 */
 	public void dialogAlertType(final Button btn_Alert) {
 
 		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);

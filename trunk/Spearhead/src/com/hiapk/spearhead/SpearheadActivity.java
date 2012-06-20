@@ -4,7 +4,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.hiapk.alertaction.AlertActionNotify;
-import com.hiapk.alertdialog.CustomDialogAboutBeen;
 import com.hiapk.alertdialog.CustomDialogFAQBeen;
 import com.hiapk.prefrencesetting.PrefrenceSetting;
 import com.umeng.analytics.MobclickAgent;
@@ -178,7 +177,7 @@ public class SpearheadActivity extends TabActivity {
 			break;
 		case 3:
 			// showAboutPopUp("file:///android_asset/about/about.html");
-			CustomDialogAboutBeen customAbout = new CustomDialogAboutBeen(context);
+			CustomDialogFAQBeen customAbout = new CustomDialogFAQBeen(context);
 			customAbout.dialogAbout();
 			break;
 		case 4:

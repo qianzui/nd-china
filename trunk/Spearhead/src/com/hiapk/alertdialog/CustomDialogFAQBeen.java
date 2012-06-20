@@ -69,6 +69,43 @@ public class CustomDialogFAQBeen {
 	 *            传入点击的TextView
 	 * @return 返回对话框
 	 */
+	public void dialogAbout() {
+		// TODO Auto-generated method stub
+		LayoutInflater factory = LayoutInflater.from(context);
+		final View textEntryView = factory.inflate(R.layout.faq, null);
+		final CustomDialogAbout monthHasUsedAlert = new CustomDialogAbout.Builder(
+				context).setTitle("关于先锋流量监控").setContentView(textEntryView)
+				.setPositiveButton("确定", null).create();
+		try {
+			WebView wb = (WebView) textEntryView.findViewById(R.id.webview);
+			String url = "file:///android_asset/about/about.html";
+			wb.loadUrl(url);
+		} catch (Exception e) {
+			System.out.println("Exception while showing PopUp : "
+					+ e.getMessage());
+		}
+		monthHasUsedAlert.show();
+
+		Button btn_ok = (Button) monthHasUsedAlert
+				.findViewById(R.id.positiveButton);
+		btn_ok.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				monthHasUsedAlert.dismiss();
+
+			}
+		});
+
+	}
+
+	/**
+	 * 本月已用弹出的对话框
+	 * 
+	 * @param TextView_month
+	 *            传入点击的TextView
+	 * @return 返回对话框
+	 */
 	public void dialogFAQ() {
 		// TODO Auto-generated method stub
 		LayoutInflater factory = LayoutInflater.from(context);
@@ -100,7 +137,6 @@ public class CustomDialogFAQBeen {
 		});
 
 	}
-
 
 	/**
 	 * 显示日志

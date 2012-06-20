@@ -42,9 +42,9 @@ public class SharedPrefrenceData {
 	String WARNING_ACTION = "warningaction";
 	Context context;
 	SharedPreferences prefs;
-	SharedPreferences prefs_sys;
+	// SharedPreferences prefs_sys;
 	Editor UseEditor;
-	Editor UseEditor_sys;
+	// Editor UseEditor_sys;
 	// 小部件
 	private final String WIDGET_14_OPEN = "widget1x4";
 	// 系统初始化
@@ -85,9 +85,10 @@ public class SharedPrefrenceData {
 		this.context = context;
 		prefs = context.getSharedPreferences(PREFS_NAME, 0);
 		UseEditor = context.getSharedPreferences(PREFS_NAME, 0).edit();
-		prefs_sys = PreferenceManager.getDefaultSharedPreferences(context);
-		UseEditor_sys = PreferenceManager.getDefaultSharedPreferences(context)
-				.edit();
+		// prefs_sys = PreferenceManager.getDefaultSharedPreferences(context);
+		// UseEditor_sys =
+		// PreferenceManager.getDefaultSharedPreferences(context)
+		// .edit();
 	}
 
 	// SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
@@ -103,13 +104,13 @@ public class SharedPrefrenceData {
 	}
 
 	public boolean isFloatOpen() {
-		boolean isFloatOpen = prefs_sys.getBoolean(SYS_PRE_FLOAT_CTRL, false);
+		boolean isFloatOpen = prefs.getBoolean(SYS_PRE_FLOAT_CTRL, false);
 		return isFloatOpen;
 	}
 
 	public void setFloatOpen(boolean isFloatOpen) {
-		UseEditor_sys.putBoolean(SYS_PRE_FLOAT_CTRL, isFloatOpen);
-		UseEditor_sys.commit();
+		UseEditor.putBoolean(SYS_PRE_FLOAT_CTRL, isFloatOpen);
+		UseEditor.commit();
 	}
 
 	String widgetFresh = "";
@@ -130,24 +131,24 @@ public class SharedPrefrenceData {
 		UseEditor.commit();// 委托，存入数据
 	}
 
-	public String getWidgetFresh() {
-		String widgetFresh = prefs_sys.getString(SYS_PRE_REFRESH_FRZ, "2");
+	public int getWidgetFresh() {
+		int widgetFresh = prefs.getInt(SYS_PRE_REFRESH_FRZ, 2);
 		return widgetFresh;
 	}
 
-	public void setWidgetFresh(String widgetFresh) {
-		UseEditor_sys.putString(SYS_PRE_REFRESH_FRZ, widgetFresh);
-		UseEditor_sys.commit();
+	public void setWidgetFresh(int widgetFresh) {
+		UseEditor.putInt(SYS_PRE_REFRESH_FRZ, widgetFresh);
+		UseEditor.commit();
 	}
 
 	public boolean isNotifyOpen() {
-		boolean isNotifyOpen = prefs_sys.getBoolean(SYS_PRE_NOTIFY, true);
+		boolean isNotifyOpen = prefs.getBoolean(SYS_PRE_NOTIFY, true);
 		return isNotifyOpen;
 	}
 
 	public void setNotifyOpen(boolean isNotifyOpen) {
-		UseEditor_sys.putBoolean(SYS_PRE_NOTIFY, isNotifyOpen);
-		UseEditor_sys.commit();
+		UseEditor.putBoolean(SYS_PRE_NOTIFY, isNotifyOpen);
+		UseEditor.commit();
 	}
 
 	public boolean isMonthSetHasSet() {
