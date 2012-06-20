@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/freshtime_0"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/btnselector_spinner"
+                android:drawableRight="@drawable/btnselector_spinner_radio"
+                android:gravity="left|center"
+                android:paddingLeft="20dp"
+                android:paddingRight="15dp"
+                android:text="5秒"
+                android:textColor="@color/darkgray2"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/freshtime_1"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/btnselector_spinner"
+                android:drawableRight="@drawable/btnselector_spinner_radio"
+                android:gravity="left|center"
+                android:paddingLeft="20dp"
+                android:paddingRight="15dp"
+                android:text="15秒"
+                android:textColor="@color/darkgray2"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/freshtime_2"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/btnselector_spinner"
+                android:drawableRight="@drawable/btnselector_spinner_radio"
+                android:gravity="left|center"
+                android:paddingLeft="20dp"
+                android:paddingRight="15dp"
+                android:text="30秒"
+                android:textColor="@color/darkgray2"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/freshtime_3"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/btnselector_spinner"
+                android:drawableRight="@drawable/btnselector_spinner_radio"
+                android:gravity="left|center"
+                android:paddingLeft="20dp"
+                android:paddingRight="15dp"
+                android:text="60秒"
+                android:textColor="@color/darkgray2"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/freshtime_4"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/btnselector_spinner"
+                android:drawableRight="@drawable/btnselector_spinner_radio"
+                android:gravity="left|center"
+                android:paddingLeft="20dp"
+                android:paddingRight="15dp"
+                android:text="2分钟"
+                android:textColor="@color/darkgray2"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/freshtime_5"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/btnselector_spinner"
+                android:drawableRight="@drawable/btnselector_spinner_radio"
+                android:gravity="left|center"
+                android:paddingLeft="20dp"
+                android:paddingRight="15dp"
+                android:text="5分钟"
+                android:textColor="@color/darkgray2"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
