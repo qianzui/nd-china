@@ -77,28 +77,32 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="55dip"
         android:orientation="horizontal" >
         <Button
             android:id="@+id/detail_ok"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_width="0dip"
             android:layout_weight="1"
             android:text="确定"
             android:textSize="15sp" 
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
             android:background="@drawable/btnselector_main_dataset"           
             />
         <Button
             android:id="@+id/detail_history"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_width="0dip"
             android:layout_weight="1"
             android:text="历史记录"
             android:textSize="15sp" 
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
             android:background="@drawable/btnselector_main_dataset"           
             />
     </LinearLayout>
