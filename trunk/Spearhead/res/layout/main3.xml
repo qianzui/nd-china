@@ -174,10 +174,11 @@
 
                      <Button
                         android:id="@+id/dayUnit"
-                        android:layout_width="wrap_content"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:layout_toLeftOf="@+id/monthSet"
                         android:background="@drawable/bg_about"
+                        android:gravity="center"
                         android:text="1 日"
                         android:textColor="@color/darkgreen" />
                 </RelativeLayout>

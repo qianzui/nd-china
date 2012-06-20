@@ -106,7 +106,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/rate"
-                        android:textColor="@color/darkgreen"
+                        android:textColor="@color/blueflock"
                         android:textSize="20dp" />
 
                     <TextView
@@ -179,7 +179,7 @@
                                 android:layout_height="wrap_content"
                                  android:layout_alignParentLeft="true"
                                 android:text="0"
-                                android:textColor="@color/darkgreen"
+                                android:textColor="@color/blueflock"
                                 android:textSize="20dp" />
 
                             <TextView
@@ -259,7 +259,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="0"
                                 android:layout_alignParentLeft="true"
-                                android:textColor="@color/darkgreen"
+                                android:textColor="@color/blueflock"
                                 android:textSize="20dp" />
                         </RelativeLayout>
                     </LinearLayout>
@@ -313,7 +313,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/rate"
-                            android:textColor="@color/darkgreen"
+                            android:textColor="@color/blueflock"
                             android:textSize="20dp" />
 
                         <TextView
@@ -346,7 +346,7 @@
 
                     <Button
                         android:id="@+id/setTaoCan"
-                        android:layout_width="wrap_content"
+                        android:layout_width="180sp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:background="@drawable/btnselector_main"
