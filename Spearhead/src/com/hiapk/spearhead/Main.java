@@ -9,6 +9,7 @@ import org.achartengine.GraphicalView;
 
 import com.hiapk.alertdialog.CustomDialogMainBeen;
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.dataexe.ColorChangeMainBeen;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.firewall.Block;
@@ -180,13 +181,8 @@ public class Main extends Activity {
 		mobile_month_use = TrafficManager.getMonthUseData(context);
 		long mobileSet = sharedData.getMonthMobileSetOfLong();
 		long monthLeft = 0;
-		if (mobile_month_use > mobileSet) {
-			monthMobil.setTextColor(Color.RED);
-			monthLeft = 0;
-		} else {
-			monthMobil.setTextColor(Color.GREEN);
-			monthLeft = mobileSet - mobile_month_use;
-		}
+		monthLeft = ColorChangeMainBeen.setRemainTraff(mobileSet,
+				mobile_month_use, monthMobil);
 		//
 		monthMobil.setText(UnitHandler.unitHandlerAcurrac(mobile_month_use,
 				monthMobilunit));
@@ -512,13 +508,15 @@ public class Main extends Activity {
 					// 包月流量
 					TextView monthSet = (TextView) findViewById(R.id.monthSet);
 					TextView monthSetunit = (TextView) findViewById(R.id.unit5);
-					customDialog.dialogMonthSet_Main(btn_toThree,monthSet,monthSetunit);
+					customDialog.dialogMonthSet_Main(btn_toThree, monthSet,
+							monthSetunit);
 				} else {
 					TextView monthMobil = (TextView) findViewById(R.id.monthRate);
 					TextView monthMobilunit = (TextView) findViewById(R.id.unit3);
 					TextView monthRemain = (TextView) findViewById(R.id.monthRemain);
 					TextView monthRemainunit = (TextView) findViewById(R.id.unit4);
-					customDialog.dialogMonthHasUsed(monthMobil,monthMobilunit,monthRemain,monthRemainunit);
+					customDialog.dialogMonthHasUsed(monthMobil, monthMobilunit,
+							monthRemain, monthRemainunit);
 				}
 
 			}

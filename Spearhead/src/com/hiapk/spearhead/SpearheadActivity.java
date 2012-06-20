@@ -4,6 +4,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.hiapk.alertaction.AlertActionNotify;
+import com.hiapk.alertdialog.CustomDialogAboutBeen;
+import com.hiapk.alertdialog.CustomDialogFAQBeen;
 import com.hiapk.prefrencesetting.PrefrenceSetting;
 import com.umeng.analytics.MobclickAgent;
 
@@ -49,7 +51,7 @@ public class SpearheadActivity extends TabActivity {
 	public static Boolean isExit = false;
 	private static Boolean hasTask = false;
 	public ProgressDialog pro;
-	public static  ImageView firehelp;
+	public static ImageView firehelp;
 	private Timer tExit = new Timer();
 	private TimerTask task = new TimerTask() {
 		@Override
@@ -57,17 +59,19 @@ public class SpearheadActivity extends TabActivity {
 			isExit = false;
 		}
 	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-	//	MobclickAgent.onError(this);
-		setContentView(R.layout.maintabs);	
-		firehelp = (ImageView)findViewById(R.id.help_image);
-		
+		// MobclickAgent.onError(this);
+		setContentView(R.layout.maintabs);
+		firehelp = (ImageView) findViewById(R.id.help_image);
+
 		initScene();
 		switchScene();
 	}
+
 	/**
 	 * 初始化
 	 */
@@ -102,11 +106,12 @@ public class SpearheadActivity extends TabActivity {
 			}
 		});
 	}
-	public static void showHelp(Context mContext){
+
+	public static void showHelp(Context mContext) {
 		Drawable d = mContext.getResources().getDrawable(R.drawable.fire_help);
 		firehelp.setBackgroundDrawable(d);
 		firehelp.setVisibility(View.VISIBLE);
-		firehelp.setOnClickListener(new OnClickListener(){
+		firehelp.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
@@ -114,6 +119,7 @@ public class SpearheadActivity extends TabActivity {
 			}
 		});
 	}
+
 	/**
 	 * 初始显示第几个页面
 	 */
@@ -166,10 +172,14 @@ public class SpearheadActivity extends TabActivity {
 			startActivity(intentPref);
 			break;
 		case 2:
-			showFaqPopUp("file:///android_asset/faq/faq.html");
+			// showFaqPopUp("file:///android_asset/faq/faq.html");
+			CustomDialogFAQBeen customFAQ = new CustomDialogFAQBeen(context);
+			customFAQ.dialogFAQ();
 			break;
 		case 3:
-			showAboutPopUp("file:///android_asset/about/about.html");
+			// showAboutPopUp("file:///android_asset/about/about.html");
+			CustomDialogAboutBeen customAbout = new CustomDialogAboutBeen(context);
+			customAbout.dialogAbout();
 			break;
 		case 4:
 			finish();
@@ -180,42 +190,42 @@ public class SpearheadActivity extends TabActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	public void showFaqPopUp(String url){		
-		try{	
-			AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-			LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
-			View vi = inflater.inflate(R.layout.faq, null);		
-			dialog.setView(vi);		
-			dialog.setTitle("先锋流量监控  FAQ :");		
-			dialog.setCancelable(true);	
-			dialog.setNegativeButton("确定", null);
-			WebView wb = (WebView) vi.findViewById(R.id.webview);		
-			wb.loadUrl(url);					
-			dialog.show();		
-		}catch(Exception e){		
-			System.out.println("Exception while showing PopUp : " + e.getMessage());		
-		}		
-	}
-	public void showAboutPopUp(String url){		
-		try{	
-			AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-			LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
-			View vi = inflater.inflate(R.layout.faq, null);		
-			dialog.setView(vi);		
-			dialog.setTitle("关于先锋流量监控");		
-			dialog.setCancelable(true);	
-			dialog.setNegativeButton("确定", null);
-			WebView wb = (WebView) vi.findViewById(R.id.webview);		
-			wb.loadUrl(url);					
-			dialog.show();		
-		}catch(Exception e){		
-			System.out.println("Exception while showing PopUp : " + e.getMessage());		
-		}		
-	}
-	
 
+	public void showFaqPopUp(String url) {
+		try {
+			AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View vi = inflater.inflate(R.layout.faq, null);
+			dialog.setView(vi);
+			dialog.setTitle("先锋流量监控  FAQ :");
+			dialog.setCancelable(true);
+			dialog.setNegativeButton("确定", null);
+			WebView wb = (WebView) vi.findViewById(R.id.webview);
+			wb.loadUrl(url);
+			dialog.show();
+		} catch (Exception e) {
+			System.out.println("Exception while showing PopUp : "
+					+ e.getMessage());
+		}
+	}
 
+	public void showAboutPopUp(String url) {
+		try {
+			AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View vi = inflater.inflate(R.layout.faq, null);
+			dialog.setView(vi);
+			dialog.setTitle("关于先锋流量监控");
+			dialog.setCancelable(true);
+			dialog.setNegativeButton("确定", null);
+			WebView wb = (WebView) vi.findViewById(R.id.webview);
+			wb.loadUrl(url);
+			dialog.show();
+		} catch (Exception e) {
+			System.out.println("Exception while showing PopUp : "
+					+ e.getMessage());
+		}
+	}
 
 	@Override
 	protected void onResume() {
@@ -226,15 +236,17 @@ public class SpearheadActivity extends TabActivity {
 		notifyctrl.cancelAlertNotify(context);
 		isExit = false;
 		hasTask = false;
-				//	MobclickAgent.onResume(this);
+		// MobclickAgent.onResume(this);
 	}
+
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
 		// umeng
-	//	MobclickAgent.onPause(this);
+		// MobclickAgent.onPause(this);
 	}
+
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if (isExit == false) {

@@ -16,15 +16,16 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class CustomDialog extends Dialog {
-	public static double windowHeight = 0.3;
-	public static double windowWidth = 0.8;
-
-	public CustomDialog(Context context) {
+public class CustomDialogAbout extends Dialog {
+	public static double windowHeight = 0.6;
+	public static double windowWidth = 0.9;
+	
+	public CustomDialogAbout(Context context) {
 		super(context);
 	}
-
-	public CustomDialog(Context context, int theme) {
+	
+	
+	public CustomDialogAbout(Context context, int theme) {
 		super(context, theme);
 	}
 
@@ -201,13 +202,13 @@ public class CustomDialog extends Dialog {
 		 * 
 		 * @return
 		 */
-		public CustomDialog create() {
+		public CustomDialogAbout create() {
 			LayoutInflater inflater = LayoutInflater.from(context);
-			final CustomDialog dialog = new CustomDialog(context,
+			final CustomDialogAbout dialog = new CustomDialogAbout(context,
 					R.style.CustomDialog);
 			// 获取定义好的布局文件
 			View layout = inflater.inflate(
-					R.layout.custom_alert_dialog_on_main, null);
+					R.layout.custom_alert_dialog_about, null);
 			// 取得窗口属性
 			dialog.addContentView(layout, new LayoutParams(
 					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));

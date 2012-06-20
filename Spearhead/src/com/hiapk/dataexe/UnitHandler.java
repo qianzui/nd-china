@@ -93,22 +93,22 @@ public class UnitHandler {
 		if ((temp = temp / 1024) < 1) {
 			DecimalFormat format = new DecimalFormat("0.##");
 			value = format.format(count / 1024);
-			unit.setText("KB");
+			unit.setText(" KB");
 		} else if ((floatnum = (float) temp / 1024) < 1) {
 			value = temp + "";
-			unit.setText("KB");
+			unit.setText(" KB");
 		} else if ((floatGB = floatnum / 1024) < 1) {
 			DecimalFormat format = new DecimalFormat("0.##");
 			value = format.format(floatnum) + "";
-			unit.setText("MB");
+			unit.setText(" MB");
 		} else if ((floatTB = floatGB / 1024) < 1) {
 			DecimalFormat format = new DecimalFormat("0.##");
 			value = format.format(floatGB) + "";
-			unit.setText("GB");
+			unit.setText(" GB");
 		} else {
 			DecimalFormat format = new DecimalFormat("0.##");
 			value = format.format(floatTB) + "";
-			unit.setText("TB");
+			unit.setText(" TB");
 		}
 		return value;
 	}
@@ -130,23 +130,23 @@ public class UnitHandler {
 		float floatTB = count;
 		if ((temp = temp / 1024) < 1) {
 			value = "0";
-			unit.setText("MB");
+			unit.setText(" MB");
 		} else if ((floatnum = (float) temp / 1024) < 1) {
 			DecimalFormat format = new DecimalFormat("0.##");
 			value = format.format(temp / 1024);
-			unit.setText("MB");
+			unit.setText(" MB");
 		} else if ((floatGB = floatnum / 1024) < 1) {
 			DecimalFormat format = new DecimalFormat("0.##");
 			value = format.format(floatnum) + "";
-			unit.setText("MB");
+			unit.setText(" MB");
 		} else if ((floatTB = floatGB / 1024) < 1) {
 			DecimalFormat format = new DecimalFormat("0.##");
 			value = format.format(floatGB) + "";
-			unit.setText("GB");
+			unit.setText(" GB");
 		} else {
 			DecimalFormat format = new DecimalFormat("0.##");
 			value = format.format(floatTB) + "";
-			unit.setText("TB");
+			unit.setText(" TB");
 		}
 		return value;
 	}

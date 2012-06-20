@@ -60,6 +60,8 @@ public class CustomSPBeen {
 	String WARNING_ACTION = "warningaction";
 	Context context;
 
+	int beforeDay = 0;
+
 	public CustomSPBeen(Context context) {
 		this.context = context;
 	}
@@ -209,7 +211,7 @@ public class CustomSPBeen {
 	public void dialogDaySet(final Button btn_date, Button btn_HasUsed) {
 
 		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
-		int beforeDay = sharedData.getCountDay();
+		beforeDay = sharedData.getCountDay();
 		// 初始化窗体
 		LayoutInflater factory = LayoutInflater.from(context);
 		final View textEntryView = factory.inflate(R.layout.list_spinner, null);
@@ -294,7 +296,11 @@ public class CustomSPBeen {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(0);
 				mainBtn.setText("1 日");
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 0) {
+					if (beforeDay != 0) {
+						operatorOnClick(btn_HasUsed);
+					}
+				}
 				dateSet.dismiss();
 			}
 		});
@@ -306,7 +312,9 @@ public class CustomSPBeen {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(1);
 				mainBtn.setText("2 日");
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 1) {
+					operatorOnClick(btn_HasUsed);
+				}
 				dateSet.dismiss();
 			}
 		});
@@ -318,7 +326,9 @@ public class CustomSPBeen {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(2);
 				mainBtn.setText("3 日");
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 2) {
+					operatorOnClick(btn_HasUsed);
+				}
 				dateSet.dismiss();
 			}
 		});
@@ -329,7 +339,9 @@ public class CustomSPBeen {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(3);
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 3) {
+					operatorOnClick(btn_HasUsed);
+				}
 				mainBtn.setText("4 日");
 				dateSet.dismiss();
 			}
@@ -342,7 +354,9 @@ public class CustomSPBeen {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(4);
 				mainBtn.setText("5 日");
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 4) {
+					operatorOnClick(btn_HasUsed);
+				}
 				dateSet.dismiss();
 			}
 		});
@@ -353,7 +367,9 @@ public class CustomSPBeen {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(5);
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 5) {
+					operatorOnClick(btn_HasUsed);
+				}
 				mainBtn.setText("6 日");
 				dateSet.dismiss();
 			}
@@ -366,7 +382,9 @@ public class CustomSPBeen {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(6);
 				mainBtn.setText("7 日");
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 6) {
+					operatorOnClick(btn_HasUsed);
+				}
 				dateSet.dismiss();
 			}
 		});
@@ -377,7 +395,9 @@ public class CustomSPBeen {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(7);
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 7) {
+					operatorOnClick(btn_HasUsed);
+				}
 				mainBtn.setText("8 日");
 				dateSet.dismiss();
 			}
@@ -389,7 +409,9 @@ public class CustomSPBeen {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(8);
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 8) {
+					operatorOnClick(btn_HasUsed);
+				}
 				mainBtn.setText("9 日");
 				dateSet.dismiss();
 			}
@@ -402,7 +424,9 @@ public class CustomSPBeen {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(9);
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 9) {
+					operatorOnClick(btn_HasUsed);
+				}
 				mainBtn.setText("10 日");
 				dateSet.dismiss();
 			}
@@ -416,7 +440,9 @@ public class CustomSPBeen {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(10);
 				mainBtn.setText("11 日");
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 10) {
+					operatorOnClick(btn_HasUsed);
+				}
 				dateSet.dismiss();
 			}
 		});
@@ -429,7 +455,9 @@ public class CustomSPBeen {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(11);
 				mainBtn.setText("12 日");
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 11) {
+					operatorOnClick(btn_HasUsed);
+				}
 				dateSet.dismiss();
 			}
 		});
@@ -442,7 +470,9 @@ public class CustomSPBeen {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(12);
 				mainBtn.setText("13 日");
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 12) {
+					operatorOnClick(btn_HasUsed);
+				}
 				dateSet.dismiss();
 			}
 		});
@@ -455,7 +485,9 @@ public class CustomSPBeen {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(13);
 				mainBtn.setText("14 日");
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 13) {
+					operatorOnClick(btn_HasUsed);
+				}
 				dateSet.dismiss();
 			}
 		});
@@ -468,7 +500,9 @@ public class CustomSPBeen {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(14);
 				mainBtn.setText("15 日");
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 14) {
+					operatorOnClick(btn_HasUsed);
+				}
 				dateSet.dismiss();
 			}
 		});
@@ -481,7 +515,9 @@ public class CustomSPBeen {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(15);
 				mainBtn.setText("16 日");
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 15) {
+					operatorOnClick(btn_HasUsed);
+				}
 				dateSet.dismiss();
 			}
 		});
@@ -494,7 +530,9 @@ public class CustomSPBeen {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(16);
 				mainBtn.setText("17 日");
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 16) {
+					operatorOnClick(btn_HasUsed);
+				}
 				dateSet.dismiss();
 			}
 		});
@@ -508,7 +546,9 @@ public class CustomSPBeen {
 				sharedData.setCountDay(17);
 				mainBtn.setText("18 日");
 				dateSet.dismiss();
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 17) {
+					operatorOnClick(btn_HasUsed);
+				}
 			}
 		});
 
@@ -519,7 +559,9 @@ public class CustomSPBeen {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(18);
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 18) {
+					operatorOnClick(btn_HasUsed);
+				}
 				mainBtn.setText("19 日");
 				dateSet.dismiss();
 			}
@@ -532,7 +574,9 @@ public class CustomSPBeen {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(19);
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 19) {
+					operatorOnClick(btn_HasUsed);
+				}
 				mainBtn.setText("20 日");
 				dateSet.dismiss();
 			}
@@ -545,7 +589,9 @@ public class CustomSPBeen {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(20);
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 20) {
+					operatorOnClick(btn_HasUsed);
+				}
 				mainBtn.setText("21 日");
 				dateSet.dismiss();
 			}
@@ -558,7 +604,9 @@ public class CustomSPBeen {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(21);
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 21) {
+					operatorOnClick(btn_HasUsed);
+				}
 				mainBtn.setText("22 日");
 				dateSet.dismiss();
 			}
@@ -573,7 +621,9 @@ public class CustomSPBeen {
 				sharedData.setCountDay(22);
 				mainBtn.setText("23 日");
 				dateSet.dismiss();
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 22) {
+					operatorOnClick(btn_HasUsed);
+				}
 			}
 		});
 
@@ -585,7 +635,9 @@ public class CustomSPBeen {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(23);
 				mainBtn.setText("24 日");
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 23) {
+					operatorOnClick(btn_HasUsed);
+				}
 				dateSet.dismiss();
 			}
 		});
@@ -597,7 +649,9 @@ public class CustomSPBeen {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(24);
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 24) {
+					operatorOnClick(btn_HasUsed);
+				}
 				mainBtn.setText("25 日");
 				dateSet.dismiss();
 			}
@@ -611,7 +665,9 @@ public class CustomSPBeen {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(25);
 				mainBtn.setText("26 日");
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 25) {
+					operatorOnClick(btn_HasUsed);
+				}
 				dateSet.dismiss();
 			}
 		});
@@ -623,7 +679,9 @@ public class CustomSPBeen {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(26);
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 26) {
+					operatorOnClick(btn_HasUsed);
+				}
 				mainBtn.setText("27 日");
 				dateSet.dismiss();
 			}
@@ -638,7 +696,9 @@ public class CustomSPBeen {
 				sharedData.setCountDay(27);
 				mainBtn.setText("28 日");
 				dateSet.dismiss();
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 27) {
+					operatorOnClick(btn_HasUsed);
+				}
 			}
 		});
 
@@ -649,7 +709,9 @@ public class CustomSPBeen {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(28);
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 28) {
+					operatorOnClick(btn_HasUsed);
+				}
 				mainBtn.setText("29 日");
 				dateSet.dismiss();
 			}
@@ -662,7 +724,9 @@ public class CustomSPBeen {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(29);
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 29) {
+					operatorOnClick(btn_HasUsed);
+				}
 				mainBtn.setText("30 日");
 				dateSet.dismiss();
 			}
@@ -675,7 +739,9 @@ public class CustomSPBeen {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				sharedData.setCountDay(30);
-				operatorOnClick(btn_HasUsed);
+				if (beforeDay != 30) {
+					operatorOnClick(btn_HasUsed);
+				}
 				mainBtn.setText("31 日");
 				dateSet.dismiss();
 			}

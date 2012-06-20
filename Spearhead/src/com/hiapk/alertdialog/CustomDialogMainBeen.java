@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.hiapk.dataexe.ColorChangeMainBeen;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
@@ -177,19 +178,14 @@ public class CustomDialogMainBeen {
 				long mobile_month_use = TrafficManager.getMonthUseData(context);
 				long mobileSet = sharedData.getMonthMobileSetOfLong();
 				long monthLeft = 0;
-				if (mobile_month_use > mobileSet) {
-					monthMobil.setTextColor(Color.RED);
-					monthLeft = 0;
-				} else {
-					monthMobil.setTextColor(Color.GREEN);
-					monthLeft = mobileSet - mobile_month_use;
-				}
+				monthLeft = ColorChangeMainBeen.setRemainTraff(mobileSet,
+						mobile_month_use, monthMobil);
 				//
 				monthMobil.setText(UnitHandler.unitHandlerAcurrac(
 						mobile_month_use, monthMobilunit));
 				monthRemain.setText(UnitHandler.unitHandler(monthLeft,
 						monthRemainunit));
-				//清除对话框
+				// 清除对话框
 				monthHasUsedAlert.dismiss();
 			}
 		});
