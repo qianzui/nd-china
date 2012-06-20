@@ -170,19 +170,19 @@ public class Appwidget extends AppWidgetProvider {
 		wfm_on_off = (WifiManager) context
 				.getSystemService(Context.WIFI_SERVICE);
 		if (wfm_on_off.isWifiEnabled()) {
-			views.setImageViewResource(R.id.widgetImage1,
-					R.drawable.icon_wifi_on);
+			views.setImageViewResource(R.id.widget_wifi,
+					R.drawable.widget_wifi_on);
 			// TextView aa;
 			// aa.setTextColor(color)
-			views.setInt(R.id.widgetImageText1, "setTextColor", Color.GREEN);
+			// views.setInt(R.id.widgetImageText1, "setTextColor", Color.GREEN);
 			// views.setInt(R.id.widgetImage1, "setImageResource",
 			// R.drawable.icon_wifi_on);
 		} else {
 			// views.setInt(R.id.widgetImage1, "setImageResource",
 			// R.drawable.icon_wifi_off);
-			views.setImageViewResource(R.id.widgetImage1,
-					R.drawable.icon_wifi_off);
-			views.setInt(R.id.widgetImageText1, "setTextColor", Color.GRAY);
+			views.setImageViewResource(R.id.widget_wifi,
+					R.drawable.widget_wifi_off);
+			// views.setInt(R.id.widgetImageText1, "setTextColor", Color.GRAY);
 		}
 		// 初始化mobile
 		AlertActionMobileDataControl mobile_on_of = new AlertActionMobileDataControl();
@@ -191,21 +191,23 @@ public class Appwidget extends AppWidgetProvider {
 		if (tm.getSimState() != TelephonyManager.SIM_STATE_READY
 				|| (Integer.valueOf(android.os.Build.VERSION.SDK) < 10)) {
 			mobile_on_of.setMobileDataDisable(context);
-			views.setImageViewResource(R.id.widgetImage2,
-					R.drawable.icon_mobile_off);
-			views.setInt(R.id.widgetImageText2, "setTextColor", Color.GRAY);
+			views.setImageViewResource(R.id.widget_gprs,
+					R.drawable.widget_gprs_off);
+			// views.setInt(R.id.widgetImageText2, "setTextColor", Color.GRAY);
 		} else {
 			if (mobile_on_of.isMobileDataEnable(context)) {
-				views.setImageViewResource(R.id.widgetImage2,
-						R.drawable.icon_mobile_on);
-				views.setInt(R.id.widgetImageText2, "setTextColor", Color.GREEN);
+				views.setImageViewResource(R.id.widget_gprs,
+						R.drawable.widget_gprs_on);
+				// views.setInt(R.id.widgetImageText2, "setTextColor",
+				// Color.GREEN);
 				// views.setInt(R.id.widgetImage2, "setBackgroundResource",
 				// R.drawable.icon_mobile_on);
 
 			} else {
-				views.setImageViewResource(R.id.widgetImage2,
-						R.drawable.icon_mobile_off);
-				views.setInt(R.id.widgetImageText2, "setTextColor", Color.GRAY);
+				views.setImageViewResource(R.id.widget_gprs,
+						R.drawable.widget_gprs_off);
+				// views.setInt(R.id.widgetImageText2, "setTextColor",
+				// Color.GRAY);
 				// views.setInt(R.id.widgetImage2, "setBackgroundResource",
 				// R.drawable.icon_mobile_off);
 			}
@@ -324,18 +326,18 @@ public class Appwidget extends AppWidgetProvider {
 			// aa.setImageResource(resId)
 			// views.setInt(R.id.widgetImage1, "setImageResource",
 			// R.drawable.icon_wifi_off);
-			views.setImageViewResource(R.id.widgetImage1,
-					R.drawable.icon_wifi_off);
-			views.setInt(R.id.widgetImageText1, "setTextColor", Color.GRAY);
+			views.setImageViewResource(R.id.widget_wifi,
+					R.drawable.widget_wifi_off);
+			// views.setInt(R.id.widgetImageText1, "setTextColor", Color.GRAY);
 			Toast.makeText(context, "wifi正在关闭", Toast.LENGTH_SHORT).show();
 
 		} else {
 			wfm_on_off.setWifiEnabled(true);
 			// views.setInt(R.id.widgetImage1, "setImageResource",
 			// R.drawable.icon_wifi_on);
-			views.setImageViewResource(R.id.widgetImage1,
-					R.drawable.icon_wifi_on);
-			views.setInt(R.id.widgetImageText1, "setTextColor", Color.GREEN);
+			views.setImageViewResource(R.id.widget_wifi,
+					R.drawable.widget_wifi_on);
+			// views.setInt(R.id.widgetImageText1, "setTextColor", Color.GREEN);
 			Toast.makeText(context, "wifi正在开启", Toast.LENGTH_SHORT).show();
 		}
 	}
@@ -357,9 +359,10 @@ public class Appwidget extends AppWidgetProvider {
 		} else {
 			if (tm.getSimState() != TelephonyManager.SIM_STATE_READY) {
 				mobile_on_of.setMobileDataDisable(context);
-				views.setImageViewResource(R.id.widgetImage2,
-						R.drawable.icon_mobile_off);
-				views.setInt(R.id.widgetImageText2, "setTextColor", Color.GRAY);
+				views.setImageViewResource(R.id.widget_gprs,
+						R.drawable.widget_gprs_off);
+				// views.setInt(R.id.widgetImageText2, "setTextColor",
+				// Color.GRAY);
 				Toast.makeText(context, "未检测到SIM卡或者SIM卡未就绪，无法启动移动网络",
 						Toast.LENGTH_SHORT).show();
 			} else {
@@ -367,10 +370,10 @@ public class Appwidget extends AppWidgetProvider {
 					mobile_on_of.setMobileDataDisable(context);
 					// views.setInt(R.id.widgetImage2, "setBackgroundResource",
 					// R.drawable.icon_mobile_off);
-					views.setImageViewResource(R.id.widgetImage2,
-							R.drawable.icon_mobile_off);
-					views.setInt(R.id.widgetImageText2, "setTextColor",
-							Color.GRAY);
+					views.setImageViewResource(R.id.widget_gprs,
+							R.drawable.widget_gprs_off);
+					// views.setInt(R.id.widgetImageText2, "setTextColor",
+					// Color.GRAY);
 					Toast.makeText(context, "移动网络正在关闭", Toast.LENGTH_SHORT)
 							.show();
 
@@ -378,10 +381,10 @@ public class Appwidget extends AppWidgetProvider {
 					mobile_on_of.setMobileDataEnable(context);
 					// views.setInt(R.id.widgetImage2, "setBackgroundResource",
 					// R.drawable.icon_mobile_on);
-					views.setImageViewResource(R.id.widgetImage2,
-							R.drawable.icon_mobile_on);
-					views.setInt(R.id.widgetImageText2, "setTextColor",
-							Color.GREEN);
+					views.setImageViewResource(R.id.widget_gprs,
+							R.drawable.widget_gprs_on);
+					// views.setInt(R.id.widgetImageText2, "setTextColor",
+					// Color.GREEN);
 					Toast.makeText(context, "移动网络正在开启", Toast.LENGTH_SHORT)
 							.show();
 				}
