@@ -56,7 +56,13 @@ public class SetText {
 		// text2 = "本月流量: " + monthUsedStr + "/" + monthSetStr;
 		// text3 = "结算日期: " + date;
 		text2 = "距离结算日: " + date + "天";
-		text3 = "" + monthUsedStr + " / " + monthSetStr;
+		long monSet = sharedData.getMonthMobileSetOfLong();
+		if (monSet != 0) {
+			text3 = "" + monthUsedStr + " / " + monthSetStr;
+		} else {
+			text3="点击设置套餐流量";
+		}
+
 		// showLog(textUp);
 	}
 

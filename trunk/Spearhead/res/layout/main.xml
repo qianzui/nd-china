@@ -296,7 +296,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="包月套餐"
+                            android:text="包月套餐:"
                             android:textColor="@color/darkgray2"
                             android:textSize="20dp" />
                     </LinearLayout>

@@ -235,7 +235,8 @@ public class CustomDialogMainBeen {
 	 * @return 返回对话框
 	 */
 	public void dialogMonthSet_Main(final Button btn_toThree,
-			final TextView monthSet, final TextView monthSetunit) {
+			final TextView monthSet, final TextView monthSetunit,
+			final TextView monthRemain, final TextView monthRemainunit) {
 
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		int mobileUnit = sharedData.getMonthMobileSetUnit();
@@ -322,6 +323,13 @@ public class CustomDialogMainBeen {
 				long mobileSet = sharedData.getMonthMobileSetOfLong();
 				monthSet.setText(UnitHandler.unitHandler(mobileSet,
 						monthSetunit));
+				// 月度流量设置
+				long mobile_month_use = TrafficManager.getMonthUseData(context);
+				long monthLeft = 0;
+				monthLeft = ColorChangeMainBeen.setRemainTraff(mobileSet,
+						mobile_month_use);
+				monthRemain.setText(UnitHandler.unitHandler(monthLeft,
+						monthRemainunit));
 				monthSetAlert.dismiss();
 				// Intent intent = new Intent(context, PhoneSet.class);
 				// context.startActivity(intent);
