@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="5.0dip"
                 android:text="流量设置"
-                android:textColor="@color/darkgray2"
+                android:textColor="@color/bluemain3title"
                 android:textSize="23dp"
                 android:textStyle="bold" />
 
@@ -84,11 +84,11 @@
                     <Button
                         android:id="@+id/btn_monthSet_Unit"
                         android:layout_width="80dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="45dp"
                         android:layout_alignParentRight="true"
-                        android:background="@drawable/bg_about"
+                        android:background="@drawable/btnselector_main_dataset"
                         android:text="1024.4MB"
-                        android:textColor="@color/darkgreen"
+                        android:textColor="@color/darkgray2"
                         android:textStyle="bold" />
 
                     <TextView
@@ -172,15 +172,16 @@
                         android:textColor="@color/darkgray2"
                         android:textSize="20dp" />
 
-                     <Button
+                    <Button
                         android:id="@+id/dayUnit"
                         android:layout_width="80dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="45dp"
                         android:layout_toLeftOf="@+id/monthSet"
-                        android:background="@drawable/bg_about"
+                        android:background="@drawable/btnselector_main_dataset"
                         android:gravity="center"
                         android:text="1 日"
-                        android:textColor="@color/darkgreen" />
+                        android:textSize="18dp"
+                        android:textColor="@color/darkgray2" />
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
@@ -210,7 +211,7 @@
                 android:layout_centerVertical="true"
                 android:paddingLeft="5.0dip"
                 android:text="流量校正"
-                android:textColor="@color/darkgray2"
+                android:textColor="@color/bluemain3title"
                 android:textSize="23dp" />
 
             <Button
@@ -219,9 +220,10 @@
                 android:layout_height="50dip"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/bg_about"
+                android:background="@drawable/btnselector_main_dataset"
                 android:text="查询流量套餐"
-                android:textColor="@color/darkgreen"
+                android:textSize="18dp"
+                android:textColor="@color/darkgray2"
                 android:textStyle="bold" />
         </RelativeLayout>
     </LinearLayout>
@@ -243,7 +245,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="5dip"
             android:text="流量提醒"
-            android:textColor="@color/darkgray2"
+            android:textColor="@color/bluemain3title"
             android:textSize="23dp" />
 
         <ImageView
@@ -274,11 +276,11 @@
                 <Button
                     android:id="@+id/monthWarning"
                     android:layout_width="80dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
                     android:layout_alignParentRight="true"
-                    android:background="@drawable/bg_about"
+                    android:background="@drawable/btnselector_main_dataset"
                     android:text="点击设置"
-                    android:textColor="@color/darkgreen"
+                    android:textColor="@color/darkgray2"
                     android:textStyle="bold" />
             </RelativeLayout>
         </LinearLayout>
@@ -311,11 +313,11 @@
                 <Button
                     android:id="@+id/dayWarning"
                     android:layout_width="80dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
                     android:layout_alignParentRight="true"
-                    android:background="@drawable/bg_about"
+                    android:background="@drawable/btnselector_main_dataset"
                     android:text="点击设置"
-                    android:textColor="@color/darkgreen"
+                    android:textColor="@color/darkgray2"
                     android:textStyle="bold" />
             </RelativeLayout>
         </LinearLayout>
@@ -347,12 +349,13 @@
 
                 <Button
                     android:id="@+id/warningAct"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="150dp"
+                    android:layout_height="45dp"
                     android:layout_alignParentRight="true"
-                    android:background="@drawable/bg_about"
-                     android:text="点击设置"
-                    android:textColor="@color/darkgreen"
+                    android:background="@drawable/btnselector_main_dataset"
+                    android:text="点击设置"
+                    android:textColor="@color/darkgray2"
+                    android:textSize="18dp"
                     android:textStyle="bold" />
             </RelativeLayout>
         </LinearLayout>

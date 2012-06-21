@@ -15,8 +15,8 @@
         <TextView
             style="@style/CustomDialogText.Title"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
+            android:layout_height="45dip"
+            android:gravity="center_vertical"
             android:text="请选择"
             android:paddingLeft="8dip"
             android:paddingRight="8dip" />

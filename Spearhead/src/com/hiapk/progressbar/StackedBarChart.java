@@ -25,6 +25,8 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
+import com.hiapk.provider.UiColors;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -122,7 +124,7 @@ public class StackedBarChart extends ViewBase {
 	}
 
 	// 柱状条颜色
-	int[] chartbarcolor = new int[] { Color.BLUE, Color.GREEN };
+	int[] chartbarcolor = UiColors.chartbarcolor;
 	// int[] chartbarcolor = new int[] { Color.CYAN };
 	float AxisTitleTextSize = windowswidesize / 2;
 	float ChartTitleTextSize = windowswidesize / 2;
@@ -229,14 +231,6 @@ public class StackedBarChart extends ViewBase {
 		this.lableColor = lableColor;
 	}
 
-	/**
-	 * 两条柱状图的颜色
-	 * 
-	 * @param chartbarcolor
-	 */
-	public void setChartbarcolor(int[] chartbarcolor) {
-		this.chartbarcolor = chartbarcolor;
-	}
 
 	/**
 	 * Returns the chart name.
@@ -293,7 +287,6 @@ public class StackedBarChart extends ViewBase {
 		renderer.setYLabels(10);
 		renderer.setXLabelsAlign(Align.CENTER);
 		renderer.setYLabelsAlign(Align.LEFT);
-		renderer.setPanEnabled(false, false);
 		// renderer.setZoomEnabled(false);
 		// other
 		renderer.setShowGrid(true);

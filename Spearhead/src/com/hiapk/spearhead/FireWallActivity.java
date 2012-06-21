@@ -13,6 +13,7 @@ import com.hiapk.firewall.Block;
 import com.hiapk.firewall.Info;
 import com.hiapk.firewall.MyListView;
 import com.hiapk.firewall.MyListView.OnRefreshListener;
+import com.hiapk.progressdialog.CustomProgressDialog;
 import com.hiapk.sqlhelper.SQLHelperFireWall.Data;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
@@ -66,6 +67,7 @@ public class FireWallActivity extends Activity {
 	private SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 	ProgressDialog mydialog;
 	ProgressDialog pro;
+	CustomProgressDialog customdialog;
 	long[] traffic;
 	HashMap<Integer, Data> mp;
 	HashMap<Integer, Info> imageAndNameMap = new HashMap<Integer, Info>();
@@ -109,13 +111,21 @@ public class FireWallActivity extends Activity {
 	}
 
 	public void initList() {
-		pro = ProgressDialog.show(mContext, "提示",
-				"获取列表中,请耐心等待,获取的时间长短取决于您安装软件的数量...");
+//		pro = ProgressDialog.show(mContext, "提示",
+//				"获取列表中,请耐心等待,获取的时间长短取决于您安装软件的数量...");
+		CustomProgressDialog customProgressDialog = new CustomProgressDialog(
+				mContext);
+		customdialog = customProgressDialog.createDialog(mContext);
+		customdialog.setCancelable(false);
+		customProgressDialog.setTitile("提示");
+		customProgressDialog.setMessage("获取列表中,请耐心等待,获取的时间长短取决于您安装软件的数量...");
+		customdialog.show();
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
 				try {
 					setAdapter();
-					pro.dismiss();
+					customdialog.dismiss();
+//					pro.dismiss();
 				} catch (Exception ex) {
 				}
 			}

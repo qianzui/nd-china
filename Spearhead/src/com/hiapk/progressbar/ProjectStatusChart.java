@@ -34,6 +34,8 @@ import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
+import com.hiapk.provider.UiColors;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -234,7 +236,7 @@ public class ProjectStatusChart extends ViewBase {
 		values.add(dataMobile);
 		values.add(dataWifi);
 		// dates = this.dates;
-		int[] colors = new int[] { Color.BLUE, Color.GREEN };
+		int[] colors = UiColors.chartbarcolor;
 		PointStyle[] styles = new PointStyle[] { PointStyle.SQUARE,
 				PointStyle.DIAMOND };
 		XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);

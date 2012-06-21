@@ -2,17 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/bground_dark" >
+    android:background="@drawable/bground_dark"
+    android:orientation="vertical" >
 
     <TextView
         android:layout_width="fill_parent"
-        android:layout_height="48dip"
+        android:layout_height="50dip"
         android:background="@drawable/maintab_toolbar_bg"
         android:gravity="center"
         android:text="手机卡设置"
         android:textColor="@color/whitesmoke"
-        android:textSize="18dip" />
+        android:textSize="19dip" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="省份"
-            android:textColor="@color/darkgray2" />
+            android:textColor="@color/darkgray2"
+            android:textSize="19dip" />
 
         <Spinner
             android:id="@+id/province"
@@ -32,13 +33,15 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
             android:background="@drawable/bg_about"
-            android:prompt="@string/provinceSelect" />
+            android:prompt="@string/provinceSelect"
+            android:textSize="19dip" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="城市"
-            android:textColor="@color/darkgray2" />
+            android:textColor="@color/darkgray2"
+            android:textSize="19dip" />
 
         <Spinner
             android:id="@+id/city"
@@ -46,13 +49,15 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
             android:background="@drawable/bg_about"
-            android:prompt="@string/citySelect" />
+            android:prompt="@string/citySelect"
+            android:textSize="19dip" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="运营商"
-            android:textColor="@color/darkgray2" />
+            android:textColor="@color/darkgray2"
+            android:textSize="19dip" />
 
         <Spinner
             android:id="@+id/operator"
@@ -60,13 +65,15 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
             android:background="@drawable/bg_about"
-            android:prompt="@string/operatorSelect" />
+            android:prompt="@string/operatorSelect"
+            android:textSize="19dip" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="手机卡品牌"
-            android:textColor="@color/darkgray2" />
+            android:textColor="@color/darkgray2"
+            android:textSize="19dip" />
 
         <Spinner
             android:id="@+id/brand"
@@ -74,17 +81,24 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
             android:background="@drawable/bg_about"
-            android:prompt="@string/brankSelect" />
+            android:prompt="@string/brankSelect"
+            android:textSize="19dip" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/darkgray2"
+            android:textSize="19dip" />
 
         <Button
             android:id="@+id/next"
-            android:layout_width="130dip"
-            android:layout_height="45dip"
+            android:layout_width="150dip"
+            android:layout_height="60dip"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/bg_about"
+            android:background="@drawable/btnselector_main"
             android:text="下一步"
-            android:textSize="18sp"
-            android:textColor="@color/darkgreen" />
+            android:textColor="@color/darkgray2"
+            android:textSize="20sp" />
     </LinearLayout>
 
 </LinearLayout>

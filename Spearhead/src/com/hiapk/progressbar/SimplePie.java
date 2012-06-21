@@ -2,6 +2,8 @@ package com.hiapk.progressbar;
 
 import java.text.DecimalFormat;
 
+import com.hiapk.provider.UiColors;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -52,7 +54,7 @@ public class SimplePie extends ViewBase {
 
 	public SimplePie(Context context, int[] percent, int mobilePersent) {
 		super(context);
-		int[] colors = new int[] { Color.BLUE, Color.GREEN };
+		int[] colors = UiColors.chartbarcolor;
 		this.colors = colors;
 		this.percent = percent;
 		this.mobilePersent = mobilePersent;
@@ -86,7 +88,7 @@ public class SimplePie extends ViewBase {
 							+ minpie), tempAngle, percent[j], true, paint);
 			tempAngle += percent[j];
 		}
-		paint.setColor(Color.RED);
+		paint.setColor(UiColors.simplePieLine);
 		// paint.setLinearText(linearText)
 		// »­Ö±Ïß
 		float[] linespointmobile = new float[4];

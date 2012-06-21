@@ -89,7 +89,7 @@ public class CustomSPBeen {
 		final CustomSPDialog freshtime;
 		CustomSPDialog.heighpar = 0.6;
 		freshtime = new CustomSPDialog.Builder(context)
-				.setTitle("刷新状态栏和小部件的时间间隔").setContentView(textEntryView)
+				.setTitle("刷新状态栏和小部件的频率").setContentView(textEntryView)
 				.setNegativeButton("取消", null).create();
 		freshtime.show();
 		// 设置cancel的监听

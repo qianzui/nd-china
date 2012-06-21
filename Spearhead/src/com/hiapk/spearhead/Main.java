@@ -474,7 +474,7 @@ public class Main extends Activity {
 					// showlog("" + SQLStatic.uiddata.get(uid).download
 					// + datt.download);
 					// }
-//					CustomToast.initToast(context, "test");
+					// CustomToast.initToast(context, "test");
 					return true;
 				}
 				return false;
@@ -509,8 +509,10 @@ public class Main extends Activity {
 					// 包月流量
 					TextView monthSet = (TextView) findViewById(R.id.monthSet);
 					TextView monthSetunit = (TextView) findViewById(R.id.unit5);
+					TextView monthRemain = (TextView) findViewById(R.id.monthRemain);
+					TextView monthRemainunit = (TextView) findViewById(R.id.unit4);
 					customDialog.dialogMonthSet_Main(btn_toThree, monthSet,
-							monthSetunit);
+							monthSetunit, monthRemain, monthRemainunit);
 				} else {
 					TextView monthMobil = (TextView) findViewById(R.id.monthRate);
 					TextView monthMobilunit = (TextView) findViewById(R.id.unit3);
