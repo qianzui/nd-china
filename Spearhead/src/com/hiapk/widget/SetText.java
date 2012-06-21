@@ -45,17 +45,18 @@ public class SetText {
 		String monthUsedStr = unitHandler.unitHandlerAccurate(monthUsedLong);
 		String monthSetStr = unitHandler.unitHandlerAccurate(monthSetLong);
 		String todayUsedStr = unitHandler.unitHandlerAccurate(todayUsedLong);
-		String date = getdate(context, year, month, monthDay);
+		// String date = getdate(context, year, month, monthDay);
+		String date = getday(context, year, month, monthDay);
 		// textUp = "今日已用：xxx kB(MB)";
 		// textDown = "xx MB / 50 MB --> 2012.06.01";
 		textUp = "今日已用: " + todayUsedStr;// + (int) (30 * Math.random());
 		textDown = monthUsedStr + " / " + monthSetStr + " --> " + date;
 		// text1 = "今日已用: " + todayUsedStr + (int) (30 * Math.random());
 		text1 = textUp;
-//		text2 = "本月流量: " + monthUsedStr + "/" + monthSetStr;
-//		text3 = "结算日期: " + date;
-		text2 = "本月流量: " ;
-		text3 = "" + monthUsedStr + " / " + monthSetStr; 
+		// text2 = "本月流量: " + monthUsedStr + "/" + monthSetStr;
+		// text3 = "结算日期: " + date;
+		text2 = "距离结算日: " + date + "天";
+		text3 = "" + monthUsedStr + " / " + monthSetStr;
 		// showLog(textUp);
 	}
 
@@ -82,6 +83,26 @@ public class SetText {
 			intentTextUpdate.setAction(BROADCAST_TRAFF);
 			context.sendBroadcast(intentTextUpdate);
 		}
+	}
+
+	private static String getday(Context context, int year, int month,
+			int monthDay) {
+		// TODO Auto-generated method stub
+		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		int setDay = sharedData.getCountDay() + 1;
+		int maxDay = countDay(year, month);
+		if (setDay > maxDay) {
+			setDay = maxDay;
+		}
+		if (setDay < monthDay) {
+			return (setDay + maxDay - monthDay) + "";
+
+		} else if (setDay == monthDay) {
+			return 0 + "";
+		} else {
+			return (setDay - monthDay) + "";
+		}
+
 	}
 
 	private static String getdate(Context context, int year, int month,
@@ -162,6 +183,6 @@ public class SetText {
 	 */
 	private static void showLog(String string) {
 		// TODO Auto-generated method stub
-//		Log.d("SetText", string);
+		// Log.d("SetText", string);
 	}
 }
