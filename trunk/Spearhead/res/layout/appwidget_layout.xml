@@ -36,7 +36,7 @@
         
     </LinearLayout>
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dip"
         android:layout_height="fill_parent"
         android:layout_gravity="center"
         android:layout_weight="0.1"
@@ -47,7 +47,6 @@
             android:layout_height="fill_parent"
             android:src="@drawable/widget_divider" />
     </LinearLayout>
-    
     
     <LinearLayout
         android:id="@+id/widget1X4LinnerLayout2"
@@ -67,7 +66,7 @@
             android:src="@drawable/widget_gprs_on" />
     </LinearLayout>
      <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dip"
         android:layout_height="fill_parent"
         android:layout_gravity="center"
         android:layout_weight="0.1"
