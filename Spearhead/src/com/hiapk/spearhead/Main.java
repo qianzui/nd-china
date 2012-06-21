@@ -9,6 +9,7 @@ import org.achartengine.GraphicalView;
 
 import com.hiapk.alertdialog.CustomDialogMainBeen;
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.customspinner.CustomToast;
 import com.hiapk.dataexe.ColorChangeMainBeen;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
@@ -473,7 +474,7 @@ public class Main extends Activity {
 					// showlog("" + SQLStatic.uiddata.get(uid).download
 					// + datt.download);
 					// }
-
+//					CustomToast.initToast(context, "test");
 					return true;
 				}
 				return false;

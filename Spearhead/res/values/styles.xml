@@ -49,7 +49,7 @@
     </style>
 
     <!-- spinner自定义 -->
-<style name="CustomProgressDialog" parent="@style/CustomDialog">
+    <style name="CustomProgressDialog" parent="@style/CustomDialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
     </style>
@@ -85,6 +85,21 @@
     <style name="DialogSpText.Title">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance">
+        <item name="android:textColor">@android:color/primary_text_dark</item>
+        <item name="android:textColorHighlight">#FFFF9200</item>
+        <item name="android:textColorHint">#808080</item>
+        <item name="android:textColorLink">#5C5CFF</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextAppearance.Small">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@android:color/secondary_text_light</item>
     </style>
 
 </resources>
