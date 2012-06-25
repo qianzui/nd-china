@@ -94,7 +94,7 @@
             android:layout_height="60dip"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/btnselector_main"
-            android:text="自动校正"
+            android:text="发送短信"
             android:textColor="@color/darkgray2"
             android:textSize="20sp" />
     </LinearLayout>

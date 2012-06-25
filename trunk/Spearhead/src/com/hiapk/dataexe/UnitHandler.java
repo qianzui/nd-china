@@ -92,7 +92,7 @@ public class UnitHandler {
 		float floatTB = count;
 		if ((temp = temp / 1024) < 1) {
 			DecimalFormat format = new DecimalFormat("0.##");
-			value = format.format(count / 1024);
+			value = format.format(temp);
 			unit.setText(" KB");
 		} else if ((floatnum = (float) temp / 1024) < 1) {
 			value = temp + "";
@@ -133,7 +133,7 @@ public class UnitHandler {
 			unit.setText(" MB");
 		} else if ((floatnum = (float) temp / 1024) < 1) {
 			DecimalFormat format = new DecimalFormat("0.##");
-			value = format.format(temp / 1024);
+			value = format.format(temp);
 			unit.setText(" MB");
 		} else if ((floatGB = floatnum / 1024) < 1) {
 			DecimalFormat format = new DecimalFormat("0.##");

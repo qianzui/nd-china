@@ -102,8 +102,9 @@ public class Regulate extends Activity {
 			SmsManager sm;
 			sm = SmsManager.getDefault();
 			sm.sendTextMessage(num, null, text, null, null);
-			Toast.makeText(this, "已自动发送短信，短信接收后将自动设置本月已用流量", Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(this,
+			// "已自动发送短信，短信接收后将自动设置本月已用流量"
+					"短信已发送", Toast.LENGTH_SHORT).show();
 			sharedData.setIsSend(true);
 		} else {
 			Toast.makeText(this, "请插入SIM卡或者关闭飞行模式", Toast.LENGTH_LONG).show();

@@ -39,7 +39,6 @@ public class Appwidget extends AppWidgetProvider {
 	String BROADCAST_TRAFF = "com.hiapk.traffwidget";
 	// 初始化wifi与mobile状态
 	String APPWIDGET_UPDATE = "com.hiapkAPPWIDGET_UPDATE";
-	SharedPrefrenceData sharedData;
 	String MOTOROLA_WIDGET_ADD = "com.motorola.blur.home.ACTION_WIDGET_ADDED";
 
 	@Override
@@ -47,7 +46,7 @@ public class Appwidget extends AppWidgetProvider {
 		// TODO Auto-generated method stub
 		super.onEnabled(context);
 		showLog("onEnabled");
-		sharedData = new SharedPrefrenceData(context);
+		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		sharedData.setWidGet14Open(true);
 		// boolean isNotifyOpen = sharedData.isNotifyOpen();
 		AlarmSet alset = new AlarmSet();
@@ -63,14 +62,14 @@ public class Appwidget extends AppWidgetProvider {
 		// TODO Auto-generated method stub
 		super.onDisabled(context);
 		showLog("onDisabled");
-		sharedData = new SharedPrefrenceData(context);
+		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		sharedData.setWidGet14Open(false);
 	}
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
 			int[] appWidgetIds) {
-		sharedData = new SharedPrefrenceData(context);
+		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		// TODO Auto-generated method stub
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 		showLog("onupdate");
@@ -90,7 +89,7 @@ public class Appwidget extends AppWidgetProvider {
 			intentgpprs.setAction(BROADCAST_GPRS);
 			PendingIntent pendingIntentgprs = PendingIntent.getBroadcast(
 					context, 0, intentgpprs, PendingIntent.FLAG_UPDATE_CURRENT);
-			Intent intenttraff = new Intent(context, SpearheadActivity.class);
+			Intent intenttraff = new Intent(context, Splash.class);
 			Bundle choosetab = new Bundle();
 			choosetab.putInt("TAB", 1);
 			intenttraff.putExtras(choosetab);
@@ -101,33 +100,52 @@ public class Appwidget extends AppWidgetProvider {
 			// to the button
 			RemoteViews views = new RemoteViews(context.getPackageName(),
 					R.layout.appwidget_layout);
-			// 设置监听
-			// views.setOnClickPendingIntent(R.id.widgetImage1,
-			// pendingIntentwifi);
-			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout1,
-					pendingIntentwifi);
-			// views.setOnClickPendingIntent(R.id.widgetImageText1,
-			// pendingIntentwifi);
-			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout2,
-					pendingIntentgprs);
-			// views.setOnClickPendingIntent(R.id.widgetImageText2,
-			// pendingIntentgprs);
-			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout3,
-					pendingIntenttraff);
-			// views.setOnClickPendingIntent(R.id.widgetTextview2,
-			// pendingIntenttraff);
-			// views.setOnClickPendingIntent(R.id.widgetTextview3,
-			// pendingIntenttraff);
-			initWidget(context, views);
-			// 设置文本状态
-			// TextView aa;
-			// aa.setText(text)
-			views.setCharSequence(R.id.widgetTextview1, "setText",
-					SetText.text1);
-			views.setCharSequence(R.id.widgetTextview2, "setText",
-					SetText.text2);
-			views.setCharSequence(R.id.widgetTextview3, "setText",
-					SetText.text3);
+			long monthSet = sharedData.getMonthMobileSetOfLong();
+			if (monthSet == 0) {
+				views = new RemoteViews(context.getPackageName(),
+						R.layout.appwidget_layout_not_set);
+				views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout1,
+						pendingIntentwifi);
+				// views.setOnClickPendingIntent(R.id.widgetImageText1,
+				// pendingIntentwifi);
+				views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout2,
+						pendingIntentgprs);
+				// views.setOnClickPendingIntent(R.id.widgetImageText2,
+				// pendingIntentgprs);
+				views.setOnClickPendingIntent(R.id.widgetBtn_noset,
+						pendingIntenttraff);
+				initWidget(context, views);
+			} else {
+				views = new RemoteViews(context.getPackageName(),
+						R.layout.appwidget_layout);
+				// 设置监听
+				// views.setOnClickPendingIntent(R.id.widgetImage1,
+				// pendingIntentwifi);
+				views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout1,
+						pendingIntentwifi);
+				// views.setOnClickPendingIntent(R.id.widgetImageText1,
+				// pendingIntentwifi);
+				views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout2,
+						pendingIntentgprs);
+				// views.setOnClickPendingIntent(R.id.widgetImageText2,
+				// pendingIntentgprs);
+				views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout3,
+						pendingIntenttraff);
+				// views.setOnClickPendingIntent(R.id.widgetTextview2,
+				// pendingIntenttraff);
+				// views.setOnClickPendingIntent(R.id.widgetTextview3,
+				// pendingIntenttraff);
+				initWidget(context, views);
+				// 设置文本状态
+				// TextView aa;
+				// aa.setText(text)
+				views.setCharSequence(R.id.widgetTextview1, "setText",
+						SetText.text1);
+				views.setCharSequence(R.id.widgetTextview2, "setText",
+						SetText.text2);
+				views.setCharSequence(R.id.widgetTextview3, "setText",
+						SetText.text3);
+			}
 			// // 进行设置
 			// WifiManager wfm_on_off;
 			// wfm_on_off = (WifiManager) context
@@ -228,43 +246,93 @@ public class Appwidget extends AppWidgetProvider {
 		// intentAppUpdate.setAction(APPWIDGET_UPDATE);
 		RemoteViews views = new RemoteViews(context.getPackageName(),
 				R.layout.appwidget_layout);
-		if (intent.getAction().equals(BROADCAST_WIFI)) {
-			wifiswitch(context, views);
-			// 更新小部件
-			AppWidgetManager appWidgetManager = AppWidgetManager
-					.getInstance(context);
-			appWidgetManager.updateAppWidget(new ComponentName(context,
-					Appwidget.class), views);
-			// context.sendBroadcast(intentAppUpdate);
-		} else if (intent.getAction().equals(BROADCAST_GPRS)) {
-			mobileswitch(context, views);
-			// 更新小部件
-			AppWidgetManager appWidgetManager = AppWidgetManager
-					.getInstance(context);
-			appWidgetManager.updateAppWidget(new ComponentName(context,
-					Appwidget.class), views);
-			// context.sendBroadcast(intentAppUpdate);
-		} else if (intent.getAction().equals(BROADCAST_TRAFF)) {
-			setwidgetListenerAndInit(context);
-			// context.sendBroadcast(intentAppUpdate);
-		} else if (intent.getAction().equals(APPWIDGET_UPDATE)) {
-			initWidget(context, views);
-			// views.setCharSequence(R.id.widgetTextview1, "setText",
-			// SetText.text1);
-			// views.setCharSequence(R.id.widgetTextview2, "setText",
-			// SetText.text2);
-			// views.setCharSequence(R.id.widgetTextview3, "setText",
-			// SetText.text3);
-			// AppWidgetManager appWidgetManager = AppWidgetManager
-			// .getInstance(context);
-			// appWidgetManager.updateAppWidget(new ComponentName(context,
-			// Appwidget.class), views);
+		long monthSet = 0;
+		try {
+			SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+			monthSet = sharedData.getMonthMobileSetOfLong();
+		} catch (Exception e) {
+			// TODO: handle exception
+			monthSet = 0;
+		}
+
+		if (monthSet == 0) {
+			views = new RemoteViews(context.getPackageName(),
+					R.layout.appwidget_layout_not_set);
+			if (intent.getAction().equals(BROADCAST_WIFI)) {
+				wifiswitch(context, views);
+				// 更新小部件
+				AppWidgetManager appWidgetManager = AppWidgetManager
+						.getInstance(context);
+				appWidgetManager.updateAppWidget(new ComponentName(context,
+						Appwidget.class), views);
+				// context.sendBroadcast(intentAppUpdate);
+			} else if (intent.getAction().equals(BROADCAST_GPRS)) {
+				mobileswitch(context, views);
+				// 更新小部件
+				AppWidgetManager appWidgetManager = AppWidgetManager
+						.getInstance(context);
+				appWidgetManager.updateAppWidget(new ComponentName(context,
+						Appwidget.class), views);
+				// context.sendBroadcast(intentAppUpdate);
+			} else if (intent.getAction().equals(BROADCAST_TRAFF)) {
+				setwidgetListenerAndInit(context, monthSet);
+				// context.sendBroadcast(intentAppUpdate);
+			} else if (intent.getAction().equals(APPWIDGET_UPDATE)) {
+				initWidget(context, views);
+				// views.setCharSequence(R.id.widgetTextview1, "setText",
+				// SetText.text1);
+				// views.setCharSequence(R.id.widgetTextview2, "setText",
+				// SetText.text2);
+				// views.setCharSequence(R.id.widgetTextview3, "setText",
+				// SetText.text3);
+				// AppWidgetManager appWidgetManager = AppWidgetManager
+				// .getInstance(context);
+				// appWidgetManager.updateAppWidget(new ComponentName(context,
+				// Appwidget.class), views);
+			} else {
+				setwidgetListenerAndInit(context, monthSet);
+			}
 		} else {
-			setwidgetListenerAndInit(context);
+			views = new RemoteViews(context.getPackageName(),
+					R.layout.appwidget_layout);
+			if (intent.getAction().equals(BROADCAST_WIFI)) {
+				wifiswitch(context, views);
+				// 更新小部件
+				AppWidgetManager appWidgetManager = AppWidgetManager
+						.getInstance(context);
+				appWidgetManager.updateAppWidget(new ComponentName(context,
+						Appwidget.class), views);
+				// context.sendBroadcast(intentAppUpdate);
+			} else if (intent.getAction().equals(BROADCAST_GPRS)) {
+				mobileswitch(context, views);
+				// 更新小部件
+				AppWidgetManager appWidgetManager = AppWidgetManager
+						.getInstance(context);
+				appWidgetManager.updateAppWidget(new ComponentName(context,
+						Appwidget.class), views);
+				// context.sendBroadcast(intentAppUpdate);
+			} else if (intent.getAction().equals(BROADCAST_TRAFF)) {
+				setwidgetListenerAndInit(context, monthSet);
+				// context.sendBroadcast(intentAppUpdate);
+			} else if (intent.getAction().equals(APPWIDGET_UPDATE)) {
+				initWidget(context, views);
+				// views.setCharSequence(R.id.widgetTextview1, "setText",
+				// SetText.text1);
+				// views.setCharSequence(R.id.widgetTextview2, "setText",
+				// SetText.text2);
+				// views.setCharSequence(R.id.widgetTextview3, "setText",
+				// SetText.text3);
+				// AppWidgetManager appWidgetManager = AppWidgetManager
+				// .getInstance(context);
+				// appWidgetManager.updateAppWidget(new ComponentName(context,
+				// Appwidget.class), views);
+			} else {
+				setwidgetListenerAndInit(context, monthSet);
+			}
 		}
 	}
 
-	private void setwidgetListenerAndInit(Context context) {
+	private void setwidgetListenerAndInit(Context context, long monthSet) {
 		// 设置监听广播
 		Intent intentwifi = new Intent();
 		intentwifi.setAction(BROADCAST_WIFI);
@@ -274,7 +342,7 @@ public class Appwidget extends AppWidgetProvider {
 		intentgpprs.setAction(BROADCAST_GPRS);
 		PendingIntent pendingIntentgprs = PendingIntent.getBroadcast(context,
 				0, intentgpprs, PendingIntent.FLAG_UPDATE_CURRENT);
-		Intent intenttraff = new Intent(context, SpearheadActivity.class);
+		Intent intenttraff = new Intent(context, Splash.class);
 		Bundle choosetab = new Bundle();
 		choosetab.putInt("TAB", 1);
 		intenttraff.putExtras(choosetab);
@@ -285,26 +353,49 @@ public class Appwidget extends AppWidgetProvider {
 		// to the button
 		RemoteViews views = new RemoteViews(context.getPackageName(),
 				R.layout.appwidget_layout);
-		// 设置监听
-		// views.setOnClickPendingIntent(R.id.widgetImage1,
-		// pendingIntentwifi);
-		views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout1,
-				pendingIntentwifi);
-		// views.setOnClickPendingIntent(R.id.widgetImageText1,
-		// pendingIntentwifi);
-		views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout2,
-				pendingIntentgprs);
-		// views.setOnClickPendingIntent(R.id.widgetImageText2,
-		// pendingIntentgprs);
-		views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout3,
-				pendingIntenttraff);
-		// views.setOnClickPendingIntent(R.id.widgetTextview2,
-		// pendingIntenttraff);
-		// views.setOnClickPendingIntent(R.id.widgetTextview3,
-		// pendingIntenttraff);
-		views.setCharSequence(R.id.widgetTextview1, "setText", SetText.text1);
-		views.setCharSequence(R.id.widgetTextview2, "setText", SetText.text2);
-		views.setCharSequence(R.id.widgetTextview3, "setText", SetText.text3);
+		if (monthSet == 0) {
+			views = new RemoteViews(context.getPackageName(),
+					R.layout.appwidget_layout_not_set);
+			// 设置监听
+			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout1,
+					pendingIntentwifi);
+			// views.setOnClickPendingIntent(R.id.widgetImageText1,
+			// pendingIntentwifi);
+			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout2,
+					pendingIntentgprs);
+			// views.setOnClickPendingIntent(R.id.widgetImageText2,
+			// pendingIntentgprs);
+			views.setOnClickPendingIntent(R.id.widgetBtn_noset,
+					pendingIntenttraff);
+		} else {
+			views = new RemoteViews(context.getPackageName(),
+					R.layout.appwidget_layout);
+
+			// 设置监听
+			// views.setOnClickPendingIntent(R.id.widgetImage1,
+			// pendingIntentwifi);
+			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout1,
+					pendingIntentwifi);
+			// views.setOnClickPendingIntent(R.id.widgetImageText1,
+			// pendingIntentwifi);
+			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout2,
+					pendingIntentgprs);
+			// views.setOnClickPendingIntent(R.id.widgetImageText2,
+			// pendingIntentgprs);
+			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout3,
+					pendingIntenttraff);
+			// views.setOnClickPendingIntent(R.id.widgetTextview2,
+			// pendingIntenttraff);
+			// views.setOnClickPendingIntent(R.id.widgetTextview3,
+			// pendingIntenttraff);
+			views.setCharSequence(R.id.widgetTextview1, "setText",
+					SetText.text1);
+			views.setCharSequence(R.id.widgetTextview2, "setText",
+					SetText.text2);
+			views.setCharSequence(R.id.widgetTextview3, "setText",
+					SetText.text3);
+		}
+
 		initWidget(context, views);
 	}
 

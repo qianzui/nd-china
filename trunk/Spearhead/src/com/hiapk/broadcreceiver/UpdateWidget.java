@@ -4,6 +4,7 @@ import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.SpearheadActivity;
+import com.hiapk.spearhead.Splash;
 import com.hiapk.widget.ProgramNotify;
 import com.hiapk.widget.SetText;
 
@@ -21,7 +22,6 @@ public class UpdateWidget extends BroadcastReceiver {
 	Context context;
 	String BROADCAST_WIFI = "com.hiapk.wifiwidget";
 	String BROADCAST_GPRS = "com.hiapk.prgswidget";
-	
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -49,7 +49,7 @@ public class UpdateWidget extends BroadcastReceiver {
 						&& TrafficManager.mobile_month_data[63] == 0 && TrafficManager.wifi_month_data[63] == 0)) {
 					SetText.setText(context);
 				}
-//				setWidgetOnlistener(context);
+				// setWidgetOnlistener(context);
 				Intent intentTextUpdate = new Intent();
 				intentTextUpdate.setAction(BROADCAST_TRAFF);
 				context.sendBroadcast(intentTextUpdate);
@@ -69,7 +69,7 @@ public class UpdateWidget extends BroadcastReceiver {
 		intentgpprs.setAction(BROADCAST_GPRS);
 		PendingIntent pendingIntentgprs = PendingIntent.getBroadcast(context,
 				0, intentgpprs, PendingIntent.FLAG_UPDATE_CURRENT);
-		Intent intenttraff = new Intent(context, SpearheadActivity.class);
+		Intent intenttraff = new Intent(context, Splash.class);
 		Bundle choosetab = new Bundle();
 		choosetab.putInt("TAB", 1);
 		intenttraff.putExtras(choosetab);
@@ -144,7 +144,7 @@ public class UpdateWidget extends BroadcastReceiver {
 	 */
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-//		Log.d("Receiver", string);
+		// Log.d("Receiver", string);
 	}
 
 }
