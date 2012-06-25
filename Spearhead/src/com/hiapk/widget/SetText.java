@@ -10,11 +10,11 @@ import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 
 public class SetText {
-	public static String textUp = "今日已用: 0 B";
+	public static String textUp = "今日已用: 0 KB";
 	public static String textDown;
 	public static String text1 = "今日已用:加载中....";
-	public static String text2 = "本月已用:加载中....";
-	public static String text3 = "当前日期:加载中....";
+	public static String text2 = "距结算日:加载中....";
+	public static String text3 = "加载中....";
 
 	/**
 	 * 获取通知栏与小部件显示文字
@@ -45,8 +45,8 @@ public class SetText {
 		String monthUsedStr = unitHandler.unitHandlerAccurate(monthUsedLong);
 		String monthSetStr = unitHandler.unitHandlerAccurate(monthSetLong);
 		String todayUsedStr = unitHandler.unitHandlerAccurate(todayUsedLong);
-		// String date = getdate(context, year, month, monthDay);
-		String date = getday(context, year, month, monthDay);
+		String date = getdate(context, year, month, monthDay);
+		String day = getday(context, year, month, monthDay);
 		// textUp = "今日已用：xxx kB(MB)";
 		// textDown = "xx MB / 50 MB --> 2012.06.01";
 		textUp = "今日已用: " + todayUsedStr;// + (int) (30 * Math.random());
@@ -55,12 +55,12 @@ public class SetText {
 		text1 = textUp;
 		// text2 = "本月流量: " + monthUsedStr + "/" + monthSetStr;
 		// text3 = "结算日期: " + date;
-		text2 = "距离结算日: " + date + "天";
+		text2 = "距结算日: " + day + "天";
 		long monSet = sharedData.getMonthMobileSetOfLong();
 		if (monSet != 0) {
 			text3 = "" + monthUsedStr + " / " + monthSetStr;
 		} else {
-			text3="点击设置套餐流量";
+			text3 = "点击设置套餐流量";
 		}
 
 		// showLog(textUp);

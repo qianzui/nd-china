@@ -58,6 +58,10 @@ public class SharedPrefrenceData {
 	String CURRENT_PROVINCE = "currentProvince";
 	String CURRENT_YUNYINGSHANG = "currentYunyingsh";
 	String CURRENT_PINPAI = "currentPinpai";
+	String CURRENT_YUNYINGSHANG_ID = "currentYunyingshid";
+	String CURRENT_PINPAI_ID = "currentPinpaiid";
+	String CURRENT_PROVINCE_ID = "currentProvinceid";
+	String CURRENT_CITY_ID = "currentCityid";
 	String CHOOSED_CITY = "chooseedcity";
 
 	String CITY = "city_data";
@@ -446,4 +450,49 @@ public class SharedPrefrenceData {
 		return result;
 
 	}
+
+	public void setCurrentYunyinshangID(int str) {
+		UseEditor.putInt(CURRENT_YUNYINGSHANG_ID, str);
+		UseEditor.commit();
+	}
+
+	public int getCurrentYunyinshangID() {
+		int result = prefs.getInt(CURRENT_YUNYINGSHANG_ID, 0);
+		return result;
+
+	}
+
+	public void setCurrentPinpaiID(int str) {
+		UseEditor.putInt(CURRENT_PINPAI_ID, str);
+		UseEditor.commit();
+	}
+
+	public int getCurrentPinpaiID() {
+		int result = prefs.getInt(CURRENT_PINPAI_ID, 0);
+		return result;
+
+	}
+
+	public void setCurrentProvinceID(int str) {
+		UseEditor.putInt(CURRENT_PROVINCE_ID, str);
+		UseEditor.commit();
+	}
+
+	public int getCurrentProvinceID() {
+		int result = prefs.getInt(CURRENT_PROVINCE_ID, 0);
+		return result;
+
+	}
+
+	public void setCurrentCityID(int str) {
+		UseEditor.putInt(CURRENT_CITY_ID, str);
+		UseEditor.commit();
+	}
+
+	public int getCurrentCityID() {
+		int result = prefs.getInt(CURRENT_CITY_ID, 0);
+		return result;
+
+	}
+
 }
