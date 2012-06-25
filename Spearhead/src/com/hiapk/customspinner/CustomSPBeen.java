@@ -230,7 +230,7 @@ public class CustomSPBeen {
 		btn_before.setCompoundDrawablesWithIntrinsicBounds(0, 0,
 				R.drawable.radiobtn_on, 0);
 		final CustomSPDialog notifySet;
-		CustomSPDialog.heighpar = 0.45;
+		CustomSPDialog.heighpar = 0.52;
 		notifySet = new CustomSPDialog.Builder(context).setTitle("请选择预警动作")
 				.setContentView(textEntryView).setNegativeButton("取消", null)
 				.create();

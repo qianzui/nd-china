@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -56,6 +57,15 @@ public class CustomDialogMainBeen {
 	// 预警动作
 	String WARNING_ACTION = "warningaction";
 	Context context;
+
+	// 设置时间
+	private int year;
+	private int month;
+	private int monthDay;
+	private int hour;
+	private int minute;
+	private int second;
+	private String time;
 
 	public CustomDialogMainBeen(Context context) {
 		this.context = context;
@@ -174,6 +184,7 @@ public class CustomDialogMainBeen {
 				}
 				SetText.resetWidgetAndNotify(context);
 				PrefrenceOperatorUnit.resetHasWarning(context);
+				commitUsedTrafficTime();
 				// 月度流量设置
 				long mobile_month_use = TrafficManager.getMonthUseData(context);
 				long mobileSet = sharedData.getMonthMobileSetOfLong();
@@ -238,9 +249,9 @@ public class CustomDialogMainBeen {
 			final TextView monthSet, final TextView monthSetunit,
 			final TextView monthRemain, final TextView monthRemainunit) {
 
-		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		int mobileUnit = sharedData.getMonthMobileSetUnit();
-		int mobileSetInt = sharedData.getMonthMobileSetOfint();
+		float mobileSetFloat = sharedData.getMonthMobileSetOfFloat();
 		// 初始化窗体
 		LayoutInflater factory = LayoutInflater.from(context);
 		final View textEntryView = factory.inflate(
@@ -256,9 +267,9 @@ public class CustomDialogMainBeen {
 		// 初始化数值
 		spin_unit.setSelection(mobileUnit);
 		// 判断0
-		if (mobileSetInt != 0) {
-			et_month.setText(mobileSetInt + "");
-			et_month.setSelection(String.valueOf(mobileSetInt).length());
+		if (mobileSetFloat != 0) {
+			et_month.setText(mobileSetFloat + "");
+			et_month.setSelection(String.valueOf(mobileSetFloat).length());
 		} else {
 			et_month.setText("");
 		}
@@ -275,9 +286,9 @@ public class CustomDialogMainBeen {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				// 输入的数值
-				int i = 0;
+				float i = 0;
 				try {
-					i = Integer.valueOf(et_month.getText().toString());
+					i = Float.valueOf(et_month.getText().toString());
 				} catch (NumberFormatException e) {
 					// TODO: handle exception
 				}
@@ -288,7 +299,7 @@ public class CustomDialogMainBeen {
 				// Log.d("main3", i + "");
 
 				if (mobileUnit == 0) {
-					long monthsetTraffMB = (long) i * 1024 * 1024;
+					long monthsetTraffMB = (long) (i * 1024 * 1024);
 					// showlog(monthsetTraffMB + "");
 					passfileEditor.putLong(VALUE_MOBILE_SET, monthsetTraffMB);
 					passfileEditor.putLong(MOBILE_WARNING_MONTH,
@@ -296,7 +307,7 @@ public class CustomDialogMainBeen {
 					passfileEditor.putLong(MOBILE_WARNING_DAY,
 							monthsetTraffMB / 10);
 				} else if (mobileUnit == 1) {
-					long monthsetTraffGB = (long) i * 1024 * 1024 * 1024;
+					long monthsetTraffGB = (long) (i * 1024 * 1024 * 1024);
 					// showlog(monthsetTraffGB + "");
 					passfileEditor.putLong(VALUE_MOBILE_SET, monthsetTraffGB);
 					passfileEditor.putLong(MOBILE_WARNING_MONTH,
@@ -305,7 +316,8 @@ public class CustomDialogMainBeen {
 							monthsetTraffGB / 10);
 				}
 				passfileEditor.putInt(MOBILE_SET_UNIT, mobileUnit);
-				passfileEditor.putInt(VALUE_MOBILE_SET_OF_INT, i);
+				// passfileEditor.putInt(VALUE_MOBILE_SET_OF_INT, i);
+				sharedData.setMonthMobileSetOfFloat(i);
 				passfileEditor.commit();// 委托，存入数据
 				SetText.resetWidgetAndNotify(context);
 				// 判断是否未设置
@@ -349,6 +361,55 @@ public class CustomDialogMainBeen {
 				monthSetAlert.dismiss();
 			}
 		});
+	}
+
+	/**
+	 * 记录修改已使用流量的时间
+	 */
+	private void commitUsedTrafficTime() {
+		Editor UseEditor = context.getSharedPreferences(PREFS_NAME, 0).edit();
+		// 记录点击修改已使用流量的时间
+		String time = gettime();
+		UseEditor.putInt(MOBILE_COUNT_SET_YEAR, year);
+		UseEditor.putInt(MOBILE_COUNT_SET_MONTH, month);
+		UseEditor.putInt(MOBILE_COUNT_SET_DAY, monthDay);
+		UseEditor.putString(MOBILE_COUNT_SET_TIME, time);
+		UseEditor.commit();
+	}
+
+	/**
+	 * 获取时间
+	 * 
+	 * @return 返回00:00:00的时间
+	 */
+	private String gettime() {
+		initTime();
+		return time;
+	}
+
+	/**
+	 * 初始化系统时间
+	 */
+	private void initTime() {
+		// Time t = new Time("GMT+8");
+		Time t = new Time();
+		t.setToNow(); // 取得系统时间。
+		year = t.year;
+		month = t.month + 1;
+		monthDay = t.monthDay;
+		hour = t.hour; // 0-23
+		minute = t.minute;
+		second = t.second;
+		String hour2 = hour + "";
+		String minute2 = minute + "";
+		String second2 = second + "";
+		if (hour < 10)
+			hour2 = "0" + hour2;
+		if (minute < 10)
+			minute2 = "0" + minute2;
+		if (second < 10)
+			second2 = "0" + second2;
+		time = hour2 + ":" + minute2 + ":" + second2;
 	}
 
 	/**

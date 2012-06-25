@@ -18,10 +18,9 @@
             style="@style/DialogSpText.Title"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-           android:gravity="center_vertical"
+            android:gravity="center_vertical"
             android:paddingLeft="8dip"
-            android:paddingRight="8dip"
-            />
+            android:paddingRight="8dip" />
     </LinearLayout>
     <!-- 内容 -->
 
@@ -43,11 +42,11 @@
             android:textSize="15sp" />
     </LinearLayout>
     <!-- 按钮 -->
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal" >
 
         <Button
             android:id="@+id/otherButton"
@@ -56,7 +55,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1.2"
-            android:background="@drawable/btnselector_main_dataset" />
+            android:background="@drawable/btnselector_main_dataset"
+            android:textColor="@color/darkgray2" />
 
         <Button
             android:id="@+id/positiveButton"
@@ -65,7 +65,8 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="@drawable/btnselector_main_dataset" />
+            android:background="@drawable/btnselector_main_dataset"
+            android:textColor="@color/darkgray2" />
 
         <Button
             android:id="@+id/negativeButton"
@@ -74,7 +75,8 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="@drawable/btnselector_main_dataset" />
+            android:background="@drawable/btnselector_main_dataset"
+            android:textColor="@color/darkgray2" />
     </LinearLayout>
 
 </LinearLayout>
