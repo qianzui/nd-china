@@ -19,4 +19,16 @@ public class ColorChangeMainBeen {
 
 		return usedTraff;
 	}
+
+	public static long setRemainTraff(long mobileSet, long mobileUse) {
+		long usedTraff = 0;
+		if (mobileUse > mobileSet) {
+			usedTraff = 0;
+		} else {
+			usedTraff = mobileSet - mobileUse;
+		}
+
+		return usedTraff;
+	}
+
 }
