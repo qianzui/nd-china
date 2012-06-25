@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -227,9 +228,9 @@ public class CustomDialogMain3Been {
 	 */
 	public void dialogMonthSet_Main3(final Button btn_month,
 			final Button dayWarning, final Button monthWarning) {
-		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		int mobileUnit = sharedData.getMonthMobileSetUnit();
-		int mobileSetInt = sharedData.getMonthMobileSetOfint();
+		float mobileSetFloat = sharedData.getMonthMobileSetOfFloat();
 		// 初始化窗体
 		LayoutInflater factory = LayoutInflater.from(context);
 		final View textEntryView = factory.inflate(
@@ -245,9 +246,9 @@ public class CustomDialogMain3Been {
 		// 初始化数值
 		spin_unit.setSelection(mobileUnit);
 		// 判断0
-		if (mobileSetInt != 0) {
-			et_month.setText(mobileSetInt + "");
-			et_month.setSelection(String.valueOf(mobileSetInt).length());
+		if (mobileSetFloat != 0) {
+			et_month.setText(mobileSetFloat + "");
+			et_month.setSelection(String.valueOf(mobileSetFloat).length());
 		} else {
 			et_month.setText("");
 		}
@@ -264,22 +265,23 @@ public class CustomDialogMain3Been {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				// 输入的数值
-				int i = 0;
+				float i = 0;
 				try {
-					i = Integer.valueOf(et_month.getText().toString());
+					i = Float.valueOf(et_month.getText().toString());
 				} catch (NumberFormatException e) {
 					// TODO: handle exception
 					i = 0;
 				}
-				// showlog(i + "");
+				 showlog(i + "");
 				int mobileUnit = spin_unit.getSelectedItemPosition();
 				Editor passfileEditor = context.getSharedPreferences(
 						PREFS_NAME, 0).edit();
 				// Log.d("main3", i + "");
 
 				if (mobileUnit == 0) {
-					long monthsetTraffMB = (long) i * 1024 * 1024;
+					long monthsetTraffMB = (long) (i * 1024 * 1024);
 					// showlog(monthsetTraffMB + "");
+					sharedData.setMonthMobileSetOfLong(monthsetTraffMB);
 					passfileEditor.putLong(VALUE_MOBILE_SET, monthsetTraffMB);
 					passfileEditor.putLong(MOBILE_WARNING_MONTH,
 							monthsetTraffMB * 9 / 10);
@@ -293,7 +295,7 @@ public class CustomDialogMain3Been {
 					monthWarning.setText(FormatUnit
 							.unitHandler(monthsetTraffMB / 10));
 				} else if (mobileUnit == 1) {
-					long monthsetTraffGB = (long) i * 1024 * 1024 * 1024;
+					long monthsetTraffGB = (long) (i * 1024 * 1024 * 1024);
 					// showlog(monthsetTraffGB + "");
 					passfileEditor.putLong(VALUE_MOBILE_SET, monthsetTraffGB);
 					passfileEditor.putLong(MOBILE_WARNING_MONTH,
@@ -309,7 +311,8 @@ public class CustomDialogMain3Been {
 							.unitHandler(monthsetTraffGB / 10));
 				}
 				passfileEditor.putInt(MOBILE_SET_UNIT, mobileUnit);
-				passfileEditor.putInt(VALUE_MOBILE_SET_OF_INT, i);
+				sharedData.setMonthMobileSetOfFloat(i);
+//				passfileEditor.putFloat(VALUE_MOBILE_SET_OF_INT, i);
 				passfileEditor.commit();// 委托，存入数据
 				SetText.resetWidgetAndNotify(context);
 				// showlog(mobileSetLong + "");
@@ -394,7 +397,7 @@ public class CustomDialogMain3Been {
 						}
 					});
 			final CustomDialog monthWarning = new CustomDialog.Builder(context)
-					.setTitle("月流量达到下列数值时报警").setContentView(textEntryView)
+					.setTitle("月流量达到下列数值报警").setContentView(textEntryView)
 					.setPositiveButton("确定", null)
 					.setNegativeButton("取消", null).create();
 			monthWarning.show();
@@ -625,6 +628,6 @@ public class CustomDialogMain3Been {
 	 * @param string
 	 */
 	private void showlog(String string) {
-		// Log.d("main3", string);
+		 Log.d("CustomDialogMain3Been", string);
 	}
 }

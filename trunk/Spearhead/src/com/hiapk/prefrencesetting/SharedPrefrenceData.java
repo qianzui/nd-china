@@ -18,7 +18,7 @@ public class SharedPrefrenceData {
 	String VALUE_MOBILE_HASUSED_LONG = "mobileHasusedlong";
 
 	// 显示在预警页面的int
-	String VALUE_MOBILE_SET_OF_INT = "mobilemonthuseinint";
+	String VALUE_MOBILE_SET_OF_FLOAT = "mobilemonthuseinint";
 	// 设置单位（月度设置）
 	String MOBILE_SET_UNIT = "mobileMonthUnit";
 	// 设置结算日期及结算日期的设施时间，日期等
@@ -243,13 +243,13 @@ public class SharedPrefrenceData {
 		UseEditor.commit();
 	}
 
-	public int getMonthMobileSetOfint() {
-		int monthMobileSetOfint = prefs.getInt(VALUE_MOBILE_SET_OF_INT, 0);
+	public float getMonthMobileSetOfFloat() {
+		float monthMobileSetOfint = prefs.getFloat(VALUE_MOBILE_SET_OF_FLOAT, 0);
 		return monthMobileSetOfint;
 	}
 
-	public void setMonthMobileSetOfint(int monthMobileSetOfint) {
-		UseEditor.putInt(VALUE_MOBILE_SET_OF_INT, monthMobileSetOfint);
+	public void setMonthMobileSetOfFloat(float monthMobileSetOfint) {
+		UseEditor.putFloat(VALUE_MOBILE_SET_OF_FLOAT, monthMobileSetOfint);
 		UseEditor.commit();
 	}
 

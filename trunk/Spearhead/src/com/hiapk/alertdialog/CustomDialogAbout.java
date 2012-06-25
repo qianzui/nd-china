@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class CustomDialogAbout extends Dialog {
-	public static double windowHeight = 0.6;
+	public static double windowHeight = 0.68;
 	public static double windowWidth = 0.9;
 	
 	public CustomDialogAbout(Context context) {
