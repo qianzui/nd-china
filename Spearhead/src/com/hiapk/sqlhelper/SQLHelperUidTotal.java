@@ -323,12 +323,15 @@ public class SQLHelperUidTotal {
 				int downloadIndex = cur.getColumnIndex("download");
 				// showLog(cur.getColumnIndex("minute") + "");
 				if (cur.moveToFirst()) {
-					newup = cur.getLong(uploadIndex);
-					newdown = cur.getLong(downloadIndex);
-					a[1] = newup;
-					a[2] = newdown;
-					a[0] = newup + newdown;
-					// showLog("a[0]="+a[0]);
+					do {
+						newup = cur.getLong(uploadIndex);
+						newdown = cur.getLong(downloadIndex);
+						a[1] = newup;
+						a[2] = newdown;
+						a[0] = newup + newdown;
+						// showLog("a[0]="+a[0]);
+					} while (cur.moveToNext());
+
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -502,12 +505,12 @@ public class SQLHelperUidTotal {
 			long newdownload = uiddownload - beforeData1[2];
 			// 计算增加的流量
 			if (newupload > 0) {
-				
+
 			} else {
 				newupload = uidupload;
 			}
 			if (newdownload > 0) {
-				
+
 			} else {
 				newdownload = uiddownload;
 			}
