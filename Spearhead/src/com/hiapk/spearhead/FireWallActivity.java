@@ -78,14 +78,7 @@ public class FireWallActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		// MobclickAgent.onError(this);
 		setContentView(R.layout.main2);
-		if (Block.fireTip(mContext)) {
-			Toast.makeText(mContext, "下拉列表可以进行刷新!", Toast.LENGTH_SHORT).show();
-		}
 		initList();
-		if (Block.isShowHelp(mContext)) {
-			showHelp();
-			Block.isShowHelpSet(mContext, false);
-		}
 	}
 
 	public void showHelp() {
@@ -125,6 +118,14 @@ public class FireWallActivity extends Activity {
 				try {
 					setAdapter();
 					customdialog.dismiss();
+					if (Block.isShowHelp(mContext)) {
+						SpearheadActivity.showHelp(mContext);
+						Block.isShowHelpSet(mContext, false);
+					}else{
+					if (Block.fireTip(mContext)) {
+						Toast.makeText(mContext, "下拉列表可以进行刷新!", Toast.LENGTH_SHORT).show();
+					}
+					}
 //					pro.dismiss();
 				} catch (Exception ex) {
 				}
@@ -141,6 +142,7 @@ public class FireWallActivity extends Activity {
 					} else {
 						AlarmSet alset = new AlarmSet();
 						alset.StartAlarmUidTotal(mContext);
+						mp = SQLStatic.uiddata;
 					}
 
 					try {
@@ -190,13 +192,9 @@ public class FireWallActivity extends Activity {
 
 					@Override
 					protected void onPostExecute(Void result) {
-						if (Block.fireTip(mContext)) {
-							Toast.makeText(mContext, "点击任意应用可查看更多选项!",
-									Toast.LENGTH_SHORT).show();
-						}
 						myAppList = getCompList(getInstalledPackageInfo(FireWallActivity.this));
 						getImageMap(myAppList);
-						setAdapter();
+						appListView.setAdapter(appListAdapter);
 						appListAdapter.notifyDataSetChanged();
 						appListView.onRefreshComplete();
 					}
@@ -242,6 +240,8 @@ public class FireWallActivity extends Activity {
 						traffic[i] = -1000;
 					}
 				} else {
+					AlarmSet alset = new AlarmSet();
+					alset.StartAlarmUidTotal(mContext);
 					mp = SQLStatic.uiddata;
 					if (mp.containsKey(uid)) {
 						traffic[i] = mp.get(uid).upload + mp.get(uid).download;
@@ -318,15 +318,20 @@ public class FireWallActivity extends Activity {
 		for (int i = 0; i < myAppList.size(); i++) {
 			PackageInfo pkgInfo = myAppList.get(i);
 			int uid = pkgInfo.applicationInfo.uid;
-			final long up;
-			final long down;
-			if (mp.containsKey(uid)) {
-				up = mp.get(uid).upload;
-				down = mp.get(uid).download;
-			} else {
-				up = -1000;
-				down = -1000;
-			}
+			long up = 0;
+			long down = 0;
+			
+				AlarmSet alset = new AlarmSet();
+				alset.StartAlarmUidTotal(mContext);
+				mp = SQLStatic.uiddata;
+				if (mp.containsKey(uid)) {
+					up = mp.get(uid).upload;
+					down = mp.get(uid).download;
+				} else {
+					up = -1000;
+					down = -1000;
+				}
+			
 			Info info = new Info(
 					pkgInfo.applicationInfo.loadIcon(getPackageManager()),
 					pkgInfo.applicationInfo.loadLabel(getPackageManager())
@@ -360,9 +365,9 @@ public class FireWallActivity extends Activity {
 		String value = null;
 		long temp = count;
 		float floatnum = count;
-		if ((temp = temp / 1000) < 1) {
+		if ((temp = temp / 1024) < 1) {
 			value = count + "B";
-		} else if ((floatnum = (float) temp / 1000) < 1) {
+		} else if ((floatnum = (float) temp / 1024) < 1) {
 			value = temp + "KB";
 		} else {
 			DecimalFormat format = new DecimalFormat("0.##");

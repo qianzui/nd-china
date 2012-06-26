@@ -189,40 +189,6 @@ public class AppListAdapter extends BaseAdapter {
 					}
 				});
 				
-//				 new AlertDialog.Builder(mContext)
-//				 .setTitle(R.string.tip)
-//				 .setMessage(R.string.tip_content)
-//				 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-//					@Override
-//					public void onClick(DialogInterface dialog, int which) {
-//
-//						Block.isShowTipSet(mContext, false);
-//						if(GetRoot.assertBinaries(mContext,true)){
-//				            ic.selected_3g = cb.isChecked();
-//				            Block.saveRules(mContext,map);
-//				  		    if(Block.applyIptablesRules(mContext,true)){
-//				  				   Toast.makeText(mContext, R.string.fire_applyed, Toast.LENGTH_SHORT).show();
-//				  			    }else{
-//				  			    	 cb.setChecked(!cb.isChecked());
-//					  			     ic.selected_3g = cb.isChecked();
-//					  			     Block.saveRules(mContext, map);
-//				  				}
-//					       }else{
-//					    	   Block.isShowTipSet(mContext, true);
-//					    	   cb.setChecked(ic.selected_3g);
-//					       }
-//
-//					   } 
-//				    })
-//				.setNegativeButton(R.string.cancle, new DialogInterface.OnClickListener() {
-//					
-//					@Override
-//					public void onClick(DialogInterface dialog, int which) {
-//						// TODO Auto-generated method stub
-//						cb.setChecked(ic.selected_3g);
-//					}
-//				}).show();
-				 
 				 }else{
 					 if(GetRoot.assertBinaries(mContext,true)){
 				            ic.selected_3g = cb.isChecked();
@@ -263,20 +229,6 @@ public class AppListAdapter extends BaseAdapter {
 								mDialog.cancel();
 							}
 						});
-//		        	 new AlertDialog.Builder(mContext)
-//		 			 .setTitle(R.string.tip)
-//		 			 .setMessage(R.string.tip_content_root)
-//		 			 .setPositiveButton(
-//							 R.string.ok,
-//							 new DialogInterface.OnClickListener() {
-//								 @Override
-//								 public void onClick(
-//										 DialogInterface dialog,
-//										 int which) {
-//									 // TODO Auto-generated
-//									 // method stub
-//								}
-//							}).show();
 		        	}
 		
 		}
@@ -344,36 +296,6 @@ public class AppListAdapter extends BaseAdapter {
 								mDialog.cancel();
 							}
 						});
-//				 new AlertDialog.Builder(mContext)
-//				 .setTitle(R.string.tip)
-//				 .setMessage(R.string.tip_content)
-//				 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-//					@Override
-//					public void onClick(DialogInterface dialog, int which) {
-//						if(GetRoot.hasRootAccess(mContext,true)){
-//							Block.isShowTipSet(mContext, false);
-//							ic.selected_wifi = cb.isChecked();
-//				            Block.saveRules(mContext,map);
-//				  		    if(Block.applyIptablesRules(mContext,true)){
-//				  				   Toast.makeText(mContext, R.string.fire_applyed, Toast.LENGTH_SHORT).show();
-//				  			    }else{
-//				  			       cb.setChecked(!cb.isChecked());
-//				  			       ic.selected_wifi = cb.isChecked();
-//				  			       Block.saveRules(mContext,map);
-//				  				}
-//					       }else{
-//					    	Block.isShowTipSet(mContext, true);
-//					    	cb.setChecked(ic.selected_wifi);
-//					       }
-//					   } 
-//				    })
-//				.setNegativeButton(R.string.cancle, new DialogInterface.OnClickListener() {
-//					@Override
-//					public void onClick(DialogInterface dialog, int which) {
-//						// TODO Auto-generated method stub
-//						cb.setChecked(ic.selected_wifi);
-//					}
-//				}).show();
 				 }else{
 					 if(GetRoot.assertBinaries(mContext,true)){
 						    ic.selected_wifi = cb.isChecked();
