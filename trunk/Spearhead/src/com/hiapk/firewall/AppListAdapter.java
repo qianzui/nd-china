@@ -29,12 +29,12 @@ import android.widget.Toast;
 
 public class AppListAdapter extends BaseAdapter {
 	
-	private ArrayList<PackageInfo> myAppList;
+	private ArrayList<AppInfo> myAppList;
 	private  LayoutInflater inflater;
 	private Context mContext;
 	HashMap map;
 	HashMap imageAndNameMap;
-	public AppListAdapter(Context context , ArrayList<PackageInfo> myAppList,HashMap imageAndNameMap)
+	public AppListAdapter(Context context , ArrayList<AppInfo> myAppList)
 	{
 		inflater = LayoutInflater.from(context);
 		this.myAppList = myAppList;
@@ -78,15 +78,15 @@ public class AppListAdapter extends BaseAdapter {
 		 }else{
 			holder = (ViewHolder)convertView.getTag(R.id.tag_holder);
 		 }
-		  PackageInfo pkgInfo = myAppList.get(position);
-		  IsChecked ic = (IsChecked)map.get(pkgInfo.applicationInfo.uid);
-		  Info info = (Info)imageAndNameMap.get(position);
-		  holder.icon.setImageDrawable(info.d);
-		  holder.appname.setText(pkgInfo.applicationInfo.loadLabel(mContext.getPackageManager()));
-		  if(info.up == -1000 && info.down == -1000){
+		  AppInfo pkgInfo = myAppList.get(position);
+		  IsChecked ic = (IsChecked)map.get(pkgInfo.uid);
+//		  Info info = (Info)imageAndNameMap.get(position);
+		  holder.icon.setImageDrawable(pkgInfo.d);
+		  holder.appname.setText(pkgInfo.appname);
+		  if(pkgInfo.up == -1000 && pkgInfo.down == -1000){
 			  holder.trafficup.setText("总流量： " + "获取中..." );	
 		  }else{
-		  holder.trafficup.setText("总流量： " + unitHandler(info.up + info.down));	
+		  holder.trafficup.setText("总流量： " + unitHandler(pkgInfo.up + pkgInfo.down));	
 		  }
 		  
 		  holder.e_toggle.setChecked(ic.selected_3g);

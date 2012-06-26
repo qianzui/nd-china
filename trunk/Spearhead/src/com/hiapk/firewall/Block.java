@@ -617,7 +617,7 @@ public class Block {
 	}
 
 	public static HashMap<Integer, IsChecked> getMap(Context context,
-			ArrayList<PackageInfo> myAppList) {
+			ArrayList<AppInfo> myAppList) {
 
 		final SharedPreferences prefs = context.getSharedPreferences(
 				PREFS_NAME, 0);
@@ -675,8 +675,8 @@ public class Block {
 		}
 
 		for (int i = 0; i < myAppList.size(); i++) {
-			PackageInfo pi = myAppList.get(i);
-			int uid = pi.applicationInfo.uid;
+			AppInfo pi = myAppList.get(i);
+			int uid = pi.uid;
 			IsChecked ic = new IsChecked();
 			if (cache) {
 				if (uids_all.contains(uid)) {
