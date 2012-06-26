@@ -27,13 +27,14 @@
             android:textColor="@color/darkgray2"
             android:textSize="19dip" />
 
-        <Spinner
+        <Button
             android:id="@+id/province"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
             android:background="@drawable/bg_about"
             android:prompt="@string/provinceSelect"
+            android:textColor="@color/blueflock"
             android:textSize="19dip" />
 
         <TextView
@@ -43,13 +44,14 @@
             android:textColor="@color/darkgray2"
             android:textSize="19dip" />
 
-        <Spinner
+        <Button
             android:id="@+id/city"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
             android:background="@drawable/bg_about"
             android:prompt="@string/citySelect"
+            android:textColor="@color/blueflock"
             android:textSize="19dip" />
 
         <TextView
@@ -59,13 +61,14 @@
             android:textColor="@color/darkgray2"
             android:textSize="19dip" />
 
-        <Spinner
+        <Button
             android:id="@+id/operator"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
             android:background="@drawable/bg_about"
             android:prompt="@string/operatorSelect"
+            android:textColor="@color/blueflock"
             android:textSize="19dip" />
 
         <TextView
@@ -75,13 +78,14 @@
             android:textColor="@color/darkgray2"
             android:textSize="19dip" />
 
-        <Spinner
+        <Button
             android:id="@+id/brand"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
             android:background="@drawable/bg_about"
             android:prompt="@string/brankSelect"
+            android:textColor="@color/blueflock"
             android:textSize="19dip" />
 
         <TextView
