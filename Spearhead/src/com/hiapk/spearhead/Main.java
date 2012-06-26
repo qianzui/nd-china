@@ -189,7 +189,13 @@ public class Main extends Activity {
 				monthMobilunit));
 		monthRemain
 				.setText(UnitHandler.unitHandler(monthLeft, monthRemainunit));
-		monthSet.setText(UnitHandler.unitHandler(mobileSet, monthSetunit));
+		if (mobileSet != 0) {
+			monthSet.setText(UnitHandler.unitHandler(mobileSet, monthSetunit));
+		} else {
+			monthSet.setText("未设置");
+			monthSetunit.setText("");
+		}
+
 		// monthMobil2.setText("/" + unitHandler(mobileSet, monthMobilunit2));
 		// leftMobil.setText(unitHandler(mobileSet - mobile_month_use,
 		// leftMobilunit));
@@ -580,7 +586,7 @@ public class Main extends Activity {
 				maxTraffic = temp;
 			}
 		}
-		chartbar.setMainTitle("流量统计");
+		chartbar.setMainTitle("流量统计(总)");
 		chartbar.setTopTitle("移动网络");
 		// tvtraff.setText("   总流量");
 		double[] mobileTraff = new double[monthDay];
