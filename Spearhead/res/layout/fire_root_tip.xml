@@ -15,8 +15,8 @@
         <TextView
             style="@style/CustomDialogText.Title"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
+            android:layout_height="45dip"
+            android:gravity="center_vertical"
             android:text="注意"
             android:paddingLeft="8dip"
             android:paddingRight="8dip" />
@@ -71,6 +71,7 @@
             android:layout_width="0dip"
             android:layout_weight="1"
             android:text="确定"
+            android:textColor="@color/black"
             android:textSize="15sp" 
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
@@ -84,6 +85,7 @@
             android:layout_width="0dip"
             android:layout_weight="1"
             android:text="取消"
+            android:textColor="@color/black"
             android:textSize="15sp" 
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
