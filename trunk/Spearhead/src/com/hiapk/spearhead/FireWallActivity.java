@@ -1,16 +1,15 @@
 package com.hiapk.spearhead;
 
-import java.text.Collator;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.firewall.AppInfo;
 import com.hiapk.firewall.AppListAdapter;
 import com.hiapk.firewall.Block;
-import com.hiapk.firewall.Info;
+import com.hiapk.firewall.MyComparator;
 import com.hiapk.firewall.MyListView;
 import com.hiapk.firewall.MyListView.OnRefreshListener;
 import com.hiapk.progressdialog.CustomProgressDialog;
@@ -19,7 +18,6 @@ import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
 import com.hiapk.sqlhelper.SQLStatic;
 import com.hiapk.uidtraff.UidMonthTraff;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -29,7 +27,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -41,10 +38,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -69,8 +64,8 @@ public class FireWallActivity extends Activity {
 	ProgressDialog pro;
 	CustomProgressDialog customdialog;
 	long[] traffic;
-	HashMap<Integer, Data> mp;
-	HashMap<Integer, Info> imageAndNameMap = new HashMap<Integer, Info>();
+	HashMap<Integer, Data> mp = new HashMap<Integer, Data>();
+	ArrayList<AppInfo> mList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +113,7 @@ public class FireWallActivity extends Activity {
 				try {
 					setAdapter();
 					customdialog.dismiss();
-					if (Block.isShowHelp(mContext)) {
+		 			if (Block.isShowHelp(mContext)) {
 						SpearheadActivity.showHelp(mContext);
 						Block.isShowHelpSet(mContext, false);
 					}else{
@@ -135,32 +130,14 @@ public class FireWallActivity extends Activity {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-
-				while (mp == null) {
-					if (SQLStatic.uiddata != null) {
-						mp = SQLStatic.uiddata;
-					} else {
-						AlarmSet alset = new AlarmSet();
-						alset.StartAlarmUidTotal(mContext);
-						mp = SQLStatic.uiddata;
-					}
-
-					try {
-						Thread.sleep(300);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-				myAppList = getCompList(getInstalledPackageInfo(FireWallActivity.this));
-				getImageMap(myAppList);
+				mList = comp(getList(mContext));
 				handler.sendEmptyMessage(0);
 			}
 		}).start();
 	}
 
 	public void setAdapter() {
-		appListAdapter = new AppListAdapter(FireWallActivity.this, myAppList,
-				imageAndNameMap);
+		appListAdapter = new AppListAdapter(FireWallActivity.this, mList);
 		appListView = (MyListView)findViewById(R.id.app_list);
 		appListView.setAdapter(appListAdapter);
 		appListView.setOnItemClickListener(new OnItemClickListener() {
@@ -172,195 +149,109 @@ public class FireWallActivity extends Activity {
 		});
 		appListView.setonRefreshListener(new OnRefreshListener() {
 			public void onRefresh() {
-				new AsyncTask<Context, Void, Void>() {
+				new AsyncTask<Void, Void, Void>() {
 					@Override
-					protected Void doInBackground(Context... params) {
-						AlarmSet alset = new AlarmSet();
-						alset.StartAlarmUidTotal(mContext);
-						while (mp == null) {
-							if (SQLStatic.uiddata != null) {
-								mp = SQLStatic.uiddata;
-							}
-							try {
-								Thread.sleep(300);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-						}
+					protected Void doInBackground(Void... params) {
 						return null;
 					}
-
 					@Override
 					protected void onPostExecute(Void result) {
-						myAppList = getCompList(getInstalledPackageInfo(FireWallActivity.this));
-						getImageMap(myAppList);
-						appListView.setAdapter(appListAdapter);
+						mList = comp(getList(mContext));
+						setAdapter();
 						appListAdapter.notifyDataSetChanged();
 						appListView.onRefreshComplete();
 					}
-				}.execute(mContext);
+				}.execute();
 			}
 		});
-	}
+	}  
 
-	// 排序
-	public ArrayList<PackageInfo> getCompList(ArrayList<PackageInfo> appList) {
-		traffic = new long[appList.size()];
-		int[] number = new int[traffic.length];
-		
-		for (int i = 0; i < traffic.length; i++) {
-			int uid = appList.get(i).applicationInfo.uid;
-			if (mp == null) {
-				if (SQLStatic.uiddata != null) {
-					mp = SQLStatic.uiddata;
-					if (mp.containsKey(uid)) {
-						traffic[i] = mp.get(uid).upload + mp.get(uid).download;
-					} else {
-						traffic[i] = -1000;
-					}
-				} else {
-					AlarmSet alset = new AlarmSet();
-					alset.StartAlarmUidTotal(mContext);
-					mp = SQLStatic.uiddata;
-					if (mp.containsKey(uid)) {
-						traffic[i] = mp.get(uid).upload + mp.get(uid).download;
-					} else {
-						traffic[i] = -1000;
-					}
-				}
-			} else {
-				if (SQLStatic.uiddata == null) {
-					AlarmSet alset = new AlarmSet();
-					alset.StartAlarmUidTotal(mContext);
-					mp = SQLStatic.uiddata;
-					
-					if (mp.containsKey(uid)) {
-						traffic[i] = mp.get(uid).upload + mp.get(uid).download;
-					} else {
-						traffic[i] = -1000;
-					}
-				} else {
-					AlarmSet alset = new AlarmSet();
-					alset.StartAlarmUidTotal(mContext);
-					mp = SQLStatic.uiddata;
-					if (mp.containsKey(uid)) {
-						traffic[i] = mp.get(uid).upload + mp.get(uid).download;
-					} else {
-						traffic[i] = -1000;
-					}
-				}
-			}
-		}
-		for (int i = 0; i < traffic.length; i++) {
-			number[i] = i;
-		}
-		for (int i = 0; i < traffic.length; i++) {
-			long temp = 0;
-			int k = 0;
-			for (int j = i; j < traffic.length; j++) {
-				if (traffic[j] > temp) {
-					temp = traffic[j];
-					traffic[j] = traffic[i];
-					traffic[i] = temp;
-					k = number[j];
-					number[j] = number[i];
-					number[i] = k;
-				}
-			}
-		}
-		//获取流量大小排序
-		ArrayList<PackageInfo> myAppList = new ArrayList<PackageInfo>();
-		ArrayList<PackageInfo> myAppList2 = new ArrayList<PackageInfo>();
-		ArrayList<PackageInfo> showList = new ArrayList<PackageInfo>();
-		for (int i = 0; i < number.length; i++) {
-			PackageInfo pk = appList.get(number[i]);
-			int uid = pk.applicationInfo.uid;
-			
-			myAppList.add(pk);
-			long trafficdata = -1000;
-			if (mp.containsKey(uid)) {
-			trafficdata = mp.get(uid).upload + mp.get(uid).download;
-			}
-			if( trafficdata > 0){
-				showList.add(pk);
-			}else{
-				myAppList2.add(pk);
-			}
-		}
-		//按首字母排序
-		for (int i = 0; i < showList.size(); i++) {
-			PackageInfo pk = showList.get(i);
-			int uid = pk.applicationInfo.uid;
-		}
-		String[] appname = new String[myAppList2.size()];
-		for (int i = 0; i < appname.length; i++) {
-			appname[i] = myAppList2.get(i).applicationInfo.loadLabel(getPackageManager()).toString()
-			   .replaceAll(" ","").replaceAll(" ","");
-		}
-		Comparator cmp = Collator.getInstance(java.util.Locale.CHINA);
-		Arrays.sort(appname,cmp);
-		int name[] = new int[appname.length];
-		for (int i = 0; i < appname.length; i++) {
-			for (int j = 0; j < myAppList2.size(); j++) {
-				if(appname[i].equals(myAppList2.get(j).applicationInfo.loadLabel(getPackageManager()).toString().replaceAll(" ","").replaceAll(" ",""))){
-					name[i] = j;
-				}
-			}
-		}
-		for (int i = 0; i < name.length; i++) {
-			PackageInfo pk = myAppList2.get(name[i]);
-			showList.add(pk);
-		}
-		return showList;
-	}
-
-	public HashMap<Integer, Info> getImageMap(ArrayList<PackageInfo> myAppList) {
-		for (int i = 0; i < myAppList.size(); i++) {
-			PackageInfo pkgInfo = myAppList.get(i);
-			int uid = pkgInfo.applicationInfo.uid;
-			long up = 0;
-			long down = 0;
-			
-				AlarmSet alset = new AlarmSet();
-				alset.StartAlarmUidTotal(mContext);
-				mp = SQLStatic.uiddata;
-				if (mp.containsKey(uid)) {
-					up = mp.get(uid).upload;
-					down = mp.get(uid).download;
-				} else {
-					up = -1000;
-					down = -1000;
-				}
-			
-			Info info = new Info(
-					pkgInfo.applicationInfo.loadIcon(getPackageManager()),
-					pkgInfo.applicationInfo.loadLabel(getPackageManager())
-							.toString(), up, down);
-			imageAndNameMap.put(i, info);
-		}
-		return imageAndNameMap;
-	}
-
-	public ArrayList<PackageInfo> getInstalledPackageInfo(Context context) {
+	public ArrayList<AppInfo> getList(Context context) {
 		packageInfo = context.getPackageManager().getInstalledPackages(0);
 		PackageManager pm = getPackageManager();
-		ArrayList<PackageInfo> appList = new ArrayList<PackageInfo>();
-		imageAndNameMap = new HashMap<Integer, Info>();
+		ArrayList<AppInfo> appList = new ArrayList<AppInfo>();
+		
+		Log.i("start..........",System.currentTimeMillis() + "");
+		do{
+		   AlarmSet alset = new AlarmSet();
+		   alset.StartAlarmUidTotal(mContext);
+		   if(SQLStatic.uiddata != null){
+		      mp = SQLStatic.uiddata;
+		      break;  
+		       } 
+	     	} while(mp == null);    
+		Log.i("end..........",System.currentTimeMillis() + "");
 		for (int i = 0; i < packageInfo.size(); i++) {
-			PackageInfo pkgInfo = packageInfo.get(i);
+			PackageInfo pkgInfo = packageInfo.get(i);  
+			int uid = pkgInfo.applicationInfo.uid;
 			if (pkgInfo.applicationInfo.uid >= 10000
 					&& PackageManager.PERMISSION_GRANTED == pm.checkPermission(
 							Manifest.permission.INTERNET,
 							pkgInfo.applicationInfo.packageName)) {
 				if (Block.filter.contains(pkgInfo.applicationInfo.packageName)) {
 				} else {
-					appList.add(pkgInfo);
+					long up = 0;
+					long down = 0;
+					if (mp.containsKey(uid)) {
+						up = mp.get(uid).upload;
+						down = mp.get(uid).download;
+					} else {
+						up = -1000;
+						down = -1000;
+					}
+					AppInfo ai  = new AppInfo(pkgInfo.applicationInfo.loadIcon(pm)
+							, pkgInfo.applicationInfo.loadLabel(pm).toString(), 
+							pkgInfo.applicationInfo.packageName, 
+							uid, up, down);
+					appList.add(ai);
 				}
 			}
 		}
 		return appList;
 	}
-
+	public  ArrayList<AppInfo> comp(ArrayList<AppInfo> appList){
+		ArrayList<AppInfo> showList = new ArrayList<AppInfo>();
+		ArrayList<AppInfo> showList2 = new ArrayList<AppInfo>();
+		for (int i = 0; i < appList.size(); i++) {
+			AppInfo ai1 = appList.get(i);
+			for (int j = i; j < appList.size(); j++) {
+				AppInfo ai2 = appList.get(j);
+				if(ai1.up + ai1.down < ai2.up + ai2.down){
+					AppInfo temp = new AppInfo(ai1.d, ai1.appname, ai1.packagename,
+							ai1.uid, ai1.up, ai1.down);
+					ai1.appname = ai2.appname;
+					ai1.d = ai2.d;
+					ai1.packagename = ai2.packagename;
+					ai1.uid = ai2.uid;
+					ai1.up = ai2.up;
+					ai1.down = ai2.down;
+					
+					ai2.appname = temp.appname;
+					ai2.d = temp.d;
+					ai2.packagename = temp.packagename;
+					ai2.uid = temp.uid;
+					ai2.up = temp.up;
+					ai2.down = temp.down;
+				}
+			}
+		}
+		for (int i = 0; i < appList.size(); i++) {
+			AppInfo ai = appList.get(i);
+			if(ai.up + ai.down > 0){
+				showList.add(ai);
+			}else{
+				showList2.add(ai);
+			}
+		}
+        MyComparator mc = new MyComparator();
+        Collections.sort(showList2,mc);
+		for (int i = 0; i < showList2.size(); i++) {
+			AppInfo ai = showList2.get(i);
+			showList.add(ai);
+		}
+		return showList;
+	}
+	
 	public String unitHandler(long count) {
 		String value = null;
 		long temp = count;
@@ -376,13 +267,11 @@ public class FireWallActivity extends Activity {
 		return value;
 	}
 	public void menuDialog(View arg1) {
-		final PackageInfo pkgInfo = (PackageInfo) arg1.getTag(R.id.tag_pkginfo);
-		final Drawable icon = pkgInfo.applicationInfo.loadIcon(mContext
-				.getPackageManager());
-		final int uid = pkgInfo.applicationInfo.uid;
-		final String pkname = pkgInfo.applicationInfo.packageName;
-		final String appname = pkgInfo.applicationInfo.loadLabel(
-				mContext.getPackageManager()).toString();
+		final AppInfo pkgInfo = (AppInfo) arg1.getTag(R.id.tag_pkginfo);
+		final Drawable icon = pkgInfo.d;
+		final int uid = pkgInfo.uid;
+		final String pkname = pkgInfo.packagename;
+		final String appname = pkgInfo.appname;
 		final long up;
 		final long down;
 		if (mp.containsKey(uid)) {
