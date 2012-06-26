@@ -89,6 +89,10 @@ public class UidMonthTraff extends Activity {
 		// windowswidesize = dm.widthPixels / 10;
 		windowswidesize = dm.densityDpi;
 		// 初始化视图
+		TextView tv_pie = (TextView) findViewById(R.id.new_budget_tv);
+		tv_pie.setText("历史流量占比");
+		TextView tv_chart = (TextView) findViewById(R.id.new_chart_tv);
+		tv_chart.setText("日流量统计");
 		new AsyncTaskonInitProChart().execute(context);
 		new AsyncTaskonInitPieChart().execute(context);
 		// View viewPro = initProjectChart(uidnumber);
@@ -323,6 +327,7 @@ public class UidMonthTraff extends Activity {
 				projectChart.initData(mobileBefore, mobileNow, wifiBefore,
 						wifiNow);
 				projectChart.setXaxisText(year + "年");
+				projectChart.setMainTitle("");
 				view = projectChart.execute(context);
 			} else {
 				LayoutInflater factory = LayoutInflater.from(context);

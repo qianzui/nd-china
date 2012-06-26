@@ -208,9 +208,15 @@ public class Appwidget extends AppWidgetProvider {
 				.getSystemService(Context.TELEPHONY_SERVICE);
 		if (tm.getSimState() != TelephonyManager.SIM_STATE_READY
 				|| (Integer.valueOf(android.os.Build.VERSION.SDK) < 10)) {
-			mobile_on_of.setMobileDataDisable(context);
-			views.setImageViewResource(R.id.widget_gprs,
-					R.drawable.widget_gprs_off);
+			if (mobile_on_of.isMobileDataEnable(context)) {
+				views.setImageViewResource(R.id.widget_gprs,
+						R.drawable.widget_gprs_on);
+			} else {
+				views.setImageViewResource(R.id.widget_gprs,
+						R.drawable.widget_gprs_off);
+			}
+			// mobile_on_of.setMobileDataDisable(context);
+
 			// views.setInt(R.id.widgetImageText2, "setTextColor", Color.GRAY);
 		} else {
 			if (mobile_on_of.isMobileDataEnable(context)) {
@@ -456,6 +462,13 @@ public class Appwidget extends AppWidgetProvider {
 				// Color.GRAY);
 				Toast.makeText(context, "未检测到SIM卡或者SIM卡未就绪，无法启动移动网络",
 						Toast.LENGTH_SHORT).show();
+				if (mobile_on_of.isMobileDataEnable(context)) {
+					views.setImageViewResource(R.id.widget_gprs,
+							R.drawable.widget_gprs_on);
+				} else {
+					views.setImageViewResource(R.id.widget_gprs,
+							R.drawable.widget_gprs_off);
+				}
 			} else {
 				if (mobile_on_of.isMobileDataEnable(context)) {
 					mobile_on_of.setMobileDataDisable(context);

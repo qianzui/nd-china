@@ -80,7 +80,7 @@ public class CustomSPPhoneSetBeen {
 		final CustomSPDialog phoneset;
 		SPDataSet.setHeight(content.length);
 		phoneset = new CustomSPDialog.Builder(context).setTitle(title)
-				.setContentView(textEntryView).setNegativeButton("取消", null)
+				.setContentView(textEntryView).setNegativeButton("确定", null)
 				.create();
 		phoneset.show();
 		// 设置cancel的监听
@@ -145,7 +145,7 @@ public class CustomSPPhoneSetBeen {
 		final CustomSPDialog phoneset;
 		SPDataSet.setHeight(content.length);
 		phoneset = new CustomSPDialog.Builder(context).setTitle(title)
-				.setContentView(textEntryView).setNegativeButton("取消", null)
+				.setContentView(textEntryView).setNegativeButton("确定", null)
 				.create();
 		phoneset.show();
 		// 设置cancel的监听

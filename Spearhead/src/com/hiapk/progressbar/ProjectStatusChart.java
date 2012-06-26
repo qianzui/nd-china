@@ -72,7 +72,16 @@ public class ProjectStatusChart extends ViewBase {
 	double MinTraffic = 0;
 	// X轴显示的字
 	String XaxisText = "日期";
-
+	//标题
+	String mainTitle = "日流量统计";
+	/**
+	 * 主标题
+	 * 
+	 * @param mainTitle
+	 */
+	public void setMainTitle(String mainTitle) {
+		this.mainTitle = mainTitle;
+	}
 	public void setXaxisText(String XaxisText) {
 		this.XaxisText = XaxisText;
 	}
@@ -259,7 +268,7 @@ public class ProjectStatusChart extends ViewBase {
 		}
 		renderer.setPointSize(windowswidesize / 70);
 		renderer.setChartValuesTextSize(windowswidesize / 11);
-		setChartSettings(renderer, "", "", "流量（MB）", showDay - 5.5,
+		setChartSettings(renderer, mainTitle, "", "流量（MB）", showDay - 5.5,
 				showDay + 0.5, MinTraffic, MaxTraffic, Color.rgb(80, 80, 80),
 				Color.rgb(80, 80, 80));
 		// setChartSettings(renderer, mainTitle, XaxisText, YaxisText,
@@ -320,7 +329,7 @@ public class ProjectStatusChart extends ViewBase {
 			PointStyle[] styles) {
 		// 轴上的日期
 		renderer.setAxisTitleTextSize(windowswidesize / 16);
-		renderer.setChartTitleTextSize(windowswidesize / 16);
+		renderer.setChartTitleTextSize(windowswidesize / 10);
 		// 12345等数字
 		renderer.setLabelsTextSize(windowswidesize / 18);
 		// 有颜色的左下小标题
