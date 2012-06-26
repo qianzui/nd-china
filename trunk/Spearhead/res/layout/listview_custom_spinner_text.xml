@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listview_btn"
+    android:layout_width="fill_parent"
+    android:layout_height="25dp"
+    android:background="@drawable/btnselector_listspinerspinner"
+    android:gravity="center_vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="15dp"
+    android:textColor="@color/darkgray2"
+    android:textSize="18sp" >
+
+</TextView>
