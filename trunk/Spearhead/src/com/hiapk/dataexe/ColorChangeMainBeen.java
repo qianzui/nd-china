@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.widget.TextView;
 
 public class ColorChangeMainBeen {
+	public static int colorRed=Color.rgb(208, 31, 60);
+	public static int colorBlue=Color.rgb(64, 149, 239);
 	public static long setRemainTraff(long mobileSet, long mobileUse,
 			TextView tvUsed) {
 		long usedTraff = 0;

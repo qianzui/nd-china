@@ -2,19 +2,26 @@ package com.hiapk.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.format.Time;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 
+import com.hiapk.dataexe.ColorChangeMainBeen;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
+import com.hiapk.spearhead.R.color;
 
 public class SetText {
 	public static String textUp = "今日已用: 0 KB";
 	public static String textDown;
 	public static String text1 = "今日已用:加载中....";
 	public static String text2 = "距结算日:加载中....";
-	public static String text3 = "加载中....";
+	public static SpannableStringBuilder text3 = new SpannableStringBuilder(
+			(CharSequence) "加载中....");
 
 	/**
 	 * 获取通知栏与小部件显示文字
@@ -57,11 +64,11 @@ public class SetText {
 		// text3 = "结算日期: " + date;
 		text2 = "距结算日: " + day + "天";
 		long monSet = sharedData.getMonthMobileSetOfLong();
-		if (monSet != 0) {
-			text3 = "" + monthUsedStr + " / " + monthSetStr;
-		} else {
-			text3 = "点击设置套餐流量";
-		}
+			String text3tp = "" + monthUsedStr + " / " + monthSetStr;
+			SpannableStringBuilder style = new SpannableStringBuilder(text3tp);
+			style.setSpan(new ForegroundColorSpan(ColorChangeMainBeen.colorBlue), 0, monthUsedStr.length(),
+					Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+			text3 = style;
 
 		// showLog(textUp);
 	}

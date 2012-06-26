@@ -103,7 +103,7 @@ public class CustomSPBeen {
 		CustomSPDialog.heighpar = 0.6;
 		freshtime = new CustomSPDialog.Builder(context)
 				.setTitle("刷新状态栏和小部件的频率").setContentView(textEntryView)
-				.setNegativeButton("取消", null).create();
+				.setNegativeButton("确定", null).create();
 		freshtime.show();
 		// 设置cancel的监听
 		Button btn_cancel = (Button) freshtime
@@ -161,7 +161,7 @@ public class CustomSPBeen {
 		final CustomSPDialog notifySet;
 		CustomSPDialog.heighpar = 0.5;
 		notifySet = new CustomSPDialog.Builder(context).setTitle("请选择预警动作")
-				.setContentView(textEntryView).setNegativeButton("取消", null)
+				.setContentView(textEntryView).setNegativeButton("确定", null)
 				.create();
 		notifySet.show();
 		// 设置cancel的监听
@@ -234,7 +234,7 @@ public class CustomSPBeen {
 		final CustomSPDialog dateSet;
 		CustomSPDialog.heighpar = 0.8;
 		dateSet = new CustomSPDialog.Builder(context).setTitle("请设置结算日期")
-				.setContentView(textEntryView).setNegativeButton("取消", null)
+				.setContentView(textEntryView).setNegativeButton("确定", null)
 				.create();
 		dateSet.show();
 		// 设置中间按钮的监听
