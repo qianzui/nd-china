@@ -33,6 +33,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+
+import com.hiapk.alertdialog.CustomDialogOtherBeen;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -285,14 +288,17 @@ public class Block {
 				// alert(ctx, "应用防火墙出错: " + code + "\n\n"
 				// + msg.trim()
 				// );
-				alert(ctx, "部分机型不支持防火墙设置");
+//				CustomDialogOtherBeen customdialog=new CustomDialogOtherBeen(ctx);
+//				customdialog.dialogOpenFireWallFail();
 
 			} else {
 				return true;
 			}
 		} catch (Exception e) {
-			if (showErrors)
-				alert(ctx, "应用防火墙出错" + e);
+			if (showErrors){
+				
+			}
+//				alert(ctx, "应用防火墙出错" + e);
 		}
 		return false;
 	}
