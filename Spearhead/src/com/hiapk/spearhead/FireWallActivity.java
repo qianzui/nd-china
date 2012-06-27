@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.UnitHandler;
@@ -65,9 +66,8 @@ public class FireWallActivity extends Activity {
 	ProgressDialog pro;
 	CustomProgressDialog customdialog;
 	long[] traffic;
-	HashMap<Integer, Data> mp = new HashMap<Integer, Data>();
+	HashMap<Integer, Data> mp;
 	ArrayList<AppInfo> mList;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -112,6 +112,7 @@ public class FireWallActivity extends Activity {
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
 				try {
+					
 					setAdapter();
 					customdialog.dismiss();
 					if (Block.isShowHelp(mContext)) {
@@ -122,7 +123,7 @@ public class FireWallActivity extends Activity {
 							Toast.makeText(mContext, "下拉列表可以进行刷新!",
 									Toast.LENGTH_SHORT).show();
 						}
-					}
+					} 
 					// pro.dismiss();
 				} catch (Exception ex) {
 				}
@@ -132,12 +133,12 @@ public class FireWallActivity extends Activity {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				mList = comp(getList(mContext));
+				mList = getCompList(getList(mContext));
 				handler.sendEmptyMessage(0);
 			}
 		}).start();
 	}
-
+ 
 	public void setAdapter() {
 		appListAdapter = new AppListAdapter(FireWallActivity.this, mList);
 		appListView = (MyListView) findViewById(R.id.app_list);
@@ -148,7 +149,7 @@ public class FireWallActivity extends Activity {
 					long arg3) {
 				menuDialog(arg1);
 			}
-		});
+		}); 
 		appListView.setonRefreshListener(new OnRefreshListener() {
 			public void onRefresh() {
 				new AsyncTask<Void, Void, Void>() {
@@ -156,10 +157,9 @@ public class FireWallActivity extends Activity {
 					protected Void doInBackground(Void... params) {
 						return null;
 					}
-
 					@Override
 					protected void onPostExecute(Void result) {
-						mList = comp(getList(mContext));
+						mList = getCompList(getList(mContext));
 						setAdapter();
 						appListAdapter.notifyDataSetChanged();
 						appListView.onRefreshComplete();
@@ -175,14 +175,19 @@ public class FireWallActivity extends Activity {
 		ArrayList<AppInfo> appList = new ArrayList<AppInfo>();
 
 		Log.i("start..........", System.currentTimeMillis() + "");
-		do {
-			AlarmSet alset = new AlarmSet();
-			alset.StartAlarmUidTotal(mContext);
-			if (SQLStatic.uiddata != null) {
-				mp = SQLStatic.uiddata;
-				break;
-			}
-		} while (mp == null);
+//		do {
+//			AlarmSet alset = new AlarmSet();
+//			alset.StartAlarmUidTotal(mContext);
+//			if (SQLStatic.uiddata != null) {
+//				mp = SQLStatic.uiddata;
+//				break;
+//			}
+//		} while(mp == null);
+//		
+//		Iterator it = mp.entrySet().iterator();
+//		while(it.hasNext()){ 
+//			Log.i("mp's key..........", it.next() + "");
+//		} 
 		Log.i("end..........", System.currentTimeMillis() + "");
 		for (int i = 0; i < packageInfo.size(); i++) {
 			PackageInfo pkgInfo = packageInfo.get(i);
@@ -193,24 +198,48 @@ public class FireWallActivity extends Activity {
 							pkgInfo.applicationInfo.packageName)) {
 				if (Block.filter.contains(pkgInfo.applicationInfo.packageName)) {
 				} else {
-					long up = 0;
-					long down = 0;
-					if (mp.containsKey(uid)) {
-						up = mp.get(uid).upload;
-						down = mp.get(uid).download;
-					} else {
-						up = -1000;
-						down = -1000;
-					}
 					AppInfo ai = new AppInfo(
 							pkgInfo.applicationInfo.loadIcon(pm),
 							pkgInfo.applicationInfo.loadLabel(pm).toString(),
-							pkgInfo.applicationInfo.packageName, uid, up, down);
+							pkgInfo.applicationInfo.packageName, uid, 0, 0);
 					appList.add(ai);
 				}
 			}
 		}
 		return appList;
+	}
+	
+    public ArrayList<AppInfo>  getCompList(ArrayList<AppInfo> list){
+		do {
+			AlarmSet alset = new AlarmSet();
+			alset.StartAlarmUidTotal(mContext);
+			if (SQLStatic.uiddata != null) {
+				mp = SQLStatic.uiddata;
+				break;
+			}
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} while(mp == null);
+		for (int i = 0; i < list.size(); i++) {
+			AppInfo ai = list.get(i);
+			long up = 0;
+			long down = 0;
+			if (mp.containsKey(ai.uid)) {
+				up = mp.get(ai.uid).upload;
+				down = mp.get(ai.uid).download;
+			} else {
+				up = -1000;
+				down = -1000;
+			}
+			ai.up = up;
+			ai.down = down;
+			Log.i("mlist", ai.up + ai.down + "");
+		}
+		return comp(list);
 	}
 
 	public ArrayList<AppInfo> comp(ArrayList<AppInfo> appList) {
@@ -255,9 +284,7 @@ public class FireWallActivity extends Activity {
 		}
 		return showList;
 	}
-
 	public void menuDialog(View arg1) {
-		UnitHandler unithandler = new UnitHandler();
 		final AppInfo pkgInfo = (AppInfo) arg1.getTag(R.id.tag_pkginfo);
 		final Drawable icon = pkgInfo.d;
 		final int uid = pkgInfo.uid;
@@ -275,11 +302,11 @@ public class FireWallActivity extends Activity {
 		final String trafficup;
 		final String trafficdown;
 		if (up == -1000 && down == -1000) {
-			trafficup = unithandler.unitHandlerAccurate(0);
-			trafficdown = unithandler.unitHandlerAccurate(0);
+			trafficup = UnitHandler.unitHandlerAccurate(0);
+			trafficdown = UnitHandler.unitHandlerAccurate(0);
 		} else {
-			trafficup = unithandler.unitHandlerAccurate(up);
-			trafficdown = unithandler.unitHandlerAccurate(down);
+			trafficup = UnitHandler.unitHandlerAccurate(up);
+			trafficdown = UnitHandler.unitHandlerAccurate(down);
 		}
 		final Drawable d = mContext.getResources().getDrawable(
 				R.drawable.bg_fire_option);
