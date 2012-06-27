@@ -20,7 +20,7 @@ public class UnitHandler {
 	 *            数值后面要显示的textview
 	 * @return 返回String型值
 	 */
-	public String unitHandler(long count) {
+	public static String unitHandler(long count) {
 		String value = null;
 		long temp = count;
 		float floatnum = count;
@@ -50,7 +50,7 @@ public class UnitHandler {
 	 *            数值后面要显示的textview
 	 * @return 返回String型值
 	 */
-	public String unitHandlerAccurate(long count) {
+	public static String unitHandlerAccurate(long count) {
 		String value = null;
 		float temp = count;
 		float floatnum = count;
