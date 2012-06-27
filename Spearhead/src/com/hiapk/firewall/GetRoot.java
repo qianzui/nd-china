@@ -223,8 +223,6 @@ public class GetRoot {
 				changed = true;
 			}
 			if (changed) {
-				Toast.makeText(ctx,"·À»ðÇ½ÒÑ°²×°",
-						Toast.LENGTH_LONG).show();
 			}
 		} catch (Exception e) {
 			if (showErrors)
