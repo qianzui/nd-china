@@ -13,8 +13,8 @@
 	<string name="weekUsed">剩余流量:\u0020</string>
 	<string name="monthTotal">本月统计:\u0020</string>
 	
-	<string name="tip">此功能需要root权限，请确保您的手机已破解并获得root权限！</string>
-	<string name="tip_content">  自定义应用程序的联网方式需要Root权限! (更多信息请查看FAQ)</string>
+	<string name="tip">  切换是否联网需要Root权限！ 请确定您的机器已经破解并获得Root权限。</string>
+	<string name="tip_content">  切换是否联网功能需要Root权限！您确定要继续吗？</string>
 	<string name="tip_content_isroot">\n 是否获取？</string>  
 	<string name="ok">确定</string>
 	<string name="cancle">取消</string>
