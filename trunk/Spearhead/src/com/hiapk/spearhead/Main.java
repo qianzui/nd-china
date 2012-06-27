@@ -10,7 +10,6 @@ import org.achartengine.GraphicalView;
 import com.hiapk.alertdialog.CustomDialogMainBeen;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.customspinner.CustomToast;
-import com.hiapk.dataexe.ColorChangeMainBeen;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.firewall.Block;
@@ -20,6 +19,8 @@ import com.hiapk.progressbar.MyProgressBar;
 import com.hiapk.progressbar.PieView;
 import com.hiapk.progressbar.ProgressBarForV;
 import com.hiapk.progressbar.StackedBarChart;
+import com.hiapk.provider.ColorChangeMainBeen;
+import com.hiapk.provider.UiColors;
 import com.hiapk.sqlhelper.SQLHelperFireWall.Data;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
@@ -193,6 +194,7 @@ public class Main extends Activity {
 			monthSet.setText(UnitHandler.unitHandler(mobileSet, monthSetunit));
 		} else {
 			monthSet.setText("未设置");
+			monthSet.setTextColor(UiColors.colorRed);
 			monthSetunit.setText("");
 		}
 
@@ -337,19 +339,19 @@ public class Main extends Activity {
 		monthDay = t.monthDay;
 		AlarmSet alset = new AlarmSet();
 		alset.StartAlarm(context);
+//		initWifiBar();
+		// if (TrafficManager.mobile_month_data[0] == 0
+		// && TrafficManager.wifi_month_data[0] == 0
+		// && TrafficManager.mobile_month_data[63] == 0
+		// && TrafficManager.wifi_month_data[63] == 0) {
+		//
+		// new AsyncTaskonRefreshMain().execute(context);
+		// } else {
+		initValues();
+		initProgressBar();
+		initPieBar();
 		initWifiBar();
-		if (TrafficManager.mobile_month_data[0] == 0
-				&& TrafficManager.wifi_month_data[0] == 0
-				&& TrafficManager.mobile_month_data[63] == 0
-				&& TrafficManager.wifi_month_data[63] == 0) {
-
-			new AsyncTaskonRefreshMain().execute(context);
-		} else {
-			initValues();
-			initProgressBar();
-			initPieBar();
-			initWifiBar();
-		}
+		// }
 
 		// 数据记录功能，放在flesh上面
 		// AlarmSet alset = new AlarmSet();

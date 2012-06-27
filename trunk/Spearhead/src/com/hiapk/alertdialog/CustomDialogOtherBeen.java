@@ -27,6 +27,22 @@ public class CustomDialogOtherBeen {
 		sharedData = new SharedPrefrenceData(context);
 	}
 
+	public void dialogOpenFireWallFail() {
+
+		final CustomDialog monthSetAlert = new CustomDialog.Builder(context)
+				.setTitle("注意！").setMessage("开启防火墙失败，可能是您的机型不支持防火墙设置。")
+				.setPositiveButton("确定", null).create();
+		monthSetAlert.show();
+		Button btn_ok = (Button) monthSetAlert
+				.findViewById(R.id.positiveButton);
+		btn_ok.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				monthSetAlert.dismiss();
+			}
+		});
+	}
+
 	public void dialogConfirmClearData() {
 
 		final CustomDialog monthSetAlert = new CustomDialog.Builder(context)
@@ -83,7 +99,7 @@ public class CustomDialogOtherBeen {
 			// .show(context, "请稍等...", "正在清空数据...", true);
 			CustomProgressDialog customProgressDialog = new CustomProgressDialog(
 					context);
-			
+
 			customdialog = customProgressDialog.createDialog(context);
 			customdialog.setCancelable(false);
 			customProgressDialog.setTitile("清除历史记录...");

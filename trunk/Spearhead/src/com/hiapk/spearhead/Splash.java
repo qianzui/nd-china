@@ -3,6 +3,7 @@ package com.hiapk.spearhead;
 import java.util.List;
 
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.Block;
 import com.hiapk.firewall.GetRoot;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
@@ -28,7 +29,10 @@ public class Splash extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
-		//MobclickAgent.onError(this);
+		SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
+		sqlhelperTotal.initTablemobileAndwifi(context, false);
+
+		// MobclickAgent.onError(this);
 		SharedPrefrenceData sp = new SharedPrefrenceData(context);
 		if (sp.isFirstBoot()) {
 			// Intent i = new Intent();
@@ -50,8 +54,6 @@ public class Splash extends Activity {
 			super.onPreExecute();
 			// SQLHelperTotal.isSQLTotalOnUsed = true;
 			// SQLHelperTotal.isSQLUidOnUsed = true;
-			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
-			sqlhelperTotal.initTablemobileAndwifi(context, false);
 		}
 
 		@Override
@@ -73,15 +75,24 @@ public class Splash extends Activity {
 					&& sqlhelperTotal.getIsInit(params[0])) {
 				// 启动闹钟
 				alset.StartAlarm(params[0]);
-				return 1;
-
-			} else if (SQLHelperTotal.TableWiFiOrG23 != "") {
-				alset.StartAlarm(params[0]);
-				return 2;
 			}
 			if (SQLHelperTotal.TableWiFiOrG23 == "") {
 				alset.StartAlarm(params[0]);
 				alset.StopAlarm(params[0]);
+			}
+			// 等待数据读取
+			int tap = 0;
+			while (testInit() == false) {
+				tap += 1;
+				try {
+					Thread.sleep(150);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if (tap > 10) {
+					break;
+				}
 			}
 			return 3;
 			// TODO Auto-generated method stub
@@ -130,15 +141,24 @@ public class Splash extends Activity {
 					&& sqlhelperTotal.getIsInit(params[0])) {
 				// 启动闹钟
 				alset.StartAlarm(params[0]);
-				return 1;
-
-			} else if (SQLHelperTotal.TableWiFiOrG23 != "") {
-				alset.StartAlarm(params[0]);
-				return 2;
 			}
 			if (SQLHelperTotal.TableWiFiOrG23 == "") {
 				alset.StartAlarm(params[0]);
 				alset.StopAlarm(params[0]);
+			}
+			// 等待数据读取
+			int tap = 0;
+			while (testInit() == false) {
+				tap += 1;
+				try {
+					Thread.sleep(150);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if (tap > 10) {
+					break;
+				}
 			}
 			return 3;
 			// TODO Auto-generated method stub
@@ -147,10 +167,10 @@ public class Splash extends Activity {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// TODO Auto-generated method stub
-//			Intent i = new Intent();
-//			i.setClass(context, Help.class);
-//			startActivity(i);
-//			Splash.this.finish();
+			// Intent i = new Intent();
+			// i.setClass(context, Help.class);
+			// startActivity(i);
+			// Splash.this.finish();
 			Intent mainIntent = new Intent(Splash.this, SpearheadActivity.class);
 			Bundle choosetab = new Bundle();
 			choosetab.putInt("TAB", 1);
@@ -213,5 +233,17 @@ public class Splash extends Activity {
 		// SQLHelperUid sqlhelpuid = new SQLHelperUid();
 		// uids = sqlhelpuid.selectUidnumbers(context);
 		// packagenames = sqlhelpuid.selectPackagenames(context);
+	}
+
+	private boolean testInit() {
+		if (TrafficManager.mobile_month_data[0] == 0
+				&& TrafficManager.wifi_month_data[0] == 0
+				&& TrafficManager.mobile_month_data[63] == 0
+				&& TrafficManager.wifi_month_data[63] == 0)
+			return false;
+		else {
+			return true;
+		}
+
 	}
 }
