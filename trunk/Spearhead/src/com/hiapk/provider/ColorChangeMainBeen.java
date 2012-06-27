@@ -1,4 +1,4 @@
-package com.hiapk.dataexe;
+package com.hiapk.provider;
 
 import com.hiapk.spearhead.R.color;
 
@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.widget.TextView;
 
 public class ColorChangeMainBeen {
+	//用于主界面流量显示超过特殊值时变红
 	public static int colorRed=Color.rgb(208, 31, 60);
 	public static int colorBlue=Color.rgb(64, 149, 239);
 	public static long setRemainTraff(long mobileSet, long mobileUse,
