@@ -33,258 +33,56 @@
             android:textColor="@color/darkgray2" />
     </RelativeLayout>
     <!-- 标题栏结束 -->
-
-
-    <!-- 第一行开始 -->
+    <!-- 总的 -->
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:layout_marginTop="5dip"
-        android:layout_marginBottom="5dip"
-        android:layout_weight="1.2"
-        android:background="@drawable/bg_about"
+        android:layout_height="fill_parent"
         android:orientation="vertical" >
 
-        <!-- 第一行的第一行标题开始 -->
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/mobile2"
-            android:paddingLeft="10dip"
-            android:text="@string/twoGthreeG"
-            android:textColor="@color/darkgray2"
-            android:textSize="25dp" />
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/divider" />
-
-        <!-- 第一行的第一行标题 结束 -->
+        <!-- 第一行开始 -->
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="0dip"
+            android:layout_marginBottom="5dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="5dip"
+            android:layout_weight="1.2"
+            android:background="@drawable/bg_about"
             android:orientation="vertical" >
 
-            <LinearLayout
+            <!-- 第一行的第一行标题开始 -->
+
+            <TextView
                 android:layout_width="fill_parent"
-                android:layout_height="0dip"
-                android:layout_weight="1.0"
-                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/mobile2"
                 android:paddingLeft="10dip"
-                android:paddingRight="5dip" >
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1.0"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/todayUsed"
-                        android:textColor="@color/darkgray2"
-                        android:textSize="20dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1.2"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        android:id="@+id/todayRate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/rate"
-                        android:textColor="@color/blueflock"
-                        android:textSize="20dp" />
-
-                    <TextView
-                        android:id="@+id/unit1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="KB"
-                        android:textColor="@color/darkgray2"
-                        android:textSize="20dp" />
-                </LinearLayout>
-            </LinearLayout>
+                android:text="@string/twoGthreeG"
+                android:textColor="@color/darkgray2"
+                android:textSize="25dp" />
 
             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/divider" />
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="0dip"
-                android:layout_weight="1.5"
-                android:orientation="horizontal"
-                android:paddingLeft="10dip"
-                android:paddingRight="5dip" >
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1.0"
-                    android:orientation="vertical" >
-
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="0dip"
-                        android:layout_weight="1.0"
-                        android:gravity="center_vertical" >
-
-                        <TextView
-                            android:id="@+id/monthUsed"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="本月已用:"
-                            android:textColor="@color/darkgray2"
-                            android:textSize="20dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="0dip"
-                        android:layout_weight="1.0"
-                        android:paddingRight="5dip" >
-
-                        <RelativeLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:gravity="center_vertical" >
-
-                            <TextView
-                                android:id="@+id/unit3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:text="MB"
-                                android:textColor="@color/darkgray2"
-                                android:textSize="20dp" />
-
-                            <TextView
-                                android:id="@+id/monthRate"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                 android:layout_alignParentLeft="true"
-                                android:text="0"
-                                android:textColor="@color/blueflock"
-                                android:textSize="20dp" />
-
-                            <TextView
-                                android:id="@+id/monthUsed2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentLeft="true"
-                                android:text=""
-                                android:textColor="@color/darkgray2"
-                                android:textSize="20dp" />
-                        </RelativeLayout>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:background="@drawable/shu"
-                    android:orientation="horizontal" >
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1.0"
-                    android:orientation="vertical" >
-
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="0dip"
-                        android:layout_weight="1.0"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp" >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="本月剩余:"
-                            android:textColor="@color/darkgray2"
-                            android:textSize="20dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="0dip"
-                        android:layout_weight="1.0"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingLeft="10dp" >
-
-                        <RelativeLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:gravity="center_vertical" >
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentLeft="true"
-                                android:text=""
-                                android:textColor="@color/darkgray2"
-                                android:textSize="20dp" />
-
-                            <TextView
-                                android:id="@+id/unit4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:text="MB"
-                                android:textColor="@color/darkgray2"
-                                android:textSize="20dp" />
-
-                            <TextView
-                                android:id="@+id/monthRemain"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:layout_alignParentLeft="true"
-                                android:textColor="@color/blueflock"
-                                android:textSize="20dp" />
-                        </RelativeLayout>
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/divider" />
+            <!-- 第一行的第一行标题 结束 -->
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="0dip"
-                android:layout_weight="1.0"
-                android:orientation="horizontal"
-                android:paddingLeft="10dip"
-                android:paddingRight="5dip" >
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dip"
                     android:layout_weight="1.0"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="5dip" >
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -296,7 +94,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="包月套餐:"
+                            android:text="@string/todayUsed"
                             android:textColor="@color/darkgray2"
                             android:textSize="20dp" />
                     </LinearLayout>
@@ -309,7 +107,7 @@
                         android:orientation="horizontal" >
 
                         <TextView
-                            android:id="@+id/monthSet"
+                            android:id="@+id/todayRate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/rate"
@@ -317,67 +115,277 @@
                             android:textSize="20dp" />
 
                         <TextView
-                            android:id="@+id/unit5"
+                            android:id="@+id/unit1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="MB"
+                            android:text="KB"
                             android:textColor="@color/darkgray2"
                             android:textSize="20dp" />
                     </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
 
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/divider" />
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="0dip"
-                android:layout_weight="1.0"
-                android:paddingRight="5dp"
-                android:orientation="horizontal" >
-
-                <RelativeLayout
+                <ImageView
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" 
-                    android:gravity="center_vertical">
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/divider" />
 
-                    <Button
-                        android:id="@+id/setTaoCan"
-                        android:layout_width="180sp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:background="@drawable/btnselector_main"
-                        android:text=" 请设置流量套餐 "
-                        android:textColor="@color/darkgray2" 
-                        android:textSize="18dp"/>
-                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="1.5"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="5dip" >
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.0"
+                        android:orientation="vertical" >
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dip"
+                            android:layout_weight="1.0"
+                            android:gravity="center_vertical" >
+
+                            <TextView
+                                android:id="@+id/monthUsed"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="本月已用:"
+                                android:textColor="@color/darkgray2"
+                                android:textSize="20dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dip"
+                            android:layout_weight="1.0"
+                            android:paddingRight="5dip" >
+
+                            <RelativeLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:gravity="center_vertical" >
+
+                                <TextView
+                                    android:id="@+id/unit3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:text="MB"
+                                    android:textColor="@color/darkgray2"
+                                    android:textSize="20dp" />
+
+                                <TextView
+                                    android:id="@+id/monthRate"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:text="0"
+                                    android:textColor="@color/blueflock"
+                                    android:textSize="20dp" />
+
+                                <TextView
+                                    android:id="@+id/monthUsed2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:text=""
+                                    android:textColor="@color/darkgray2"
+                                    android:textSize="20dp" />
+                            </RelativeLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:background="@drawable/shu"
+                        android:orientation="horizontal" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.0"
+                        android:orientation="vertical" >
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dip"
+                            android:layout_weight="1.0"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp" >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="本月剩余:"
+                                android:textColor="@color/darkgray2"
+                                android:textSize="20dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dip"
+                            android:layout_weight="1.0"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingLeft="10dp" >
+
+                            <RelativeLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:gravity="center_vertical" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:text=""
+                                    android:textColor="@color/darkgray2"
+                                    android:textSize="20dp" />
+
+                                <TextView
+                                    android:id="@+id/unit4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:text="MB"
+                                    android:textColor="@color/darkgray2"
+                                    android:textSize="20dp" />
+
+                                <TextView
+                                    android:id="@+id/monthRemain"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:text="0"
+                                    android:textColor="@color/blueflock"
+                                    android:textSize="20dp" />
+                            </RelativeLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/divider" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="1.0"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="5dip" >
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.0"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal" >
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1.0"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal" >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="包月套餐:"
+                                android:textColor="@color/darkgray2"
+                                android:textSize="20dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1.2"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal" >
+
+                            <TextView
+                                android:id="@+id/monthSet"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/rate"
+                                android:textColor="@color/blueflock"
+                                android:textSize="20dp" />
+
+                            <TextView
+                                android:id="@+id/unit5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="MB"
+                                android:textColor="@color/darkgray2"
+                                android:textSize="20dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/divider" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="1.0"
+                    android:orientation="horizontal"
+                    android:paddingRight="5dp" >
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:gravity="center_vertical" >
+
+                        <Button
+                            android:id="@+id/setTaoCan"
+                            android:layout_width="180sp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:background="@drawable/btnselector_main"
+                            android:gravity="center"
+                            android:text=" 请设置流量套餐 "
+                            android:textColor="@color/darkgray2"
+                            android:textSize="18dp" />
+                    </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
+            <!-- 第一行结束 -->
         </LinearLayout>
-        <!-- 第一行结束 -->
-    </LinearLayout>
 
-    <!-- 第二行开始 -->
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:layout_marginBottom="5dip"
-        android:layout_weight="0.9"
-        android:background="@drawable/bg_about"
-        android:orientation="vertical" >
+        <!-- 第二行开始 -->
 
         <LinearLayout
-            android:id="@+id/linearlayout_wifi"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="0dip"
+            android:layout_marginBottom="5dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_weight="0.9"
+            android:background="@drawable/bg_about"
             android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/linearlayout_wifi"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
+            </LinearLayout>
         </LinearLayout>
+        <!-- 第二行结束 -->
+
     </LinearLayout>
-    <!-- 第二行结束 -->
 
 </LinearLayout>
