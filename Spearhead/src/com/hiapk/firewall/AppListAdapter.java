@@ -87,13 +87,9 @@ public class AppListAdapter extends BaseAdapter {
 		holder.icon.setImageDrawable(pkgInfo.d);
 		holder.appname.setText(pkgInfo.appname);
 		if (pkgInfo.up == -1000 && pkgInfo.down == -1000) {
-			holder.trafficup.setText("总流量： " + "获取中...");
+			holder.trafficup.setText("获取中...");
 		} else {
-			UnitHandler unithandler = new UnitHandler();
-
-			holder.trafficup.setText("总流量： "
-					+ unithandler
-							.unitHandlerAccurate(pkgInfo.up + pkgInfo.down));
+			holder.trafficup.setText(UnitHandler.unitHandlerAccurate(pkgInfo.up + pkgInfo.down));
 		}
 
 		holder.e_toggle.setChecked(ic.selected_3g);
