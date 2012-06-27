@@ -45,12 +45,12 @@ public class TrafficAlert {
 		// getMonthMobileTraffic(context);
 		// }
 		long mobile_month_use = TrafficManager.getMonthUseData(context);
-		if (monthWarning > mobile_month_use) {
+		if (mobile_month_use > monthWarning) {
 			// showLog(monthTraffic[0]+"");
 			// showLog(monthTraffic[63]+"");
-			return false;
-		} else {
 			return true;
+		} else {
+			return false;
 		}
 
 	}
@@ -70,10 +70,10 @@ public class TrafficAlert {
 					0);
 			long warningDayset = prefs.getLong(MOBILE_WARNING_DAY,
 					5 * 1024 * 1024);
-			if (warningDayset > (TrafficManager.mobile_month_data[getDay()] + TrafficManager.mobile_month_data[getDay() + 31])) {
-				return false;
-			} else {
+			if ((TrafficManager.mobile_month_data[getDay()] + TrafficManager.mobile_month_data[getDay() + 31]) > warningDayset) {
 				return true;
+			} else {
+				return false;
 			}
 		}
 
@@ -210,6 +210,6 @@ public class TrafficAlert {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-//		Log.d("alertaction", string);
+		// Log.d("alertaction", string);
 	}
 }

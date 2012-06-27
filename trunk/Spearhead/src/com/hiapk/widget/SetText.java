@@ -50,7 +50,7 @@ public class SetText {
 		long todayUsedLong = monthUsed_this[monthDay]
 				+ monthUsed_this[monthDay + 31];
 		String monthUsedStr = unitHandler.unitHandlerAccurate(monthUsedLong);
-		String monthSetStr = unitHandler.unitHandlerAccurate(monthSetLong);
+		String monthSetStr = unitHandler.unitHandler(monthSetLong);
 		String todayUsedStr = unitHandler.unitHandlerAccurate(todayUsedLong);
 		String date = getdate(context, year, month, monthDay);
 		String day = getday(context, year, month, monthDay);
@@ -64,11 +64,11 @@ public class SetText {
 		// text3 = "结算日期: " + date;
 		text2 = "距结算日: " + day + "天";
 		long monSet = sharedData.getMonthMobileSetOfLong();
-			String text3tp = "" + monthUsedStr + " / " + monthSetStr;
-			SpannableStringBuilder style = new SpannableStringBuilder(text3tp);
-			style.setSpan(new ForegroundColorSpan(ColorChangeMainBeen.colorBlue), 0, monthUsedStr.length(),
-					Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-			text3 = style;
+		String text3tp = "" + monthUsedStr + " / " + monthSetStr;
+		SpannableStringBuilder style = new SpannableStringBuilder(text3tp);
+		style.setSpan(new ForegroundColorSpan(ColorChangeMainBeen.colorBlue),
+				0, monthUsedStr.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+		text3 = style;
 
 		// showLog(textUp);
 	}

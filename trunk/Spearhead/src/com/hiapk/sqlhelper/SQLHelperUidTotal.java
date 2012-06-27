@@ -326,9 +326,9 @@ public class SQLHelperUidTotal {
 					do {
 						newup = cur.getLong(uploadIndex);
 						newdown = cur.getLong(downloadIndex);
-						a[1] = newup;
-						a[2] = newdown;
-						a[0] = newup + newdown;
+						a[1] += newup;
+						a[2] += newdown;
+						a[0] += newup + newdown;
 						// showLog("a[0]="+a[0]);
 					} while (cur.moveToNext());
 
