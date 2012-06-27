@@ -23,15 +23,16 @@
         android:layout_gravity="center_vertical"
         android:paddingLeft="10dp"
         android:layout_weight="0.7"
-        android:text="   单位:"
+        android:text=" 单位:"
         android:textColor="@color/darkgray2"
         android:textSize="15dp" />
 
     <Spinner
         android:id="@+id/sp_unit"
         android:layout_width="0dp"
-        android:background="@drawable/content"
+        android:background="@drawable/btnselector_main_dataset"
         android:layout_height="wrap_content"
+        android:textColor="@color/blueflock"
         android:layout_gravity="center_vertical"
         android:layout_weight="0.5" />
 

@@ -9,10 +9,10 @@ import android.text.format.Time;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 
-import com.hiapk.dataexe.ColorChangeMainBeen;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
+import com.hiapk.provider.ColorChangeMainBeen;
 import com.hiapk.spearhead.R.color;
 
 public class SetText {
@@ -49,9 +49,9 @@ public class SetText {
 		// trafficManager.setMonthUseDate(monthUsedLong);
 		long todayUsedLong = monthUsed_this[monthDay]
 				+ monthUsed_this[monthDay + 31];
-		String monthUsedStr = unitHandler.unitHandlerAccurate(monthUsedLong);
-		String monthSetStr = unitHandler.unitHandler(monthSetLong);
-		String todayUsedStr = unitHandler.unitHandlerAccurate(todayUsedLong);
+		String monthUsedStr = UnitHandler.unitHandlerAccurate(monthUsedLong);
+		String monthSetStr = UnitHandler.unitHandler(monthSetLong);
+		String todayUsedStr = UnitHandler.unitHandlerAccurate(todayUsedLong);
 		String date = getdate(context, year, month, monthDay);
 		String day = getday(context, year, month, monthDay);
 		// textUp = "今日已用：xxx kB(MB)";
@@ -63,11 +63,20 @@ public class SetText {
 		// text2 = "本月流量: " + monthUsedStr + "/" + monthSetStr;
 		// text3 = "结算日期: " + date;
 		text2 = "距结算日: " + day + "天";
+		// text3设置
 		long monSet = sharedData.getMonthMobileSetOfLong();
 		String text3tp = "" + monthUsedStr + " / " + monthSetStr;
 		SpannableStringBuilder style = new SpannableStringBuilder(text3tp);
-		style.setSpan(new ForegroundColorSpan(ColorChangeMainBeen.colorBlue),
-				0, monthUsedStr.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+		if (monthUsedLong > monSet) {
+			style.setSpan(
+					new ForegroundColorSpan(ColorChangeMainBeen.colorRed), 0,
+					monthUsedStr.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+		} else {
+			style.setSpan(
+					new ForegroundColorSpan(ColorChangeMainBeen.colorBlue), 0,
+					monthUsedStr.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+		}
+
 		text3 = style;
 
 		// showLog(textUp);

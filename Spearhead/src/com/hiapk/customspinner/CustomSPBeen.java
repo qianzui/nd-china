@@ -159,7 +159,7 @@ public class CustomSPBeen {
 		lv_action.setSelection(beforeAction);
 
 		final CustomSPDialog notifySet;
-		CustomSPDialog.heighpar = 0.5;
+		CustomSPDialog.heighpar = 0.58;
 		notifySet = new CustomSPDialog.Builder(context).setTitle("请选择预警动作")
 				.setContentView(textEntryView).setNegativeButton("确定", null)
 				.create();

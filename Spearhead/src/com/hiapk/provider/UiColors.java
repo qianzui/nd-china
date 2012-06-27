@@ -6,6 +6,8 @@ import android.content.Context;
 import android.graphics.Color;
 
 public class UiColors {
+	public static int colorRed = Color.rgb(124, 22, 36);
+	public static int colorBlue = Color.rgb(4, 107, 154);
 	/**
 	 * 移动网络以及wifi的颜色
 	 */

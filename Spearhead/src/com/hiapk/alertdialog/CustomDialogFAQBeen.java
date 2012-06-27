@@ -18,11 +18,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.hiapk.dataexe.ColorChangeMainBeen;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
+import com.hiapk.provider.ColorChangeMainBeen;
 import com.hiapk.regulate.PhoneSet;
 import com.hiapk.regulate.Regulate;
 import com.hiapk.spearhead.Main;

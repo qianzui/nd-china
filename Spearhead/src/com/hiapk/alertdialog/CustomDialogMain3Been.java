@@ -1,6 +1,7 @@
 package com.hiapk.alertdialog;
 
 import java.text.DecimalFormat;
+import java.text.Format;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -57,9 +58,11 @@ public class CustomDialogMain3Been {
 	// 预警动作
 	String WARNING_ACTION = "warningaction";
 	Context context;
+	DecimalFormat format;
 
 	public CustomDialogMain3Been(Context context) {
 		this.context = context;
+		format = new DecimalFormat("0.##");
 	}
 
 	/**
@@ -96,10 +99,10 @@ public class CustomDialogMain3Been {
 			String mobileUseString;
 			if (mobileHasUsedUnit == 0) {
 				mobileUseString = format
-						.format(((double) mobileUselong) / 1024 / 1024);
+						.format((double) (mobileUselong / 1024) / 1024);
 			} else {
 				mobileUseString = format
-						.format(((double) mobileUselong) / 1024 / 1024 / 1024);
+						.format((double) (mobileUselong / 1024) / 1024 / 1024);
 			}
 
 			et_month.setText(mobileUseString);
@@ -175,8 +178,7 @@ public class CustomDialogMain3Been {
 				PrefrenceOperatorUnit.resetHasWarning(context);
 				// 赋值
 				long month_used = TrafficManager.getMonthUseData(context);
-				UnitHandler FormatUnit = new UnitHandler();
-				btn_HasUsed.setText(FormatUnit.unitHandler(month_used));
+				btn_HasUsed.setText(UnitHandler.unitHandler(month_used));
 				monthHasUsedAlert.dismiss();
 
 			}
@@ -243,15 +245,22 @@ public class CustomDialogMain3Been {
 				context, R.array.unit, R.layout.sptext_on_alert);
 		adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spin_unit.setAdapter(adp);
-		// 初始化数值
-		spin_unit.setSelection(mobileUnit);
 		// 判断0
 		if (mobileSetFloat != 0) {
+			if (mobileSetFloat > 5000 && mobileUnit == 0) {
+				mobileSetFloat = Float.valueOf(format
+						.format(mobileSetFloat / 1024));
+				mobileUnit = 1;
+				sharedData.setMonthMobileSetOfFloat(mobileSetFloat);
+				sharedData.setMonthMobileSetUnit(1);
+			}
 			et_month.setText(mobileSetFloat + "");
 			et_month.setSelection(String.valueOf(mobileSetFloat).length());
 		} else {
 			et_month.setText("");
 		}
+		// 初始化数值
+		spin_unit.setSelection(mobileUnit);
 		final CustomDialog monthSetAlert = new CustomDialog.Builder(context)
 				.setTitle("请设置每月流量限额").setContentView(textEntryView)
 				.setPositiveButton("确定", null).setNegativeButton("取消", null)
@@ -272,7 +281,7 @@ public class CustomDialogMain3Been {
 					// TODO: handle exception
 					i = 0;
 				}
-				 showlog(i + "");
+				showlog(i + "");
 				int mobileUnit = spin_unit.getSelectedItemPosition();
 				Editor passfileEditor = context.getSharedPreferences(
 						PREFS_NAME, 0).edit();
@@ -288,11 +297,10 @@ public class CustomDialogMain3Been {
 					passfileEditor.putLong(MOBILE_WARNING_DAY,
 							monthsetTraffMB / 10);
 					// 设置会改变的3个数值。++
-					UnitHandler FormatUnit = new UnitHandler();
-					btn_month.setText(FormatUnit.unitHandler(monthsetTraffMB));
-					dayWarning.setText(FormatUnit
+					btn_month.setText(UnitHandler.unitHandler(monthsetTraffMB));
+					dayWarning.setText(UnitHandler
 							.unitHandler(monthsetTraffMB * 9 / 10));
-					monthWarning.setText(FormatUnit
+					monthWarning.setText(UnitHandler
 							.unitHandler(monthsetTraffMB / 10));
 				} else if (mobileUnit == 1) {
 					long monthsetTraffGB = (long) (i * 1024 * 1024 * 1024);
@@ -303,16 +311,15 @@ public class CustomDialogMain3Been {
 					passfileEditor.putLong(MOBILE_WARNING_DAY,
 							monthsetTraffGB / 10);
 					// 设置会改变的3个数值。++
-					UnitHandler FormatUnit = new UnitHandler();
-					btn_month.setText(FormatUnit.unitHandler(monthsetTraffGB));
-					dayWarning.setText(FormatUnit
+					btn_month.setText(UnitHandler.unitHandler(monthsetTraffGB));
+					dayWarning.setText(UnitHandler
 							.unitHandler(monthsetTraffGB * 9 / 10));
-					monthWarning.setText(FormatUnit
+					monthWarning.setText(UnitHandler
 							.unitHandler(monthsetTraffGB / 10));
 				}
 				passfileEditor.putInt(MOBILE_SET_UNIT, mobileUnit);
 				sharedData.setMonthMobileSetOfFloat(i);
-//				passfileEditor.putFloat(VALUE_MOBILE_SET_OF_INT, i);
+				// passfileEditor.putFloat(VALUE_MOBILE_SET_OF_INT, i);
 				passfileEditor.commit();// 委托，存入数据
 				SetText.resetWidgetAndNotify(context);
 				// showlog(mobileSetLong + "");
@@ -349,7 +356,6 @@ public class CustomDialogMain3Been {
 	 */
 	public void dialogMonthWarning(final Button button) {
 		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
-		final UnitHandler FormatUnit = new UnitHandler();
 		LayoutInflater factory = LayoutInflater.from(context);
 		View textEntryView = factory.inflate(
 				R.layout.month_warning_set_alert_dialog, null);
@@ -374,7 +380,7 @@ public class CustomDialogMain3Been {
 			seekbar_warning
 					.setProgress((int) (warningMonthset * 100 / monthset));
 			tv_month_Traff.setText(text
-					+ FormatUnit.unitHandler(warningMonthset));
+					+ UnitHandler.unitHandler(warningMonthset));
 			seekbar_warning
 					.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 						@Override
@@ -392,7 +398,7 @@ public class CustomDialogMain3Been {
 								int progress, boolean fromUser) {
 							// TODO Auto-generated method stub
 							tv_month_Traff.setText(text
-									+ FormatUnit.unitHandler(monthset
+									+ UnitHandler.unitHandler(monthset
 											* progress / 100));
 						}
 					});
@@ -419,7 +425,7 @@ public class CustomDialogMain3Been {
 					long mobileWarning = sharedData.getAlertWarningMonth();
 					// float
 					// a=Float.valueOf(mobileWarning).floatValue();
-					button.setText(FormatUnit.unitHandler(mobileWarning));
+					button.setText(UnitHandler.unitHandler(mobileWarning));
 					// 重置预警状态
 					PrefrenceOperatorUnit.resetHasWarning(context);
 					monthWarning.dismiss();
@@ -475,7 +481,6 @@ public class CustomDialogMain3Been {
 	 */
 	public void dialogDayWarning(final Button button) {
 		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
-		final UnitHandler FormatUnit = new UnitHandler();
 		LayoutInflater factory = LayoutInflater.from(context);
 		View textEntryView = factory.inflate(
 				R.layout.month_warning_set_alert_dialog, null);
@@ -497,8 +502,8 @@ public class CustomDialogMain3Been {
 			// 进行初始化
 			final String text = "";
 			seekbar_warning.setProgress((int) (warningDayset * 100 / monthset));
-			tv_month_Traff
-					.setText(text + FormatUnit.unitHandler(warningDayset));
+			tv_month_Traff.setText(text
+					+ UnitHandler.unitHandler(warningDayset));
 			seekbar_warning
 					.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
@@ -517,7 +522,7 @@ public class CustomDialogMain3Been {
 								int progress, boolean fromUser) {
 							// TODO Auto-generated method stub
 							tv_month_Traff.setText(text
-									+ FormatUnit.unitHandler(progress
+									+ UnitHandler.unitHandler(progress
 											* monthset / 100));
 						}
 					});
@@ -543,7 +548,7 @@ public class CustomDialogMain3Been {
 					long mobileWarning = sharedData.getAlertWarningDay();
 					// float
 					// a=Float.valueOf(mobileWarning).floatValue();
-					button.setText(FormatUnit.unitHandler(mobileWarning));
+					button.setText(UnitHandler.unitHandler(mobileWarning));
 					// init_dayWarning();
 					// 重置预警状态
 					PrefrenceOperatorUnit.resetHasWarning(context);
@@ -628,6 +633,6 @@ public class CustomDialogMain3Been {
 	 * @param string
 	 */
 	private void showlog(String string) {
-		 Log.d("CustomDialogMain3Been", string);
+		Log.d("CustomDialogMain3Been", string);
 	}
 }
