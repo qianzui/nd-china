@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.hiapk.customspinner.CustomSPDialog;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.progressdialog.CustomProgressDialog;
 import com.hiapk.spearhead.R;
@@ -27,21 +28,6 @@ public class CustomDialogOtherBeen {
 		sharedData = new SharedPrefrenceData(context);
 	}
 
-	public void dialogOpenFireWallFail() {
-
-		final CustomDialog monthSetAlert = new CustomDialog.Builder(context)
-				.setTitle("注意！").setMessage("开启防火墙失败，可能是您的机型不支持防火墙设置。")
-				.setPositiveButton("确定", null).create();
-		monthSetAlert.show();
-		Button btn_ok = (Button) monthSetAlert
-				.findViewById(R.id.positiveButton);
-		btn_ok.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				monthSetAlert.dismiss();
-			}
-		});
-	}
 
 	public void dialogConfirmClearData() {
 
