@@ -71,13 +71,8 @@ public class Splash extends Activity {
 			// 初始化网络状态
 			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 			// sqlhelperTotal.initTablemobileAndwifi(params[0],false);
-			if (SQLHelperTotal.TableWiFiOrG23 != ""
-					&& sqlhelperTotal.getIsInit(params[0])) {
-				// 启动闹钟
-				alset.StartAlarm(params[0]);
-			}
+			alset.StartAlarm(params[0]);
 			if (SQLHelperTotal.TableWiFiOrG23 == "") {
-				alset.StartAlarm(params[0]);
 				alset.StopAlarm(params[0]);
 			}
 			// 等待数据读取
@@ -137,13 +132,8 @@ public class Splash extends Activity {
 			// 初始化网络状态
 			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 			// sqlhelperTotal.initTablemobileAndwifi(params[0],false);
-			if (SQLHelperTotal.TableWiFiOrG23 != ""
-					&& sqlhelperTotal.getIsInit(params[0])) {
-				// 启动闹钟
-				alset.StartAlarm(params[0]);
-			}
+			alset.StartAlarm(params[0]);
 			if (SQLHelperTotal.TableWiFiOrG23 == "") {
-				alset.StartAlarm(params[0]);
 				alset.StopAlarm(params[0]);
 			}
 			// 等待数据读取

@@ -78,11 +78,12 @@
     </style>
 
     <style name="DialogSpText">
-        <item name="android:textColor">#FF000000</item>
+        <item name="android:textColor">#FF505050</item>
         <item name="android:textSize">16sp</item>
     </style>
 
     <style name="DialogSpText.Title">
+        <item name="android:textColor">@color/black</item>
         <item name="android:textSize">17sp</item>
         <item name="android:textStyle">bold</item>
     </style>

@@ -92,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.0"
-            android:text="今日已用:加载中...."
+            android:text="今日已用: ..."
             android:textColor="@color/darkgray2" />
 
         <TextView
@@ -100,7 +100,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.0"
-            android:text="距结算日:加载中...."
+            android:text="距结算日: ..."
             android:textColor="@color/darkgray2" />
 
         <TextView
@@ -108,7 +108,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.0"
-            android:text="加载中...."
+            android:text="... / ..."
             android:textColor="@color/darkgray2" />
     </LinearLayout>
     
