@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import com.hiapk.alertdialog.CustomDialogOtherBeen;
+import com.hiapk.customspinner.CustomSPBeen;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -288,17 +289,20 @@ public class Block {
 				// alert(ctx, "应用防火墙出错: " + code + "\n\n"
 				// + msg.trim()
 				// );
-//				CustomDialogOtherBeen customdialog=new CustomDialogOtherBeen(ctx);
-//				customdialog.dialogOpenFireWallFail();
+				CustomSPBeen customdialog = new CustomSPBeen(
+						ctx);
+				customdialog.dialogOpenFireWallFail();
 
 			} else {
 				return true;
 			}
 		} catch (Exception e) {
-			if (showErrors){
-				
+			if (showErrors) {
+
 			}
-//				alert(ctx, "应用防火墙出错" + e);
+			CustomSPBeen customdialog = new CustomSPBeen(ctx);
+			customdialog.dialogOpenFireWallFail();
+			// alert(ctx, "应用防火墙出错" + e);
 		}
 		return false;
 	}
@@ -728,7 +732,7 @@ public class Block {
 		edit.putBoolean(PREF_HELP, isShow);
 		edit.commit();
 	}
-	
+
 	public static boolean fireTip(Context context) {
 		final SharedPreferences prefs = context.getSharedPreferences(
 				PREFS_NAME, 0);

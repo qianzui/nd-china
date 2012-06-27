@@ -17,7 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class CustomSPDialog extends Dialog {
-	static double heighpar=0.8;
+	static double heighpar = 0.8;
+
 	public CustomSPDialog(Context context) {
 		super(context);
 	}
@@ -47,6 +48,9 @@ public class CustomSPDialog extends Dialog {
 
 		private View contentView;
 
+		private int tv_size = 0;
+
+
 		private DialogInterface.OnClickListener otherListener,
 				positiveListener, negativeListener;
 
@@ -75,7 +79,18 @@ public class CustomSPDialog extends Dialog {
 			this.message = context.getString(message);
 			return this;
 		}
-
+		
+		/**
+		 * 设置消息字体大小
+		 * 
+		 * @param message
+		 * @return
+		 */
+		public Builder setTv_size(int tv_size) {
+			this.tv_size = tv_size;
+			return this;
+		}
+		
 		/**
 		 * 设置标题
 		 * 
@@ -275,7 +290,11 @@ public class CustomSPDialog extends Dialog {
 			}
 			// 设置内容
 			if (message != null) {
-				((TextView) layout.findViewById(R.id.message)).setText(message);
+				TextView tv_mess = (TextView) layout.findViewById(R.id.message);
+				if (tv_size != 0) {
+					tv_mess.setTextSize(tv_size);
+				}
+				tv_mess.setText(message);
 			} else if (contentView != null) {
 				((LinearLayout) layout.findViewById(R.id.content))
 						.removeAllViews();
