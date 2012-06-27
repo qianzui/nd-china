@@ -458,12 +458,12 @@ public class CustomSPBeen {
 
 	public void dialogOpenFireWallFail() {
 		final CustomSPDialog monthSetAlert;
-		CustomSPDialog.heighpar = 0.4;
+		CustomSPDialog.heighpar = 0.45;
 		monthSetAlert = new CustomSPDialog.Builder(context)
 				.setTitle("未能开启防火墙")
-				.setTv_size(20)
+				.setTv_size(18)
 				.setMessage(
-						"防火墙操作失败，\n可能原因有：\n1.您拒绝了Root权限 \n2.防火墙应用失败 \n3.部分机型不支持防火墙操作")
+						"防火墙操作失败,可能原因有：\n1.您拒绝了Root权限 \n2.防火墙应用失败 \n3.部分机型不支持防火墙操作")
 				.setPositiveButton("确定", null).create();
 		monthSetAlert.show();
 		Button btn_ok = (Button) monthSetAlert

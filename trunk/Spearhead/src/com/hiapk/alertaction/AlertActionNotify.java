@@ -32,7 +32,7 @@ public class AlertActionNotify {
 			notification.vibrate = tVibrate;
 		}
 		// 设置跳转界面
-		Intent intent = new Intent(context, SpearheadActivity.class);
+		Intent intent = new Intent(context, Splash.class);
 		Bundle choosetab = new Bundle();
 		choosetab.putInt("TAB", 3);
 		intent.putExtras(choosetab);
@@ -59,7 +59,7 @@ public class AlertActionNotify {
 			notification.vibrate = tVibrate;
 		}
 		// 设置跳转界面
-		Intent intent = new Intent(context, SpearheadActivity.class);
+		Intent intent = new Intent(context, Splash.class);
 		Bundle choosetab = new Bundle();
 		choosetab.putInt("TAB", 3);
 		intent.putExtras(choosetab);
