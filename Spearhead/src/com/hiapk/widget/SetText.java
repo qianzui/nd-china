@@ -18,10 +18,10 @@ import com.hiapk.spearhead.R.color;
 public class SetText {
 	public static String textUp = "今日已用: 0 KB";
 	public static String textDown;
-	public static String text1 = "今日已用:加载中....";
-	public static String text2 = "距结算日:加载中....";
+	public static String text1 = "今日已用:...";
+	public static String text2 = "距结算日:...";
 	public static SpannableStringBuilder text3 = new SpannableStringBuilder(
-			(CharSequence) "加载中....");
+			(CharSequence) "... / ...");
 
 	/**
 	 * 获取通知栏与小部件显示文字

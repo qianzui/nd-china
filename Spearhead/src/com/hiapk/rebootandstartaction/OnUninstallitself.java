@@ -37,31 +37,32 @@ public class OnUninstallitself {
 			} else {
 				alset.StopWidgetAlarm(context);
 			}
-			new AsyncTaskonReinstallItself().execute(context);
+			// new AsyncTaskonReinstallItself().execute(context);
+			alset.StartAlarm(context);
 			// alset.StopAlarm(context);
 		}
 	}
 
-	private class AsyncTaskonReinstallItself extends
-			AsyncTask<Context, Long, Long> {
-
-		@Override
-		protected Long doInBackground(Context... params) {
-			try {
-				Thread.sleep(8000); 
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(Long result) {
-			// TODO Auto-generated method stub
-			alset.StartAlarm(context);
-		}
-	}
+	// private class AsyncTaskonReinstallItself extends
+	// AsyncTask<Context, Long, Long> {
+	//
+	// @Override
+	// protected Long doInBackground(Context... params) {
+	// try {
+	// Thread.sleep(1000);
+	// } catch (InterruptedException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// return null;
+	// }
+	//
+	// @Override
+	// protected void onPostExecute(Long result) {
+	// // TODO Auto-generated method stub
+	// alset.StartAlarm(context);
+	// }
+	// }
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
