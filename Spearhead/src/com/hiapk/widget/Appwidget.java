@@ -112,7 +112,7 @@ public class Appwidget extends AppWidgetProvider {
 						pendingIntentgprs);
 				// views.setOnClickPendingIntent(R.id.widgetImageText2,
 				// pendingIntentgprs);
-				views.setOnClickPendingIntent(R.id.widgetBtn_noset,
+				views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout3,
 						pendingIntenttraff);
 				initWidget(context, views);
 			} else {
@@ -371,7 +371,7 @@ public class Appwidget extends AppWidgetProvider {
 					pendingIntentgprs);
 			// views.setOnClickPendingIntent(R.id.widgetImageText2,
 			// pendingIntentgprs);
-			views.setOnClickPendingIntent(R.id.widgetBtn_noset,
+			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout3,
 					pendingIntenttraff);
 		} else {
 			views = new RemoteViews(context.getPackageName(),
