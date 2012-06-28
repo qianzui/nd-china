@@ -115,12 +115,12 @@ public class FireWallActivity extends Activity {
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
 				try {
-					Log.i("timer", System.currentTimeMillis() - time
-							+ "startsetadapter");
+					// Log.i("timer", System.currentTimeMillis() - time
+					// + "startsetadapter");
 					setAdapter();
 					customdialog.dismiss();
-					Log.i("timer", System.currentTimeMillis() - time
-							+ "allover");
+					// Log.i("timer", System.currentTimeMillis() - time
+					// + "allover");
 					if (Block.isShowHelp(mContext)) {
 						SpearheadActivity.showHelp(mContext);
 						Block.isShowHelpSet(mContext, false);
@@ -139,11 +139,11 @@ public class FireWallActivity extends Activity {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				Log.i("timer", System.currentTimeMillis() - time
-						+ "beforegetCompList");
+				// Log.i("timer", System.currentTimeMillis() - time
+				// + "beforegetCompList");
 				mList = getCompList(getList(mContext));
-				Log.i("timer", System.currentTimeMillis() - time
-						+ "aftergetCompList");
+				// Log.i("timer", System.currentTimeMillis() - time
+				// + "aftergetCompList");
 				handler.sendEmptyMessage(0);
 			}
 		}).start();
@@ -181,12 +181,12 @@ public class FireWallActivity extends Activity {
 	}
 
 	public ArrayList<AppInfo> getList(Context context) {
-		Log.i("timer", System.currentTimeMillis() - time + "getliststart");
+		// Log.i("timer", System.currentTimeMillis() - time + "getliststart");
 		packageInfo = context.getPackageManager().getInstalledPackages(0);
 		PackageManager pm = getPackageManager();
 		ArrayList<AppInfo> appList = new ArrayList<AppInfo>();
 
-		Log.i("start..........", System.currentTimeMillis() + "");
+		// Log.i("start..........", System.currentTimeMillis() + "");
 		// do {
 		// AlarmSet alset = new AlarmSet();
 		// alset.StartAlarmUidTotal(mContext);
@@ -200,7 +200,7 @@ public class FireWallActivity extends Activity {
 		// while(it.hasNext()){
 		// Log.i("mp's key..........", it.next() + "");
 		// }
-		Log.i("end..........", System.currentTimeMillis() + "");
+		// Log.i("end..........", System.currentTimeMillis() + "");
 		for (int i = 0; i < packageInfo.size(); i++) {
 			PackageInfo pkgInfo = packageInfo.get(i);
 			int uid = pkgInfo.applicationInfo.uid;
@@ -218,12 +218,13 @@ public class FireWallActivity extends Activity {
 				}
 			}
 		}
-		Log.i("timer", System.currentTimeMillis() - time + "getlistend");
+		// Log.i("timer", System.currentTimeMillis() - time + "getlistend");
 		return appList;
 	}
 
 	public ArrayList<AppInfo> getCompList(ArrayList<AppInfo> list) {
-		Log.i("timer", System.currentTimeMillis() - time + "getuiddatastart");
+		// Log.i("timer", System.currentTimeMillis() - time +
+		// "getuiddatastart");
 		do {
 			AlarmSet alset = new AlarmSet();
 			alset.StartAlarmUidTotal(mContext);
@@ -238,7 +239,7 @@ public class FireWallActivity extends Activity {
 				e.printStackTrace();
 			}
 		} while (mp == null);
-		Log.i("timer", System.currentTimeMillis() - time + "getuiddataover");
+		// Log.i("timer", System.currentTimeMillis() - time + "getuiddataover");
 		for (int i = 0; i < list.size(); i++) {
 			AppInfo ai = list.get(i);
 			long up = 0;
@@ -252,14 +253,14 @@ public class FireWallActivity extends Activity {
 			}
 			ai.up = up;
 			ai.down = down;
-			Log.i("mlist", ai.up + ai.down + "");
+			// Log.i("mlist", ai.up + ai.down + "");
 		}
-		Log.i("timer", System.currentTimeMillis() - time + "give data");
+		// Log.i("timer", System.currentTimeMillis() - time + "give data");
 		return comp(list);
 	}
 
 	public ArrayList<AppInfo> comp(ArrayList<AppInfo> appList) {
-		Log.i("timer", System.currentTimeMillis() - time + "sortstart");
+		// Log.i("timer", System.currentTimeMillis() - time + "sortstart");
 		ArrayList<AppInfo> showList = new ArrayList<AppInfo>();
 		ArrayList<AppInfo> showList2 = new ArrayList<AppInfo>();
 		for (int i = 0; i < appList.size(); i++) {
@@ -299,7 +300,7 @@ public class FireWallActivity extends Activity {
 			AppInfo ai = showList2.get(i);
 			showList.add(ai);
 		}
-		Log.i("timer", System.currentTimeMillis() - time + "sortover");
+		// Log.i("timer", System.currentTimeMillis() - time + "sortover");
 		return showList;
 	}
 
