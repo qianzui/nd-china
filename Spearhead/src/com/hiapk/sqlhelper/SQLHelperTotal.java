@@ -168,6 +168,48 @@ public class SQLHelperTotal {
 	}
 
 	/**
+	 * 对数据库总体数据进行更新
+	 * 
+	 * @param mySQL
+	 *            进行写入操作的数据库SQLiteDatagase
+	 * @param table
+	 *            数据库的表：有wifi，mobile等
+	 * @param date
+	 *            记录数据的日期
+	 * @param time
+	 *            记录数据的时间
+	 * @param upload
+	 *            记录上传流量
+	 * @param download
+	 *            记录下载流量
+	 * @param type
+	 *            用于记录数据状态，以统计数据
+	 * @param other
+	 *            用于记录特殊数据等
+	 * @param typechange
+	 *            改变type值
+	 */
+	private void updateSQLtotalTypeDate(SQLiteDatabase mySQL, String table,
+			long upload, long download, int type, String other, int typechange) {
+		initTime();
+		// TODO Auto-generated method stub
+		String string = null;
+		string = UpdateTable + table + UpdateSet + "time='" + time
+				+ "',upload='" + upload + "',download='" + download
+				+ "' ,type=" + typechange + Where + "date='" + date + AND
+				+ "type=" + type;
+		// UPDATE Person SET
+		// date='date',time='time',upload='upload',download='download'
+		// ,type='typechange' WHERE type=type
+		try {
+			mySQL.execSQL(string);
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog(string);
+		}
+	}
+
+	/**
 	 * 对数据库总体数据进行更新,自动生成时间，日期上传，下载流量
 	 * 
 	 * @param mySQL
@@ -306,7 +348,7 @@ public class SQLHelperTotal {
 					}
 					if (olddate2 != null) {
 
-						updateSQLtotalType(mySQL, table, oldup2 + oldup0,
+						updateSQLtotalTypeDate(mySQL, table, oldup2 + oldup0,
 								olddown2 + olddown0, 2, other, 2);
 						updateSQLtotalType(mySQL, table, upload, download, 0,
 								other, 0);
@@ -316,7 +358,7 @@ public class SQLHelperTotal {
 				} else {
 					exeSQLtotalSetData(mySQL, table, 0, 0, 2, other);
 
-					updateSQLtotalType(mySQL, table, oldup0, olddown0, 2,
+					updateSQLtotalTypeDate(mySQL, table, oldup0, olddown0, 2,
 							other, 2);
 					updateSQLtotalType(mySQL, table, upload, download, 0,
 							other, 0);
