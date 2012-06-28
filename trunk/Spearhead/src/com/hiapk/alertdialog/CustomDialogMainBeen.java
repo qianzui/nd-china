@@ -112,9 +112,9 @@ public class CustomDialogMainBeen {
 				mobileUseString = format
 						.format(((double) mobileUselong) / 1024 / 1024 / 1024);
 			}
-			int length=String.valueOf(mobileUseString).length();
-			if (length>6) {
-				length=6;
+			int length = String.valueOf(mobileUseString).length();
+			if (length > 6) {
+				length = 6;
 			}
 			et_month.setText(mobileUseString);
 			et_month.setSelection(length);
@@ -336,6 +336,13 @@ public class CustomDialogMainBeen {
 				PrefrenceOperatorUnit.resetHasWarning(context);
 				// 重设主界面数值
 				long mobileSet = sharedData.getMonthMobileSetOfLong();
+				long mobileUse = sharedData.getMonthMobileHasUse();
+				if (mobileSet < mobileUse) {
+					monthSet.setTextColor(ColorChangeMainBeen.colorRed);
+				} else {
+					monthSet.setTextColor(ColorChangeMainBeen.colorBlue);
+				}
+
 				monthSet.setText(UnitHandler.unitHandler(mobileSet,
 						monthSetunit));
 				// 月度流量设置

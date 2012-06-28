@@ -295,9 +295,9 @@ public class CustomDialogMain3Been {
 							monthsetTraffMB / 10);
 					// 设置会改变的3个数值。++
 					btn_month.setText(UnitHandler.unitHandler(monthsetTraffMB));
-					dayWarning.setText(UnitHandler
-							.unitHandler(monthsetTraffMB * 9 / 10));
 					monthWarning.setText(UnitHandler
+							.unitHandler(monthsetTraffMB * 9 / 10));
+					dayWarning.setText(UnitHandler
 							.unitHandler(monthsetTraffMB / 10));
 				} else if (mobileUnit == 1) {
 					long monthsetTraffGB = (long) (i * 1024 * 1024 * 1024);
