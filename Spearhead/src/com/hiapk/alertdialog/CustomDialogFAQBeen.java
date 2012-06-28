@@ -73,9 +73,10 @@ public class CustomDialogFAQBeen {
 		// TODO Auto-generated method stub
 		LayoutInflater factory = LayoutInflater.from(context);
 		final View textEntryView = factory.inflate(R.layout.faq, null);
-		final CustomDialogAbout monthHasUsedAlert = new CustomDialogAbout.Builder(
-				context).setTitle("关于先锋流量监控").setContentView(textEntryView)
-				.setPositiveButton("确定", null).create();
+		final CustomDialog monthHasUsedAlert = new CustomDialog.Builder(context)
+				.setwindowHeight(0.65).setTitle("关于先锋流量监控")
+				.setContentView(textEntryView).setPositiveButton("确定", null)
+				.create();
 		try {
 			WebView wb = (WebView) textEntryView.findViewById(R.id.webview);
 			String url = "file:///android_asset/about/about.html";
@@ -110,10 +111,10 @@ public class CustomDialogFAQBeen {
 		// TODO Auto-generated method stub
 		LayoutInflater factory = LayoutInflater.from(context);
 		final View textEntryView = factory.inflate(R.layout.faq, null);
-		final CustomDialogFAQ monthHasUsedAlert = new CustomDialogFAQ.Builder(
-				context).setTitle("先锋流量监控  FAQ :")
-				.setContentView(textEntryView).setPositiveButton("确定", null)
-				.create();
+		final CustomDialog monthHasUsedAlert = new CustomDialog.Builder(context)
+				.setwindowHeight(0.85).setwindowWidth(0.9)
+				.setTitle("先锋流量监控  FAQ :").setContentView(textEntryView)
+				.setPositiveButton("确定", null).create();
 		try {
 			WebView wb = (WebView) textEntryView.findViewById(R.id.webview);
 			String url = "file:///android_asset/faq/faq.html";

@@ -120,7 +120,7 @@ public class SetText {
 			return (setDay + maxDay - monthDay) + "";
 
 		} else if (setDay == monthDay) {
-			return 0 + "";
+			return maxDay + "";
 		} else {
 			return (setDay - monthDay) + "";
 		}

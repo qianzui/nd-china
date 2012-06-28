@@ -86,7 +86,7 @@ public class UnitHandler {
 	 */
 	public static String unitHandlerAcurrac(long count, TextView unit) {
 		String value = null;
-		long temp = count;
+		float temp = count;
 		float floatnum = count;
 		float floatGB = count;
 		float floatTB = count;
@@ -95,7 +95,8 @@ public class UnitHandler {
 			value = format.format(temp);
 			unit.setText(" KB");
 		} else if ((floatnum = (float) temp / 1024) < 1) {
-			value = temp + "";
+			DecimalFormat format = new DecimalFormat("0.##");
+			value = format.format(temp);
 			unit.setText(" KB");
 		} else if ((floatGB = floatnum / 1024) < 1) {
 			DecimalFormat format = new DecimalFormat("0.##");
@@ -124,7 +125,7 @@ public class UnitHandler {
 	 */
 	public static String unitHandler(long count, TextView unit) {
 		String value = null;
-		long temp = count;
+		float temp = count;
 		float floatnum = count;
 		float floatGB = count;
 		float floatTB = count;

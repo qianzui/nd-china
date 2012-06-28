@@ -258,6 +258,16 @@ public class CustomSPBeen {
 				// TODO Auto-generated method stub
 				if (arg2 != beforeDay) {
 					operatorOnClick(btn_HasUsed);
+					// 结算日期变化时做日期变化并重置本月已用数值
+					Editor passfileEditor = context.getSharedPreferences(
+							PREFS_NAME, 0).edit();
+					// Log.d("main3", i + "");
+					passfileEditor.putInt(MOBILE_COUNT_DAY, arg2);
+					// Log.d("main3", i + "");
+					passfileEditor.putInt(MOBILE_COUNT_SET_YEAR, 1977);
+					passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG, 0);
+					passfileEditor.putFloat(VALUE_MOBILE_HASUSED_OF_FLOAT, 0);
+					passfileEditor.commit();// 委托，存入数据
 				}
 				sharedData.setCountDay(arg2);
 				btn_date.setText((CharSequence) arg0.getItemAtPosition(arg2));
@@ -463,7 +473,7 @@ public class CustomSPBeen {
 				.setTitle("未能开启防火墙")
 				.setTv_size(18)
 				.setMessage(
-						"防火墙操作失败,可能原因有：\n1.您拒绝了Root权限 \n2.防火墙应用失败 \n3.部分机型不支持防火墙操作")
+						"由于安卓系统的限制，只有获得最高权限(称为\"Root\")的机器才能使用防火墙功能。\n当前操作失败，可能原因有：\n1.您拒绝了Root权限 \n2.系统原因，防火墙应用失败 \n3.部分机型不支持防火墙操作")
 				.setPositiveButton("确定", null).create();
 		monthSetAlert.show();
 		Button btn_ok = (Button) monthSetAlert

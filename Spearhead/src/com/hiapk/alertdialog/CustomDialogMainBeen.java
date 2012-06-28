@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
@@ -155,8 +156,9 @@ public class CustomDialogMainBeen {
 				} catch (NumberFormatException e) {
 					// TODO: handle exception
 					showlog(i + "shuziError" + et_month.getText().toString());
+					i = 0;
 				}
-
+				long monthUsed=0;
 				// btn_Used.setText(format.format(i));
 				int mobileHasUsedUnit = spin_unit.getSelectedItemPosition();
 				Editor passfileEditor = context.getSharedPreferences(
@@ -166,11 +168,13 @@ public class CustomDialogMainBeen {
 				//
 
 				if (mobileHasUsedUnit == 0) {
+					monthUsed=(long) (i * 1048576);
 					passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
-							(long) (i * 1048576));
+							monthUsed);
 				} else {
+					monthUsed=(long) (i * 1048576 * 1024);
 					passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
-							(long) (i * 1048576 * 1024));
+							monthUsed);
 				}
 				passfileEditor.putFloat(VALUE_MOBILE_HASUSED_OF_FLOAT, i);
 
@@ -193,12 +197,15 @@ public class CustomDialogMainBeen {
 				long mobileSet = sharedData.getMonthMobileSetOfLong();
 				long monthLeft = 0;
 				monthLeft = ColorChangeMainBeen.setRemainTraff(mobileSet,
-						mobile_month_use, monthMobil);
+						monthUsed, monthMobil);
 				//
 				monthMobil.setText(UnitHandler.unitHandlerAcurrac(
-						mobile_month_use, monthMobilunit));
+						monthUsed, monthMobilunit));
 				monthRemain.setText(UnitHandler.unitHandler(monthLeft,
 						monthRemainunit));
+				//启动计时
+				AlarmSet alarm=new AlarmSet();
+				alarm.StartAlarmMobile(context);
 				// 清除对话框
 				monthHasUsedAlert.dismiss();
 			}
@@ -294,6 +301,7 @@ public class CustomDialogMainBeen {
 					i = Float.valueOf(et_month.getText().toString());
 				} catch (NumberFormatException e) {
 					// TODO: handle exception
+					i = 0;
 				}
 				// showlog(i + "");
 				int mobileUnit = spin_unit.getSelectedItemPosition();
