@@ -407,6 +407,26 @@ public class SQLHelperUid {
 		}
 	}
 
+	private void updateSQLUidTypeDate(SQLiteDatabase mySQL, String date,
+			String time, long uidupload, long uiddownload, int uidnumber,
+			int type, String other, int typechange) {
+		// TODO Auto-generated method stub
+		String string = null;
+		string = UpdateTable + "uid" + uidnumber + UpdateSet + "time='" + time
+				+ "',upload='" + uidupload + "',download='" + uiddownload
+				+ "' ,type=" + typechange + ", other=" + "'" + other + "'"
+				+ Where + "date='" + date + AND + "type=" + type;
+		// UPDATE Person SET
+		// date='date',time='time',upload='upload',download='download'
+		// ,type='typechange' WHERE type=type
+		try {
+			mySQL.execSQL(string);
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog(string);
+		}
+	}
+
 	/**
 	 * 对数据库uid数据进行批量更新，自动生成时间和上传下载数据
 	 * 
@@ -1486,8 +1506,9 @@ public class SQLHelperUid {
 						showLog("cur-searchfail");
 					}
 					if (olddate2 != null) {
-						updateSQLUidType(mySQL, date, time, oldup2 + oldup0,
-								olddown2 + olddown0, uidnumber, 2, network, 2);
+						updateSQLUidTypeDate(mySQL, date, time,
+								oldup2 + oldup0, olddown2 + olddown0,
+								uidnumber, 2, network, 2);
 						updateSQLUidType(mySQL, date, time, upload, download,
 								uidnumber, 0, network, 0);
 						statsSQLuidTotaldata(mySQL, uidnumber, date, time,
@@ -1497,7 +1518,7 @@ public class SQLHelperUid {
 				} else {
 					exeSQLcreateUidtableSetData(mySQL, date, time, uidnumber,
 							0, 0, 2, network);
-					updateSQLUidType(mySQL, date, time, oldup0, olddown0,
+					updateSQLUidTypeDate(mySQL, date, time, oldup0, olddown0,
 							uidnumber, 2, network, 2);
 					updateSQLUidType(mySQL, date, time, upload, download,
 							uidnumber, 0, network, 0);
