@@ -41,9 +41,9 @@ public class AlarmSet {
 		if (SQLStatic.isUidAlarmRecording != true) {
 			UidAlarmStart(context, uidrefreshtime);
 		}
-		if (SQLStatic.isUidTotalAlarmRecording != true) {
-			UidTotalAlarmStart(context, uidrefreshtime);
-		}
+		// if (SQLStatic.isUidTotalAlarmRecording != true) {
+		// UidTotalAlarmStart(context, uidrefreshtime);
+		// }
 
 		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
 	}

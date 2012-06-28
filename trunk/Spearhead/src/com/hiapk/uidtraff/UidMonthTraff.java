@@ -36,7 +36,7 @@ public class UidMonthTraff extends Activity {
 	int month;
 	int monthDay;
 	Context context = this;
-	long[] pieValue = new long[2];
+	long[] pieValue = null;
 	long[] mobileBefore = new long[64];
 	long[] mobileNow = new long[64];
 	long[] wifiBefore = new long[64];
@@ -124,7 +124,7 @@ public class UidMonthTraff extends Activity {
 		@Override
 		protected Boolean doInBackground(Context... params) {
 			int timetap = 0;
-			while (!SQLStatic.setSQLUidTotalOnUsed(true)) {
+			while (pieValue == null) {
 				try {
 					Thread.sleep(300);
 					timetap += 1;
@@ -133,10 +133,23 @@ public class UidMonthTraff extends Activity {
 					e.printStackTrace();
 				}
 				if (timetap > 3) {
-					SQLStatic.setSQLUidTotalOnUsed(false);
+					// SQLStatic.setSQLUidTotalOnUsed(false);
+					if (pieValue == null) {
+						if (SQLStatic.setSQLUidOnUsed(true)) {
+							// 获取pie值
+							SQLHelperUid sqlhelperUid = new SQLHelperUid();
+							pieValue = sqlhelperUid.getSQLuidPiedata(params[0],
+									uidnumber);
+							SQLStatic.setSQLUidOnUsed(false);
+						}
+					}
+					if (pieValue != null) {
+						return true;
+					}
 					return false;
 				}
 			}
+
 			// onProgressUpdate((long) 1);
 			// try {
 			// Thread.sleep(20);
@@ -146,8 +159,8 @@ public class UidMonthTraff extends Activity {
 			// }
 			// if (uidtraff_UidTotalSQL == false)
 			// return false;
-			SQLHelperUidTotal sqlUidTotal = new SQLHelperUidTotal();
-			pieValue = sqlUidTotal.SelectUidNetData(params[0], uidnumber);
+			// SQLHelperUidTotal sqlUidTotal = new SQLHelperUidTotal();
+			// pieValue = sqlUidTotal.SelectUidNetData(params[0], uidnumber);
 			// if ((pieValue[0] == 0 )&& (pieValue[1] == 0)) {
 			// budgetPie.setValues(new long[] { 1, 1 });
 			// }
@@ -174,7 +187,7 @@ public class UidMonthTraff extends Activity {
 			final LinearLayout linearPie = (LinearLayout) findViewById(R.id.new_budget);
 			if (result == true) {
 				// SQLHelperTotal.isSQLUidTotalOnUsed = false;
-				SQLStatic.setSQLUidTotalOnUsed(false);
+				// SQLStatic.setSQLUidTotalOnUsed(false);
 				// uidtraff_UidTotalSQL = false;
 				// -----------------初始化数据
 				int useMobilePercent = 0;
@@ -297,6 +310,14 @@ public class UidMonthTraff extends Activity {
 				wifiBefore = sqlhelperUid.SelectuidWifiorMobileData(params[0],
 						year, month - 1, uidnumber, "wifi");
 			}
+			// 获取pie值
+			long[] uidtraff = new long[6];
+			uidtraff = sqlhelperUid.getSQLuidPiedata(params[0], uidnumber);
+			long[] uidpietraff = new long[2];
+			uidpietraff[0] = uidtraff[0];
+			uidpietraff[1] = uidtraff[5];
+			pieValue = uidpietraff;
+			showlog(pieValue[0] + "down=" + pieValue[1] + "");
 			return true;
 		}
 
@@ -438,6 +459,6 @@ public class UidMonthTraff extends Activity {
 	 * @param string
 	 */
 	private void showlog(String string) {
-		// Log.d("UidMonthTraff", string);
+		Log.d("UidMonthTraff", string);
 	}
 }

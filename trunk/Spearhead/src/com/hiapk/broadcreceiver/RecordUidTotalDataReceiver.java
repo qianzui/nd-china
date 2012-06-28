@@ -94,15 +94,15 @@ public class RecordUidTotalDataReceiver extends BroadcastReceiver {
 			} else {
 				return 0;
 			}
-			HashMap<Integer, Data> mp = null;
+			// HashMap<Integer, Data> mp = null;
 			SQLHelperUidTotal sqlUidTotal = new SQLHelperUidTotal();
 			SQLiteDatabase sqlDataBase = sqlUidTotal
 					.creatSQLUidTotal(params[0]);
 			sqlDataBase.beginTransaction();
 			boolean success = true;
 			try {
-				mp = sqlUidTotal.updateSQLUidTypes(sqlDataBase, numbers,
-						network);
+				// mp = sqlUidTotal.updateSQLUidTypes(sqlDataBase, numbers,
+				// network);
 				sqlDataBase.setTransactionSuccessful();
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -112,9 +112,9 @@ public class RecordUidTotalDataReceiver extends BroadcastReceiver {
 				sqlDataBase.endTransaction();
 			}
 			sqlUidTotal.closeSQL(sqlDataBase);
-			showLog("success="+success);
+			showLog("success=" + success);
 			if (success) {
-				SQLStatic.uiddata = mp;
+				// SQLStatic.uiddata = mp;
 			}
 
 			// sqlUidTotal.updateSQLUidTypes(params[0],
@@ -151,7 +151,7 @@ public class RecordUidTotalDataReceiver extends BroadcastReceiver {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-//		Log.d("ReceiverUidTotal", string);
+		// Log.d("ReceiverUidTotal", string);
 	}
 
 }
