@@ -85,6 +85,7 @@
         android:layout_weight="6.0"
         android:paddingTop="11dp"
         android:paddingBottom="8dp"
+        android:paddingLeft="4dp"
         android:orientation="vertical" >
        
          <TextView
