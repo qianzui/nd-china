@@ -247,15 +247,12 @@ public class CustomDialogMain3Been {
 		spin_unit.setAdapter(adp);
 		// еп╤о0
 		if (mobileSetFloat != 0) {
-			if (mobileSetFloat > 5000 && mobileUnit == 0) {
-				mobileSetFloat = Float.valueOf(format
-						.format(mobileSetFloat / 1024));
-				mobileUnit = 1;
-				sharedData.setMonthMobileSetOfFloat(mobileSetFloat);
-				sharedData.setMonthMobileSetUnit(1);
-			}
 			et_month.setText(mobileSetFloat + "");
-			et_month.setSelection(String.valueOf(mobileSetFloat).length());
+			int lenth = String.valueOf(mobileSetFloat).length();
+			if (lenth > 6) {
+				lenth = 6;
+			}
+			et_month.setSelection(lenth);
 		} else {
 			et_month.setText("");
 		}
