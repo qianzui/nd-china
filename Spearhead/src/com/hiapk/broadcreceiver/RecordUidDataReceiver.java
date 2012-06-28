@@ -1,9 +1,12 @@
 package com.hiapk.broadcreceiver;
 
+import java.util.HashMap;
+
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
 import com.hiapk.sqlhelper.SQLHelperUidTotal;
 import com.hiapk.sqlhelper.SQLStatic;
+import com.hiapk.sqlhelper.SQLHelperFireWall.Data;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -95,6 +98,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			return 0;
 		}
 		SQLiteDatabase sqlDataBase = sqlhelperUid.creatSQLUid(context);
+		HashMap<Integer, Data> mp = null;
 		sqlDataBase.beginTransaction();
 		try {
 			// 更新数据
@@ -102,6 +106,9 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			// 记录数据
 			sqlhelperUid.RecordUidwritestats(sqlDataBase, numbers, false,
 					network);
+			// 获取uid的总流量数据
+			mp = sqlhelperUid.getSQLUidtraff(sqlDataBase, numbers, network);
+
 			sqlDataBase.setTransactionSuccessful();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -110,6 +117,10 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			sqlDataBase.endTransaction();
 		}
 		sqlhelperUid.closeSQL(sqlDataBase);
+		if (mp != null) {
+			SQLStatic.uiddata = mp;
+		}
+
 		return 1;
 	}
 

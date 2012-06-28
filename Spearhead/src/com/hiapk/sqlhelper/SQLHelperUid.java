@@ -1,10 +1,12 @@
 package com.hiapk.sqlhelper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.firewall.Block;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
+import com.hiapk.sqlhelper.SQLHelperFireWall.Data;
 
 import android.Manifest;
 import android.content.Context;
@@ -64,6 +66,8 @@ public class SQLHelperUid {
 	private long uidupload;
 	private long uiddownload;
 	private static final int MODE_PRIVATE = 0;
+	// flag-network-onuidtraff
+	private String NETWORK_FLAG = "mobile";
 
 	/**
 	 * 创建总数据库
@@ -243,6 +247,8 @@ public class SQLHelperUid {
 					if (!cur.moveToFirst()) {
 						exeSQLcreateUidtable(mySQL, date, time, uid, 0, null);
 						exeSQLcreateUidtable(mySQL, date, time, uid, 1, null);
+						exeSQLcreateUidtable(mySQL, date, time, uid, 3, null);
+						exeSQLcreateUidtable(mySQL, date, time, uid, 4, null);
 					} else {
 						cur.close();
 					}
@@ -643,9 +649,18 @@ public class SQLHelperUid {
 			String time, int uidnumber, int type, String other) {
 		initUidData(uidnumber);
 		String string = null;
-		string = InsertTable + "uid" + uidnumber + Start + InsertUidColumnTotal
-				+ End + Value + date + split + time + split + uidupload + split
-				+ uiddownload + split + type + split + other + "'" + End;
+		// 表示是否为总流量，总流量初始数据为0
+		if (type == 3 || type == 4) {
+			string = InsertTable + "uid" + uidnumber + Start
+					+ InsertUidColumnTotal + End + Value + date + split + time
+					+ split + "0" + split + "0" + split + type + split + other
+					+ "'" + End;
+		} else {
+			string = InsertTable + "uid" + uidnumber + Start
+					+ InsertUidColumnTotal + End + Value + date + split + time
+					+ split + uidupload + split + uiddownload + split + type
+					+ split + other + "'" + End;
+		}
 		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
 		// ('1','1','1','1','1','1')
 		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
@@ -994,6 +1009,11 @@ public class SQLHelperUid {
 							null);
 					exeSQLcreateUidtable(sqldatabase, date, time, uidnumber, 1,
 							null);
+					// 3mobile，4wifi
+					exeSQLcreateUidtable(sqldatabase, date, time, uidnumber, 3,
+							null);
+					exeSQLcreateUidtable(sqldatabase, date, time, uidnumber, 4,
+							null);
 				}
 			}
 		} catch (Exception e) {
@@ -1172,6 +1192,57 @@ public class SQLHelperUid {
 	}
 
 	/**
+	 * 对数据库uid数据进行批量更新，
+	 * 
+	 * @param sqlDataBase
+	 *            进行操作的数据库SQLiteDatagase
+	 * @param uidnumbers
+	 *            数据库的表数组集合：uid的table表的uid号，
+	 * @param type
+	 *            用于记录数据状态，以统计数据
+	 * @param other
+	 *            用于记录特殊数据等
+	 * @param typechange
+	 *            改变type值
+	 */
+	public HashMap<Integer, Data> getSQLUidtraff(SQLiteDatabase sqlDataBase,
+			int[] uidnumbers, String network) {
+		// TODO Auto-generated method stub
+		// SQLHelperTotal.isSQLUidTotalOnUsed = true;
+		// String other = SQLHelperTotal.TableWiFiOrG23;
+		HashMap<Integer, Data> mp = new HashMap<Integer, Data>();
+		mp = SelectUiddownloadAndupload(sqlDataBase, uidnumbers);
+		// TODO: handle exception
+		// showLog("批量输入uidTotal网络数据失败");
+		// SQLHelperTotal.isSQLUidTotalOnUsed = false;
+		return mp;
+	}
+
+	private HashMap<Integer, Data> SelectUiddownloadAndupload(
+			SQLiteDatabase sqlDataBase, int[] uidnumber) {
+		HashMap<Integer, Data> mp = new HashMap<Integer, Data>();
+		long[] tpmobile = new long[3];
+		long[] tpwifi = new long[3];
+		for (int i = 0; i < uidnumber.length; i++) {
+			tpmobile = getSQLuidtotalData(sqlDataBase, uidnumber[i],
+					NETWORK_FLAG);
+			tpwifi = getSQLuidtotalData(sqlDataBase, uidnumber[i], "wifi");
+			Data temp = new Data();
+			temp.upload = tpmobile[1] + tpwifi[1];
+			temp.download = tpmobile[2] + tpwifi[2];
+			mp.put(uidnumber[i], temp);
+			// showLog(uidnumber[i]+"traff"+get[1]+"");
+		}
+		// Data temp = new Data();
+		// temp=mp.get(10045);
+		// Data temp2 = new Data();
+		// temp2=mp.get(10051);
+		// showLog(10045+"gettraf"+temp.upload);
+		// showLog(10051+"gettraf"+temp2.upload);
+		return mp;
+	}
+
+	/**
 	 * 记录uid流量数据
 	 * 
 	 * @param sqlDataBase
@@ -1202,6 +1273,76 @@ public class SQLHelperUid {
 			}
 		}
 
+	}
+
+	/**
+	 * 获取pie用的uid总流量
+	 * 
+	 * @param context
+	 * @param uidnumber
+	 * @return a[0]代表总mobile，1，2代表mobile上传，下载a[5]代表总wifi，3，4代表wifi上传，下载
+	 */
+	public long[] getSQLuidPiedata(Context context, int uidnumber) {
+		long[] tpmobile = new long[3];
+		long[] tpwifi = new long[3];
+		long[] a = new long[6];
+		SQLiteDatabase mySQL = creatSQLUid(context);
+		tpmobile = getSQLuidtotalData(mySQL, uidnumber, NETWORK_FLAG);
+		a[0] = tpmobile[0];
+		a[1] = tpmobile[1];
+		a[2] = tpmobile[2];
+		tpwifi = getSQLuidtotalData(mySQL, uidnumber, "wifi");
+		a[5] = tpwifi[0];
+		a[3] = tpwifi[1];
+		a[4] = tpwifi[2];
+		closeSQL(mySQL);
+		return a;
+	}
+
+	/**
+	 * 依据网络状态选择对应的之前流量。
+	 * 
+	 * @param mySQL
+	 * @param uidnumber
+	 * @param network
+	 * @return a[0]为总计流量a[1]总计上传流量a[2]总计下载流量
+	 */
+	private long[] getSQLuidtotalData(SQLiteDatabase mySQL, int uidnumber,
+			String network) {
+		String string = null;
+		if (network == NETWORK_FLAG) {
+			// select oldest upload and download 之前记录的数据的查询操作
+			string = SelectTable + "uid" + uidnumber + Where + "type=" + 3;
+		} else {
+			string = SelectTable + "uid" + uidnumber + Where + "type=" + 4;
+		}
+		try {
+			cur = mySQL.rawQuery(string, null);
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog("error" + string);
+		}
+		long[] a = new long[3];
+		if (cur != null) {
+			try {
+				int minup = cur.getColumnIndex("upload");
+				int mindown = cur.getColumnIndex("download");
+				// showLog(cur.getColumnIndex("minute") + "");
+				if (cur.moveToFirst()) {
+					// 获得之前的上传下载值
+					a[1] = cur.getLong(minup);
+					a[2] = cur.getLong(mindown);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				showLog("cur-searchfail");
+			}
+		}
+		if (cur != null) {
+			cur.close();
+		}
+		a[0] = a[1] + a[2];
+		return a;
 	}
 
 	/**
@@ -1274,6 +1415,19 @@ public class SQLHelperUid {
 			// 输入实际数据进入数据库
 			updateSQLUidType(mySQL, date, time, oldup, olddown, uidnumber, 0,
 					network, 2);
+			// 同时记录总流量数据
+			if (network == NETWORK_FLAG) {
+				long[] beforeTotal = new long[3];
+				beforeTotal = getSQLuidtotalData(mySQL, uidnumber, network);
+				updateSQLUidType(mySQL, date, time, beforeTotal[1] + oldup,
+						beforeTotal[2] + olddown, uidnumber, 3, null, 3);
+			} else {
+				long[] beforeTotal = new long[3];
+				beforeTotal = getSQLuidtotalData(mySQL, uidnumber, network);
+				updateSQLUidType(mySQL, date, time, beforeTotal[1] + oldup,
+						beforeTotal[2] + olddown, uidnumber, 4, null, 4);
+			}
+
 			// 添加新的两行数据
 			updateSQLUidType(mySQL, date, time, upload, download, uidnumber, 1,
 					network, 0);
@@ -1285,6 +1439,18 @@ public class SQLHelperUid {
 			// 输入实际数据进入数据库
 			updateSQLUidType(mySQL, date, time, oldup, olddown, uidnumber, 0,
 					network, 2);
+			// 同时记录总流量数据
+			if (network == NETWORK_FLAG) {
+				long[] beforeTotal = new long[3];
+				beforeTotal = getSQLuidtotalData(mySQL, uidnumber, network);
+				updateSQLUidType(mySQL, date, time, beforeTotal[1] + oldup,
+						beforeTotal[2] + olddown, uidnumber, 3, null, 3);
+			} else {
+				long[] beforeTotal = new long[3];
+				beforeTotal = getSQLuidtotalData(mySQL, uidnumber, network);
+				updateSQLUidType(mySQL, date, time, beforeTotal[1] + oldup,
+						beforeTotal[2] + olddown, uidnumber, 4, null, 4);
+			}
 			// 添加新的两行数据
 			updateSQLUidType(mySQL, date, time, upload, download, uidnumber, 1,
 					network, 0);
@@ -1552,6 +1718,8 @@ public class SQLHelperUid {
 		initTime();
 		exeSQLcreateUidtable(sqlDataBase, date, time, uid, 0, null);
 		exeSQLcreateUidtable(sqlDataBase, date, time, uid, 1, null);
+		exeSQLcreateUidtable(sqlDataBase, date, time, uid, 3, null);
+		exeSQLcreateUidtable(sqlDataBase, date, time, uid, 4, null);
 	}
 
 	/**

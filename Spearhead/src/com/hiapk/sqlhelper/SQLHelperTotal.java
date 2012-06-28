@@ -342,7 +342,6 @@ public class SQLHelperTotal {
 		boolean initsuccess = true;
 		SQLiteDatabase sqldatabaseTotal = creatSQLTotal(context);
 		SQLiteDatabase sqldatabaseUid = creatSQLUid(context);
-		SQLiteDatabase sqldatabaseUidIndex = creatSQLUidIndex(context);
 		SQLiteDatabase sqldatabaseUidTotal = creatSQLUidTotal(context);
 		sqldatabaseTotal.beginTransaction();
 		try {
@@ -389,29 +388,6 @@ public class SQLHelperTotal {
 			initsuccess = false;
 		} finally {
 			sqldatabaseTotal.endTransaction();
-		}
-
-		// 初始化uidIndex
-		sqldatabaseUidIndex.beginTransaction();
-		try {
-			// 初始化uid数据库的Index表
-			if (initsuccess) {
-				initsuccess = SQLhelperuid
-						.initUidIndexTables(sqldatabaseUidIndex);
-				// showLog("建立tableIndex");
-				// 不包含uid=0的
-				SQLhelperuid.exeSQLcreateUidIndextables(sqldatabaseUidIndex,
-						uidnumbers, packagename);
-				// showLog("初始化tableIndex");
-			}
-			sqldatabaseUidIndex.setTransactionSuccessful();
-		} catch (Exception e) {
-			// TODO: handle exception
-			initsuccess = false;
-			showLog("初始化uidIndex数据表失败");
-		} finally {
-			// showLog("初始化tableIndex完成");
-			sqldatabaseUidIndex.endTransaction();
 		}
 
 		sqldatabaseUid.beginTransaction();
@@ -466,7 +442,6 @@ public class SQLHelperTotal {
 		}
 		closeSQL(sqldatabaseTotal);
 		closeSQL(sqldatabaseUid);
-		closeSQL(sqldatabaseUidIndex);
 		closeSQL(sqldatabaseUidTotal);
 	}
 
