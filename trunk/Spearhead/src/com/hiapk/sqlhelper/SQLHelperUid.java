@@ -1416,8 +1416,8 @@ public class SQLHelperUid {
 			// TODO: handle exception
 			showLog("error" + string);
 		}
-		long oldup0 = 0;
-		long olddown0 = 0;
+		long oldup0 = -100;
+		long olddown0 = -100;
 		String olddate0 = "";
 		if (cur != null) {
 			try {
@@ -1439,103 +1439,111 @@ public class SQLHelperUid {
 		if (cur != null) {
 			cur.close();
 		}
+		if (oldup0 != -100) {
 
-		// 初始化写入数据（wifi以及g23）
-		// 如果之前数据大于新的数据，则重新计数
-		if (oldup0 > upload || olddown0 > download) {
-			oldup0 = upload;
-			olddown0 = download;
-		} else {
-			oldup0 = upload - oldup0;
-			olddown0 = download - olddown0;
-		}
-
-		if ((oldup0 != 0 || olddown0 != 0)
-				&& ((olddown0 > 1024) || (oldup0 > 1024))) {
-
-			// 覆盖添加判断
-			string = SelectTable + "uid" + uidnumber + Where + "date='"
-					+ olddate0 + AND + "other='" + network + AND + "type=" + 2;
-			try {
-				cur = mySQL.rawQuery(string, null);
-			} catch (Exception e) {
-				// TODO: handle exception
-				showLog("error" + string);
+			// 初始化写入数据（wifi以及g23）
+			// 如果之前数据大于新的数据，则重新计数
+			if (oldup0 > upload || olddown0 > download) {
+				oldup0 = upload;
+				olddown0 = download;
+			} else {
+				oldup0 = upload - oldup0;
+				olddown0 = download - olddown0;
 			}
-			long oldup2 = 0;
-			long olddown2 = 0;
-			String olddate2 = "";
-			// 进行添加 覆盖+
-			// showLog("cur.move" + cur.moveToFirst());
-			if (cur.moveToFirst()) {
+
+			if ((oldup0 != 0 || olddown0 != 0)
+					&& ((olddown0 > 512) || (oldup0 > 512))) {
+
+				// 覆盖添加判断
+				string = SelectTable + "uid" + uidnumber + Where + "date='"
+						+ olddate0 + AND + "other='" + network + AND + "type="
+						+ 2;
 				try {
-					int minup = cur.getColumnIndex("upload");
-					int mindown = cur.getColumnIndex("download");
-					int dateIndex = cur.getColumnIndex("date");
-					// showLog(cur.getColumnIndex("minute") + "");
-					if (cur.moveToFirst()) {
-						// 获得之前的上传下载值
-						oldup2 = cur.getLong(minup);
-						olddown2 = cur.getLong(mindown);
-						olddate2 = cur.getString(dateIndex);
-					}
+					cur = mySQL.rawQuery(string, null);
 				} catch (Exception e) {
 					// TODO: handle exception
-					showLog("cur-searchfail");
+					showLog("error" + string);
 				}
-				if (olddate2 != null) {
-					updateSQLUidType(mySQL, date, time, oldup2 + oldup0,
-							olddown2 + olddown0, uidnumber, 2, network, 2);
+				long oldup2 = 0;
+				long olddown2 = 0;
+				String olddate2 = "";
+				// 进行添加 覆盖+
+				// showLog("cur.move" + cur.moveToFirst());
+				if (cur.moveToFirst()) {
+					try {
+						int minup = cur.getColumnIndex("upload");
+						int mindown = cur.getColumnIndex("download");
+						int dateIndex = cur.getColumnIndex("date");
+						// showLog(cur.getColumnIndex("minute") + "");
+						if (cur.moveToFirst()) {
+							// 获得之前的上传下载值
+							oldup2 = cur.getLong(minup);
+							olddown2 = cur.getLong(mindown);
+							olddate2 = cur.getString(dateIndex);
+						}
+					} catch (Exception e) {
+						// TODO: handle exception
+						showLog("cur-searchfail");
+					}
+					if (olddate2 != null) {
+						updateSQLUidType(mySQL, date, time, oldup2 + oldup0,
+								olddown2 + olddown0, uidnumber, 2, network, 2);
+						updateSQLUidType(mySQL, date, time, upload, download,
+								uidnumber, 0, network, 0);
+						statsSQLuidTotaldata(mySQL, uidnumber, date, time,
+								oldup0, olddown0, network);
+					}
+					// 进行添加add
+				} else {
+					exeSQLcreateUidtableSetData(mySQL, date, time, uidnumber,
+							0, 0, 2, network);
+					updateSQLUidType(mySQL, date, time, oldup0, olddown0,
+							uidnumber, 2, network, 2);
 					updateSQLUidType(mySQL, date, time, upload, download,
 							uidnumber, 0, network, 0);
 					statsSQLuidTotaldata(mySQL, uidnumber, date, time, oldup0,
 							olddown0, network);
 				}
-				// 进行添加add
-			} else {
-				exeSQLcreateUidtableSetData(mySQL, date, time, uidnumber, 0, 0,
-						2, network);
-				updateSQLUidType(mySQL, date, time, oldup0, olddown0,
-						uidnumber, 2, network, 2);
-				updateSQLUidType(mySQL, date, time, upload, download,
-						uidnumber, 0, network, 0);
-				statsSQLuidTotaldata(mySQL, uidnumber, date, time, oldup0,
-						olddown0, network);
+				if (cur != null) {
+					cur.close();
+				}
 			}
-			if (cur != null) {
-				cur.close();
-			}
+			// if (daily) {
+			// // showLog("上传uid" + uidnumber + "数据" + oldup + "B" + "  " +
+			// "下载uid"
+			// // + uidnumber + "数据" + olddown + "B");
+			// // 输入实际数据进入数据库
+			// updateSQLUidType(mySQL, date, time, oldup0, olddown0, uidnumber,
+			// 0,
+			// network, 2);
+			// // 同时记录总流量数据
+			// statsSQLuidTotaldata(mySQL, uidnumber, date, time, oldup0,
+			// olddown0, network);
+			//
+			// // 添加新的两行数据
+			// updateSQLUidType(mySQL, date, time, upload, download, uidnumber,
+			// 1,
+			// network, 0);
+			// exeSQLcreateUidtable(mySQL, uidnumber, 1, network);
+			// } else if ((oldup0 != 0 || olddown0 != 0)
+			// && ((olddown0 > 1024) || (oldup0 > 1024))) {
+			// // showLog("上传uid" + uidnumber + "数据" + oldup + "B" + "  " +
+			// "下载uid"
+			// // + uidnumber + "数据" + olddown + "B");
+			// // 输入实际数据进入数据库
+			// updateSQLUidType(mySQL, date, time, oldup0, olddown0, uidnumber,
+			// 0,
+			// network, 2);
+			// // 同时记录总流量数据
+			// statsSQLuidTotaldata(mySQL, uidnumber, date, time, oldup0,
+			// olddown0, network);
+			// // 添加新的两行数据
+			// updateSQLUidType(mySQL, date, time, upload, download, uidnumber,
+			// 1,
+			// network, 0);
+			// exeSQLcreateUidtable(mySQL, uidnumber, 1, network);
+			// }
 		}
-		// if (daily) {
-		// // showLog("上传uid" + uidnumber + "数据" + oldup + "B" + "  " + "下载uid"
-		// // + uidnumber + "数据" + olddown + "B");
-		// // 输入实际数据进入数据库
-		// updateSQLUidType(mySQL, date, time, oldup0, olddown0, uidnumber, 0,
-		// network, 2);
-		// // 同时记录总流量数据
-		// statsSQLuidTotaldata(mySQL, uidnumber, date, time, oldup0,
-		// olddown0, network);
-		//
-		// // 添加新的两行数据
-		// updateSQLUidType(mySQL, date, time, upload, download, uidnumber, 1,
-		// network, 0);
-		// exeSQLcreateUidtable(mySQL, uidnumber, 1, network);
-		// } else if ((oldup0 != 0 || olddown0 != 0)
-		// && ((olddown0 > 1024) || (oldup0 > 1024))) {
-		// // showLog("上传uid" + uidnumber + "数据" + oldup + "B" + "  " + "下载uid"
-		// // + uidnumber + "数据" + olddown + "B");
-		// // 输入实际数据进入数据库
-		// updateSQLUidType(mySQL, date, time, oldup0, olddown0, uidnumber, 0,
-		// network, 2);
-		// // 同时记录总流量数据
-		// statsSQLuidTotaldata(mySQL, uidnumber, date, time, oldup0,
-		// olddown0, network);
-		// // 添加新的两行数据
-		// updateSQLUidType(mySQL, date, time, upload, download, uidnumber, 1,
-		// network, 0);
-		// exeSQLcreateUidtable(mySQL, uidnumber, 1, network);
-		// }
-
 	}
 
 	/**
