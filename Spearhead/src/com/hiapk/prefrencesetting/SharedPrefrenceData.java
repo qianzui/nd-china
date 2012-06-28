@@ -286,7 +286,7 @@ public class SharedPrefrenceData {
 
 	public long getAlertWarningMonth() {
 		long mobileWarning = prefs.getLong(MOBILE_WARNING_MONTH,
-				45 * 1024 * 1024);
+				0);
 		return mobileWarning;
 	}
 
@@ -295,7 +295,7 @@ public class SharedPrefrenceData {
 	}
 
 	public long getAlertWarningDay() {
-		long mobileWarning = prefs.getLong(MOBILE_WARNING_DAY, 5 * 1024 * 1024);
+		long mobileWarning = prefs.getLong(MOBILE_WARNING_DAY, 0);
 		return mobileWarning;
 	}
 
