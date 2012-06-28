@@ -339,7 +339,7 @@ public class Main extends Activity {
 		monthDay = t.monthDay;
 		AlarmSet alset = new AlarmSet();
 		alset.StartAlarm(context);
-//		initWifiBar();
+		// initWifiBar();
 		// if (TrafficManager.mobile_month_data[0] == 0
 		// && TrafficManager.wifi_month_data[0] == 0
 		// && TrafficManager.mobile_month_data[63] == 0
@@ -445,11 +445,11 @@ public class Main extends Activity {
 					// MobclickAgent.onEvent(context, "refresh");
 					AlarmSet alset = new AlarmSet();
 					// 初始化网络状态
-					sqlhelperTotal.initTablemobileAndwifi(context, false);
 					if (SQLHelperTotal.TableWiFiOrG23 != ""
 							&& sqlhelperTotal.getIsInit(context)) {
 						// 启动闹钟
 						alset.StartAlarmMobile(context);
+						sqlhelperTotal.initTablemobileAndwifi(context, false);
 						// 进行数据记录
 						// trafficManager.statsTotalTraffic(context, false);
 						// sqlhelperTotal.RecordTotalwritestats(context, false);

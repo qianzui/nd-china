@@ -30,6 +30,8 @@ public class Splash extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
 		SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
+		AlarmSet alset = new AlarmSet();
+		alset.StartAlarm(context);
 		sqlhelperTotal.initTablemobileAndwifi(context, false);
 
 		// MobclickAgent.onError(this);

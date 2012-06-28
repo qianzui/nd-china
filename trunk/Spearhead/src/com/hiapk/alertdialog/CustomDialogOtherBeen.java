@@ -28,11 +28,11 @@ public class CustomDialogOtherBeen {
 		sharedData = new SharedPrefrenceData(context);
 	}
 
-
 	public void dialogConfirmClearData() {
 
 		final CustomDialog monthSetAlert = new CustomDialog.Builder(context)
-				.setTitle("注意！").setMessage("该操作将清除所有历史数据，您确定要继续吗？")
+				.setTitle("注意！").setwindowHeight((double) 0.35)
+				.setMessage("该操作将清除所有历史数据，您确定要继续吗？")
 				.setPositiveButton("确定", null).setNegativeButton("取消", null)
 				.create();
 		monthSetAlert.show();

@@ -17,9 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class CustomDialog extends Dialog {
-	public static double windowHeight = 0.3;
-	public static double windowWidth = 0.8;
-
 	public CustomDialog(Context context) {
 		super(context);
 	}
@@ -49,6 +46,8 @@ public class CustomDialog extends Dialog {
 
 		private View contentView;
 
+		private double windowHeight = 0.3;
+		private double windowWidth = 0.8;
 		private DialogInterface.OnClickListener otherListener,
 				positiveListener, negativeListener;
 
@@ -64,6 +63,28 @@ public class CustomDialog extends Dialog {
 		 */
 		public Builder setMessage(String message) {
 			this.message = message;
+			return this;
+		}
+
+		/**
+		 * 设置窗体高度
+		 * 
+		 * @param message
+		 * @return
+		 */
+		public Builder setwindowHeight(double windowHeight) {
+			this.windowHeight = windowHeight;
+			return this;
+		}
+
+		/**
+		 * 设置窗体宽度
+		 * 
+		 * @param message
+		 * @return
+		 */
+		public Builder setwindowWidth(double windowWidth) {
+			this.windowWidth = windowWidth;
 			return this;
 		}
 
@@ -217,8 +238,8 @@ public class CustomDialog extends Dialog {
 					.getHeight();
 			int width = window.getWindowManager().getDefaultDisplay()
 					.getWidth();
-//			windowHeight = 0.3;
-//			windowWidth = 0.8;
+			// windowHeight = 0.3;
+			// windowWidth = 0.8;
 			window.setLayout((int) (width * windowWidth),
 					(int) (heigh * windowHeight));
 			// 设置标题

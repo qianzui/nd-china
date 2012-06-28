@@ -12,7 +12,7 @@
         android:gravity="center"
         android:text="与运营商核对流量数据"
         android:textColor="@color/whitesmoke"
-        android:textSize="19dip" />
+        android:textSize="23sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
