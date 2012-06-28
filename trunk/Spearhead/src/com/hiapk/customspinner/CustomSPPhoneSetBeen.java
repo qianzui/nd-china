@@ -216,7 +216,7 @@ public class CustomSPPhoneSetBeen {
 	private void init_spin_pingpai(int operatorID, Button btn_second) {
 		String[] content = res.getStringArray(SPDataSet
 				.getSpinBrand(operatorID));
-		int beforepos = sharedData.getCurrentYunyinshangID();
+		int beforepos = sharedData.getCurrentPinpaiID();
 		dialogPhoneSetSecond(content, beforepos, "«Î—°‘Ò∆∑≈∆", "brand", btn_second);
 	}
 
