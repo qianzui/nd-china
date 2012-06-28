@@ -112,9 +112,12 @@ public class CustomDialogMainBeen {
 				mobileUseString = format
 						.format(((double) mobileUselong) / 1024 / 1024 / 1024);
 			}
-
+			int length=String.valueOf(mobileUseString).length();
+			if (length>6) {
+				length=6;
+			}
 			et_month.setText(mobileUseString);
-			et_month.setSelection(String.valueOf(mobileUseString).length());
+			et_month.setSelection(length);
 		} else {
 			et_month.setText("");
 		}
