@@ -86,7 +86,7 @@ public class FireWallActivity extends Activity {
 					SpearheadActivity.showHelp(mContext);
 				} catch (Exception ex) {
 				}
-			} 
+			}
 		};
 		new Thread(new Runnable() {
 			@Override
@@ -470,6 +470,8 @@ public class FireWallActivity extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		AlarmSet alset = new AlarmSet();
+		alset.StartAlarmUidTotal(mContext);
 		// MobclickAgent.onResume(this);
 	}
 

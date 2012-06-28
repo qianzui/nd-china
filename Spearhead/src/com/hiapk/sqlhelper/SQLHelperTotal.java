@@ -236,17 +236,21 @@ public class SQLHelperTotal {
 			// TODO: handle exception
 			showLog(string);
 		}
-		long oldup = 0;
-		long olddown = 0;
+		long oldup0 = 0;
+		long olddown0 = 0;
+		String olddate0 = "";
+
 		if (cur != null) {
 			try {
 				int minup = cur.getColumnIndex("upload");
 				int mindown = cur.getColumnIndex("download");
+				int dateIndex = cur.getColumnIndex("date");
 				// showLog(cur.getColumnIndex("minute") + "");
 				if (cur.moveToFirst()) {
 					// 获得之前的上传下载值
-					oldup = cur.getLong(minup);
-					olddown = cur.getLong(mindown);
+					oldup0 = cur.getLong(minup);
+					olddown0 = cur.getLong(mindown);
+					olddate0 = cur.getString(dateIndex);
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -258,29 +262,81 @@ public class SQLHelperTotal {
 		}
 		// 初始化写入数据（wifi以及mobile）
 		// 如果之前数据大于新的数据，则重新计数
-		if (oldup > upload || olddown > download) {
-			oldup = upload;
-			olddown = download;
+		if (oldup0 > upload || olddown0 > download) {
+			oldup0 = upload;
+			olddown0 = download;
 		} else {
-			oldup = upload - oldup;
-			olddown = download - olddown;
+			oldup0 = upload - oldup0;
+			olddown0 = download - olddown0;
 		}
-		if (daily) {
-			// showLog("上传数据" + oldup + "B" + "  " + "下载数据" + olddown + "B");
-			// 输入实际数据进入数据库
-			updateSQLtotalType(mySQL, table, oldup, olddown, 0, other, type);
-			// 添加新的两行数据
-			updateSQLtotalType(mySQL, table, upload, download, 1, other, 0);
-			exeSQLtotal(mySQL, table, 1, other);
-		} else if ((olddown != 0 || oldup != 0)
-				&& ((olddown > 1024) || (oldup > 1024))) {
-			// showLog("上传数据" + oldup + "B" + "  " + "下载数据" + olddown + "B");
-			// 输入实际数据进入数据库
-			updateSQLtotalType(mySQL, table, oldup, olddown, 0, other, type);
-			// 添加新的两行数据
-			updateSQLtotalType(mySQL, table, upload, download, 1, other, 0);
-			exeSQLtotal(mySQL, table, 1, other);
+
+		if ((olddown0 != 0 || oldup0 != 0)
+				&& ((olddown0 > 1024) || (oldup0 > 1024))) {
+
+			string = SelectTable + table + Where + "date='" + olddate0 + AND
+					+ "other='" + other + AND + "type=" + 2;
+			try {
+				cur = mySQL.rawQuery(string, null);
+			} catch (Exception e) {
+				// TODO: handle exception
+				showLog(string);
+			}
+			long oldup2 = 0;
+			long olddown2 = 0;
+			String olddate2 = "";
+			// 进行添加 覆盖+
+			// showLog("cur.move" + cur.moveToFirst());
+			if (cur.moveToFirst()) {
+				try {
+					int minup = cur.getColumnIndex("upload");
+					int mindown = cur.getColumnIndex("download");
+					int dateIndex = cur.getColumnIndex("date");
+					// showLog(cur.getColumnIndex("minute") + "");
+					if (cur.moveToFirst()) {
+						// 获得之前的上传下载值
+						oldup2 = cur.getLong(minup);
+						olddown2 = cur.getLong(mindown);
+						olddate2 = cur.getString(dateIndex);
+					}
+				} catch (Exception e) {
+					// TODO: handle exception
+					showLog("cur-searchfail");
+				}
+				if (olddate2 != null) {
+
+					updateSQLtotalType(mySQL, table, oldup2 + oldup0, olddown2
+							+ olddown0, 2, other, 2);
+					updateSQLtotalType(mySQL, table, upload, download, 0,
+							other, 0);
+
+				}
+				// 进行添加add
+			} else {
+				exeSQLtotalSetData(mySQL, table, 0, 0, 2, other);
+
+				updateSQLtotalType(mySQL, table, oldup0, olddown0, 2, other, 2);
+				updateSQLtotalType(mySQL, table, upload, download, 0, other, 0);
+			}
+			if (cur != null) {
+				cur.close();
+			}
 		}
+		// if (daily) {
+		// // showLog("上传数据" + oldup + "B" + "  " + "下载数据" + olddown + "B");
+		// // 输入实际数据进入数据库
+		// updateSQLtotalType(mySQL, table, oldup0, olddown0, 0, other, type);
+		// // 添加新的两行数据
+		// updateSQLtotalType(mySQL, table, upload, download, 1, other, 0);
+		// exeSQLtotal(mySQL, table, 1, other);
+		// } else if ((olddown0 != 0 || oldup0 != 0)
+		// && ((olddown0 > 1024) || (oldup0 > 1024))) {
+		// // showLog("上传数据" + oldup + "B" + "  " + "下载数据" + olddown + "B");
+		// // 输入实际数据进入数据库
+		// updateSQLtotalType(mySQL, table, oldup0, olddown0, 0, other, type);
+		// // 添加新的两行数据
+		// updateSQLtotalType(mySQL, table, upload, download, 1, other, 0);
+		// exeSQLtotal(mySQL, table, 1, other);
+		// }
 
 	}
 
@@ -301,6 +357,24 @@ public class SQLHelperTotal {
 		// TODO Auto-generated method stub
 		String string = null;
 		initTotalData(table);
+		string = InsertTable + table + Start + InsertColumnTotal + End + Value
+				+ date + split + time + split + upload + split + download
+				+ split + type + split + other + "'" + End;
+		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
+		// ('date','time','upload','download','uid','type')
+
+		try {
+			mySQL.execSQL(string);
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog(string);
+		}
+	}
+
+	private void exeSQLtotalSetData(SQLiteDatabase mySQL, String table,
+			long upload, long download, int type, String other) {
+		// TODO Auto-generated method stub
+		String string = null;
 		string = InsertTable + table + Start + InsertColumnTotal + End + Value
 				+ date + split + time + split + upload + split + download
 				+ split + type + split + other + "'" + End;
@@ -1181,6 +1255,6 @@ public class SQLHelperTotal {
 	 */
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-//		Log.d("databaseTotal", string);
+		// Log.d("databaseTotal", string);
 	}
 }

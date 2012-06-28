@@ -34,16 +34,9 @@ public class Splash extends Activity {
 
 		// MobclickAgent.onError(this);
 		SharedPrefrenceData sp = new SharedPrefrenceData(context);
-		if (sp.isFirstBoot()) {
-			// Intent i = new Intent();
-			// i.setClass(context, Help.class);
-			new AsyncTaskonFirstResume().execute(context);
-			// startActivity(i);
-		} else
-
-			// 获取root权限
-			// GetRoot.cmdRoot("chmod 777 " + getPackageCodePath());
-			new AsyncTaskonResume().execute(context);
+		// 为了区别帮助页面
+		// new AsyncTaskonFirstResume().execute(context);
+		new AsyncTaskonResume().execute(context);
 	}
 
 	private class AsyncTaskonResume extends
@@ -62,9 +55,15 @@ public class Splash extends Activity {
 			if (sharedData.isSQLinited() == false) {
 				getuids();
 				while (SQLStatic.uids == null) {
-					initSQLdatabase(params[0], SQLStatic.uids,
-							SQLStatic.packagenames);
+					try {
+						Thread.sleep(200);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
+				initSQLdatabase(params[0], SQLStatic.uids,
+						SQLStatic.packagenames);
 			}
 
 			AlarmSet alset = new AlarmSet();
@@ -123,9 +122,15 @@ public class Splash extends Activity {
 			if (sharedData.isSQLinited() == false) {
 				getuids();
 				while (SQLStatic.uids == null) {
-					initSQLdatabase(params[0], SQLStatic.uids,
-							SQLStatic.packagenames);
+					try {
+						Thread.sleep(200);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
+				initSQLdatabase(params[0], SQLStatic.uids,
+						SQLStatic.packagenames);
 			}
 
 			AlarmSet alset = new AlarmSet();
