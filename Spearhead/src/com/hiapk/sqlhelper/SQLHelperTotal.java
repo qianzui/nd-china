@@ -236,8 +236,8 @@ public class SQLHelperTotal {
 			// TODO: handle exception
 			showLog(string);
 		}
-		long oldup0 = 0;
-		long olddown0 = 0;
+		long oldup0 = -100;
+		long olddown0 = -100;
 		String olddate0 = "";
 
 		if (cur != null) {
@@ -260,84 +260,90 @@ public class SQLHelperTotal {
 		if (cur != null) {
 			cur.close();
 		}
-		// 初始化写入数据（wifi以及mobile）
-		// 如果之前数据大于新的数据，则重新计数
-		if (oldup0 > upload || olddown0 > download) {
-			oldup0 = upload;
-			olddown0 = download;
-		} else {
-			oldup0 = upload - oldup0;
-			olddown0 = download - olddown0;
-		}
+		if (oldup0 != -100) {
 
-		if ((olddown0 != 0 || oldup0 != 0)
-				&& ((olddown0 > 1024) || (oldup0 > 1024))) {
-
-			string = SelectTable + table + Where + "date='" + olddate0 + AND
-					+ "other='" + other + AND + "type=" + 2;
-			try {
-				cur = mySQL.rawQuery(string, null);
-			} catch (Exception e) {
-				// TODO: handle exception
-				showLog(string);
+			// 初始化写入数据（wifi以及mobile）
+			// 如果之前数据大于新的数据，则重新计数
+			if (oldup0 > upload || olddown0 > download) {
+				oldup0 = upload;
+				olddown0 = download;
+			} else {
+				oldup0 = upload - oldup0;
+				olddown0 = download - olddown0;
 			}
-			long oldup2 = 0;
-			long olddown2 = 0;
-			String olddate2 = "";
-			// 进行添加 覆盖+
-			// showLog("cur.move" + cur.moveToFirst());
-			if (cur.moveToFirst()) {
+
+			if ((olddown0 != 0 || oldup0 != 0)
+					&& ((olddown0 > 512) || (oldup0 > 512))) {
+
+				string = SelectTable + table + Where + "date='" + olddate0
+						+ AND + "other='" + other + AND + "type=" + 2;
 				try {
-					int minup = cur.getColumnIndex("upload");
-					int mindown = cur.getColumnIndex("download");
-					int dateIndex = cur.getColumnIndex("date");
-					// showLog(cur.getColumnIndex("minute") + "");
-					if (cur.moveToFirst()) {
-						// 获得之前的上传下载值
-						oldup2 = cur.getLong(minup);
-						olddown2 = cur.getLong(mindown);
-						olddate2 = cur.getString(dateIndex);
-					}
+					cur = mySQL.rawQuery(string, null);
 				} catch (Exception e) {
 					// TODO: handle exception
-					showLog("cur-searchfail");
+					showLog(string);
 				}
-				if (olddate2 != null) {
+				long oldup2 = 0;
+				long olddown2 = 0;
+				String olddate2 = "";
+				// 进行添加 覆盖+
+				// showLog("cur.move" + cur.moveToFirst());
+				if (cur.moveToFirst()) {
+					try {
+						int minup = cur.getColumnIndex("upload");
+						int mindown = cur.getColumnIndex("download");
+						int dateIndex = cur.getColumnIndex("date");
+						// showLog(cur.getColumnIndex("minute") + "");
+						if (cur.moveToFirst()) {
+							// 获得之前的上传下载值
+							oldup2 = cur.getLong(minup);
+							olddown2 = cur.getLong(mindown);
+							olddate2 = cur.getString(dateIndex);
+						}
+					} catch (Exception e) {
+						// TODO: handle exception
+						showLog("cur-searchfail");
+					}
+					if (olddate2 != null) {
 
-					updateSQLtotalType(mySQL, table, oldup2 + oldup0, olddown2
-							+ olddown0, 2, other, 2);
+						updateSQLtotalType(mySQL, table, oldup2 + oldup0,
+								olddown2 + olddown0, 2, other, 2);
+						updateSQLtotalType(mySQL, table, upload, download, 0,
+								other, 0);
+
+					}
+					// 进行添加add
+				} else {
+					exeSQLtotalSetData(mySQL, table, 0, 0, 2, other);
+
+					updateSQLtotalType(mySQL, table, oldup0, olddown0, 2,
+							other, 2);
 					updateSQLtotalType(mySQL, table, upload, download, 0,
 							other, 0);
-
 				}
-				// 进行添加add
-			} else {
-				exeSQLtotalSetData(mySQL, table, 0, 0, 2, other);
-
-				updateSQLtotalType(mySQL, table, oldup0, olddown0, 2, other, 2);
-				updateSQLtotalType(mySQL, table, upload, download, 0, other, 0);
+				if (cur != null) {
+					cur.close();
+				}
 			}
-			if (cur != null) {
-				cur.close();
-			}
+			// if (daily) {
+			// // showLog("上传数据" + oldup + "B" + "  " + "下载数据" + olddown + "B");
+			// // 输入实际数据进入数据库
+			// updateSQLtotalType(mySQL, table, oldup0, olddown0, 0, other,
+			// type);
+			// // 添加新的两行数据
+			// updateSQLtotalType(mySQL, table, upload, download, 1, other, 0);
+			// exeSQLtotal(mySQL, table, 1, other);
+			// } else if ((olddown0 != 0 || oldup0 != 0)
+			// && ((olddown0 > 1024) || (oldup0 > 1024))) {
+			// // showLog("上传数据" + oldup + "B" + "  " + "下载数据" + olddown + "B");
+			// // 输入实际数据进入数据库
+			// updateSQLtotalType(mySQL, table, oldup0, olddown0, 0, other,
+			// type);
+			// // 添加新的两行数据
+			// updateSQLtotalType(mySQL, table, upload, download, 1, other, 0);
+			// exeSQLtotal(mySQL, table, 1, other);
+			// }
 		}
-		// if (daily) {
-		// // showLog("上传数据" + oldup + "B" + "  " + "下载数据" + olddown + "B");
-		// // 输入实际数据进入数据库
-		// updateSQLtotalType(mySQL, table, oldup0, olddown0, 0, other, type);
-		// // 添加新的两行数据
-		// updateSQLtotalType(mySQL, table, upload, download, 1, other, 0);
-		// exeSQLtotal(mySQL, table, 1, other);
-		// } else if ((olddown0 != 0 || oldup0 != 0)
-		// && ((olddown0 > 1024) || (oldup0 > 1024))) {
-		// // showLog("上传数据" + oldup + "B" + "  " + "下载数据" + olddown + "B");
-		// // 输入实际数据进入数据库
-		// updateSQLtotalType(mySQL, table, oldup0, olddown0, 0, other, type);
-		// // 添加新的两行数据
-		// updateSQLtotalType(mySQL, table, upload, download, 1, other, 0);
-		// exeSQLtotal(mySQL, table, 1, other);
-		// }
-
 	}
 
 	/**
