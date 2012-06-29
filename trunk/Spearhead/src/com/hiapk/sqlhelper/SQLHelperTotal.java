@@ -209,6 +209,26 @@ public class SQLHelperTotal {
 		}
 	}
 
+	private void updateSQLtotalTypeDate0to3(SQLiteDatabase mySQL, String table,
+			long upload, long download, int type, String other, int typechange) {
+		initTime();
+		// TODO Auto-generated method stub
+		String string = null;
+		string = UpdateTable + table + UpdateSet + "time='" + time
+				+ "',upload='" + upload + "',download='" + download
+				+ "' ,type=" + typechange + " ,date='" + date + "' " + Where
+				+ "type=" + type;
+		// UPDATE Person SET
+		// date='date',time='time',upload='upload',download='download'
+		// ,type='typechange' WHERE type=type
+		try {
+			mySQL.execSQL(string);
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog(string);
+		}
+	}
+
 	/**
 	 * 对数据库总体数据进行更新,自动生成时间，日期上传，下载流量
 	 * 
@@ -297,37 +317,39 @@ public class SQLHelperTotal {
 			} catch (Exception e) {
 				// TODO: handle exception
 				showLog("数据库搜索失败");
+				oldup0 = -100;
+				olddown0 = -100;
 			}
 		}
 		if (cur != null) {
 			cur.close();
 		}
 		if (oldup0 != -100) {
-
+			cur = null;
 			// 初始化写入数据（wifi以及mobile）
 			// 如果之前数据大于新的数据，则重新计数
-			if (oldup0 > upload || olddown0 > download) {
+			if ((oldup0 > upload) || (olddown0 > download)) {
 				oldup0 = upload;
 				olddown0 = download;
 			} else {
 				oldup0 = upload - oldup0;
 				olddown0 = download - olddown0;
 			}
-
+			// showLog(oldup0+"olddown0="+olddown0);
 			if ((olddown0 != 0 || oldup0 != 0)
 					&& ((olddown0 > 512) || (oldup0 > 512))) {
 
-				string = SelectTable + table + Where + "date='" + olddate0
-						+ AND + "other='" + other + AND + "type=" + 2;
+				string = SelectTable + table + Where + "date='" + date + AND
+						+ "type=" + 3;
 				try {
 					cur = mySQL.rawQuery(string, null);
 				} catch (Exception e) {
 					// TODO: handle exception
 					showLog(string);
 				}
-				long oldup2 = 0;
-				long olddown2 = 0;
-				String olddate2 = "";
+				long oldup3 = 0;
+				long olddown3 = 0;
+				String olddate3 = "";
 				// 进行添加 覆盖+
 				// showLog("cur.move" + cur.moveToFirst());
 				if (cur.moveToFirst()) {
@@ -338,30 +360,40 @@ public class SQLHelperTotal {
 						// showLog(cur.getColumnIndex("minute") + "");
 						if (cur.moveToFirst()) {
 							// 获得之前的上传下载值
-							oldup2 = cur.getLong(minup);
-							olddown2 = cur.getLong(mindown);
-							olddate2 = cur.getString(dateIndex);
+							oldup3 = cur.getLong(minup);
+							olddown3 = cur.getLong(mindown);
+							olddate3 = cur.getString(dateIndex);
 						}
 					} catch (Exception e) {
 						// TODO: handle exception
 						showLog("cur-searchfail");
+						oldup3 = 0;
+						olddown3 = 0;
+						olddate3 = "";
 					}
-					if (olddate2 != null) {
+					// showLog(oldup2+"olddown2="+olddown2+olddate2);
+					// 3为日统计流量
+					if (olddate3 != "") {
 
-						updateSQLtotalTypeDate(mySQL, table, oldup2 + oldup0,
-								olddown2 + olddown0, 2, other, 2);
+						updateSQLtotalTypeDate(mySQL, table, oldup3 + oldup0,
+								olddown3 + olddown0, 3, other, 3);
 						updateSQLtotalType(mySQL, table, upload, download, 0,
 								other, 0);
+						// 时刻对于的数据
+						exeSQLtotalSetData(mySQL, table, oldup0, olddown0, 2,
+								other);
 
 					}
 					// 进行添加add
 				} else {
-					exeSQLtotalSetData(mySQL, table, 0, 0, 2, other);
 
-					updateSQLtotalTypeDate(mySQL, table, oldup0, olddown0, 2,
-							other, 2);
-					updateSQLtotalType(mySQL, table, upload, download, 0,
-							other, 0);
+					updateSQLtotalTypeDate0to3(mySQL, table, oldup0, olddown0, 0,
+							other, 3);
+					exeSQLtotalSetData(mySQL, table, upload, download, 0, other);
+					// updateSQLtotalType(mySQL, table, upload, download, 0,
+					// other, 0);
+					// 时刻对于的数据
+					exeSQLtotalSetData(mySQL, table, oldup0, olddown0, 2, other);
 				}
 				if (cur != null) {
 					cur.close();
@@ -834,7 +866,7 @@ public class SQLHelperTotal {
 		// SELECT * FROM table WHERE type=0
 		string = SelectTable + table + Where + "date" + Between + year + "-"
 				+ month2 + "-" + "01" + AND_B + year + "-" + month2 + "-"
-				+ "31" + AND + "type=" + 2;
+				+ "31" + AND + "type=" + 3;
 		// showLog(string);
 		try {
 			cur = sqlDataBase.rawQuery(string, null);
@@ -967,27 +999,27 @@ public class SQLHelperTotal {
 			if (month != 12) {
 				string = SelectTable + table + Where + "date" + Between + year
 						+ "-" + month2 + "-" + day2 + AND_B + year + "-"
-						+ month3 + "-" + setday2 + AND + "type=" + 2;
+						+ month3 + "-" + setday2 + AND + "type=" + 3;
 			} else {
 				string = SelectTable + table + Where + "date" + Between + year
 						+ "-" + month2 + "-" + day2 + AND_B + year2 + "-"
-						+ "01" + "-" + setday2 + AND + "type=" + 2;
+						+ "01" + "-" + setday2 + AND + "type=" + 3;
 			}
 		} else if (setday > day) {
 			string = SelectTable + table + Where + "date" + Between + year
 					+ "-" + month2 + "-" + day2 + AND_B + year + "-" + month2
-					+ "-" + setday2 + AND + "type=" + 2;
+					+ "-" + setday2 + AND + "type=" + 3;
 		} else {
 			// 进行跨年判断
 			if (month != 12) {
 
 				string = SelectTable + table + Where + "date" + Between + year
 						+ "-" + month2 + "-" + day2 + AND_B + year + "-"
-						+ month3 + "-" + setday2 + AND + "type=" + 2;
+						+ month3 + "-" + setday2 + AND + "type=" + 3;
 			} else {
 				string = SelectTable + table + Where + "date" + Between + year
 						+ "-" + month2 + "-" + day2 + AND_B + year2 + "-"
-						+ "01" + "-" + setday2 + AND + "type=" + 2;
+						+ "01" + "-" + setday2 + AND + "type=" + 3;
 			}
 		}
 		// showLog("testmonthUsetraff" + string);
@@ -1244,30 +1276,25 @@ public class SQLHelperTotal {
 	 */
 	public void autoClearData(Context context, SQLiteDatabase mySQL) {
 		// 进行自动数据清理
-		String[] date = DeleteDate();
-		if (hour == 3) {
+		if (minute == 44) {
 			String string = null;
 			// delete from Yookey where tit not in (select min(tit) from
 			// Yookey
 			// group by SID)
-			string = "DELETE   FROM " + TableMobile + Where + "date" + Between
-					+ date[0] + AND_B + date[1] + "'";
+			string = "DELETE   FROM " + TableMobile + Where + "type=" + 2;
 			try {
 				mySQL.execSQL(string);
 			} catch (Exception e) {
 				// TODO: handle exception
 				showLog(string + "fail");
 			}
-			string = "DELETE   FROM " + TableWiFi + Where + "date" + Between
-					+ date[0] + AND_B + date[1] + "'";
+			string = "DELETE   FROM " + TableWiFi + Where + "type=" + 2;
 			try {
 				mySQL.execSQL(string);
 			} catch (Exception e) {
 				// TODO: handle exception
 				showLog(string + "fail");
 			}
-			SharedPrefrenceData sharedpref = new SharedPrefrenceData(context);
-			sharedpref.setHAS_Cleared(true);
 		}
 	}
 
@@ -1303,6 +1330,6 @@ public class SQLHelperTotal {
 	 */
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		// Log.d("databaseTotal", string);
+		Log.d("databaseTotal", string);
 	}
 }

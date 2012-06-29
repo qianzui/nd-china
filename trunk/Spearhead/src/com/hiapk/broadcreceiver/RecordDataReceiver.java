@@ -8,6 +8,7 @@ import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLStatic;
+import com.hiapk.widget.SetText;
 
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -47,7 +48,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
-		if (SQLStatic.isTotalAlarmRecording == false) { 
+		if (SQLStatic.isTotalAlarmRecording == false) {
 
 			SQLStatic.isTotalAlarmRecording = true;
 			this.context = context;
@@ -133,12 +134,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 						sqlDataBase, year, month);
 				mobile_week_data = sqlhelperTotal.SelectWeekData(sqlDataBase,
 						year, month, monthDay, weekDay);
-				SharedPrefrenceData sharedpref = new SharedPrefrenceData(
-						context);
-				if (monthDay == 13 && hour == 2) {
-					sharedpref.setHAS_Cleared(false);
-				}
-				if (hour == 3 && !sharedpref.isHAS_Cleared()) {
+				if (hour == 3) {
 					sqlhelperTotal.autoClearData(context, sqlDataBase);
 				}
 			}
@@ -148,6 +144,10 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			TrafficManager.wifi_month_data = wifi_month_data;
 			TrafficManager.mobile_month_data = mobile_month_data;
 			TrafficManager.mobile_week_data = mobile_week_data;
+			// 发送0消息
+			if (mobile_month_use_afterSet == 0) {
+				SetText.resetWidgetAndNotify(context);
+			}
 			// showLog("wifitotal=" + wifi_month_data[0] + "");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -200,7 +200,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		MonthlyUseData monthlyUseData = new MonthlyUseData();
 		sqlDataBase.beginTransaction();
 		try {
-			sqlhelperTotal.updateSQLtotalType(sqlDataBase, network, 1, null, 1);
+//			sqlhelperTotal.updateSQLtotalType(sqlDataBase, network, 1, null, 1);
 			sqlhelperTotal.RecordTotalwritestats(sqlDataBase, false, network);
 			// 生成基本常用数据
 			initTime();
@@ -219,10 +219,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			TrafficManager.mobile_month_data = mobile_month_data;
 			TrafficManager.mobile_week_data = mobile_week_data;
 			SharedPrefrenceData sharedpref = new SharedPrefrenceData(context);
-			if (monthDay == 13 && hour == 2) {
-				sharedpref.setHAS_Cleared(false);
-			}
-			if (monthDay == 13 && !sharedpref.isHAS_Cleared()) {
+			if (hour == 3) {
 				sqlhelperTotal.autoClearData(context, sqlDataBase);
 			}
 			// showLog("wifitotal=" + wifi_month_data[0] + "");
