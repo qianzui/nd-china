@@ -11,13 +11,13 @@ public class SPDataSet {
 			CustomSPDialog.heighpar = 0.3;
 			break;
 		case 2:
-			CustomSPDialog.heighpar = 0.35;
+			CustomSPDialog.heighpar = 0.38;
 			break;
 		case 3:
-			CustomSPDialog.heighpar = 0.45;
+			CustomSPDialog.heighpar = 0.48;
 			break;
 		case 4:
-			CustomSPDialog.heighpar = 0.45;
+			CustomSPDialog.heighpar = 0.48;
 			break;
 		case 5:
 			CustomSPDialog.heighpar = 0.5;
@@ -29,7 +29,7 @@ public class SPDataSet {
 			CustomSPDialog.heighpar = 0.6;
 			break;
 		case 8:
-
+			CustomSPDialog.heighpar = 0.7;
 			break;
 		case 9:
 			CustomSPDialog.heighpar = 0.7;

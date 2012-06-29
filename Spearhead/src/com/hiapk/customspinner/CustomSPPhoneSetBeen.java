@@ -180,36 +180,39 @@ public class CustomSPPhoneSetBeen {
 		if (type == "province") {
 			if (arg2 != sharedData.getCurrentProvinceID()) {
 				sharedData.setCurrentCityID(0);
-			}
-			sharedData.setCurrentProvinceID(arg2);
-			int cityName = SPDataSet.getSpinCity((int) arg2);
-			String[] cityNames = res.getStringArray(cityName);
-			btn_second.setText(cityNames[0]);
-			btn_second.setOnClickListener(new OnClickListener() {
+				sharedData.setCurrentProvinceID(arg2);
+				int cityName = SPDataSet.getSpinCity((int) arg2);
+				String[] cityNames = res.getStringArray(cityName);
+				btn_second.setText(cityNames[0]);
+				btn_second.setOnClickListener(new OnClickListener() {
 
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					init_spin_city(arg2, btn_second);
-				}
-			});
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						init_spin_city(arg2, btn_second);
+					}
+				});
+			}
+
 		}
 		if (type == "operator") {
 			if (arg2 != sharedData.getCurrentYunyinshangID()) {
 				sharedData.setCurrentPinpaiID(0);
-			}
-			sharedData.setCurrentYunyinshangID(arg2);
-			int brandName = SPDataSet.getSpinBrand((int) arg2);
-			String[] brandNames = res.getStringArray(brandName);
-			btn_second.setText(brandNames[0]);
-			btn_second.setOnClickListener(new OnClickListener() {
+				sharedData.setCurrentYunyinshangID(arg2);
+				int brandName = SPDataSet.getSpinBrand((int) arg2);
+				String[] brandNames = res.getStringArray(brandName);
+				btn_second.setText(brandNames[0]);
+				btn_second.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						init_spin_pingpai(arg2, btn_second);
+					}
+				});
+			} else {
 
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					init_spin_pingpai(arg2, btn_second);
-				}
-			});
+			}
+
 		}
 	}
 

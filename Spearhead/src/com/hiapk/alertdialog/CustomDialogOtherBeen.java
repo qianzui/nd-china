@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.hiapk.customspinner.CustomSPDialog;
+import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.progressdialog.CustomProgressDialog;
 import com.hiapk.spearhead.R;
@@ -28,6 +29,32 @@ public class CustomDialogOtherBeen {
 		sharedData = new SharedPrefrenceData(context);
 	}
 
+	/**
+	 * 设置的本月已用流量超过包月流量
+	 * 
+	 * @return
+	 */
+	public void dialogHasUsedLongTooMuch() {
+		final CustomDialog dayWarning = new CustomDialog.Builder(context)
+				.setTitle("注意！").setMessage("您设置的本月已用流量超过包月流量！")
+				.setwindowHeight(0.35)
+				// .setView(textEntryView)
+				.setPositiveButton("确定", null).create();
+		dayWarning.show();
+		Button btn_cancel = (Button) dayWarning
+				.findViewById(R.id.positiveButton);
+		btn_cancel.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				PrefrenceOperatorUnit.resetHasWarning(context);
+				dayWarning.dismiss();
+			}
+		});
+
+	}
+
 	public void dialogOpenFireWallFail() {
 		final CustomDialog monthSetAlert;
 		monthSetAlert = new CustomDialog.Builder(context)
@@ -35,7 +62,7 @@ public class CustomDialogOtherBeen {
 				.setTv_size(18)
 				.setwindowHeight(0.7)
 				.setMessage(
-						"由于安卓系统的限制，只有获得最高权限(称为\"Root\")的机器才能使用防火墙功能。\n当前操作失败，\n可能原因有：\n1.您拒绝了Root权限 \n2.系统原因，防火墙应用失败 \n3.部分机型不支持防火墙操作")
+						"由于安卓系统的限制,只有获得最高权限(称为\"Root\")的机器才能使用防火墙功能。\n当前操作失败,可能原因有:\n\n1.您拒绝了Root权限 \n2.系统原因,防火墙应用失败 \n3.部分机型不支持防火墙操作")
 				.setPositiveButton("确定", null).create();
 		monthSetAlert.show();
 		Button btn_ok = (Button) monthSetAlert

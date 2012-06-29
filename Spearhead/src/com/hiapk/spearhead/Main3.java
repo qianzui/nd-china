@@ -25,6 +25,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextPaint;
@@ -77,14 +78,14 @@ public class Main3 extends Activity {
 	TextView tv;
 	// 预警的标识
 	boolean flagWarning = false;
-	// 设置时间
-	private int year;
-	private int month;
-	private int monthDay;
-	private int hour;
-	private int minute;
-	private int second;
-	private String time;
+	// // 设置时间
+	// private int year;
+	// private int month;
+	// private int monthDay;
+	// private int hour;
+	// private int minute;
+	// private int second;
+	// private String time;
 	// 调用单位处理函数
 	UnitHandler FormatUnit = new UnitHandler();
 	// 流量函数
@@ -158,21 +159,23 @@ public class Main3 extends Activity {
 		final Button alertAction = (Button) findViewById(R.id.warningAct);
 		// 0-30代表1-31
 		int beforeDay = sharedData.getAlertAction();
+		Resources res = context.getResources();
+		String[] alertactionString = res.getStringArray(R.array.warningaction);
 		switch (beforeDay) {
 		case 0:
-			alertAction.setText("仅通知栏提示");
+			alertAction.setText(alertactionString[0]);
 			break;
 		case 1:
-			alertAction.setText("震动提示");
+			alertAction.setText(alertactionString[1]);
 			break;
 		case 2:
-			alertAction.setText("自动断网");
+			alertAction.setText(alertactionString[2]);
 			break;
 		case 3:
-			alertAction.setText("震动+自动断网");
+			alertAction.setText(alertactionString[3]);
 			break;
 		default:
-			alertAction.setText("仅通知栏提示");
+			alertAction.setText(alertactionString[0]);
 			break;
 		}
 
@@ -193,7 +196,7 @@ public class Main3 extends Activity {
 		final Button dayWarning = (Button) findViewById(R.id.dayWarning);
 		long mobileWarning = sharedData.getAlertWarningDay();
 		// float a=Float.valueOf(mobileWarning).floatValue();
-		dayWarning.setText(FormatUnit.unitHandler(mobileWarning));
+		dayWarning.setText(UnitHandler.unitHandler(mobileWarning));
 		dayWarning.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -214,7 +217,7 @@ public class Main3 extends Activity {
 		final Button monthWarning = (Button) findViewById(R.id.monthWarning);
 		long mobileWarning = sharedData.getAlertWarningMonth();
 		// float a=Float.valueOf(mobileWarning).floatValue();
-		monthWarning.setText(FormatUnit.unitHandler(mobileWarning));
+		monthWarning.setText(UnitHandler.unitHandler(mobileWarning));
 		monthWarning.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -297,33 +300,6 @@ public class Main3 extends Activity {
 	}
 
 	/**
-	 * 对本月已用进行初始化设置等
-	 */
-	private void init_btn_HasUsed() {
-		// TODO Auto-generated method stub
-		final Button btn_HasUsed = (Button) findViewById(R.id.btn_monthHasUseSet_Unit);
-		// 设置默认显示值
-		// 设置的使用值
-		// long mobileUsedSet = sharedData.getMonthMobileHasUse();
-		// 计算出来的设置数值之后计算出来的使用量
-		long month_used = TrafficManager.getMonthUseData(context);
-		// showlog(mobileUsedSet + "");
-		// showlog(month_used + "");
-		btn_HasUsed.setText(FormatUnit.unitHandler(month_used));
-		// 设置监听
-		btn_HasUsed.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				CustomDialogMain3Been customDialog = new CustomDialogMain3Been(
-						context);
-				customDialog.dialogMonthHasUsed(btn_HasUsed);
-
-			}
-		});
-	}
-
-	/**
 	 * 对月度显示文本进行初始化设置等
 	 */
 	private void init_btn_month() {
@@ -331,7 +307,7 @@ public class Main3 extends Activity {
 		// 设置默认显示值
 		long mobileSetLong = sharedData.getMonthMobileSetOfLong();
 		// showlog(mobileSetLong + "");
-		btn_month.setText(FormatUnit.unitHandler(mobileSetLong));
+		btn_month.setText(UnitHandler.unitHandler(mobileSetLong));
 		final Button dayWarning = (Button) findViewById(R.id.dayWarning);
 		final Button monthWarning = (Button) findViewById(R.id.monthWarning);
 		// 设置监听
@@ -368,54 +344,54 @@ public class Main3 extends Activity {
 
 	}
 
-	/**
-	 * 获取时间
-	 * 
-	 * @return 返回00:00:00的时间
-	 */
-	private String gettime() {
-		initTime();
-		return time;
-	}
+	// /**
+	// * 获取时间
+	// *
+	// * @return 返回00:00:00的时间
+	// */
+	// private String gettime() {
+	// initTime();
+	// return time;
+	// }
 
-	/**
-	 * 记录修改已使用流量的时间
-	 */
-	private void commitUsedTrafficTime() {
-		Editor UseEditor = context.getSharedPreferences(PREFS_NAME, 0).edit();
-		// 记录点击修改已使用流量的时间
-		String time = gettime();
-		UseEditor.putInt(MOBILE_COUNT_SET_YEAR, year);
-		UseEditor.putInt(MOBILE_COUNT_SET_MONTH, month);
-		UseEditor.putInt(MOBILE_COUNT_SET_DAY, monthDay);
-		UseEditor.putString(MOBILE_COUNT_SET_TIME, time);
-		UseEditor.commit();
-	}
+	// /**
+	// * 记录修改已使用流量的时间
+	// */
+	// private void commitUsedTrafficTime() {
+	// Editor UseEditor = context.getSharedPreferences(PREFS_NAME, 0).edit();
+	// // 记录点击修改已使用流量的时间
+	// String time = gettime();
+	// UseEditor.putInt(MOBILE_COUNT_SET_YEAR, year);
+	// UseEditor.putInt(MOBILE_COUNT_SET_MONTH, month);
+	// UseEditor.putInt(MOBILE_COUNT_SET_DAY, monthDay);
+	// UseEditor.putString(MOBILE_COUNT_SET_TIME, time);
+	// UseEditor.commit();
+	// }
 
-	/**
-	 * 初始化系统时间
-	 */
-	private void initTime() {
-		// Time t = new Time("GMT+8");
-		Time t = new Time();
-		t.setToNow(); // 取得系统时间。
-		year = t.year;
-		month = t.month + 1;
-		monthDay = t.monthDay;
-		hour = t.hour; // 0-23
-		minute = t.minute;
-		second = t.second;
-		String hour2 = hour + "";
-		String minute2 = minute + "";
-		String second2 = second + "";
-		if (hour < 10)
-			hour2 = "0" + hour2;
-		if (minute < 10)
-			minute2 = "0" + minute2;
-		if (second < 10)
-			second2 = "0" + second2;
-		time = hour2 + ":" + minute2 + ":" + second2;
-	}
+	// /**
+	// * 初始化系统时间
+	// */
+	// private void initTime() {
+	// // Time t = new Time("GMT+8");
+	// Time t = new Time();
+	// t.setToNow(); // 取得系统时间。
+	// year = t.year;
+	// month = t.month + 1;
+	// monthDay = t.monthDay;
+	// hour = t.hour; // 0-23
+	// minute = t.minute;
+	// second = t.second;
+	// String hour2 = hour + "";
+	// String minute2 = minute + "";
+	// String second2 = second + "";
+	// if (hour < 10)
+	// hour2 = "0" + hour2;
+	// if (minute < 10)
+	// minute2 = "0" + minute2;
+	// if (second < 10)
+	// second2 = "0" + second2;
+	// time = hour2 + ":" + minute2 + ":" + second2;
+	// }
 
 	/**
 	 * 显示日志

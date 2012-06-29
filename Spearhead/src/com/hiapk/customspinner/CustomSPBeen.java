@@ -28,6 +28,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.hiapk.alertdialog.CustomDialog;
+import com.hiapk.alertdialog.CustomDialogOtherBeen;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
@@ -102,7 +103,7 @@ public class CustomSPBeen {
 		final CustomSPDialog freshtime;
 		CustomSPDialog.heighpar = 0.6;
 		freshtime = new CustomSPDialog.Builder(context)
-				.setTitle("刷新状态栏和小部件的频率").setContentView(textEntryView)
+				.setTitle("更新频率").setContentView(textEntryView)
 				.setNegativeButton("确定", null).create();
 		freshtime.show();
 		// 设置cancel的监听
@@ -285,6 +286,7 @@ public class CustomSPBeen {
 		// 弹出建议设置已用流量对话框
 		final CustomDialog dayWarning = new CustomDialog.Builder(context)
 				.setTitle("注意！").setMessage("设置结算日后请重新对流量进行校准。")
+				.setwindowHeight(0.35)
 				// .setView(textEntryView)
 				.setPositiveButton("确定", null).setNegativeButton("取消", null)
 				.create();
@@ -420,7 +422,9 @@ public class CustomSPBeen {
 				long hasusedlong = sharedData.getMonthMobileHasUse();
 				long setlong = sharedData.getMonthMobileSetOfLong();
 				if (hasusedlong > setlong) {
-					dialogHasUsedLongTooMuch();
+					CustomDialogOtherBeen customOther = new CustomDialogOtherBeen(
+							context);
+					customOther.dialogHasUsedLongTooMuch();
 				}
 				SetText.resetWidgetAndNotify(context);
 				PrefrenceOperatorUnit.resetHasWarning(context);
@@ -440,32 +444,6 @@ public class CustomSPBeen {
 		});
 
 	}
-
-	/**
-	 * 设置的本月已用流量超过包月流量
-	 * 
-	 * @return
-	 */
-	public void dialogHasUsedLongTooMuch() {
-		final CustomDialog dayWarning = new CustomDialog.Builder(context)
-				.setTitle("注意！").setMessage("您设置的本月已用流量超过包月流量！")
-				// .setView(textEntryView)
-				.setPositiveButton("确定", null).create();
-		dayWarning.show();
-		Button btn_cancel = (Button) dayWarning
-				.findViewById(R.id.positiveButton);
-		btn_cancel.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				PrefrenceOperatorUnit.resetHasWarning(context);
-				dayWarning.dismiss();
-			}
-		});
-
-	}
-
 
 	/**
 	 * 显示日志
