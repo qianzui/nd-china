@@ -102,7 +102,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 		sqlDataBase.beginTransaction();
 		try {
 			// 更新数据
-			sqlhelperUid.updateSQLUidTypes(sqlDataBase, numbers, 1, network, 1);
+//			sqlhelperUid.updateSQLUidTypes(sqlDataBase, numbers, 1, network, 1);
 			// 记录数据
 			sqlhelperUid.RecordUidwritestats(sqlDataBase, numbers, false,
 					network);
