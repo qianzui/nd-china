@@ -1,5 +1,6 @@
 package com.hiapk.alertdialog;
 
+import com.hiapk.customspinner.CustomSPDialog.Builder;
 import com.hiapk.spearhead.R;
 
 import android.app.Dialog;
@@ -45,7 +46,7 @@ public class CustomDialog extends Dialog {
 		private String negativeBtnStr;
 
 		private View contentView;
-
+		private int tv_size = 0;
 		private double windowHeight = 0.3;
 		private double windowWidth = 0.8;
 		private DialogInterface.OnClickListener otherListener,
@@ -96,6 +97,17 @@ public class CustomDialog extends Dialog {
 		 */
 		public Builder setMessage(int message) {
 			this.message = context.getString(message);
+			return this;
+		}
+
+		/**
+		 * 设置消息字体大小
+		 * 
+		 * @param message
+		 * @return
+		 */
+		public Builder setTv_size(int tv_size) {
+			this.tv_size = tv_size;
 			return this;
 		}
 
@@ -302,7 +314,11 @@ public class CustomDialog extends Dialog {
 			}
 			// 设置内容
 			if (message != null) {
-				((TextView) layout.findViewById(R.id.message)).setText(message);
+				TextView tv_mess = (TextView) layout.findViewById(R.id.message);
+				if (tv_size != 0) {
+					tv_mess.setTextSize(tv_size);
+				}
+				tv_mess.setText(message);
 			} else if (contentView != null) {
 				((LinearLayout) layout.findViewById(R.id.content))
 						.removeAllViews();
