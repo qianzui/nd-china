@@ -289,7 +289,7 @@ public class Block {
 				// alert(ctx, "应用防火墙出错: " + code + "\n\n"
 				// + msg.trim()
 				// );
-				CustomSPBeen customdialog = new CustomSPBeen(
+				CustomDialogOtherBeen customdialog = new CustomDialogOtherBeen(
 						ctx);
 				customdialog.dialogOpenFireWallFail();
 
@@ -300,7 +300,8 @@ public class Block {
 			if (showErrors) {
 
 			}
-			CustomSPBeen customdialog = new CustomSPBeen(ctx);
+			CustomDialogOtherBeen customdialog = new CustomDialogOtherBeen(
+					ctx);
 			customdialog.dialogOpenFireWallFail();
 			// alert(ctx, "应用防火墙出错" + e);
 		}
