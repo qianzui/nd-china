@@ -172,7 +172,9 @@ public class CustomDialogMain3Been {
 				long hasusedlong = sharedData.getMonthMobileHasUse();
 				long setlong = sharedData.getMonthMobileSetOfLong();
 				if (hasusedlong > setlong) {
-					dialogHasUsedLongTooMuch();
+					CustomDialogOtherBeen customOther = new CustomDialogOtherBeen(
+							context);
+					customOther.dialogHasUsedLongTooMuch();
 				}
 				SetText.resetWidgetAndNotify(context);
 				PrefrenceOperatorUnit.resetHasWarning(context);
@@ -191,31 +193,6 @@ public class CustomDialogMain3Been {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				monthHasUsedAlert.dismiss();
-			}
-		});
-
-	}
-
-	/**
-	 * 设置的本月已用流量超过包月流量
-	 * 
-	 * @return
-	 */
-	public void dialogHasUsedLongTooMuch() {
-		final CustomDialog dayWarning = new CustomDialog.Builder(context)
-				.setTitle("注意！").setMessage("您设置的本月已用流量超过包月流量！")
-				// .setView(textEntryView)
-				.setPositiveButton("确定", null).create();
-		dayWarning.show();
-		Button btn_cancel = (Button) dayWarning
-				.findViewById(R.id.positiveButton);
-		btn_cancel.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				PrefrenceOperatorUnit.resetHasWarning(context);
-				dayWarning.dismiss();
 			}
 		});
 
@@ -401,7 +378,7 @@ public class CustomDialogMain3Been {
 					});
 			final CustomDialog monthWarning = new CustomDialog.Builder(context)
 					.setTitle("月流量达到下列数值报警").setContentView(textEntryView)
-					.setPositiveButton("确定", null)
+					.setPositiveButton("确定", null).setwindowHeight(0.35)
 					.setNegativeButton("取消", null).create();
 			monthWarning.show();
 			Button btn_ok = (Button) monthWarning
@@ -442,6 +419,7 @@ public class CustomDialogMain3Been {
 		} else {
 			final CustomDialog monthWarning = new CustomDialog.Builder(context)
 					.setTitle("注意！").setMessage("您还没有设置流量套餐，请进行包月流量设置。")
+					.setwindowHeight(0.35)
 					// .setView(textEntryView)
 					.setPositiveButton("确定", null).create();
 			monthWarning.show();
@@ -525,7 +503,7 @@ public class CustomDialogMain3Been {
 					});
 			final CustomDialog dayWarning = new CustomDialog.Builder(context)
 					.setTitle("日流量达到下列数值报警").setContentView(textEntryView)
-					.setPositiveButton("确定", null)
+					.setPositiveButton("确定", null).setwindowHeight(0.35)
 					.setNegativeButton("取消", null).create();
 			dayWarning.show();
 			Button btn_ok = (Button) dayWarning
@@ -566,6 +544,7 @@ public class CustomDialogMain3Been {
 		} else {
 			final CustomDialog monthWarning = new CustomDialog.Builder(context)
 					.setTitle("注意！").setMessage("您还没有设置流量套餐，请进行包月流量设置。")
+					.setwindowHeight(0.35)
 					// .setView(textEntryView)
 					.setPositiveButton("确定", null).create();
 			monthWarning.show();

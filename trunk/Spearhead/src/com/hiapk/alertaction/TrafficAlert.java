@@ -187,14 +187,14 @@ public class TrafficAlert {
 	}
 
 	private void startMonthNotify(Context context, boolean vibrate) {
-		SharedPreferences prefs_setting = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		boolean allowNotify = prefs_setting.getBoolean(SYS_PRE_NOTIFY, true);
+//		SharedPreferences prefs_setting = PreferenceManager
+//				.getDefaultSharedPreferences(context);
+//		boolean allowNotify = prefs_setting.getBoolean(SYS_PRE_NOTIFY, true);
 		// showLog(allowNotify + "");
-		if (allowNotify) {
+//		if (allowNotify) {
 			AlertActionNotify actNotify = new AlertActionNotify();
 			actNotify.startNotifyMonth(context, vibrate);
-		}
+//		}
 	}
 
 	private void startDayNotify(Context context, boolean vibrate) {

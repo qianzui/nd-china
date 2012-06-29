@@ -44,7 +44,7 @@ public class PrefrenceBeen {
 		final View listView = factory.inflate(R.layout.settings_listbox, null);
 		final Button showText = (Button) listView
 				.findViewById(R.id.setting_tv_box);
-		showText.setText("更新频率");
+		showText.setText("刷新状态栏和小部件的频率");
 		layout_freshplv.removeAllViews();
 		layout_freshplv.addView(listView);
 		showText.setOnClickListener(new OnClickListener() {

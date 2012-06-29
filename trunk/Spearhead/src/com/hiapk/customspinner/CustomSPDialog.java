@@ -229,7 +229,7 @@ public class CustomSPDialog extends Dialog {
 					.getHeight();
 			int width = window.getWindowManager().getDefaultDisplay()
 					.getWidth();
-			window.setLayout((int) (width * 0.8), (int) (heigh * heighpar));
+			window.setLayout((int) (width * 0.9), (int) (heigh * heighpar));
 			// 设置标题
 			((TextView) layout.findViewById(R.id.title)).setText(title);
 			// 设置其他按钮

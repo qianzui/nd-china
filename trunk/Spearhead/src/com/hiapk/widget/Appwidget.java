@@ -416,7 +416,7 @@ public class Appwidget extends AppWidgetProvider {
 		WifiManager wfm_on_off;
 		wfm_on_off = (WifiManager) context
 				.getSystemService(Context.WIFI_SERVICE);
-
+		wfm_on_off.getWifiState();
 		if (wfm_on_off.isWifiEnabled()) {
 			wfm_on_off.setWifiEnabled(false);
 			// ImageView aa;
@@ -427,7 +427,6 @@ public class Appwidget extends AppWidgetProvider {
 					R.drawable.widget_wifi_off);
 			// views.setInt(R.id.widgetImageText1, "setTextColor", Color.GRAY);
 			Toast.makeText(context, "wifiÕýÔÚ¹Ø±Õ", Toast.LENGTH_SHORT).show();
-
 		} else {
 			wfm_on_off.setWifiEnabled(true);
 			// views.setInt(R.id.widgetImage1, "setImageResource",

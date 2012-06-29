@@ -48,7 +48,7 @@ public class CustomDialog extends Dialog {
 		private View contentView;
 		private int tv_size = 0;
 		private double windowHeight = 0.3;
-		private double windowWidth = 0.8;
+		private double windowWidth = 0.9;
 		private DialogInterface.OnClickListener otherListener,
 				positiveListener, negativeListener;
 
@@ -242,7 +242,7 @@ public class CustomDialog extends Dialog {
 					R.layout.custom_alert_dialog_on_main, null);
 			// 取得窗口属性
 			dialog.addContentView(layout, new LayoutParams(
-					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+					LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 			DisplayMetrics dm = new DisplayMetrics();
 			// 取得窗口属性
 			Window window = dialog.getWindow();
