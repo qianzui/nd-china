@@ -13,10 +13,10 @@
             android:name=".Main"
             android:label="@string/app_name" >
         </activity>
-        <activity android:name="com.hiapk.prefrencesetting.PrefrenceSetting" 
-            android:theme="@style/noTitle"
-           android:screenOrientation="portrait"
-            >
+        <activity
+            android:name="com.hiapk.prefrencesetting.PrefrenceSetting"
+            android:screenOrientation="portrait"
+            android:theme="@style/noTitle" >
         </activity>
         <activity android:name=".FireWallActivity" >
         </activity>
@@ -55,22 +55,20 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".Help"
+        <activity
+            android:name=".Help"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/noTitle" >
             <intent-filter>
-                
             </intent-filter>
-            
-            </activity>
-        
-        
+        </activity>
+
         <service android:name="com.hiapk.widget.FloatService" >
             <intent-filter>
                 <action android:name="com.hiapk.server" />
@@ -120,6 +118,13 @@
         </receiver>
         <receiver android:name="com.hiapk.broadcreceiver.RecordDataReceiver" >
         </receiver>
+        <receiver android:name="com.hiapk.broadcreceiver.DateChangeBroadcast" >
+        </receiver>
+        <receiver android:name="com.hiapk.broadcreceiver.TimeChangeToStartDateChange" >
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_SET" />
+            </intent-filter>
+        </receiver>
         <receiver android:name="com.hiapk.broadcreceiver.RecordUidDataReceiver" >
         </receiver>
         <receiver android:name="com.hiapk.broadcreceiver.RecordUidTotalDataReceiver" >
@@ -166,5 +171,6 @@
     <uses-permission android:name="android.permission.INTERNAL_SYSTEM_WINDOW" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
-	<uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+
 </manifest>
