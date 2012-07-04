@@ -161,7 +161,8 @@ public class CustomDialogMain3Been {
 				} else {
 					passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
 							(long) (i * 1048576 * 1024));
-					sharedData.setMonthHasUsedStack((long) (i * 1048576 * 1024));
+					sharedData
+							.setMonthHasUsedStack((long) (i * 1048576 * 1024));
 				}
 				passfileEditor.putFloat(VALUE_MOBILE_HASUSED_OF_FLOAT, i);
 
@@ -288,9 +289,9 @@ public class CustomDialogMain3Been {
 							monthsetTraffGB / 10);
 					// 设置会改变的3个数值。++
 					btn_month.setText(UnitHandler.unitHandler(monthsetTraffGB));
-					dayWarning.setText(UnitHandler
-							.unitHandler(monthsetTraffGB * 9 / 10));
 					monthWarning.setText(UnitHandler
+							.unitHandler(monthsetTraffGB * 9 / 10));
+					dayWarning.setText(UnitHandler
 							.unitHandler(monthsetTraffGB / 10));
 				}
 				passfileEditor.putInt(MOBILE_SET_UNIT, mobileUnit);
