@@ -1,10 +1,6 @@
 package com.hiapk.dataexe;
 
 import android.content.Context;
-import android.os.AsyncTask;
-import android.text.format.Time;
-import android.util.Log;
-
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
@@ -18,13 +14,10 @@ import com.hiapk.sqlhelper.SQLHelperUid;
 public class TrafficManager {
 	SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 	SQLHelperUid sqlhelperUid = new SQLHelperUid();
-	MobileTraffic mobileTraffic = new MobileTraffic();
 	//后续要删除的数值
 	public static long mobile_month_use_afterSet = 0;
 	public static long[] wifi_month_data = new long[64];
 	public static long[] mobile_month_data = new long[64];
-	public static long[] mobile_week_data = new long[6];
-	private static int monthDay;
 
 	/**
 	 * 获取月度移动使用流量--作废
