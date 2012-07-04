@@ -44,7 +44,7 @@ public class TrafficAlert {
 		// if ((monthTraffic[0] + monthTraffic[63]) == 0) {
 		// getMonthMobileTraffic(context);
 		// }
-		long mobile_month_use = TrafficManager.getMonthUseData(context);
+		long mobile_month_use = TrafficManager.getMonthUseMobile(context);
 		if (mobile_month_use > monthWarning) {
 			// showLog(monthTraffic[0]+"");
 			// showLog(monthTraffic[63]+"");

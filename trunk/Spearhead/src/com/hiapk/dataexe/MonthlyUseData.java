@@ -1,15 +1,11 @@
 package com.hiapk.dataexe;
 
-import java.sql.SQLData;
-
+import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.sqlhelper.SQLHelperTotal;
-import com.hiapk.widget.SetText;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.format.Time;
-import android.util.Log;
 
 /**
  * 获取当前月到结算日的流量使用情况，包含设置已用流量之后
@@ -48,182 +44,72 @@ public class MonthlyUseData {
 	 */
 	public long getMonthUseData(Context context, SQLiteDatabase sqlDataBase) {
 		long mobile_month_use = 0;
-		// 取得系统时间。
-		Time t = new Time();
-		t.setToNow();
-		year = t.year;
-		month = t.month + 1;
-		monthDay = t.monthDay;
-		// 月度流量设置
-		String PREFS_NAME = "allprefs";
-		String VALUE_MOBILE_SET = "mobilemonthuse";
-		String VALUE_MOBILE_HASUSED_LONG = "mobileHasusedlong";
-		// 设置结算日期及结算日期的设施时间，日期等
-		String MOBILE_COUNT_DAY = "mobileMonthCountDay";
-		String MOBILE_COUNT_SET_YEAR = "mobileMonthSetCountYear";
-		String MOBILE_COUNT_SET_MONTH = "mobileMonthSetCountMonth";
-		String MOBILE_COUNT_SET_DAY = "mobileMonthSetCountDay";
-		String MOBILE_COUNT_SET_TIME = "mobileMonthSetCountTime";
-		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-		//
-		// 初始化流量获取函数
-		TrafficManager trafficMan = new TrafficManager();
-		mobileTraffic = sqlhelperTotal.SelectMobileData(sqlDataBase, year,
-				month);
-		// 月度流量设置
-		// 设置结算日期及结算日期的设施时间，日期等
-		// 结算日期
-		/**
-		 * 设置本月的结算日期
-		 */
-		int mobilecountDay = (prefs.getInt(MOBILE_COUNT_DAY, 0) + 1);
-		// 设置结算日期的时间
-		int mobilecountSetYear = prefs.getInt(MOBILE_COUNT_SET_YEAR, 1977);
-		int mobilecountSetMonth = prefs.getInt(MOBILE_COUNT_SET_MONTH, 1);
-		/**
-		 * 设置本月已用流量的日期
-		 */
-		int mobilecountSetDay = prefs.getInt(MOBILE_COUNT_SET_DAY, 1);
-		String mobilecountSetTime = prefs.getString(MOBILE_COUNT_SET_TIME,
-				"00:00:00");
-		long[] oneday = new long[3];
-		long[] leftday = new long[3];
-		// 是否已经设置过已用流量
-		// 如果未对本月已用流量进行设置，则默认为非当月
-		if ((mobilecountSetYear != 1977) || (mobilecountDay != 1)) {
-			// 设置已用流量日期与计算日相同
-			if (mobilecountSetDay == mobilecountDay) {
-				showlog("SetDay = countDay");
-				// 在当月设置第一天采用半天
-				if (((mobilecountSetMonth == month)
-						&& (mobilecountSetYear == year) && (monthDay > mobilecountSetDay))
-						|| ((mobilecountSetMonth == month)
-								&& (mobilecountSetYear == year) && (monthDay == mobilecountSetDay))
-						|| ((monthDay < mobilecountSetDay)
-								&& (mobilecountSetYear == year) && ((mobilecountSetMonth + 1) == month))
-						|| ((monthDay < mobilecountSetDay)
-								&& ((mobilecountSetYear + 1) == year) && ((mobilecountSetMonth - 11) == month))) {
-					oneday = sqlhelperTotal.SelectMobileData(sqlDataBase,
-							mobilecountSetYear, mobilecountSetMonth,
-							mobilecountSetDay, mobilecountSetTime);
-					leftday = sqlhelperTotal.SelectMobileData(sqlDataBase,
-							mobilecountSetYear, mobilecountSetMonth,
-							mobilecountSetDay + 1, mobilecountDay);
-					mobile_month_use = oneday[0] + leftday[0];
-					showlog("当月，今天开始到下个月结算日");
-					showlog(oneday[0] + "oneday");
-					showlog(leftday[0] + "leftday");
-					showlog(mobilecountSetYear + "年" + mobilecountSetMonth
-							+ "yue" + mobilecountSetDay);
-					showlog(mobilecountDay + "结算日");
-					showlog(mobilecountSetTime + "");
-
-					// 设置流量日期或者计算日期后几个月
-				} else {
-					// 当前日期在设置的结算日之前
-					if (monthDay < mobilecountDay) {
-						// 判断跨年
-						if (month != 1) {
-							showlog("非当月，当天到这个月结算日无跨年");
-							leftday = sqlhelperTotal.SelectMobileData(
-									sqlDataBase, year, month - 1,
-									mobilecountDay, mobilecountDay);
-							mobile_month_use = leftday[0];
-						} else {
-							showlog("非当月，当天到这个月结算日跨年去年12月结算日到今年1月结算日");
-							leftday = sqlhelperTotal.SelectMobileData(
-									sqlDataBase, year - 1, 12, mobilecountDay,
-									mobilecountDay);
-							mobile_month_use = leftday[0];
-						}
-						// 当前日期在设置的结算日之后
-					} else {
-						showlog("非当月，当天到下个月结算日");
-						showlog("monthDay >= mobilecountDay");
-						leftday = sqlhelperTotal.SelectMobileData(sqlDataBase,
-								year, month, mobilecountDay, mobilecountDay);
-						mobile_month_use = leftday[0];
-					}
-
-				}
-				// 设置流量已用日期大于结算日期
-			} else if (mobilecountSetDay > mobilecountDay) {
-				showlog("SetDay > countDay");
-				showlog("mobilecountSetDay > mobilecountDay");
-				showlog(oneday[0] + "oneday");
-				showlog(leftday[0] + "leftday");
-				showlog(mobilecountSetYear + "年" + mobilecountSetMonth + "yue"
-						+ mobilecountSetDay);
-				showlog(mobilecountDay + "结算日");
-				showlog(mobilecountSetTime + "");
-				// 是否当月
-				if (((mobilecountSetMonth == month)
-						&& (mobilecountSetYear == year) && (monthDay > mobilecountSetDay))
-						|| ((mobilecountSetMonth == month)
-								&& (mobilecountSetYear == year) && (monthDay == mobilecountSetDay))
-						|| ((monthDay < mobilecountSetDay)
-								&& (mobilecountSetYear == year) && ((mobilecountSetMonth + 1) == month))
-						|| ((monthDay < mobilecountSetDay)
-								&& ((mobilecountSetYear + 1) == year) && ((mobilecountSetMonth - 11) == month))) {
-					showlog("当月，今天开始到下个月结算日");
-					oneday = sqlhelperTotal.SelectMobileData(sqlDataBase,
-							mobilecountSetYear, mobilecountSetMonth,
-							mobilecountSetDay, mobilecountSetTime);
-					leftday = sqlhelperTotal.SelectMobileData(sqlDataBase,
-							mobilecountSetYear, mobilecountSetMonth,
-							mobilecountSetDay + 1, mobilecountDay);
-					mobile_month_use = oneday[0] + leftday[0];
-				} else {
-					if (monthDay < mobilecountDay) {
-						// 判断跨年
-						if (month != 1) {
-							showlog("非当月，当天到这个月结算日无跨年");
-							leftday = sqlhelperTotal.SelectMobileData(
-									sqlDataBase, year, month - 1,
-									mobilecountDay, mobilecountDay);
-							mobile_month_use = leftday[0];
-						} else {
-							showlog("非当月，当天到这个月结算日跨年去年12月结算日到今年1月结算日");
-							leftday = sqlhelperTotal.SelectMobileData(
-									sqlDataBase, year - 1, 12, mobilecountDay,
-									mobilecountDay);
-							mobile_month_use = leftday[0];
-						}
-						// 当前日期在设置的结算日之后
-					} else {
-						showlog("非当月，当天到下个月结算日");
-						leftday = sqlhelperTotal.SelectMobileData(sqlDataBase,
-								year, month, mobilecountDay, mobilecountDay);
-						mobile_month_use = leftday[0];
-					}
-				}
-				// 设置流量已用日期小于结算日期
-			} else {
-				showlog("SetDay < countDay");
-				showlog("mobilecountSetDay <= mobilecountDay");
-				showlog(oneday[0] + "oneday");
-				showlog(leftday[0] + "leftday");
-				showlog(mobilecountSetYear + "年" + mobilecountSetMonth + "yue"
-						+ mobilecountSetDay);
-				showlog(mobilecountDay + "结算日");
-				showlog(mobilecountSetTime + "");
-				// 是否当月
-				if (((mobilecountSetMonth == month)
-						&& (mobilecountSetYear == year) && (monthDay > mobilecountSetDay))
-						|| ((mobilecountSetMonth == month)
-								&& (mobilecountSetYear == year) && (monthDay == mobilecountSetDay))
-						|| ((monthDay < mobilecountSetDay)
-								&& (mobilecountSetYear == year) && ((mobilecountSetMonth + 1) == month))
-						|| ((monthDay < mobilecountSetDay)
-								&& ((mobilecountSetYear + 1) == year) && ((mobilecountSetMonth - 11) == month))) {
-					if ((mobilecountSetDay + 1) == mobilecountDay) {
-						showlog("当月，今天开始今天结束");
-						oneday = sqlhelperTotal.SelectMobileData(sqlDataBase,
-								mobilecountSetYear, mobilecountSetMonth,
-								mobilecountSetDay, mobilecountSetTime);
-						mobile_month_use = oneday[0];
-					} else {
-						showlog("当月，今天开始到这个月结算日");
+		SharedPrefrenceData shareData = new SharedPrefrenceData(context);
+		long monthHasUseBefore = shareData.getMonthHasUsedStack();
+		// 进行赋值，下次不读取
+		if (monthHasUseBefore == -100) {
+			if (TrafficManager.mobile_month_use_afterSet != 0) {
+				monthHasUseBefore = TrafficManager.getMonthUseData(context);
+				shareData.setMonthHasUsedStack(monthHasUseBefore);
+			}
+		}
+		if (monthHasUseBefore != -100) {
+			return monthHasUseBefore;
+		} else {
+			// 未来删除
+			// 取得系统时间。
+			Time t = new Time();
+			t.setToNow();
+			year = t.year;
+			month = t.month + 1;
+			monthDay = t.monthDay;
+			// 月度流量设置
+			String PREFS_NAME = "allprefs";
+			// 设置结算日期及结算日期的设施时间，日期等
+			String MOBILE_COUNT_DAY = "mobileMonthCountDay";
+			String MOBILE_COUNT_SET_YEAR = "mobileMonthSetCountYear";
+			String MOBILE_COUNT_SET_MONTH = "mobileMonthSetCountMonth";
+			String MOBILE_COUNT_SET_DAY = "mobileMonthSetCountDay";
+			String MOBILE_COUNT_SET_TIME = "mobileMonthSetCountTime";
+			SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME,
+					0);
+			//
+			// 初始化流量获取函数
+			mobileTraffic = sqlhelperTotal.SelectMobileData(sqlDataBase, year,
+					month);
+			// 月度流量设置
+			// 设置结算日期及结算日期的设施时间，日期等
+			// 结算日期
+			/**
+			 * 设置本月的结算日期
+			 */
+			int mobilecountDay = (prefs.getInt(MOBILE_COUNT_DAY, 0) + 1);
+			// 设置结算日期的时间
+			int mobilecountSetYear = prefs.getInt(MOBILE_COUNT_SET_YEAR, 1977);
+			int mobilecountSetMonth = prefs.getInt(MOBILE_COUNT_SET_MONTH, 1);
+			/**
+			 * 设置本月已用流量的日期
+			 */
+			int mobilecountSetDay = prefs.getInt(MOBILE_COUNT_SET_DAY, 1);
+			String mobilecountSetTime = prefs.getString(MOBILE_COUNT_SET_TIME,
+					"00:00:00");
+			long[] oneday = new long[3];
+			long[] leftday = new long[3];
+			// 是否已经设置过已用流量
+			// 如果未对本月已用流量进行设置，则默认为非当月
+			if ((mobilecountSetYear != 1977) || (mobilecountDay != 1)) {
+				// 设置已用流量日期与计算日相同
+				if (mobilecountSetDay == mobilecountDay) {
+					showlog("SetDay = countDay");
+					// 在当月设置第一天采用半天
+					if (((mobilecountSetMonth == month)
+							&& (mobilecountSetYear == year) && (monthDay > mobilecountSetDay))
+							|| ((mobilecountSetMonth == month)
+									&& (mobilecountSetYear == year) && (monthDay == mobilecountSetDay))
+							|| ((monthDay < mobilecountSetDay)
+									&& (mobilecountSetYear == year) && ((mobilecountSetMonth + 1) == month))
+							|| ((monthDay < mobilecountSetDay)
+									&& ((mobilecountSetYear + 1) == year) && ((mobilecountSetMonth - 11) == month))) {
 						oneday = sqlhelperTotal.SelectMobileData(sqlDataBase,
 								mobilecountSetYear, mobilecountSetMonth,
 								mobilecountSetDay, mobilecountSetTime);
@@ -231,38 +117,166 @@ public class MonthlyUseData {
 								mobilecountSetYear, mobilecountSetMonth,
 								mobilecountSetDay + 1, mobilecountDay);
 						mobile_month_use = oneday[0] + leftday[0];
-					}
+						showlog("当月，今天开始到下个月结算日");
+						showlog(oneday[0] + "oneday");
+						showlog(leftday[0] + "leftday");
+						showlog(mobilecountSetYear + "年" + mobilecountSetMonth
+								+ "yue" + mobilecountSetDay);
+						showlog(mobilecountDay + "结算日");
+						showlog(mobilecountSetTime + "");
 
-				} else {
-					// 当前日期在设置的结算日之前
-					if (monthDay < mobilecountDay) {
-						// 判断跨年
-						if (month != 1) {
-							showlog("非当月，当天到这个月结算日无跨年");
-							leftday = sqlhelperTotal.SelectMobileData(
-									sqlDataBase, year, month - 1,
-									mobilecountDay, mobilecountDay);
-							mobile_month_use = leftday[0];
+						// 设置流量日期或者计算日期后几个月
+					} else {
+						// 当前日期在设置的结算日之前
+						if (monthDay < mobilecountDay) {
+							// 判断跨年
+							if (month != 1) {
+								showlog("非当月，当天到这个月结算日无跨年");
+								leftday = sqlhelperTotal.SelectMobileData(
+										sqlDataBase, year, month - 1,
+										mobilecountDay, mobilecountDay);
+								mobile_month_use = leftday[0];
+							} else {
+								showlog("非当月，当天到这个月结算日跨年去年12月结算日到今年1月结算日");
+								leftday = sqlhelperTotal.SelectMobileData(
+										sqlDataBase, year - 1, 12,
+										mobilecountDay, mobilecountDay);
+								mobile_month_use = leftday[0];
+							}
+							// 当前日期在设置的结算日之后
 						} else {
-							showlog("非当月，当天到这个月结算日跨年去年的12月结算日到今年1月的结算日");
+							showlog("非当月，当天到下个月结算日");
+							showlog("monthDay >= mobilecountDay");
 							leftday = sqlhelperTotal.SelectMobileData(
-									sqlDataBase, year - 1, 12, mobilecountDay,
+									sqlDataBase, year, month, mobilecountDay,
 									mobilecountDay);
 							mobile_month_use = leftday[0];
 						}
-						// 当前日期在设置的结算日之后
-					} else {
-						showlog("非当月，当天到下个月结算日");
+
+					}
+					// 设置流量已用日期大于结算日期
+				} else if (mobilecountSetDay > mobilecountDay) {
+					showlog("SetDay > countDay");
+					showlog("mobilecountSetDay > mobilecountDay");
+					showlog(oneday[0] + "oneday");
+					showlog(leftday[0] + "leftday");
+					showlog(mobilecountSetYear + "年" + mobilecountSetMonth
+							+ "yue" + mobilecountSetDay);
+					showlog(mobilecountDay + "结算日");
+					showlog(mobilecountSetTime + "");
+					// 是否当月
+					if (((mobilecountSetMonth == month)
+							&& (mobilecountSetYear == year) && (monthDay > mobilecountSetDay))
+							|| ((mobilecountSetMonth == month)
+									&& (mobilecountSetYear == year) && (monthDay == mobilecountSetDay))
+							|| ((monthDay < mobilecountSetDay)
+									&& (mobilecountSetYear == year) && ((mobilecountSetMonth + 1) == month))
+							|| ((monthDay < mobilecountSetDay)
+									&& ((mobilecountSetYear + 1) == year) && ((mobilecountSetMonth - 11) == month))) {
+						showlog("当月，今天开始到下个月结算日");
+						oneday = sqlhelperTotal.SelectMobileData(sqlDataBase,
+								mobilecountSetYear, mobilecountSetMonth,
+								mobilecountSetDay, mobilecountSetTime);
 						leftday = sqlhelperTotal.SelectMobileData(sqlDataBase,
-								year, month, mobilecountDay, mobilecountDay);
-						mobile_month_use = leftday[0];
+								mobilecountSetYear, mobilecountSetMonth,
+								mobilecountSetDay + 1, mobilecountDay);
+						mobile_month_use = oneday[0] + leftday[0];
+					} else {
+						if (monthDay < mobilecountDay) {
+							// 判断跨年
+							if (month != 1) {
+								showlog("非当月，当天到这个月结算日无跨年");
+								leftday = sqlhelperTotal.SelectMobileData(
+										sqlDataBase, year, month - 1,
+										mobilecountDay, mobilecountDay);
+								mobile_month_use = leftday[0];
+							} else {
+								showlog("非当月，当天到这个月结算日跨年去年12月结算日到今年1月结算日");
+								leftday = sqlhelperTotal.SelectMobileData(
+										sqlDataBase, year - 1, 12,
+										mobilecountDay, mobilecountDay);
+								mobile_month_use = leftday[0];
+							}
+							// 当前日期在设置的结算日之后
+						} else {
+							showlog("非当月，当天到下个月结算日");
+							leftday = sqlhelperTotal.SelectMobileData(
+									sqlDataBase, year, month, mobilecountDay,
+									mobilecountDay);
+							mobile_month_use = leftday[0];
+						}
+					}
+					// 设置流量已用日期小于结算日期
+				} else {
+					showlog("SetDay < countDay");
+					showlog("mobilecountSetDay <= mobilecountDay");
+					showlog(oneday[0] + "oneday");
+					showlog(leftday[0] + "leftday");
+					showlog(mobilecountSetYear + "年" + mobilecountSetMonth
+							+ "yue" + mobilecountSetDay);
+					showlog(mobilecountDay + "结算日");
+					showlog(mobilecountSetTime + "");
+					// 是否当月
+					if (((mobilecountSetMonth == month)
+							&& (mobilecountSetYear == year) && (monthDay > mobilecountSetDay))
+							|| ((mobilecountSetMonth == month)
+									&& (mobilecountSetYear == year) && (monthDay == mobilecountSetDay))
+							|| ((monthDay < mobilecountSetDay)
+									&& (mobilecountSetYear == year) && ((mobilecountSetMonth + 1) == month))
+							|| ((monthDay < mobilecountSetDay)
+									&& ((mobilecountSetYear + 1) == year) && ((mobilecountSetMonth - 11) == month))) {
+						if ((mobilecountSetDay + 1) == mobilecountDay) {
+							showlog("当月，今天开始今天结束");
+							oneday = sqlhelperTotal.SelectMobileData(
+									sqlDataBase, mobilecountSetYear,
+									mobilecountSetMonth, mobilecountSetDay,
+									mobilecountSetTime);
+							mobile_month_use = oneday[0];
+						} else {
+							showlog("当月，今天开始到这个月结算日");
+							oneday = sqlhelperTotal.SelectMobileData(
+									sqlDataBase, mobilecountSetYear,
+									mobilecountSetMonth, mobilecountSetDay,
+									mobilecountSetTime);
+							leftday = sqlhelperTotal.SelectMobileData(
+									sqlDataBase, mobilecountSetYear,
+									mobilecountSetMonth, mobilecountSetDay + 1,
+									mobilecountDay);
+							mobile_month_use = oneday[0] + leftday[0];
+						}
+
+					} else {
+						// 当前日期在设置的结算日之前
+						if (monthDay < mobilecountDay) {
+							// 判断跨年
+							if (month != 1) {
+								showlog("非当月，当天到这个月结算日无跨年");
+								leftday = sqlhelperTotal.SelectMobileData(
+										sqlDataBase, year, month - 1,
+										mobilecountDay, mobilecountDay);
+								mobile_month_use = leftday[0];
+							} else {
+								showlog("非当月，当天到这个月结算日跨年去年的12月结算日到今年1月的结算日");
+								leftday = sqlhelperTotal.SelectMobileData(
+										sqlDataBase, year - 1, 12,
+										mobilecountDay, mobilecountDay);
+								mobile_month_use = leftday[0];
+							}
+							// 当前日期在设置的结算日之后
+						} else {
+							showlog("非当月，当天到下个月结算日");
+							leftday = sqlhelperTotal.SelectMobileData(
+									sqlDataBase, year, month, mobilecountDay,
+									mobilecountDay);
+							mobile_month_use = leftday[0];
+						}
 					}
 				}
+				// 从未设置过已用流量
+			} else {
+				showlog("默认设置");
+				mobile_month_use = mobileTraffic[0] + mobileTraffic[63];
 			}
-			// 从未设置过已用流量
-		} else {
-			showlog("默认设置");
-			mobile_month_use = mobileTraffic[0] + mobileTraffic[63];
 		}
 		showlog(mobile_month_use + "monthuse");
 		return mobile_month_use;

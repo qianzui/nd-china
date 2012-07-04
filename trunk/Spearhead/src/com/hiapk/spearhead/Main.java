@@ -10,6 +10,7 @@ import org.achartengine.GraphicalView;
 import com.hiapk.alertdialog.CustomDialogMainBeen;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.customspinner.CustomToast;
+import com.hiapk.dataexe.MonthDay;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.firewall.Block;
@@ -180,7 +181,7 @@ public class Main extends Activity {
 				todayMobilunit));
 		// todayMobil.setText(unitHandler(8888080, todayMobilunit));
 		// 月度流量设置
-		mobile_month_use = TrafficManager.getMonthUseData(context);
+		mobile_month_use = TrafficManager.getMonthUseMobile(context);
 		long mobileSet = sharedData.getMonthMobileSetOfLong();
 		long monthLeft = 0;
 		monthLeft = ColorChangeMainBeen.setRemainTraff(mobileSet,
@@ -565,7 +566,7 @@ public class Main extends Activity {
 		chartbar.setXaxisText("");
 		// 进行参数设置
 		// 设置x轴显示范围
-		int monthtotalDay = countDay(year, month);
+		int monthtotalDay = MonthDay.countDay(year, month);
 		chartbar.setMonthDay(monthtotalDay);
 		// 设置y轴显示值及范围
 		double[] totalTraff = new double[monthDay];
@@ -767,49 +768,6 @@ public class Main extends Activity {
 		RefreshProgressBar(mobile, wifi);
 	}
 
-	/**
-	 * 计算单月有几天
-	 * 
-	 * @param year
-	 *            输入年份
-	 * @param month
-	 *            输入月份
-	 * @return 返回天数
-	 */
-	private int countDay(int year, int month) {
-		if ((year % 400 == 0) || ((year % 4 == 0) && (year % 100 != 0))
-				&& month == 2) {
-			return 29;
-		} else {
-			switch (month) {
-			case 1:
-				return 31;
-			case 2:
-				return 28;
-			case 3:
-				return 31;
-			case 4:
-				return 30;
-			case 5:
-				return 31;
-			case 6:
-				return 30;
-			case 7:
-				return 31;
-			case 8:
-				return 31;
-			case 9:
-				return 30;
-			case 10:
-				return 31;
-			case 11:
-				return 30;
-			case 12:
-				return 31;
-			}
-		}
-		return 31;
-	}
 
 	/**
 	 * 显示日志

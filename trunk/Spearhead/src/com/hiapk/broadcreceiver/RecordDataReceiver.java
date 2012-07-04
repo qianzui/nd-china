@@ -3,6 +3,7 @@ package com.hiapk.broadcreceiver;
 import java.util.List;
 
 import com.hiapk.alertaction.TrafficAlert;
+import com.hiapk.dataexe.MonthDay;
 import com.hiapk.dataexe.MonthlyUseData;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
@@ -49,12 +50,12 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
 		if (SQLStatic.isTotalAlarmRecording == false) {
-
 			SQLStatic.isTotalAlarmRecording = true;
 			this.context = context;
 			// showLog("TableWiFiOrG23=" + SQLHelperTotal.TableWiFiOrG23);
 			// 初始化数据库后进行操作
 			if (sqlhelperTotal.getIsInit(context)) {
+
 				if (SQLHelperTotal.TableWiFiOrG23 != "") {
 					if (SQLStatic.setSQLTotalOnUsed(true)) {
 						time = System.currentTimeMillis();
@@ -105,8 +106,8 @@ public class RecordDataReceiver extends BroadcastReceiver {
 				// 断网后的最后一次记录
 				sqlhelperTotal.updateSQLtotalType(sqlDataBase, network, 1,
 						null, 1);
-				sqlhelperTotal.RecordTotalwritestats(sqlDataBase, false,
-						network);
+				sqlhelperTotal.RecordTotalwritestats(context, sqlDataBase,
+						false, network);
 				// 生成基本常用数据
 				initTime();
 				showLog(monthDay + "0");
@@ -144,10 +145,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			TrafficManager.wifi_month_data = wifi_month_data;
 			TrafficManager.mobile_month_data = mobile_month_data;
 			TrafficManager.mobile_week_data = mobile_week_data;
-			// 发送0消息
-			if (mobile_month_use_afterSet == 0) {
-				SetText.resetWidgetAndNotify(context);
-			}
 			// showLog("wifitotal=" + wifi_month_data[0] + "");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -200,8 +197,10 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		MonthlyUseData monthlyUseData = new MonthlyUseData();
 		sqlDataBase.beginTransaction();
 		try {
-//			sqlhelperTotal.updateSQLtotalType(sqlDataBase, network, 1, null, 1);
-			sqlhelperTotal.RecordTotalwritestats(sqlDataBase, false, network);
+			// sqlhelperTotal.updateSQLtotalType(sqlDataBase, network, 1, null,
+			// 1);
+			sqlhelperTotal.RecordTotalwritestats(context, sqlDataBase, false,
+					network);
 			// 生成基本常用数据
 			initTime();
 			mobile_month_use_afterSet = monthlyUseData.getMonthUseData(context,
@@ -218,7 +217,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			TrafficManager.wifi_month_data = wifi_month_data;
 			TrafficManager.mobile_month_data = mobile_month_data;
 			TrafficManager.mobile_week_data = mobile_week_data;
-			SharedPrefrenceData sharedpref = new SharedPrefrenceData(context);
 			if (hour == 3) {
 				sqlhelperTotal.autoClearData(context, sqlDataBase);
 			}

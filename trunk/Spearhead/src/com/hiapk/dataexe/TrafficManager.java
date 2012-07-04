@@ -19,6 +19,7 @@ public class TrafficManager {
 	SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 	SQLHelperUid sqlhelperUid = new SQLHelperUid();
 	MobileTraffic mobileTraffic = new MobileTraffic();
+	//后续要删除的数值
 	public static long mobile_month_use_afterSet = 0;
 	public static long[] wifi_month_data = new long[64];
 	public static long[] mobile_month_data = new long[64];
@@ -26,46 +27,45 @@ public class TrafficManager {
 	private static int monthDay;
 
 	/**
-	 * 获取月度移动使用流量
+	 * 获取月度移动使用流量--作废
 	 * 
 	 * @param context
 	 * @return
 	 */
 	public static long getMonthUseData(Context context) {
-		initTime();
-		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
-		// 获得结算日其
-		int mobilecountDay = sharedData.getCountDay() + 1;
-		boolean hasReset = sharedData.getHasUsedClearOnCountDay();
-		if (monthDay == mobilecountDay) {
-			if (!hasReset) {
-				sharedData.setMonthMobileHasUse(0);
-				sharedData.setHasUsedClearOnCountDay(true);
-			}
-		} else {
-			if (hasReset) {
-				sharedData.setHasUsedClearOnCountDay(false);
-			}
-		}
-
 		long mobile_month_use = 0;
-		// statsTotalTraffic(context, false);
-		// MonthlyUseData monthData = new MonthlyUseData();
-		// mobile_month_use = monthData.getMonthUseData(context);
+		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		mobile_month_use = mobile_month_use_afterSet;
 		mobile_month_use += sharedData.getMonthMobileHasUse();
+
 		return mobile_month_use;
 	}
 
 	/**
-	 * 初始化系统时间
+	 * 获取月度移动使用流量
+	 * 
+	 * @param context
+	 * @return
 	 */
-	private static void initTime() {
-		// Time t = new Time("GMT+8");
-		Time t = new Time();
-		t.setToNow(); // 取得系统时间。
-		monthDay = t.monthDay;
+	public static long getMonthUseMobile(Context context) {
+		long mobile_month_use = 0;
+		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		mobile_month_use = sharedData.getMonthHasUsedStack();
+		if (mobile_month_use == -100) {
+			return 0;
+		}
+		return mobile_month_use;
 	}
+
+	// /**
+	// * 初始化系统时间
+	// */
+	// private static void initTime() {
+	// // Time t = new Time("GMT+8");
+	// Time t = new Time();
+	// t.setToNow(); // 取得系统时间。
+	// monthDay = t.monthDay;
+	// }
 
 	// /**
 	// * 设置月度移动使用流量数值

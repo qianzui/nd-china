@@ -51,8 +51,6 @@ public class SharedPrefrenceData {
 	private final String PREF_INITSQL = "isSQLINIT";
 	private final String MODE_NOTINIT = "SQLisnotINIT";
 	private final String MODE_HASINIT = "SQLhasINIT";
-	// 用于系统自动清理
-	private String HAS_Cleared = "hasdatacleared";
 	// 保存地区品牌设置
 	String CURRENT_CITY = "currentCity";
 	String CURRENT_PROVINCE = "currentProvince";
@@ -71,6 +69,8 @@ public class SharedPrefrenceData {
 	String SMSTEXT = "sms_text";
 	// 包名们
 	String PACKAGE_NAMES = "allpackagenames";
+	// 累计月度流量统计-与设置的月度使用值不同
+	String MONTH_HAS_USE_STACK_DATA = "monthhasusestack";
 	// 第一次启动时弹出的提示框
 	String ALERT_ON_FIRST_START = "isalertdialogonfirstdisplayed";
 	boolean isAlertDialogOnfirstOpenDisplayed = false;
@@ -96,6 +96,17 @@ public class SharedPrefrenceData {
 	}
 
 	// SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+
+	public long getMonthHasUsedStack() {
+		long mobileUseFloat = prefs.getLong(MONTH_HAS_USE_STACK_DATA, -100);
+		return mobileUseFloat;
+	}
+
+	public void setMonthHasUsedStack(long monthMobileHasUseOffloat) {
+		UseEditor.putLong(MONTH_HAS_USE_STACK_DATA, monthMobileHasUseOffloat);
+		UseEditor.commit();
+
+	}
 
 	public boolean isWidGet14Open() {
 		boolean isWidGet14Open = prefs.getBoolean(WIDGET_14_OPEN, false);
@@ -210,16 +221,6 @@ public class SharedPrefrenceData {
 		return mobileUnit;
 	}
 
-	public boolean isHAS_Cleared() {
-		boolean isClear = prefs.getBoolean(HAS_Cleared, true);
-		return isClear;
-	}
-
-	public void setHAS_Cleared(boolean is_Cleared) {
-		UseEditor.putBoolean(HAS_Cleared, is_Cleared);
-		UseEditor.commit();
-	}
-
 	public void setMonthMobileSetUnit(int monthMobileSetUnit) {
 		this.monthMobileSetUnit = monthMobileSetUnit;
 	}
@@ -244,7 +245,8 @@ public class SharedPrefrenceData {
 	}
 
 	public float getMonthMobileSetOfFloat() {
-		float monthMobileSetOfint = prefs.getFloat(VALUE_MOBILE_SET_OF_FLOAT, 0);
+		float monthMobileSetOfint = prefs
+				.getFloat(VALUE_MOBILE_SET_OF_FLOAT, 0);
 		return monthMobileSetOfint;
 	}
 
@@ -273,20 +275,19 @@ public class SharedPrefrenceData {
 		UseEditor.commit();
 	}
 
-	public boolean getHasUsedClearOnCountDay() {
-		boolean hasClear = prefs.getBoolean(MOBILE_HAS_USED_CLEAR_ON_COUNT_DAY,
-				false);
-		return hasClear;
-	}
-
-	public void setHasUsedClearOnCountDay(boolean countDay) {
-		UseEditor.putBoolean(MOBILE_HAS_USED_CLEAR_ON_COUNT_DAY, countDay);
-		UseEditor.commit();
-	}
+//	public boolean getHasUsedClearOnCountDay() {
+//		boolean hasClear = prefs.getBoolean(MOBILE_HAS_USED_CLEAR_ON_COUNT_DAY,
+//				false);
+//		return hasClear;
+//	}
+//
+//	public void setHasUsedClearOnCountDay(boolean countDay) {
+//		UseEditor.putBoolean(MOBILE_HAS_USED_CLEAR_ON_COUNT_DAY, countDay);
+//		UseEditor.commit();
+//	}
 
 	public long getAlertWarningMonth() {
-		long mobileWarning = prefs.getLong(MOBILE_WARNING_MONTH,
-				0);
+		long mobileWarning = prefs.getLong(MOBILE_WARNING_MONTH, 0);
 		return mobileWarning;
 	}
 

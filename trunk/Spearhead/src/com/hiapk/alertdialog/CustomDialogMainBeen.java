@@ -87,7 +87,7 @@ public class CustomDialogMainBeen {
 		final DecimalFormat format = new DecimalFormat("0.##");
 		int mobileUseUnit = sharedData.getMonthHasUsedUnit();
 		// float mobileUsefloat = sharedData.getMonthMobileHasUseOffloat();
-		long mobileUselong = TrafficManager.getMonthUseData(context);
+		long mobileUselong = TrafficManager.getMonthUseMobile(context);
 		// 初始化窗体
 		LayoutInflater factory = LayoutInflater.from(context);
 		final View textEntryView = factory.inflate(
@@ -158,7 +158,6 @@ public class CustomDialogMainBeen {
 					showlog(i + "shuziError" + et_month.getText().toString());
 					i = 0;
 				}
-				long monthUsed=0;
 				// btn_Used.setText(format.format(i));
 				int mobileHasUsedUnit = spin_unit.getSelectedItemPosition();
 				Editor passfileEditor = context.getSharedPreferences(
@@ -168,13 +167,14 @@ public class CustomDialogMainBeen {
 				//
 
 				if (mobileHasUsedUnit == 0) {
-					monthUsed=(long) (i * 1048576);
 					passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
-							monthUsed);
+							(long) (i * 1048576));
+					sharedData.setMonthHasUsedStack((long) (i * 1048576));
 				} else {
-					monthUsed=(long) (i * 1048576 * 1024);
 					passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
-							monthUsed);
+							(long) (i * 1048576 * 1024));
+					sharedData
+							.setMonthHasUsedStack((long) (i * 1048576 * 1024));
 				}
 				passfileEditor.putFloat(VALUE_MOBILE_HASUSED_OF_FLOAT, i);
 
@@ -184,28 +184,27 @@ public class CustomDialogMainBeen {
 				// commitUsedTrafficTime();
 				// init_btn_HasUsed();
 				/* User clicked OK so do some stuff */
-				long hasusedlong = sharedData.getMonthMobileHasUse();
-				long setlong = sharedData.getMonthMobileSetOfLong();
-				if (hasusedlong > setlong) {
-					CustomDialogOtherBeen customOther=new CustomDialogOtherBeen(context);
+				long hasusedlong = sharedData.getMonthHasUsedStack();
+				long mobileSet = sharedData.getMonthMobileSetOfLong();
+				if (hasusedlong > mobileSet) {
+					CustomDialogOtherBeen customOther = new CustomDialogOtherBeen(
+							context);
 					customOther.dialogHasUsedLongTooMuch();
 				}
 				SetText.resetWidgetAndNotify(context);
 				PrefrenceOperatorUnit.resetHasWarning(context);
 				commitUsedTrafficTime();
 				// 月度流量设置
-				long mobile_month_use = TrafficManager.getMonthUseData(context);
-				long mobileSet = sharedData.getMonthMobileSetOfLong();
 				long monthLeft = 0;
 				monthLeft = ColorChangeMainBeen.setRemainTraff(mobileSet,
-						monthUsed, monthMobil);
+						hasusedlong, monthMobil);
 				//
-				monthMobil.setText(UnitHandler.unitHandlerAcurrac(
-						monthUsed, monthMobilunit));
+				monthMobil.setText(UnitHandler.unitHandlerAcurrac(hasusedlong,
+						monthMobilunit));
 				monthRemain.setText(UnitHandler.unitHandler(monthLeft,
 						monthRemainunit));
-				//启动计时
-				AlarmSet alarm=new AlarmSet();
+				// 启动计时
+				AlarmSet alarm = new AlarmSet();
 				alarm.StartAlarmMobile(context);
 				// 清除对话框
 				monthHasUsedAlert.dismiss();
@@ -223,7 +222,6 @@ public class CustomDialogMainBeen {
 		});
 
 	}
-
 
 	/**
 	 * 月度显示弹出的对话框
@@ -331,7 +329,7 @@ public class CustomDialogMainBeen {
 				monthSet.setText(UnitHandler.unitHandler(mobileSet,
 						monthSetunit));
 				// 月度流量设置
-				long mobile_month_use = TrafficManager.getMonthUseData(context);
+				long mobile_month_use = TrafficManager.getMonthUseMobile(context);
 				long monthLeft = 0;
 				monthLeft = ColorChangeMainBeen.setRemainTraff(mobileSet,
 						mobile_month_use);
