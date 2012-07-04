@@ -1,28 +1,18 @@
 package com.hiapk.broadcreceiver;
 
-import java.util.List;
-
 import com.hiapk.alertaction.TrafficAlert;
-import com.hiapk.dataexe.MonthDay;
 import com.hiapk.dataexe.MonthlyUseData;
 import com.hiapk.dataexe.TrafficManager;
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLStatic;
-import com.hiapk.widget.SetText;
-
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.TrafficStats;
 import android.os.AsyncTask;
 import android.text.format.Time;
-import android.util.Log;
-import android.util.MonthDisplayHelper;
 
 public class RecordDataReceiver extends BroadcastReceiver {
 	//
@@ -39,8 +29,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	private int year;
 	private int month;
 	private int monthDay;
-	private int weekDay;
-	private int hour;
 	private String network;
 	// fortest
 	long time;
@@ -93,7 +81,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		long mobile_month_use_afterSet = 0;
 		long[] wifi_month_data = new long[64];
 		long[] mobile_month_data = new long[64];
-		long[] mobile_week_data = new long[6];
 		MonthlyUseData monthlyUseData = new MonthlyUseData();
 		sqlDataBase = sqlhelperTotal.creatSQLTotal(context);
 		sqlDataBase.beginTransaction();
@@ -120,8 +107,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 				mobile_month_data = sqlhelperTotal.SelectMobileData(
 						sqlDataBase, year, month);
 				showLog(monthDay + "3");
-				mobile_week_data = sqlhelperTotal.SelectWeekData(sqlDataBase,
-						year, month, monthDay, weekDay);
 				showLog(monthDay + "4");
 			} else {
 				network = SQLHelperTotal.TotalWiFiOrG23;
@@ -133,18 +118,12 @@ public class RecordDataReceiver extends BroadcastReceiver {
 						year, month);
 				mobile_month_data = sqlhelperTotal.SelectMobileData(
 						sqlDataBase, year, month);
-				mobile_week_data = sqlhelperTotal.SelectWeekData(sqlDataBase,
-						year, month, monthDay, weekDay);
-				if (hour == 3) {
-					sqlhelperTotal.autoClearData(context, sqlDataBase);
-				}
 			}
 			sqlDataBase.setTransactionSuccessful();
 			// 对数据进行赋值
 			TrafficManager.mobile_month_use_afterSet = mobile_month_use_afterSet;
 			TrafficManager.wifi_month_data = wifi_month_data;
 			TrafficManager.mobile_month_data = mobile_month_data;
-			TrafficManager.mobile_week_data = mobile_week_data;
 			// showLog("wifitotal=" + wifi_month_data[0] + "");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -193,7 +172,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		long mobile_month_use_afterSet = 0;
 		long[] wifi_month_data = new long[64];
 		long[] mobile_month_data = new long[64];
-		long[] mobile_week_data = new long[6];
 		MonthlyUseData monthlyUseData = new MonthlyUseData();
 		sqlDataBase.beginTransaction();
 		try {
@@ -209,17 +187,11 @@ public class RecordDataReceiver extends BroadcastReceiver {
 					month);
 			mobile_month_data = sqlhelperTotal.SelectMobileData(sqlDataBase,
 					year, month);
-			mobile_week_data = sqlhelperTotal.SelectWeekData(sqlDataBase, year,
-					month, monthDay, weekDay);
 			sqlDataBase.setTransactionSuccessful();
 			// 对数据进行赋值
 			TrafficManager.mobile_month_use_afterSet = mobile_month_use_afterSet;
 			TrafficManager.wifi_month_data = wifi_month_data;
 			TrafficManager.mobile_month_data = mobile_month_data;
-			TrafficManager.mobile_week_data = mobile_week_data;
-			if (hour == 3) {
-				sqlhelperTotal.autoClearData(context, sqlDataBase);
-			}
 			// showLog("wifitotal=" + wifi_month_data[0] + "");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -288,8 +260,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		year = t.year;
 		month = t.month + 1;
 		monthDay = t.monthDay;
-		weekDay = t.weekDay;
-		hour = t.hour;
 
 	}
 
