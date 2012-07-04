@@ -311,6 +311,7 @@ public class SQLHelperTotal {
 				olddown0 = -100;
 			}
 		}
+		showLog("oldup0=" + oldup0 + "olddown0=" + olddown0);
 		if (cur != null) {
 			cur.close();
 		}
@@ -319,13 +320,14 @@ public class SQLHelperTotal {
 			// 初始化写入数据（wifi以及mobile）
 			// 如果之前数据大于新的数据，则重新计数
 			if ((oldup0 > upload) || (olddown0 > download)) {
-				oldup0 = 0;
-				olddown0 = 0;
+				oldup0 = upload;
+				olddown0 = download;
+
 			} else {
 				oldup0 = upload - oldup0;
 				olddown0 = download - olddown0;
 			}
-			// showLog(oldup0+"olddown0="+olddown0);
+			showLog("oldup0 up=" + oldup0 + "olddown0 down=" + olddown0);
 			if ((olddown0 != 0 || oldup0 != 0)
 					&& ((olddown0 > 512) || (oldup0 > 512))) {
 
@@ -343,6 +345,7 @@ public class SQLHelperTotal {
 				// 进行添加 覆盖+
 				// showLog("cur.move" + cur.moveToFirst());
 				if (cur.moveToFirst()) {
+					showLog("已有单天数据");
 					try {
 						int minup = cur.getColumnIndex("upload");
 						int mindown = cur.getColumnIndex("download");
@@ -370,8 +373,8 @@ public class SQLHelperTotal {
 						updateSQLtotalType(mySQL, table, upload, download, 0,
 								other, 0);
 						// 时刻对于的数据
-//						exeSQLtotalSetData(mySQL, table, oldup0, olddown0, 2,
-//								other);
+						// exeSQLtotalSetData(mySQL, table, oldup0, olddown0, 2,
+						// other);
 						if (table == "mobile") {
 							SharedPrefrenceData sharedData = new SharedPrefrenceData(
 									context);
@@ -386,14 +389,15 @@ public class SQLHelperTotal {
 					}
 					// 进行添加add
 				} else {
-
+					showLog("无单天数据");
 					updateSQLtotalTypeDate0to3(mySQL, table, oldup0, olddown0,
 							0, other, 3);
 					exeSQLtotalSetData(mySQL, table, upload, download, 0, other);
 					// updateSQLtotalType(mySQL, table, upload, download, 0,
 					// other, 0);
 					// 时刻对于的数据
-//					exeSQLtotalSetData(mySQL, table, oldup0, olddown0, 2, other);
+					// exeSQLtotalSetData(mySQL, table, oldup0, olddown0, 2,
+					// other);
 					SharedPrefrenceData sharedData = new SharedPrefrenceData(
 							context);
 					if (table == "mobile") {
@@ -488,7 +492,6 @@ public class SQLHelperTotal {
 	public void closeSQL(SQLiteDatabase mySQL) {
 		mySQL.close();
 	}
-
 
 	/**
 	 * 初始化系统时间
@@ -585,6 +588,7 @@ public class SQLHelperTotal {
 			// SQLiteDatabase sqlDataBase = creatSQLTotal(context);
 			initTotalData(network);
 			initTime();
+			showLog("upload=" + upload + "download=" + download);
 			statsSQLtotal(context, sqlDataBase, network, date, time, upload,
 					download, 2, null, daily);
 			// closeSQL(sqlDataBase);
@@ -981,7 +985,6 @@ public class SQLHelperTotal {
 		return a;
 	}
 
-
 	/**
 	 * 用于显示日志
 	 * 
@@ -989,6 +992,6 @@ public class SQLHelperTotal {
 	 */
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("databaseTotal", string);
+//		Log.d("databaseTotal", string);
 	}
 }
