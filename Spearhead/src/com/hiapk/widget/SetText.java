@@ -2,18 +2,15 @@ package com.hiapk.widget;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.format.Time;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
-
+import com.hiapk.dataexe.MonthDay;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.provider.ColorChangeMainBeen;
-import com.hiapk.spearhead.R.color;
 
 public class SetText {
 	public static String textUp = "今日已用: 0 KB";
@@ -40,12 +37,11 @@ public class SetText {
 		int year = t.year;
 		int month = t.month + 1;
 		int monthDay = t.monthDay;
-		UnitHandler unitHandler = new UnitHandler();
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		long[] monthUsed_this = new long[64];
 		monthUsed_this = TrafficManager.mobile_month_data;
 		long monthSetLong = sharedData.getMonthMobileSetOfLong();
-		long monthUsedLong = TrafficManager.getMonthUseData(context);
+		long monthUsedLong = TrafficManager.getMonthUseMobile(context);
 		// trafficManager.setMonthUseDate(monthUsedLong);
 		long todayUsedLong = monthUsed_this[monthDay]
 				+ monthUsed_this[monthDay + 31];
@@ -112,7 +108,7 @@ public class SetText {
 		// TODO Auto-generated method stub
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		int setDay = sharedData.getCountDay() + 1;
-		int maxDay = countDay(year, month);
+		int maxDay = MonthDay.countDay(year, month);
 		if (setDay > maxDay) {
 			setDay = maxDay;
 		}
@@ -132,7 +128,7 @@ public class SetText {
 		// TODO Auto-generated method stub
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		int setDay = sharedData.getCountDay() + 1;
-		int maxDay = countDay(year, month);
+		int maxDay = MonthDay.countDay(year, month);
 		if (setDay > maxDay) {
 			setDay = maxDay;
 		}
@@ -152,50 +148,6 @@ public class SetText {
 			return year + "." + month + "." + setDay;
 		}
 
-	}
-
-	/**
-	 * 计算单月有几天
-	 * 
-	 * @param year
-	 *            输入年份
-	 * @param month
-	 *            输入月份
-	 * @return 返回天数
-	 */
-	private static int countDay(int year, int month) {
-		if ((year % 400 == 0) || ((year % 4 == 0) && (year % 100 != 0))
-				&& month == 2) {
-			return 29;
-		} else {
-			switch (month) {
-			case 1:
-				return 31;
-			case 2:
-				return 28;
-			case 3:
-				return 31;
-			case 4:
-				return 30;
-			case 5:
-				return 31;
-			case 6:
-				return 30;
-			case 7:
-				return 31;
-			case 8:
-				return 31;
-			case 9:
-				return 30;
-			case 10:
-				return 31;
-			case 11:
-				return 30;
-			case 12:
-				return 31;
-			}
-		}
-		return 31;
 	}
 
 	/**

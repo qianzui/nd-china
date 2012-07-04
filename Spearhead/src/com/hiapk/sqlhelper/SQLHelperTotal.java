@@ -1,6 +1,7 @@
 package com.hiapk.sqlhelper;
 
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.dataexe.MonthDay;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 
 import android.content.Context;
@@ -285,9 +286,9 @@ public class SQLHelperTotal {
 	 * @param daily
 	 *            是否进行强制添加
 	 */
-	private void statsSQLtotal(SQLiteDatabase mySQL, String table, String date,
-			String time, long upload, long download, int type, String other,
-			boolean daily) {
+	private void statsSQLtotal(Context context, SQLiteDatabase mySQL,
+			String table, String date, String time, long upload, long download,
+			int type, String other, boolean daily) {
 		String string = null;
 		// select oldest upload and download 之前记录的数据的查询操作
 		// SELECT * FROM table WHERE type=0
@@ -329,8 +330,8 @@ public class SQLHelperTotal {
 			// 初始化写入数据（wifi以及mobile）
 			// 如果之前数据大于新的数据，则重新计数
 			if ((oldup0 > upload) || (olddown0 > download)) {
-				oldup0 = upload;
-				olddown0 = download;
+				oldup0 = 0;
+				olddown0 = 0;
 			} else {
 				oldup0 = upload - oldup0;
 				olddown0 = download - olddown0;
@@ -382,18 +383,38 @@ public class SQLHelperTotal {
 						// 时刻对于的数据
 						exeSQLtotalSetData(mySQL, table, oldup0, olddown0, 2,
 								other);
+						if (table == "mobile") {
+							SharedPrefrenceData sharedData = new SharedPrefrenceData(
+									context);
+							long beforemobile = sharedData
+									.getMonthHasUsedStack();
+							if (beforemobile != -100) {
+								beforemobile = beforemobile + oldup0 + olddown0;
+								sharedData.setMonthHasUsedStack(beforemobile);
+							}
+						}
 
 					}
 					// 进行添加add
 				} else {
 
-					updateSQLtotalTypeDate0to3(mySQL, table, oldup0, olddown0, 0,
-							other, 3);
+					updateSQLtotalTypeDate0to3(mySQL, table, oldup0, olddown0,
+							0, other, 3);
 					exeSQLtotalSetData(mySQL, table, upload, download, 0, other);
 					// updateSQLtotalType(mySQL, table, upload, download, 0,
 					// other, 0);
 					// 时刻对于的数据
 					exeSQLtotalSetData(mySQL, table, oldup0, olddown0, 2, other);
+					SharedPrefrenceData sharedData = new SharedPrefrenceData(
+							context);
+					if (table == "mobile") {
+						long beforemobile = sharedData.getMonthHasUsedStack();
+						if (beforemobile != -100) {
+
+							beforemobile = beforemobile + oldup0 + olddown0;
+							sharedData.setMonthHasUsedStack(beforemobile);
+						}
+					}
 				}
 				if (cur != null) {
 					cur.close();
@@ -725,16 +746,16 @@ public class SQLHelperTotal {
 	 * @param daily
 	 *            true则强制记录，false则不记录流量为0的数据
 	 */
-	public void RecordTotalwritestats(SQLiteDatabase sqlDataBase,
-			boolean daily, String network) {
+	public void RecordTotalwritestats(Context context,
+			SQLiteDatabase sqlDataBase, boolean daily, String network) {
 		// TODO Auto-generated method stub
 		// 自动进行数据记录---不记录上传下载为0的数据
 		if (!network.equals("")) {
 			// SQLiteDatabase sqlDataBase = creatSQLTotal(context);
 			initTotalData(network);
 			initTime();
-			statsSQLtotal(sqlDataBase, network, date, time, upload, download,
-					2, null, daily);
+			statsSQLtotal(context, sqlDataBase, network, date, time, upload,
+					download, 2, null, daily);
 			// closeSQL(sqlDataBase);
 		}
 	}
@@ -754,8 +775,8 @@ public class SQLHelperTotal {
 			SQLiteDatabase sqlDataBase = creatSQLTotal(context);
 			initTotalData(network);
 			initTime();
-			statsSQLtotal(sqlDataBase, network, date, time, upload, download,
-					2, null, daily);
+			statsSQLtotal(context, sqlDataBase, network, date, time, upload,
+					download, 2, null, daily);
 			closeSQL(sqlDataBase);
 		}
 	}
@@ -1296,31 +1317,6 @@ public class SQLHelperTotal {
 				showLog(string + "fail");
 			}
 		}
-	}
-
-	// 生成前三个月的日期格式
-	private String[] DeleteDate() {
-		String date1 = null;
-		String date2 = null;
-		if (month > 2) {
-			String month2 = (month - 2) + "";
-			if ((month - 2) < 10)
-				month2 = "0" + month2;
-			date1 = year + "-" + month2 + "-" + "00";
-			date2 = year + "-" + month2 + "-" + "32";
-		}
-		if (month == 2) {
-			date1 = (year - 1) + "-" + "12" + "-" + "00";
-			date2 = (year - 1) + "-" + "12" + "-" + "32";
-		}
-		if (month == 1) {
-			date1 = (year - 1) + "-" + "11" + "-" + "00";
-			date2 = (year - 1) + "-" + "11" + "-" + "32";
-		}
-		String[] date = new String[2];
-		date[0] = date1;
-		date[1] = date2;
-		return date;
 	}
 
 	/**

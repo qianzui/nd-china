@@ -78,7 +78,7 @@ public class CustomDialogMain3Been {
 		final DecimalFormat format = new DecimalFormat("0.##");
 		int mobileUseUnit = sharedData.getMonthHasUsedUnit();
 		// float mobileUsefloat = sharedData.getMonthMobileHasUseOffloat();
-		long mobileUselong = TrafficManager.getMonthUseData(context);
+		long mobileUselong = TrafficManager.getMonthUseMobile(context);
 		// 初始化窗体
 		LayoutInflater factory = LayoutInflater.from(context);
 		final View textEntryView = factory.inflate(
@@ -157,9 +157,11 @@ public class CustomDialogMain3Been {
 				if (mobileHasUsedUnit == 0) {
 					passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
 							(long) (i * 1048576));
+					sharedData.setMonthHasUsedStack((long) (i * 1048576));
 				} else {
 					passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
 							(long) (i * 1048576 * 1024));
+					sharedData.setMonthHasUsedStack((long) (i * 1048576 * 1024));
 				}
 				passfileEditor.putFloat(VALUE_MOBILE_HASUSED_OF_FLOAT, i);
 
@@ -179,7 +181,7 @@ public class CustomDialogMain3Been {
 				SetText.resetWidgetAndNotify(context);
 				PrefrenceOperatorUnit.resetHasWarning(context);
 				// 赋值
-				long month_used = TrafficManager.getMonthUseData(context);
+				long month_used = TrafficManager.getMonthUseMobile(context);
 				btn_HasUsed.setText(UnitHandler.unitHandler(month_used));
 				monthHasUsedAlert.dismiss();
 

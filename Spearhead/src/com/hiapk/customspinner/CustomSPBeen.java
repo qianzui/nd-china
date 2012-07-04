@@ -280,7 +280,7 @@ public class CustomSPBeen {
 
 	private void operatorOnClick(Button btn_HasUsed) {
 		// 重置月已用流量
-		long month_used = TrafficManager.getMonthUseData(context);
+		long month_used = TrafficManager.getMonthUseMobile(context);
 		UnitHandler FormatUnit = new UnitHandler();
 		btn_HasUsed.setText(FormatUnit.unitHandler(month_used));
 		// 弹出建议设置已用流量对话框
@@ -328,7 +328,7 @@ public class CustomSPBeen {
 		final DecimalFormat format = new DecimalFormat("0.##");
 		int mobileUseUnit = sharedData.getMonthHasUsedUnit();
 		// float mobileUsefloat = sharedData.getMonthMobileHasUseOffloat();
-		long mobileUselong = TrafficManager.getMonthUseData(context);
+		long mobileUselong = TrafficManager.getMonthUseMobile(context);
 		// 初始化窗体
 		LayoutInflater factory = LayoutInflater.from(context);
 		final View textEntryView = factory.inflate(
