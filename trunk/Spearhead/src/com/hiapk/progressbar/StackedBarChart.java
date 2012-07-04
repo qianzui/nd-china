@@ -80,7 +80,7 @@ public class StackedBarChart extends ViewBase {
 	int backgroundcolor = Color.WHITE;
 
 	// 本月的天数
-	double monthDay = 31;
+	double showDay = 31;
 	// x轴显示的数字
 	String[] xaxles = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
 			"11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21",
@@ -98,8 +98,8 @@ public class StackedBarChart extends ViewBase {
 	 * 
 	 * @param monthDay
 	 */
-	public void setMonthDay(double monthDay) {
-		this.monthDay = monthDay;
+	public void setShowDay(double monthDay) {
+		this.showDay = monthDay;
 	}
 
 	// 本月的最大流量数
@@ -293,7 +293,7 @@ public class StackedBarChart extends ViewBase {
 		renderer.setChartValuesTextSize(ChartValuesTextsize);
 		// 设置边界等
 		// Log.d("main", width+"");
-		double[] limit = new double[] { 0.5, monthDay + 0.5, 0, MaxTraffic };
+		double[] limit = new double[] { 0.5, showDay + 0.5, 0, MaxTraffic };
 		double[] limit2 = new double[] { 1, 31, 0, 0 };
 		renderer.setPanLimits(limit);
 		renderer.setZoomLimits(limit2);
