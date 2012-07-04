@@ -4,6 +4,7 @@ import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
+import com.hiapk.sqlhelper.SQLStatic;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -22,9 +23,8 @@ public class ConnectivityChange extends BroadcastReceiver {
 		// TODO Auto-generated method stub
 		// 设置闹钟与数据库操作
 		AlarmSet alset = new AlarmSet();
-		SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
-		if (sqlhelperTotal.getIsInit(context)) {
+		if (SQLStatic.getIsInit(context)) {
 			// 网络状态变化时
 			if (intent.getAction().equals(
 					"android.net.conn.CONNECTIVITY_CHANGE")) {
@@ -51,10 +51,10 @@ public class ConnectivityChange extends BroadcastReceiver {
 					NetworkInfo info = connec.getActiveNetworkInfo();
 					String typeName = info.getTypeName(); // mobile@wifi
 					if (typeName.equals("WIFI")) {
-						SQLHelperTotal.TableWiFiOrG23 = "wifi";
+						SQLStatic.TableWiFiOrG23 = "wifi";
 					}
 					if (typeName.equals("mobile")) {
-						SQLHelperTotal.TableWiFiOrG23 = "mobile";
+						SQLStatic.TableWiFiOrG23 = "mobile";
 					}
 					showLog("何种方式连线" + typeName);
 				} else {
@@ -62,7 +62,7 @@ public class ConnectivityChange extends BroadcastReceiver {
 					if (sharedData.isNotifyOpen()) {
 						alset.StartWidgetAlarm(context);
 					}
-					SQLHelperTotal.TableWiFiOrG23 = "";
+					SQLStatic.TableWiFiOrG23 = "";
 					showLog("无可用网络");
 					alset.StopAlarm(context);
 				}

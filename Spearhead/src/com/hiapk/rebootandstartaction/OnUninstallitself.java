@@ -17,10 +17,9 @@ public class OnUninstallitself {
 	public void unInstallAction(Context context) {
 		this.context = context;
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
-		SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
-		sqlhelperTotal.initTablemobileAndwifi(context, true);
+		SQLStatic.initTablemobileAndwifi(context, true);
 		// …Ë÷√IsInit–≈œ¢
-		boolean isInit = sqlhelperTotal.getIsInit(context);
+		boolean isInit = SQLStatic.getIsInit(context);
 		if (isInit) {
 			boolean isNotifyOpen = sharedData.isNotifyOpen();
 			boolean isFloatOpen = sharedData.isFloatOpen();

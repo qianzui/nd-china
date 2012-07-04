@@ -27,10 +27,9 @@ public class PackageReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
 		// 设置数据库
-		SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 		String packageNames = intent.getDataString();
 		SQLStatic.packageName = packageNames.split(":");
-		if (sqlhelperTotal.getIsInit(context)) {
+		if (SQLStatic.getIsInit(context)) {
 			// 监听包的卸载
 			if (intent.getAction().equals(
 					"android.intent.action.PACKAGE_REMOVED")) {
@@ -68,7 +67,7 @@ public class PackageReceiver extends BroadcastReceiver {
 						// 无网络权限
 						showLog("没网络权限的安装");
 					} else {
-						sqlhelperTotal.initTablemobileAndwifi(context, false);
+						SQLStatic.initTablemobileAndwifi(context, false);
 						// 有网络权限进行更新表格
 						showLog("有网络权限的安装");
 						new AsyTaskOnInstall().execute(context);

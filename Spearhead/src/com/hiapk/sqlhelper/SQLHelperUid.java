@@ -1119,26 +1119,7 @@ public class SQLHelperUid {
 		}
 	}
 
-	/**
-	 * 提取不重复的uid
-	 * 
-	 * @param uidnumbers
-	 * @return 提取完成的uid集合
-	 */
-	protected int[] sortUids(int[] uidnumbers) {
-		int[] newnumber = uidnumbers;
-		for (int i = 0; i < newnumber.length; i++) {
-			if (newnumber[i] != -1) {
-				for (int j = i + 1; j < newnumber.length; j++) {
-					if (newnumber[i] == newnumber[j]) {
-						newnumber[j] = -1;
-					}
-				}
-			}
-
-		}
-		return newnumber;
-	}
+	
 
 	/**
 	 * 初始化uid数据库时建立单表

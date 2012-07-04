@@ -23,13 +23,12 @@ public class Onsysreboot {
 	public void onsysreboot(Context context) {
 		this.context = context;
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
-		SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 		// 初始化网络信号
-		sqlhelperTotal.initTablemobileAndwifi(context, true);
+		SQLStatic.initTablemobileAndwifi(context, true);
 		AlarmSet alset = new AlarmSet();
 		alset.StartAlarm(context);
 		// 查看数据库是否已初始化
-		if (sqlhelperTotal.getIsInit(context)) {
+		if (SQLStatic.getIsInit(context)) {
 			isNotifyOpen = sharedData.isNotifyOpen();
 			isFloatOpen = sharedData.isFloatOpen();
 			isWidget1X4Open = sharedData.isWidGet14Open();

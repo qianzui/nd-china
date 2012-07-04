@@ -2,9 +2,20 @@ package com.hiapk.sqlhelper;
 
 import java.util.HashMap;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import com.hiapk.sqlhelper.SQLHelperFireWall.Data;
 
 public class SQLStatic {
+
+	// pre
+	private final static String PREFS_NAME = "allprefs";
+	private final static String PREF_INITSQL = "isSQLINIT";
+	private final static String MODE_NOTINIT = "SQLisnotINIT";
+	private final static String MODE_HASINIT = "SQLhasINIT";
 	// 数据库正在使用。重要中。
 	public static boolean isSQLTotalOnUsed = false;
 	public static boolean isSQLUidOnUsed = false;
@@ -19,13 +30,15 @@ public class SQLStatic {
 	public static int[] uidnumbers = null;
 	public static String packagename_ALL = null;
 	public static HashMap<Integer, Data> uiddata = null;
-//	public static boolean isuiddataOperating = false;
+	// public static boolean isuiddataOperating = false;
 	// 正在读取uid流量
 	public static boolean isuiddataRecording = false;
 	// TotalAlarm记录中
 	public static boolean isTotalAlarmRecording = false;
 	public static boolean isUidAlarmRecording = false;
 	public static boolean isUidTotalAlarmRecording = false;
+	// 记录网络状态
+	public static String TableWiFiOrG23 = "mobile";
 	/**
 	 * 初始化用uids
 	 */
@@ -96,4 +109,40 @@ public class SQLStatic {
 	public static final Object sqlIndexSync = new Object();
 	public static final Object sqlUidSync = new Object();
 	public static final Object sqlUidTotalSync = new Object();
+
+	/**
+	 * 用于初始化网络状态确定当前使用何种网络
+	 * 
+	 * @param context
+	 * 
+	 * @param allset
+	 *            是否改变uid与total的记录值
+	 */
+	public static void initTablemobileAndwifi(Context context, boolean allset) {
+		ConnectivityManager connec = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (connec.getActiveNetworkInfo() != null) {
+			NetworkInfo info = connec.getActiveNetworkInfo();
+			String typeName = info.getTypeName(); // mobile@wifi
+			if (typeName.equals("WIFI"))
+				TableWiFiOrG23 = "wifi";
+			if (typeName.equals("mobile"))
+				TableWiFiOrG23 = "mobile";
+			// showLog("何种方式连线" + typeName);
+		} else {
+			TableWiFiOrG23 = "";
+			// showLog("无可用网络");
+		}
+	}
+
+	/**
+	 * 设置IsInit与程序记录同步
+	 * 
+	 * @param context
+	 */
+	public static boolean getIsInit(Context context) {
+		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+		return prefs.getString(PREF_INITSQL, MODE_NOTINIT).endsWith(
+				MODE_HASINIT);
+	}
 }
