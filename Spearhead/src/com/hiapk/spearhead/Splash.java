@@ -33,11 +33,7 @@ public class Splash extends Activity {
 		AlarmSet alset = new AlarmSet();
 		alset.StartAlarm(context);
 		sqlhelperTotal.initTablemobileAndwifi(context, false);
-
 		// MobclickAgent.onError(this);
-		SharedPrefrenceData sp = new SharedPrefrenceData(context);
-		// 为了区别帮助页面
-		// new AsyncTaskonFirstResume().execute(context);
 		new AsyncTaskonResume().execute(context);
 	}
 
@@ -70,7 +66,6 @@ public class Splash extends Activity {
 
 			AlarmSet alset = new AlarmSet();
 			// 初始化网络状态
-			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 			// sqlhelperTotal.initTablemobileAndwifi(params[0],false);
 			alset.StartAlarm(params[0]);
 			if (SQLHelperTotal.TableWiFiOrG23 == "") {
@@ -90,72 +85,11 @@ public class Splash extends Activity {
 					break;
 				}
 			}
-			return 3;
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		protected void onPostExecute(Integer result) {
-			// TODO Auto-generated method stub
-			Intent mainIntent = new Intent(Splash.this, SpearheadActivity.class);
-			Bundle choosetab = new Bundle();
-			choosetab.putInt("TAB", 1);
-			mainIntent.putExtras(choosetab);
-			Splash.this.startActivity(mainIntent);
-			Splash.this.finish();
-		}
-	}
-
-	private class AsyncTaskonFirstResume extends
-			AsyncTask<Context, Integer, Integer> {
-		@Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			super.onPreExecute();
-			// SQLHelperTotal.isSQLTotalOnUsed = true;
-			// SQLHelperTotal.isSQLUidOnUsed = true;
-			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
-			sqlhelperTotal.initTablemobileAndwifi(context, false);
-		}
-
-		@Override
-		protected Integer doInBackground(Context... params) {
-			SharedPrefrenceData sharedData = new SharedPrefrenceData(params[0]);
-			if (sharedData.isSQLinited() == false) {
-				getuids();
-				while (SQLStatic.uids == null) {
-					try {
-						Thread.sleep(200);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				initSQLdatabase(params[0], SQLStatic.uids,
-						SQLStatic.packagenames);
-			}
-
-			AlarmSet alset = new AlarmSet();
-			// 初始化网络状态
-			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
-			// sqlhelperTotal.initTablemobileAndwifi(params[0],false);
-			alset.StartAlarm(params[0]);
-			if (SQLHelperTotal.TableWiFiOrG23 == "") {
-				alset.StopAlarm(params[0]);
-			}
-			// 等待数据读取
-			int tap = 0;
-			while (testInit() == false) {
-				tap += 1;
-				try {
-					Thread.sleep(150);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				if (tap > 10) {
-					break;
-				}
+			try {
+				Thread.sleep(150);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			return 3;
 			// TODO Auto-generated method stub
@@ -164,10 +98,6 @@ public class Splash extends Activity {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// TODO Auto-generated method stub
-			// Intent i = new Intent();
-			// i.setClass(context, Help.class);
-			// startActivity(i);
-			// Splash.this.finish();
 			Intent mainIntent = new Intent(Splash.this, SpearheadActivity.class);
 			Bundle choosetab = new Bundle();
 			choosetab.putInt("TAB", 1);
