@@ -13,6 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.TrafficStats;
 import android.os.AsyncTask;
 import android.text.format.Time;
+import android.util.Log;
 
 public class RecordDataReceiver extends BroadcastReceiver {
 	//
@@ -40,7 +41,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		if (SQLStatic.isTotalAlarmRecording == false) {
 			SQLStatic.isTotalAlarmRecording = true;
 			this.context = context;
-			// showLog("TableWiFiOrG23=" + SQLHelperTotal.TableWiFiOrG23);
+			 showLog("TableWiFiOrG23=" + SQLStatic.TableWiFiOrG23);
 			// 初始化数据库后进行操作
 			if (SQLStatic.getIsInit(context)) {
 
@@ -78,6 +79,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	}
 
 	private void initDataWithnoNetwork(Context context) {
+		 showLog("initDataWithnoNetwork=" + network);
 		long mobile_month_use_afterSet = 0;
 		long[] wifi_month_data = new long[64];
 		long[] mobile_month_data = new long[64];
@@ -231,7 +233,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			super.onPreExecute();
 			// SQLHelperTotal.isSQLTotalOnUsed = true;
 			network = SQLStatic.TableWiFiOrG23;
-
+			 showLog("network=" + network);
 		}
 
 		@Override
@@ -273,7 +275,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		// Log.d("ReceiverTotal", string);
+//		Log.d("ReceiverTotal", string);
 	}
 
 }
