@@ -7,6 +7,7 @@ import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.Block;
 import com.hiapk.firewall.GetRoot;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
+import com.hiapk.sqlhelper.SQLHelperInitSQL;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
 import com.hiapk.sqlhelper.SQLStatic;
@@ -29,10 +30,9 @@ public class Splash extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
-		SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 		AlarmSet alset = new AlarmSet();
 		alset.StartAlarm(context);
-		sqlhelperTotal.initTablemobileAndwifi(context, false);
+		SQLStatic.initTablemobileAndwifi(context, false);
 		// MobclickAgent.onError(this);
 		new AsyncTaskonResume().execute(context);
 	}
@@ -68,7 +68,7 @@ public class Splash extends Activity {
 			// 初始化网络状态
 			// sqlhelperTotal.initTablemobileAndwifi(params[0],false);
 			alset.StartAlarm(params[0]);
-			if (SQLHelperTotal.TableWiFiOrG23 == "") {
+			if (SQLStatic.TableWiFiOrG23 == "") {
 				alset.StopAlarm(params[0]);
 			}
 			// 等待数据读取
@@ -118,9 +118,9 @@ public class Splash extends Activity {
 	private void initSQLdatabase(Context context, int[] uids,
 			String[] packagename) {
 		// TODO Auto-generated method stub
-		SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
-		if (!sqlhelperTotal.getIsInit(context)) {
-			sqlhelperTotal.initSQL(context, uids, packagename);
+		SQLHelperInitSQL sqlhelperInit = new SQLHelperInitSQL();
+		if (!sqlhelperInit.getIsInit(context)) {
+			sqlhelperInit.initSQL(context, uids, packagename);
 		}
 	}
 

@@ -8,15 +8,15 @@ import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.firewall.Block;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.sqlhelper.SQLHelperTotal;
+import com.hiapk.sqlhelper.SQLStatic;
 
 public class Onshutdown {
 	public void onsysshutdown(Context context) {
-		SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 		AlarmSet alset = new AlarmSet();
 		// 查看数据库是否已初始化
 		// 关闭wifi自动记录并记录当前数据
-		if (sqlhelperTotal.getIsInit(context)) {
-			if (SQLHelperTotal.TableWiFiOrG23 != "") {
+		if (SQLStatic.getIsInit(context)) {
+			if (SQLStatic.TableWiFiOrG23 != "") {
 				alset.StartAlarm(context);
 				// trafficManager.statsTotalTraffic(context, true,
 				// SQLHelperTotal.TableWiFiOrG23);

@@ -42,9 +42,9 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			this.context = context;
 			// showLog("TableWiFiOrG23=" + SQLHelperTotal.TableWiFiOrG23);
 			// 初始化数据库后进行操作
-			if (sqlhelperTotal.getIsInit(context)) {
+			if (SQLStatic.getIsInit(context)) {
 
-				if (SQLHelperTotal.TableWiFiOrG23 != "") {
+				if (SQLStatic.TableWiFiOrG23 != "") {
 					if (SQLStatic.setSQLTotalOnUsed(true)) {
 						time = System.currentTimeMillis();
 						sqlDataBase = sqlhelperTotal.creatSQLTotal(context);
@@ -89,57 +89,31 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		try {
 			// 生成基本常用数据
 			initTime();
-			if (SQLHelperTotal.TotalWiFiOrG23 != "") {
-				network = SQLHelperTotal.TotalWiFiOrG23;
-				SQLHelperTotal.TotalWiFiOrG23 = SQLHelperTotal.TableWiFiOrG23;
-				// 断网后的最后一次记录
-				sqlhelperTotal.updateSQLtotalType(sqlDataBase, network, 1,
-						null, 1);
-				sqlhelperTotal.RecordTotalwritestats(context, sqlDataBase,
-						false, network);
-				// 生成基本常用数据
-				initTime();
-				showLog(monthDay + "0");
-				mobile_month_use_afterSet = monthlyUseData.getMonthUseData(
-						context, sqlDataBase);
-				showLog(monthDay + "1");
-				wifi_month_data = sqlhelperTotal.SelectWifiData(sqlDataBase,
-						year, month);
-				showLog(monthDay + "2");
-				mobile_month_data = sqlhelperTotal.SelectMobileData(
-						sqlDataBase, year, month);
-				if (month == 1) {
-					mobile_month_data_before = sqlhelperTotal.SelectMobileData(
-							sqlDataBase, year - 1, 12);
-					wifi_month_data_before = sqlhelperTotal.SelectWifiData(
-							sqlDataBase, year - 1, 12);
-				} else {
-					mobile_month_data_before = sqlhelperTotal.SelectMobileData(
-							sqlDataBase, year, month - 1);
-					wifi_month_data_before = sqlhelperTotal.SelectWifiData(
-							sqlDataBase, year, month - 1);
-				}
+			network = SQLStatic.TableWiFiOrG23;
+			// 断网后的最后一次记录
+			sqlhelperTotal.RecordTotalwritestats(context, sqlDataBase, false,
+					network);
+			// 生成基本常用数据
+			initTime();
+			showLog(monthDay + "0");
+			mobile_month_use_afterSet = monthlyUseData.getMonthUseData(context,
+					sqlDataBase);
+			showLog(monthDay + "1");
+			wifi_month_data = sqlhelperTotal.SelectWifiData(sqlDataBase, year,
+					month);
+			showLog(monthDay + "2");
+			mobile_month_data = sqlhelperTotal.SelectMobileData(sqlDataBase,
+					year, month);
+			if (month == 1) {
+				mobile_month_data_before = sqlhelperTotal.SelectMobileData(
+						sqlDataBase, year - 1, 12);
+				wifi_month_data_before = sqlhelperTotal.SelectWifiData(
+						sqlDataBase, year - 1, 12);
 			} else {
-				network = SQLHelperTotal.TotalWiFiOrG23;
-				// 无网络进行数据显示，不进行记录
-				//
-				mobile_month_use_afterSet = monthlyUseData.getMonthUseData(
-						context, sqlDataBase);
-				wifi_month_data = sqlhelperTotal.SelectWifiData(sqlDataBase,
-						year, month);
-				mobile_month_data = sqlhelperTotal.SelectMobileData(
-						sqlDataBase, year, month);
-				if (month == 1) {
-					mobile_month_data_before = sqlhelperTotal.SelectMobileData(
-							sqlDataBase, year - 1, 12);
-					wifi_month_data_before = sqlhelperTotal.SelectWifiData(
-							sqlDataBase, year - 1, 12);
-				} else {
-					mobile_month_data_before = sqlhelperTotal.SelectMobileData(
-							sqlDataBase, year, month - 1);
-					wifi_month_data_before = sqlhelperTotal.SelectWifiData(
-							sqlDataBase, year, month - 1);
-				}
+				mobile_month_data_before = sqlhelperTotal.SelectMobileData(
+						sqlDataBase, year, month - 1);
+				wifi_month_data_before = sqlhelperTotal.SelectWifiData(
+						sqlDataBase, year, month - 1);
 			}
 			sqlDataBase.setTransactionSuccessful();
 			// 对数据进行赋值
@@ -256,13 +230,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
 			// SQLHelperTotal.isSQLTotalOnUsed = true;
-			if (SQLHelperTotal.TotalWiFiOrG23 == "") {
-				network = SQLHelperTotal.TableWiFiOrG23;
-				SQLHelperTotal.TotalWiFiOrG23 = SQLHelperTotal.TableWiFiOrG23;
-			} else {
-				network = SQLHelperTotal.TotalWiFiOrG23;
-				SQLHelperTotal.TotalWiFiOrG23 = SQLHelperTotal.TableWiFiOrG23;
-			}
+			network = SQLStatic.TableWiFiOrG23;
 
 		}
 

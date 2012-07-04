@@ -33,9 +33,6 @@ public class SQLHelperTotal {
 	private String SQLId = "_id INTEGER PRIMARY KEY,";
 	private String SQLTime = "date date,time time";
 	private String CreateparamWiFiAnd23G = ",upload INTEGER, download INTEGER,type INTEGER,other varchar(15)";
-	public static String TableWiFiOrG23 = "mobile";
-	// public static String UidWiFiOrG23 = "";
-	public static String TotalWiFiOrG23 = "";
 	private String TableWiFi = "wifi";
 	private String TableMobile = "mobile";
 	private String InsertTable = "INSERT INTO ";
@@ -66,11 +63,6 @@ public class SQLHelperTotal {
 	private long upload;
 	private long download;
 	private static final int MODE_PRIVATE = 0;
-	// pre
-	private final String PREFS_NAME = "allprefs";
-	private final String PREF_INITSQL = "isSQLINIT";
-	private final String MODE_NOTINIT = "SQLisnotINIT";
-	private final String MODE_HASINIT = "SQLhasINIT";
 	// classes
 	SQLHelperUid SQLhelperuid = new SQLHelperUid();
 	SQLHelperUidTotal SQLhelperuidTotal = new SQLHelperUidTotal();
@@ -301,19 +293,16 @@ public class SQLHelperTotal {
 		}
 		long oldup0 = -100;
 		long olddown0 = -100;
-		String olddate0 = "";
 
 		if (cur != null) {
 			try {
 				int minup = cur.getColumnIndex("upload");
 				int mindown = cur.getColumnIndex("download");
-				int dateIndex = cur.getColumnIndex("date");
 				// showLog(cur.getColumnIndex("minute") + "");
 				if (cur.moveToFirst()) {
 					// 获得之前的上传下载值
 					oldup0 = cur.getLong(minup);
 					olddown0 = cur.getLong(mindown);
-					olddate0 = cur.getString(dateIndex);
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -500,153 +489,6 @@ public class SQLHelperTotal {
 		mySQL.close();
 	}
 
-	/**
-	 * 初始化数据库
-	 * 
-	 * @param context
-	 * @param uidnumbers
-	 *            uid集合
-	 * @param packagename
-	 *            uid对应的包名
-	 */
-	public void initSQL(Context context, int[] uidnumbers, String[] packagename) {
-		// 初始化网络状态
-		initTablemobileAndwifi(context, true);
-		initTime();
-		// 初始化数据库
-		boolean initsuccess = true;
-		SQLiteDatabase sqldatabaseTotal = creatSQLTotal(context);
-		SQLiteDatabase sqldatabaseUid = creatSQLUid(context);
-		SQLiteDatabase sqldatabaseUidTotal = creatSQLUidTotal(context);
-		sqldatabaseTotal.beginTransaction();
-		try {
-			String string = null;
-			string = CreateTable + TableWiFi + Start + SQLId + SQLTime
-					+ CreateparamWiFiAnd23G + End;
-			// CREATE TABLE IF NOT EXISTS t4 (_id INTEGER PRIMARY KEY,date
-			// datetime,upload INTEGER,download INTEGER,uid INTEGER,type
-			// varchar(15),other varchar(15))
-			try {
-				sqldatabaseTotal.execSQL(string);
-				// showLog("建立tablewifi");
-			} catch (Exception e) {
-				showLog(string + "fail");
-				initsuccess = false;
-			}
-			// 初始化wifi的type=0及type=1的数据
-			initTotalData(TableWiFi);
-			exeSQLtotal(sqldatabaseTotal, TableWiFi, 0, null);
-			exeSQLtotal(sqldatabaseTotal, TableWiFi, 1, null);
-			string = CreateTable + TableMobile + Start + SQLId + SQLTime
-					+ CreateparamWiFiAnd23G + End;
-			// CREATE TABLE IF NOT EXISTS t4 (_id INTEGER PRIMARY KEY,date
-			// datetime,upload INTEGER,download INTEGER,uid INTEGER,type
-			// varchar(15),other varchar(15))
-			try {
-				sqldatabaseTotal.execSQL(string);
-				// showLog("建立tablemobile");
-			} catch (Exception e) {
-				// TODO: handle exception
-				showLog(string);
-				showLog("mobiletable-already exist");
-				initsuccess = false;
-			}
-			// 初始化mobile数据
-			initTotalData(TableMobile);
-			// 初始化mobile的type=0及type=1的数据
-			exeSQLtotal(sqldatabaseTotal, TableMobile, 0, null);
-			exeSQLtotal(sqldatabaseTotal, TableMobile, 1, null);
-			sqldatabaseTotal.setTransactionSuccessful();
-		} catch (Exception e) {
-			// TODO: handle exception
-			showLog("初始化Total失败");
-			initsuccess = false;
-		} finally {
-			sqldatabaseTotal.endTransaction();
-		}
-
-		sqldatabaseUid.beginTransaction();
-		try {
-			if (initsuccess) {
-				// 清除重复表
-				uidnumbers = SQLhelperuid.sortUids(uidnumbers);
-				// 初始化uid数据库这里使用初始化后的全部uids表
-				SQLhelperuid.initUidTables(sqldatabaseUid, uidnumbers);
-			}
-			sqldatabaseUid.setTransactionSuccessful();
-		} catch (Exception e) {
-			// TODO: handle exception
-			initsuccess = false;
-			showLog("初始化uid数据库失败");
-		} finally {
-			sqldatabaseUid.endTransaction();
-		}
-
-		// uidTotal SQL
-		sqldatabaseUidTotal.beginTransaction();
-		try {
-			// 初始化uid数据库的Total表
-			if (initsuccess) {
-				initsuccess = SQLhelperuidTotal
-						.initUidTotalTables(sqldatabaseUidTotal);
-				// showLog("建立tableIndex");
-				// 不包含uid=0的
-				SQLhelperuidTotal.exeSQLcreateUidTotaltables(
-						sqldatabaseUidTotal, uidnumbers, packagename);
-				// showLog("初始化tableIndex");
-			}
-			sqldatabaseUidTotal.setTransactionSuccessful();
-		} catch (Exception e) {
-			// TODO: handle exception
-			initsuccess = false;
-			showLog("初始化uidIndex数据表失败");
-		} finally {
-			// showLog("初始化tableIndex完成");
-			sqldatabaseUidTotal.endTransaction();
-		}
-
-		if (initsuccess) {
-			// 确保仅进行一次初始化
-			Editor passfileEditor = context.getSharedPreferences(PREFS_NAME, 0)
-					.edit();
-			passfileEditor.putString(PREF_INITSQL, MODE_HASINIT);
-			passfileEditor.commit();// 委托，存入数据
-			// 开启计时
-			AlarmSet alset = new AlarmSet();
-			alset.StartAlarm(context);
-		}
-		closeSQL(sqldatabaseTotal);
-		closeSQL(sqldatabaseUid);
-		closeSQL(sqldatabaseUidTotal);
-	}
-
-	/**
-	 * 用于初始化网络状态确定当前使用何种网络
-	 * 
-	 * @param context
-	 * 
-	 * @param allset
-	 *            是否改变uid与total的记录值
-	 */
-	public void initTablemobileAndwifi(Context context, boolean allset) {
-		ConnectivityManager connec = (ConnectivityManager) context
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		if (connec.getActiveNetworkInfo() != null) {
-			NetworkInfo info = connec.getActiveNetworkInfo();
-			String typeName = info.getTypeName(); // mobile@wifi
-			if (typeName.equals("WIFI"))
-				TableWiFiOrG23 = "wifi";
-			if (typeName.equals("mobile"))
-				TableWiFiOrG23 = "mobile";
-			// showLog("何种方式连线" + typeName);
-		} else {
-			TableWiFiOrG23 = "";
-			// showLog("无可用网络");
-		}
-		if (allset) {
-			TotalWiFiOrG23 = TableWiFiOrG23;
-		}
-	}
 
 	/**
 	 * 初始化系统时间
@@ -691,17 +533,6 @@ public class SQLHelperTotal {
 	public String gettime() {
 		initTime();
 		return time;
-	}
-
-	/**
-	 * 设置IsInit与程序记录同步
-	 * 
-	 * @param context
-	 */
-	public boolean getIsInit(Context context) {
-		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-		return prefs.getString(PREF_INITSQL, MODE_NOTINIT).endsWith(
-				MODE_HASINIT);
 	}
 
 	/**

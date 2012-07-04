@@ -23,6 +23,7 @@ import com.hiapk.progressbar.StackedBarChart;
 import com.hiapk.provider.ColorChangeMainBeen;
 import com.hiapk.provider.UiColors;
 import com.hiapk.sqlhelper.SQLHelperFireWall.Data;
+import com.hiapk.sqlhelper.SQLHelperInitSQL;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
 import com.hiapk.sqlhelper.SQLHelperUidTotal;
@@ -261,9 +262,9 @@ public class Main extends Activity {
 	 */
 	private void initSQLdatabase(int[] uids, String[] packagename) {
 		// TODO Auto-generated method stub
-		SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
-		if (!sqlhelperTotal.getIsInit(context)) {
-			sqlhelperTotal.initSQL(context, uids, packagename);
+		SQLHelperInitSQL sqlhelperInit = new SQLHelperInitSQL();
+		if (!sqlhelperInit.getIsInit(context)) {
+			sqlhelperInit.initSQL(context, uids, packagename);
 		}
 	}
 
@@ -446,17 +447,17 @@ public class Main extends Activity {
 					// MobclickAgent.onEvent(context, "refresh");
 					AlarmSet alset = new AlarmSet();
 					// 初始化网络状态
-					if (SQLHelperTotal.TableWiFiOrG23 != ""
-							&& sqlhelperTotal.getIsInit(context)) {
+					if (SQLStatic.TableWiFiOrG23 != ""
+							&& SQLStatic.getIsInit(context)) {
 						// 启动闹钟
 						alset.StartAlarmMobile(context);
-						sqlhelperTotal.initTablemobileAndwifi(context, false);
+						SQLStatic.initTablemobileAndwifi(context, false);
 						// 进行数据记录
 						// trafficManager.statsTotalTraffic(context, false);
 						// sqlhelperTotal.RecordTotalwritestats(context, false);
-					} else if (SQLHelperTotal.TableWiFiOrG23 != "") {
+					} else if (SQLStatic.TableWiFiOrG23 != "") {
 						alset.StartAlarmMobile(context);
-						sqlhelperTotal.initTablemobileAndwifi(context, false);
+						SQLStatic.initTablemobileAndwifi(context, false);
 					}
 					SetText.resetWidgetAndNotify(context);
 					initValues();

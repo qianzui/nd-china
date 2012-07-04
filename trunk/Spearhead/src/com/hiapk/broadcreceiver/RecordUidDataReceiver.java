@@ -31,11 +31,11 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			SQLStatic.isUidAlarmRecording = true;
 			// TODO Auto-generated method stub
 			// showLog("TableWiFiOrG23=" + SQLHelperTotal.TableWiFiOrG23);
-			if (sqlhelperTotal.getIsInit(context)) {
-				if (SQLHelperTotal.TableWiFiOrG23 != "") {
+			if (SQLStatic.getIsInit(context)) {
+				if (SQLStatic.TableWiFiOrG23 != "") {
 					// 进行之前使用的网络是何种网络进行判断
 					// network = SQLHelperTotal.TableWiFiOrG23;
-					network = SQLHelperTotal.TableWiFiOrG23;
+					network = SQLStatic.TableWiFiOrG23;
 					// 进行两种数据的记录
 					if (SQLStatic.setSQLUidOnUsed(true)) {
 						new AsyncTaskonRecordUidData().execute(context);
@@ -48,7 +48,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 
 				} else {
 					// 无网络条件下进行最后一次记录
-					network = SQLHelperTotal.TableWiFiOrG23;
+					network = SQLStatic.TableWiFiOrG23;
 					// 进行两种数据的记录
 					if (SQLStatic.setSQLUidOnUsed(true)) {
 						new AsyncTaskonRecordUidData().execute(context);

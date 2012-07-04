@@ -17,6 +17,7 @@ import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.progressdialog.CustomProgressDialog;
 import com.hiapk.spearhead.R;
+import com.hiapk.sqlhelper.SQLHelperInitSQL;
 import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLStatic;
 
@@ -224,8 +225,8 @@ public class CustomDialogOtherBeen {
 				// Log.d("pac", packagenames[i]);
 				uids[i] = packageinfo.applicationInfo.uid;
 			}
-			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
-			sqlhelperTotal.initSQL(params[0], uids, packagenames);
+			SQLHelperInitSQL sqlhelperInit = new SQLHelperInitSQL();
+			sqlhelperInit.initSQL(params[0], uids, packagenames);
 			return 0;
 		}
 
