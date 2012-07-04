@@ -567,37 +567,62 @@ public class Main extends Activity {
 		// 进行参数设置
 		// 设置x轴显示范围
 		int monthtotalDay = MonthDay.countDay(year, month);
-		chartbar.setMonthDay(monthtotalDay);
+		int monthbeforetotalDay = 0;
+		if (month == 1) {
+			monthbeforetotalDay = MonthDay.countDay(year - 1, 12);
+		} else {
+			monthbeforetotalDay = MonthDay.countDay(year, month - 1);
+		}
+		chartbar.setShowDay(monthbeforetotalDay + monthDay);
 		// 设置y轴显示值及范围
-		double[] totalTraff = new double[monthDay];
+		double[] wifiTraff = new double[monthbeforetotalDay + monthDay];
 		long maxTraffic = 0;
 		// DecimalFormat format = new DecimalFormat("0.#");
 		// wifi[0] = (double) (wifiTraffic[0] + wifiTraffic[63]) / 1000000;
 		// TextView tvtraff = (TextView) findViewById(R.id.tv_stackChart);
 		// switch (stackflag) {
 		// case 0:
-		for (int i = 0; i < totalTraff.length; i++) {
-			long temp = TrafficManager.wifi_month_data[i + 1]
-					+ TrafficManager.wifi_month_data[i + 32]
+		for (int i = 0; i < wifiTraff.length; i++) {
+			long temp = 0;
+			if (i < monthbeforetotalDay) {
+				temp = TrafficManager.wifi_month_data_before[i + 1]
+						+ TrafficManager.wifi_month_data_before[i + 32];
+			} else {
+				temp = TrafficManager.wifi_month_data[i - monthbeforetotalDay
+						+ 1]
+						+ TrafficManager.wifi_month_data[i
+								- monthbeforetotalDay + 32];
+			}
+
 			// + TrafficManager.mobile_month_data[i + 1]
 			// + TrafficManager.mobile_month_data[i + 32]
-			;
+
 			// 小数点2位
-			totalTraff[i] = (double) ((long) temp * 100 / 1024 / 1024) / 100;
+			wifiTraff[i] = (double) ((long) temp * 100 / 1024 / 1024) / 100;
 			// format.format(wifi[i]);
 			if (temp > maxTraffic) {
 				maxTraffic = temp;
 			}
 		}
+//		showlog(TrafficManager.wifi_month_data_before[0]
+//				+ TrafficManager.wifi_month_data_before[63] + "");
 		chartbar.setMainTitle("流量统计(总)");
 		chartbar.setTopTitle("移动网络");
 		// tvtraff.setText("   总流量");
-		double[] mobileTraff = new double[monthDay];
+		double[] mobileTraff = new double[monthbeforetotalDay + monthDay];
 		// break;
 		// case 1:
 		for (int i = 0; i < mobileTraff.length; i++) {
-			long temp = TrafficManager.mobile_month_data[i + 1]
-					+ TrafficManager.mobile_month_data[i + 32];
+			long temp = 0;
+			if (i < monthbeforetotalDay) {
+				temp = TrafficManager.mobile_month_data_before[i + 1]
+						+ TrafficManager.mobile_month_data_before[i + 32];
+			} else {
+				temp = TrafficManager.mobile_month_data[i - monthbeforetotalDay
+						+ 1]
+						+ TrafficManager.mobile_month_data[i
+								- monthbeforetotalDay + 32];
+			}
 			// 小数点2位
 			mobileTraff[i] = (double) ((long) temp * 100 / 1024 / 1024) / 100;
 			if (temp > maxTraffic) {
@@ -641,7 +666,7 @@ public class Main extends Activity {
 		// chartbar.setTopTitle("总流量");
 		// break;
 		// }
-		chartbar.setData1(mobileTraff, totalTraff);
+		chartbar.setData1(mobileTraff, wifiTraff);
 		if (maxTraffic < 848576) {
 			chartbar.setyMaxvalue(1);
 			chartbar.setMaxTraffic(1);
@@ -653,21 +678,33 @@ public class Main extends Activity {
 		// 设置背景色（被隐藏的条）
 		// chartbar.setBackgroundColor(Color.BLACK);
 		// 设置初始显示图像位置
-		if ((monthDay + 2) > monthtotalDay) {
-			chartbar.setxMinvalue(monthtotalDay - 6.5);
-			chartbar.setxMaxvalue(monthtotalDay + 0.5);
-		} else if ((monthDay - 5) < 0) {
-			chartbar.setxMinvalue(0.5);
-			chartbar.setxMaxvalue(7.5);
-		} else {
-			chartbar.setxMinvalue(monthDay - 4.5);
-			chartbar.setxMaxvalue(monthDay + 2.5);
-		}
+		// if ((monthDay + 2) > monthtotalDay) {
+		// chartbar.setxMinvalue(monthtotalDay - 6.5);
+		// chartbar.setxMaxvalue(monthtotalDay + 0.5);
+		// } else if ((monthDay - 5) < 0) {
+		// chartbar.setxMinvalue(0.5);
+		// chartbar.setxMaxvalue(7.5);
+		// } else {
+		// chartbar.setxMinvalue(monthDay - 4.5);
+		// chartbar.setxMaxvalue(monthDay + 2.5);
+		// }
+		chartbar.setxMinvalue(monthbeforetotalDay + monthDay - 6.5);
+		chartbar.setxMaxvalue(monthbeforetotalDay + monthDay + 0.5);
 		// 设置显示的日期
-		String[] xaxles = new String[monthtotalDay];
-		for (int i = 0; i < monthtotalDay; i++) {
-			int j = i + 1;
-			xaxles[i] = month + "月" + j + "日";
+		String[] xaxles = new String[monthDay + monthbeforetotalDay];
+		for (int i = 0; i < monthDay + monthbeforetotalDay; i++) {
+			if (i < monthbeforetotalDay) {
+				int j = i + 1;
+				if (month == 1) {
+					xaxles[i] = 12 + "月" + j + "日";
+				} else {
+					xaxles[i] = month - 1 + "月" + j + "日";
+				}
+			} else {
+				int j = i - monthbeforetotalDay + 1;
+				xaxles[i] = month + "月" + j + "日";
+			}
+
 		}
 		chartbar.setXaxles(xaxles);
 		// showlog(monthDay+"");
@@ -768,14 +805,13 @@ public class Main extends Activity {
 		RefreshProgressBar(mobile, wifi);
 	}
 
-
 	/**
 	 * 显示日志
 	 * 
 	 * @param string
 	 */
 	private void showlog(String string) {
-		// Log.d("main", string);
+		Log.d("main", string);
 	}
 
 	@Override

@@ -81,6 +81,8 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		long mobile_month_use_afterSet = 0;
 		long[] wifi_month_data = new long[64];
 		long[] mobile_month_data = new long[64];
+		long[] wifi_month_data_before = new long[64];
+		long[] mobile_month_data_before = new long[64];
 		MonthlyUseData monthlyUseData = new MonthlyUseData();
 		sqlDataBase = sqlhelperTotal.creatSQLTotal(context);
 		sqlDataBase.beginTransaction();
@@ -106,8 +108,17 @@ public class RecordDataReceiver extends BroadcastReceiver {
 				showLog(monthDay + "2");
 				mobile_month_data = sqlhelperTotal.SelectMobileData(
 						sqlDataBase, year, month);
-				showLog(monthDay + "3");
-				showLog(monthDay + "4");
+				if (month == 1) {
+					mobile_month_data_before = sqlhelperTotal.SelectMobileData(
+							sqlDataBase, year - 1, 12);
+					wifi_month_data_before = sqlhelperTotal.SelectWifiData(
+							sqlDataBase, year - 1, 12);
+				} else {
+					mobile_month_data_before = sqlhelperTotal.SelectMobileData(
+							sqlDataBase, year, month - 1);
+					wifi_month_data_before = sqlhelperTotal.SelectWifiData(
+							sqlDataBase, year, month - 1);
+				}
 			} else {
 				network = SQLHelperTotal.TotalWiFiOrG23;
 				// 无网络进行数据显示，不进行记录
@@ -118,12 +129,26 @@ public class RecordDataReceiver extends BroadcastReceiver {
 						year, month);
 				mobile_month_data = sqlhelperTotal.SelectMobileData(
 						sqlDataBase, year, month);
+				if (month == 1) {
+					mobile_month_data_before = sqlhelperTotal.SelectMobileData(
+							sqlDataBase, year - 1, 12);
+					wifi_month_data_before = sqlhelperTotal.SelectWifiData(
+							sqlDataBase, year - 1, 12);
+				} else {
+					mobile_month_data_before = sqlhelperTotal.SelectMobileData(
+							sqlDataBase, year, month - 1);
+					wifi_month_data_before = sqlhelperTotal.SelectWifiData(
+							sqlDataBase, year, month - 1);
+				}
 			}
 			sqlDataBase.setTransactionSuccessful();
 			// 对数据进行赋值
 			TrafficManager.mobile_month_use_afterSet = mobile_month_use_afterSet;
 			TrafficManager.wifi_month_data = wifi_month_data;
 			TrafficManager.mobile_month_data = mobile_month_data;
+			TrafficManager.mobile_month_data_before = mobile_month_data_before;
+			TrafficManager.wifi_month_data_before = wifi_month_data_before;
+
 			// showLog("wifitotal=" + wifi_month_data[0] + "");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -172,6 +197,8 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		long mobile_month_use_afterSet = 0;
 		long[] wifi_month_data = new long[64];
 		long[] mobile_month_data = new long[64];
+		long[] wifi_month_data_before = new long[64];
+		long[] mobile_month_data_before = new long[64];
 		MonthlyUseData monthlyUseData = new MonthlyUseData();
 		sqlDataBase.beginTransaction();
 		try {
@@ -187,11 +214,24 @@ public class RecordDataReceiver extends BroadcastReceiver {
 					month);
 			mobile_month_data = sqlhelperTotal.SelectMobileData(sqlDataBase,
 					year, month);
+			if (month == 1) {
+				mobile_month_data_before = sqlhelperTotal.SelectMobileData(
+						sqlDataBase, year - 1, 12);
+				wifi_month_data_before = sqlhelperTotal.SelectWifiData(
+						sqlDataBase, year - 1, 12);
+			} else {
+				mobile_month_data_before = sqlhelperTotal.SelectMobileData(
+						sqlDataBase, year, month - 1);
+				wifi_month_data_before = sqlhelperTotal.SelectWifiData(
+						sqlDataBase, year, month - 1);
+			}
 			sqlDataBase.setTransactionSuccessful();
 			// 对数据进行赋值
 			TrafficManager.mobile_month_use_afterSet = mobile_month_use_afterSet;
 			TrafficManager.wifi_month_data = wifi_month_data;
 			TrafficManager.mobile_month_data = mobile_month_data;
+			TrafficManager.mobile_month_data_before = mobile_month_data_before;
+			TrafficManager.wifi_month_data_before = wifi_month_data_before;
 			// showLog("wifitotal=" + wifi_month_data[0] + "");
 		} catch (Exception e) {
 			// TODO: handle exception

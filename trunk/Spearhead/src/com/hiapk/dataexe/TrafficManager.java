@@ -17,7 +17,9 @@ public class TrafficManager {
 	//后续要删除的数值
 	public static long mobile_month_use_afterSet = 0;
 	public static long[] wifi_month_data = new long[64];
+	public static long[] wifi_month_data_before = new long[64];
 	public static long[] mobile_month_data = new long[64];
+	public static long[] mobile_month_data_before = new long[64];
 
 	/**
 	 * 获取月度移动使用流量--作废
