@@ -22,12 +22,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class Regulate extends Activity {
-	public static Button chooseBtn;
-	Button smsSend;
+	private static Button chooseBtn;
+	private Button smsSend;
 	// Button smsRead;
-	public static TextView smsText;
-	public static TextView smsNum;
-	public static TextView smsResult;
+	private static TextView smsText;
+	private static TextView smsNum;
+	private static TextView smsResult;
 	SharedPrefrenceData sharedData;
 	String city;
 	String brand;
@@ -60,7 +60,6 @@ public class Regulate extends Activity {
 				// TODO Auto-generated method stub
 				Intent it = new Intent(Regulate.this, PhoneSet.class);
 				startActivity(it);
-				finish();
 
 			}
 		});
@@ -70,8 +69,8 @@ public class Regulate extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-
-				smsSend();
+				sms();
+				// smsSend();
 
 			}
 		});
@@ -90,6 +89,18 @@ public class Regulate extends Activity {
 		// }
 		// });
 
+	}
+
+	public void sms() {
+		String num = smsNum.getText().toString();
+		String text = smsText.getText().toString();
+		Log.v("+++++++++++++++++++++++++", text);
+		// SmsManager sman = SmsManager.getDefault();
+		// sman.sendTextMessage(num, null, text, null, null);
+		Uri uri = Uri.parse("smsto:" + num);
+		Intent it = new Intent(Intent.ACTION_VIEW, uri);
+		it.putExtra("sms_body", text);
+		startActivity(it);
 	}
 
 	public void smsSend() {
@@ -126,19 +137,12 @@ public class Regulate extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		Regulate.chooseBtn.setText(sharedData.getChooseCity());
-		Regulate.smsNum.setText(sharedData.getSmsNum());
-		Regulate.smsText.setText(sharedData.getSmsText());
-		sr = new SmsRead();
+		chooseBtn.setText(sharedData.getChooseCity());
+		smsNum.setText(sharedData.getSmsNum());
+		smsText.setText(sharedData.getSmsText());
+		// sr = new SmsRead();
 		// umeng
 		// MobclickAgent.onResume(this);
-	}
-
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		// umeng
-		// MobclickAgent.onPause(this);
 	}
 
 }

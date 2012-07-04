@@ -51,7 +51,7 @@ public class PhoneSet extends Activity {
 				// } else {
 				// sharedData.setMonthSetHasSet(true);
 				// }
-				end();
+				recordAndFinish();
 
 			}
 		});
@@ -134,27 +134,26 @@ public class PhoneSet extends Activity {
 		city.setText(content[beforepos]);
 	}
 
-	void end() {
-		String shengfen; // 所选省份
-		String chengshi;// 所选城市
-		String yunyingshang; // 所选运营商
-		String pinpai; // 所选品牌
-		int shengfenId; // 省份位置
-		// int pinpaiId; //品牌位置
+	void recordAndFinish() {
+		String shengfen = sharedData.getCurrentProvince(); // 所选省份
+		String chengshi = sharedData.getCurrentCity() + "--";// 所选城市
+		String yunyingshang = sharedData.getCurrentYunyinshang(); // 所选运营商
+		String pinpai = sharedData.getCurrentPinpai(); // 所选品牌
+		int shengfenId = sharedData.getCurrentProvinceID(); // 省份位置
+//		 int pinpaiId; //品牌位置
 		String smsNum;
 		String smsText;
-		shengfen = province.getText().toString();
-		chengshi = city.getText().toString() + "--";
-		yunyingshang = operator.getText().toString();
-		pinpai = brand.getText().toString();
-		shengfenId = sharedData.getCurrentProvinceID();
-		// pinpaiId = brand.getSelectedItemPosition();
+		 shengfen = province.getText().toString();
+		 chengshi = city.getText().toString() + "--";
+		 yunyingshang = operator.getText().toString();
+		 pinpai = brand.getText().toString();
+		 shengfenId = sharedData.getCurrentProvinceID();
+//		 pinpaiId = brand.getSelectedItemPosition();
 		// 记录进xml
-		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
-		sharedData.setCurrentCity(chengshi);
-		sharedData.setCurrentProvince(shengfen);
-		sharedData.setCurrentYunyinshang(yunyingshang);
-		sharedData.setCurrentPinpai(pinpai);
+		 sharedData.setCurrentCity(chengshi);
+		 sharedData.setCurrentProvince(shengfen);
+		 sharedData.setCurrentYunyinshang(yunyingshang);
+		 sharedData.setCurrentPinpai(pinpai);
 
 		SmsSet.smsSet(context, shengfen, yunyingshang, pinpai);
 		// smsNum = Regulate.smsNum.getText().toString();
@@ -166,8 +165,6 @@ public class PhoneSet extends Activity {
 		// Regulate.chooseBtn.setText(chengshi + pinpai);
 		sharedData.setChooseCity(chengshi + pinpai);
 		finish();
-		Intent intent = new Intent(context, Regulate.class);
-		context.startActivity(intent);
 	}
 
 	@Override
@@ -183,8 +180,8 @@ public class PhoneSet extends Activity {
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		// umeng
-		// MobclickAgent.onPause(this);
+		recordAndFinish();
+		finish();
 	}
 
 	// private void init_spin_pingpai(int pinpaiID) {
