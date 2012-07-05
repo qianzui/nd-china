@@ -1,18 +1,12 @@
 package com.hiapk.regulate;
 
-import com.hiapk.broadcreceiver.SMS_Received;
-import com.hiapk.firewall.Block;
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.spearhead.R;
-import com.umeng.analytics.MobclickAgent;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsManager;
-import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
@@ -28,7 +22,7 @@ public class Regulate extends Activity {
 	private static TextView smsText;
 	private static TextView smsNum;
 	private static TextView smsResult;
-	SharedPrefrenceData sharedData;
+	SharedPrefrenceDataRegulate sharedData;
 	String city;
 	String brand;
 	SmsRead sr;
@@ -39,7 +33,7 @@ public class Regulate extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.regulate);
 		// MobclickAgent.onError(this);
-		sharedData = new SharedPrefrenceData(this);
+		sharedData = new SharedPrefrenceDataRegulate(this);
 		chooseBtn = (Button) findViewById(R.id.choose);
 		smsSend = (Button) findViewById(R.id.smsSend);
 		// smsRead = (Button)findViewById(R.id.smsRead);
