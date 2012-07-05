@@ -1,12 +1,17 @@
 package com.hiapk.sqlhelper;
 
 import java.util.HashMap;
+import java.util.List;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.hiapk.firewall.Block;
 import com.hiapk.sqlhelper.SQLHelperFireWall.Data;
 
 public class SQLStatic {
@@ -19,7 +24,6 @@ public class SQLStatic {
 	// 数据库正在使用。重要中。
 	public static boolean isSQLTotalOnUsed = false;
 	public static boolean isSQLUidOnUsed = false;
-	public static boolean isSQLIndexOnUsed = false;
 	public static boolean isSQLUidTotalOnUsed = false;
 	// 判断是否覆盖安装
 	public static boolean isCoverInstall = false;
@@ -71,20 +75,6 @@ public class SQLStatic {
 			return false;
 		if (SQLUidOnUsed == false && isSQLUidOnUsed == true) {
 			isSQLUidOnUsed = SQLUidOnUsed;
-			return true;
-		} else
-			return false;
-	}
-
-	public static synchronized boolean setSQLIndexOnUsed(boolean SQLIndexOnUsed) {
-		if (SQLIndexOnUsed == true && isSQLIndexOnUsed == false) {
-			isSQLIndexOnUsed = SQLIndexOnUsed;
-			return true;
-		}
-		if (SQLIndexOnUsed == true && isSQLIndexOnUsed == true)
-			return false;
-		if (SQLIndexOnUsed == false && isSQLIndexOnUsed == true) {
-			isSQLIndexOnUsed = SQLIndexOnUsed;
 			return true;
 		} else
 			return false;
@@ -144,5 +134,49 @@ public class SQLStatic {
 		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
 		return prefs.getString(PREF_INITSQL, MODE_NOTINIT).endsWith(
 				MODE_HASINIT);
+	}
+
+	/**
+	 * 提取所有应用的不重复uid集合
+	 * 
+	 * @param sqlDataBase
+	 *            进行操作的数据库
+	 * @return
+	 */
+	public static int[] selectUidnumbers(Context context) {
+
+		int j = 0;
+		PackageManager pkgmanager = context.getPackageManager();
+		List<PackageInfo> packages = context.getPackageManager()
+				.getInstalledPackages(0);
+		int[] uidstemp = new int[packages.size()];
+		for (int i = 0; i < packages.size(); i++) {
+			PackageInfo packageinfo = packages.get(i);
+			String pacname = packageinfo.packageName;
+			int uid = packageinfo.applicationInfo.uid;
+			if (!(PackageManager.PERMISSION_GRANTED != pkgmanager
+					.checkPermission(Manifest.permission.INTERNET, pacname))) {
+				if (!Block.filter.contains(pacname)) {
+					boolean issameUid = false;
+					for (int k = 0; k < j; k++) {
+						if (uidstemp[k] == uid) {
+							issameUid = true;
+							break;
+						}
+					}
+					if (!issameUid) {
+						uidstemp[j] = uid;
+						// showLog("进行显示的uid=" + uid);
+						j++;
+					}
+
+				}
+			}
+		}
+		int[] uids = new int[j];
+		for (int i = 0; i < j; i++) {
+			uids[i] = uidstemp[i];
+		}
+		return uids;
 	}
 }

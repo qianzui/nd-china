@@ -137,7 +137,7 @@ public class SQLHelperUid {
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		// 重新定义静态的uid集合
 		// String newpackage = selectPackagenames(context);
-		SQLStatic.uidnumbers = selectUidnumbers(context);
+		SQLStatic.uidnumbers = SQLStatic.selectUidnumbers(context);
 		// SQLStatic.packagename_ALL = selectPackagenames(context);
 		SQLStatic.packagename_ALL = sharedData.getPackageNames();
 		if (SQLStatic.packagename_ALL.contains(packageName)) {
@@ -492,52 +492,6 @@ public class SQLHelperUid {
 
 	}
 
-	/**
-	 * 提取所有应用的不重复uid集合
-	 * 
-	 * @param sqlDataBase
-	 *            进行操作的数据库
-	 * @return
-	 */
-	public int[] selectUidnumbers(Context context) {
-
-		int j = 0;
-		PackageManager pkgmanager = context.getPackageManager();
-		List<PackageInfo> packages = context.getPackageManager()
-				.getInstalledPackages(0);
-		int[] uidstemp = new int[packages.size()];
-		for (int i = 0; i < packages.size(); i++) {
-			PackageInfo packageinfo = packages.get(i);
-			String fliter = Block.filter;
-			String pacname = packageinfo.packageName;
-			int uid = packageinfo.applicationInfo.uid;
-			if (!(PackageManager.PERMISSION_GRANTED != pkgmanager
-					.checkPermission(Manifest.permission.INTERNET, pacname))) {
-				if (!fliter.contains(pacname)) {
-					boolean issameUid = false;
-					for (int k = 0; k < j; k++) {
-						if (uidstemp[k] == uid) {
-							issameUid = true;
-							break;
-						}
-					}
-					if (!issameUid) {
-						uidstemp[j] = uid;
-						// showLog("进行显示的uid=" + uid);
-						j++;
-					}
-
-					// tmpInfo.packageName = pacname;
-					// tmpInfo.app_uid = packageinfo.applicationInfo.uid;
-				}
-			}
-		}
-		int[] uids = new int[j];
-		for (int i = 0; i < j; i++) {
-			uids[i] = uidstemp[i];
-		}
-		return uids;
-	}
 
 	/**
 	 * 提取所有应用的不重复包名
@@ -548,43 +502,6 @@ public class SQLHelperUid {
 	 */
 	public String selectPackagenames(Context context) {
 		// TODO Auto-generated method stub
-		// SQLiteDatabase sqlDataBase = creatSQLUidIndex(context);
-		// String string = null;
-		// // select oldest upload and download 之前记录的数据的查询操作
-		// // SELECT * FROM table WHERE type=0
-		// string = "SELECT DISTINCT uid FROM " + TableUidIndex + Where
-		// + "other='" + "Install" + "'";
-		// try {
-		// cur = sqlDataBase.rawQuery(string, null);
-		// // showLog(string);
-		// } catch (Exception e) {
-		// // TODO: handle exception
-		// showLog(string);
-		// }
-		// int[] uids = new int[cur.getCount()];
-		// if (cur != null) {
-		// try {
-		// int mindown = cur.getColumnIndex("uid");
-		// // showLog(cur.getColumnIndex("minute") + "");
-		// int i = 0;
-		// if (cur.moveToFirst()) {
-		// do {
-		// uids[i] = (int) cur.getLong(mindown);
-		// i++;
-		// } while (cur.moveToNext());
-		// }
-		// } catch (Exception e) {
-		// // TODO: handle exception
-		// showLog("cur-searchfail");
-		// }
-		// }
-		// cur.close();
-		// // for (int i = 0; i < uids.length; i++) {
-		// // showLog(uids[i] + "");
-		// // }
-		// closeSQL(sqlDataBase);
-		// return uids;
-		// int j = 0;
 		PackageManager pkgmanager = context.getPackageManager();
 		List<PackageInfo> packages = context.getPackageManager()
 				.getInstalledPackages(0);
@@ -1556,41 +1473,6 @@ public class SQLHelperUid {
 					cur.close();
 				}
 			}
-			// if (daily) {
-			// // showLog("上传uid" + uidnumber + "数据" + oldup + "B" + "  " +
-			// "下载uid"
-			// // + uidnumber + "数据" + olddown + "B");
-			// // 输入实际数据进入数据库
-			// updateSQLUidType(mySQL, date, time, oldup0, olddown0, uidnumber,
-			// 0,
-			// network, 2);
-			// // 同时记录总流量数据
-			// statsSQLuidTotaldata(mySQL, uidnumber, date, time, oldup0,
-			// olddown0, network);
-			//
-			// // 添加新的两行数据
-			// updateSQLUidType(mySQL, date, time, upload, download, uidnumber,
-			// 1,
-			// network, 0);
-			// exeSQLcreateUidtable(mySQL, uidnumber, 1, network);
-			// } else if ((oldup0 != 0 || olddown0 != 0)
-			// && ((olddown0 > 1024) || (oldup0 > 1024))) {
-			// // showLog("上传uid" + uidnumber + "数据" + oldup + "B" + "  " +
-			// "下载uid"
-			// // + uidnumber + "数据" + olddown + "B");
-			// // 输入实际数据进入数据库
-			// updateSQLUidType(mySQL, date, time, oldup0, olddown0, uidnumber,
-			// 0,
-			// network, 2);
-			// // 同时记录总流量数据
-			// statsSQLuidTotaldata(mySQL, uidnumber, date, time, oldup0,
-			// olddown0, network);
-			// // 添加新的两行数据
-			// updateSQLUidType(mySQL, date, time, upload, download, uidnumber,
-			// 1,
-			// network, 0);
-			// exeSQLcreateUidtable(mySQL, uidnumber, 1, network);
-			// }
 		}
 	}
 
@@ -1620,25 +1502,6 @@ public class SQLHelperUid {
 		}
 	}
 
-	// /**
-	// * 进行uid历史流量查询包括wifi与mobile
-	// *
-	// * @param context
-	// * context
-	// * @param year
-	// * 输入查询的年份2000.
-	// * @param month
-	// * 输入查询的月份.
-	// * @param uid
-	// * 输入查询的uid号
-	// * @return 返回一个64位数组。a[0]为总计上传流量a[63]为总计下载流量
-	// * a[1]-a[31]为1号到31号上传流量，a[32]-a[62]为1号到31号下载流量
-	// */
-	// public long[] SelectuidData(Context context, int year, int month, int
-	// uid) {
-	// return SelectData(context, year, month, TableUid + uid);
-	// }
-
 	/**
 	 * 进行uid历史流量查询包括wifi与mobile
 	 * 
@@ -1661,97 +1524,6 @@ public class SQLHelperUid {
 				uid, other);
 	}
 
-	// /**
-	// * 进行数据流量历史流量查询
-	// *
-	// * @param context
-	// * context
-	// * @param year
-	// * 输入查询的年份2000.
-	// * @param month
-	// * 输入查询的月份.
-	// * @param table
-	// * 要查询的数据类型
-	// * @return 返回一个64位数组。a[0]为总计上传流量a[63]为总计下载流量
-	// * a[1]-a[31]为1号到31号上传流量，a[32]-a[62]为1号到31号下载流量
-	// */
-	// private long[] SelectData(Context context, int year, int month, String
-	// table) {
-	// long[] a = new long[64];
-	// SQLiteDatabase sqlDataBase = creatSQLUid(context);
-	// String month2 = month + "";
-	// if (month < 10)
-	// month2 = "0" + month2;
-	// String string = null;
-	// // select oldest upload and download 之前记录的数据的查询操作
-	// // SELECT * FROM table WHERE type=0
-	// string = SelectTable + table + Where + "date" + Between + year + "-"
-	// + month2 + "-" + "01" + AND_B + year + "-" + month2 + "-"
-	// + "31" + AND + "type=" + 2;
-	// // showLog(string);
-	// try {
-	// cur = sqlDataBase.rawQuery(string, null);
-	// } catch (Exception e) {
-	// // TODO: handle exception
-	// showLog(string);
-	// }
-	// String newdate = "";
-	// String countdate = "";
-	// String dateStr1 = year + "-" + month2 + "-" + "0";
-	// String dateStr2 = year + "-" + month2 + "-";
-	// long newup = 0;
-	// long newdown = 0;
-	// int i = 1;
-	// if (cur != null) {
-	// try {
-	// int dateIndex = cur.getColumnIndex("date");
-	// int uploadIndex = cur.getColumnIndex("upload");
-	// int downloadIndex = cur.getColumnIndex("download");
-	// // showLog(cur.getColumnIndex("minute") + "");
-	// if (cur.moveToFirst()) {
-	// do {
-	// if (i < 10)
-	// countdate = dateStr1 + i;
-	// else
-	// countdate = dateStr2 + i;
-	// newdate = cur.getString(dateIndex);
-	// newup = cur.getLong(uploadIndex);
-	// newdown = cur.getLong(downloadIndex);
-	// if (newdate.equals(countdate)) {
-	// a[i] += newup;
-	// a[i + 31] += newdown;
-	// } else {
-	// a[0] += a[i];
-	// a[63] += a[i + 31];
-	// while (!newdate.equals(countdate)) {
-	// i++;
-	// if (i < 10)
-	// countdate = dateStr1 + i;
-	// else
-	// countdate = dateStr2 + i;
-	// if (i > 31) {
-	// break;
-	// }
-	// }
-	// a[i] += newup;
-	// a[i + 31] += newdown;
-	// }
-	// } while (cur.moveToNext());
-	// }
-	// a[0] += a[i];
-	// a[63] += a[i + 31];
-	// } catch (Exception e) {
-	// // TODO: handle exception
-	// showLog("cur-searchfail");
-	// }
-	// }
-	// cur.close();
-	// closeSQL(sqlDataBase);
-	// // for (int j = 0; j < a.length; j++) {
-	// // showLog(j + "liuliang" + a[j] + "");
-	// // }
-	// return a;
-	// }
 
 	/**
 	 * 进行数据流量历史流量查询

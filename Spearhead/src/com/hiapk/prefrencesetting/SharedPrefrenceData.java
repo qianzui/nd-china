@@ -3,47 +3,38 @@ package com.hiapk.prefrencesetting;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.preference.PreferenceManager;
 
 public class SharedPrefrenceData {
 	// 操作sharedprefrence
-	String PREFS_NAME = "allprefs";
+	private String PREFS_NAME = "allprefs";
 	// 系统设置
-	String SYS_PRE_NOTIFY = "notifyCtrl";
-	String SYS_PRE_FLOAT_CTRL = "floatCtrl";
-	String SYS_PRE_REFRESH_FRZ = "refreshfrz";
-	String SYS_PRE_CLEAR_DATA = "cleardata";
+	private String SYS_PRE_NOTIFY = "notifyCtrl";
+	private String SYS_PRE_FLOAT_CTRL = "floatCtrl";
+	private String SYS_PRE_REFRESH_FRZ = "refreshfrz";
 	// 月度流量设置
-	String VALUE_MOBILE_SET = "mobilemonthuse";
-	String VALUE_MOBILE_HASUSED_LONG = "mobileHasusedlong";
+	private String VALUE_MOBILE_SET = "mobilemonthuse";
+	private String VALUE_MOBILE_HASUSED_LONG = "mobileHasusedlong";
 
 	// 显示在预警页面的int
-	String VALUE_MOBILE_SET_OF_FLOAT = "mobilemonthuseinint";
+	private String VALUE_MOBILE_SET_OF_FLOAT = "mobilemonthuseinint";
 	// 设置单位（月度设置）
-	String MOBILE_SET_UNIT = "mobileMonthUnit";
+	private String MOBILE_SET_UNIT = "mobileMonthUnit";
 	// 设置结算日期及结算日期的设施时间，日期等
-	String MOBILE_COUNT_DAY = "mobileMonthCountDay";
-	String MOBILE_COUNT_SET_YEAR = "mobileMonthSetCountYear";
-	String MOBILE_COUNT_SET_MONTH = "mobileMonthSetCountMonth";
-	String MOBILE_COUNT_SET_DAY = "mobileMonthSetCountDay";
-	String MOBILE_COUNT_SET_TIME = "mobileMonthSetCountTime";
-	// 已经进行月度已用流量清零，在到达结算日的时候
-	String MOBILE_HAS_USED_CLEAR_ON_COUNT_DAY = "mobileMonthHasUseDayClear";
+	private String MOBILE_COUNT_DAY = "mobileMonthCountDay";
 	// 已使用总流量int
-	String VALUE_MOBILE_HASUSED_OF_FLOAT = "mobileHasusedint";
-	String MONTH_USED_DATA_TEMP = "monthtempuseddata";
+	private String VALUE_MOBILE_HASUSED_OF_FLOAT = "mobileHasusedint";
+	private String MONTH_USED_DATA_TEMP = "monthtempuseddata";
 	// 设置单位（已使用）
-	String MOBILE_HASUSED_SET_UNIT = "mobileHasusedUnit";
-	String MONTH_SET_HAS_SET = "monthuseHasSet";
+	private String MOBILE_HASUSED_SET_UNIT = "mobileHasusedUnit";
+	private String MONTH_SET_HAS_SET = "monthuseHasSet";
 	// 流量预警
-	String MOBILE_WARNING_MONTH = "mobilemonthwarning";
-	String MOBILE_WARNING_DAY = "mobiledaywarning";
+	private String MOBILE_WARNING_MONTH = "mobilemonthwarning";
+	private String MOBILE_WARNING_DAY = "mobiledaywarning";
 	// 预警动作
-	String WARNING_ACTION = "warningaction";
-	Context context;
-	SharedPreferences prefs;
+	private String WARNING_ACTION = "warningaction";
+	private SharedPreferences prefs;
 	// SharedPreferences prefs_sys;
-	Editor UseEditor;
+	private Editor UseEditor;
 	// Editor UseEditor_sys;
 	// 小部件
 	private final String WIDGET_14_OPEN = "widget1x4";
@@ -51,32 +42,12 @@ public class SharedPrefrenceData {
 	private final String PREF_INITSQL = "isSQLINIT";
 	private final String MODE_NOTINIT = "SQLisnotINIT";
 	private final String MODE_HASINIT = "SQLhasINIT";
-	// 保存地区品牌设置
-	String CURRENT_CITY = "currentCity";
-	String CURRENT_PROVINCE = "currentProvince";
-	String CURRENT_YUNYINGSHANG = "currentYunyingsh";
-	String CURRENT_PINPAI = "currentPinpai";
-	String CURRENT_YUNYINGSHANG_ID = "currentYunyingshid";
-	String CURRENT_PINPAI_ID = "currentPinpaiid";
-	String CURRENT_PROVINCE_ID = "currentProvinceid";
-	String CURRENT_CITY_ID = "currentCityid";
-	String CHOOSED_CITY = "chooseedcity";
-
-	String CITY = "city_data";
-	String BRAND = "brand_data";
-	String PROVINCE_ID = "province_id";
-	String SMSNUM = "sms_num";
-	String SMSTEXT = "sms_text";
 	// 包名们
-	String PACKAGE_NAMES = "allpackagenames";
+	private String PACKAGE_NAMES = "allpackagenames";
 	// 累计月度流量统计-与设置的月度使用值不同
-	String MONTH_HAS_USE_STACK_DATA = "monthhasusestack";
-	// 第一次启动时弹出的提示框
-	String ALERT_ON_FIRST_START = "isalertdialogonfirstdisplayed";
-	boolean isAlertDialogOnfirstOpenDisplayed = false;
+	private String MONTH_HAS_USE_STACK_DATA = "monthhasusestack";
 
 	public SharedPrefrenceData(Context context) {
-		this.context = context;
 		prefs = context.getSharedPreferences(PREFS_NAME, 0);
 		UseEditor = context.getSharedPreferences(PREFS_NAME, 0).edit();
 		// prefs_sys = PreferenceManager.getDefaultSharedPreferences(context);
@@ -117,8 +88,6 @@ public class SharedPrefrenceData {
 		UseEditor.putBoolean(SYS_PRE_FLOAT_CTRL, isFloatOpen);
 		UseEditor.commit();
 	}
-
-	String widgetFresh = "";
 
 	public void setSQLinited(boolean isSQLinited) {
 		if (isSQLinited) {
