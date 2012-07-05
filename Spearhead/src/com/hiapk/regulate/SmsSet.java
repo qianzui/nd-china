@@ -1,7 +1,5 @@
 package com.hiapk.regulate;
 
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
-
 import android.content.Context;
 
 public class SmsSet {
@@ -13,7 +11,7 @@ public class SmsSet {
 
 	public static void smsSet(Context context, String province,
 			String operator, String brand) {
-		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		SharedPrefrenceDataRegulate sharedData = new SharedPrefrenceDataRegulate(context);
 		// 一样的先设置
 		if (operator.equalsIgnoreCase(YD)) {
 			sharedData.setSmsNum("10086");
@@ -411,7 +409,7 @@ public class SmsSet {
 	}
 
 	public static void defSms(Context context) {
-		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		SharedPrefrenceDataRegulate sharedData = new SharedPrefrenceDataRegulate(context);
 		sharedData.setSmsText("CXLL");
 	}
 
