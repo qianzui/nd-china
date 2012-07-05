@@ -24,6 +24,7 @@ import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.provider.ColorChangeMainBeen;
+import com.hiapk.provider.UiColors;
 import com.hiapk.regulate.PhoneSet;
 import com.hiapk.regulate.Regulate;
 import com.hiapk.spearhead.Main;
@@ -232,7 +233,8 @@ public class CustomDialogMainBeen {
 	 */
 	public void dialogMonthSet_Main(final Button btn_toThree,
 			final TextView monthSet, final TextView monthSetunit,
-			final TextView monthRemain, final TextView monthRemainunit) {
+			final TextView monthRemain, final TextView monthRemainunit,
+			final TextView monthUse, final TextView monthUseunit) {
 
 		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		int mobileUnit = sharedData.getMonthMobileSetUnit();
@@ -317,22 +319,26 @@ public class CustomDialogMainBeen {
 					btn_toThree.setText("  校准流量  ");
 				}
 				PrefrenceOperatorUnit.resetHasWarning(context);
-				// 重设主界面数值
+				// 重设主界面数值包月流量
 				long mobileSet = sharedData.getMonthMobileSetOfLong();
-				long mobileUse = sharedData.getMonthMobileHasUse();
-				if (mobileSet < mobileUse) {
-					monthSet.setTextColor(ColorChangeMainBeen.colorRed);
-				} else {
+				if (mobileSet != 0) {
+					monthSet.setText(UnitHandler.unitHandler(mobileSet,
+							monthSetunit));
 					monthSet.setTextColor(ColorChangeMainBeen.colorBlue);
+				} else {
+					monthSet.setText("未设置");
+					monthSet.setTextColor(ColorChangeMainBeen.colorRed);
+					monthSetunit.setText("");
 				}
-
-				monthSet.setText(UnitHandler.unitHandler(mobileSet,
-						monthSetunit));
 				// 月度流量设置
-				long mobile_month_use = TrafficManager.getMonthUseMobile(context);
+				long mobile_month_use = TrafficManager
+						.getMonthUseMobile(context);
 				long monthLeft = 0;
+				//
+				monthUse.setText(UnitHandler.unitHandlerAcurrac(
+						mobile_month_use, monthUseunit));
 				monthLeft = ColorChangeMainBeen.setRemainTraff(mobileSet,
-						mobile_month_use);
+						mobile_month_use, monthUse);
 				monthRemain.setText(UnitHandler.unitHandler(monthLeft,
 						monthRemainunit));
 				monthSetAlert.dismiss();
