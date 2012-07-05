@@ -8,7 +8,6 @@ import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.firewall.Block;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.progressbar.PieView;
 import com.hiapk.progressbar.StackedBarChart;
 import com.hiapk.provider.ColorChangeMainBeen;
 import com.hiapk.sqlhelper.SQLHelperInitSQL;
@@ -19,11 +18,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,8 +33,6 @@ import android.widget.TextView;
 public class Main extends Activity {
 
 	private Context context = this;
-	// 显示何种图形
-	private boolean ismobileshowpie = false;
 	// wifi与mobile单月使用量
 	private long mobile_month_use = 0;
 	// 获取的系统时间
@@ -116,10 +111,6 @@ public class Main extends Activity {
 		// 本月已用
 		TextView monthMobil = (TextView) findViewById(R.id.monthRate);
 		TextView monthMobilunit = (TextView) findViewById(R.id.unit3);
-		// TextView monthMobil2 = (TextView)
-		// findViewById(R.id.traffic_month_set);
-		// TextView monthMobilunit2 = (TextView)
-		// findViewById(R.id.unit_month_set);
 		// 本月剩余
 		TextView monthRemain = (TextView) findViewById(R.id.monthRemain);
 		TextView monthRemainunit = (TextView) findViewById(R.id.unit4);
@@ -154,14 +145,6 @@ public class Main extends Activity {
 			monthSetunit.setText("");
 		}
 
-		// monthMobil2.setText("/" + unitHandler(mobileSet, monthMobilunit2));
-		// leftMobil.setText(unitHandler(mobileSet - mobile_month_use,
-		// leftMobilunit));
-		// todayWifi.setText(unitHandler(wifi[monthDay] + wifi[monthDay + 31],
-		// todayWifiunit));
-		// weekWifi.setText(unitHandler(weektraffic[5], weekWifiunit));
-		// wifi_month_use = wifi[0] + wifi[63];
-		// monthWifi.setText(unitHandler(wifi_month_use, monthWifiunit));
 
 	}
 
@@ -222,40 +205,6 @@ public class Main extends Activity {
 		}
 	}
 
-	// ------------
-	/**
-	 * 执行动态进度条设置
-	 * 
-	 * @param i
-	 *            移动数据
-	 * @param j
-	 *            wifi
-	 */
-	private void RefreshProgressBar(int i, int j) {
-		// ProgressBar myProgressBar = (ProgressBar)
-		// findViewById(R.id.progressbar);
-		// MyProgressBar myProgressBar_mobile = (MyProgressBar)
-		// findViewById(R.id.progressbar_mobile);
-		// MyProgressBar myProgressBar_wifi = (MyProgressBar)
-		// findViewById(R.id.progressbar_wifi);
-		// DisplayMetrics dm = new DisplayMetrics();
-		// 取得窗口属性
-		// getWindowManager().getDefaultDisplay().getMetrics(dm);
-		// 窗口的宽度
-		// windowswidesize = dm.widthPixels / 10;
-		// windowswidesize = dm.densityDpi / 5;
-		// showlog(screenWidth+"");
-		// myProgressBar_mobile.setTextsize(windowswidesize);
-		// // myProgressBar_wifi.setTextsize(fontsize);
-		// ProgressBarForV progforv_mobile = new ProgressBarForV();
-		// progforv_mobile.j = i;
-		// progforv_mobile.execute(myProgressBar_mobile);
-		// ProgressBarForV progforv_wifi = new ProgressBarForV();
-		// progforv_wifi.j = j;
-		// progforv_wifi.execute(myProgressBar_wifi);
-	}
-
-
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
@@ -279,40 +228,9 @@ public class Main extends Activity {
 		monthDay = t.monthDay;
 		AlarmSet alset = new AlarmSet();
 		alset.StartAlarm(context);
-		// initWifiBar();
-		// if (TrafficManager.mobile_month_data[0] == 0
-		// && TrafficManager.wifi_month_data[0] == 0
-		// && TrafficManager.mobile_month_data[63] == 0
-		// && TrafficManager.wifi_month_data[63] == 0) {
-		//
-		// new AsyncTaskonRefreshMain().execute(context);
-		// } else {
 		initValues();
-		initProgressBar();
-		initPieBar();
 		initWifiBar();
-		// }
-
-		// 数据记录功能，放在flesh上面
-		// AlarmSet alset = new AlarmSet();
-		// // 初始化网络状态
-		// sqlhelperTotal.initTablemobileAndwifi(context);
-		// if (SQLHelperTotal.TableWiFiOrG23 != ""
-		// && sqlhelperTotal.getIsInit(context)) {
-		// // 启动闹钟
-		// alset.StartAlarmMobile(context);
-		// // 进行数据记录
-		// trafficManager.statsTotalTraffic(context, false);
-		// } else if (SQLHelperTotal.TableWiFiOrG23 != "") {
-		// alset.StartAlarmMobile(context);
-		// sqlhelperTotal.initTablemobileAndwifi(context);
-		// }
-		// time=System.currentTimeMillis();
-
-		// time = System.currentTimeMillis() - time;
-		// showlog("更新main" + time);
 	}
-
 
 	private void setonclicklistens() {
 		final Button btn_refresh = (Button) findViewById(R.id.refresh);
@@ -350,30 +268,8 @@ public class Main extends Activity {
 					}
 					SetText.resetWidgetAndNotify(context);
 					initValues();
-					initProgressBar();
-					initPieBar();
 					initWifiBar();
 
-					// test
-					// SQLHelperUid sqlhelperUid = new SQLHelperUid();
-					// if (SQLStatic.uidnumbers == null) {
-					// SQLStatic.uidnumbers = sqlhelperUid
-					// .selectUidnumbers(context);
-					// }
-					// if (SQLStatic.uiddata == null) {
-					// alset.StartAlarmUidTotal(context);
-					//
-					// }
-					// showlog(SQLStatic.uidnumbers.length + "");
-					// showlog(SQLStatic.uiddata.size() + "data");
-					//
-					// for (int i = 0; i < SQLStatic.uidnumbers.length; i++) {
-					// int uid = SQLStatic.uidnumbers[i];
-					// Data datt = SQLStatic.uiddata.get(uid);
-					// showlog("" + SQLStatic.uiddata.get(uid).download
-					// + datt.download);
-					// }
-					// CustomToast.initToast(context, "test");
 					return true;
 				}
 				return false;
@@ -521,42 +417,6 @@ public class Main extends Activity {
 			}
 			// format.format(wifi[i]);
 		}
-		// chartbar.setMainTitle("移动流量统计");
-		// chartbar.setTopTitle("移动流量");
-		// tvtraff.setText("   移动流量");
-		// break;
-		// case 2:
-		// for (int i = 0; i < totalTraff.length; i++) {
-		// long temp = TrafficManager.wifi_month_data[i + 1]
-		// + TrafficManager.wifi_month_data[i + 32];
-		// // 小数点2位
-		// totalTraff[i] = (double) ((long) temp * 100 / 1024 / 1024) / 100;
-		// // format.format(wifi[i]);
-		// if (temp > maxwifiTraffic) {
-		// maxwifiTraffic = temp;
-		// }
-		// }
-		// chartbar.setMainTitle("WIFI流量统计");
-		// chartbar.setTopTitle("WIFI流量");
-		// tvtraff.setText("   WIFI流量");
-		// break;
-		// default:
-		// for (int i = 0; i < totalTraff.length; i++) {
-		// long temp = TrafficManager.wifi_month_data[i + 1]
-		// + TrafficManager.wifi_month_data[i + 32]
-		// + TrafficManager.mobile_month_data[i + 1]
-		// + TrafficManager.mobile_month_data[i + 32];
-		// // 小数点2位
-		// totalTraff[i] = (double) ((long) temp * 100 / 1024 / 1024) / 100;
-		// // format.format(wifi[i]);
-		// if (temp > maxwifiTraffic) {
-		// maxwifiTraffic = temp;
-		// }
-		// }
-		// chartbar.setMainTitle("总流量统计");
-		// chartbar.setTopTitle("总流量");
-		// break;
-		// }
 		chartbar.setData1(mobileTraff, wifiTraff);
 		if (maxTraffic < 848576) {
 			chartbar.setyMaxvalue(1);
@@ -566,19 +426,6 @@ public class Main extends Activity {
 			chartbar.setyMaxvalue((double) (long) maxTraffic / 1048576 * 1.2);
 		}
 
-		// 设置背景色（被隐藏的条）
-		// chartbar.setBackgroundColor(Color.BLACK);
-		// 设置初始显示图像位置
-		// if ((monthDay + 2) > monthtotalDay) {
-		// chartbar.setxMinvalue(monthtotalDay - 6.5);
-		// chartbar.setxMaxvalue(monthtotalDay + 0.5);
-		// } else if ((monthDay - 5) < 0) {
-		// chartbar.setxMinvalue(0.5);
-		// chartbar.setxMaxvalue(7.5);
-		// } else {
-		// chartbar.setxMinvalue(monthDay - 4.5);
-		// chartbar.setxMaxvalue(monthDay + 2.5);
-		// }
 		chartbar.setxMinvalue(monthbeforetotalDay + monthDay - 6.5);
 		chartbar.setxMaxvalue(monthbeforetotalDay + monthDay + 0.5);
 		// 设置显示的日期
@@ -602,108 +449,14 @@ public class Main extends Activity {
 		return chartbar;
 	}
 
-	private void initPieBar() {
-		// TODO Auto-generated method stub
-		// 获取默认流量数值
-		long mobileSet = sharedData.getMonthMobileSetOfLong();
-		// long moblileTotle = mobileTraffic[0] + mobileTraffic[63];
-		int usePercent = 0;
-		if (mobile_month_use == 0) {
-			usePercent = 0;
-		} else if (mobileSet == 0) {
-			usePercent = 360;
-		} else {
-			usePercent = (int) (((double) mobile_month_use / mobileSet) * 360);
-		}
-		if (usePercent > 360)
-			usePercent = 360;
-
-		int mobilePersent = 0;
-		// 月度流量为0判断
-		if (mobile_month_use == 0) {
-			mobilePersent = 0;
-		} else if (mobileSet == 0) {
-			mobilePersent = 100;
-		} else {
-			// 进行超百判断
-			if (mobile_month_use > mobileSet)
-				mobilePersent = 100;
-			else
-				mobilePersent = (int) ((double) mobile_month_use * 100 / mobileSet);
-		}
-		int[] percent = new int[] { usePercent, 360 - usePercent };
-		final PieView pieView_mobile = new PieView(context, percent,
-				mobilePersent);
-		// View PieView=findViewById(R.id.pie_bar_mobile);
-		// LinearLayout layout_mobile = (LinearLayout)
-		// findViewById(R.id.linearlayout_bar_mobile);
-		// final LinearLayout laout_mobile_pie = (LinearLayout)
-		// findViewById(R.id.linearlayout_piebar_mobile);
-		// laout_mobile_pie.removeAllViews();
-		//
-		// laout_mobile_pie.setBackgroundColor(Color.WHITE);
-		//
-		ismobileshowpie = false;
-		// layout_mobile.setOnClickListener(new OnClickListener() {
-
-		// public void onClick(View v) {
-		// // TODO Auto-generated method stub
-		// laout_mobile_pie.removeAllViews();
-		// if (ismobileshowpie) {
-		// ismobileshowpie = false;
-		// } else {
-		// laout_mobile_pie.addView(pieView_mobile);
-		// ismobileshowpie = true;
-		// }
-		// }
-		// });
-		// laout_mobile_pie.removeAllViews();
-		// laout_mobile_pie.addView(pieView_mobile);
-		// laout_mobile.removeAllViews();
-	}
-
-	/**
-	 * 初始化进度条的现实数值
-	 */
-	private void initProgressBar() {
-		// 获取设置的月度使用值，默认50m
-		long mobileSet = sharedData.getMonthMobileSetOfLong();
-		int mobile = 0;
-		int wifi = 0;
-		// showlog("mobile" + mobile_month_use + "wifi" + wifi_month_use);
-		// showlog("mobile" + mobileSet + "wifi" + wifiSet);
-		// 月度流量为0判断
-		if (mobile_month_use == 0) {
-			mobile = 0;
-		} else if (mobileSet == 0) {
-			mobile = 100;
-		} else {
-
-			// 进行超百判断
-			if (mobile_month_use > mobileSet)
-				mobile = 100;
-			else
-				// mobile = (int) ((float) ((int) ((float) mobile_month_use /
-				// mobileSet * 360)) / 360 * 100);
-				mobile = (int) ((float) mobile_month_use * 100 / mobileSet);
-			// if (wifi_month_use > wifiSet)
-			// wifi = 100;
-			// else
-			// wifi = (int) ((float)wifi_month_use * 100 / wifiSet);
-		}
-
-		// showlog("mobile" + mobile + "wifi" + wifi);
-		RefreshProgressBar(mobile, wifi);
-	}
-
-	/**
-	 * 显示日志
-	 * 
-	 * @param string
-	 */
-	private void showlog(String string) {
-//		Log.d("main", string);
-	}
+	// /**
+	// * 显示日志
+	// *
+	// * @param string
+	// */
+	// private void showlog(String string) {
+	// // Log.d("main", string);
+	// }
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

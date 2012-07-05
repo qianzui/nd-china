@@ -150,13 +150,13 @@ public class SetText {
 
 	}
 
-	/**
-	 * 用于显示日志
-	 * 
-	 * @param string
-	 */
-	private static void showLog(String string) {
-		// TODO Auto-generated method stub
-		// Log.d("SetText", string);
-	}
+//	/**
+//	 * 用于显示日志
+//	 * 
+//	 * @param string
+//	 */
+//	private static void showLog(String string) {
+//		// TODO Auto-generated method stub
+//		// Log.d("SetText", string);
+//	}
 }
