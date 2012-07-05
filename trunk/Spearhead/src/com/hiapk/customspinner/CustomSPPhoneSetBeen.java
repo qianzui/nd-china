@@ -2,7 +2,6 @@ package com.hiapk.customspinner;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -215,12 +214,12 @@ public class CustomSPPhoneSetBeen {
 		dialogPhoneSetSecond(content, beforepos, "请选择城市", "city", btn_second);
 	}
 
-	/**
-	 * 显示日志
-	 * 
-	 * @param string
-	 */
-	private void showlog(String string) {
-		Log.d("CustomSPBeen", string);
-	}
+//	/**
+//	 * 显示日志
+//	 * 
+//	 * @param string
+//	 */
+//	private void showlog(String string) {
+//		Log.d("CustomSPBeen", string);
+//	}
 }
