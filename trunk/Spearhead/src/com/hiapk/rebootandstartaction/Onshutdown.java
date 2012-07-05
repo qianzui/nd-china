@@ -2,12 +2,7 @@ package com.hiapk.rebootandstartaction;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
-
 import com.hiapk.broadcreceiver.AlarmSet;
-import com.hiapk.firewall.Block;
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLStatic;
 
 public class Onshutdown {
@@ -30,8 +25,8 @@ public class Onshutdown {
 		alset.StopWidgetAlarm(context);
 	}
 
-	private void showLog(String string) {
-		// TODO Auto-generated method stub
-//		Log.d("Onshutdown", string);
-	}
+//	private void showLog(String string) {
+//		// TODO Auto-generated method stub
+////		Log.d("Onshutdown", string);
+//	}
 }

@@ -12,7 +12,6 @@ import com.hiapk.progressbar.PieView;
 import com.hiapk.progressbar.StackedBarChart;
 import com.hiapk.provider.ColorChangeMainBeen;
 import com.hiapk.sqlhelper.SQLHelperInitSQL;
-import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLStatic;
 import com.hiapk.widget.SetText;
 import android.Manifest;
@@ -256,22 +255,6 @@ public class Main extends Activity {
 		// progforv_wifi.execute(myProgressBar_wifi);
 	}
 
-	/**
-	 * 进度条设置
-	 * 
-	 * @param i
-	 *            移动数据
-	 * @param j
-	 *            wifi
-	 */
-	private void ProgressBarSet(int i, int j) {
-		// MyProgressBar myProgressBar_mobile = (MyProgressBar)
-		// findViewById(R.id.progressbar_mobile);
-		// MyProgressBar myProgressBar_wifi = (MyProgressBar)
-		// findViewById(R.id.progressbar_wifi);
-		// myProgressBar_mobile.setProgress(i);
-		// myProgressBar_wifi.setProgress(j);
-	}
 
 	@Override
 	protected void onPause() {
@@ -330,55 +313,6 @@ public class Main extends Activity {
 		// showlog("更新main" + time);
 	}
 
-	private class AsyncTaskonRefreshMain extends AsyncTask<Context, Long, Long> {
-		@Override
-		protected Long doInBackground(Context... params) {
-			int timetap = 0;
-			while (TrafficManager.mobile_month_data[0] == 0
-					&& TrafficManager.wifi_month_data[0] == 0
-					&& TrafficManager.mobile_month_data[63] == 0
-					&& TrafficManager.wifi_month_data[63] == 0) {
-				try {
-					Thread.sleep(20);
-					timetap += 1;
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				if (timetap > 50)
-					break;
-
-			}
-
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(Long result) {
-			// TODO Auto-generated method stub
-			SetText.resetWidgetAndNotify(context);
-			initValues();
-			initProgressBar();
-			initPieBar();
-			initWifiBar();
-		}
-	}
-
-	// private void setontvclicklisten() {
-	// final TextView tvtraff = (TextView) findViewById(R.id.tv_stackChart);
-	// tvtraff.setOnClickListener(new OnClickListener() {
-	//
-	// @Override
-	// public void onClick(View v) {
-	// // TODO Auto-generated method stub
-	// if (stackflag < 2) {
-	// stackflag++;
-	// } else
-	// stackflag = 0;
-	// initWifiBar();
-	// }
-	// });
-	// }
 
 	private void setonclicklistens() {
 		final Button btn_refresh = (Button) findViewById(R.id.refresh);
@@ -768,7 +702,7 @@ public class Main extends Activity {
 	 * @param string
 	 */
 	private void showlog(String string) {
-		Log.d("main", string);
+//		Log.d("main", string);
 	}
 
 	@Override

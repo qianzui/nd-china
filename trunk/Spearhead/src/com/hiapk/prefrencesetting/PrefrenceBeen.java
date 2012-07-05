@@ -1,33 +1,17 @@
 package com.hiapk.prefrencesetting;
 
-import java.util.List;
-
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences.Editor;
-import android.content.pm.PackageInfo;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
-
-import com.hiapk.alertdialog.CustomDialog;
 import com.hiapk.alertdialog.CustomDialogOtherBeen;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.customspinner.CustomSPBeen;
-import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.firewall.Block;
 import com.hiapk.spearhead.R;
-import com.hiapk.sqlhelper.SQLHelperTotal;
-import com.hiapk.sqlhelper.SQLStatic;
-import com.hiapk.widget.SetText;
 
 public class PrefrenceBeen {
 	Context context;

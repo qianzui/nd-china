@@ -1,8 +1,5 @@
 package com.hiapk.provider;
 
-import com.hiapk.spearhead.R.color;
-
-import android.content.Context;
 import android.graphics.Color;
 
 public class UiColors {

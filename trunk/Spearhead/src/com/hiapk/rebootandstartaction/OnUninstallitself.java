@@ -2,13 +2,10 @@ package com.hiapk.rebootandstartaction;
 
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLStatic;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.util.Log;
 
 public class OnUninstallitself {
 	AlarmSet alset = new AlarmSet();

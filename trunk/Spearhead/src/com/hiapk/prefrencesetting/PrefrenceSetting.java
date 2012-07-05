@@ -1,38 +1,13 @@
 package com.hiapk.prefrencesetting;
 
-import java.util.List;
-
-import com.hiapk.broadcreceiver.AlarmSet;
-import com.hiapk.firewall.Block;
-import com.hiapk.spearhead.Main3;
 import com.hiapk.spearhead.R;
-import com.hiapk.spearhead.SpearheadActivity;
-import com.hiapk.spearhead.Splash;
-import com.hiapk.sqlhelper.SQLHelperTotal;
-import com.hiapk.sqlhelper.SQLHelperUid;
-import com.hiapk.sqlhelper.SQLStatic;
-import com.hiapk.widget.ProgramNotify;
-
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.content.pm.PackageInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
-import android.util.Log;
 import android.widget.LinearLayout;
 
 public class PrefrenceSetting extends Activity {

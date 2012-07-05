@@ -1,13 +1,5 @@
 package com.hiapk.rebootandstartaction;
 
-import com.hiapk.broadcreceiver.AlarmSet;
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.sqlhelper.SQLHelperTotal;
-
-import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
-
 public class OnReinstallitself {
 //	public void reInstallAction(Context context) {
 //		AlarmSet alset = new AlarmSet();

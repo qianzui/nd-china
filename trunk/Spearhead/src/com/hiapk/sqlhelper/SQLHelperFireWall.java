@@ -1,16 +1,5 @@
 package com.hiapk.sqlhelper;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.Drawable;
-import android.net.TrafficStats;
-import android.os.AsyncTask;
-
 public class SQLHelperFireWall {
 //	// SQL
 //	private String SQLTotalname = "SQLTotal.db";

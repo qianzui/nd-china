@@ -1,20 +1,13 @@
 package com.hiapk.uidtraff;
 
 import com.hiapk.dataexe.UnitHandler;
-import com.hiapk.progressbar.BudgetPie;
 import com.hiapk.progressbar.ProjectStatusChart;
 import com.hiapk.progressbar.SimplePie;
 import com.hiapk.spearhead.R;
-import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
-import com.hiapk.sqlhelper.SQLHelperUidTotal;
 import com.hiapk.sqlhelper.SQLStatic;
-import com.umeng.analytics.MobclickAgent;
-
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
@@ -229,9 +222,8 @@ public class UidMonthTraff extends Activity {
 
 				TextView tv_mobile = (TextView) findViewById(R.id.tv_mobile);
 				TextView tv_wifi = (TextView) findViewById(R.id.tv_wifi);
-				UnitHandler unitHandler = new UnitHandler();
-				tv_mobile.setText(unitHandler.unitHandlerAccurate(pieValue[0]));
-				tv_wifi.setText(unitHandler.unitHandlerAccurate(pieValue[1]));
+				tv_mobile.setText(UnitHandler.unitHandlerAccurate(pieValue[0]));
+				tv_wifi.setText(UnitHandler.unitHandlerAccurate(pieValue[1]));
 			} else {
 				LayoutInflater factory = LayoutInflater.from(context);
 				view = factory.inflate(R.layout.load_fail, null);

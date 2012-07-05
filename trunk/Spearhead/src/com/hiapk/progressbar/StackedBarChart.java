@@ -28,10 +28,8 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import com.hiapk.provider.UiColors;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
-import android.util.Log;
 import android.view.View;
 
 /**

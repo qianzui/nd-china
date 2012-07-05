@@ -14,7 +14,7 @@ import com.hiapk.sqlhelper.SQLHelperUid;
 public class TrafficManager {
 	SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 	SQLHelperUid sqlhelperUid = new SQLHelperUid();
-	//后续要删除的数值
+	// 后续要删除的数值
 	public static long mobile_month_use_afterSet = 0;
 	public static long[] wifi_month_data = new long[64];
 	public static long[] wifi_month_data_before = new long[64];
@@ -172,8 +172,8 @@ public class TrafficManager {
 	// }
 	// }
 
-	private void showLog(String string) {
-		// TODO Auto-generated method stub
-		// Log.d("TrafficManager", string);
-	}
+	// private void showLog(String string) {
+	// // TODO Auto-generated method stub
+	// // Log.d("TrafficManager", string);
+	// }
 }
