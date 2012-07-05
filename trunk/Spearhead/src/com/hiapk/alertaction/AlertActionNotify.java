@@ -1,7 +1,6 @@
 package com.hiapk.alertaction;
 
 import com.hiapk.spearhead.R;
-import com.hiapk.spearhead.SpearheadActivity;
 import com.hiapk.spearhead.Splash;
 
 import android.app.Notification;
