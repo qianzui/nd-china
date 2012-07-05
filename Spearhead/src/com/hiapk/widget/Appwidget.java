@@ -1,13 +1,9 @@
 package com.hiapk.widget;
 
-import java.lang.annotation.Annotation;
-
 import com.hiapk.alertaction.AlertActionMobileDataControl;
 import com.hiapk.broadcreceiver.AlarmSet;
-import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.spearhead.R;
-import com.hiapk.spearhead.SpearheadActivity;
 import com.hiapk.spearhead.Splash;
 
 import android.app.PendingIntent;
@@ -16,22 +12,11 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.provider.Settings.System;
 import android.telephony.TelephonyManager;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RemoteViews;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.RemoteViews.RemoteView;
 
 public class Appwidget extends AppWidgetProvider {
 	String BROADCAST_WIFI = "com.hiapk.wifiwidget";

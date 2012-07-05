@@ -1,20 +1,12 @@
 package com.hiapk.sqlhelper;
 
-import com.hiapk.broadcreceiver.AlarmSet;
-import com.hiapk.dataexe.MonthDay;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.TrafficStats;
 import android.text.format.Time;
-import android.util.Log;
-import android.widget.TabWidget;
 
 public class SQLHelperTotal {
 
@@ -431,37 +423,6 @@ public class SQLHelperTotal {
 			// updateSQLtotalType(mySQL, table, upload, download, 1, other, 0);
 			// exeSQLtotal(mySQL, table, 1, other);
 			// }
-		}
-	}
-
-	/**
-	 * 对数据库进行wifi，mobile数据的写入新数据操作的操作
-	 * 
-	 * @param mySQL
-	 *            进行写入操作的数据库SQLiteDatagase
-	 * @param table
-	 *            数据库的表：有wifi，2g/3g等
-	 * @param type
-	 *            用于记录数据状态，以统计数据
-	 * @param other
-	 *            用于记录特殊数据等
-	 */
-	private void exeSQLtotal(SQLiteDatabase mySQL, String table, int type,
-			String other) {
-		// TODO Auto-generated method stub
-		String string = null;
-		initTotalData(table);
-		string = InsertTable + table + Start + InsertColumnTotal + End + Value
-				+ date + split + time + split + upload + split + download
-				+ split + type + split + other + "'" + End;
-		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
-		// ('date','time','upload','download','uid','type')
-
-		try {
-			mySQL.execSQL(string);
-		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
 		}
 	}
 
@@ -992,6 +953,6 @@ public class SQLHelperTotal {
 	 */
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-//		Log.d("databaseTotal", string);
+		// Log.d("databaseTotal", string);
 	}
 }

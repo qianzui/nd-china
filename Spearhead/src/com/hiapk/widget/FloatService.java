@@ -8,7 +8,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -44,8 +43,7 @@ public class FloatService extends Service {
 				.inflate(R.layout.floating_widget, null);
 		tx = (TextView) view.findViewById(R.id.textUp);
 //		tx1 = (TextView) view.findViewById(R.id.textDown);
-		UnitHandler unitHandler=new UnitHandler();
-		tx.setText(" "+unitHandler.unitHandlerAccurate(TrafficInfomation.getspeed(this))+"/s ");
+		tx.setText(" "+UnitHandler.unitHandlerAccurate(TrafficInfomation.getspeed(this))+"/s ");
 //		tx1.setText("" + TrafficInfomation.getspeed(this) + "KB");
 		iv = (ImageView) view.findViewById(R.id.image);
 		iv.setImageResource(R.drawable.cross);
@@ -115,7 +113,7 @@ public class FloatService extends Service {
 				Intent serviceStop = new Intent();
 				SharedPrefrenceData sharedData = new SharedPrefrenceData(FloatService.this);
 				sharedData.setFloatOpen(false);
-				boolean isFloatOpen = sharedData.isFloatOpen();
+//				boolean isFloatOpen = sharedData.isFloatOpen();
 				serviceStop.setClass(FloatService.this, FloatService.class);
 				stopService(serviceStop);
 //				showLog("isFloatOpen"+isFloatOpen);
@@ -143,8 +141,7 @@ public class FloatService extends Service {
 	};
 
 	public void dataRefresh() {
-		UnitHandler unitHandler=new UnitHandler();
-		tx.setText(" "+unitHandler.unitHandlerAccurate(TrafficInfomation.getspeed(this))+"/s ");
+		tx.setText(" "+UnitHandler.unitHandlerAccurate(TrafficInfomation.getspeed(this))+"/s ");
 //		tx1.setText("" + TrafficInfomation.getspeed(this) + "KB");
 	}
 

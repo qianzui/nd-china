@@ -74,10 +74,6 @@ public class MyProgressBar extends ProgressBar {
 		this.mPaint.setTextSize(textsize);
 	}
 
-	private void setText() {
-		setText(this.getProgress());
-	}
-
 	// ÉèÖÃÎÄ×ÖÄÚÈİ
 	private void setText(int progress) {
 		int i = (progress * 100) / this.getMax();

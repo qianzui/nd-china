@@ -21,25 +21,17 @@ import java.util.Date;
 import java.util.List;
 
 import org.achartengine.ChartFactory;
-import org.achartengine.GraphicalView;
 import org.achartengine.chart.PointStyle;
-import org.achartengine.chart.BarChart.Type;
 import org.achartengine.model.CategorySeries;
-import org.achartengine.model.MultipleCategorySeries;
 import org.achartengine.model.TimeSeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
-import org.achartengine.model.XYSeries;
-import org.achartengine.renderer.DefaultRenderer;
-import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
 import com.hiapk.provider.UiColors;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 
 /**
@@ -409,33 +401,33 @@ public class ProjectStatusChart extends ViewBase {
 		renderer.setLabelsColor(labelsColor);
 	}
 
-	/**
-	 * Builds an XY multiple time dataset using the provided values.
-	 * 
-	 * @param titles
-	 *            the series titles
-	 * @param xValues
-	 *            the values for the X axis
-	 * @param yValues
-	 *            the values for the Y axis
-	 * @return the XY multiple time dataset
-	 */
-	private XYMultipleSeriesDataset buildDateDataset(String[] titles,
-			List<Date[]> xValues, List<long[]> yValues) {
-		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-		int length = titles.length;
-		for (int i = 0; i < length; i++) {
-			TimeSeries series = new TimeSeries(titles[i]);
-			Date[] xV = xValues.get(i);
-			long[] yV = yValues.get(i);
-			int seriesLength = xV.length;
-			for (int k = 0; k < seriesLength; k++) {
-				series.add(xV[k], yV[k]);
-			}
-			dataset.addSeries(series);
-		}
-		return dataset;
-	}
+//	/**
+//	 * Builds an XY multiple time dataset using the provided values.
+//	 * 
+//	 * @param titles
+//	 *            the series titles
+//	 * @param xValues
+//	 *            the values for the X axis
+//	 * @param yValues
+//	 *            the values for the Y axis
+//	 * @return the XY multiple time dataset
+//	 */
+//	private XYMultipleSeriesDataset buildDateDataset(String[] titles,
+//			List<Date[]> xValues, List<long[]> yValues) {
+//		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+//		int length = titles.length;
+//		for (int i = 0; i < length; i++) {
+//			TimeSeries series = new TimeSeries(titles[i]);
+//			Date[] xV = xValues.get(i);
+//			long[] yV = yValues.get(i);
+//			int seriesLength = xV.length;
+//			for (int k = 0; k < seriesLength; k++) {
+//				series.add(xV[k], yV[k]);
+//			}
+//			dataset.addSeries(series);
+//		}
+//		return dataset;
+//	}
 
 	/**
 	 * 计算单月有几天
@@ -481,12 +473,12 @@ public class ProjectStatusChart extends ViewBase {
 		return 31;
 	}
 
-	/**
-	 * 显示日志
-	 * 
-	 * @param string
-	 */
-	private void showlog(String string) {
-		// Log.d("project", string);
-	}
+//	/**
+//	 * 显示日志
+//	 * 
+//	 * @param string
+//	 */
+//	private void showlog(String string) {
+//		// Log.d("project", string);
+//	}
 }

@@ -4,12 +4,10 @@ import com.hiapk.spearhead.R;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.drawable.AnimationDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class CustomProgressDialog extends Dialog {
@@ -52,8 +50,9 @@ public class CustomProgressDialog extends Dialog {
 	 * 
 	 */
 	public void setTitile(String strTitle) {
-		if (strTitle!="") {
-			TextView tv_title=(TextView) textEntryView.findViewById(R.id.custom_progressbar_title);
+		if (strTitle != "") {
+			TextView tv_title = (TextView) textEntryView
+					.findViewById(R.id.custom_progressbar_title);
 			tv_title.setText(strTitle);
 		}
 	}
@@ -67,8 +66,9 @@ public class CustomProgressDialog extends Dialog {
 	 * 
 	 */
 	public void setMessage(String strMessage) {
-		if (strMessage!="") {
-			TextView tv_mess=(TextView) textEntryView.findViewById(R.id.custom_progressbar_message);
+		if (strMessage != "") {
+			TextView tv_mess = (TextView) textEntryView
+					.findViewById(R.id.custom_progressbar_message);
 			tv_mess.setText(strMessage);
 		}
 	}

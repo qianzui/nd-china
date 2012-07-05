@@ -5,17 +5,10 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.text.format.Time;
 import android.widget.RemoteViews;
 
-import com.hiapk.dataexe.TrafficManager;
-import com.hiapk.dataexe.UnitHandler;
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.spearhead.R;
-import com.hiapk.spearhead.SpearheadActivity;
 import com.hiapk.spearhead.Splash;
 
 /**

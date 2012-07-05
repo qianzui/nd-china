@@ -1,7 +1,5 @@
 package com.hiapk.provider;
 
-import com.hiapk.spearhead.R.color;
-
 import android.graphics.Color;
 import android.widget.TextView;
 

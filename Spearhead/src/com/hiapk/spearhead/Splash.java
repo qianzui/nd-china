@@ -5,14 +5,8 @@ import java.util.List;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.Block;
-import com.hiapk.firewall.GetRoot;
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.sqlhelper.SQLHelperInitSQL;
-import com.hiapk.sqlhelper.SQLHelperTotal;
-import com.hiapk.sqlhelper.SQLHelperUid;
 import com.hiapk.sqlhelper.SQLStatic;
-import com.umeng.analytics.MobclickAgent;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -21,7 +15,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 
 public class Splash extends Activity {
 	private Context context = this;

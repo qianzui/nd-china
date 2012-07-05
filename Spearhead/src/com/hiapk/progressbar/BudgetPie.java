@@ -6,7 +6,6 @@ import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 

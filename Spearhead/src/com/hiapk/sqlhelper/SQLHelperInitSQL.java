@@ -2,7 +2,6 @@ package com.hiapk.sqlhelper;
 
 import com.hiapk.broadcreceiver.AlarmSet;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.TrafficStats;
@@ -26,9 +25,6 @@ public class SQLHelperInitSQL {
 	private String SQLId = "_id INTEGER PRIMARY KEY,";
 	private String SQLTime = "date date,time time";
 	private String CreateparamWiFiAnd23G = ",upload INTEGER, download INTEGER,type INTEGER,other varchar(15)";
-	public static String TableWiFiOrG23 = "mobile";
-	// public static String UidWiFiOrG23 = "";
-	public static String TotalWiFiOrG23 = "";
 	private String InsertUidColumnTotal = "date,time,upload,download,type,other";
 	private String TableWiFi = "wifi";
 	private String TableMobile = "mobile";
@@ -511,7 +507,6 @@ public class SQLHelperInitSQL {
 		initTime();
 		return time;
 	}
-
 
 	/**
 	 * 用于显示日志
