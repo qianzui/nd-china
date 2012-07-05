@@ -16,7 +16,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.TrafficStats;
 import android.text.format.Time;
-import android.util.Log;
 
 public class SQLHelperUid {
 
@@ -268,35 +267,6 @@ public class SQLHelperUid {
 	}
 
 	/**
-	 * 安装新软件时依据包名对数据库uidIndex以及other进行更新
-	 * 
-	 * @param mySQL
-	 * @param packagename
-	 *            包名
-	 * @param uidnumber
-	 *            程序uid
-	 * @param other
-	 *            程序状态记录
-	 */
-	private void updateSQLUidIndexOther(SQLiteDatabase mySQL,
-			String packagename, int uidnumber, String other) {
-		// TODO Auto-generated method stub
-		String string = null;
-		string = UpdateTable + TableUidIndex + UpdateSet + "other='" + other
-				+ "'" + Where + "packagename='" + packagename + AND + " uid="
-				+ uidnumber;
-		// UPDATE Person SET
-		// date='date',time='time',upload='upload',download='download'
-		// ,type='typechange' WHERE type=type
-		try {
-			mySQL.execSQL(string);
-		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
-		}
-	}
-
-	/**
 	 * 卸载程序时对数据库uidIndex表进行更新
 	 * 
 	 * @param mySQL
@@ -492,7 +462,6 @@ public class SQLHelperUid {
 
 	}
 
-
 	/**
 	 * 提取所有应用的不重复包名
 	 * 
@@ -687,77 +656,6 @@ public class SQLHelperUid {
 	}
 
 	/**
-	 * 在UidIndex中踢出包名重复数据留最上面的
-	 * 
-	 * @param mySQL
-	 */
-	private void sortSQLUidIndex(SQLiteDatabase mySQL) {
-		String string = null;
-		// delete from Yookey where tit not in (select min(tit) from Yookey
-		// group by SID)
-		string = "DELETE   FROM " + TableUidIndex + Where + "_id"
-				+ " not in (select min(" + "_id" + ") from " + TableUidIndex
-				+ " group by packagename)";
-
-		try {
-			mySQL.execSQL(string);
-		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string + "fail");
-		}
-	}
-
-	/**
-	 * 删除多余的UidIndex数据项返回删除的uid[]
-	 * 
-	 * @param mySQL
-	 */
-	private int[] delSQLUidIndexAndTable(SQLiteDatabase mySQL) {
-		String string = null;
-		// select oldest upload and download 之前记录的数据的查询操作
-		// SELECT * FROM table WHERE type=0
-		string = SelectTable + TableUidIndex + Where + "other='UnInstall'";
-		// showLog(string);
-		try {
-			cur = mySQL.rawQuery(string, null);
-		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
-		}
-		int i = 0;
-		int[] uids = new int[cur.getCount()];
-		if (cur != null) {
-			try {
-				int uidIndex = cur.getColumnIndex("uid");
-				// showLog(cur.getColumnIndex("minute") + "");
-				if (cur.moveToFirst()) {
-					do {
-						if (cur.getInt(uidIndex) != 0) {
-							uids[i] = cur.getInt(uidIndex);
-							i++;
-						}
-					} while (cur.moveToNext());
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
-				showLog("cur-searchfail");
-			}
-		}
-		if (cur != null) {
-			cur.close();
-		}
-		// 删除other为UnInstall的项目
-		delSQLUidIndex(mySQL);
-		// for (int j = 0; j < uids.length; j++) {
-		// // showLog(uids[j] + "");
-		// // showLog(isUidExistingInUidIndex(mySQL, uids[j]) + "");
-		// // 不能清空uid=0的表
-		//
-		// }
-		return uids;
-	}
-
-	/**
 	 * 清空uid表内容
 	 * 
 	 * @param mySQL
@@ -779,138 +677,6 @@ public class SQLHelperUid {
 		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
 		// ('date','time','upload','download','uid','type')
 		// showLog(string);
-		try {
-			mySQL.execSQL(string);
-		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string + "fail");
-		}
-	}
-
-	/**
-	 * 判断uid是否已经在uidIndex中存在
-	 * 
-	 * @param mySQL
-	 * @param uidnumber
-	 *            进行判断的uid
-	 * @return 存在返回true，不存在返回false
-	 */
-	private boolean isUidExistingInUidIndex(SQLiteDatabase mySQL,
-			String packageName, int uidnumber) {
-		String string = null;
-		// select oldest upload and download 之前记录的数据的查询操作
-		// SELECT * FROM table WHERE type=0
-		string = SelectTable + TableUidIndex + Where + "uid='" + uidnumber
-				+ AND + "packagename='" + packageName + "'";
-		try {
-			cur = mySQL.rawQuery(string, null);
-		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
-		}
-		if (cur.moveToFirst()) {
-			cur.close();
-			return true;
-		} else {
-			cur.close();
-			return false;
-		}
-	}
-
-	/**
-	 * 是否覆盖安装
-	 * 
-	 * @param mySQL
-	 * @param packagename
-	 *            包名
-	 * @return 是覆盖安装，返回true，新安装软件返回false
-	 */
-	private boolean isCoveringInstall(SQLiteDatabase mySQL, String packagename,
-			int uidnumber) {
-		String string = null;
-		// select oldest upload and download 之前记录的数据的查询操作
-		// SELECT * FROM table WHERE type=0
-		string = SelectTable + TableUidIndex + Where + "packagename='"
-				+ packagename + AND + "uid='" + uidnumber + "'";
-		// showLog(string);
-		try {
-			cur = mySQL.rawQuery(string, null);
-		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
-		}
-		int[] uids = new int[cur.getCount()];
-		if (cur != null) {
-			int i = 0;
-			try {
-				int uid = cur.getColumnIndex("uid");
-				// showLog(cur.getColumnIndex("minute") + "");
-				if (cur.moveToFirst()) {
-					do {
-						uids[i] = (int) cur.getInt(uid);
-						i++;
-					} while (cur.moveToNext());
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
-				showLog("cur-searchfail");
-			}
-		}
-		if (cur != null) {
-			cur.close();
-		}
-		// for (int i = 0; i < uids.length; i++) {
-		// showLog(uids[i] + "");
-		// }
-
-		if (uids.length == 1) {
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * 清空uidIndex 中other为UnInstalld的数据
-	 * 
-	 * @param mySQL
-	 */
-	private void delSQLUidIndex(SQLiteDatabase mySQL) {
-		String string = null;
-		// delete from Yookey where tit not in (select min(tit) from Yookey
-		// group by SID)
-		string = "DELETE   FROM " + TableUidIndex + Where + "other='"
-				+ "UnInstall" + "'";
-		try {
-			mySQL.execSQL(string);
-		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string + "fail");
-		}
-	}
-
-	/**
-	 * 安装新软件时添加uid索引表
-	 * 
-	 * @param mySQL
-	 *            进行写入操作的数据库SQLiteDatagase
-	 * @param uidnumber
-	 *            数据库的表：uid表
-	 * @param packagename
-	 *            包名
-	 * @param other
-	 *            包的安装状态
-	 */
-	private void exeSQLUidIndextable(SQLiteDatabase mySQL, int uidnumber,
-			String packagename, String other) {
-		String string = null;
-		string = InsertTable + TableUidIndex + Start
-				+ InsertUidIndexColumnTotal + ",other" + End + Value
-				+ uidnumber + split + packagename + split + 0 + split
-				+ "Install" + "'" + End;
-		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
-		// ('1','1','1','1','1','1')
-		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
-		// ('date','time','upload','download','uid','type')
 		try {
 			mySQL.execSQL(string);
 		} catch (Exception e) {
@@ -1035,8 +801,6 @@ public class SQLHelperUid {
 			showLog("初始化全部的uid表失败");
 		}
 	}
-
-	
 
 	/**
 	 * 初始化uid数据库时建立单表
@@ -1377,18 +1141,15 @@ public class SQLHelperUid {
 		}
 		long oldup0 = -100;
 		long olddown0 = -100;
-		String olddate0 = "";
 		if (cur != null) {
 			try {
 				int minup = cur.getColumnIndex("upload");
 				int mindown = cur.getColumnIndex("download");
-				int dateIndex = cur.getColumnIndex("date");
 				// showLog(cur.getColumnIndex("minute") + "");
 				if (cur.moveToFirst()) {
 					// 获得之前的上传下载值
 					oldup0 = cur.getLong(minup);
 					olddown0 = cur.getLong(mindown);
-					olddate0 = cur.getString(dateIndex);
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -1523,7 +1284,6 @@ public class SQLHelperUid {
 		return SelectUidmobileOrwifiData(context, year, month, TableUid + uid,
 				uid, other);
 	}
-
 
 	/**
 	 * 进行数据流量历史流量查询
