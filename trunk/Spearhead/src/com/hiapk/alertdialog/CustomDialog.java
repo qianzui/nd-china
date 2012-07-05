@@ -1,18 +1,14 @@
 package com.hiapk.alertdialog;
 
-import com.hiapk.customspinner.CustomSPDialog.Builder;
 import com.hiapk.spearhead.R;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -243,7 +239,6 @@ public class CustomDialog extends Dialog {
 			// 取得窗口属性
 			dialog.addContentView(layout, new LayoutParams(
 					LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-			DisplayMetrics dm = new DisplayMetrics();
 			// 取得窗口属性
 			Window window = dialog.getWindow();
 			int heigh = window.getWindowManager().getDefaultDisplay()

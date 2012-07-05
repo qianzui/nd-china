@@ -1,14 +1,7 @@
 package com.hiapk.alertdialog;
 
-import java.text.DecimalFormat;
-import java.text.Format;
-
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences.Editor;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,48 +14,26 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.regulate.PhoneSet;
-import com.hiapk.regulate.Regulate;
-import com.hiapk.spearhead.Main3;
 import com.hiapk.spearhead.R;
 import com.hiapk.widget.SetText;
 
 public class CustomDialogMain3Been {
 	// 操作sharedprefrence
-	String PREFS_NAME = "allprefs";
+	private String PREFS_NAME = "allprefs";
 	// 总流量long
-	String VALUE_MOBILE_SET = "mobilemonthuse";
-	// 显示在预警页面的int
-	String VALUE_MOBILE_SET_OF_INT = "mobilemonthuseinint";
+	private String VALUE_MOBILE_SET = "mobilemonthuse";
 	// 设置单位（月度设置）
-	String MOBILE_SET_UNIT = "mobileMonthUnit";
-	// 设置结算日期及结算日期的设施时间，日期等
-	String MOBILE_COUNT_DAY = "mobileMonthCountDay";
-	String MOBILE_COUNT_SET_YEAR = "mobileMonthSetCountYear";
-	String MOBILE_COUNT_SET_MONTH = "mobileMonthSetCountMonth";
-	String MOBILE_COUNT_SET_DAY = "mobileMonthSetCountDay";
-	String MOBILE_COUNT_SET_TIME = "mobileMonthSetCountTime";
-	// 已使用总流量int
-	String VALUE_MOBILE_HASUSED_OF_FLOAT = "mobileHasusedint";
-	// 设置单位（已使用）
-	String MOBILE_HASUSED_SET_UNIT = "mobileHasusedUnit";
-	// 已使用总流量long
-	String VALUE_MOBILE_HASUSED_LONG = "mobileHasusedlong";
+	private String MOBILE_SET_UNIT = "mobileMonthUnit";
 	// 流量预警
-	String MOBILE_WARNING_MONTH = "mobilemonthwarning";
-	String MOBILE_WARNING_DAY = "mobiledaywarning";
-	// 预警动作
-	String WARNING_ACTION = "warningaction";
-	Context context;
-	DecimalFormat format;
+	private String MOBILE_WARNING_MONTH = "mobilemonthwarning";
+	private String MOBILE_WARNING_DAY = "mobiledaywarning";
+	private Context context;
 
 	public CustomDialogMain3Been(Context context) {
 		this.context = context;
-		format = new DecimalFormat("0.##");
 	}
 
 	/**

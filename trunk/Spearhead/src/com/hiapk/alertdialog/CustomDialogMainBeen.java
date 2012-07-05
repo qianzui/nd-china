@@ -2,12 +2,9 @@ package com.hiapk.alertdialog;
 
 import java.text.DecimalFormat;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
-import android.graphics.Color;
 import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,41 +21,31 @@ import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.provider.ColorChangeMainBeen;
-import com.hiapk.provider.UiColors;
-import com.hiapk.regulate.PhoneSet;
 import com.hiapk.regulate.Regulate;
-import com.hiapk.spearhead.Main;
-import com.hiapk.spearhead.Main3;
 import com.hiapk.spearhead.R;
 import com.hiapk.widget.SetText;
 
 public class CustomDialogMainBeen {
 	// 操作sharedprefrence
-	String PREFS_NAME = "allprefs";
+	private String PREFS_NAME = "allprefs";
 	// 总流量long
-	String VALUE_MOBILE_SET = "mobilemonthuse";
-	// 显示在预警页面的int
-	String VALUE_MOBILE_SET_OF_INT = "mobilemonthuseinint";
+	private String VALUE_MOBILE_SET = "mobilemonthuse";
 	// 设置单位（月度设置）
-	String MOBILE_SET_UNIT = "mobileMonthUnit";
-	// 设置结算日期及结算日期的设施时间，日期等
-	String MOBILE_COUNT_DAY = "mobileMonthCountDay";
-	String MOBILE_COUNT_SET_YEAR = "mobileMonthSetCountYear";
-	String MOBILE_COUNT_SET_MONTH = "mobileMonthSetCountMonth";
-	String MOBILE_COUNT_SET_DAY = "mobileMonthSetCountDay";
-	String MOBILE_COUNT_SET_TIME = "mobileMonthSetCountTime";
+	private String MOBILE_SET_UNIT = "mobileMonthUnit";
+	private String MOBILE_COUNT_SET_YEAR = "mobileMonthSetCountYear";
+	private String MOBILE_COUNT_SET_MONTH = "mobileMonthSetCountMonth";
+	private String MOBILE_COUNT_SET_DAY = "mobileMonthSetCountDay";
+	private String MOBILE_COUNT_SET_TIME = "mobileMonthSetCountTime";
 	// 已使用总流量int
-	String VALUE_MOBILE_HASUSED_OF_FLOAT = "mobileHasusedint";
+	private String VALUE_MOBILE_HASUSED_OF_FLOAT = "mobileHasusedint";
 	// 设置单位（已使用）
-	String MOBILE_HASUSED_SET_UNIT = "mobileHasusedUnit";
+	private String MOBILE_HASUSED_SET_UNIT = "mobileHasusedUnit";
 	// 已使用总流量long
-	String VALUE_MOBILE_HASUSED_LONG = "mobileHasusedlong";
+	private String VALUE_MOBILE_HASUSED_LONG = "mobileHasusedlong";
 	// 流量预警
-	String MOBILE_WARNING_MONTH = "mobilemonthwarning";
-	String MOBILE_WARNING_DAY = "mobiledaywarning";
-	// 预警动作
-	String WARNING_ACTION = "warningaction";
-	Context context;
+	private String MOBILE_WARNING_MONTH = "mobilemonthwarning";
+	private String MOBILE_WARNING_DAY = "mobiledaywarning";
+	private Context context;
 
 	// 设置时间
 	private int year;
