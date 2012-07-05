@@ -2,23 +2,18 @@ package com.hiapk.alertdialog;
 
 import java.util.List;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.pm.PackageInfo;
 import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-import com.hiapk.customspinner.CustomSPDialog;
 import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.progressdialog.CustomProgressDialog;
 import com.hiapk.spearhead.R;
 import com.hiapk.sqlhelper.SQLHelperInitSQL;
-import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLStatic;
 
 public class CustomDialogOtherBeen {
@@ -174,22 +169,6 @@ public class CustomDialogOtherBeen {
 					return 1;
 				}
 			}
-			while (!SQLStatic.setSQLIndexOnUsed(true)) {
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				timetap++;
-				if (timetap > 10) {
-					publishProgress(1);
-					SQLStatic.setSQLTotalOnUsed(false);
-					SQLStatic.setSQLUidOnUsed(false);
-					SQLStatic.setSQLIndexOnUsed(false);
-					return 1;
-				}
-			}
 			while (!SQLStatic.setSQLUidTotalOnUsed(true)) {
 				try {
 					Thread.sleep(100);
@@ -202,7 +181,6 @@ public class CustomDialogOtherBeen {
 					publishProgress(1);
 					SQLStatic.setSQLTotalOnUsed(false);
 					SQLStatic.setSQLUidOnUsed(false);
-					SQLStatic.setSQLIndexOnUsed(false);
 					SQLStatic.setSQLUidTotalOnUsed(false);
 					return 1;
 				}
@@ -212,7 +190,6 @@ public class CustomDialogOtherBeen {
 			// 删除数据库
 			params[0].deleteDatabase("SQLTotal.db");
 			params[0].deleteDatabase("SQLUid.db");
-			params[0].deleteDatabase("SQLUidIndex.db");
 			params[0].deleteDatabase("SQLTotaldata.db");
 			// 重新初始化数据库
 			List<PackageInfo> packages = params[0].getPackageManager()
@@ -246,7 +223,6 @@ public class CustomDialogOtherBeen {
 			if (result == 0) {
 				SQLStatic.setSQLTotalOnUsed(false);
 				SQLStatic.setSQLUidOnUsed(false);
-				SQLStatic.setSQLIndexOnUsed(false);
 				SQLStatic.setSQLUidTotalOnUsed(false);
 				sharedData.setSQLinited(true);
 				customdialog.dismiss();
