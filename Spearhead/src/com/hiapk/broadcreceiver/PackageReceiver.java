@@ -3,10 +3,7 @@ package com.hiapk.broadcreceiver;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.rebootandstartaction.OnReinstallitself;
 import com.hiapk.rebootandstartaction.OnUninstallitself;
-import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
 import com.hiapk.sqlhelper.SQLHelperUidTotal;
 import com.hiapk.sqlhelper.SQLStatic;
@@ -17,9 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.util.Log;
 
 public class PackageReceiver extends BroadcastReceiver {
 
@@ -40,9 +35,7 @@ public class PackageReceiver extends BroadcastReceiver {
 					showLog("卸载" + SQLStatic.packageName[1]);
 				} else {
 					// new AsyTaskOnUninstall().execute(context);
-					SQLHelperUid sqlhelperUid = new SQLHelperUid();
-					SQLStatic.uidnumbers = sqlhelperUid
-							.selectUidnumbers(context);
+					SQLStatic.uidnumbers = SQLStatic.selectUidnumbers(context);
 					AlarmSet alset = new AlarmSet();
 					alset.StartAlarmUidTotal(context);
 					showLog("其他卸载" + SQLStatic.packageName[1]);
@@ -78,77 +71,6 @@ public class PackageReceiver extends BroadcastReceiver {
 			}
 		}
 
-	}
-
-	private class AsyTaskOnUninstall extends
-			AsyncTask<Context, Integer, Integer> {
-		// private int uid;
-		// private String pacName;
-
-		@Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			super.onPreExecute();
-			// this.uid = SQLStatic.uidnumber;
-			// this.pacName = SQLStatic.packageName[1];
-			// showLog("其他卸载exeIndexPre" + packageName[1]);
-		}
-
-		@Override
-		protected Integer doInBackground(Context... params) {
-			// TODO Auto-generated method stub
-
-			// while (!SQLStatic.setSQLIndexOnUsed(true)) {
-			// publishProgress(1);
-			// publishProgress(1);
-			// try {
-			// Thread.sleep(50 + (long) (200 * Math.random()));
-			// } catch (InterruptedException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
-			// }
-			// publishProgress(0);
-			// SQLiteDatabase mySQL = sqlhelperUid.creatSQLUidIndex(params[0]);
-			// sqlhelperUid.updateSQLUidIndexOtherOnUnInstall(mySQL,
-			// SQLStatic.packageName[1], "UnInstall");
-			// 重新定义静态的uid集合
-
-			// sqlhelperUid.closeSQL(mySQL);
-
-			return null;
-		}
-
-		// @Override
-		// protected void onProgressUpdate(Integer... values) {
-		// // TODO Auto-generated method stub
-		// super.onProgressUpdate(values);
-		// if (values[0] == 0) {
-		// showLog("其他卸载outwhile" + pacName);
-		// }
-		// if (values[0] == 1) {
-		// showLog("其他卸载inwhile" + pacName);
-		// }
-		//
-		// // if (values[0] == 1) {
-		// // if (SQLHelperTotal.isSQLIndexOnUsed == false) {
-		// // SQLHelperTotal.isSQLIndexOnUsed = true;
-		// // isUidIndexSQLonUse_AsyUninstall = true;
-		// // }
-		// // }
-		// }
-
-		@Override
-		protected void onPostExecute(Integer result) {
-			// TODO Auto-generated method stub
-			super.onPostExecute(result);
-			// SQLHelperTotal.isSQLIndexOnUsed = false;
-			// isUidIndexSQLonUse_AsyUninstall = false;
-			// showLog("其他卸载post" + SQLStatic.isSQLIndexOnUsed);
-			// SQLStatic.setSQLIndexOnUsed(false);
-			// showLog("其他卸载post" + SQLStatic.isSQLIndexOnUsed);
-			// showLog("其他卸载exeIndexpost" + packageName[1]);
-		}
 	}
 
 	private class AsyTaskOnInstall extends AsyncTask<Context, Integer, Integer> {
@@ -242,40 +164,8 @@ public class PackageReceiver extends BroadcastReceiver {
 		}
 	}
 
-	private class AsyTaskOnItselfUninstall extends
-			AsyncTask<Context, Integer, Integer> {
-		// private int uid;
-		// private String pacName;
-
-		@Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			super.onPreExecute();
-		}
-
-		@Override
-		protected Integer doInBackground(Context... params) {
-			// TODO Auto-generated method stub
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			OnUninstallitself uninstall = new OnUninstallitself();
-			uninstall.unInstallAction(params[0]);
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(Integer result) {
-			// TODO Auto-generated method stub
-			super.onPostExecute(result);
-		}
-	}
-
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("Receiver", string);
+		// Log.d("Receiver", string);
 	}
 }

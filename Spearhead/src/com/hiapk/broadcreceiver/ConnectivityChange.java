@@ -1,9 +1,6 @@
 package com.hiapk.broadcreceiver;
 
-import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.sqlhelper.SQLHelperTotal;
-import com.hiapk.sqlhelper.SQLHelperUid;
 import com.hiapk.sqlhelper.SQLStatic;
 
 import android.content.BroadcastReceiver;
@@ -11,8 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.TrafficStats;
-import android.util.Log;
 
 public class ConnectivityChange extends BroadcastReceiver {
 	String APPWIDGET_UPDATE = "com.hiapkAPPWIDGET_UPDATE";
