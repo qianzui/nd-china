@@ -1,67 +1,48 @@
 package com.hiapk.customspinner;
 
-import java.text.DecimalFormat;
-
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences.Editor;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
-import android.widget.Spinner;
-import android.widget.TextView;
-
-import com.hiapk.alertdialog.CustomDialog;
-import com.hiapk.dataexe.TrafficManager;
-import com.hiapk.dataexe.UnitHandler;
-import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.regulate.PhoneSet;
-import com.hiapk.regulate.Regulate;
-import com.hiapk.spearhead.Main3;
+import com.hiapk.regulate.SharedPrefrenceDataRegulate;
 import com.hiapk.spearhead.R;
-import com.hiapk.widget.SetText;
 
+/**
+ * 初始化手机卡归属地页面
+ * 
+ * @author df_wind
+ * 
+ */
 public class CustomSPPhoneSetBeen {
 	Context context;
-
-	// int beforeDay = 0;
-	SharedPrefrenceData sharedData;
+	SharedPrefrenceDataRegulate sharedData;
 	Resources res;
 
 	public CustomSPPhoneSetBeen(Context context) {
 		this.context = context;
-		sharedData = new SharedPrefrenceData(context);
+		sharedData = new SharedPrefrenceDataRegulate(context);
 		res = context.getResources();
 	}
 
 	/**
-	 * phoneset页面显示对话框
+	 * phoneset页面显示对话框-2级列表，比如city以及品牌
 	 * 
 	 * @param content
 	 *            设置显示的内容
 	 * @param beforepos
-	 *            之前选择的项目
+	 *            初始被选中的列表项
 	 * @param title
-	 *            对话框的标题
+	 *            弹出对话框的prompt
 	 * @param type
-	 *            表示哪个按钮被按下
+	 *            用来区别是city还是brand
+	 * @param secend
+	 *            city以及brand按钮显示的文本
 	 */
 	public void dialogPhoneSetSecond(String[] content, int beforepos,
 			String title, final String type, final Button secend) {
@@ -116,16 +97,20 @@ public class CustomSPPhoneSetBeen {
 	}
 
 	/**
-	 * phoneset页面显示对话框
+	 * phoneset页面显示对话框-1级列表，比如省份以及运营商
 	 * 
 	 * @param content
 	 *            设置显示的内容
 	 * @param beforepos
-	 *            之前选择的项目
+	 *            初始被选中的列表项
 	 * @param title
-	 *            对话框的标题
+	 *            弹出对话框的prompt
 	 * @param type
-	 *            表示哪个按钮被按下
+	 *            用来区别是province还是运营商
+	 * @param btn_first
+	 *            province还是运营商显示的文本
+	 * @param btn_second
+	 *            city以及brand按钮显示的文本
 	 */
 	public void dialogPhoneSetProvinceAndOperator(String[] content,
 			int beforepos, String title, final String type,

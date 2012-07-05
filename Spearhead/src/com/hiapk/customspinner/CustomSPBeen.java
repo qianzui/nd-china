@@ -2,40 +2,28 @@ package com.hiapk.customspinner;
 
 import java.text.DecimalFormat;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.Spinner;
-import android.widget.TextView;
-
 import com.hiapk.alertdialog.CustomDialog;
 import com.hiapk.alertdialog.CustomDialogOtherBeen;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.regulate.PhoneSet;
 import com.hiapk.regulate.Regulate;
-import com.hiapk.spearhead.Main3;
 import com.hiapk.spearhead.R;
 import com.hiapk.widget.SetText;
 
@@ -102,9 +90,9 @@ public class CustomSPBeen {
 
 		final CustomSPDialog freshtime;
 		CustomSPDialog.heighpar = 0.6;
-		freshtime = new CustomSPDialog.Builder(context)
-				.setTitle("更新频率").setContentView(textEntryView)
-				.setNegativeButton("确定", null).create();
+		freshtime = new CustomSPDialog.Builder(context).setTitle("更新频率")
+				.setContentView(textEntryView).setNegativeButton("确定", null)
+				.create();
 		freshtime.show();
 		// 设置cancel的监听
 		Button btn_cancel = (Button) freshtime
@@ -281,8 +269,7 @@ public class CustomSPBeen {
 	private void operatorOnClick(Button btn_HasUsed) {
 		// 重置月已用流量
 		long month_used = TrafficManager.getMonthUseMobile(context);
-		UnitHandler FormatUnit = new UnitHandler();
-		btn_HasUsed.setText(FormatUnit.unitHandler(month_used));
+		btn_HasUsed.setText(UnitHandler.unitHandler(month_used));
 		// 弹出建议设置已用流量对话框
 		final CustomDialog dayWarning = new CustomDialog.Builder(context)
 				.setTitle("注意！").setMessage("设置结算日后请重新对流量进行校准。")
