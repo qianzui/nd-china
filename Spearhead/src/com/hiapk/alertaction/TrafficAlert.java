@@ -5,11 +5,8 @@ import com.hiapk.dataexe.TrafficManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.text.format.Time;
-import android.util.Log;
-import android.widget.Toast;
 
 public class TrafficAlert {
 	// ²Ù×÷sharedprefrence
