@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 public class AlarmSet {
 	private int totalrefreshtime;
@@ -157,22 +156,6 @@ public class AlarmSet {
 		}
 	}
 
-	// /**
-	// * 启用计时器，指定时间间隔 单位分钟
-	// *
-	// * @param context
-	// * @param totalrefreshtime
-	// * 总流量统计间隔
-	// * @param uidrefreshtime
-	// * uid统计间隔
-	// */
-	// public void StartAlarm(Context context, int totalrefreshtime,
-	// int uidrefreshtime) {
-	// TotalAlarmStart(context, totalrefreshtime);
-	// UidAlarmStart(context, uidrefreshtime);
-	// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
-	// }
-
 	/**
 	 * 停用计时器
 	 * 
@@ -316,9 +299,9 @@ public class AlarmSet {
 		programNotify.cancelProgramNotify(context);
 	}
 
-	private void showLog(String string) {
-		// TODO Auto-generated method stub
-		// Log.d("AlarmSet", string);
-	}
+	// private void showLog(String string) {
+	// // TODO Auto-generated method stub
+	// // Log.d("AlarmSet", string);
+	// }
 
 }

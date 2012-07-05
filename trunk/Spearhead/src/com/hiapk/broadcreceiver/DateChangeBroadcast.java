@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.text.format.Time;
-import android.util.Log;
 
 public class DateChangeBroadcast extends BroadcastReceiver {
 	// private static final String ACTION_TIME_CHANGED =
@@ -29,6 +28,8 @@ public class DateChangeBroadcast extends BroadcastReceiver {
 			sharedData.setMonthHasUsedStack(0);
 			SetText.resetWidgetAndNotify(context);
 		}
+		SetText.resetWidgetAndNotify(context);
+		showLog("todya is " + monthDay);
 		// }
 	}
 
@@ -46,6 +47,6 @@ public class DateChangeBroadcast extends BroadcastReceiver {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("DataChangeBroad", string);
+		// Log.d("DataChangeBroad", string);
 	}
 }

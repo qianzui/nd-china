@@ -2,9 +2,7 @@ package com.hiapk.broadcreceiver;
 
 import java.util.HashMap;
 
-import com.hiapk.sqlhelper.SQLHelperTotal;
 import com.hiapk.sqlhelper.SQLHelperUid;
-import com.hiapk.sqlhelper.SQLHelperUidTotal;
 import com.hiapk.sqlhelper.SQLStatic;
 import com.hiapk.sqlhelper.SQLHelperFireWall.Data;
 
@@ -12,16 +10,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteTransactionListener;
-import android.net.TrafficStats;
 import android.os.AsyncTask;
-import android.util.Log;
 
 public class RecordUidDataReceiver extends BroadcastReceiver {
 	public static final int MODE_PRIVATE = 0;
 	// use database
-	SQLHelperUid sqlhelperUid = new SQLHelperUid();
-	SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
+	private SQLHelperUid sqlhelperUid = new SQLHelperUid();
 	long time;
 	private String network;
 
@@ -79,7 +73,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 		int[] numbers = null;
 		if (SQLStatic.uidnumbers == null) {
 			// 重新定义静态的uid集合
-			SQLStatic.uidnumbers = sqlhelperUid.selectUidnumbers(context);
+			SQLStatic.uidnumbers = SQLStatic.selectUidnumbers(context);
 
 			// if (SQLHelperTotal.isSQLIndexOnUsed == false) {
 			// SQLHelperTotal.isSQLIndexOnUsed = true;

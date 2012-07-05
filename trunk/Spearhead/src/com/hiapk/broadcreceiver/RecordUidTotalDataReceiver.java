@@ -1,10 +1,5 @@
 package com.hiapk.broadcreceiver;
 
-import java.util.HashMap;
-
-import com.hiapk.sqlhelper.SQLHelperFireWall.Data;
-import com.hiapk.sqlhelper.SQLHelperTotal;
-import com.hiapk.sqlhelper.SQLHelperUid;
 import com.hiapk.sqlhelper.SQLHelperUidTotal;
 import com.hiapk.sqlhelper.SQLStatic;
 
@@ -12,18 +7,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteTransactionListener;
-import android.net.TrafficStats;
 import android.os.AsyncTask;
-import android.util.Log;
 
 public class RecordUidTotalDataReceiver extends BroadcastReceiver {
 	public static final int MODE_PRIVATE = 0;
 	// use database
-	SQLHelperUid sqlhelperUid = new SQLHelperUid();
-	SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 	long time;
-	private String network;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -37,7 +26,6 @@ public class RecordUidTotalDataReceiver extends BroadcastReceiver {
 				if (SQLStatic.TableWiFiOrG23 != "") {
 					// 进行之前使用的网络是何种网络进行判断
 					// network = SQLHelperTotal.TableWiFiOrG23;
-					network = SQLStatic.TableWiFiOrG23;
 					if (SQLStatic.setSQLUidTotalOnUsed(true)) {
 						new AsyncTaskonRecordUidTotal().execute(context);
 					} else {
@@ -49,8 +37,6 @@ public class RecordUidTotalDataReceiver extends BroadcastReceiver {
 					}
 
 				} else {
-					// 无网络条件下进行最后一次记录
-					network = SQLStatic.TableWiFiOrG23;
 					// 进行两种数据的记录
 					if (SQLStatic.setSQLUidTotalOnUsed(true)) {
 						new AsyncTaskonRecordUidTotal().execute(context);
@@ -81,17 +67,14 @@ public class RecordUidTotalDataReceiver extends BroadcastReceiver {
 
 		@Override
 		protected Integer doInBackground(Context... params) {
-			int[] numbers = null;
 			if (SQLStatic.uidnumbers == null) {
 				// 重新定义静态的uid集合
-				SQLStatic.uidnumbers = sqlhelperUid.selectUidnumbers(params[0]);
+				SQLStatic.uidnumbers = SQLStatic.selectUidnumbers(params[0]);
 				// SQLHelperTotal.isSQLIndexOnUsed = false;
 				// }
 
 			}
-			if (SQLStatic.uidnumbers != null) {
-				numbers = SQLStatic.uidnumbers;
-			} else {
+			if (SQLStatic.uidnumbers == null) {
 				return 0;
 			}
 			// HashMap<Integer, Data> mp = null;
@@ -116,10 +99,6 @@ public class RecordUidTotalDataReceiver extends BroadcastReceiver {
 			if (success) {
 				// SQLStatic.uiddata = mp;
 			}
-
-			// sqlUidTotal.updateSQLUidTypes(params[0],
-			// SQLStatic.uidnumbers,
-			// network);
 
 			return 1;
 		}

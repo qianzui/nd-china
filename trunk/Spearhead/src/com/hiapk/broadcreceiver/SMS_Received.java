@@ -1,14 +1,10 @@
 package com.hiapk.broadcreceiver;
 
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.regulate.Regulate;
 import com.hiapk.regulate.SmsRead;
-import com.hiapk.spearhead.SpearheadActivity;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
 public class SMS_Received extends BroadcastReceiver {
 	SharedPrefrenceData sharedData;

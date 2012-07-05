@@ -13,7 +13,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.TrafficStats;
 import android.os.AsyncTask;
 import android.text.format.Time;
-import android.util.Log;
 
 public class RecordDataReceiver extends BroadcastReceiver {
 	//

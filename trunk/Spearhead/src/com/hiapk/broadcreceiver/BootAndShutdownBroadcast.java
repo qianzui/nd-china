@@ -1,18 +1,10 @@
 package com.hiapk.broadcreceiver;
 
-import com.hiapk.dataexe.TrafficManager;
-import com.hiapk.firewall.Block;
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.rebootandstartaction.Onshutdown;
 import com.hiapk.rebootandstartaction.Onsysreboot;
-import com.hiapk.sqlhelper.SQLHelperTotal;
-import com.hiapk.sqlhelper.SQLHelperUid;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.provider.Settings.System;
-import android.util.Log;
 
 public class BootAndShutdownBroadcast extends BroadcastReceiver {
 	@Override
