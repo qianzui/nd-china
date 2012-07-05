@@ -1,48 +1,25 @@
 package com.hiapk.spearhead;
 
-import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import org.achartengine.GraphicalView;
-
 import com.hiapk.alertdialog.CustomDialogMainBeen;
 import com.hiapk.broadcreceiver.AlarmSet;
-import com.hiapk.customspinner.CustomToast;
 import com.hiapk.dataexe.MonthDay;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.firewall.Block;
-import com.hiapk.firewall.GetRoot;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.progressbar.MyProgressBar;
 import com.hiapk.progressbar.PieView;
-import com.hiapk.progressbar.ProgressBarForV;
 import com.hiapk.progressbar.StackedBarChart;
 import com.hiapk.provider.ColorChangeMainBeen;
-import com.hiapk.provider.UiColors;
-import com.hiapk.sqlhelper.SQLHelperFireWall.Data;
 import com.hiapk.sqlhelper.SQLHelperInitSQL;
 import com.hiapk.sqlhelper.SQLHelperTotal;
-import com.hiapk.sqlhelper.SQLHelperUid;
-import com.hiapk.sqlhelper.SQLHelperUidTotal;
 import com.hiapk.sqlhelper.SQLStatic;
-import com.hiapk.widget.ProgramNotify;
 import com.hiapk.widget.SetText;
-import com.umeng.analytics.MobclickAgent;
-import com.umeng.analytics.UmengOnlineConfigureListener;
-
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.inputmethodservice.Keyboard.Key;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.Time;
@@ -60,41 +37,23 @@ import android.widget.TextView;
 public class Main extends Activity {
 
 	private Context context = this;
-	// private SQLHelperUid sqlhelperUid = new SQLHelperUid();
-	private SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
-	// wifi与mobile单月使用量
-	public static long mobile_month_use = 0;
-
-	// 临时存放两个数据------------
-
-	// ------------
 	// 显示何种图形
-	boolean ismobileshowpie = false;
+	private boolean ismobileshowpie = false;
+	// wifi与mobile单月使用量
+	private long mobile_month_use = 0;
 	// 获取的系统时间
 	private int year;
 	private int month;
 	private int monthDay;
-	// wifi月度流量
-	long[] wifiTraffic = new long[64];
 	/**
 	 * 完整月份的移动数据流量
 	 */
-	long[] mobileTraffic = new long[64];
-	/**
-	 * 部分月份的移动数据流量
-	 */
-	long[] mobileTrafficPart = new long[64];
+	private long[] mobileTraffic = new long[64];
 	// 屏幕宽度
-	int windowswidesize;
-	// 系统设置
-	String SYS_PRE_NOTIFY = "notifyCtrl";
-	String SYS_PRE_FLOAT_CTRL = "floatCtrl";
-	String SYS_PRE_REFRESH_FRZ = "refreshfrz";
-	String SYS_PRE_CLEAR_DATA = "cleardata";
-	SharedPrefrenceData sharedData;
-	TrafficManager trafficManager = new TrafficManager();
+	private int windowswidesize;
+	private SharedPrefrenceData sharedData;
+
 	// fortest
-	long time;
 
 	// 柱状图标识0为总流量1为mobile，2为wifi
 	// int stackflag = 0;
@@ -109,7 +68,7 @@ public class Main extends Activity {
 		// 获取固定存放数据
 		sharedData = new SharedPrefrenceData(context);
 
-		if (sharedData.isSQLinited() == false) {
+		if (SQLStatic.getIsInit(context) == false) {
 			if (SQLStatic.uids == null) {
 				getuids();
 			}
@@ -120,7 +79,7 @@ public class Main extends Activity {
 		if (sharedData.isNotifyOpen()) {
 			alset.StartWidgetAlarm(context);
 		}
-		if (sharedData.isSQLinited() == false) {
+		if (SQLStatic.getIsInit(context) == false) {
 			initSQLdatabase(SQLStatic.uids, SQLStatic.packagenames);
 		}
 
@@ -168,14 +127,9 @@ public class Main extends Activity {
 		// 包月流量
 		TextView monthSet = (TextView) findViewById(R.id.monthSet);
 		TextView monthSetunit = (TextView) findViewById(R.id.unit5);
-		// TextView monthWifi = (TextView) findViewById(R.id.wifiMonthRate);
-		// TextView monthWifiunit = (TextView) findViewById(R.id.unit6);
-		// 流量获取函数
-		wifiTraffic = new long[64];
 		// 初始化流量获取函数
 		// 取得月度流量
 		mobileTraffic = TrafficManager.mobile_month_data;
-		wifiTraffic = TrafficManager.wifi_month_data;
 		// 进行流量设置
 		todayMobil.setText(UnitHandler.unitHandlerAcurrac(
 				mobileTraffic[monthDay] + mobileTraffic[monthDay + 31],
@@ -264,7 +218,7 @@ public class Main extends Activity {
 	private void initSQLdatabase(int[] uids, String[] packagename) {
 		// TODO Auto-generated method stub
 		SQLHelperInitSQL sqlhelperInit = new SQLHelperInitSQL();
-		if (!sqlhelperInit.getIsInit(context)) {
+		if (!SQLStatic.getIsInit(context)) {
 			sqlhelperInit.initSQL(context, uids, packagename);
 		}
 	}
@@ -569,9 +523,7 @@ public class Main extends Activity {
 		StackedBarChart chartbar = new StackedBarChart(context, windowswidesize);
 		// chartbar.setXaxisText(year + "年");
 		chartbar.setXaxisText("");
-		// 进行参数设置
-		// 设置x轴显示范围
-		int monthtotalDay = MonthDay.countDay(year, month);
+		MonthDay.countDay(year, month);
 		int monthbeforetotalDay = 0;
 		if (month == 1) {
 			monthbeforetotalDay = MonthDay.countDay(year - 1, 12);

@@ -120,13 +120,6 @@ public class SharedPrefrenceData {
 
 	String widgetFresh = "";
 
-	public boolean isSQLinited() {
-		// boolean isSQLinited = prefs.getString(MOBILE_SET_UNIT, 0);
-		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-		return prefs.getString(PREF_INITSQL, MODE_NOTINIT).endsWith(
-				MODE_HASINIT);
-	}
-
 	public void setSQLinited(boolean isSQLinited) {
 		if (isSQLinited) {
 			UseEditor.putString(PREF_INITSQL, MODE_HASINIT);
