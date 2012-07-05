@@ -13,13 +13,8 @@ public class SQLHelperInitSQL {
 	public SQLHelperInitSQL() {
 		super();
 		// initTime();
-		// TODO Auto-generated constructor stub
 	}
 
-	// SQL
-	private String SQLTotalname = "SQLTotal.db";
-	private String SQLUidname = "SQLUid.db";
-	private String SQLUidTotaldata = "SQLTotaldata.db";
 	private String CreateTable = "CREATE TABLE IF NOT EXISTS ";
 	private String CreateparamUid = "date date,time time,upload INTEGER,download INTEGER,type INTEGER ,other varchar(15)";
 	private String SQLId = "_id INTEGER PRIMARY KEY,";
@@ -43,11 +38,9 @@ public class SQLHelperInitSQL {
 	private int second;
 	private String date;
 	private String time;
-	private static final int MODE_PRIVATE = 0;
 	// pre
 	private final String PREFS_NAME = "allprefs";
 	private final String PREF_INITSQL = "isSQLINIT";
-	private final String MODE_NOTINIT = "SQLisnotINIT";
 	private final String MODE_HASINIT = "SQLhasINIT";
 
 	// classes
@@ -55,45 +48,6 @@ public class SQLHelperInitSQL {
 	private String CreateparamUidTotal = "uid INTEGER,packagename varchar(255),upload INTEGER,download INTEGER,permission INTEGER ,type INTEGER ,other varchar(15),states varchar(15)";
 	private String TableUidTotal = "uidtotal";
 	private String InsertUidTotalColumn = "uid,packagename,upload,download,permission,type,other,states";
-
-	/**
-	 * 创建总数据库
-	 * 
-	 * @param context
-	 * @return 返回创建的数据库
-	 */
-	private SQLiteDatabase creatSQLTotal(Context context) {
-		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLTotalname,
-				MODE_PRIVATE, null);
-		// showLog("db-CreatComplete");
-		return mySQL;
-	}
-
-	/**
-	 * 创建uid数据库
-	 * 
-	 * @param context
-	 * @return 返回创建的数据库
-	 */
-	private SQLiteDatabase creatSQLUid(Context context) {
-		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLUidname,
-				MODE_PRIVATE, null);
-		// showLog("db-CreatComplete");
-		return mySQL;
-	}
-
-	/**
-	 * 创建uidTotal数据库
-	 * 
-	 * @param context
-	 * @return 返回创建的数据库
-	 */
-	private SQLiteDatabase creatSQLUidTotal(Context context) {
-		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLUidTotaldata,
-				MODE_PRIVATE, null);
-		// showLog("db-CreatComplete");
-		return mySQL;
-	}
 
 	/**
 	 * 对数据库进行wifi，mobile数据的写入新数据操作的操作
@@ -109,7 +63,6 @@ public class SQLHelperInitSQL {
 	 */
 	private void exeSQLtotal(SQLiteDatabase mySQL, String table, int type,
 			String other) {
-		// TODO Auto-generated method stub
 		String string = null;
 		long[] totalTraff = SQLHelperDataexe.initTotalData(table);
 		string = InsertTable + table + Start + InsertColumnTotal + End + Value
@@ -145,16 +98,6 @@ public class SQLHelperInitSQL {
 
 		}
 		return newnumber;
-	}
-
-	/**
-	 * 关闭数据库
-	 * 
-	 * @param mySQL
-	 *            对指定数据库进行关闭
-	 */
-	public void closeSQL(SQLiteDatabase mySQL) {
-		mySQL.close();
 	}
 
 	/**
@@ -362,9 +305,12 @@ public class SQLHelperInitSQL {
 		initTime();
 		// 初始化数据库
 		boolean initsuccess = true;
-		SQLiteDatabase sqldatabaseTotal = creatSQLTotal(context);
-		SQLiteDatabase sqldatabaseUid = creatSQLUid(context);
-		SQLiteDatabase sqldatabaseUidTotal = creatSQLUidTotal(context);
+		SQLiteDatabase sqldatabaseTotal = SQLHelperCreateClose
+				.creatSQLTotal(context);
+		SQLiteDatabase sqldatabaseUid = SQLHelperCreateClose
+				.creatSQLUid(context);
+		SQLiteDatabase sqldatabaseUidTotal = SQLHelperCreateClose
+				.creatSQLUidTotal(context);
 		sqldatabaseTotal.beginTransaction();
 		try {
 			String string = null;
@@ -458,9 +404,9 @@ public class SQLHelperInitSQL {
 			AlarmSet alset = new AlarmSet();
 			alset.StartAlarm(context);
 		}
-		closeSQL(sqldatabaseTotal);
-		closeSQL(sqldatabaseUid);
-		closeSQL(sqldatabaseUidTotal);
+		SQLHelperCreateClose.closeSQL(sqldatabaseTotal);
+		SQLHelperCreateClose.closeSQL(sqldatabaseUid);
+		SQLHelperCreateClose.closeSQL(sqldatabaseUidTotal);
 	}
 
 	/**
@@ -496,16 +442,6 @@ public class SQLHelperInitSQL {
 		time = hour2 + ":" + minute2 + ":" + second2;
 		// Table = Table + year;
 		// showLog("日期：" + date + "，" + SQLname + "，tableName：" + Table);
-	}
-
-	/**
-	 * 外部程序获取系统时间
-	 * 
-	 * @return
-	 */
-	public String gettime() {
-		initTime();
-		return time;
 	}
 
 	/**
