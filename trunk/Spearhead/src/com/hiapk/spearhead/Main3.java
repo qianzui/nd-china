@@ -13,6 +13,7 @@ import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.regulate.PhoneSet;
 import com.hiapk.regulate.Regulate;
+import com.hiapk.regulate.SharedPrefrenceDataRegulate;
 import com.hiapk.widget.ProgramNotify;
 import com.hiapk.widget.SetText;
 import com.umeng.analytics.MobclickAgent;
@@ -107,8 +108,10 @@ public class Main3 extends Activity {
 		combo.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				SharedPrefrenceDataRegulate sharedDataReg = new SharedPrefrenceDataRegulate(
+						context);
 				// TODO Auto-generated method stub
-				if (sharedData.getIsFirstRegulate()) {
+				if (sharedDataReg.getIsFirstRegulate()) {
 					Intent i = new Intent(Main3.this, PhoneSet.class);
 					startActivity(i);
 				} else {
