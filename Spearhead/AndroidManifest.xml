@@ -30,6 +30,7 @@
         <activity
             android:name="com.hiapk.regulate.Regulate"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/noTitle" >
         </activity>
         <activity
@@ -40,6 +41,7 @@
         <activity
             android:name="com.hiapk.regulate.PhoneSet"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/noTitle" >
         </activity>
         <activity
@@ -147,8 +149,6 @@
     </application>
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.READ_LOGS" >
     </uses-permission>
     <uses-permission android:name="android.permission.VIBRATE" >
     </uses-permission>

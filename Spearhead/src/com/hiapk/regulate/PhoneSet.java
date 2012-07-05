@@ -164,6 +164,9 @@ public class PhoneSet extends Activity {
 		sharedData.setPhoneInfo(chengshi, pinpai, shengfenId, smsNum, smsText);
 		// Regulate.chooseBtn.setText(chengshi + pinpai);
 		sharedData.setChooseCity(chengshi + pinpai);
+		Intent intent=new Intent();
+		intent.setClass(PhoneSet.this, Regulate.class);
+		context.startActivity(intent);
 		finish();
 	}
 
