@@ -512,16 +512,6 @@ public class SQLHelperInitSQL {
 		return time;
 	}
 
-	/**
-	 * 设置IsInit与程序记录同步
-	 * 
-	 * @param context
-	 */
-	public boolean getIsInit(Context context) {
-		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-		return prefs.getString(PREF_INITSQL, MODE_NOTINIT).endsWith(
-				MODE_HASINIT);
-	}
 
 	/**
 	 * 用于显示日志

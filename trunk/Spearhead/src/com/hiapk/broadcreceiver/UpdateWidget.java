@@ -5,6 +5,7 @@ import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.SpearheadActivity;
 import com.hiapk.spearhead.Splash;
+import com.hiapk.sqlhelper.SQLStatic;
 import com.hiapk.widget.ProgramNotify;
 import com.hiapk.widget.SetText;
 
@@ -30,7 +31,7 @@ public class UpdateWidget extends BroadcastReceiver {
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		boolean isNotifyOpen = sharedData.isNotifyOpen();
 		boolean isWidGet14Open = sharedData.isWidGet14Open();
-		if (sharedData.isSQLinited() && (isNotifyOpen || isWidGet14Open)) {
+		if (SQLStatic.getIsInit(context) && (isNotifyOpen || isWidGet14Open)) {
 			if (isNotifyOpen) {
 				ProgramNotify programNotify = new ProgramNotify();
 				// if (TrafficManager.mobile_month_data[0] == 0

@@ -49,8 +49,7 @@ public class Splash extends Activity {
 
 		@Override
 		protected Integer doInBackground(Context... params) {
-			SharedPrefrenceData sharedData = new SharedPrefrenceData(params[0]);
-			if (sharedData.isSQLinited() == false) {
+			if (SQLStatic.getIsInit(params[0]) == false) {
 				getuids();
 				while (SQLStatic.uids == null) {
 					try {
@@ -119,7 +118,7 @@ public class Splash extends Activity {
 			String[] packagename) {
 		// TODO Auto-generated method stub
 		SQLHelperInitSQL sqlhelperInit = new SQLHelperInitSQL();
-		if (!sqlhelperInit.getIsInit(context)) {
+		if (!SQLStatic.getIsInit(context)) {
 			sqlhelperInit.initSQL(context, uids, packagename);
 		}
 	}
