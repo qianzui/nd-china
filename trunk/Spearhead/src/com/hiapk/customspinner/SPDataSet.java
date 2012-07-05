@@ -2,8 +2,18 @@ package com.hiapk.customspinner;
 
 import com.hiapk.spearhead.R;
 
+/**
+ * 手机卡页面的相关值设置
+ * 
+ * @author df_wind
+ * 
+ */
 public class SPDataSet {
-
+	/**
+	 * 依据条数设置相应的高度
+	 * 
+	 * @param length
+	 */
 	public static void setHeight(int length) {
 		// TODO Auto-generated method stub
 		switch (length) {
@@ -40,6 +50,12 @@ public class SPDataSet {
 		}
 	}
 
+	/**
+	 * 依据传入的值返回对应的array地址（int）
+	 * 
+	 * @param provinceID
+	 * @return
+	 */
 	public static int getSpinCity(int provinceID) {
 		switch (provinceID) {
 		case 0:
@@ -109,6 +125,12 @@ public class SPDataSet {
 		}
 	}
 
+	/**
+	 * 依据传入的值返回对应的array地址（int）
+	 * 
+	 * @param operatorID
+	 * @return
+	 */
 	public static int getSpinBrand(int operatorID) {
 		switch (operatorID) {
 		case 0:

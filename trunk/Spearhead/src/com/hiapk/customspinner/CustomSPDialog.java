@@ -5,13 +5,10 @@ import com.hiapk.spearhead.R;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -50,7 +47,6 @@ public class CustomSPDialog extends Dialog {
 
 		private int tv_size = 0;
 
-
 		private DialogInterface.OnClickListener otherListener,
 				positiveListener, negativeListener;
 
@@ -79,7 +75,7 @@ public class CustomSPDialog extends Dialog {
 			this.message = context.getString(message);
 			return this;
 		}
-		
+
 		/**
 		 * 设置消息字体大小
 		 * 
@@ -90,7 +86,7 @@ public class CustomSPDialog extends Dialog {
 			this.tv_size = tv_size;
 			return this;
 		}
-		
+
 		/**
 		 * 设置标题
 		 * 
@@ -222,7 +218,6 @@ public class CustomSPDialog extends Dialog {
 			// 取得窗口属性
 			dialog.addContentView(layout, new LayoutParams(
 					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-			DisplayMetrics dm = new DisplayMetrics();
 			// 取得窗口属性
 			Window window = dialog.getWindow();
 			int heigh = window.getWindowManager().getDefaultDisplay()
