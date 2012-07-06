@@ -116,6 +116,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 				wifi_month_data_before = sqlhelperTotal.SelectWifiData(
 						sqlDataBase, year, month - 1);
 			}
+			sqlhelperTotal.autoClearData(sqlDataBase);
 			sqlDataBase.setTransactionSuccessful();
 			// 对数据进行赋值
 			TrafficManager.mobile_month_use_afterSet = mobile_month_use_afterSet;
@@ -200,6 +201,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 				wifi_month_data_before = sqlhelperTotal.SelectWifiData(
 						sqlDataBase, year, month - 1);
 			}
+			sqlhelperTotal.autoClearData(sqlDataBase);
 			sqlDataBase.setTransactionSuccessful();
 			// 对数据进行赋值
 			TrafficManager.mobile_month_use_afterSet = mobile_month_use_afterSet;
