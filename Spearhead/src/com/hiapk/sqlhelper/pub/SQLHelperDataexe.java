@@ -1,4 +1,4 @@
-package com.hiapk.sqlhelper;
+package com.hiapk.sqlhelper.pub;
 
 import android.net.TrafficStats;
 

@@ -2,7 +2,7 @@ package com.hiapk.broadcreceiver;
 
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.sqlhelper.SQLStatic;
+import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.widget.ProgramNotify;
 import com.hiapk.widget.SetText;
 

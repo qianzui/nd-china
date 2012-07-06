@@ -1,4 +1,4 @@
-package com.hiapk.sqlhelper;
+package com.hiapk.sqlhelper.pub;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -73,6 +73,6 @@ public class SQLHelperCreateClose {
 	// * @param string
 	// */
 	// private void showLog(String string) {
-	// Log.d("databaseTotal", string);
+	// Log.d("databaseCreateCloseSQL", string);
 	// }
 }

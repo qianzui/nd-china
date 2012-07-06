@@ -13,8 +13,8 @@ import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.progressdialog.CustomProgressDialog;
 import com.hiapk.spearhead.R;
-import com.hiapk.sqlhelper.SQLHelperInitSQL;
-import com.hiapk.sqlhelper.SQLStatic;
+import com.hiapk.sqlhelper.pub.SQLStatic;
+import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
 
 public class CustomDialogOtherBeen {
 	Context context;

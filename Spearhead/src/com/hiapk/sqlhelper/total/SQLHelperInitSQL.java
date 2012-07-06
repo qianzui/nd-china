@@ -1,6 +1,10 @@
-package com.hiapk.sqlhelper;
+package com.hiapk.sqlhelper.total;
 
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
+import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
+import com.hiapk.sqlhelper.pub.SQLStatic;
+
 import android.content.Context;
 import android.content.SharedPreferences.Editor;
 import android.database.sqlite.SQLiteDatabase;
@@ -74,8 +78,7 @@ public class SQLHelperInitSQL {
 		try {
 			mySQL.execSQL(string);
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
+			showLog("fail+" + string);
 		}
 	}
 
@@ -139,8 +142,7 @@ public class SQLHelperInitSQL {
 		try {
 			mySQL.execSQL(string);
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
+			showLog("fail+" + string);
 		}
 	}
 
@@ -159,8 +161,7 @@ public class SQLHelperInitSQL {
 		try {
 			sqldatabase.execSQL(string);
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
+			showLog("fail+SQLinit" + string);
 		}
 	}
 
@@ -195,8 +196,7 @@ public class SQLHelperInitSQL {
 				}
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog("初始化全部的uid表失败");
+			showLog("fail+" + "初始化全部的uid表失败");
 		}
 	}
 
@@ -207,7 +207,6 @@ public class SQLHelperInitSQL {
 	 * @return
 	 */
 	protected boolean initUidTotalTables(SQLiteDatabase sqldatabase) {
-		// TODO Auto-generated method stub
 		String string = null;
 		string = CreateTable + TableUidTotal + Start + SQLId
 				+ CreateparamUidTotal + End;
@@ -217,8 +216,7 @@ public class SQLHelperInitSQL {
 		try {
 			sqldatabase.execSQL(string);
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
+			showLog("fail+" + string);
 			showLog("initUidIndexTables-fail");
 			return false;
 		}
@@ -285,8 +283,7 @@ public class SQLHelperInitSQL {
 		try {
 			mySQL.execSQL(string);
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string + "fail");
+			showLog("fail+" + string);
 		}
 	}
 
@@ -338,8 +335,7 @@ public class SQLHelperInitSQL {
 				sqldatabaseTotal.execSQL(string);
 				// showLog("建立tablemobile");
 			} catch (Exception e) {
-				// TODO: handle exception
-				showLog(string);
+				showLog("fail+" + string);
 				showLog("mobiletable-already exist");
 				initsuccess = false;
 			}
@@ -348,8 +344,7 @@ public class SQLHelperInitSQL {
 			exeSQLtotal(sqldatabaseTotal, TableMobile, 1, null);
 			sqldatabaseTotal.setTransactionSuccessful();
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog("初始化Total失败");
+			showLog("fail+SQLinit" + "初始化Total失败");
 			initsuccess = false;
 		} finally {
 			sqldatabaseTotal.endTransaction();
@@ -365,9 +360,8 @@ public class SQLHelperInitSQL {
 			}
 			sqldatabaseUid.setTransactionSuccessful();
 		} catch (Exception e) {
-			// TODO: handle exception
 			initsuccess = false;
-			showLog("初始化uid数据库失败");
+			showLog("fail+" + "初始化uid数据库失败");
 		} finally {
 			sqldatabaseUid.endTransaction();
 		}
@@ -386,9 +380,8 @@ public class SQLHelperInitSQL {
 			}
 			sqldatabaseUidTotal.setTransactionSuccessful();
 		} catch (Exception e) {
-			// TODO: handle exception
 			initsuccess = false;
-			showLog("初始化uidIndex数据表失败");
+			showLog("fail+" + "初始化uidIndex数据表失败");
 		} finally {
 			// showLog("初始化tableIndex完成");
 			sqldatabaseUidTotal.endTransaction();
@@ -450,7 +443,6 @@ public class SQLHelperInitSQL {
 	 * @param string
 	 */
 	private void showLog(String string) {
-		// TODO Auto-generated method stub
-		Log.d("databaseTotal", string);
+		Log.d("databaseSQLInit", string);
 	}
 }

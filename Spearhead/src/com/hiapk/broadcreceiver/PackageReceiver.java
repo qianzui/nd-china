@@ -4,9 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.hiapk.rebootandstartaction.OnUninstallitself;
-import com.hiapk.sqlhelper.SQLHelperUid;
-import com.hiapk.sqlhelper.SQLHelperUidTotal;
-import com.hiapk.sqlhelper.SQLStatic;
+import com.hiapk.sqlhelper.pub.SQLStatic;
+import com.hiapk.sqlhelper.uid.SQLHelperUidother;
+import com.hiapk.sqlhelper.uid.SQLHelperUidTotal;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
@@ -37,7 +37,7 @@ public class PackageReceiver extends BroadcastReceiver {
 					// new AsyTaskOnUninstall().execute(context);
 					SQLStatic.uidnumbers = SQLStatic.selectUidnumbers(context);
 					AlarmSet alset = new AlarmSet();
-					alset.StartAlarmUidTotal(context);
+					alset.StartAlarm(context);
 					showLog("其他卸载" + SQLStatic.packageName[1]);
 				}
 
@@ -98,7 +98,7 @@ public class PackageReceiver extends BroadcastReceiver {
 			}
 			if (SQLStatic.uidnumber != 999999) {
 				showLog("安装" + SQLStatic.packageName[1] + SQLStatic.uidnumber);
-				SQLHelperUid sqlhelperUid = new SQLHelperUid();
+				SQLHelperUidother sqlhelperUid = new SQLHelperUidother();
 				// 判断是否是新安装程序
 				int[] uids = sqlhelperUid.updateSQLUidOnInstall(params[0],
 						SQLStatic.uidnumber, SQLStatic.packageName[1],

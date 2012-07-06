@@ -5,8 +5,9 @@ import java.util.List;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.Block;
-import com.hiapk.sqlhelper.SQLHelperInitSQL;
-import com.hiapk.sqlhelper.SQLStatic;
+import com.hiapk.sqlhelper.pub.SQLStatic;
+import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -28,40 +29,28 @@ public class Splash extends Activity {
 		SQLStatic.initTablemobileAndwifi(context, false);
 		// MobclickAgent.onError(this);
 		new AsyncTaskonResume().execute(context);
+		if (SQLStatic.TableWiFiOrG23 == "") {
+			alset.StopAlarm(context);
+		}
 	}
 
 	private class AsyncTaskonResume extends
 			AsyncTask<Context, Integer, Integer> {
-		@Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			super.onPreExecute();
-			// SQLHelperTotal.isSQLTotalOnUsed = true;
-			// SQLHelperTotal.isSQLUidOnUsed = true;
-		}
 
 		@Override
 		protected Integer doInBackground(Context... params) {
-			if (SQLStatic.getIsInit(params[0]) == false) {
-				getuids();
-				while (SQLStatic.uids == null) {
-					try {
-						Thread.sleep(200);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+
+			getuids();
+			while (SQLStatic.uids == null) {
+				try {
+					Thread.sleep(200);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
+			}
+			if (SQLStatic.getIsInit(params[0]) == false) {
 				initSQLdatabase(params[0], SQLStatic.uids,
 						SQLStatic.packagenames);
-			}
-
-			AlarmSet alset = new AlarmSet();
-			// 初始化网络状态
-			// sqlhelperTotal.initTablemobileAndwifi(params[0],false);
-			alset.StartAlarm(params[0]);
-			if (SQLStatic.TableWiFiOrG23 == "") {
-				alset.StopAlarm(params[0]);
 			}
 			// 等待数据读取
 			int tap = 0;
@@ -70,26 +59,17 @@ public class Splash extends Activity {
 				try {
 					Thread.sleep(150);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if (tap > 10) {
+				if (tap > 8) {
 					break;
 				}
 			}
-			try {
-				Thread.sleep(150);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			return 3;
-			// TODO Auto-generated method stub
 		}
 
 		@Override
 		protected void onPostExecute(Integer result) {
-			// TODO Auto-generated method stub
 			Intent mainIntent = new Intent(Splash.this, SpearheadActivity.class);
 			Bundle choosetab = new Bundle();
 			choosetab.putInt("TAB", 1);
@@ -109,7 +89,6 @@ public class Splash extends Activity {
 	 */
 	private void initSQLdatabase(Context context, int[] uids,
 			String[] packagename) {
-		// TODO Auto-generated method stub
 		SQLHelperInitSQL sqlhelperInit = new SQLHelperInitSQL();
 		if (!SQLStatic.getIsInit(context)) {
 			sqlhelperInit.initSQL(context, uids, packagename);
@@ -149,9 +128,6 @@ public class Splash extends Activity {
 			SQLStatic.uids[i] = uidstp[i];
 			SQLStatic.packagenames[i] = packagenamestp[i];
 		}
-		// SQLHelperUid sqlhelpuid = new SQLHelperUid();
-		// uids = sqlhelpuid.selectUidnumbers(context);
-		// packagenames = sqlhelpuid.selectPackagenames(context);
 	}
 
 	private boolean testInit() {

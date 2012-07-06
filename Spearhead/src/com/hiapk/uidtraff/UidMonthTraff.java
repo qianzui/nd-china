@@ -4,8 +4,9 @@ import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.progressbar.ProjectStatusChart;
 import com.hiapk.progressbar.SimplePie;
 import com.hiapk.spearhead.R;
-import com.hiapk.sqlhelper.SQLHelperUid;
-import com.hiapk.sqlhelper.SQLStatic;
+import com.hiapk.sqlhelper.pub.SQLStatic;
+import com.hiapk.sqlhelper.uid.SQLHelperUidtraffStats;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -130,9 +131,9 @@ public class UidMonthTraff extends Activity {
 					if (pieValue == null) {
 						if (SQLStatic.setSQLUidOnUsed(true)) {
 							// 获取pie值
-							SQLHelperUid sqlhelperUid = new SQLHelperUid();
-							pieValue = sqlhelperUid.getSQLuidPiedata(params[0],
-									uidnumber);
+							SQLHelperUidtraffStats sqlhelperUidtraff = new SQLHelperUidtraffStats();
+							pieValue = sqlhelperUidtraff.getSQLuidPiedata(
+									params[0], uidnumber);
 							SQLStatic.setSQLUidOnUsed(false);
 						}
 					}
@@ -282,29 +283,29 @@ public class UidMonthTraff extends Activity {
 			// }
 			// if (uidtraff_UidSQL == false)
 			// return false;
-			SQLHelperUid sqlhelperUid = new SQLHelperUid();
+			SQLHelperUidtraffStats sqlhelperUidtraff = new SQLHelperUidtraffStats();
 			mobileBefore = new long[64];
 			mobileNow = new long[64];
 			wifiBefore = new long[64];
 			wifiNow = new long[64];
-			mobileNow = sqlhelperUid.SelectuidWifiorMobileData(params[0], year,
-					month, uidnumber, "mobile");
-			wifiNow = sqlhelperUid.SelectuidWifiorMobileData(params[0], year,
-					month, uidnumber, "wifi");
+			mobileNow = sqlhelperUidtraff.SelectuidWifiorMobileData(params[0],
+					year, month, uidnumber, "mobile");
+			wifiNow = sqlhelperUidtraff.SelectuidWifiorMobileData(params[0],
+					year, month, uidnumber, "wifi");
 			if (month == 1) {
-				mobileBefore = sqlhelperUid.SelectuidWifiorMobileData(
+				mobileBefore = sqlhelperUidtraff.SelectuidWifiorMobileData(
 						params[0], year - 1, 12, uidnumber, "mobile");
-				wifiBefore = sqlhelperUid.SelectuidWifiorMobileData(params[0],
-						year - 1, 12, uidnumber, "wifi");
+				wifiBefore = sqlhelperUidtraff.SelectuidWifiorMobileData(
+						params[0], year - 1, 12, uidnumber, "wifi");
 			} else {
-				mobileBefore = sqlhelperUid.SelectuidWifiorMobileData(
+				mobileBefore = sqlhelperUidtraff.SelectuidWifiorMobileData(
 						params[0], year, month - 1, uidnumber, "mobile");
-				wifiBefore = sqlhelperUid.SelectuidWifiorMobileData(params[0],
-						year, month - 1, uidnumber, "wifi");
+				wifiBefore = sqlhelperUidtraff.SelectuidWifiorMobileData(
+						params[0], year, month - 1, uidnumber, "wifi");
 			}
 			// 获取pie值
 			long[] uidtraff = new long[6];
-			uidtraff = sqlhelperUid.getSQLuidPiedata(params[0], uidnumber);
+			uidtraff = sqlhelperUidtraff.getSQLuidPiedata(params[0], uidnumber);
 			long[] uidpietraff = new long[2];
 			uidpietraff[0] = uidtraff[0];
 			uidpietraff[1] = uidtraff[5];
@@ -384,54 +385,6 @@ public class UidMonthTraff extends Activity {
 		tv_wifi.setText("加载中..");
 	}
 
-	// private View initProjectChart(int uidnumber) {
-	// SQLHelperUid sqlhelperUid = new SQLHelperUid();
-	// ProjectStatusChart projectChart = new ProjectStatusChart(context,
-	// windowswidesize);
-	// projectChart.initDate(year, month, monthDay);
-	// mobileBefore = new long[64];
-	// mobileNow = new long[64];
-	// wifiBefore = new long[64];
-	// wifiNow = new long[64];
-	// if (SQLHelperTotal.isSQLUidOnUsed != true) {
-	// SQLHelperTotal.isSQLUidOnUsed = true;
-	// mobileNow = sqlhelperUid.SelectuidWifiorMobileData(context, year,
-	// month, uidnumber, "mobile");
-	// wifiNow = sqlhelperUid.SelectuidWifiorMobileData(context, year,
-	// month, uidnumber, "wifi");
-	// if (month == 1) {
-	// mobileBefore = sqlhelperUid.SelectuidWifiorMobileData(context,
-	// year - 1, 12, uidnumber, "mobile");
-	// wifiBefore = sqlhelperUid.SelectuidWifiorMobileData(context,
-	// year - 1, 12, uidnumber, "wifi");
-	// } else {
-	// mobileBefore = sqlhelperUid.SelectuidWifiorMobileData(context,
-	// year, month, uidnumber, "mobile");
-	// wifiBefore = sqlhelperUid.SelectuidWifiorMobileData(context,
-	// year, month, uidnumber, "wifi");
-	// }
-	// SQLHelperTotal.isSQLUidOnUsed = false;
-	// }
-	// projectChart.initData(mobileBefore, mobileNow, wifiBefore, wifiNow);
-	// View viewPro = projectChart.execute(this);
-	// return viewPro;
-	// }
-	//
-	// private View initPie(int uidnumber) {
-	// SQLHelperUidTotal sqlUidTotal = new SQLHelperUidTotal();
-	// BudgetPie budgetPie = new BudgetPie(context, windowswidesize);
-	// if (SQLHelperTotal.isSQLUidOnUsed != true) {
-	// SQLHelperTotal.isSQLUidOnUsed = true;
-	// pieValue = sqlUidTotal.SelectUidNetData(context, uidnumber);
-	// SQLHelperTotal.isSQLUidOnUsed = false;
-	// }
-	// // if ((pieValue[0] == 0 )&& (pieValue[1] == 0)) {
-	// // budgetPie.setValues(new long[] { 1, 1 });
-	// // }
-	// budgetPie.setValues(pieValue);
-	// View viewPie = budgetPie.execute(this);
-	// return viewPie;
-	// }
 
 	/**
 	 * 初始化系统时间

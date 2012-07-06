@@ -2,7 +2,7 @@ package com.hiapk.rebootandstartaction;
 
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.sqlhelper.SQLStatic;
+import com.hiapk.sqlhelper.pub.SQLStatic;
 
 import android.content.Context;
 import android.content.Intent;
