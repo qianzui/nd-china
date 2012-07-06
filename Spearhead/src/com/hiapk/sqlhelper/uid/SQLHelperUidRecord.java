@@ -371,7 +371,8 @@ public class SQLHelperUidRecord {
 			cur = mySQL.rawQuery(string, null);
 		} catch (Exception e) {
 			// TODO: handle exception
-			showLog("error" + string);
+			SQLHelperUidSelectFail selectfail=new SQLHelperUidSelectFail();
+			selectfail.selectfails(mySQL, "uid" + uidnumber, uidnumber);
 		}
 		long oldup0 = -100;
 		long olddown0 = -100;
