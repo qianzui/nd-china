@@ -1,12 +1,14 @@
-package com.hiapk.sqlhelper;
+package com.hiapk.sqlhelper.total;
 
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
+import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
+import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.TrafficStats;
 import android.text.format.Time;
+import android.util.Log;
 
 public class SQLHelperTotal {
 
@@ -16,15 +18,6 @@ public class SQLHelperTotal {
 		// TODO Auto-generated constructor stub
 	}
 
-	// SQL
-	private String SQLTotalname = "SQLTotal.db";
-	private String SQLUidname = "SQLUid.db";
-	private String SQLUidIndex = "SQLUidIndex.db";
-	private String SQLUidTotaldata = "SQLTotaldata.db";
-	private String CreateTable = "CREATE TABLE IF NOT EXISTS ";
-	private String SQLId = "_id INTEGER PRIMARY KEY,";
-	private String SQLTime = "date date,time time";
-	private String CreateparamWiFiAnd23G = ",upload INTEGER, download INTEGER,type INTEGER,other varchar(15)";
 	private String TableWiFi = "wifi";
 	private String TableMobile = "mobile";
 	private String InsertTable = "INSERT INTO ";
@@ -49,68 +42,7 @@ public class SQLHelperTotal {
 	private int minute;
 	private int second;
 	private String date;
-	private String dateDelete;
 	private String time;
-	// data
-	private long upload;
-	private long download;
-	private static final int MODE_PRIVATE = 0;
-	// classes
-	SQLHelperUid SQLhelperuid = new SQLHelperUid();
-	SQLHelperUidTotal SQLhelperuidTotal = new SQLHelperUidTotal();
-
-	/**
-	 * 创建总数据库
-	 * 
-	 * @param context
-	 * @return 返回创建的数据库
-	 */
-	public SQLiteDatabase creatSQLTotal(Context context) {
-		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLTotalname,
-				MODE_PRIVATE, null);
-		// showLog("db-CreatComplete");
-		return mySQL;
-	}
-
-	/**
-	 * 创建uid数据库
-	 * 
-	 * @param context
-	 * @return 返回创建的数据库
-	 */
-	public SQLiteDatabase creatSQLUid(Context context) {
-		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLUidname,
-				MODE_PRIVATE, null);
-		// showLog("db-CreatComplete");
-		return mySQL;
-	}
-
-	/**
-	 * 创建uidIndex数据库
-	 * 
-	 * @param context
-	 * @return 返回创建的数据库
-	 */
-	public SQLiteDatabase creatSQLUidIndex(Context context) {
-		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLUidIndex,
-				MODE_PRIVATE, null);
-		// showLog("db-CreatComplete");
-		return mySQL;
-	}
-
-	/**
-	 * 创建uidTotal数据库
-	 * 
-	 * @param context
-	 * @return 返回创建的数据库
-	 */
-	public SQLiteDatabase creatSQLUidTotal(Context context) {
-		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLUidTotaldata,
-				MODE_PRIVATE, null);
-		// showLog("db-CreatComplete");
-		return mySQL;
-	}
-
 	/**
 	 * 对数据库总体数据进行更新
 	 * 
@@ -231,12 +163,13 @@ public class SQLHelperTotal {
 	public void updateSQLtotalType(SQLiteDatabase mySQL, String table,
 			int type, String other, int typechange) {
 		initTime();
-		initTotalData(table);
+		long[] totalTraff = SQLHelperDataexe.initTotalData(table);
 		// TODO Auto-generated method stub
 		String string = null;
 		string = UpdateTable + table + UpdateSet + "date='" + date + "',time='"
-				+ time + "',upload='" + upload + "',download='" + download
-				+ "' ,type=" + typechange + Where + "type=" + type;
+				+ time + "',upload='" + totalTraff[0] + "',download='"
+				+ totalTraff[1] + "' ,type=" + typechange + Where + "type="
+				+ type;
 		// UPDATE Person SET
 		// date='date',time='time',upload='upload',download='download'
 		// ,type='typechange' WHERE type=type
@@ -445,16 +378,6 @@ public class SQLHelperTotal {
 	}
 
 	/**
-	 * 关闭数据库
-	 * 
-	 * @param mySQL
-	 *            对指定数据库进行关闭
-	 */
-	public void closeSQL(SQLiteDatabase mySQL) {
-		mySQL.close();
-	}
-
-	/**
 	 * 初始化系统时间
 	 */
 	private void initTime() {
@@ -500,41 +423,6 @@ public class SQLHelperTotal {
 	}
 
 	/**
-	 * 初始化流量数据
-	 * 
-	 * @param table
-	 *            wifi或者mobile，若为空则无数据
-	 */
-	private void initTotalData(String table) {
-		if (table == "wifi") {
-			upload = TrafficStats.getTotalTxBytes()
-					- TrafficStats.getMobileTxBytes();
-			download = TrafficStats.getTotalRxBytes()
-					- TrafficStats.getMobileRxBytes();
-			if (upload == 1) {
-				upload = 0;
-			}
-			if (download == 1) {
-				download = 0;
-			}
-		}
-		if (table == "mobile") {
-			upload = TrafficStats.getMobileTxBytes();
-			download = TrafficStats.getMobileRxBytes();
-			if (upload == -1) {
-				upload = 0;
-			}
-			if (download == -1) {
-				download = 0;
-			}
-		}
-		if (table == "") {
-			upload = 0;
-			download = 0;
-		}
-	}
-
-	/**
 	 * 记录wifi，mobile流量数据
 	 * 
 	 * @param context
@@ -547,11 +435,11 @@ public class SQLHelperTotal {
 		// 自动进行数据记录---不记录上传下载为0的数据
 		if (!network.equals("")) {
 			// SQLiteDatabase sqlDataBase = creatSQLTotal(context);
-			initTotalData(network);
+			long[] totalTraff = SQLHelperDataexe.initTotalData(network);
 			initTime();
-			showLog("upload=" + upload + "download=" + download);
-			statsSQLtotal(context, sqlDataBase, network, date, time, upload,
-					download, 2, null, daily);
+			showLog("upload=" + totalTraff[0] + "download=" + totalTraff[1]);
+			statsSQLtotal(context, sqlDataBase, network, date, time,
+					totalTraff[0], totalTraff[1], 2, null, daily);
 			// closeSQL(sqlDataBase);
 		}
 	}
@@ -568,12 +456,13 @@ public class SQLHelperTotal {
 		// TODO Auto-generated method stub
 		// 自动进行数据记录---不记录上传下载为0的数据
 		if (!network.equals("")) {
-			SQLiteDatabase sqlDataBase = creatSQLTotal(context);
-			initTotalData(network);
+			SQLiteDatabase sqlDataBase = SQLHelperCreateClose
+					.creatSQLTotal(context);
+			long[] totalTraff = SQLHelperDataexe.initTotalData(network);
 			initTime();
-			statsSQLtotal(context, sqlDataBase, network, date, time, upload,
-					download, 2, null, daily);
-			closeSQL(sqlDataBase);
+			statsSQLtotal(context, sqlDataBase, network, date, time,
+					totalTraff[0], totalTraff[1], 2, null, daily);
+			SQLHelperCreateClose.closeSQL(sqlDataBase);
 		}
 	}
 
@@ -980,6 +869,6 @@ public class SQLHelperTotal {
 	 * @param string
 	 */
 	private void showLog(String string) {
-		// Log.d("databaseTotal", string);
+		 Log.d("databaseTotal", string);
 	}
 }

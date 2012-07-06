@@ -2,8 +2,8 @@ package com.hiapk.dataexe;
 
 import android.content.Context;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.sqlhelper.SQLHelperTotal;
-import com.hiapk.sqlhelper.SQLHelperUid;
+import com.hiapk.sqlhelper.total.SQLHelperTotal;
+import com.hiapk.sqlhelper.uid.SQLHelperUidother;
 
 /**
  * 用于获取各种流量数据的总类
@@ -13,7 +13,7 @@ import com.hiapk.sqlhelper.SQLHelperUid;
  */
 public class TrafficManager {
 	SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
-	SQLHelperUid sqlhelperUid = new SQLHelperUid();
+	SQLHelperUidother sqlhelperUid = new SQLHelperUidother();
 	// 后续要删除的数值
 	public static long mobile_month_use_afterSet = 0;
 	public static long[] wifi_month_data = new long[64];

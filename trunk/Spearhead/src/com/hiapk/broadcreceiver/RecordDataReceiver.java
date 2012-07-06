@@ -3,8 +3,10 @@ package com.hiapk.broadcreceiver;
 import com.hiapk.alertaction.TrafficAlert;
 import com.hiapk.dataexe.MonthlyUseData;
 import com.hiapk.dataexe.TrafficManager;
-import com.hiapk.sqlhelper.SQLHelperTotal;
-import com.hiapk.sqlhelper.SQLStatic;
+import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
+import com.hiapk.sqlhelper.pub.SQLStatic;
+import com.hiapk.sqlhelper.total.SQLHelperTotal;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -47,7 +49,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 				if (SQLStatic.TableWiFiOrG23 != "") {
 					if (SQLStatic.setSQLTotalOnUsed(true)) {
 						time = System.currentTimeMillis();
-						sqlDataBase = sqlhelperTotal.creatSQLTotal(context);
+						sqlDataBase = SQLHelperCreateClose.creatSQLTotal(context);
 						new AsyncTaskonRecordTotalData().execute(context);
 						// showLog(SQLHelperTotal.TableWiFiOrG23);
 					} else {
@@ -85,7 +87,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		long[] wifi_month_data_before = new long[64];
 		long[] mobile_month_data_before = new long[64];
 		MonthlyUseData monthlyUseData = new MonthlyUseData();
-		sqlDataBase = sqlhelperTotal.creatSQLTotal(context);
+		sqlDataBase = SQLHelperCreateClose.creatSQLTotal(context);
 		sqlDataBase.beginTransaction();
 		try {
 			// 生成基本常用数据
@@ -133,7 +135,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			sqlDataBase.endTransaction();
 			SQLStatic.isTotalAlarmRecording = false;
 		}
-		sqlhelperTotal.closeSQL(sqlDataBase);
+		SQLHelperCreateClose.closeSQL(sqlDataBase);
 	}
 
 	/**
@@ -252,7 +254,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		protected void onPostExecute(Long result) {
 			// TODO Auto-generated method stub
 			SQLStatic.isTotalAlarmRecording = false;
-			sqlhelperTotal.closeSQL(sqlDataBase);
+			SQLHelperCreateClose.closeSQL(sqlDataBase);
 			// SQLHelperTotal.isSQLTotalOnUsed = false;
 			SQLStatic.setSQLTotalOnUsed(false);
 			// time = System.currentTimeMillis() - time;

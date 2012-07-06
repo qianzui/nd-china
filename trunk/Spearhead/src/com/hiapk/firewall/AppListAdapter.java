@@ -8,7 +8,7 @@ import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.R;
-import com.hiapk.sqlhelper.SQLStatic;
+import com.hiapk.sqlhelper.pub.SQLStatic;
 
 import android.app.AlertDialog;
 import android.content.Context;

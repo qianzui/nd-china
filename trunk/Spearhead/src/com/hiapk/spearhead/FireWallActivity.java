@@ -1,10 +1,8 @@
 package com.hiapk.spearhead;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.UnitHandler;
@@ -15,17 +13,14 @@ import com.hiapk.firewall.MyComparator;
 import com.hiapk.firewall.MyListView;
 import com.hiapk.firewall.MyListView.OnRefreshListener;
 import com.hiapk.progressdialog.CustomProgressDialog;
-import com.hiapk.sqlhelper.SQLHelperFireWall.Data;
-import com.hiapk.sqlhelper.SQLHelperTotal;
-import com.hiapk.sqlhelper.SQLHelperUid;
-import com.hiapk.sqlhelper.SQLStatic;
+import com.hiapk.sqlhelper.pub.SQLStatic;
+import com.hiapk.sqlhelper.total.SQLHelperFireWall.Data;
 import com.hiapk.uidtraff.UidMonthTraff;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -36,8 +31,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,8 +53,6 @@ public class FireWallActivity extends Activity {
 	public MyListView appListView;
 	public ArrayList<PackageInfo> myAppList;
 	private Context mContext = this;
-	private SQLHelperUid sqlhelperUid = new SQLHelperUid();
-	private SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 	ProgressDialog mydialog;
 	ProgressDialog pro;
 	CustomProgressDialog customdialog;
@@ -227,7 +218,7 @@ public class FireWallActivity extends Activity {
 		// "getuiddatastart");
 		do {
 			AlarmSet alset = new AlarmSet();
-			alset.StartAlarmUidTotal(mContext);
+			alset.StartAlarm(mContext);
 			if (SQLStatic.uiddata != null) {
 				mp = SQLStatic.uiddata;
 				break;
@@ -472,7 +463,7 @@ public class FireWallActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		AlarmSet alset = new AlarmSet();
-		alset.StartAlarmUidTotal(mContext);
+		alset.StartAlarm(mContext);
 		// MobclickAgent.onResume(this);
 	}
 

@@ -1,4 +1,4 @@
-package com.hiapk.sqlhelper;
+package com.hiapk.sqlhelper.pub;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.hiapk.firewall.Block;
-import com.hiapk.sqlhelper.SQLHelperFireWall.Data;
+import com.hiapk.sqlhelper.total.SQLHelperFireWall.Data;
 
 public class SQLStatic {
 

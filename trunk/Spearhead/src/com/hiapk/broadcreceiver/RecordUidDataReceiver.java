@@ -2,9 +2,11 @@ package com.hiapk.broadcreceiver;
 
 import java.util.HashMap;
 
-import com.hiapk.sqlhelper.SQLHelperUid;
-import com.hiapk.sqlhelper.SQLStatic;
-import com.hiapk.sqlhelper.SQLHelperFireWall.Data;
+import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
+import com.hiapk.sqlhelper.pub.SQLStatic;
+import com.hiapk.sqlhelper.total.SQLHelperFireWall.Data;
+import com.hiapk.sqlhelper.uid.SQLHelperUidother;
+import com.hiapk.sqlhelper.uid.SQLHelperUidRecord;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,7 +17,7 @@ import android.os.AsyncTask;
 public class RecordUidDataReceiver extends BroadcastReceiver {
 	public static final int MODE_PRIVATE = 0;
 	// use database
-	private SQLHelperUid sqlhelperUid = new SQLHelperUid();
+	private SQLHelperUidRecord sqlhelperUidRecord = new SQLHelperUidRecord();
 	long time;
 	private String network;
 
@@ -91,17 +93,15 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 		} else {
 			return 0;
 		}
-		SQLiteDatabase sqlDataBase = sqlhelperUid.creatSQLUid(context);
+		SQLiteDatabase sqlDataBase = SQLHelperCreateClose.creatSQLUid(context);
 		HashMap<Integer, Data> mp = null;
 		sqlDataBase.beginTransaction();
 		try {
-			// 更新数据
-//			sqlhelperUid.updateSQLUidTypes(sqlDataBase, numbers, 1, network, 1);
 			// 记录数据
-			sqlhelperUid.RecordUidwritestats(sqlDataBase, numbers, false,
+			sqlhelperUidRecord.RecordUidwritestats(sqlDataBase, numbers, false,
 					network);
 			// 获取uid的总流量数据
-			mp = sqlhelperUid.getSQLUidtraff(sqlDataBase, numbers, network);
+			mp = sqlhelperUidRecord.getSQLUidtraff(sqlDataBase, numbers, network);
 
 			sqlDataBase.setTransactionSuccessful();
 		} catch (Exception e) {
@@ -110,10 +110,8 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 		} finally {
 			sqlDataBase.endTransaction();
 		}
-		sqlhelperUid.closeSQL(sqlDataBase);
-		if (mp != null) {
-			SQLStatic.uiddata = mp;
-		}
+		SQLHelperCreateClose.closeSQL(sqlDataBase);
+		SQLStatic.uiddata = mp;
 
 		return 1;
 	}
