@@ -1,6 +1,6 @@
 package com.hiapk.broadcreceiver;
 
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
+import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 
 import android.content.BroadcastReceiver;
@@ -18,7 +18,8 @@ public class ConnectivityChange extends BroadcastReceiver {
 		// TODO Auto-generated method stub
 		// 设置闹钟与数据库操作
 		AlarmSet alset = new AlarmSet();
-		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
+				context);
 		if (SQLStatic.getIsInit(context)) {
 			// 网络状态变化时
 			if (intent.getAction().equals(
@@ -26,7 +27,7 @@ public class ConnectivityChange extends BroadcastReceiver {
 				// 记录之前的
 				alset.StartAlarm(context);
 				// 更新小部件
-				if (sharedData.isWidGet14Open()) {
+				if (sharedDatawidget.isWidGet14Open()) {
 					Intent intentNetUpdate = new Intent();
 					intentNetUpdate.setAction(APPWIDGET_UPDATE);
 					context.sendBroadcast(intentNetUpdate);
@@ -40,7 +41,7 @@ public class ConnectivityChange extends BroadcastReceiver {
 				if (connec.getActiveNetworkInfo() != null) {
 					// // 启动闹钟
 					// alset.StartAlarm(context);
-					if (sharedData.isNotifyOpen()) {
+					if (sharedDatawidget.isNotifyOpen()) {
 						alset.StartWidgetAlarm(context);
 					}
 					NetworkInfo info = connec.getActiveNetworkInfo();
@@ -54,7 +55,7 @@ public class ConnectivityChange extends BroadcastReceiver {
 					showLog("何种方式连线" + typeName);
 				} else {
 
-					if (sharedData.isNotifyOpen()) {
+					if (sharedDatawidget.isNotifyOpen()) {
 						alset.StartWidgetAlarm(context);
 					}
 					SQLStatic.TableWiFiOrG23 = "";

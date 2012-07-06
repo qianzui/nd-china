@@ -15,12 +15,12 @@ import com.hiapk.spearhead.R;
 
 public class PrefrenceBeen {
 	Context context;
-	SharedPrefrenceData sharedData;
+	SharedPrefrenceDataWidget sharedDatawidget;
 
 	public PrefrenceBeen(Context context) {
 		// TODO Auto-generated constructor stub
 		this.context = context;
-		sharedData = new SharedPrefrenceData(context);
+		sharedDatawidget = new SharedPrefrenceDataWidget(context);
 	}
 
 	public void initListBoxFresh(LinearLayout layout_freshplv) {
@@ -68,7 +68,7 @@ public class PrefrenceBeen {
 		final Button showText = (Button) boxView
 				.findViewById(R.id.setting_tv_box);
 		showText.setText("通知栏提示");
-		boolean isopen = sharedData.isNotifyOpen();
+		boolean isopen = sharedDatawidget.isNotifyOpen();
 		if (isopen) {
 			checkBoxRightDrawinit(showText, isopen);
 		} else {
@@ -80,15 +80,15 @@ public class PrefrenceBeen {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				boolean isopen = sharedData.isNotifyOpen();
+				boolean isopen = sharedDatawidget.isNotifyOpen();
 				AlarmSet alset = new AlarmSet();
 				if (isopen) {
 					alset.StopWidgetAlarm(context);
-					sharedData.setNotifyOpen(false);
+					sharedDatawidget.setNotifyOpen(false);
 					checkBoxRightDrawChange(showText, isopen);
 				} else {
 					alset.StartWidgetAlarm(context);
-					sharedData.setNotifyOpen(true);
+					sharedDatawidget.setNotifyOpen(true);
 					checkBoxRightDrawChange(showText, isopen);
 				}
 			}
@@ -101,7 +101,7 @@ public class PrefrenceBeen {
 		final Button showText = (Button) boxView
 				.findViewById(R.id.setting_tv_box);
 		showText.setText("流量指示悬浮窗");
-		boolean isopen = sharedData.isFloatOpen();
+		boolean isopen = sharedDatawidget.isFloatOpen();
 		if (isopen) {
 			checkBoxRightDrawinit(showText, isopen);
 		} else {
@@ -113,15 +113,15 @@ public class PrefrenceBeen {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				boolean isopen = sharedData.isFloatOpen();
+				boolean isopen = sharedDatawidget.isFloatOpen();
 				if (isopen) {
 					context.stopService(new Intent("com.hiapk.server"));
 					checkBoxRightDrawChange(showText, isopen);
-					sharedData.setFloatOpen(false);
+					sharedDatawidget.setFloatOpen(false);
 				} else {
 					context.startService(new Intent("com.hiapk.server"));
 					checkBoxRightDrawChange(showText, isopen);
-					sharedData.setFloatOpen(true);
+					sharedDatawidget.setFloatOpen(true);
 				}
 			}
 		});

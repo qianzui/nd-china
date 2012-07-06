@@ -23,6 +23,7 @@ import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
+import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.regulate.Regulate;
 import com.hiapk.spearhead.R;
 import com.hiapk.widget.SetText;
@@ -71,9 +72,10 @@ public class CustomSPBeen {
 	 * @return 返回对话框
 	 */
 	public void dialogSettingFreshplv() {
-		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		final SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
+				context);
 
-		final int beforeFresh = sharedData.getWidgetFresh();
+		final int beforeFresh = sharedDatawidget.getWidgetFresh();
 		// 初始化窗体
 		LayoutInflater factory = LayoutInflater.from(context);
 		final View textEntryView = factory.inflate(
@@ -113,7 +115,7 @@ public class CustomSPBeen {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-				sharedData.setWidgetFresh(arg2);
+				sharedDatawidget.setWidgetFresh(arg2);
 				freshtime.dismiss();
 			}
 		});

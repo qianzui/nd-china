@@ -8,6 +8,7 @@ import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.firewall.Block;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
+import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.progressbar.StackedBarChart;
 import com.hiapk.provider.ColorChangeMainBeen;
 import com.hiapk.sqlhelper.pub.SQLStatic;
@@ -70,7 +71,9 @@ public class Main extends Activity {
 		// ------------
 		AlarmSet alset = new AlarmSet();
 		SetText.setText(context);
-		if (sharedData.isNotifyOpen()) {
+		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
+				context);
+		if (sharedDatawidget.isNotifyOpen()) {
 			alset.StartWidgetAlarm(context);
 		}
 		if (SQLStatic.getIsInit(context) == false) {
@@ -144,7 +147,6 @@ public class Main extends Activity {
 			monthSet.setTextColor(ColorChangeMainBeen.colorRed);
 			monthSetunit.setText("");
 		}
-
 
 	}
 

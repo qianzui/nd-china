@@ -43,6 +43,7 @@ public class SQLHelperTotal {
 	private int second;
 	private String date;
 	private String time;
+
 	/**
 	 * 对数据库总体数据进行更新
 	 * 
@@ -236,7 +237,7 @@ public class SQLHelperTotal {
 				olddown0 = -100;
 			}
 		}
-		showLog("oldup0=" + oldup0 + "olddown0=" + olddown0);
+		// showLog("oldup0=" + oldup0 + "olddown0=" + olddown0);
 		if (cur != null) {
 			cur.close();
 		}
@@ -252,7 +253,7 @@ public class SQLHelperTotal {
 				oldup0 = upload - oldup0;
 				olddown0 = download - olddown0;
 			}
-			showLog("oldup0 up=" + oldup0 + "olddown0 down=" + olddown0);
+			// showLog("oldup0 up=" + oldup0 + "olddown0 down=" + olddown0);
 			if ((olddown0 != 0 || oldup0 != 0)
 					&& ((olddown0 > 512) || (oldup0 > 512))) {
 
@@ -270,7 +271,7 @@ public class SQLHelperTotal {
 				// 进行添加 覆盖+
 				// showLog("cur.move" + cur.moveToFirst());
 				if (cur.moveToFirst()) {
-					showLog("已有单天数据");
+					// showLog("已有单天数据");
 					try {
 						int minup = cur.getColumnIndex("upload");
 						int mindown = cur.getColumnIndex("download");
@@ -314,7 +315,7 @@ public class SQLHelperTotal {
 					}
 					// 进行添加add
 				} else {
-					showLog("无单天数据");
+					// showLog("无单天数据");
 					updateSQLtotalTypeDate0to3(mySQL, table, oldup0, olddown0,
 							0, other, 3);
 					exeSQLtotalSetData(mySQL, table, upload, download, 0, other);
@@ -437,7 +438,7 @@ public class SQLHelperTotal {
 			// SQLiteDatabase sqlDataBase = creatSQLTotal(context);
 			long[] totalTraff = SQLHelperDataexe.initTotalData(network);
 			initTime();
-			showLog("upload=" + totalTraff[0] + "download=" + totalTraff[1]);
+			// showLog("upload=" + totalTraff[0] + "download=" + totalTraff[1]);
 			statsSQLtotal(context, sqlDataBase, network, date, time,
 					totalTraff[0], totalTraff[1], 2, null, daily);
 			// closeSQL(sqlDataBase);
@@ -869,6 +870,6 @@ public class SQLHelperTotal {
 	 * @param string
 	 */
 	private void showLog(String string) {
-		 Log.d("databaseTotal", string);
+		Log.d("databaseTotal", string);
 	}
 }

@@ -1,7 +1,7 @@
 package com.hiapk.widget;
 
 import com.hiapk.dataexe.UnitHandler;
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
+import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.spearhead.R;
 
 import android.app.Service;
@@ -111,8 +111,9 @@ public class FloatService extends Service {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent serviceStop = new Intent();
-				SharedPrefrenceData sharedData = new SharedPrefrenceData(FloatService.this);
-				sharedData.setFloatOpen(false);
+				SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
+						FloatService.this);
+				sharedDatawidget.setFloatOpen(false);
 //				boolean isFloatOpen = sharedData.isFloatOpen();
 				serviceStop.setClass(FloatService.this, FloatService.class);
 				stopService(serviceStop);

@@ -10,6 +10,7 @@ import com.hiapk.dataexe.MonthDay;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
+import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.provider.ColorChangeMainBeen;
 
 public class SetText {
@@ -85,9 +86,10 @@ public class SetText {
 	 */
 	public static void resetWidgetAndNotify(Context context) {
 		String BROADCAST_TRAFF = "com.hiapk.traffwidget";
-		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
-		boolean isNotifyOpen = sharedData.isNotifyOpen();
-		boolean isWidGet14Open = sharedData.isWidGet14Open();
+		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
+				context);
+		boolean isNotifyOpen = sharedDatawidget.isNotifyOpen();
+		boolean isWidGet14Open = sharedDatawidget.isWidGet14Open();
 		if (isNotifyOpen) {
 			ProgramNotify programNotify = new ProgramNotify();
 			programNotify.showNotice(context);
@@ -150,13 +152,13 @@ public class SetText {
 
 	}
 
-//	/**
-//	 * 用于显示日志
-//	 * 
-//	 * @param string
-//	 */
-//	private static void showLog(String string) {
-//		// TODO Auto-generated method stub
-//		// Log.d("SetText", string);
-//	}
+	// /**
+	// * 用于显示日志
+	// *
+	// * @param string
+	// */
+	// private static void showLog(String string) {
+	// // TODO Auto-generated method stub
+	// // Log.d("SetText", string);
+	// }
 }

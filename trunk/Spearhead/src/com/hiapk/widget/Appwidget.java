@@ -3,6 +3,7 @@ package com.hiapk.widget;
 import com.hiapk.alertaction.AlertActionMobileDataControl;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
+import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.Splash;
 
@@ -31,8 +32,9 @@ public class Appwidget extends AppWidgetProvider {
 		// TODO Auto-generated method stub
 		super.onEnabled(context);
 		showLog("onEnabled");
-		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
-		sharedData.setWidGet14Open(true);
+		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
+				context);
+		sharedDatawidget.setWidGet14Open(true);
 		// boolean isNotifyOpen = sharedData.isNotifyOpen();
 		AlarmSet alset = new AlarmSet();
 		alset.StartAlarm(context);
@@ -47,8 +49,9 @@ public class Appwidget extends AppWidgetProvider {
 		// TODO Auto-generated method stub
 		super.onDisabled(context);
 		showLog("onDisabled");
-		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
-		sharedData.setWidGet14Open(false);
+		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
+				context);
+		sharedDatawidget.setWidGet14Open(false);
 	}
 
 	@Override

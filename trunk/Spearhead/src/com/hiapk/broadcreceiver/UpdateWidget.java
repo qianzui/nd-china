@@ -1,7 +1,7 @@
 package com.hiapk.broadcreceiver;
 
 import com.hiapk.dataexe.TrafficManager;
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
+import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.widget.ProgramNotify;
 import com.hiapk.widget.SetText;
@@ -20,9 +20,10 @@ public class UpdateWidget extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
 		this.context = context;
-		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
-		boolean isNotifyOpen = sharedData.isNotifyOpen();
-		boolean isWidGet14Open = sharedData.isWidGet14Open();
+		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
+				context);
+		boolean isNotifyOpen = sharedDatawidget.isNotifyOpen();
+		boolean isWidGet14Open = sharedDatawidget.isWidGet14Open();
 		if (SQLStatic.getIsInit(context) && (isNotifyOpen || isWidGet14Open)) {
 			if (isNotifyOpen) {
 				ProgramNotify programNotify = new ProgramNotify();
