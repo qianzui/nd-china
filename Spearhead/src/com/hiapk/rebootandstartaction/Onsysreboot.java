@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.Block;
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
+import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 
 public class Onsysreboot {
@@ -15,19 +15,21 @@ public class Onsysreboot {
 	boolean isFloatOpen = false;
 	boolean isWidget1X4Open = true;
 	Context context;
+	AlarmSet alset = new AlarmSet();
 
 	public void onsysreboot(Context context) {
 		this.context = context;
-		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
+				context);
 		// 初始化网络信号
 		SQLStatic.initTablemobileAndwifi(context, true);
-		AlarmSet alset = new AlarmSet();
+
 		alset.StartAlarm(context);
 		// 查看数据库是否已初始化
 		if (SQLStatic.getIsInit(context)) {
-			isNotifyOpen = sharedData.isNotifyOpen();
-			isFloatOpen = sharedData.isFloatOpen();
-			isWidget1X4Open = sharedData.isWidGet14Open();
+			isNotifyOpen = sharedDatawidget.isNotifyOpen();
+			isFloatOpen = sharedDatawidget.isFloatOpen();
+			isWidget1X4Open = sharedDatawidget.isWidGet14Open();
 			// showLog("isNotifyOpen"+isNotifyOpen);
 			// showLog("isFloatOpen"+isFloatOpen);
 			if ((TrafficManager.mobile_month_data[0] == 0)
@@ -101,10 +103,8 @@ public class Onsysreboot {
 				context.stopService(new Intent("com.hiapk.server"));
 			}
 			if (isNotifyOpen || isWidget1X4Open) {
-				AlarmSet alset = new AlarmSet();
 				alset.StartWidgetAlarm(context);
 			} else {
-				AlarmSet alset = new AlarmSet();
 				alset.StopWidgetAlarm(context);
 			}
 		}
@@ -127,6 +127,6 @@ public class Onsysreboot {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-//		Log.d("Onsysreboot", string);
+		// Log.d("Onsysreboot", string);
 	}
 }

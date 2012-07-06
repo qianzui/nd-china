@@ -1,7 +1,7 @@
 package com.hiapk.rebootandstartaction;
 
 import com.hiapk.broadcreceiver.AlarmSet;
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
+import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 
 import android.content.Context;
@@ -13,13 +13,14 @@ public class OnUninstallitself {
 
 	public void unInstallAction(Context context) {
 		this.context = context;
-		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
+				context);
 		SQLStatic.initTablemobileAndwifi(context, true);
 		// …Ë÷√IsInit–≈œ¢
 		boolean isInit = SQLStatic.getIsInit(context);
 		if (isInit) {
-			boolean isNotifyOpen = sharedData.isNotifyOpen();
-			boolean isFloatOpen = sharedData.isFloatOpen();
+			boolean isNotifyOpen = sharedDatawidget.isNotifyOpen();
+			boolean isFloatOpen = sharedDatawidget.isFloatOpen();
 			// showLog("isNotifyOpen"+isNotifyOpen);
 			// showLog("isFloatOpen"+isFloatOpen);
 			// alset.StartAlarm(context);
@@ -39,29 +40,8 @@ public class OnUninstallitself {
 		}
 	}
 
-	// private class AsyncTaskonReinstallItself extends
-	// AsyncTask<Context, Long, Long> {
-	//
-	// @Override
-	// protected Long doInBackground(Context... params) {
-	// try {
-	// Thread.sleep(1000);
-	// } catch (InterruptedException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// return null;
-	// }
-	//
-	// @Override
-	// protected void onPostExecute(Long result) {
+	// private void showLog(String string) {
 	// // TODO Auto-generated method stub
-	// alset.StartAlarm(context);
+	// // Log.d("Onreinstall", string);
 	// }
-	// }
-
-	private void showLog(String string) {
-		// TODO Auto-generated method stub
-		// Log.d("Onreinstall", string);
-	}
 }

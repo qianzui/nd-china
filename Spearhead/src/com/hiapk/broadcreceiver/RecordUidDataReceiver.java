@@ -5,7 +5,6 @@ import java.util.HashMap;
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.sqlhelper.total.SQLHelperFireWall.Data;
-import com.hiapk.sqlhelper.uid.SQLHelperUidother;
 import com.hiapk.sqlhelper.uid.SQLHelperUidRecord;
 
 import android.content.BroadcastReceiver;
@@ -13,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.util.Log;
 
 public class RecordUidDataReceiver extends BroadcastReceiver {
 	public static final int MODE_PRIVATE = 0;
@@ -153,7 +153,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		// Log.d("ReceiverUid", string);
+		 Log.d("ReceiverUid", string);
 	}
 
 }

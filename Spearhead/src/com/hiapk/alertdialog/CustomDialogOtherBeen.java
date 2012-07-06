@@ -10,7 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
+import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.progressdialog.CustomProgressDialog;
 import com.hiapk.spearhead.R;
 import com.hiapk.sqlhelper.pub.SQLStatic;
@@ -18,11 +18,12 @@ import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
 
 public class CustomDialogOtherBeen {
 	Context context;
-	SharedPrefrenceData sharedData;
+	SharedPrefrenceDataWidget sharedDatawidget;
 
 	public CustomDialogOtherBeen(Context context) {
 		this.context = context;
-		sharedData = new SharedPrefrenceData(context);
+		sharedDatawidget = new SharedPrefrenceDataWidget(
+				context);
 	}
 
 	/**
@@ -186,7 +187,7 @@ public class CustomDialogOtherBeen {
 				}
 			}
 
-			sharedData.setSQLinited(false);
+			sharedDatawidget.setSQLinited(false);
 			// É¾³ýÊý¾Ý¿â
 			params[0].deleteDatabase("SQLTotal.db");
 			params[0].deleteDatabase("SQLUid.db");
@@ -224,7 +225,7 @@ public class CustomDialogOtherBeen {
 				SQLStatic.setSQLTotalOnUsed(false);
 				SQLStatic.setSQLUidOnUsed(false);
 				SQLStatic.setSQLUidTotalOnUsed(false);
-				sharedData.setSQLinited(true);
+				sharedDatawidget.setSQLinited(true);
 				customdialog.dismiss();
 			}
 
