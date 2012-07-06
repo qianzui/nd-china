@@ -1,7 +1,11 @@
 package com.hiapk.sqlhelper.pub;
 
 import android.net.TrafficStats;
-
+/**
+ * 读取系统总数据与分流量数据的具体流量
+ * @author Administrator
+ *
+ */
 public class SQLHelperDataexe {
 	/**
 	 * 初始化流量数据

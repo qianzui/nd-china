@@ -14,6 +14,13 @@ import android.net.NetworkInfo;
 import com.hiapk.firewall.Block;
 import com.hiapk.sqlhelper.total.SQLHelperFireWall.Data;
 
+/**
+ * 用于存储在程序运行过程中使用的某些静态变量
+ * 
+ * @author Administrator
+ * 
+ */
+
 public class SQLStatic {
 
 	// pre

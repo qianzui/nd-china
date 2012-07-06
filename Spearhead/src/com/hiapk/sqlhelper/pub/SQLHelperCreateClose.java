@@ -2,7 +2,11 @@ package com.hiapk.sqlhelper.pub;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-
+/**
+ * 创建和关闭数据库
+ * @author Administrator
+ *
+ */
 public class SQLHelperCreateClose {
 
 	public SQLHelperCreateClose() {
