@@ -947,12 +947,39 @@ public class SQLHelperTotal {
 	}
 
 	/**
+	 * 清除第一个版本里面多余的type=2数据
+	 * 
+	 * @param mySQL
+	 */
+	public void autoClearData(SQLiteDatabase mySQL) {
+		// 进行自动数据清理
+		initTime();
+		if (hour == 3 && minute == 10) {
+			String string = null;
+			// delete from Yookey where tit not in (select min(tit) from
+			// Yookey
+			// group by SID)
+			string = "DELETE   FROM " + TableMobile + Where + "type=" + 2;
+			try {
+				mySQL.execSQL(string);
+			} catch (Exception e) {
+				showLog(string + "fail");
+			}
+			string = "DELETE   FROM " + TableWiFi + Where + "type=" + 2;
+			try {
+				mySQL.execSQL(string);
+			} catch (Exception e) {
+				showLog(string + "fail");
+			}
+		}
+	}
+
+	/**
 	 * 用于显示日志
 	 * 
 	 * @param string
 	 */
 	private void showLog(String string) {
-		// TODO Auto-generated method stub
 		// Log.d("databaseTotal", string);
 	}
 }
