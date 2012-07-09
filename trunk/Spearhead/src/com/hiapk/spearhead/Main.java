@@ -58,6 +58,8 @@ public class Main extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		//为了退出。
+		Mapplication.getInstance().addActivity(this);
 		// umeng
 		// .. MobclickAgent.onError(this);
 		// 获取固定存放数据

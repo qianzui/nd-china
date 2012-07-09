@@ -67,6 +67,8 @@ public class FireWallActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		// MobclickAgent.onError(this);
 		setContentView(R.layout.main2);
+		// ÎªÁËÍË³ö¡£
+		Mapplication.getInstance().addActivity(this);
 		initList();
 	}
 

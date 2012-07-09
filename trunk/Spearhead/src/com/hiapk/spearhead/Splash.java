@@ -29,9 +29,6 @@ public class Splash extends Activity {
 		SQLStatic.initTablemobileAndwifi(context, false);
 		// MobclickAgent.onError(this);
 		new AsyncTaskonResume().execute(context);
-		if (SQLStatic.TableWiFiOrG23 == "") {
-			alset.StopAlarm(context);
-		}
 	}
 
 	private class AsyncTaskonResume extends
