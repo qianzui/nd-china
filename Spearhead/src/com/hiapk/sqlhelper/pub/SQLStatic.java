@@ -12,7 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.hiapk.firewall.Block;
-import com.hiapk.sqlhelper.total.SQLHelperFireWall.Data;
+import com.hiapk.sqlhelper.uid.SQLHelperFireWall.Data;
 
 /**
  * 用于存储在程序运行过程中使用的某些静态变量
@@ -157,6 +157,7 @@ public class SQLStatic {
 		List<PackageInfo> packages = context.getPackageManager()
 				.getInstalledPackages(0);
 		int[] uidstemp = new int[packages.size()];
+		String pacstemp = new String();
 		for (int i = 0; i < packages.size(); i++) {
 			PackageInfo packageinfo = packages.get(i);
 			String pacname = packageinfo.packageName;
@@ -164,6 +165,7 @@ public class SQLStatic {
 			if (!(PackageManager.PERMISSION_GRANTED != pkgmanager
 					.checkPermission(Manifest.permission.INTERNET, pacname))) {
 				if (!Block.filter.contains(pacname)) {
+					pacstemp += pacname;
 					boolean issameUid = false;
 					for (int k = 0; k < j; k++) {
 						if (uidstemp[k] == uid) {
@@ -184,6 +186,10 @@ public class SQLStatic {
 		for (int i = 0; i < j; i++) {
 			uids[i] = uidstemp[i];
 		}
+		if (packagename_ALL == null) {
+			packagename_ALL = pacstemp;
+		}
+
 		return uids;
 	}
 }

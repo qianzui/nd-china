@@ -66,7 +66,11 @@ public class SQLHelperUidother {
 		// String newpackage = selectPackagenames(context);
 		SQLStatic.uidnumbers = SQLStatic.selectUidnumbers(context);
 		// SQLStatic.packagename_ALL = selectPackagenames(context);
-		SQLStatic.packagename_ALL = sharedData.getPackageNames();
+		String pacTemp = sharedData.getPackageNames();
+		if (pacTemp != "") {
+			SQLStatic.packagename_ALL = pacTemp;
+		}
+
 		if (SQLStatic.packagename_ALL.contains(packageName)) {
 			// ¸²¸Ç°²×°
 			return null;

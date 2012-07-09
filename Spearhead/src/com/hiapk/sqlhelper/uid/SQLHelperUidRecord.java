@@ -1,19 +1,27 @@
 package com.hiapk.sqlhelper.uid;
 
 import java.util.HashMap;
-import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
-import com.hiapk.sqlhelper.total.SQLHelperFireWall.Data;
+import java.util.List;
 
+import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
+import com.hiapk.sqlhelper.pub.SQLStatic;
+import com.hiapk.sqlhelper.uid.SQLHelperFireWall.Data;
+
+import android.app.ActivityManager;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.format.Time;
 import android.util.Log;
 
 public class SQLHelperUidRecord {
+	private ActivityManager mActivityManager = null;
 
-	public SQLHelperUidRecord() {
+	public SQLHelperUidRecord(Context context) {
 		super();
 		// initTime();
+		mActivityManager = (ActivityManager) context
+				.getSystemService(Context.ACTIVITY_SERVICE);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -203,62 +211,26 @@ public class SQLHelperUidRecord {
 	 */
 	public void RecordUidwritestats(SQLiteDatabase sqlDataBase,
 			int[] uidnumbers, boolean daily, String network) {
-		if (!network.equals("")) {
-			uidRecordwritestats(sqlDataBase, uidnumbers, daily, network);
-		}
-	}
-
-	/**
-	 * 记录uid的流量数据
-	 * 
-	 * @param sqlDataBase
-	 * @param daily
-	 *            true则强制记录，false则不记录流量为0的数据
-	 */
-	private void uidRecordwritestats(SQLiteDatabase sqlDataBase,
-			int[] uidnumbers, boolean daily, String network) {
+		List<ActivityManager.RunningAppProcessInfo> appProcessList = mActivityManager
+				.getRunningAppProcesses();
 		initTime();
-		statsSQLuids(sqlDataBase, uidnumbers, date, time, 2, null, daily,
-				network);
-	}
+		for (ActivityManager.RunningAppProcessInfo appProcessInfo : appProcessList) {
+			// 通过pacname判断是否为需要记录的应用
+			String pacname = appProcessInfo.processName;
+			if (SQLStatic.packagename_ALL.contains(pacname)) {
+				int uidnumber = appProcessInfo.uid;
+				long[] uiddata = SQLHelperDataexe.initUidData(uidnumber);
+				if (uiddata[0] != 0 || uiddata[1] != 0) {
+					statsSQLuid(sqlDataBase, uidnumber, date, time, uiddata[0],
+							uiddata[1], 2, null, daily, network);
+				}
+			}
 
-	/**
-	 * 对数据库uid数据进行批量更新，
-	 * 
-	 * @param sqlDataBase
-	 *            进行操作的数据库SQLiteDatagase
-	 * @param uidnumbers
-	 *            数据库的表数组集合：uid的table表的uid号，
-	 * @param type
-	 *            用于记录数据状态，以统计数据
-	 * @param other
-	 *            用于记录特殊数据等
-	 * @param typechange
-	 *            改变type值
-	 */
-	public HashMap<Integer, Data> getSQLUidtraff(SQLiteDatabase sqlDataBase,
-			int[] uidnumbers, String network) {
-		HashMap<Integer, Data> mp = new HashMap<Integer, Data>();
-		mp = SelectUiddownloadAndupload(sqlDataBase, uidnumbers);
-		return mp;
-	}
-
-	private HashMap<Integer, Data> SelectUiddownloadAndupload(
-			SQLiteDatabase sqlDataBase, int[] uidnumber) {
-		HashMap<Integer, Data> mp = new HashMap<Integer, Data>();
-		long[] tpmobile = new long[3];
-		long[] tpwifi = new long[3];
-		for (int i = 0; i < uidnumber.length; i++) {
-			tpmobile = getSQLuidtotalData(sqlDataBase, uidnumber[i],
-					NETWORK_FLAG);
-			tpwifi = getSQLuidtotalData(sqlDataBase, uidnumber[i], "wifi");
-			Data temp = new Data();
-			temp.upload = tpmobile[1] + tpwifi[1];
-			temp.download = tpmobile[2] + tpwifi[2];
-			mp.put(uidnumber[i], temp);
-			// showLog(uidnumber[i]+"traff"+get[1]+"");
 		}
-		return mp;
+
+		// if (!network.equals("")) {
+		// uidRecordwritestats(sqlDataBase, uidnumbers, daily, network);
+		// }
 	}
 
 	/**
@@ -308,37 +280,6 @@ public class SQLHelperUidRecord {
 	}
 
 	/**
-	 * 记录uid流量数据
-	 * 
-	 * @param sqlDataBase
-	 *            进行操作的数据库
-	 * @param uidnumbers
-	 *            进行记录的uid号
-	 * @param date
-	 *            记录数据的日期
-	 * @param time
-	 *            记录数据的时间
-	 * @param type
-	 *            用于记录数据状态，以统计数据
-	 * @param other
-	 *            用于记录特殊数据等
-	 * @param daily
-	 *            true则强制记录，false则不记录流量为0的数据
-	 */
-	private void statsSQLuids(SQLiteDatabase sqlDataBase, int[] uidnumbers,
-			String date, String time, int type, String other, boolean daily,
-			String network) {
-		for (int uidnumber : uidnumbers) {
-			long[] uiddata = SQLHelperDataexe.initUidData(uidnumber);
-			if (uiddata[0] != 0 || uiddata[1] != 0) {
-				statsSQLuid(sqlDataBase, uidnumber, date, time, uiddata[0],
-						uiddata[1], type, other, daily, network);
-			}
-		}
-
-	}
-
-	/**
 	 * 对数据库数据进行统计，写入时间范围内的上传，下载数据
 	 * 
 	 * @param mySQL
@@ -371,7 +312,7 @@ public class SQLHelperUidRecord {
 			cur = mySQL.rawQuery(string, null);
 		} catch (Exception e) {
 			// TODO: handle exception
-			SQLHelperUidSelectFail selectfail=new SQLHelperUidSelectFail();
+			SQLHelperUidSelectFail selectfail = new SQLHelperUidSelectFail();
 			selectfail.selectfails(mySQL, "uid" + uidnumber, uidnumber);
 		}
 		long oldup0 = -100;

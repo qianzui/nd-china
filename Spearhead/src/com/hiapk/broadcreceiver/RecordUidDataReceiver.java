@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.pub.SQLStatic;
-import com.hiapk.sqlhelper.total.SQLHelperFireWall.Data;
 import com.hiapk.sqlhelper.uid.SQLHelperUidRecord;
+import com.hiapk.sqlhelper.uid.SQLHelperFireWall.Data;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,13 +17,14 @@ import android.util.Log;
 public class RecordUidDataReceiver extends BroadcastReceiver {
 	public static final int MODE_PRIVATE = 0;
 	// use database
-	private SQLHelperUidRecord sqlhelperUidRecord = new SQLHelperUidRecord();
+	private SQLHelperUidRecord sqlhelperUidRecord;
 	long time;
 	private String network;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		if (SQLStatic.isUidAlarmRecording == false) {
+			sqlhelperUidRecord = new SQLHelperUidRecord(context);
 			SQLStatic.isUidAlarmRecording = true;
 			// TODO Auto-generated method stub
 			// showLog("TableWiFiOrG23=" + SQLHelperTotal.TableWiFiOrG23);
@@ -100,8 +101,9 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			// 记录数据
 			sqlhelperUidRecord.RecordUidwritestats(sqlDataBase, numbers, false,
 					network);
-			// 获取uid的总流量数据
-			mp = sqlhelperUidRecord.getSQLUidtraff(sqlDataBase, numbers, network);
+//			// // 获取uid的总流量数据
+//			mp = sqlhelperUidRecord.getSQLUidtraff(sqlDataBase, numbers,
+//					network);
 
 			sqlDataBase.setTransactionSuccessful();
 		} catch (Exception e) {
@@ -153,7 +155,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		 Log.d("ReceiverUid", string);
+		Log.d("ReceiverUid", string);
 	}
 
 }
