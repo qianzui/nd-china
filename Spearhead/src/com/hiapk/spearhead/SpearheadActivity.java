@@ -54,6 +54,8 @@ public class SpearheadActivity extends TabActivity {
 		super.onCreate(savedInstanceState);
 		// MobclickAgent.onError(this);
 		setContentView(R.layout.maintabs);
+		// ÎªÁËÍË³ö¡£
+				Mapplication.getInstance().addActivity(this);
 		firehelp = (ImageView) findViewById(R.id.help_image);
 		initScene();
 		switchScene();
@@ -252,6 +254,7 @@ public class SpearheadActivity extends TabActivity {
 
 				return false;
 			}
+			Mapplication.getInstance().exit();
 			tExit.cancel();
 			task.cancel();
 		}
