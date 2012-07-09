@@ -171,7 +171,7 @@ public class SpearheadActivity extends TabActivity {
 			customAbout.dialogAbout();
 			break;
 		case 4:
-			finish();
+			Mapplication.getInstance().exit();
 			break;
 
 		default:
