@@ -14,7 +14,8 @@ import com.hiapk.firewall.MyListView;
 import com.hiapk.firewall.MyListView.OnRefreshListener;
 import com.hiapk.progressdialog.CustomProgressDialog;
 import com.hiapk.sqlhelper.pub.SQLStatic;
-import com.hiapk.sqlhelper.total.SQLHelperFireWall.Data;
+import com.hiapk.sqlhelper.uid.SQLHelperFireWall;
+import com.hiapk.sqlhelper.uid.SQLHelperFireWall.Data;
 import com.hiapk.uidtraff.UidMonthTraff;
 import android.Manifest;
 import android.app.Activity;
@@ -219,8 +220,8 @@ public class FireWallActivity extends Activity {
 		// Log.i("timer", System.currentTimeMillis() - time +
 		// "getuiddatastart");
 		do {
-			AlarmSet alset = new AlarmSet();
-			alset.StartAlarm(mContext);
+			SQLHelperFireWall SQLFire = new SQLHelperFireWall();
+			SQLFire.resetMP(mContext);//	alset.StartAlarm(mContext);
 			if (SQLStatic.uiddata != null) {
 				mp = SQLStatic.uiddata;
 				break;
@@ -464,8 +465,8 @@ public class FireWallActivity extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		AlarmSet alset = new AlarmSet();
-		alset.StartAlarm(mContext);
+		SQLHelperFireWall SQLFire = new SQLHelperFireWall();
+		SQLFire.resetMP(mContext);
 		// MobclickAgent.onResume(this);
 	}
 
