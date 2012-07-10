@@ -6,6 +6,7 @@ import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.Splash;
+import com.hiapk.sqlhelper.pub.SQLStatic;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -16,6 +17,7 @@ import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.text.SpannableStringBuilder;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -36,6 +38,9 @@ public class Appwidget extends AppWidgetProvider {
 				context);
 		sharedDatawidget.setWidGet14Open(true);
 		// boolean isNotifyOpen = sharedData.isNotifyOpen();
+		if (SQLStatic.TableWiFiOrG23 == "") {
+			SQLStatic.initTablemobileAndwifi(context);
+		}
 		AlarmSet alset = new AlarmSet();
 		alset.StartAlarm(context);
 		// SetText.setText(context);
@@ -127,12 +132,18 @@ public class Appwidget extends AppWidgetProvider {
 				// 设置文本状态
 				// TextView aa;
 				// aa.setText(text)
-				views.setCharSequence(R.id.widgetTextview1, "setText",
-						SetText.text1);
-				views.setCharSequence(R.id.widgetTextview2, "setText",
-						SetText.text2);
-				views.setCharSequence(R.id.widgetTextview3, "setText",
-						SetText.text3);
+				if (SetText.text1 != "今日已用: ...") {
+					views.setCharSequence(R.id.widgetTextview1, "setText",
+							SetText.text1);
+				}
+				if (SetText.text2 != "距结算日: ...") {
+					views.setCharSequence(R.id.widgetTextview2, "setText",
+							SetText.text2);
+				}
+				if (SetText.text3 != null) {
+					views.setCharSequence(R.id.widgetTextview3, "setText",
+							SetText.text3);
+				}
 			}
 			// // 进行设置
 			// WifiManager wfm_on_off;
@@ -382,12 +393,19 @@ public class Appwidget extends AppWidgetProvider {
 			// pendingIntenttraff);
 			// views.setOnClickPendingIntent(R.id.widgetTextview3,
 			// pendingIntenttraff);
-			views.setCharSequence(R.id.widgetTextview1, "setText",
-					SetText.text1);
-			views.setCharSequence(R.id.widgetTextview2, "setText",
-					SetText.text2);
-			views.setCharSequence(R.id.widgetTextview3, "setText",
-					SetText.text3);
+			if (SetText.text1 != "今日已用: ...") {
+				views.setCharSequence(R.id.widgetTextview1, "setText",
+						SetText.text1);
+			}
+			if (SetText.text2 != "距结算日: ...") {
+				views.setCharSequence(R.id.widgetTextview2, "setText",
+						SetText.text2);
+			}
+			if (SetText.text3 != null) {
+				views.setCharSequence(R.id.widgetTextview3, "setText",
+						SetText.text3);
+			}
+
 		}
 
 		initWidget(context, views);

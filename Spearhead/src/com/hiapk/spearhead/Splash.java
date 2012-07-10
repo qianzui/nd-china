@@ -25,8 +25,11 @@ public class Splash extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
 		AlarmSet alset = new AlarmSet();
+		if (SQLStatic.TableWiFiOrG23 == "") {
+			SQLStatic.initTablemobileAndwifi(context);
+		}
 		alset.StartAlarm(context);
-		SQLStatic.initTablemobileAndwifi(context, false);
+		SQLStatic.initTablemobileAndwifi(context);
 		// MobclickAgent.onError(this);
 		new AsyncTaskonResume().execute(context);
 	}

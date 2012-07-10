@@ -26,14 +26,14 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 		if (SQLStatic.isUidAlarmRecording == false) {
 			sqlhelperUidRecord = new SQLHelperUidRecord(context);
 			SQLStatic.isUidAlarmRecording = true;
-			// TODO Auto-generated method stub
+			if (SQLStatic.TableWiFiOrG23 == "") {
+				network = SQLStatic.TableWiFiOrG23Before;
+			}
 			// showLog("TableWiFiOrG23=" + SQLHelperTotal.TableWiFiOrG23);
 			if (SQLStatic.getIsInit(context)) {
-				if (SQLStatic.TableWiFiOrG23 != "") {
+				if (network != "") {
 					// 进行之前使用的网络是何种网络进行判断
 					// network = SQLHelperTotal.TableWiFiOrG23;
-					network = SQLStatic.TableWiFiOrG23;
-					// 进行两种数据的记录
 					if (SQLStatic.setSQLUidOnUsed(true)) {
 						new AsyncTaskonRecordUidData().execute(context);
 						// showLog(SQLHelperTotal.TableWiFiOrG23);
@@ -45,8 +45,6 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 
 				} else {
 					// 无网络条件下进行最后一次记录
-					network = SQLStatic.TableWiFiOrG23;
-					// 进行两种数据的记录
 					if (SQLStatic.setSQLUidOnUsed(true)) {
 						new AsyncTaskonRecordUidData().execute(context);
 						// showLog(SQLHelperTotal.TableWiFiOrG23);
@@ -78,16 +76,6 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			// 重新定义静态的uid集合
 			SQLStatic.uidnumbers = SQLStatic.selectUidnumbers(context);
 
-			// if (SQLHelperTotal.isSQLIndexOnUsed == false) {
-			// SQLHelperTotal.isSQLIndexOnUsed = true;
-			// if (SQLStatic.setSQLIndexOnUsed(true)) {
-			// SQLHelperUid.uidnumbers = sqlhelperUid
-			// .selectSQLUidnumbers(context);
-			// SQLStatic.setSQLIndexOnUsed(false);
-			// }
-			// SQLHelperTotal.isSQLIndexOnUsed = false;
-			// }
-
 		}
 		if (SQLStatic.uidnumbers != null) {
 			numbers = SQLStatic.uidnumbers;
@@ -95,15 +83,14 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			return 0;
 		}
 		SQLiteDatabase sqlDataBase = SQLHelperCreateClose.creatSQLUid(context);
-		HashMap<Integer, Data> mp = null;
 		sqlDataBase.beginTransaction();
 		try {
 			// 记录数据
 			sqlhelperUidRecord.RecordUidwritestats(sqlDataBase, numbers, false,
 					network);
-//			// // 获取uid的总流量数据
-//			mp = sqlhelperUidRecord.getSQLUidtraff(sqlDataBase, numbers,
-//					network);
+			// // // 获取uid的总流量数据
+			// mp = sqlhelperUidRecord.getSQLUidtraff(sqlDataBase, numbers,
+			// network);
 
 			sqlDataBase.setTransactionSuccessful();
 		} catch (Exception e) {
@@ -113,7 +100,6 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			sqlDataBase.endTransaction();
 		}
 		SQLHelperCreateClose.closeSQL(sqlDataBase);
-		SQLStatic.uiddata = mp;
 
 		return 1;
 	}
@@ -148,7 +134,9 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			if (result == 1) {
 				showLog("uid数据更新");
 			}
-
+			if (SQLStatic.TableWiFiOrG23 == "" && network != "") {
+				SQLStatic.TableWiFiOrG23Before = SQLStatic.TableWiFiOrG23;
+			}
 		}
 
 	}

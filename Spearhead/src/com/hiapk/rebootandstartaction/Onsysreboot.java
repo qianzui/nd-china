@@ -22,7 +22,7 @@ public class Onsysreboot {
 		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
 				context);
 		// 初始化网络信号
-		SQLStatic.initTablemobileAndwifi(context, true);
+		SQLStatic.initTablemobileAndwifi(context);
 
 		alset.StartAlarm(context);
 		// 查看数据库是否已初始化

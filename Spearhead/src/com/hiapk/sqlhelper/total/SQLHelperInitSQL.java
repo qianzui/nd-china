@@ -298,7 +298,7 @@ public class SQLHelperInitSQL {
 	 */
 	public void initSQL(Context context, int[] uidnumbers, String[] packagename) {
 		// 初始化网络状态
-		SQLStatic.initTablemobileAndwifi(context, true);
+		SQLStatic.initTablemobileAndwifi(context);
 		initTime();
 		// 初始化数据库
 		boolean initsuccess = true;

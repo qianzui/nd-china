@@ -24,6 +24,9 @@ public class ConnectivityChange extends BroadcastReceiver {
 			// 网络状态变化时
 			if (intent.getAction().equals(
 					"android.net.conn.CONNECTIVITY_CHANGE")) {
+				if (SQLStatic.TableWiFiOrG23 == "") {
+					SQLStatic.initTablemobileAndwifi(context);
+				}
 				// 记录之前的
 				alset.StartAlarm(context);
 				// 更新小部件
@@ -35,30 +38,19 @@ public class ConnectivityChange extends BroadcastReceiver {
 					intentTextUpdate.setAction(BROADCAST_TRAFF);
 					context.sendBroadcast(intentTextUpdate);
 				}
-				// 判断网络
-				ConnectivityManager connec = (ConnectivityManager) context
-						.getSystemService(Context.CONNECTIVITY_SERVICE);
-				if (connec.getActiveNetworkInfo() != null) {
+				SQLStatic.initTablemobileAndwifi(context);
+				if (SQLStatic.TableWiFiOrG23 != "") {
 					// // 启动闹钟
 					// alset.StartAlarm(context);
 					if (sharedDatawidget.isNotifyOpen()) {
 						alset.StartWidgetAlarm(context);
 					}
-					NetworkInfo info = connec.getActiveNetworkInfo();
-					String typeName = info.getTypeName(); // mobile@wifi
-					if (typeName.equals("WIFI")) {
-						SQLStatic.TableWiFiOrG23 = "wifi";
-					}
-					if (typeName.equals("mobile")) {
-						SQLStatic.TableWiFiOrG23 = "mobile";
-					}
-					showLog("何种方式连线" + typeName);
+					showLog("何种方式连线" + SQLStatic.TableWiFiOrG23);
 				} else {
 
 					if (sharedDatawidget.isNotifyOpen()) {
 						alset.StartWidgetAlarm(context);
 					}
-					SQLStatic.TableWiFiOrG23 = "";
 					showLog("无可用网络");
 					alset.StopAlarm(context);
 				}

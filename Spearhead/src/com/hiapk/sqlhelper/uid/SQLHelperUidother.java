@@ -78,6 +78,9 @@ public class SQLHelperUidother {
 			// 新安装软件
 			SQLStatic.packagename_ALL = selectPackagenames(context);
 			sharedData.setPackageNames(SQLStatic.packagename_ALL);
+			if (SQLStatic.TableWiFiOrG23=="") {
+				SQLStatic.initTablemobileAndwifi(context);
+			}
 			AlarmSet alset = new AlarmSet();
 			alset.StartAlarm(context);
 			return new int[] { 1019 };

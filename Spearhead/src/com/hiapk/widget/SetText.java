@@ -18,8 +18,7 @@ public class SetText {
 	public static String textDown;
 	public static String text1 = "今日已用: ...";
 	public static String text2 = "距结算日: ...";
-	public static SpannableStringBuilder text3 = new SpannableStringBuilder(
-			(CharSequence) "... / ...");
+	public static SpannableStringBuilder text3 =null;
 
 	/**
 	 * 获取通知栏与小部件显示文字

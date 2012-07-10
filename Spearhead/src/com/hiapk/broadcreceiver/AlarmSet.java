@@ -15,7 +15,7 @@ import android.preference.PreferenceManager;
 
 public class AlarmSet {
 	private int totalrefreshtime;
-	private int uidrefreshtime = 60;
+	private int uidrefreshtime = 120;
 	private int widgetrefreshtime = 30;
 	private final String PREFS_NAME = "allprefs";
 	private final String TOTAL_REFLASH = "totalrefreshtime";
@@ -33,8 +33,10 @@ public class AlarmSet {
 		setwidgetdefaulttime(context);
 		int totaltime = totalrefreshtime < widgetrefreshtime ? totalrefreshtime
 				: widgetrefreshtime;
-		int uidtime = uidrefreshtime < widgetrefreshtime ? uidrefreshtime
-				: widgetrefreshtime;
+		int uidtime = uidrefreshtime
+		// < widgetrefreshtime ? uidrefreshtime
+		// : widgetrefreshtime
+		;
 		// showLog(totaltime + "");
 		if (SQLStatic.isTotalAlarmRecording != true) {
 			TotalAlarmStart(context, totaltime);
@@ -60,27 +62,29 @@ public class AlarmSet {
 		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
 	}
 
-	public void StartAlarmMobile(Context context) {
-		setdefaulttime(context);
-		setwidgetdefaulttime(context);
-		int totaltime = totalrefreshtime < widgetrefreshtime ? totalrefreshtime
-				: widgetrefreshtime;
-		if (SQLStatic.isTotalAlarmRecording != true) {
-			TotalAlarmStart(context, totaltime);
-		}
-		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
-	}
-
-	public void StartAlarmUid(Context context) {
-		setdefaulttime(context);
-		setwidgetdefaulttime(context);
-		int uidtime = uidrefreshtime < widgetrefreshtime ? uidrefreshtime
-				: widgetrefreshtime;
-		if (SQLStatic.isUidAlarmRecording != true) {
-			UidAlarmStart(context, uidtime);
-		}
-		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
-	}
+//	public void StartAlarmMobile(Context context) {
+//		setdefaulttime(context);
+//		setwidgetdefaulttime(context);
+//		int totaltime = totalrefreshtime < widgetrefreshtime ? totalrefreshtime
+//				: widgetrefreshtime;
+//		if (SQLStatic.isTotalAlarmRecording != true) {
+//			TotalAlarmStart(context, totaltime);
+//		}
+//		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
+//	}
+//
+//	public void StartAlarmUid(Context context) {
+//		setdefaulttime(context);
+//		setwidgetdefaulttime(context);
+//		int uidtime = uidrefreshtime
+//		// < widgetrefreshtime ? uidrefreshtime
+//		// : widgetrefreshtime
+//		;
+//		if (SQLStatic.isUidAlarmRecording != true) {
+//			UidAlarmStart(context, uidtime);
+//		}
+//		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
+//	}
 
 	/**
 	 * 设置数据记录间隔，单位分钟 总流量数据限制为1-60分钟，uid数据限制为3-240分钟

@@ -25,7 +25,7 @@ public class SQLHelperFireWall {
 	public void resetMP(Context context) {
 		time = System.currentTimeMillis();
 		AlarmSet alset = new AlarmSet();
-		alset.StartAlarmUid(context);
+		alset.StartAlarm(context);
 		showLog("alarmover" + (System.currentTimeMillis() - time));
 		int[] numbers = null;
 		while (SQLStatic.uidnumbers == null) {

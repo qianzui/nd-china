@@ -24,6 +24,7 @@ public class UpdateWidget extends BroadcastReceiver {
 				context);
 		boolean isNotifyOpen = sharedDatawidget.isNotifyOpen();
 		boolean isWidGet14Open = sharedDatawidget.isWidGet14Open();
+		boolean isopen = sharedDatawidget.isFloatOpen();
 		if (SQLStatic.getIsInit(context) && (isNotifyOpen || isWidGet14Open)) {
 			if (isNotifyOpen) {
 				ProgramNotify programNotify = new ProgramNotify();
@@ -47,6 +48,11 @@ public class UpdateWidget extends BroadcastReceiver {
 				Intent intentTextUpdate = new Intent();
 				intentTextUpdate.setAction(BROADCAST_TRAFF);
 				context.sendBroadcast(intentTextUpdate);
+			}
+			if (isopen) {
+				context.startService(new Intent("com.hiapk.server"));
+			} else {
+				context.stopService(new Intent("com.hiapk.server"));
 			}
 			// RemoteViews views = new RemoteViews(context.getPackageName(),
 			// R.layout.appwidget_layout);
