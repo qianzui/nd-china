@@ -137,7 +137,21 @@ public class FireWallActivity extends Activity {
 			public void run() {
 				getList(mContext);
 				mp = getData();
-				uidList = comp(Block.appnamemap);
+				do
+				{
+					Log.i("test", Block.appnamemap.size()+"=====" + Block.appList.size());
+					try {
+						Thread.sleep(300);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if(Block.appList.size() == Block.appnamemap.size()){
+						Log.i("test", Block.appnamemap.size()+"=====" + Block.appList.size());
+						break;
+					}
+				} while(Block.appList.size() != Block.appnamemap.size());
+				uidList = comp(Block.appList);
 				handler.sendEmptyMessage(0);
 			}
 		}).start();
@@ -161,13 +175,13 @@ public class FireWallActivity extends Activity {
 					@Override
 					protected Void doInBackground(Void... params) {
 						mp = getData();
+						getList(mContext);
+						Splash.getList(mContext);
+						uidList = comp(Block.appList);
 						return null;
 					}
 					@Override
 					protected void onPostExecute(Void result) {
-						getList(mContext);
-						Splash.getList(mContext);
-						uidList = comp(Block.appnamemap);
 						MyListView.loadImage();
 						setAdapter();
 						appListAdapter.notifyDataSetChanged();
@@ -185,15 +199,16 @@ public class FireWallActivity extends Activity {
 		Block.appList = new HashMap<Integer, PackageInfo>();
 		for (int i = 0; i < packageInfo.size(); i++) {
 			final PackageInfo pkgInfo = packageInfo.get(i);
+			final int uid  = pkgInfo.applicationInfo.uid;
 			final String pkgName = pkgInfo.applicationInfo.packageName;
 			if ( PackageManager.PERMISSION_GRANTED == pm.checkPermission(
 							Manifest.permission.INTERNET,
-							pkgInfo.applicationInfo.packageName)) {
+							pkgName)) {
 				if (Block.filter.contains(pkgName)) {
 				} else {
-					Block.appList.put(pkgInfo.applicationInfo.uid, pkgInfo);
+					Block.appList.put(uid, pkgInfo);
 					myAppList.add(pkgInfo);
-					Block.appList.put(pkgInfo.applicationInfo.uid, pkgInfo);
+					Block.appList.put(uid, pkgInfo);
 				}
 			}
 		}
@@ -217,10 +232,10 @@ public class FireWallActivity extends Activity {
 		return mp; 
 	}
 
-	public ArrayList<Integer> comp(HashMap<Integer ,String> appname) {
+	public ArrayList<Integer> comp(HashMap<Integer,PackageInfo> appList) {
 		uidList =  new ArrayList<Integer>();
 		ArrayList<Integer> uidList2 =  new ArrayList<Integer>();
-		ArrayList keys = new ArrayList(appname.keySet());
+		ArrayList keys = new ArrayList(appList.keySet());
 		MyCompTraffic mt = new MyCompTraffic();
 		mt.init(mp);
 		Collections.sort(keys ,mt);
