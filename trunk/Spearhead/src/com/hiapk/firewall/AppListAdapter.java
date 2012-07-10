@@ -113,7 +113,7 @@ public class AppListAdapter extends BaseAdapter {
 		
 		holder.icon.setTag(position);
 		if (up == -1000 && down == -1000) { 
-			holder.trafficup.setText("暂无数据！");
+			holder.trafficup.setText("暂无数据!");
 		} else {
 			holder.trafficup.setText(UnitHandler.unitHandlerAccurate(up + down));
 		}
