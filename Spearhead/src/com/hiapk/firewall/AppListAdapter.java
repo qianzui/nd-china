@@ -9,12 +9,15 @@ import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.R;
 import com.hiapk.sqlhelper.pub.SQLStatic;
+import com.hiapk.sqlhelper.uid.SQLHelperFireWall.Data;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
+import android.graphics.drawable.Drawable;
 import android.net.TrafficStats;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -25,35 +28,46 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class AppListAdapter extends BaseAdapter {
 
-	private ArrayList<AppInfo> myAppList;
+	private ArrayList<PackageInfo> myAppList;
 	private LayoutInflater inflater;
 	private Context mContext;
 	HashMap map;
-	HashMap imageAndNameMap;
+	public static SyncImageLoader syncImageLoader = new SyncImageLoader();
+	public static ListView mListView;
+	HashMap<Integer, Data> mp;
+	ArrayList<Integer> uidList;
+	HashMap<Integer,PackageInfo> appList;
+	HashMap<Integer,String> appname;
+	int uid;
 
-	public AppListAdapter(Context context, ArrayList<AppInfo> myAppList) {
+	public AppListAdapter(Context context , ArrayList<PackageInfo> myAppList,ListView mListView 
+			,HashMap<Integer, Data> mp ,HashMap<Integer,String> appname      
+			,HashMap<Integer,PackageInfo> appList, ArrayList<Integer> uidList) {
 		inflater = LayoutInflater.from(context);
-		this.myAppList = myAppList;
 		this.mContext = context;
 		this.map = Block.getMap(context, myAppList);
-		this.imageAndNameMap = imageAndNameMap;
+		this.mListView = mListView;
+		this.mp = mp;
+		this.appname = appname;
+		this.appList = appList;
+		this.uidList = uidList;
 	}
-
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return myAppList.size();
+		return uidList.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
 		// TODO Auto-generated method stub
-		return myAppList.get(position);
+		return uidList.get(position);
 	}
 
 	@Override
@@ -61,7 +75,6 @@ public class AppListAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
@@ -71,35 +84,67 @@ public class AppListAdapter extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.app_list_item, null);
 			holder.icon = (ImageView) convertView.findViewById(R.id.icon);
 			holder.appname = (TextView) convertView.findViewById(R.id.app_name);
-			holder.trafficup = (TextView) convertView
-					.findViewById(R.id.trafficup);
-			holder.e_toggle = (CheckBox) convertView
-					.findViewById(R.id.e_toggle);
-			holder.wifi_toggle = (CheckBox) convertView
-					.findViewById(R.id.wifi_toggle);
+			holder.trafficup = (TextView) convertView.findViewById(R.id.trafficup);
+			holder.e_toggle = (CheckBox) convertView.findViewById(R.id.e_toggle);
+			holder.wifi_toggle = (CheckBox) convertView.findViewById(R.id.wifi_toggle);
 			convertView.setTag(R.id.tag_holder, holder);
 		} else {
-			holder = (ViewHolder) convertView.getTag(R.id.tag_holder);
+			holder = (ViewHolder)convertView.getTag(R.id.tag_holder);
 		}
-		AppInfo pkgInfo = myAppList.get(position);
-		IsChecked ic = (IsChecked) map.get(pkgInfo.uid);
-		// Info info = (Info)imageAndNameMap.get(position);
-		holder.icon.setImageDrawable(pkgInfo.d);
-		holder.appname.setText(pkgInfo.appname);
-		if (pkgInfo.up == -1000 && pkgInfo.down == -1000) {
+		
+		int uid = uidList.get(position);
+		PackageInfo pkgInfo = appList.get(uid);
+		long up = 0;
+		long down = 0; 
+		  if (mp.containsKey(uid)) {
+			   up = mp.get(uid).upload;
+			   down = mp.get(uid).download;
+		   } else {
+			   up = -1000;
+			   down = -1000;
+		   }
+		if(appname.containsKey(uid)){
+			holder.appname.setText(appname.get(uid));
+		}else{
+			holder.appname.setText("获取中...");
+		}
+		IsChecked ic = (IsChecked) map.get(uid);
+		holder.icon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_launcher));
+		
+		holder.icon.setTag(position);
+		if (up == -1000 && down == -1000) { 
 			holder.trafficup.setText("获取中...");
 		} else {
-			holder.trafficup.setText(UnitHandler.unitHandlerAccurate(pkgInfo.up + pkgInfo.down));
+			holder.trafficup.setText(UnitHandler.unitHandlerAccurate(up + down));
 		}
-
+		syncImageLoader.loadImage(position,pkgInfo,mContext,imageLoadListener ,holder.icon,uid);
+		
 		holder.e_toggle.setChecked(ic.selected_3g);
 		holder.wifi_toggle.setChecked(ic.selected_wifi);
 		holder.e_toggle.setOnClickListener(new EListener(holder.e_toggle, ic));
-		holder.wifi_toggle.setOnClickListener(new WifiListener(
-				holder.wifi_toggle, ic));
+		holder.wifi_toggle.setOnClickListener(new WifiListener(holder.wifi_toggle, ic));
+		
 		convertView.setTag(R.id.tag_pkginfo, pkgInfo);
 		return convertView;
 	}
+	
+	SyncImageLoader.OnImageLoadListener imageLoadListener = new SyncImageLoader.OnImageLoadListener(){  
+	    @Override  
+	    public void onImageLoad(Integer t, Drawable drawable, ImageView view,int uid) { 
+	    	ImageView icon = (ImageView)mListView.findViewWithTag(t);
+	    	if(icon != null){
+	    		icon.setImageDrawable(drawable); 
+	    	}
+//	    	if(view != null){
+//	    		ImageView icon = (ImageView)mListView.findViewWithTag(t);
+//	    		icon.setImageDrawable(drawable);   
+//	    	}
+	    }  
+	    @Override  
+	    public void onError(Integer t) {  
+	    	
+	    }
+	};  
 
 	public long judge(long tff) {
 		if (tff == -1)
