@@ -7,6 +7,7 @@ import com.hiapk.spearhead.R;
 import android.content.Context;
 import android.text.format.Time;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -113,8 +114,30 @@ public class MyListView extends ListView implements OnScrollListener {
 			int arg3) {
 		firstItemIndex = firstVisiableItem;
 	}
-	public void onScrollStateChanged(AbsListView arg0, int arg1) {
+	public void onScrollStateChanged(AbsListView arg0, int scrollState) {
+		 switch (scrollState) {  
+         case AbsListView.OnScrollListener.SCROLL_STATE_FLING:  
+             AppListAdapter.syncImageLoader.lock();  
+             break;  
+         case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:  
+             loadImage(); 
+             break;  
+         case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:  
+        	 AppListAdapter.syncImageLoader.lock();  
+             break;  
+         default:  
+             break;  
+     }  
 	}
+	public static void loadImage(){  
+	    int start = AppListAdapter.mListView.getFirstVisiblePosition()-1;  
+	    int end = AppListAdapter.mListView.getLastVisiblePosition();  
+	    if(end >= AppListAdapter.mListView.getCount()){  
+	        end = AppListAdapter.mListView.getCount() -1;  
+	    }  
+	    AppListAdapter.syncImageLoader.setLoadLimit(start, end);  
+	    AppListAdapter.syncImageLoader.unlock();  
+	} 
 	public boolean onTouchEvent(MotionEvent event) {
 		if (isRefreshable) {
 			switch (event.getAction()) {
