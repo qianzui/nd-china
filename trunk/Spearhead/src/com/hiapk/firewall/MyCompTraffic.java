@@ -4,6 +4,8 @@ import java.text.Collator;
 import java.util.Comparator;
 import java.util.HashMap;
 
+import android.util.Log;
+
 import com.hiapk.sqlhelper.uid.SQLHelperFireWall.Data;
 
 
@@ -26,7 +28,11 @@ public class MyCompTraffic implements  Comparator {
 			traffic1 = -1000;
 		}
 		if (mp.containsKey(uid2)) {
+			try{
 			traffic2 = mp.get(uid2).upload + mp.get(uid1).download;
+			 }catch(Exception e){
+			  traffic2 = -1000;
+			}
 	    }else{
 			traffic2 = -1000;
 		}
