@@ -5,11 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.dataexe.MonthlyUseData;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.Block;
 import com.hiapk.firewall.GetRoot;
 import com.hiapk.firewall.MyListView;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
+import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
 import com.hiapk.sqlhelper.total.SQLHelperTotal;
@@ -20,12 +22,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.Log;
 
 public class Splash extends Activity {
 	private  Context context = this;
+	private AlarmSet alset = new AlarmSet();
+	// date
+	private int year;
+	private int month;
+	private int monthDay;
+	private String network;
+	private SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -80,7 +91,7 @@ public class Splash extends Activity {
 		@Override
 		protected Integer doInBackground(Context... params) {
 
-			getuids();
+			SQLStatic.uids = SQLStatic.selectUidnumbers(params[0]);
 			while (SQLStatic.uids == null) {
 				try {
 					Thread.sleep(200);
@@ -92,19 +103,18 @@ public class Splash extends Activity {
 				initSQLdatabase(params[0], SQLStatic.uids,
 						SQLStatic.packagenames);
 			}
-			// 等待数据读取
-			int tap = 0;
-			while (testInit() == false) {
-				tap += 1;
+
+			while (SQLStatic.setSQLTotalOnUsed(true)) {
 				try {
-					Thread.sleep(150);
+					Thread.sleep(200);
 				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if (tap > 8) {
-					break;
-				}
 			}
+
+			initDataWithnoNetwork(context);
+			SQLStatic.setSQLTotalOnUsed(false);
 			return 3;
 		}
 
@@ -135,50 +145,83 @@ public class Splash extends Activity {
 		}
 	}
 
-	/**
-	 * 临时函数
-	 */
-	private void getuids() {
-		int j = 0;
-		PackageManager pkgmanager = context.getPackageManager();
-		List<PackageInfo> packages = context.getPackageManager()
-				.getInstalledPackages(0);
-		int[] uidstp = new int[packages.size()];
-		String[] packagenamestp = new String[packages.size()];
-		for (int i = 0; i < packages.size(); i++) {
-			PackageInfo packageinfo = packages.get(i);
-			String fliter = Block.filter;
-			String pacname = packageinfo.packageName;
-			int uid = packageinfo.applicationInfo.uid;
-			if (!(PackageManager.PERMISSION_GRANTED != pkgmanager
-					.checkPermission(Manifest.permission.INTERNET, pacname))) {
-				if (!fliter.contains(pacname)) {
-					uidstp[j] = uid;
-					packagenamestp[j] = pacname;
-					// showLog("进行显示的uid=" + uid);
-					j++;
-					// tmpInfo.packageName = pacname;
-					// tmpInfo.app_uid = packageinfo.applicationInfo.uid;
+	private void initDataWithnoNetwork(Context context) {
+		SQLStatic.initTablemobileAndwifi(context);
+		network = SQLStatic.TableWiFiOrG23;
+		showLog("initDataWithnoNetwork=" + network);
+		if (TrafficManager.mobile_month_use == 1) {
+			long mobile_month_use_afterSet = 0;
+			long[] wifi_month_data = new long[64];
+			long[] mobile_month_data = new long[64];
+			long[] wifi_month_data_before = new long[64];
+			long[] mobile_month_data_before = new long[64];
+			MonthlyUseData monthlyUseData = new MonthlyUseData();
+			SQLiteDatabase sqlDataBase = SQLHelperCreateClose
+					.creatSQLTotal(context);
+			sqlDataBase.beginTransaction();
+			try {
+				// 断网后的最后一次记录
+				sqlhelperTotal.RecordTotalwritestats(context, sqlDataBase,
+						false, network);
+				// 生成基本常用数据
+				initTime();
+				showLog(monthDay + "0");
+				mobile_month_use_afterSet = monthlyUseData.getMonthUseData(
+						context, sqlDataBase);
+				showLog(monthDay + "1");
+				wifi_month_data = sqlhelperTotal.SelectWifiData(sqlDataBase,
+						year, month);
+				showLog(monthDay + "2");
+				mobile_month_data = sqlhelperTotal.SelectMobileData(
+						sqlDataBase, year, month);
+				if (month == 1) {
+					mobile_month_data_before = sqlhelperTotal.SelectMobileData(
+							sqlDataBase, year - 1, 12);
+					wifi_month_data_before = sqlhelperTotal.SelectWifiData(
+							sqlDataBase, year - 1, 12);
+				} else {
+					mobile_month_data_before = sqlhelperTotal.SelectMobileData(
+							sqlDataBase, year, month - 1);
+					wifi_month_data_before = sqlhelperTotal.SelectWifiData(
+							sqlDataBase, year, month - 1);
 				}
+				sqlhelperTotal.autoClearData(sqlDataBase);
+				sqlDataBase.setTransactionSuccessful();
+				// 对数据进行赋值
+				TrafficManager.mobile_month_use = mobile_month_use_afterSet;
+				TrafficManager.wifi_month_data = wifi_month_data;
+				TrafficManager.mobile_month_data = mobile_month_data;
+				TrafficManager.mobile_month_data_before = mobile_month_data_before;
+				TrafficManager.wifi_month_data_before = wifi_month_data_before;
+
+				// showLog("wifitotal=" + wifi_month_data[0] + "");
+			} catch (Exception e) {
+				// TODO: handle exception
+				showLog("数据记录失败");
+			} finally {
+				sqlDataBase.endTransaction();
+				SQLStatic.isTotalAlarmRecording = false;
 			}
-		}
-		SQLStatic.uids = new int[j];
-		SQLStatic.packagenames = new String[j];
-		for (int i = 0; i < j; i++) {
-			SQLStatic.uids[i] = uidstp[i];
-			SQLStatic.packagenames[i] = packagenamestp[i];
+			SQLHelperCreateClose.closeSQL(sqlDataBase);
 		}
 	}
 
-	private boolean testInit() { 
-		if (TrafficManager.mobile_month_data[0] == 0
-				&& TrafficManager.wifi_month_data[0] == 0
-				&& TrafficManager.mobile_month_data[63] == 0
-				&& TrafficManager.wifi_month_data[63] == 0)
-			return false;
-		else {
-			return true;
-		}
+	/**
+	 * 初始化系统时间
+	 */
+	private void initTime() {
+		// Time t = new Time("GMT+8");
+		Time t = new Time();
+		t.setToNow(); // 取得系统时间。
+		// 取得系统时间。
+		year = t.year;
+		month = t.month + 1;
+		monthDay = t.monthDay;
 
+	}
+
+	private void showLog(String string) {
+		// TODO Auto-generated method stub
+		Log.d("Splash", string);
 	}
 }
