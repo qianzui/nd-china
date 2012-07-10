@@ -36,8 +36,8 @@ public class PackageReceiver extends BroadcastReceiver {
 				} else {
 					// new AsyTaskOnUninstall().execute(context);
 					SQLStatic.uidnumbers = SQLStatic.selectUidnumbers(context);
-					AlarmSet alset = new AlarmSet();
-					alset.StartAlarm(context);
+//					AlarmSet alset = new AlarmSet();
+//					alset.StartAlarm(context);
 					showLog("其他卸载" + SQLStatic.packageName[1]);
 				}
 
@@ -60,7 +60,7 @@ public class PackageReceiver extends BroadcastReceiver {
 						// 无网络权限
 						showLog("没网络权限的安装");
 					} else {
-						SQLStatic.initTablemobileAndwifi(context, false);
+						SQLStatic.initTablemobileAndwifi(context);
 						// 有网络权限进行更新表格
 						showLog("有网络权限的安装");
 						new AsyTaskOnInstall().execute(context);

@@ -15,7 +15,7 @@ public class OnUninstallitself {
 		this.context = context;
 		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
 				context);
-		SQLStatic.initTablemobileAndwifi(context, true);
+		SQLStatic.initTablemobileAndwifi(context);
 		// …Ë÷√IsInit–≈œ¢
 		boolean isInit = SQLStatic.getIsInit(context);
 		if (isInit) {

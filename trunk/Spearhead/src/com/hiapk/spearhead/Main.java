@@ -47,6 +47,8 @@ public class Main extends Activity {
 	// 屏幕宽度
 	private int windowswidesize;
 	private SharedPrefrenceData sharedData;
+	// Alarm
+	private AlarmSet alset = new AlarmSet();
 
 	// fortest
 
@@ -58,7 +60,7 @@ public class Main extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		//为了退出。
+		// 为了退出。
 		Mapplication.getInstance().addActivity(this);
 		// umeng
 		// .. MobclickAgent.onError(this);
@@ -71,7 +73,6 @@ public class Main extends Activity {
 			}
 		}
 		// ------------
-		AlarmSet alset = new AlarmSet();
 		SetText.setText(context);
 		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
 				context);
@@ -230,7 +231,6 @@ public class Main extends Activity {
 		year = t.year;
 		month = t.month + 1;
 		monthDay = t.monthDay;
-		AlarmSet alset = new AlarmSet();
 		alset.StartAlarm(context);
 		initValues();
 		initWifiBar();
@@ -256,20 +256,9 @@ public class Main extends Activity {
 					// + android.os.Build.VERSION.RELEASE);
 					// 记录点击刷新次数
 					// MobclickAgent.onEvent(context, "refresh");
-					AlarmSet alset = new AlarmSet();
 					// 初始化网络状态
-					if (SQLStatic.TableWiFiOrG23 != ""
-							&& SQLStatic.getIsInit(context)) {
-						// 启动闹钟
-						alset.StartAlarmMobile(context);
-						SQLStatic.initTablemobileAndwifi(context, false);
-						// 进行数据记录
-						// trafficManager.statsTotalTraffic(context, false);
-						// sqlhelperTotal.RecordTotalwritestats(context, false);
-					} else if (SQLStatic.TableWiFiOrG23 != "") {
-						alset.StartAlarmMobile(context);
-						SQLStatic.initTablemobileAndwifi(context, false);
-					}
+					// 启动闹钟
+					alset.StartAlarm(context);
 					SetText.resetWidgetAndNotify(context);
 					initValues();
 					initWifiBar();

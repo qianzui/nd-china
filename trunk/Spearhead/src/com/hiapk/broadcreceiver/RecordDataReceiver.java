@@ -42,14 +42,19 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		if (SQLStatic.isTotalAlarmRecording == false) {
 			SQLStatic.isTotalAlarmRecording = true;
 			this.context = context;
-			 showLog("TableWiFiOrG23=" + SQLStatic.TableWiFiOrG23);
+			if (SQLStatic.TableWiFiOrG23 == "") {
+				network = SQLStatic.TableWiFiOrG23Before;
+			}
+			showLog("TableWiFiOrG23=" + SQLStatic.TableWiFiOrG23);
+			showLog("TableWiFiOrG23Before=" + SQLStatic.TableWiFiOrG23Before);
 			// 初始化数据库后进行操作
 			if (SQLStatic.getIsInit(context)) {
 
-				if (SQLStatic.TableWiFiOrG23 != "") {
+				if (network != "") {
 					if (SQLStatic.setSQLTotalOnUsed(true)) {
 						time = System.currentTimeMillis();
-						sqlDataBase = SQLHelperCreateClose.creatSQLTotal(context);
+						sqlDataBase = SQLHelperCreateClose
+								.creatSQLTotal(context);
 						new AsyncTaskonRecordTotalData().execute(context);
 						// showLog(SQLHelperTotal.TableWiFiOrG23);
 					} else {
@@ -80,7 +85,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	}
 
 	private void initDataWithnoNetwork(Context context) {
-		 showLog("initDataWithnoNetwork=" + network);
+		showLog("initDataWithnoNetwork=" + network);
 		long mobile_month_use_afterSet = 0;
 		long[] wifi_month_data = new long[64];
 		long[] mobile_month_data = new long[64];
@@ -92,7 +97,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		try {
 			// 生成基本常用数据
 			initTime();
-			network = SQLStatic.TableWiFiOrG23;
 			// 断网后的最后一次记录
 			sqlhelperTotal.RecordTotalwritestats(context, sqlDataBase, false,
 					network);
@@ -235,8 +239,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
 			// SQLHelperTotal.isSQLTotalOnUsed = true;
-			network = SQLStatic.TableWiFiOrG23;
-			 showLog("network=" + network);
+			showLog("network=" + network);
 		}
 
 		@Override
@@ -278,7 +281,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-//		Log.d("ReceiverTotal", string);
+		// Log.d("ReceiverTotal", string);
 	}
 
 }

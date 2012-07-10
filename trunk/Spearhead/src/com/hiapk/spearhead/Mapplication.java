@@ -20,7 +20,6 @@ import android.app.Application;
  * 
  * */
 public class Mapplication extends Application {
-
 	private List<Activity> activityList = new LinkedList<Activity>();
 	private static Mapplication instance;
 
@@ -46,5 +45,13 @@ public class Mapplication extends Application {
 			activity.finish();
 		}
 		System.exit(0);
+//		SharedPrefrenceDataWidget sharedWidget = new SharedPrefrenceDataWidget(
+//				context);
+//		if (sharedWidget.isFloatOpen()) {
+//			context.startService(new Intent("com.hiapk.server"));
+//		}
+//		if (sharedWidget.isNotifyOpen() || sharedWidget.isWidGet14Open()) {
+//			SetText.resetWidgetAndNotify(context);
+//		}
 	}
 }

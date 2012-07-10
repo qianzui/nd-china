@@ -49,7 +49,8 @@ public class SQLStatic {
 	public static boolean isUidAlarmRecording = false;
 	public static boolean isUidTotalAlarmRecording = false;
 	// 记录网络状态
-	public static String TableWiFiOrG23 = "mobile";
+	public static String TableWiFiOrG23 = "";
+	public static String TableWiFiOrG23Before = "";
 	/**
 	 * 初始化用uids
 	 */
@@ -115,7 +116,7 @@ public class SQLStatic {
 	 * @param allset
 	 *            是否改变uid与total的记录值
 	 */
-	public static void initTablemobileAndwifi(Context context, boolean allset) {
+	public static void initTablemobileAndwifi(Context context) {
 		ConnectivityManager connec = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		if (connec.getActiveNetworkInfo() != null) {
@@ -127,6 +128,9 @@ public class SQLStatic {
 				TableWiFiOrG23 = "mobile";
 			// showLog("何种方式连线" + typeName);
 		} else {
+			if (TableWiFiOrG23 != "") {
+				TableWiFiOrG23Before = TableWiFiOrG23;
+			}
 			TableWiFiOrG23 = "";
 			// showLog("无可用网络");
 		}
