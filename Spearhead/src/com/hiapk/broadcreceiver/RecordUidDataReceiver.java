@@ -1,12 +1,8 @@
 package com.hiapk.broadcreceiver;
 
-import java.util.HashMap;
-
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.sqlhelper.uid.SQLHelperUidRecord;
-import com.hiapk.sqlhelper.uid.SQLHelperFireWall.Data;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

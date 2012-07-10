@@ -1,12 +1,9 @@
 package com.hiapk.sqlhelper.uid;
 
-import java.util.HashMap;
 import java.util.List;
 
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 import com.hiapk.sqlhelper.pub.SQLStatic;
-import com.hiapk.sqlhelper.uid.SQLHelperFireWall.Data;
-
 import android.app.ActivityManager;
 import android.content.Context;
 import android.database.Cursor;

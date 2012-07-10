@@ -3,7 +3,6 @@ package com.hiapk.sqlhelper.uid;
 import java.util.HashMap;
 import java.util.List;
 
-import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.sqlhelper.uid.SQLHelperFireWall.Data;
 
@@ -13,15 +12,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-public class SQLHelperUidRecordAll {
+public class SQLHelperUidRecordFire {
 	private ActivityManager mActivityManager = null;
 
-	public SQLHelperUidRecordAll(Context context) {
+	public SQLHelperUidRecordFire(Context context) {
 		super();
 		// initTime();
 		mActivityManager = (ActivityManager) context
 				.getSystemService(Context.ACTIVITY_SERVICE);
-		// TODO Auto-generated constructor stub
 	}
 
 	private String SelectTable = "SELECT * FROM ";
@@ -30,26 +28,26 @@ public class SQLHelperUidRecordAll {
 	// flag-network-onuidtraff
 	private String NETWORK_FLAG = "mobile";
 
-//	/**
-//	 * 对数据库uid数据进行批量更新，
-//	 * 
-//	 * @param sqlDataBase
-//	 *            进行操作的数据库SQLiteDatagase
-//	 * @param uidnumbers
-//	 *            数据库的表数组集合：uid的table表的uid号，
-//	 * @param type
-//	 *            用于记录数据状态，以统计数据
-//	 * @param other
-//	 *            用于记录特殊数据等
-//	 * @param typechange
-//	 *            改变type值
-//	 */
-//	public HashMap<Integer, Data> initSQLUidtraff(SQLiteDatabase sqlDataBase,
-//			int[] uidnumbers) {
-//		HashMap<Integer, Data> mp = new HashMap<Integer, Data>();
-//		mp = SelectUiddownloadAnduploadAll(sqlDataBase, uidnumbers);
-//		return mp;
-//	}
+	// /**
+	// * 对数据库uid数据进行批量更新，
+	// *
+	// * @param sqlDataBase
+	// * 进行操作的数据库SQLiteDatagase
+	// * @param uidnumbers
+	// * 数据库的表数组集合：uid的table表的uid号，
+	// * @param type
+	// * 用于记录数据状态，以统计数据
+	// * @param other
+	// * 用于记录特殊数据等
+	// * @param typechange
+	// * 改变type值
+	// */
+	// public HashMap<Integer, Data> initSQLUidtraff(SQLiteDatabase sqlDataBase,
+	// int[] uidnumbers) {
+	// HashMap<Integer, Data> mp = new HashMap<Integer, Data>();
+	// mp = SelectUiddownloadAnduploadAll(sqlDataBase, uidnumbers);
+	// return mp;
+	// }
 
 	/**
 	 * 对数据库uid数据进行批量更新，
@@ -82,8 +80,9 @@ public class SQLHelperUidRecordAll {
 					.getRunningAppProcesses();
 			for (ActivityManager.RunningAppProcessInfo appProcessInfo : appProcessList) {
 				// 通过uidnumber判断是否为需要记录的应用
+				String pacname = appProcessInfo.processName;
 				int uidnumber = appProcessInfo.uid;
-				if (isIn(uidnumber, uidnumbers)) {
+				if (SQLStatic.packagename_ALL.contains(pacname)) {
 					long[] tpmobile = new long[3];
 					long[] tpwifi = new long[3];
 					tpmobile = getSQLuidtotalData(sqlDataBase, uidnumber,
@@ -104,14 +103,6 @@ public class SQLHelperUidRecordAll {
 
 	private HashMap<Integer, Data> SelectUiddownloadAnduploadAll(
 			SQLiteDatabase sqlDataBase, int[] uidnumbers) {
-		// while (SQLStatic.setSQLUidOnUsed(true)) {
-		// try {
-		// Thread.sleep(100);
-		// } catch (InterruptedException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// }
 
 		HashMap<Integer, Data> mp = new HashMap<Integer, Data>();
 		long[] tpmobile = new long[3];
@@ -126,7 +117,6 @@ public class SQLHelperUidRecordAll {
 			mp.put(uidnumbers[i], temp);
 			// showLog(uidnumber[i]+"traff"+get[1]+"");
 		}
-		// SQLStatic.setSQLUidOnUsed(false);
 		return mp;
 	}
 
@@ -150,8 +140,9 @@ public class SQLHelperUidRecordAll {
 		try {
 			cur = mySQL.rawQuery(string, null);
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog("error" + string);
+			showLog("error+CreateTable" + string);
+			SQLHelperUidSelectFail selectFail = new SQLHelperUidSelectFail();
+			selectFail.selectfails(mySQL, "uid" + uidnumber, uidnumber);
 		}
 		long[] a = new long[3];
 		if (cur != null) {
@@ -165,7 +156,6 @@ public class SQLHelperUidRecordAll {
 					a[2] = cur.getLong(mindown);
 				}
 			} catch (Exception e) {
-				// TODO: handle exception
 				showLog("cur-searchfail");
 			}
 		}
@@ -174,18 +164,6 @@ public class SQLHelperUidRecordAll {
 		}
 		a[0] = a[1] + a[2];
 		return a;
-	}
-
-	private boolean isIn(int subnumber, int[] source) {
-		if (source == null || source.length == 0) {
-			return false;
-		}
-		for (int i = 0; i < source.length; i++) {
-			if (source[i] == subnumber) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/**
