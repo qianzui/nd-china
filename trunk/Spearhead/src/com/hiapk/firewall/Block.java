@@ -67,6 +67,9 @@ public class Block {
 	// Preferences
 	private static final String PREFS_NAME = "DroidWallPrefs";
 	public static boolean isChanged = false;
+	public static HashMap<Integer,String> appnamemap;
+	public static HashMap<Integer,PackageInfo> appList;
+	public static ArrayList<PackageInfo> myList;
 
 	public static String filter = "android.media.dlnaservicecom.android.cameracom.android.htmlviewer.com.android.music.com.android.providersuserdictionary.com.android.quicksearchbox.com.android.stk.updater.com.google.android.location.com.google.android.street.com.google.android.talk.com.meizu.MzAutoInstaller.com.meizu.account.com.meizu.backupandrestore.com.meizu.cloud.com.meizu.filemanager.com.meizu.flyme.service.find.com.meizu.input.com.meizu.mzsimcontacts.com.meizu.mzsyncservice.com.meizu.notepaper.com.meizu.recent.app"
 			+ ".com.meizu.vncviewer.com.meizu.wapisetting.android.tts.com.android.Unzip.com.android.alarmclock.com.android.providers.userdictionary.com.android.wallpaper.livpicker.com.cooliris.media.com.cooliris.video.media.com.google.android.apps.genie.geniewidget.com.meizu.mstore.com.meizu.musiconline.com.android.wallpaper.livepicker.com.svox.picoN.com.hyfsoft"
@@ -628,7 +631,7 @@ public class Block {
 	}
 
 	public static HashMap<Integer, IsChecked> getMap(Context context,
-			ArrayList<AppInfo> myAppList) {
+			ArrayList<PackageInfo> myAppList) {
 
 		final SharedPreferences prefs = context.getSharedPreferences(
 				PREFS_NAME, 0);
@@ -686,8 +689,8 @@ public class Block {
 		}
 
 		for (int i = 0; i < myAppList.size(); i++) {
-			AppInfo pi = myAppList.get(i);
-			int uid = pi.uid;
+			PackageInfo pi = myAppList.get(i);
+			int uid = pi.applicationInfo.uid;
 			IsChecked ic = new IsChecked();
 			if (cache) {
 				if (uids_all.contains(uid)) {
