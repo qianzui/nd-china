@@ -14,8 +14,8 @@ import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
 public class AlarmSet {
-	private int totalrefreshtime;
-	private int uidrefreshtime = 120;
+	private int totalrefreshtime = 30;
+	private int uidrefreshtime = 30;
 	private int widgetrefreshtime = 30;
 	private final String PREFS_NAME = "allprefs";
 	private final String TOTAL_REFLASH = "totalrefreshtime";
@@ -62,29 +62,29 @@ public class AlarmSet {
 		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
 	}
 
-//	public void StartAlarmMobile(Context context) {
-//		setdefaulttime(context);
-//		setwidgetdefaulttime(context);
-//		int totaltime = totalrefreshtime < widgetrefreshtime ? totalrefreshtime
-//				: widgetrefreshtime;
-//		if (SQLStatic.isTotalAlarmRecording != true) {
-//			TotalAlarmStart(context, totaltime);
-//		}
-//		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
-//	}
-//
-//	public void StartAlarmUid(Context context) {
-//		setdefaulttime(context);
-//		setwidgetdefaulttime(context);
-//		int uidtime = uidrefreshtime
-//		// < widgetrefreshtime ? uidrefreshtime
-//		// : widgetrefreshtime
-//		;
-//		if (SQLStatic.isUidAlarmRecording != true) {
-//			UidAlarmStart(context, uidtime);
-//		}
-//		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
-//	}
+	public void StartAlarmMobile(Context context) {
+		setdefaulttime(context);
+		setwidgetdefaulttime(context);
+		int totaltime = totalrefreshtime < widgetrefreshtime ? totalrefreshtime
+				: widgetrefreshtime;
+		if (SQLStatic.isTotalAlarmRecording != true) {
+			TotalAlarmStart(context, totaltime);
+		}
+		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
+	}
+
+	public void StartAlarmUid(Context context) {
+		setdefaulttime(context);
+		setwidgetdefaulttime(context);
+		int uidtime = uidrefreshtime
+		// < widgetrefreshtime ? uidrefreshtime
+		// : widgetrefreshtime
+		;
+		if (SQLStatic.isUidAlarmRecording != true) {
+			UidAlarmStart(context, uidtime);
+		}
+		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
+	}
 
 	/**
 	 * 设置数据记录间隔，单位分钟 总流量数据限制为1-60分钟，uid数据限制为3-240分钟
@@ -118,7 +118,7 @@ public class AlarmSet {
 	private void setdefaulttime(Context context) {
 		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
 		totalrefreshtime = prefs.getInt(TOTAL_REFLASH, 30);
-		uidrefreshtime = prefs.getInt(UID_REFLASH, 60);
+		uidrefreshtime = prefs.getInt(UID_REFLASH, 30);
 	}
 
 	/**
