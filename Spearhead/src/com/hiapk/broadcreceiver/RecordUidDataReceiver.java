@@ -22,10 +22,13 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 		if (SQLStatic.isUidAlarmRecording == false) {
 			sqlhelperUidRecord = new SQLHelperUidRecord(context);
 			SQLStatic.isUidAlarmRecording = true;
+			SQLStatic.initTablemobileAndwifi(context);
 			if (SQLStatic.TableWiFiOrG23 == "") {
 				network = SQLStatic.TableWiFiOrG23Before;
+			} else {
+				network = SQLStatic.TableWiFiOrG23;
 			}
-			// showLog("TableWiFiOrG23=" + SQLHelperTotal.TableWiFiOrG23);
+			 showLog("TableWiFiOrG23=" + SQLStatic.TableWiFiOrG23);
 			if (SQLStatic.getIsInit(context)) {
 				if (network != "") {
 					// 进行之前使用的网络是何种网络进行判断
@@ -39,17 +42,16 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 						showLog("Uid数据库忙");
 					}
 
-				} else {
-					// 无网络条件下进行最后一次记录
-					if (SQLStatic.setSQLUidOnUsed(true)) {
-						new AsyncTaskonRecordUidData().execute(context);
-						// showLog(SQLHelperTotal.TableWiFiOrG23);
-					} else {
-						SQLStatic.setSQLUidOnUsed(false);
-						SQLStatic.isUidAlarmRecording = false;
-						showLog("Uid数据库忙");
-					}
-
+//				} else {
+//					// 无网络条件下进行最后一次记录
+//						if (SQLStatic.setSQLUidOnUsed(true)) {
+//							new AsyncTaskonRecordUidData().execute(context);
+//							// showLog(SQLHelperTotal.TableWiFiOrG23);
+//						} else {
+//							SQLStatic.setSQLUidOnUsed(false);
+//							SQLStatic.isUidAlarmRecording = false;
+//							showLog("Uid数据库忙");
+//						}
 				}
 			} else {
 				// sqlhelper.initSQL(context);

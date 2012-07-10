@@ -15,26 +15,26 @@ public class TrafficManager {
 	SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 	SQLHelperUidother sqlhelperUid = new SQLHelperUidother();
 	// 后续要删除的数值
-	public static long mobile_month_use_afterSet = 0;
+	public static long mobile_month_use = 1;
 	public static long[] wifi_month_data = new long[64];
 	public static long[] wifi_month_data_before = new long[64];
 	public static long[] mobile_month_data = new long[64];
 	public static long[] mobile_month_data_before = new long[64];
 
-	/**
-	 * 获取月度移动使用流量--作废
-	 * 
-	 * @param context
-	 * @return
-	 */
-	public static long getMonthUseData(Context context) {
-		long mobile_month_use = 0;
-		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
-		mobile_month_use = mobile_month_use_afterSet;
-		mobile_month_use += sharedData.getMonthMobileHasUse();
-
-		return mobile_month_use;
-	}
+	// /**
+	// * 获取月度移动使用流量--作废
+	// *
+	// * @param context
+	// * @return
+	// */
+	// public static long getMonthUseData(Context context) {
+	// long mobile_month_use = 0;
+	// SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+	// mobile_month_use = mobile_month_use_afterSet;
+	// mobile_month_use += sharedData.getMonthMobileHasUse();
+	//
+	// return mobile_month_use;
+	// }
 
 	/**
 	 * 获取月度移动使用流量

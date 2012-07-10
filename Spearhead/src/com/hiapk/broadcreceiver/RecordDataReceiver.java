@@ -15,6 +15,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.TrafficStats;
 import android.os.AsyncTask;
 import android.text.format.Time;
+import android.util.Log;
 
 public class RecordDataReceiver extends BroadcastReceiver {
 	//
@@ -39,11 +40,15 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
+		showLog("onReceive");
 		if (SQLStatic.isTotalAlarmRecording == false) {
 			SQLStatic.isTotalAlarmRecording = true;
+			SQLStatic.initTablemobileAndwifi(context);
 			this.context = context;
 			if (SQLStatic.TableWiFiOrG23 == "") {
 				network = SQLStatic.TableWiFiOrG23Before;
+			} else {
+				network = SQLStatic.TableWiFiOrG23;
 			}
 			showLog("TableWiFiOrG23=" + SQLStatic.TableWiFiOrG23);
 			showLog("TableWiFiOrG23Before=" + SQLStatic.TableWiFiOrG23Before);
@@ -62,19 +67,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 						SQLStatic.isTotalAlarmRecording = false;
 						showLog("数据库忙，未记录");
 					}
-
-				} else {
-					if (SQLStatic.setSQLTotalOnUsed(true)) {
-						// SQLHelperTotal.isSQLTotalOnUsed = true;
-						initDataWithnoNetwork(context);
-						SQLStatic.setSQLTotalOnUsed(false);
-						// showLog(SQLHelperTotal.TableWiFiOrG23);
-					} else {
-						showLog("数据库忙，未记录");
-						SQLStatic.setSQLTotalOnUsed(false);
-						SQLStatic.isTotalAlarmRecording = false;
-					}
-
 				}
 			} else {
 				// sqlhelper.initSQL(context);
@@ -82,64 +74,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 				showLog("please init the database");
 			}
 		}
-	}
-
-	private void initDataWithnoNetwork(Context context) {
-		showLog("initDataWithnoNetwork=" + network);
-		long mobile_month_use_afterSet = 0;
-		long[] wifi_month_data = new long[64];
-		long[] mobile_month_data = new long[64];
-		long[] wifi_month_data_before = new long[64];
-		long[] mobile_month_data_before = new long[64];
-		MonthlyUseData monthlyUseData = new MonthlyUseData();
-		sqlDataBase = SQLHelperCreateClose.creatSQLTotal(context);
-		sqlDataBase.beginTransaction();
-		try {
-			// 生成基本常用数据
-			initTime();
-			// 断网后的最后一次记录
-			sqlhelperTotal.RecordTotalwritestats(context, sqlDataBase, false,
-					network);
-			// 生成基本常用数据
-			initTime();
-			showLog(monthDay + "0");
-			mobile_month_use_afterSet = monthlyUseData.getMonthUseData(context,
-					sqlDataBase);
-			showLog(monthDay + "1");
-			wifi_month_data = sqlhelperTotal.SelectWifiData(sqlDataBase, year,
-					month);
-			showLog(monthDay + "2");
-			mobile_month_data = sqlhelperTotal.SelectMobileData(sqlDataBase,
-					year, month);
-			if (month == 1) {
-				mobile_month_data_before = sqlhelperTotal.SelectMobileData(
-						sqlDataBase, year - 1, 12);
-				wifi_month_data_before = sqlhelperTotal.SelectWifiData(
-						sqlDataBase, year - 1, 12);
-			} else {
-				mobile_month_data_before = sqlhelperTotal.SelectMobileData(
-						sqlDataBase, year, month - 1);
-				wifi_month_data_before = sqlhelperTotal.SelectWifiData(
-						sqlDataBase, year, month - 1);
-			}
-			sqlhelperTotal.autoClearData(sqlDataBase);
-			sqlDataBase.setTransactionSuccessful();
-			// 对数据进行赋值
-			TrafficManager.mobile_month_use_afterSet = mobile_month_use_afterSet;
-			TrafficManager.wifi_month_data = wifi_month_data;
-			TrafficManager.mobile_month_data = mobile_month_data;
-			TrafficManager.mobile_month_data_before = mobile_month_data_before;
-			TrafficManager.wifi_month_data_before = wifi_month_data_before;
-
-			// showLog("wifitotal=" + wifi_month_data[0] + "");
-		} catch (Exception e) {
-			// TODO: handle exception
-			showLog("数据记录失败");
-		} finally {
-			sqlDataBase.endTransaction();
-			SQLStatic.isTotalAlarmRecording = false;
-		}
-		SQLHelperCreateClose.closeSQL(sqlDataBase);
 	}
 
 	/**
@@ -210,7 +144,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			sqlhelperTotal.autoClearData(sqlDataBase);
 			sqlDataBase.setTransactionSuccessful();
 			// 对数据进行赋值
-			TrafficManager.mobile_month_use_afterSet = mobile_month_use_afterSet;
+			TrafficManager.mobile_month_use = mobile_month_use_afterSet;
 			TrafficManager.wifi_month_data = wifi_month_data;
 			TrafficManager.mobile_month_data = mobile_month_data;
 			TrafficManager.mobile_month_data_before = mobile_month_data_before;
@@ -281,7 +215,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		// Log.d("ReceiverTotal", string);
+		Log.d("ReceiverTotal", string);
 	}
 
 }

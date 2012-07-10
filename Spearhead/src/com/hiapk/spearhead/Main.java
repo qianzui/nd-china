@@ -69,7 +69,7 @@ public class Main extends Activity {
 
 		if (SQLStatic.getIsInit(context) == false) {
 			if (SQLStatic.uids == null) {
-				getuids();
+				SQLStatic.uids=SQLStatic.selectUidnumbers(context);
 			}
 		}
 		// ------------
@@ -153,46 +153,6 @@ public class Main extends Activity {
 
 	}
 
-	// ----------
-
-	// ----------
-	/**
-	 * 临时函数
-	 */
-	private void getuids() {
-		int j = 0;
-		PackageManager pkgmanager = context.getPackageManager();
-		List<PackageInfo> packages = context.getPackageManager()
-				.getInstalledPackages(0);
-		int[] uidstp = new int[packages.size()];
-		String[] packagenamestp = new String[packages.size()];
-		for (int i = 0; i < packages.size(); i++) {
-			PackageInfo packageinfo = packages.get(i);
-			String fliter = Block.filter;
-			String pacname = packageinfo.packageName;
-			int uid = packageinfo.applicationInfo.uid;
-			if (!(PackageManager.PERMISSION_GRANTED != pkgmanager
-					.checkPermission(Manifest.permission.INTERNET, pacname))) {
-				if (!fliter.contains(pacname)) {
-					uidstp[j] = uid;
-					packagenamestp[j] = pacname;
-					// showLog("进行显示的uid=" + uid);
-					j++;
-					// tmpInfo.packageName = pacname;
-					// tmpInfo.app_uid = packageinfo.applicationInfo.uid;
-				}
-			}
-		}
-		SQLStatic.uids = new int[j];
-		SQLStatic.packagenames = new String[j];
-		for (int i = 0; i < j; i++) {
-			SQLStatic.uids[i] = uidstp[i];
-			SQLStatic.packagenames[i] = packagenamestp[i];
-		}
-		// SQLHelperUid sqlhelpuid = new SQLHelperUid();
-		// uids = sqlhelpuid.selectUidnumbers(context);
-		// packagenames = sqlhelpuid.selectPackagenames(context);
-	}
 
 	/**
 	 * 初始化数据库
@@ -258,7 +218,7 @@ public class Main extends Activity {
 					// MobclickAgent.onEvent(context, "refresh");
 					// 初始化网络状态
 					// 启动闹钟
-					alset.StartAlarm(context);
+					alset.StartAlarmMobile(context);
 					SetText.resetWidgetAndNotify(context);
 					initValues();
 					initWifiBar();
