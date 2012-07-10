@@ -113,17 +113,15 @@ public class AppListAdapter extends BaseAdapter {
 		
 		holder.icon.setTag(position);
 		if (up == -1000 && down == -1000) { 
-			holder.trafficup.setText("获取中...");
+			holder.trafficup.setText("暂无数据！");
 		} else {
 			holder.trafficup.setText(UnitHandler.unitHandlerAccurate(up + down));
 		}
 		syncImageLoader.loadImage(position,pkgInfo,mContext,imageLoadListener ,holder.icon,uid);
-		
 		holder.e_toggle.setChecked(ic.selected_3g);
 		holder.wifi_toggle.setChecked(ic.selected_wifi);
 		holder.e_toggle.setOnClickListener(new EListener(holder.e_toggle, ic));
 		holder.wifi_toggle.setOnClickListener(new WifiListener(holder.wifi_toggle, ic));
-		
 		convertView.setTag(R.id.tag_pkginfo, pkgInfo);
 		return convertView;
 	}
@@ -135,10 +133,6 @@ public class AppListAdapter extends BaseAdapter {
 	    	if(icon != null){
 	    		icon.setImageDrawable(drawable); 
 	    	}
-//	    	if(view != null){
-//	    		ImageView icon = (ImageView)mListView.findViewWithTag(t);
-//	    		icon.setImageDrawable(drawable);   
-//	    	}
 	    }  
 	    @Override  
 	    public void onError(Integer t) {  
