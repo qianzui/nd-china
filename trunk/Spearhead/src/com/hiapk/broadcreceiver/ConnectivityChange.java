@@ -6,8 +6,6 @@ import com.hiapk.sqlhelper.pub.SQLStatic;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 
 public class ConnectivityChange extends BroadcastReceiver {
 	String APPWIDGET_UPDATE = "com.hiapkAPPWIDGET_UPDATE";
@@ -15,7 +13,6 @@ public class ConnectivityChange extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		// TODO Auto-generated method stub
 		// 设置闹钟与数据库操作
 		AlarmSet alset = new AlarmSet();
 		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
@@ -60,7 +57,6 @@ public class ConnectivityChange extends BroadcastReceiver {
 	}
 
 	private void showLog(String string) {
-		// TODO Auto-generated method stub
 		// Log.d("ConnectivityChange", string);
 	}
 }

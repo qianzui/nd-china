@@ -34,7 +34,7 @@ public class SQLHelperFireWall {
 		}
 		showLog("getuids" + (System.currentTimeMillis() - time));
 		numbers = SQLStatic.uidnumbers;
-		SQLHelperUidRecordAll sqlhelperUidRecordall = new SQLHelperUidRecordAll(
+		SQLHelperUidRecordFire sqlhelperUidRecordall = new SQLHelperUidRecordFire(
 				context);
 		SQLiteDatabase sqlDataBase = SQLHelperCreateClose.creatSQLUid(context);
 		HashMap<Integer, Data> mp = null;
@@ -42,7 +42,6 @@ public class SQLHelperFireWall {
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -55,7 +54,7 @@ public class SQLHelperFireWall {
 
 			sqlDataBase.setTransactionSuccessful();
 		} catch (Exception e) {
-			// TODO: handle exception
+			showLog("获取防火墙页面流量信息失败");
 		} finally {
 			sqlDataBase.endTransaction();
 		}
