@@ -165,6 +165,9 @@ public class FireWallActivity extends Activity {
 					}
 					@Override
 					protected void onPostExecute(Void result) {
+						getList(mContext);
+						Splash.getList(mContext);
+						uidList = comp(Block.appnamemap);
 						MyListView.loadImage();
 						setAdapter();
 						appListAdapter.notifyDataSetChanged();
@@ -190,6 +193,7 @@ public class FireWallActivity extends Activity {
 				} else {
 					Block.appList.put(pkgInfo.applicationInfo.uid, pkgInfo);
 					myAppList.add(pkgInfo);
+					Block.appList.put(pkgInfo.applicationInfo.uid, pkgInfo);
 				}
 			}
 		}
@@ -217,11 +221,9 @@ public class FireWallActivity extends Activity {
 		uidList =  new ArrayList<Integer>();
 		ArrayList<Integer> uidList2 =  new ArrayList<Integer>();
 		ArrayList keys = new ArrayList(appname.keySet());
-		
 		MyCompTraffic mt = new MyCompTraffic();
 		mt.init(mp);
 		Collections.sort(keys ,mt);
-		
 		for (int i = 0; i < keys.size(); i++) {
 			int uid = (Integer) keys.get(i);
 			long tff;
@@ -236,9 +238,6 @@ public class FireWallActivity extends Activity {
 				uidList2.add(uid);
 			}
 		}
-		Log.i("test", "ready to sort by name");
-		Log.i("test", uidList2.size() + "uidList2");
-		Log.i("test", uidList.size() + "uidList");
 		MyCompName mn = new MyCompName();
 		mn.init(Block.appnamemap);
 		Collections.sort(uidList2 ,mn);
@@ -246,10 +245,6 @@ public class FireWallActivity extends Activity {
 			int uid = uidList2.get(i);
 			uidList.add(uid);
 		}
-//		for(Iterator it = keys.iterator();it.hasNext();){
-//			Integer k = (Integer)it.next();
-//		}
-//		Collections.sort(keys,mc); 
 		return uidList;
 	}
 	
