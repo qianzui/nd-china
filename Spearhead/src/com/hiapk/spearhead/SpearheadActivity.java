@@ -6,6 +6,8 @@ import java.util.TimerTask;
 import com.hiapk.alertaction.AlertActionNotify;
 import com.hiapk.alertdialog.CustomDialogFAQBeen;
 import com.hiapk.prefrencesetting.PrefrenceSetting;
+import com.hiapk.progressdialog.CustomProgressDialog;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.TabActivity;
@@ -100,6 +102,15 @@ public class SpearheadActivity extends TabActivity {
 		Drawable d = mContext.getResources().getDrawable(R.drawable.fire_help);
 		firehelp.setBackgroundDrawable(d);
 		firehelp.setVisibility(View.VISIBLE);
+		firehelp.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				firehelp.setVisibility(View.INVISIBLE);
+			}
+		});
+	}
+	public static void hideHelp() {
 		firehelp.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
