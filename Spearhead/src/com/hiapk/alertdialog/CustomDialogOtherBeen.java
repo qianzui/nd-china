@@ -203,8 +203,17 @@ public class CustomDialogOtherBeen {
 				// Log.d("pac", packagenames[i]);
 				uids[i] = packageinfo.applicationInfo.uid;
 			}
-			SQLHelperInitSQL sqlhelperInit = new SQLHelperInitSQL();
+			SQLHelperInitSQL sqlhelperInit = new SQLHelperInitSQL(context);
 			sqlhelperInit.initSQL(params[0], uids, packagenames);
+			while (SQLStatic.getIsInit(context)==false) {
+				try {
+					Thread.sleep(300);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
 			return 0;
 		}
 

@@ -1,22 +1,29 @@
 package com.hiapk.sqlhelper.total;
 
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.spearhead.SpearheadActivity;
+import com.hiapk.spearhead.Splash;
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences.Editor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.TrafficStats;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Log;
 
 public class SQLHelperInitSQL {
+	private Context context;
 
-	public SQLHelperInitSQL() {
+	public SQLHelperInitSQL(Context context) {
 		super();
 		// initTime();
+		this.context = context;
 	}
 
 	private String CreateTable = "CREATE TABLE IF NOT EXISTS ";
@@ -52,6 +59,13 @@ public class SQLHelperInitSQL {
 	private String CreateparamUidTotal = "uid INTEGER,packagename varchar(255),upload INTEGER,download INTEGER,permission INTEGER ,type INTEGER ,other varchar(15),states varchar(15)";
 	private String TableUidTotal = "uidtotal";
 	private String InsertUidTotalColumn = "uid,packagename,upload,download,permission,type,other,states";
+	// 初始化数据库
+	private boolean initTotalsuccess = false;
+	private boolean initUidsuccess = false;
+	private boolean initUidTotalsuccess = false;
+	private int[] uidnumbers_init;
+	private String[] packagename_init;
+	private long timemillion = 0;
 
 	/**
 	 * 对数据库进行wifi，mobile数据的写入新数据操作的操作
@@ -100,6 +114,10 @@ public class SQLHelperInitSQL {
 			}
 
 		}
+
+		// for (int i = 0; i < newnumber.length; i++) {
+		// showLog(newnumber[i] + "");
+		// }
 		return newnumber;
 	}
 
@@ -247,12 +265,12 @@ public class SQLHelperInitSQL {
 				// 2为记录的软件使用流量情况
 				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i],
 						packagenames[i], upload, download, 0, "");
-				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i],
-						packagenames[i], upload, download, 1, "");
-				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i],
-						packagenames[i], 0, 0, 2, "wifi");
-				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i],
-						packagenames[i], 0, 0, 2, "mobile");
+//				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i],
+//						packagenames[i], upload, download, 1, "");
+//				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i],
+//						packagenames[i], 0, 0, 2, "wifi");
+//				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i],
+//						packagenames[i], 0, 0, 2, "mobile");
 			}
 
 		}
@@ -298,108 +316,194 @@ public class SQLHelperInitSQL {
 	 */
 	public void initSQL(Context context, int[] uidnumbers, String[] packagename) {
 		// 初始化网络状态
-		SQLStatic.initTablemobileAndwifi(context);
+		timemillion = System.currentTimeMillis();
+		// SQLStatic.initTablemobileAndwifi(context);
 		initTime();
-		// 初始化数据库
-		boolean initsuccess = true;
-		SQLiteDatabase sqldatabaseTotal = SQLHelperCreateClose
-				.creatSQLTotal(context);
-		SQLiteDatabase sqldatabaseUid = SQLHelperCreateClose
-				.creatSQLUid(context);
-		SQLiteDatabase sqldatabaseUidTotal = SQLHelperCreateClose
-				.creatSQLUidTotal(context);
-		sqldatabaseTotal.beginTransaction();
-		try {
-			String string = null;
-			string = CreateTable + TableWiFi + Start + SQLId + SQLTime
-					+ CreateparamWiFiAnd23G + End;
-			// CREATE TABLE IF NOT EXISTS t4 (_id INTEGER PRIMARY KEY,date
-			// datetime,upload INTEGER,download INTEGER,uid INTEGER,type
-			// varchar(15),other varchar(15))
-			try {
-				sqldatabaseTotal.execSQL(string);
-				// showLog("建立tablewifi");
-			} catch (Exception e) {
-				showLog(string + "fail");
-				initsuccess = false;
-			}
-			// 初始化wifi的type=0及type=1的数据
-			exeSQLtotal(sqldatabaseTotal, TableWiFi, 0, null);
-			exeSQLtotal(sqldatabaseTotal, TableWiFi, 1, null);
-			string = CreateTable + TableMobile + Start + SQLId + SQLTime
-					+ CreateparamWiFiAnd23G + End;
-			// CREATE TABLE IF NOT EXISTS t4 (_id INTEGER PRIMARY KEY,date
-			// datetime,upload INTEGER,download INTEGER,uid INTEGER,type
-			// varchar(15),other varchar(15))
-			try {
-				sqldatabaseTotal.execSQL(string);
-				// showLog("建立tablemobile");
-			} catch (Exception e) {
-				showLog("fail+" + string);
-				showLog("mobiletable-already exist");
-				initsuccess = false;
-			}
-			// 初始化mobile的type=0及type=1的数据
-			exeSQLtotal(sqldatabaseTotal, TableMobile, 0, null);
-			exeSQLtotal(sqldatabaseTotal, TableMobile, 1, null);
-			sqldatabaseTotal.setTransactionSuccessful();
-		} catch (Exception e) {
-			showLog("fail+SQLinit" + "初始化Total失败");
-			initsuccess = false;
-		} finally {
-			sqldatabaseTotal.endTransaction();
-		}
+		uidnumbers_init = uidnumbers;
+		packagename_init = packagename;
+		// 清除重复表
+		uidnumbers_init = sortUids(uidnumbers_init);
+		showLog("uidnumbers_init=" + uidnumbers_init.length
+				+ "packagename_init=" + packagename_init.length);
+		// for (int i = 0; i < packagename.length; i++) {
+		// showLog("uidnumbers[i]=" + uidnumbers[i] + "packagename="
+		// + packagename[i] + "");
+		// }
+		// for (int i = 0; i < uidnumbers.length; i++) {
+		// showLog(uidnumbers[i]+"");
+		// }
+		// uidnumbers_init=new int[uidnumbers.length];
+		showLog("startinit" + (System.currentTimeMillis() - timemillion));
+		new AsyncTaskinitTotalDB().execute(context);
+		new AsyncTaskinitUidDB().execute(context);
+		new AsyncTaskinitUidTotalDB().execute(context);
 
-		sqldatabaseUid.beginTransaction();
-		try {
-			if (initsuccess) {
-				// 清除重复表
-				uidnumbers = sortUids(uidnumbers);
-				// 初始化uid数据库这里使用初始化后的全部uids表
-				initUidTables(sqldatabaseUid, uidnumbers);
-			}
-			sqldatabaseUid.setTransactionSuccessful();
-		} catch (Exception e) {
-			initsuccess = false;
-			showLog("fail+" + "初始化uid数据库失败");
-		} finally {
-			sqldatabaseUid.endTransaction();
-		}
+	}
 
-		// uidTotal SQL
-		sqldatabaseUidTotal.beginTransaction();
-		try {
-			// 初始化uid数据库的Total表
-			if (initsuccess) {
-				initsuccess = initUidTotalTables(sqldatabaseUidTotal);
+	private class AsyncTaskinitUidTotalDB extends
+			AsyncTask<Context, Integer, Integer> {
+
+		@Override
+		protected Integer doInBackground(Context... params) {
+			SQLiteDatabase sqldatabaseUidTotal = SQLHelperCreateClose
+					.creatSQLUidTotal(context);
+			// uidTotal SQL
+			sqldatabaseUidTotal.beginTransaction();
+			try {
+				// 初始化uid数据库的Total表
+				initUidTotalTables(sqldatabaseUidTotal);
 				// showLog("建立tableIndex");
 				// 不包含uid=0的
-				exeSQLcreateUidTotaltables(sqldatabaseUidTotal, uidnumbers,
-						packagename);
+				exeSQLcreateUidTotaltables(sqldatabaseUidTotal,
+						uidnumbers_init, packagename_init);
 				// showLog("初始化tableIndex");
+				sqldatabaseUidTotal.setTransactionSuccessful();
+			} catch (Exception e) {
+				showLog("fail+" + "初始化uidIndex数据表失败");
+				return 0;
+			} finally {
+				// showLog("初始化tableIndex完成");
+				sqldatabaseUidTotal.endTransaction();
 			}
-			sqldatabaseUidTotal.setTransactionSuccessful();
-		} catch (Exception e) {
-			initsuccess = false;
-			showLog("fail+" + "初始化uidIndex数据表失败");
-		} finally {
-			// showLog("初始化tableIndex完成");
-			sqldatabaseUidTotal.endTransaction();
+			SQLHelperCreateClose.closeSQL(sqldatabaseUidTotal);
+			return 1;
 		}
 
-		if (initsuccess) {
-			// 确保仅进行一次初始化
-			Editor passfileEditor = context.getSharedPreferences(PREFS_NAME, 0)
-					.edit();
-			passfileEditor.putString(PREF_INITSQL, MODE_HASINIT);
-			passfileEditor.commit();// 委托，存入数据
-			// 开启计时
-			AlarmSet alset = new AlarmSet();
-			alset.StartAlarm(context);
+		@Override
+		protected void onPostExecute(Integer result) {
+			if (result == 1) {
+				initUidTotalsuccess = true;
+			}
+			showLog("initTotal=" + initUidTotalsuccess
+					+ (System.currentTimeMillis() - timemillion));
+			if (initTotalsuccess && initUidsuccess && initUidTotalsuccess) {
+				// 确保仅进行一次初始化
+				Editor passfileEditor = context.getSharedPreferences(
+						PREFS_NAME, 0).edit();
+				passfileEditor.putString(PREF_INITSQL, MODE_HASINIT);
+				passfileEditor.commit();// 委托，存入数据
+				// 开启计时
+				AlarmSet alset = new AlarmSet();
+				alset.StartAlarm(context);
+			}
 		}
-		SQLHelperCreateClose.closeSQL(sqldatabaseTotal);
-		SQLHelperCreateClose.closeSQL(sqldatabaseUid);
-		SQLHelperCreateClose.closeSQL(sqldatabaseUidTotal);
+	}
+
+	private class AsyncTaskinitUidDB extends
+			AsyncTask<Context, Integer, Integer> {
+
+		@Override
+		protected Integer doInBackground(Context... params) {
+			SQLiteDatabase sqldatabaseUid = SQLHelperCreateClose
+					.creatSQLUid(context);
+			sqldatabaseUid.beginTransaction();
+			try {
+				// 初始化uid数据库这里使用初始化后的全部uids表
+				initUidTables(sqldatabaseUid, uidnumbers_init);
+				sqldatabaseUid.setTransactionSuccessful();
+			} catch (Exception e) {
+				showLog("fail+" + "初始化uid数据库失败");
+				return 0;
+			} finally {
+				sqldatabaseUid.endTransaction();
+			}
+			SQLHelperCreateClose.closeSQL(sqldatabaseUid);
+			return 1;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			if (result == 1) {
+				initUidsuccess = true;
+			}
+			showLog("initUid=" + initUidsuccess
+					+ (System.currentTimeMillis() - timemillion));
+			if (initTotalsuccess && initUidsuccess && initUidTotalsuccess) {
+				// 确保仅进行一次初始化
+				Editor passfileEditor = context.getSharedPreferences(
+						PREFS_NAME, 0).edit();
+				passfileEditor.putString(PREF_INITSQL, MODE_HASINIT);
+				passfileEditor.commit();// 委托，存入数据
+				// 开启计时
+				AlarmSet alset = new AlarmSet();
+				alset.StartAlarm(context);
+			}
+		}
+	}
+
+	private class AsyncTaskinitTotalDB extends
+			AsyncTask<Context, Integer, Integer> {
+
+		@Override
+		protected Integer doInBackground(Context... params) {
+			SQLiteDatabase sqldatabaseTotal = SQLHelperCreateClose
+					.creatSQLTotal(params[0]);
+			sqldatabaseTotal.beginTransaction();
+			try {
+				String string = null;
+				string = CreateTable + TableWiFi + Start + SQLId + SQLTime
+						+ CreateparamWiFiAnd23G + End;
+				// CREATE TABLE IF NOT EXISTS t4 (_id INTEGER PRIMARY KEY,date
+				// datetime,upload INTEGER,download INTEGER,uid INTEGER,type
+				// varchar(15),other varchar(15))
+				try {
+					sqldatabaseTotal.execSQL(string);
+					// showLog("建立tablewifi");
+				} catch (Exception e) {
+					showLog(string + "fail");
+					return 0;
+				}
+				// 初始化wifi的type=0及type=1的数据
+				exeSQLtotal(sqldatabaseTotal, TableWiFi, 0, null);
+				// exeSQLtotal(sqldatabaseTotal, TableWiFi, 1, null);
+				string = CreateTable + TableMobile + Start + SQLId + SQLTime
+						+ CreateparamWiFiAnd23G + End;
+				// CREATE TABLE IF NOT EXISTS t4 (_id INTEGER PRIMARY KEY,date
+				// datetime,upload INTEGER,download INTEGER,uid INTEGER,type
+				// varchar(15),other varchar(15))
+				try {
+					sqldatabaseTotal.execSQL(string);
+					// showLog("建立tablemobile");
+				} catch (Exception e) {
+					showLog("fail+" + string);
+					showLog("mobiletable-already exist");
+					return 0;
+				}
+				// 初始化mobile的type=0及type=1的数据
+				exeSQLtotal(sqldatabaseTotal, TableMobile, 0, null);
+				// exeSQLtotal(sqldatabaseTotal, TableMobile, 1, null);
+				sqldatabaseTotal.setTransactionSuccessful();
+			} catch (Exception e) {
+				showLog("fail+SQLinit" + "初始化Total失败");
+				return 0;
+			} finally {
+				sqldatabaseTotal.endTransaction();
+			}
+			SQLHelperCreateClose.closeSQL(sqldatabaseTotal);
+			return 1;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			if (result == 1) {
+				initTotalsuccess = true;
+			}
+			showLog("initUidTotal=" + initTotalsuccess
+					+ (System.currentTimeMillis() - timemillion));
+			// for (int i = 0; i < SQLStatic.uidnumbers.length; i++) {
+			// showLog(SQLStatic.uidnumbers[i] + "");
+			// }
+			if (initTotalsuccess && initUidsuccess && initUidTotalsuccess) {
+				// 确保仅进行一次初始化
+				Editor passfileEditor = context.getSharedPreferences(
+						PREFS_NAME, 0).edit();
+				passfileEditor.putString(PREF_INITSQL, MODE_HASINIT);
+				passfileEditor.commit();// 委托，存入数据
+				// 开启计时
+				AlarmSet alset = new AlarmSet();
+				alset.StartAlarm(context);
+			}
+		}
 	}
 
 	/**
