@@ -53,6 +53,11 @@ public class ConnectivityChange extends BroadcastReceiver {
 				}
 			}
 		}
+		if (intent.getAction().equals("android.net.wifi.WIFI_STATE_CHANGED")) {
+			Intent intentNetUpdate = new Intent();
+			intentNetUpdate.setAction(APPWIDGET_UPDATE);
+			context.sendBroadcast(intentNetUpdate);
+		}
 
 	}
 
