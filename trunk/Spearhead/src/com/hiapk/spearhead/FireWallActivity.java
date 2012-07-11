@@ -51,17 +51,17 @@ public class FireWallActivity extends Activity {
 	private List<PackageInfo> packageInfo;
 	private AppListAdapter appListAdapter;
 	public  MyListView appListView;
+	public  CustomProgressDialog customdialog;
 	public ArrayList<PackageInfo> myAppList;
 	public ArrayList<PackageInfo> myAppList2;
 	private Context mContext = this;
 	ProgressDialog mydialog;
 	ProgressDialog pro;
-	CustomProgressDialog customdialog;
 	long[] traffic;
 	HashMap<Integer, Data> mp;
 	private ArrayList<Integer> uidList;
 	long time = 0;
-
+    Handler  handler  = new Handler();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -69,33 +69,6 @@ public class FireWallActivity extends Activity {
 		// MobclickAgent.onError(this);
 		setContentView(R.layout.main2);
 		// 为了退出。
-		Mapplication.getInstance().addActivity(this);
-		initList();
-	}
-
-	public void showHelp() {
-		final Handler handler = new Handler() {
-			public void handleMessage(Message msg) {
-				try {
-					SpearheadActivity.showHelp(mContext);
-				} catch (Exception ex) {
-				}
-			}
-		};
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				handler.sendEmptyMessage(0);
-			}
-		}).start();
-	}
-
-	public void initList() {
 		CustomProgressDialog customProgressDialog = new CustomProgressDialog(
 				mContext);
 		customdialog = customProgressDialog.createDialog(mContext);
@@ -104,6 +77,29 @@ public class FireWallActivity extends Activity {
 		customProgressDialog.setMessage("获取列表中,请耐心等待,获取的时间长短取决于您安装软件的数量...");
 		time = System.currentTimeMillis();
 		customdialog.show();
+		Mapplication.getInstance().addActivity(this);
+//		initList(); 	
+		
+		 handler.post(new Runnable() {  
+             @Override  
+             public void run() { 
+            	 initList(); 	
+             }  
+         });  
+	}
+    
+
+
+
+	public void initList() { 
+//		CustomProgressDialog customProgressDialog = new CustomProgressDialog(
+//				mContext);
+//		customdialog = customProgressDialog.createDialog(mContext);
+//		customdialog.setCancelable(false);
+//		customProgressDialog.setTitile("提示");
+//		customProgressDialog.setMessage("获取列表中,请耐心等待,获取的时间长短取决于您安装软件的数量...");
+//		time = System.currentTimeMillis();
+//		customdialog.show();
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
 				try {
@@ -420,15 +416,23 @@ public class FireWallActivity extends Activity {
 		super.onResume();
 		SQLHelperFireWall SQLFire = new SQLHelperFireWall();
 		SQLFire.resetMP(mContext);
+		SpearheadActivity.hideHelp();
 		// MobclickAgent.onResume(this);
 	}
 
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		// umeng
-		// MobclickAgent.onPause(this);
+		SpearheadActivity.hideHelp();
 	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		SpearheadActivity.hideHelp();
+	}
+
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
