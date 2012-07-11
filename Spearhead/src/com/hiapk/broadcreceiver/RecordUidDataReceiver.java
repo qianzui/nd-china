@@ -37,7 +37,6 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 						new AsyncTaskonRecordUidData().execute(context);
 						// showLog(SQLHelperTotal.TableWiFiOrG23);
 					} else {
-						SQLStatic.setSQLUidOnUsed(false);
 						SQLStatic.isUidAlarmRecording = false;
 						showLog("UidÊý¾Ý¿âÃ¦");
 					}
