@@ -1,21 +1,12 @@
 package com.hiapk.spearhead;
 
-import java.text.Collator;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.firewall.AppListAdapter;
 import com.hiapk.firewall.Block;
-import com.hiapk.firewall.MyComp;
 import com.hiapk.firewall.MyCompName;
 import com.hiapk.firewall.MyCompTraffic;
 import com.hiapk.firewall.MyListView;
@@ -40,7 +31,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
