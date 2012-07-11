@@ -35,32 +35,53 @@ public class Splash extends Activity {
 	private int year;
 	private int month;
 	private int monthDay;
+	long time;
 	private String network;
-	private SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
+	private boolean isinited;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
+		time = System.currentTimeMillis();
 		// MobclickAgent.onError(this);
-		AlarmSet alset = new AlarmSet();
 		if (SQLStatic.TableWiFiOrG23 == "") {
 			SQLStatic.initTablemobileAndwifi(context);
 		}
-		alset.StartAlarm(context);
+		showLog("alarmover" + (System.currentTimeMillis() - time));
 		SQLStatic.initTablemobileAndwifi(context);
 		// MobclickAgent.onError(this);
-		new AsyncTaskonResume().execute(context);
+		showLog("uidinitbeforeover" + (System.currentTimeMillis() - time));
+		SQLStatic.getuidsAndpacname(context);
+		showLog("uidinitover" + (System.currentTimeMillis() - time));
+		isinited = SQLStatic.getIsInit(context);
+		showLog("isinited=" + isinited);
+		if (isinited) {
+			alset.StartAlarm(context);
+			new AsyncTaskonResume().execute(context);
+		} else {
+			new AsyncTaskinitDatabase().execute(context);
+		}
+		// showLog("startInitSQL" + (System.currentTimeMillis() - time));
+
+		// if (isinited == false) {
+		// // new AsyncTaskinitDatabase().execute(context);
+		// initSQLdatabase(context, SQLStatic.uids, SQLStatic.packagenames);
+		// }
+		showLog("startinitfire" + (System.currentTimeMillis() - time));
 		new AsyncTask<Void, Void, Void>() {
 			@Override
 			protected Void doInBackground(Void... params) {
 				getList(context);
 				return null;
 			}
+
 			@Override
 			protected void onPostExecute(Void result) {
+				showLog("initfireover" + (System.currentTimeMillis() - time));
 			}
 		}.execute();
+
 	}
 
 	public static void getList(Context context){
@@ -84,26 +105,16 @@ public class Splash extends Activity {
 			}
 		}
 	}
-	
+
 	private class AsyncTaskonResume extends
 			AsyncTask<Context, Integer, Integer> {
 
 		@Override
 		protected Integer doInBackground(Context... params) {
-
-			SQLStatic.uids = SQLStatic.selectUidnumbers(params[0]);
-			while (SQLStatic.uids == null) {
-				try {
-					Thread.sleep(200);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			if (SQLStatic.getIsInit(params[0]) == false) {
-				initSQLdatabase(params[0], SQLStatic.uids,
-						SQLStatic.packagenames);
-			}
-
+			// if (isinited == false) {
+			// // new AsyncTaskinitDatabase().execute(context);
+			// initSQLdatabase(context, SQLStatic.uids, SQLStatic.packagenames);
+			// }
 			while (SQLStatic.setSQLTotalOnUsed(true)) {
 				try {
 					Thread.sleep(200);
@@ -115,16 +126,69 @@ public class Splash extends Activity {
 
 			initDataWithnoNetwork(context);
 			SQLStatic.setSQLTotalOnUsed(false);
+			showLog("overinitMaindata" + (System.currentTimeMillis() - time));
 			return 3;
 		}
 
 		@Override
 		protected void onPostExecute(Integer result) {
+			showLog("startingMain" + (System.currentTimeMillis() - time));
 			Intent mainIntent = new Intent(Splash.this, SpearheadActivity.class);
 			Bundle choosetab = new Bundle();
 			choosetab.putInt("TAB", 1);
 			mainIntent.putExtras(choosetab);
 			Splash.this.startActivity(mainIntent);
+			showLog("this.finish" + (System.currentTimeMillis() - time));
+			Splash.this.finish();
+		}
+	}
+
+	private class AsyncTaskinitDatabase extends
+			AsyncTask<Context, Integer, Integer> {
+
+		@Override
+		protected Integer doInBackground(Context... params) {
+			// while (!SQLStatic.setSQLTotalOnUsed(true)) {
+			// try {
+			// Thread.sleep(100);
+			// } catch (InterruptedException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			// }
+			// while (!SQLStatic.setSQLUidOnUsed(true)) {
+			// try {
+			// Thread.sleep(100);
+			// } catch (InterruptedException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			// }
+			// while (!SQLStatic.setSQLUidTotalOnUsed(true)) {
+			// try {
+			// Thread.sleep(100);
+			// } catch (InterruptedException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			// }
+			showLog("startinitSQL" + (System.currentTimeMillis() - time));
+			initSQLdatabase(params[0], SQLStatic.uidnumbers,
+					SQLStatic.packagenames);
+			showLog("overinitSQL" + (System.currentTimeMillis() - time));
+			return 3;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			alset.StartAlarm(context);
+			showLog("startingMain" + (System.currentTimeMillis() - time));
+			Intent mainIntent = new Intent(Splash.this, SpearheadActivity.class);
+			Bundle choosetab = new Bundle();
+			choosetab.putInt("TAB", 1);
+			mainIntent.putExtras(choosetab);
+			Splash.this.startActivity(mainIntent);
+			showLog("this.finish" + (System.currentTimeMillis() - time));
 			Splash.this.finish();
 		}
 	}
@@ -140,9 +204,7 @@ public class Splash extends Activity {
 	private void initSQLdatabase(Context context, int[] uids,
 			String[] packagename) {
 		SQLHelperInitSQL sqlhelperInit = new SQLHelperInitSQL();
-		if (!SQLStatic.getIsInit(context)) {
-			sqlhelperInit.initSQL(context, uids, packagename);
-		}
+		sqlhelperInit.initSQL(context, uids, packagename);
 	}
 
 	private void initDataWithnoNetwork(Context context) {
@@ -156,6 +218,7 @@ public class Splash extends Activity {
 			long[] wifi_month_data_before = new long[64];
 			long[] mobile_month_data_before = new long[64];
 			MonthlyUseData monthlyUseData = new MonthlyUseData();
+			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 			SQLiteDatabase sqlDataBase = SQLHelperCreateClose
 					.creatSQLTotal(context);
 			sqlDataBase.beginTransaction();
