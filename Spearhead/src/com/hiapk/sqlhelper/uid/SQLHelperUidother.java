@@ -64,7 +64,7 @@ public class SQLHelperUidother {
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		// 重新定义静态的uid集合
 		// String newpackage = selectPackagenames(context);
-		SQLStatic.uidnumbers = SQLStatic.selectUidnumbers(context);
+		SQLStatic.getuidsAndpacname(context);
 		// SQLStatic.packagename_ALL = selectPackagenames(context);
 		String pacTemp = sharedData.getPackageNames();
 		if (pacTemp != "") {

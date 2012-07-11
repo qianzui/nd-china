@@ -29,7 +29,7 @@ public class SQLHelperFireWall {
 		showLog("alarmover" + (System.currentTimeMillis() - time));
 		int[] numbers = null;
 		while (SQLStatic.uidnumbers == null) {
-			SQLStatic.uidnumbers = SQLStatic.selectUidnumbers(context);
+			SQLStatic.getuidsAndpacname(context);
 
 		}
 		showLog("getuids" + (System.currentTimeMillis() - time));

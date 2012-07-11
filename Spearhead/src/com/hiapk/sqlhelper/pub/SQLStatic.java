@@ -39,6 +39,7 @@ public class SQLStatic {
 	public static int uidnumber;
 	// 库存的uid表（所有）
 	public static int[] uidnumbers = null;
+	//在SQLuidother里面也有更新
 	public static String packagename_ALL = null;
 	public static HashMap<Integer, Data> uiddata = null;
 	// public static boolean isuiddataOperating = false;
@@ -51,10 +52,6 @@ public class SQLStatic {
 	// 记录网络状态
 	public static String TableWiFiOrG23 = "";
 	public static String TableWiFiOrG23Before = "";
-	/**
-	 * 初始化用uids
-	 */
-	public static int[] uids = null;
 	/**
 	 * 初始化用pacs
 	 */
@@ -147,53 +144,90 @@ public class SQLStatic {
 				MODE_HASINIT);
 	}
 
-	/**
-	 * 提取所有应用的不重复uid集合
-	 * 
-	 * @param sqlDataBase
-	 *            进行操作的数据库
-	 * @return
-	 */
-	public static int[] selectUidnumbers(Context context) {
+//	/**
+//	 * 提取所有应用的不重复uid集合
+//	 * 
+//	 * @param sqlDataBase
+//	 *            进行操作的数据库
+//	 * @return
+//	 */
+//	public static int[] selectUidnumbers(Context context) {
+//
+//		int j = 0;
+//		PackageManager pkgmanager = context.getPackageManager();
+//		List<PackageInfo> packages = context.getPackageManager()
+//				.getInstalledPackages(0);
+//		int[] uidstemp = new int[packages.size()];
+//		String pacstemp = new String();
+//		for (int i = 0; i < packages.size(); i++) {
+//			PackageInfo packageinfo = packages.get(i);
+//			String pacname = packageinfo.packageName;
+//			int uid = packageinfo.applicationInfo.uid;
+//			if (!(PackageManager.PERMISSION_GRANTED != pkgmanager
+//					.checkPermission(Manifest.permission.INTERNET, pacname))) {
+//				if (!Block.filter.contains(pacname)) {
+//					pacstemp += pacname;
+//					boolean issameUid = false;
+//					for (int k = 0; k < j; k++) {
+//						if (uidstemp[k] == uid) {
+//							issameUid = true;
+//							break;
+//						}
+//					}
+//					if (!issameUid) {
+//						uidstemp[j] = uid;
+//						// showLog("进行显示的uid=" + uid);
+//						j++;
+//					}
+//
+//				}
+//			}
+//		}
+//		int[] uids = new int[j];
+//		for (int i = 0; i < j; i++) {
+//			uids[i] = uidstemp[i];
+//		}
+//		if (packagename_ALL == null) {
+//			packagename_ALL = pacstemp;
+//		}
+//
+//		return uids;
+//	}
 
+	public static void getuidsAndpacname(Context context) {
 		int j = 0;
 		PackageManager pkgmanager = context.getPackageManager();
 		List<PackageInfo> packages = context.getPackageManager()
 				.getInstalledPackages(0);
-		int[] uidstemp = new int[packages.size()];
+		int[] uidstp = new int[packages.size()];
+		String[] packagenamestp = new String[packages.size()];
 		String pacstemp = new String();
 		for (int i = 0; i < packages.size(); i++) {
 			PackageInfo packageinfo = packages.get(i);
+			String fliter = Block.filter;
 			String pacname = packageinfo.packageName;
 			int uid = packageinfo.applicationInfo.uid;
 			if (!(PackageManager.PERMISSION_GRANTED != pkgmanager
 					.checkPermission(Manifest.permission.INTERNET, pacname))) {
-				if (!Block.filter.contains(pacname)) {
+				if (!fliter.contains(pacname)) {
 					pacstemp += pacname;
-					boolean issameUid = false;
-					for (int k = 0; k < j; k++) {
-						if (uidstemp[k] == uid) {
-							issameUid = true;
-							break;
-						}
-					}
-					if (!issameUid) {
-						uidstemp[j] = uid;
-						// showLog("进行显示的uid=" + uid);
-						j++;
-					}
-
+					uidstp[j] = uid;
+					packagenamestp[j] = pacname;
+					// showLog("进行显示的uid=" + uid);
+					j++;
+					// tmpInfo.packageName = pacname;
+					// tmpInfo.app_uid = packageinfo.applicationInfo.uid;
 				}
 			}
 		}
-		int[] uids = new int[j];
+		SQLStatic.uidnumbers = new int[j];
+		SQLStatic.packagenames = new String[j];
 		for (int i = 0; i < j; i++) {
-			uids[i] = uidstemp[i];
+			SQLStatic.uidnumbers[i] = uidstp[i];
+			SQLStatic.packagenames[i] = packagenamestp[i];
 		}
 		if (packagename_ALL == null) {
 			packagename_ALL = pacstemp;
 		}
-
-		return uids;
 	}
 }
