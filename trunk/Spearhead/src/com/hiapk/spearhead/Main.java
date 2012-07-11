@@ -67,11 +67,11 @@ public class Main extends Activity {
 		// 获取固定存放数据
 		sharedData = new SharedPrefrenceData(context);
 
-		if (SQLStatic.getIsInit(context) == false) {
-			if (SQLStatic.uids == null) {
-				SQLStatic.uids=SQLStatic.selectUidnumbers(context);
-			}
-		}
+		// if (SQLStatic.getIsInit(context) == false) {
+		// if (SQLStatic.uids == null) {
+		// SQLStatic.uids=SQLStatic.selectUidnumbers(context);
+		// }
+		// }
 		// ------------
 		SetText.setText(context);
 		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
@@ -79,9 +79,9 @@ public class Main extends Activity {
 		if (sharedDatawidget.isNotifyOpen()) {
 			alset.StartWidgetAlarm(context);
 		}
-		if (SQLStatic.getIsInit(context) == false) {
-			initSQLdatabase(SQLStatic.uids, SQLStatic.packagenames);
-		}
+		// if (SQLStatic.getIsInit(context) == false) {
+		// initSQLdatabase(SQLStatic.uids, SQLStatic.packagenames);
+		// }
 
 		setonclicklistens();
 		// setontvclicklisten();
@@ -152,7 +152,6 @@ public class Main extends Activity {
 		}
 
 	}
-
 
 	/**
 	 * 初始化数据库

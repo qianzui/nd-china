@@ -35,7 +35,7 @@ public class PackageReceiver extends BroadcastReceiver {
 					showLog("–∂‘ÿ" + SQLStatic.packageName[1]);
 				} else {
 					// new AsyTaskOnUninstall().execute(context);
-					SQLStatic.uidnumbers = SQLStatic.selectUidnumbers(context);
+					SQLStatic.getuidsAndpacname(context);
 //					AlarmSet alset = new AlarmSet();
 //					alset.StartAlarm(context);
 					showLog("∆‰À˚–∂‘ÿ" + SQLStatic.packageName[1]);

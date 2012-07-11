@@ -3,6 +3,7 @@ package com.hiapk.widget;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.spearhead.R;
+import com.hiapk.sqlhelper.pub.SQLStatic;
 
 import android.app.Service;
 import android.content.Intent;
@@ -27,7 +28,7 @@ public class FloatService extends Service {
 	private float x;
 	private float y;
 	int state;
-//	TextView tx1;
+	// TextView tx1;
 	TextView tx;
 	ImageView iv;
 	private float StartX;
@@ -42,9 +43,11 @@ public class FloatService extends Service {
 		view = LayoutInflater.from(this)
 				.inflate(R.layout.floating_widget, null);
 		tx = (TextView) view.findViewById(R.id.textUp);
-//		tx1 = (TextView) view.findViewById(R.id.textDown);
-		tx.setText(" "+UnitHandler.unitHandlerAccurate(TrafficInfomation.getspeed(this))+"/s ");
-//		tx1.setText("" + TrafficInfomation.getspeed(this) + "KB");
+		// tx1 = (TextView) view.findViewById(R.id.textDown);
+		tx.setText(" "
+				+ UnitHandler.unitHandlerAccurate(TrafficInfomation
+						.getspeed(this)) + "/s ");
+		// tx1.setText("" + TrafficInfomation.getspeed(this) + "KB");
 		iv = (ImageView) view.findViewById(R.id.image);
 		iv.setImageResource(R.drawable.cross);
 		iv.setVisibility(View.GONE);
@@ -114,10 +117,10 @@ public class FloatService extends Service {
 				SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
 						FloatService.this);
 				sharedDatawidget.setFloatOpen(false);
-//				boolean isFloatOpen = sharedData.isFloatOpen();
+				// boolean isFloatOpen = sharedData.isFloatOpen();
 				serviceStop.setClass(FloatService.this, FloatService.class);
 				stopService(serviceStop);
-//				showLog("isFloatOpen"+isFloatOpen);
+				// showLog("isFloatOpen"+isFloatOpen);
 			}
 		});
 	}
@@ -142,8 +145,15 @@ public class FloatService extends Service {
 	};
 
 	public void dataRefresh() {
-		tx.setText(" "+UnitHandler.unitHandlerAccurate(TrafficInfomation.getspeed(this))+"/s ");
-//		tx1.setText("" + TrafficInfomation.getspeed(this) + "KB");
+		if (SQLStatic.TableWiFiOrG23 != "") {
+			tx.setText(" "
+					+ UnitHandler.unitHandlerAccurate(TrafficInfomation
+							.getspeed(this)) + "/s ");
+		}else{
+			tx.setText(" "
+					+ "0 KB" + "/s ");
+		}
+		// tx1.setText("" + TrafficInfomation.getspeed(this) + "KB");
 	}
 
 	private void updateViewPosition() {
@@ -181,6 +191,6 @@ public class FloatService extends Service {
 	 */
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-//		Log.d("FloatService", string);
+		// Log.d("FloatService", string);
 	}
 }
