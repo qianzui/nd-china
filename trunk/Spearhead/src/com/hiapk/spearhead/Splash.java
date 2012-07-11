@@ -40,11 +40,14 @@ public class Splash extends Activity {
 	long time;
 	private String network;
 	private boolean isinited;
+	private static PackageManager pm;
+	private static Editor UseEditor;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
+		pm = context.getPackageManager();
 		time = System.currentTimeMillis();
 		// MobclickAgent.onError(this);
 		if (SQLStatic.TableWiFiOrG23 == "") {
@@ -64,11 +67,13 @@ public class Splash extends Activity {
 		} else {
 			new AsyncTaskinitDatabase().execute(context);
 		}
+
 		showLog("startinitfire" + (System.currentTimeMillis() - time));
 		new AsyncTask<Void, Void, Void>() {
 			@Override
 			protected Void doInBackground(Void... params) {
 				getList(context);
+
 				return null;
 			}
 
@@ -81,12 +86,12 @@ public class Splash extends Activity {
 	}
 
 	public static void getList(Context context) {
+
 		List<PackageInfo> packageInfo = context.getPackageManager()
 				.getInstalledPackages(0);
-		final PackageManager pm = context.getPackageManager();
 		Block.appnamemap = new HashMap<Integer, String>();
 		SharedPreferences prefs = context.getSharedPreferences("firewall", 0);
-		Editor UseEditor = context.getSharedPreferences("firewall", 0).edit();
+		UseEditor = context.getSharedPreferences("firewall", 0).edit();
 		String appname;
 		for (int i = 0; i < packageInfo.size(); i++) {
 			final PackageInfo pkgInfo = packageInfo.get(i);
@@ -100,6 +105,7 @@ public class Splash extends Activity {
 					if (appname != "") {
 						Block.appnamemap.put(uid, appname);
 					} else {
+						// new AsyncTaskSetappName().execute(pkgInfo);
 						appname = pkgInfo.applicationInfo.loadLabel(pm)
 								.toString();
 						UseEditor.putString(pkgName, appname);
@@ -113,6 +119,25 @@ public class Splash extends Activity {
 			}
 		}
 		UseEditor.commit();
+	}
+
+	private class AsyncTaskSetappName extends
+			AsyncTask<PackageInfo, Integer, Integer> {
+
+		@Override
+		protected Integer doInBackground(PackageInfo... params) {
+			int uid = params[0].applicationInfo.uid;
+			String pkgName = params[0].applicationInfo.packageName;
+			String appname = params[0].applicationInfo.loadLabel(pm).toString();
+			UseEditor.putString(pkgName, appname);
+			Block.appnamemap.put(uid, appname);
+			UseEditor.commit();
+			return 3;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+		}
 	}
 
 	private class AsyncTaskonResume extends
@@ -157,6 +182,7 @@ public class Splash extends Activity {
 
 		@Override
 		protected Integer doInBackground(Context... params) {
+
 			// while (!SQLStatic.setSQLTotalOnUsed(true)) {
 			// try {
 			// Thread.sleep(100);

@@ -6,10 +6,13 @@ import com.hiapk.sqlhelper.pub.SQLStatic;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiManager;
 
 public class ConnectivityChange extends BroadcastReceiver {
-	String APPWIDGET_UPDATE = "com.hiapkAPPWIDGET_UPDATE";
-	String BROADCAST_TRAFF = "com.hiapk.traffwidget";
+	private String APPWIDGET_UPDATE = "com.hiapkAPPWIDGET_UPDATE";
+	private String BROADCAST_TRAFF = "com.hiapk.traffwidget";
+	private int WIFI_STATE_DISABLING = 0x00000000;
+	private int WIFI_STATE_ENABLING = 0x00000002;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -57,6 +60,13 @@ public class ConnectivityChange extends BroadcastReceiver {
 			Intent intentNetUpdate = new Intent();
 			intentNetUpdate.setAction(APPWIDGET_UPDATE);
 			context.sendBroadcast(intentNetUpdate);
+			WifiManager wfm_on_off;
+			wfm_on_off = (WifiManager) context
+					.getSystemService(Context.WIFI_SERVICE);
+			if (wfm_on_off.getWifiState() != WIFI_STATE_DISABLING
+					&& wfm_on_off.getWifiState() != WIFI_STATE_ENABLING) {
+				SQLStatic.initTablemobileAndwifi(context);
+			}
 		}
 
 	}

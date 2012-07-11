@@ -1,24 +1,17 @@
 package com.hiapk.spearhead;
 
-import java.util.List;
 import com.hiapk.alertdialog.CustomDialogMainBeen;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.MonthDay;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
-import com.hiapk.firewall.Block;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.progressbar.StackedBarChart;
 import com.hiapk.provider.ColorChangeMainBeen;
-import com.hiapk.sqlhelper.pub.SQLStatic;
-import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
 import com.hiapk.widget.SetText;
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.DisplayMetrics;
