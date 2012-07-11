@@ -17,6 +17,7 @@ import com.hiapk.sqlhelper.pub.SQLStatic;
 
 public class SQLHelperFireWall {
 	long time;
+	private static boolean isReseting = false;
 
 	/**
 	 * Small structure to hold an application info
@@ -33,13 +34,15 @@ public class SQLHelperFireWall {
 		alset.StartAlarm(context);
 		showLog("alarmover" + (System.currentTimeMillis() - time));
 		if (SQLStatic.getIsInit(context)) {
-			new AsyncTaskonResume().execute(context);
+			if (isReseting == false) {
+				isReseting = true;
+				new AsyncTaskonResume().execute(context);
+			}
 		}
 	}
 
 	private class AsyncTaskonResume extends
 			AsyncTask<Context, Integer, HashMap<Integer, Data>> {
-
 		@Override
 		protected HashMap<Integer, Data> doInBackground(Context... params) {
 			int[] numbers = null;
@@ -91,6 +94,7 @@ public class SQLHelperFireWall {
 		protected void onPostExecute(HashMap<Integer, Data> result) {
 			showLog("Recordover" + (System.currentTimeMillis() - time));
 			SQLStatic.uiddata = result;
+			isReseting = false;
 		}
 	}
 
