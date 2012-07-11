@@ -76,16 +76,6 @@ public class FireWallActivity extends Activity {
              @Override  
              public void run() { 
             	 initList(); 
-            	 
-            	 if (Block.isShowHelp(mContext)) {
-						SpearheadActivity.showHelp(mContext);
-						Block.isShowHelpSet(mContext, false);
-					} else {
-						if (Block.fireTip(mContext)) {
-							Toast.makeText(mContext, "下拉列表可以进行刷新!",
-									Toast.LENGTH_SHORT).show();
-						}
-					}
              }  
          });  
 	}
@@ -106,6 +96,15 @@ public class FireWallActivity extends Activity {
 				try {
 					setAdapter();
 					 customdialog.dismiss();
+					 if (Block.isShowHelp(mContext)) {
+							SpearheadActivity.showHelp(mContext);
+							Block.isShowHelpSet(mContext, false);
+						} else {
+							if (Block.fireTip(mContext)) {
+								Toast.makeText(mContext, "下拉列表可以进行刷新!",
+										Toast.LENGTH_SHORT).show();
+							}
+						}
 				} catch (Exception ex) {
 				}
 			}
