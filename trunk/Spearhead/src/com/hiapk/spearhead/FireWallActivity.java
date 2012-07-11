@@ -139,7 +139,6 @@ public class FireWallActivity extends Activity {
 				mp = getData();
 				do
 				{
-					Log.i("test", Block.appnamemap.size()+"=====" + Block.appList.size());
 					try {
 						Thread.sleep(300);
 					} catch (InterruptedException e) {
@@ -147,7 +146,6 @@ public class FireWallActivity extends Activity {
 						e.printStackTrace();
 					}
 					if(Block.appList.size() == Block.appnamemap.size()){
-						Log.i("test", Block.appnamemap.size()+"=====" + Block.appList.size());
 						break;
 					}
 				} while(Block.appList.size() != Block.appnamemap.size());

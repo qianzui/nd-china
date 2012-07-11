@@ -40,7 +40,6 @@ public class Splash extends Activity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
 		// MobclickAgent.onError(this);
@@ -78,7 +77,8 @@ public class Splash extends Activity {
 							)) {
 				if (Block.filter.contains(pkgName)) {
 				} else {
-					Block.appnamemap.put(uid, pkgInfo.applicationInfo.loadLabel(pm).toString());
+					String appname =  pkgInfo.applicationInfo.loadLabel(pm).toString();
+					Block.appnamemap.put(uid,appname);
 					appList.add(pkgInfo);
 				}
 			}
