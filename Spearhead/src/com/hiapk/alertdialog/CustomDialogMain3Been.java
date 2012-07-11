@@ -174,7 +174,13 @@ public class CustomDialogMain3Been {
 		// 流量预警设置窗口上方的文本
 		final TextView tv_month_Traff = (TextView) textEntryView
 				.findViewById(R.id.tv_show_Traff);
+		final EditText et_month_Traff = (EditText) textEntryView
+				.findViewById(R.id.et_show_Traff);
+		final TextView tv_percent = (TextView) textEntryView
+				.findViewById(R.id.tv_percent);
 		tv_month_Traff.setTextSize(20);
+		et_month_Traff.setTextSize(20);
+		tv_percent.setTextSize(20);
 		// tv_month_Traff.setTextColor(Color.BLACK);
 		// tv_month_warning.setText("月度预警流量：");
 		// tv_month_warning.setGravity(Gravity.CENTER);
@@ -191,8 +197,10 @@ public class CustomDialogMain3Been {
 			final String text = "";
 			seekbar_warning
 					.setProgress((int) (warningMonthset * 100 / monthset));
-			tv_month_Traff.setText(text
-					+ UnitHandler.unitHandler(warningMonthset));
+			et_month_Traff.setText(text
+					+ UnitHandler.unitHandler(warningMonthset, tv_month_Traff));
+			tv_percent.setText(" (" + (int) (warningMonthset * 100 / monthset)
+					+ " %)");
 			seekbar_warning
 					.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 						@Override
@@ -209,9 +217,10 @@ public class CustomDialogMain3Been {
 						public void onProgressChanged(SeekBar seekBar,
 								int progress, boolean fromUser) {
 							// TODO Auto-generated method stub
-							tv_month_Traff.setText(text
+							et_month_Traff.setText(text
 									+ UnitHandler.unitHandler(monthset
-											* progress / 100));
+											* progress / 100, tv_month_Traff));
+							tv_percent.setText(" (" + progress + " %)");
 						}
 					});
 			final CustomDialog monthWarning = new CustomDialog.Builder(context)
@@ -228,16 +237,52 @@ public class CustomDialogMain3Been {
 					// 输入的数值
 					Editor UseEditor = context.getSharedPreferences(PREFS_NAME,
 							0).edit();
-					int progre = seekbar_warning.getProgress();
-					long newmonthset = monthset * progre / 100;
-					// 最小值1M
-					UseEditor.putLong(MOBILE_WARNING_MONTH, newmonthset);
-					UseEditor.commit();
-					// 设置数值
-					long mobileWarning = sharedData.getAlertWarningMonth();
-					// float
-					// a=Float.valueOf(mobileWarning).floatValue();
-					button.setText(UnitHandler.unitHandler(mobileWarning));
+					float i = 0;
+					try {
+						i = Float.valueOf(et_month_Traff.getText().toString());
+					} catch (NumberFormatException e) {
+						// TODO: handle exception
+						i = 0;
+					}
+					long newmonthset = 0;
+					if (tv_month_Traff.getText() == " KB") {
+						newmonthset = (long) (i * 1024);
+					} else if (tv_month_Traff.getText() == " MB") {
+						newmonthset = (long) (i * 1024 * 1024);
+					} else if (tv_month_Traff.getText() == " GB") {
+						newmonthset = (long) (i * 1024 * 1024 * 1024);
+					} else if (tv_month_Traff.getText() == " TB") {
+						newmonthset = (long) (i * 1024 * 1024 * 1024 * 1024);
+					}
+					// int progre = seekbar_warning.getProgress();
+					if (newmonthset > monthset) {
+						final CustomDialog monthWarning = new CustomDialog.Builder(
+								context).setTitle("注意！")
+								.setMessage("您设置的本月预警流量超过了包月套餐！")
+								.setwindowHeight(0.35)
+								// .setView(textEntryView)
+								.setPositiveButton("确定", null).create();
+						monthWarning.show();
+						Button btn_ok = (Button) monthWarning
+								.findViewById(R.id.positiveButton);
+						btn_ok.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								// 输入的数值
+								monthWarning.dismiss();
+							}
+						});
+					} else {
+						// 最小值1M
+						UseEditor.putLong(MOBILE_WARNING_MONTH, newmonthset);
+						UseEditor.commit();
+						// 设置数值
+						long mobileWarning = sharedData.getAlertWarningMonth();
+						// float
+						// a=Float.valueOf(mobileWarning).floatValue();
+						button.setText(UnitHandler.unitHandler(mobileWarning));
+					}
 					// 重置预警状态
 					PrefrenceOperatorUnit.resetHasWarning(context);
 					monthWarning.dismiss();
@@ -272,16 +317,6 @@ public class CustomDialogMain3Been {
 				}
 			});
 
-			Button btn_cancel = (Button) monthWarning
-					.findViewById(R.id.negativeButton);
-			btn_cancel.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					monthWarning.dismiss();
-				}
-			});
 		}
 
 	}
@@ -299,9 +334,16 @@ public class CustomDialogMain3Been {
 				R.layout.month_warning_set_alert_dialog, null);
 		// final TextView tv_day_warning = (TextView) textEntryView
 		// .findViewById(R.id.tv_warning_alert);
+		// 流量预警设置窗口上方的文本
 		final TextView tv_month_Traff = (TextView) textEntryView
 				.findViewById(R.id.tv_show_Traff);
+		final EditText et_month_Traff = (EditText) textEntryView
+				.findViewById(R.id.et_show_Traff);
+		final TextView tv_percent = (TextView) textEntryView
+				.findViewById(R.id.tv_percent);
 		tv_month_Traff.setTextSize(20);
+		et_month_Traff.setTextSize(20);
+		tv_percent.setTextSize(20);
 		// tv_month_Traff.setTextColor(Color.BLACK);
 		// tv_day_warning.setText("日预警流量：");
 		// tv_day_warning.setGravity(Gravity.CENTER);
@@ -315,8 +357,10 @@ public class CustomDialogMain3Been {
 			// 进行初始化
 			final String text = "";
 			seekbar_warning.setProgress((int) (warningDayset * 100 / monthset));
-			tv_month_Traff.setText(text
-					+ UnitHandler.unitHandler(warningDayset));
+			et_month_Traff.setText(text
+					+ UnitHandler.unitHandler(warningDayset, tv_month_Traff));
+			tv_percent.setText(" (" + (int) (warningDayset * 100 / monthset)
+					+ " %)");
 			seekbar_warning
 					.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
@@ -334,9 +378,10 @@ public class CustomDialogMain3Been {
 						public void onProgressChanged(SeekBar seekBar,
 								int progress, boolean fromUser) {
 							// TODO Auto-generated method stub
-							tv_month_Traff.setText(text
-									+ UnitHandler.unitHandler(progress
-											* monthset / 100));
+							et_month_Traff.setText(text
+									+ UnitHandler.unitHandler(monthset
+											* progress / 100, tv_month_Traff));
+							tv_percent.setText(" (" + progress + " %)");
 						}
 					});
 			final CustomDialog dayWarning = new CustomDialog.Builder(context)
@@ -353,15 +398,51 @@ public class CustomDialogMain3Been {
 					// 输入的数值
 					Editor UseEditor = context.getSharedPreferences(PREFS_NAME,
 							0).edit();
-					int progre = seekbar_warning.getProgress();
-					// 最小值1M
-					long newdayset = monthset * progre / 100;
-					UseEditor.putLong(MOBILE_WARNING_DAY, newdayset);
-					UseEditor.commit();
-					long mobileWarning = sharedData.getAlertWarningDay();
-					// float
-					// a=Float.valueOf(mobileWarning).floatValue();
-					button.setText(UnitHandler.unitHandler(mobileWarning));
+					float i = 0;
+					try {
+						i = Float.valueOf(et_month_Traff.getText().toString());
+					} catch (NumberFormatException e) {
+						// TODO: handle exception
+						i = 0;
+					}
+					long newdayset = 0;
+					if (tv_month_Traff.getText() == " KB") {
+						newdayset = (long) (i * 1024);
+					} else if (tv_month_Traff.getText() == " MB") {
+						newdayset = (long) (i * 1024 * 1024);
+					} else if (tv_month_Traff.getText() == " GB") {
+						newdayset = (long) (i * 1024 * 1024 * 1024);
+					} else if (tv_month_Traff.getText() == " TB") {
+						newdayset = (long) (i * 1024 * 1024 * 1024 * 1024);
+					}
+					// int progre = seekbar_warning.getProgress();
+					if (newdayset > monthset) {
+						final CustomDialog dayWarning = new CustomDialog.Builder(
+								context).setTitle("注意！")
+								.setMessage("您设置的本日预警流量超过了包月套餐！")
+								.setwindowHeight(0.35)
+								// .setView(textEntryView)
+								.setPositiveButton("确定", null).create();
+						dayWarning.show();
+						Button btn_ok = (Button) dayWarning
+								.findViewById(R.id.positiveButton);
+						btn_ok.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								// 输入的数值
+								dayWarning.dismiss();
+							}
+						});
+					} else {
+						UseEditor.putLong(MOBILE_WARNING_DAY, newdayset);
+						UseEditor.commit();
+						long mobileWarning = sharedData.getAlertWarningDay();
+						// float
+						// a=Float.valueOf(mobileWarning).floatValue();
+						button.setText(UnitHandler.unitHandler(mobileWarning));
+					}
+
 					// init_dayWarning();
 					// 重置预警状态
 					PrefrenceOperatorUnit.resetHasWarning(context);
