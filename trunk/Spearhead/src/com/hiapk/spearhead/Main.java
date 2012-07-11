@@ -79,9 +79,6 @@ public class Main extends Activity {
 		if (sharedDatawidget.isNotifyOpen()) {
 			alset.StartWidgetAlarm(context);
 		}
-		// if (SQLStatic.getIsInit(context) == false) {
-		// initSQLdatabase(SQLStatic.uids, SQLStatic.packagenames);
-		// }
 
 		setonclicklistens();
 		// setontvclicklisten();
@@ -151,22 +148,6 @@ public class Main extends Activity {
 			monthSetunit.setText("");
 		}
 
-	}
-
-	/**
-	 * 初始化数据库
-	 * 
-	 * @param uids
-	 *            uid数组
-	 * @param packagename
-	 *            uid对应的包名组
-	 */
-	private void initSQLdatabase(int[] uids, String[] packagename) {
-		// TODO Auto-generated method stub
-		SQLHelperInitSQL sqlhelperInit = new SQLHelperInitSQL();
-		if (!SQLStatic.getIsInit(context)) {
-			sqlhelperInit.initSQL(context, uids, packagename);
-		}
 	}
 
 	@Override

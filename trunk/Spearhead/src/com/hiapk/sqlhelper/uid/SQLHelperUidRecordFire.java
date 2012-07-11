@@ -108,14 +108,17 @@ public class SQLHelperUidRecordFire {
 		long[] tpmobile = new long[3];
 		long[] tpwifi = new long[3];
 		for (int i = 0; i < uidnumbers.length; i++) {
-			tpmobile = getSQLuidtotalData(sqlDataBase, uidnumbers[i],
-					NETWORK_FLAG);
-			tpwifi = getSQLuidtotalData(sqlDataBase, uidnumbers[i], "wifi");
-			Data temp = new Data();
-			temp.upload = tpmobile[1] + tpwifi[1];
-			temp.download = tpmobile[2] + tpwifi[2];
-			mp.put(uidnumbers[i], temp);
-			// showLog(uidnumber[i]+"traff"+get[1]+"");
+			if (uidnumbers[i] != -1) {
+
+				tpmobile = getSQLuidtotalData(sqlDataBase, uidnumbers[i],
+						NETWORK_FLAG);
+				tpwifi = getSQLuidtotalData(sqlDataBase, uidnumbers[i], "wifi");
+				Data temp = new Data();
+				temp.upload = tpmobile[1] + tpwifi[1];
+				temp.download = tpmobile[2] + tpwifi[2];
+				mp.put(uidnumbers[i], temp);
+				// showLog(uidnumber[i]+"traff"+get[1]+"");
+			}
 		}
 		return mp;
 	}

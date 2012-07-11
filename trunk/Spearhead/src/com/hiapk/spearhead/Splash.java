@@ -29,7 +29,7 @@ import android.text.format.Time;
 import android.util.Log;
 
 public class Splash extends Activity {
-	private  Context context = this;
+	private Context context = this;
 	private AlarmSet alset = new AlarmSet();
 	// date
 	private int year;
@@ -84,8 +84,9 @@ public class Splash extends Activity {
 
 	}
 
-	public static void getList(Context context){
-		List<PackageInfo> packageInfo = context.getPackageManager().getInstalledPackages(0);
+	public static void getList(Context context) {
+		List<PackageInfo> packageInfo = context.getPackageManager()
+				.getInstalledPackages(0);
 		final PackageManager pm = context.getPackageManager();
 		ArrayList<PackageInfo> appList = new ArrayList<PackageInfo>();
 		Block.appnamemap = new HashMap<Integer, String>();
@@ -94,12 +95,12 @@ public class Splash extends Activity {
 			final int uid = pkgInfo.applicationInfo.uid;
 			final String pkgName = pkgInfo.applicationInfo.packageName;
 			if (PackageManager.PERMISSION_GRANTED == pm.checkPermission(
-							Manifest.permission.INTERNET,pkgName
-							)) {
+					Manifest.permission.INTERNET, pkgName)) {
 				if (Block.filter.contains(pkgName)) {
 				} else {
-					String appname =  pkgInfo.applicationInfo.loadLabel(pm).toString();
-					Block.appnamemap.put(uid,appname);
+					String appname = pkgInfo.applicationInfo.loadLabel(pm)
+							.toString();
+					Block.appnamemap.put(uid, appname);
 					appList.add(pkgInfo);
 				}
 			}
@@ -117,7 +118,7 @@ public class Splash extends Activity {
 			// }
 			while (SQLStatic.setSQLTotalOnUsed(true)) {
 				try {
-					Thread.sleep(200);
+					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -181,7 +182,6 @@ public class Splash extends Activity {
 
 		@Override
 		protected void onPostExecute(Integer result) {
-			alset.StartAlarm(context);
 			showLog("startingMain" + (System.currentTimeMillis() - time));
 			Intent mainIntent = new Intent(Splash.this, SpearheadActivity.class);
 			Bundle choosetab = new Bundle();
@@ -203,7 +203,7 @@ public class Splash extends Activity {
 	 */
 	private void initSQLdatabase(Context context, int[] uids,
 			String[] packagename) {
-		SQLHelperInitSQL sqlhelperInit = new SQLHelperInitSQL();
+		SQLHelperInitSQL sqlhelperInit = new SQLHelperInitSQL(context);
 		sqlhelperInit.initSQL(context, uids, packagename);
 	}
 
