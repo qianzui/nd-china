@@ -20,6 +20,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
@@ -88,8 +90,10 @@ public class Splash extends Activity {
 		List<PackageInfo> packageInfo = context.getPackageManager()
 				.getInstalledPackages(0);
 		final PackageManager pm = context.getPackageManager();
-		ArrayList<PackageInfo> appList = new ArrayList<PackageInfo>();
 		Block.appnamemap = new HashMap<Integer, String>();
+		SharedPreferences prefs = context.getSharedPreferences("firewall", 0);
+		Editor UseEditor = context.getSharedPreferences("firewall", 0).edit();
+		String appname;
 		for (int i = 0; i < packageInfo.size(); i++) {
 			final PackageInfo pkgInfo = packageInfo.get(i);
 			final int uid = pkgInfo.applicationInfo.uid;
@@ -98,13 +102,23 @@ public class Splash extends Activity {
 					Manifest.permission.INTERNET, pkgName)) {
 				if (Block.filter.contains(pkgName)) {
 				} else {
-					String appname = pkgInfo.applicationInfo.loadLabel(pm)
-							.toString();
-					Block.appnamemap.put(uid, appname);
-					appList.add(pkgInfo);
+					appname = prefs.getString(pkgName, "");
+					if (appname != "") {
+						Block.appnamemap.put(uid, appname);
+					} else {
+						appname = pkgInfo.applicationInfo.loadLabel(pm)
+								.toString();
+						UseEditor.putString(pkgName, appname);
+						Block.appnamemap.put(uid, appname);
+					}
+					// String appname = pkgInfo.applicationInfo.loadLabel(pm)
+					// .toString();
+					// Block.appnamemap.put(uid, appname);
+					// appList.add(pkgInfo);
 				}
 			}
 		}
+		UseEditor.commit();
 	}
 
 	private class AsyncTaskonResume extends
