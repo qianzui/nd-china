@@ -269,7 +269,6 @@ public class UidMonthTraff extends Activity {
 					e.printStackTrace();
 				}
 				if (timetap > 3) {
-					SQLStatic.setSQLUidOnUsed(false);
 					return false;
 				}
 			}
