@@ -64,12 +64,6 @@ public class Splash extends Activity {
 		} else {
 			new AsyncTaskinitDatabase().execute(context);
 		}
-		// showLog("startInitSQL" + (System.currentTimeMillis() - time));
-
-		// if (isinited == false) {
-		// // new AsyncTaskinitDatabase().execute(context);
-		// initSQLdatabase(context, SQLStatic.uids, SQLStatic.packagenames);
-		// }
 		showLog("startinitfire" + (System.currentTimeMillis() - time));
 		new AsyncTask<Void, Void, Void>() {
 			@Override
