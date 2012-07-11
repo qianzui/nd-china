@@ -51,7 +51,7 @@ public class FireWallActivity extends Activity {
 	private List<PackageInfo> packageInfo;
 	private AppListAdapter appListAdapter;
 	public  MyListView appListView;
-	public  CustomProgressDialog customdialog;
+    CustomProgressDialog customdialog;
 	public ArrayList<PackageInfo> myAppList;
 	public ArrayList<PackageInfo> myAppList2;
 	private Context mContext = this;
@@ -69,43 +69,15 @@ public class FireWallActivity extends Activity {
 		// MobclickAgent.onError(this);
 		setContentView(R.layout.main2);
 		// 为了退出。
-		CustomProgressDialog customProgressDialog = new CustomProgressDialog(
-				mContext);
-		customdialog = customProgressDialog.createDialog(mContext);
-		customdialog.setCancelable(false);
-		customProgressDialog.setTitile("提示");
-		customProgressDialog.setMessage("获取列表中,请耐心等待,获取的时间长短取决于您安装软件的数量...");
-		time = System.currentTimeMillis();
-		customdialog.show();
 		Mapplication.getInstance().addActivity(this);
 //		initList(); 	
 		
 		 handler.post(new Runnable() {  
              @Override  
              public void run() { 
-            	 initList(); 	
-             }  
-         });  
-	}
-    
-
-
-
-	public void initList() { 
-//		CustomProgressDialog customProgressDialog = new CustomProgressDialog(
-//				mContext);
-//		customdialog = customProgressDialog.createDialog(mContext);
-//		customdialog.setCancelable(false);
-//		customProgressDialog.setTitile("提示");
-//		customProgressDialog.setMessage("获取列表中,请耐心等待,获取的时间长短取决于您安装软件的数量...");
-//		time = System.currentTimeMillis();
-//		customdialog.show();
-		final Handler handler = new Handler() {
-			public void handleMessage(Message msg) {
-				try {
-					setAdapter();
-					customdialog.dismiss();
-					if (Block.isShowHelp(mContext)) {
+            	 initList(); 
+            	 
+            	 if (Block.isShowHelp(mContext)) {
 						SpearheadActivity.showHelp(mContext);
 						Block.isShowHelpSet(mContext, false);
 					} else {
@@ -114,6 +86,26 @@ public class FireWallActivity extends Activity {
 									Toast.LENGTH_SHORT).show();
 						}
 					}
+             }  
+         });  
+	}
+    
+    
+
+
+	public void initList() { 
+		CustomProgressDialog customProgressDialog = new CustomProgressDialog(
+				mContext);
+		customdialog = customProgressDialog.createDialog(mContext);
+		customdialog.setCancelable(false);
+		customProgressDialog.setTitile("提示");
+		customProgressDialog.setMessage("获取列表中,请耐心等待,获取的时间长短取决于您安装软件的数量...");
+		customdialog.show();
+		final Handler handler = new Handler() {
+			public void handleMessage(Message msg) {
+				try {
+					setAdapter();
+					 customdialog.dismiss();
 				} catch (Exception ex) {
 				}
 			}
