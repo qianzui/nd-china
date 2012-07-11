@@ -17,17 +17,19 @@ import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
-import android.text.SpannableStringBuilder;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
 public class Appwidget extends AppWidgetProvider {
-	String BROADCAST_WIFI = "com.hiapk.wifiwidget";
-	String BROADCAST_GPRS = "com.hiapk.prgswidget";
-	String BROADCAST_TRAFF = "com.hiapk.traffwidget";
+	private String BROADCAST_WIFI = "com.hiapk.wifiwidget";
+	private String BROADCAST_GPRS = "com.hiapk.prgswidget";
+	private String BROADCAST_TRAFF = "com.hiapk.traffwidget";
 	// 初始化wifi与mobile状态
-	String APPWIDGET_UPDATE = "com.hiapkAPPWIDGET_UPDATE";
-	String MOTOROLA_WIDGET_ADD = "com.motorola.blur.home.ACTION_WIDGET_ADDED";
+	private String APPWIDGET_UPDATE = "com.hiapkAPPWIDGET_UPDATE";
+	private int WIFI_STATE_DISABLED = 0x00000001;
+	private int WIFI_STATE_DISABLING = 0x00000000;
+	private int WIFI_STATE_ENABLED = 0x00000003;
+	private int WIFI_STATE_ENABLING = 0x00000002;
 
 	@Override
 	public void onEnabled(Context context) {
@@ -99,12 +101,8 @@ public class Appwidget extends AppWidgetProvider {
 						R.layout.appwidget_layout_not_set);
 				views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout1,
 						pendingIntentwifi);
-				// views.setOnClickPendingIntent(R.id.widgetImageText1,
-				// pendingIntentwifi);
 				views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout2,
 						pendingIntentgprs);
-				// views.setOnClickPendingIntent(R.id.widgetImageText2,
-				// pendingIntentgprs);
 				views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout3,
 						pendingIntenttraff);
 				initWidget(context, views);
@@ -116,22 +114,12 @@ public class Appwidget extends AppWidgetProvider {
 				// pendingIntentwifi);
 				views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout1,
 						pendingIntentwifi);
-				// views.setOnClickPendingIntent(R.id.widgetImageText1,
-				// pendingIntentwifi);
 				views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout2,
 						pendingIntentgprs);
-				// views.setOnClickPendingIntent(R.id.widgetImageText2,
-				// pendingIntentgprs);
 				views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout3,
 						pendingIntenttraff);
-				// views.setOnClickPendingIntent(R.id.widgetTextview2,
-				// pendingIntenttraff);
-				// views.setOnClickPendingIntent(R.id.widgetTextview3,
-				// pendingIntenttraff);
 				initWidget(context, views);
 				// 设置文本状态
-				// TextView aa;
-				// aa.setText(text)
 				if (SetText.text1 != "今日已用: ...") {
 					views.setCharSequence(R.id.widgetTextview1, "setText",
 							SetText.text1);
@@ -145,26 +133,6 @@ public class Appwidget extends AppWidgetProvider {
 							SetText.text3);
 				}
 			}
-			// // 进行设置
-			// WifiManager wfm_on_off;
-			// wfm_on_off = (WifiManager) context
-			// .getSystemService(Context.WIFI_SERVICE);
-			//
-			// if (wfm_on_off.isWifiEnabled()) {
-			// // imbtn_wifi.setBackgroundResource(R.drawable.cross);
-			// views.setInt(R.id.widgetImage1, "setBackgroundResource",
-			// R.drawable.cross);
-			// } else {
-			// views.setInt(R.id.widgetImage1, "setBackgroundResource",
-			// R.drawable.ic_launcher);
-			// }
-
-			// views.setInt(R.id.widgetImage2, "setBackgroundResource",
-			// R.drawable.ic_launcher);
-			// ImageView daa;
-			// daa.setBackgroundResource(resid)
-			// Tell the AppWidgetManager to perform an update on the current App
-			// Widget
 
 			appWidgetManager.updateAppWidget(appWidgetId, views);
 			// appWidgetManager.updateAppWidget(new ComponentName(context,
@@ -186,20 +154,21 @@ public class Appwidget extends AppWidgetProvider {
 		WifiManager wfm_on_off;
 		wfm_on_off = (WifiManager) context
 				.getSystemService(Context.WIFI_SERVICE);
-		if (wfm_on_off.isWifiEnabled()) {
+		if (wfm_on_off.getWifiState() == WIFI_STATE_ENABLED) {
 			views.setImageViewResource(R.id.widget_wifi,
 					R.drawable.widget_wifi_on);
-			// TextView aa;
-			// aa.setTextColor(color)
-			// views.setInt(R.id.widgetImageText1, "setTextColor", Color.GREEN);
-			// views.setInt(R.id.widgetImage1, "setImageResource",
-			// R.drawable.icon_wifi_on);
-		} else {
-			// views.setInt(R.id.widgetImage1, "setImageResource",
-			// R.drawable.icon_wifi_off);
+		} else if (wfm_on_off.getWifiState() == WIFI_STATE_DISABLED) {
 			views.setImageViewResource(R.id.widget_wifi,
 					R.drawable.widget_wifi_off);
-			// views.setInt(R.id.widgetImageText1, "setTextColor", Color.GRAY);
+		} else if (wfm_on_off.getWifiState() == WIFI_STATE_ENABLING) {
+			views.setImageViewResource(R.id.widget_wifi,
+					R.drawable.widget_wifi_turing);
+		} else if (wfm_on_off.getWifiState() == WIFI_STATE_DISABLING) {
+			views.setImageViewResource(R.id.widget_wifi,
+					R.drawable.widget_wifi_turing);
+		} else {
+			views.setImageViewResource(R.id.widget_wifi,
+					R.drawable.widget_wifi_off);
 		}
 		// 初始化mobile
 		AlertActionMobileDataControl mobile_on_of = new AlertActionMobileDataControl();
@@ -214,25 +183,14 @@ public class Appwidget extends AppWidgetProvider {
 				views.setImageViewResource(R.id.widget_gprs,
 						R.drawable.widget_gprs_off);
 			}
-			// mobile_on_of.setMobileDataDisable(context);
-
-			// views.setInt(R.id.widgetImageText2, "setTextColor", Color.GRAY);
 		} else {
 			if (mobile_on_of.isMobileDataEnable(context)) {
 				views.setImageViewResource(R.id.widget_gprs,
 						R.drawable.widget_gprs_on);
-				// views.setInt(R.id.widgetImageText2, "setTextColor",
-				// Color.GREEN);
-				// views.setInt(R.id.widgetImage2, "setBackgroundResource",
-				// R.drawable.icon_mobile_on);
 
 			} else {
 				views.setImageViewResource(R.id.widget_gprs,
 						R.drawable.widget_gprs_off);
-				// views.setInt(R.id.widgetImageText2, "setTextColor",
-				// Color.GRAY);
-				// views.setInt(R.id.widgetImage2, "setBackgroundResource",
-				// R.drawable.icon_mobile_off);
 			}
 		}
 
@@ -284,16 +242,6 @@ public class Appwidget extends AppWidgetProvider {
 				// context.sendBroadcast(intentAppUpdate);
 			} else if (intent.getAction().equals(APPWIDGET_UPDATE)) {
 				initWidget(context, views);
-				// views.setCharSequence(R.id.widgetTextview1, "setText",
-				// SetText.text1);
-				// views.setCharSequence(R.id.widgetTextview2, "setText",
-				// SetText.text2);
-				// views.setCharSequence(R.id.widgetTextview3, "setText",
-				// SetText.text3);
-				// AppWidgetManager appWidgetManager = AppWidgetManager
-				// .getInstance(context);
-				// appWidgetManager.updateAppWidget(new ComponentName(context,
-				// Appwidget.class), views);
 			} else {
 				setwidgetListenerAndInit(context, monthSet);
 			}
@@ -321,16 +269,6 @@ public class Appwidget extends AppWidgetProvider {
 				// context.sendBroadcast(intentAppUpdate);
 			} else if (intent.getAction().equals(APPWIDGET_UPDATE)) {
 				initWidget(context, views);
-				// views.setCharSequence(R.id.widgetTextview1, "setText",
-				// SetText.text1);
-				// views.setCharSequence(R.id.widgetTextview2, "setText",
-				// SetText.text2);
-				// views.setCharSequence(R.id.widgetTextview3, "setText",
-				// SetText.text3);
-				// AppWidgetManager appWidgetManager = AppWidgetManager
-				// .getInstance(context);
-				// appWidgetManager.updateAppWidget(new ComponentName(context,
-				// Appwidget.class), views);
 			} else {
 				setwidgetListenerAndInit(context, monthSet);
 			}
@@ -364,12 +302,8 @@ public class Appwidget extends AppWidgetProvider {
 			// 设置监听
 			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout1,
 					pendingIntentwifi);
-			// views.setOnClickPendingIntent(R.id.widgetImageText1,
-			// pendingIntentwifi);
 			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout2,
 					pendingIntentgprs);
-			// views.setOnClickPendingIntent(R.id.widgetImageText2,
-			// pendingIntentgprs);
 			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout3,
 					pendingIntenttraff);
 		} else {
@@ -377,22 +311,12 @@ public class Appwidget extends AppWidgetProvider {
 					R.layout.appwidget_layout);
 
 			// 设置监听
-			// views.setOnClickPendingIntent(R.id.widgetImage1,
-			// pendingIntentwifi);
 			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout1,
 					pendingIntentwifi);
-			// views.setOnClickPendingIntent(R.id.widgetImageText1,
-			// pendingIntentwifi);
 			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout2,
 					pendingIntentgprs);
-			// views.setOnClickPendingIntent(R.id.widgetImageText2,
-			// pendingIntentgprs);
 			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout3,
 					pendingIntenttraff);
-			// views.setOnClickPendingIntent(R.id.widgetTextview2,
-			// pendingIntenttraff);
-			// views.setOnClickPendingIntent(R.id.widgetTextview3,
-			// pendingIntenttraff);
 			if (SetText.text1 != "今日已用: ...") {
 				views.setCharSequence(R.id.widgetTextview1, "setText",
 						SetText.text1);
@@ -422,25 +346,15 @@ public class Appwidget extends AppWidgetProvider {
 		WifiManager wfm_on_off;
 		wfm_on_off = (WifiManager) context
 				.getSystemService(Context.WIFI_SERVICE);
-		wfm_on_off.getWifiState();
-		if (wfm_on_off.isWifiEnabled()) {
+
+		if (wfm_on_off.getWifiState() == WIFI_STATE_ENABLED) {
 			wfm_on_off.setWifiEnabled(false);
-			// ImageView aa;
-			// aa.setImageResource(resId)
-			// views.setInt(R.id.widgetImage1, "setImageResource",
-			// R.drawable.icon_wifi_off);
-			views.setImageViewResource(R.id.widget_wifi,
-					R.drawable.widget_wifi_off);
-			// views.setInt(R.id.widgetImageText1, "setTextColor", Color.GRAY);
 			Toast.makeText(context, "wifi正在关闭", Toast.LENGTH_SHORT).show();
-		} else {
+		} else if (wfm_on_off.getWifiState() == WIFI_STATE_DISABLED) {
 			wfm_on_off.setWifiEnabled(true);
-			// views.setInt(R.id.widgetImage1, "setImageResource",
-			// R.drawable.icon_wifi_on);
-			views.setImageViewResource(R.id.widget_wifi,
-					R.drawable.widget_wifi_on);
-			// views.setInt(R.id.widgetImageText1, "setTextColor", Color.GREEN);
 			Toast.makeText(context, "wifi正在开启", Toast.LENGTH_SHORT).show();
+		} else {
+			Toast.makeText(context, "网络状态转换中...", Toast.LENGTH_SHORT).show();
 		}
 	}
 
