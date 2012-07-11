@@ -63,7 +63,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 						new AsyncTaskonRecordTotalData().execute(context);
 						// showLog(SQLHelperTotal.TableWiFiOrG23);
 					} else {
-						SQLStatic.setSQLTotalOnUsed(false);
 						SQLStatic.isTotalAlarmRecording = false;
 						showLog("Êý¾Ý¿âÃ¦£¬Î´¼ÇÂ¼");
 					}

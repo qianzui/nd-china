@@ -35,7 +35,7 @@ public class SQLHelperFireWall {
 		showLog("alarmover" + (System.currentTimeMillis() - time));
 		if (SQLStatic.getIsInit(context)) {
 			if (isReseting == false) {
-				isReseting = true;
+				isReseting=true;
 				new AsyncTaskonResume().execute(context);
 			}
 		}
@@ -60,7 +60,7 @@ public class SQLHelperFireWall {
 			SQLHelperUidRecordFire sqlhelperUidRecordall = new SQLHelperUidRecordFire(
 					params[0]);
 			HashMap<Integer, Data> mp = null;
-			while (SQLStatic.setSQLUidOnUsed(true)) {
+			while (!SQLStatic.setSQLUidOnUsed(true)) {
 				try {
 					Thread.sleep(50);
 				} catch (InterruptedException e) {
@@ -94,7 +94,7 @@ public class SQLHelperFireWall {
 		protected void onPostExecute(HashMap<Integer, Data> result) {
 			showLog("Recordover" + (System.currentTimeMillis() - time));
 			SQLStatic.uiddata = result;
-			isReseting = false;
+			isReseting=false;
 		}
 	}
 
