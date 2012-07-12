@@ -12,13 +12,14 @@ import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.provider.ColorChangeMainBeen;
+import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 
 public class SetText {
 	public static String textUp = "今日已用: 0 KB";
 	public static String textDown;
 	public static String text1 = "今日已用: ...";
 	public static String text2 = "距结算日: ...";
-	public static SpannableStringBuilder text3 =null;
+	public static SpannableStringBuilder text3 = null;
 
 	/**
 	 * 获取通知栏与小部件显示文字
@@ -32,19 +33,21 @@ public class SetText {
 		// TODO Auto-generated method stub
 		// 记录数据命令
 		// trafficManager.statsTotalTraffic(context, false);
+		if (TrafficManager.mobile_month_use == 1) {
+			SQLHelperDataexe.initShowData(context);
+		}
 		Time t = new Time();
 		t.setToNow();
 		int year = t.year;
 		int month = t.month + 1;
 		int monthDay = t.monthDay;
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
-		long[] monthUsed_this = new long[64];
-		monthUsed_this = TrafficManager.mobile_month_data;
+		// long[] monthUsed_this = new long[64];
+		// monthUsed_this = TrafficManager.mobile_month_data;
 		long monthSetLong = sharedData.getMonthMobileSetOfLong();
 		long monthUsedLong = TrafficManager.getMonthUseMobile(context);
 		// trafficManager.setMonthUseDate(monthUsedLong);
-		long todayUsedLong = monthUsed_this[monthDay]
-				+ monthUsed_this[monthDay + 31];
+		long todayUsedLong = sharedData.getTodayMobileDataLong();
 		String monthUsedStr = UnitHandler.unitHandlerAccurate(monthUsedLong);
 		String monthSetStr = UnitHandler.unitHandler(monthSetLong);
 		String todayUsedStr = UnitHandler.unitHandlerAccurate(todayUsedLong);

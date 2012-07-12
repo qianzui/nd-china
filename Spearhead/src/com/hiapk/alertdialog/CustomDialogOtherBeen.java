@@ -9,21 +9,25 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
+import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.progressdialog.CustomProgressDialog;
 import com.hiapk.spearhead.R;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
+import com.hiapk.widget.SetText;
 
 public class CustomDialogOtherBeen {
 	Context context;
 	SharedPrefrenceDataWidget sharedDatawidget;
+	SharedPrefrenceData sharedData;
 
 	public CustomDialogOtherBeen(Context context) {
 		this.context = context;
-		sharedDatawidget = new SharedPrefrenceDataWidget(
-				context);
+		sharedDatawidget = new SharedPrefrenceDataWidget(context);
+		sharedData = new SharedPrefrenceData(context);
 	}
 
 	/**
@@ -205,14 +209,14 @@ public class CustomDialogOtherBeen {
 			}
 			SQLHelperInitSQL sqlhelperInit = new SQLHelperInitSQL(context);
 			sqlhelperInit.initSQL(params[0], uids, packagenames);
-			while (SQLStatic.getIsInit(context)==false) {
+			while (SQLStatic.getIsInit(context) == false) {
 				try {
 					Thread.sleep(300);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 			}
 			return 0;
 		}
@@ -231,6 +235,14 @@ public class CustomDialogOtherBeen {
 		protected void onPostExecute(Integer result) {
 			// TODO Auto-generated method stub
 			if (result == 0) {
+				TrafficManager.mobile_month_use = 1;
+				TrafficManager.wifi_month_data = new long[64];
+				TrafficManager.wifi_month_data_before = new long[64];
+				TrafficManager.mobile_month_data = new long[64];
+				TrafficManager.mobile_month_data_before = new long[64];
+				sharedData.setMonthHasUsedStack(0);
+				sharedData.setTodayMobileDataLong(0);
+				SetText.resetWidgetAndNotify(context);
 				SQLStatic.setSQLTotalOnUsed(false);
 				SQLStatic.setSQLUidOnUsed(false);
 				SQLStatic.setSQLUidTotalOnUsed(false);

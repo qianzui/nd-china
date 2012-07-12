@@ -1,12 +1,28 @@
 package com.hiapk.sqlhelper.pub;
 
+import com.hiapk.dataexe.MonthlyUseData;
+import com.hiapk.dataexe.TrafficManager;
+import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
+import com.hiapk.sqlhelper.total.SQLHelperTotal;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.TrafficStats;
+import android.os.AsyncTask;
+import android.text.format.Time;
+
 /**
  * 读取系统总数据与分流量数据的具体流量
+ * 
  * @author Administrator
- *
+ * 
  */
 public class SQLHelperDataexe {
+	private static int year;
+	private static int month;
+	private static String network;
+	private static int monthDay;
+
 	/**
 	 * 初始化流量数据
 	 * 
@@ -69,5 +85,105 @@ public class SQLHelperDataexe {
 		totaltraff[0] = upload;
 		totaltraff[1] = download;
 		return totaltraff;
+	}
+
+	public static void initShowData(Context context) {
+		new AsyncTaskonResume().execute(context);
+	}
+
+	private static class AsyncTaskonResume extends
+			AsyncTask<Context, Integer, Integer> {
+
+		@Override
+		protected Integer doInBackground(Context... params) {
+			while (SQLStatic.setSQLTotalOnUsed(true)) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+
+			initDataWithnoNetwork(params[0]);
+			SQLStatic.setSQLTotalOnUsed(false);
+			return 3;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+		}
+	}
+
+	private static void initDataWithnoNetwork(Context context) {
+		SQLStatic.initTablemobileAndwifi(context);
+		network = SQLStatic.TableWiFiOrG23;
+		if (TrafficManager.mobile_month_use == 1) {
+			long mobile_month_use_afterSet = 0;
+			long[] wifi_month_data = new long[64];
+			long[] mobile_month_data = new long[64];
+			long[] wifi_month_data_before = new long[64];
+			long[] mobile_month_data_before = new long[64];
+			MonthlyUseData monthlyUseData = new MonthlyUseData();
+			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
+			SQLiteDatabase sqlDataBase = SQLHelperCreateClose
+					.creatSQLTotal(context);
+			sqlDataBase.beginTransaction();
+			try {
+				// 断网后的最后一次记录
+				sqlhelperTotal.RecordTotalwritestats(context, sqlDataBase,
+						false, network);
+				// 生成基本常用数据
+				initTime();
+				mobile_month_use_afterSet = monthlyUseData.getMonthUseData(
+						context, sqlDataBase);
+				wifi_month_data = sqlhelperTotal.SelectWifiData(sqlDataBase,
+						year, month);
+				mobile_month_data = sqlhelperTotal.SelectMobileData(
+						sqlDataBase, year, month);
+				if (month == 1) {
+					mobile_month_data_before = sqlhelperTotal.SelectMobileData(
+							sqlDataBase, year - 1, 12);
+					wifi_month_data_before = sqlhelperTotal.SelectWifiData(
+							sqlDataBase, year - 1, 12);
+				} else {
+					mobile_month_data_before = sqlhelperTotal.SelectMobileData(
+							sqlDataBase, year, month - 1);
+					wifi_month_data_before = sqlhelperTotal.SelectWifiData(
+							sqlDataBase, year, month - 1);
+				}
+				sqlhelperTotal.autoClearData(sqlDataBase);
+				sqlDataBase.setTransactionSuccessful();
+				// 对数据进行赋值
+				TrafficManager.mobile_month_use = mobile_month_use_afterSet;
+				TrafficManager.wifi_month_data = wifi_month_data;
+				TrafficManager.mobile_month_data = mobile_month_data;
+				TrafficManager.mobile_month_data_before = mobile_month_data_before;
+				TrafficManager.wifi_month_data_before = wifi_month_data_before;
+				SharedPrefrenceDataWidget sharedData = new SharedPrefrenceDataWidget(
+						context);
+				sharedData.setTodayMobileDataLong(mobile_month_data[monthDay]
+						+ mobile_month_data[monthDay + 31]);
+				// showLog("wifitotal=" + wifi_month_data[0] + "");
+			} catch (Exception e) {
+			} finally {
+				sqlDataBase.endTransaction();
+				SQLStatic.isTotalAlarmRecording = false;
+			}
+			SQLHelperCreateClose.closeSQL(sqlDataBase);
+		}
+	}
+
+	/**
+	 * 初始化系统时间
+	 */
+	private static void initTime() {
+		// Time t = new Time("GMT+8");
+		Time t = new Time();
+		t.setToNow(); // 取得系统时间。
+		// 取得系统时间。
+		year = t.year;
+		month = t.month + 1;
+		monthDay = t.monthDay;
+
 	}
 }

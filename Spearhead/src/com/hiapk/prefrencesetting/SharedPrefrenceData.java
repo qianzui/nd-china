@@ -35,6 +35,7 @@ public class SharedPrefrenceData {
 	private String PACKAGE_NAMES = "allpackagenames";
 	// 累计月度流量统计-与设置的月度使用值不同
 	private String MONTH_HAS_USE_STACK_DATA = "monthhasusestack";
+	private String TODAY_MOBILE_DATA = "todaymobiledata";
 
 	public SharedPrefrenceData(Context context) {
 		prefs = context.getSharedPreferences(PREFS_NAME, 0);
@@ -46,6 +47,17 @@ public class SharedPrefrenceData {
 	}
 
 	// SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+
+	public long getTodayMobileDataLong() {
+		long TodayMobileDataLong = prefs.getLong(TODAY_MOBILE_DATA, 0);
+		return TodayMobileDataLong;
+	}
+
+	public void setTodayMobileDataLong(long TodayMobileDataLong) {
+		UseEditor.putLong(TODAY_MOBILE_DATA, TodayMobileDataLong);
+		UseEditor.commit();
+
+	}
 
 	public long getMonthHasUsedStack() {
 		long mobileUseFloat = prefs.getLong(MONTH_HAS_USE_STACK_DATA, -100);
