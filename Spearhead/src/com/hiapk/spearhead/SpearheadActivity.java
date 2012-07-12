@@ -57,7 +57,7 @@ public class SpearheadActivity extends TabActivity {
 		// MobclickAgent.onError(this);
 		setContentView(R.layout.maintabs);
 		// 为了退出。
-				Mapplication.getInstance().addActivity(this);
+		Mapplication.getInstance().addActivity(this);
 		firehelp = (ImageView) findViewById(R.id.help_image);
 		initScene();
 		switchScene();
@@ -110,6 +110,7 @@ public class SpearheadActivity extends TabActivity {
 			}
 		});
 	}
+
 	public static void hideHelp() {
 		firehelp.setOnClickListener(new OnClickListener() {
 			@Override
@@ -127,7 +128,7 @@ public class SpearheadActivity extends TabActivity {
 		// 选择界面
 		Bundle choose = this.getIntent().getExtras();
 		int tab = choose.getInt("TAB");
-		Log.d("spearhead", tab + "");
+		// Log.d("spearhead", tab + "");
 		switch (tab) {
 		case 3:
 			group.clearCheck();
