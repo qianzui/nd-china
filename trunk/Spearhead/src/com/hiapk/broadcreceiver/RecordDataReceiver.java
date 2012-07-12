@@ -3,6 +3,7 @@ package com.hiapk.broadcreceiver;
 import com.hiapk.alertaction.TrafficAlert;
 import com.hiapk.dataexe.MonthlyUseData;
 import com.hiapk.dataexe.TrafficManager;
+import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.sqlhelper.total.SQLHelperTotal;
@@ -36,11 +37,13 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	// fortest
 	long time;
 	Context context;
+	SharedPrefrenceDataWidget sharedData;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
 		showLog("onReceive");
+		sharedData = new SharedPrefrenceDataWidget(context);
 		if (SQLStatic.isTotalAlarmRecording == false) {
 			SQLStatic.isTotalAlarmRecording = true;
 			SQLStatic.initTablemobileAndwifi(context);
@@ -148,6 +151,8 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			TrafficManager.mobile_month_data = mobile_month_data;
 			TrafficManager.mobile_month_data_before = mobile_month_data_before;
 			TrafficManager.wifi_month_data_before = wifi_month_data_before;
+			sharedData.setTodayMobileDataLong(mobile_month_data[monthDay]
+					+ mobile_month_data[monthDay + 31]);
 			// showLog("wifitotal=" + wifi_month_data[0] + "");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -214,7 +219,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-//		Log.d("ReceiverTotal", string);
+		// Log.d("ReceiverTotal", string);
 	}
 
 }

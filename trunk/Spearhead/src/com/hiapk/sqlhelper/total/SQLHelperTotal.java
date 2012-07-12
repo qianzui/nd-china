@@ -306,10 +306,11 @@ public class SQLHelperTotal {
 									context);
 							long beforemobile = sharedData
 									.getMonthHasUsedStack();
-							if (beforemobile != -100) {
-								beforemobile = beforemobile + oldup0 + olddown0;
-								sharedData.setMonthHasUsedStack(beforemobile);
+							if (beforemobile == -100) {
+								beforemobile = 0;
 							}
+							beforemobile = beforemobile + oldup0 + olddown0;
+							sharedData.setMonthHasUsedStack(beforemobile);
 						}
 
 					}
@@ -328,11 +329,11 @@ public class SQLHelperTotal {
 							context);
 					if (table == "mobile") {
 						long beforemobile = sharedData.getMonthHasUsedStack();
-						if (beforemobile != -100) {
-
-							beforemobile = beforemobile + oldup0 + olddown0;
-							sharedData.setMonthHasUsedStack(beforemobile);
+						if (beforemobile == -100) {
+							beforemobile = 0;
 						}
+						beforemobile = beforemobile + oldup0 + olddown0;
+						sharedData.setMonthHasUsedStack(beforemobile);
 					}
 				}
 				if (cur != null) {
