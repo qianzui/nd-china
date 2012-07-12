@@ -349,12 +349,15 @@ public class Appwidget extends AppWidgetProvider {
 
 		if (wfm_on_off.getWifiState() == WIFI_STATE_ENABLED) {
 			wfm_on_off.setWifiEnabled(false);
-			Toast.makeText(context, "wifi正在关闭", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, R.string.wifi_off, Toast.LENGTH_SHORT)
+					.show();
 		} else if (wfm_on_off.getWifiState() == WIFI_STATE_DISABLED) {
 			wfm_on_off.setWifiEnabled(true);
-			Toast.makeText(context, "wifi正在开启", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, R.string.wifi_on, Toast.LENGTH_SHORT)
+					.show();
 		} else {
-			Toast.makeText(context, "网络状态转换中...", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, R.string.wifi_turing, Toast.LENGTH_SHORT)
+					.show();
 		}
 	}
 
@@ -370,7 +373,7 @@ public class Appwidget extends AppWidgetProvider {
 		AlertActionMobileDataControl mobile_on_of = new AlertActionMobileDataControl();
 		tm.getSimState();
 		if (Integer.valueOf(android.os.Build.VERSION.SDK) < 10) {
-			Toast.makeText(context, "您的手机或者Android系统版本不支持操作移动数据开关",
+			Toast.makeText(context, R.string.mobile_notsupport,
 					Toast.LENGTH_SHORT).show();
 		} else {
 			if (tm.getSimState() != TelephonyManager.SIM_STATE_READY) {
@@ -379,7 +382,7 @@ public class Appwidget extends AppWidgetProvider {
 						R.drawable.widget_gprs_off);
 				// views.setInt(R.id.widgetImageText2, "setTextColor",
 				// Color.GRAY);
-				Toast.makeText(context, "未检测到SIM卡或者SIM卡未就绪，无法启动移动网络",
+				Toast.makeText(context, R.string.mobile_nosim,
 						Toast.LENGTH_SHORT).show();
 				if (mobile_on_of.isMobileDataEnable(context)) {
 					views.setImageViewResource(R.id.widget_gprs,
@@ -397,8 +400,8 @@ public class Appwidget extends AppWidgetProvider {
 							R.drawable.widget_gprs_off);
 					// views.setInt(R.id.widgetImageText2, "setTextColor",
 					// Color.GRAY);
-					Toast.makeText(context, "移动网络正在关闭", Toast.LENGTH_SHORT)
-							.show();
+					Toast.makeText(context, R.string.mobile_off,
+							Toast.LENGTH_SHORT).show();
 
 				} else {
 					mobile_on_of.setMobileDataEnable(context);
@@ -408,8 +411,8 @@ public class Appwidget extends AppWidgetProvider {
 							R.drawable.widget_gprs_on);
 					// views.setInt(R.id.widgetImageText2, "setTextColor",
 					// Color.GREEN);
-					Toast.makeText(context, "移动网络正在开启", Toast.LENGTH_SHORT)
-							.show();
+					Toast.makeText(context, R.string.mobile_on,
+							Toast.LENGTH_SHORT).show();
 				}
 			}
 		}
