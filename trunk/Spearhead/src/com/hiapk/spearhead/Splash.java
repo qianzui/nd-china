@@ -1,6 +1,5 @@
 package com.hiapk.spearhead;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -8,9 +7,6 @@ import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.MonthlyUseData;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.Block;
-import com.hiapk.firewall.GetRoot;
-import com.hiapk.firewall.MyListView;
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
@@ -50,15 +46,6 @@ public class Splash extends Activity {
 		pm = context.getPackageManager();
 		time = System.currentTimeMillis();
 		// MobclickAgent.onError(this);
-		if (SQLStatic.TableWiFiOrG23 == "") {
-			SQLStatic.initTablemobileAndwifi(context);
-		}
-		showLog("alarmover" + (System.currentTimeMillis() - time));
-		SQLStatic.initTablemobileAndwifi(context);
-		// MobclickAgent.onError(this);
-		showLog("uidinitbeforeover" + (System.currentTimeMillis() - time));
-		SQLStatic.getuidsAndpacname(context);
-		showLog("uidinitover" + (System.currentTimeMillis() - time));
 		isinited = SQLStatic.getIsInit(context);
 		showLog("isinited=" + isinited);
 		if (isinited) {
@@ -145,10 +132,15 @@ public class Splash extends Activity {
 
 		@Override
 		protected Integer doInBackground(Context... params) {
-			// if (isinited == false) {
-			// // new AsyncTaskinitDatabase().execute(context);
-			// initSQLdatabase(context, SQLStatic.uids, SQLStatic.packagenames);
-			// }
+			if (SQLStatic.TableWiFiOrG23 == "") {
+				SQLStatic.initTablemobileAndwifi(context);
+			}
+			showLog("alarmover" + (System.currentTimeMillis() - time));
+			SQLStatic.initTablemobileAndwifi(context);
+			// MobclickAgent.onError(this);
+			showLog("uidinitbeforeover" + (System.currentTimeMillis() - time));
+			SQLStatic.getuidsAndpacname(context);
+			showLog("uidinitover" + (System.currentTimeMillis() - time));
 			while (SQLStatic.setSQLTotalOnUsed(true)) {
 				try {
 					Thread.sleep(100);
@@ -182,31 +174,16 @@ public class Splash extends Activity {
 
 		@Override
 		protected Integer doInBackground(Context... params) {
+			if (SQLStatic.TableWiFiOrG23 == "") {
+				SQLStatic.initTablemobileAndwifi(context);
+			}
+			showLog("alarmover" + (System.currentTimeMillis() - time));
+			SQLStatic.initTablemobileAndwifi(context);
+			// MobclickAgent.onError(this);
+			showLog("uidinitbeforeover" + (System.currentTimeMillis() - time));
+			SQLStatic.getuidsAndpacname(context);
+			showLog("uidinitover" + (System.currentTimeMillis() - time));
 
-			// while (!SQLStatic.setSQLTotalOnUsed(true)) {
-			// try {
-			// Thread.sleep(100);
-			// } catch (InterruptedException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
-			// }
-			// while (!SQLStatic.setSQLUidOnUsed(true)) {
-			// try {
-			// Thread.sleep(100);
-			// } catch (InterruptedException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
-			// }
-			// while (!SQLStatic.setSQLUidTotalOnUsed(true)) {
-			// try {
-			// Thread.sleep(100);
-			// } catch (InterruptedException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
-			// }
 			showLog("startinitSQL" + (System.currentTimeMillis() - time));
 			initSQLdatabase(params[0], SQLStatic.uidnumbers,
 					SQLStatic.packagenames);
