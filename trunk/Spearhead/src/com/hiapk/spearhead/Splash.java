@@ -296,6 +296,6 @@ public class Splash extends Activity {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		Log.d("Splash", string);
+//		Log.d("Splash", string);
 	}
 }

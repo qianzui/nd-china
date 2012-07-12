@@ -547,6 +547,6 @@ public class SQLHelperInitSQL {
 	 * @param string
 	 */
 	private void showLog(String string) {
-		Log.d("databaseSQLInit", string);
+//		Log.d("databaseSQLInit", string);
 	}
 }
