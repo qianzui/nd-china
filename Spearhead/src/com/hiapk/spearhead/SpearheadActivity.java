@@ -101,7 +101,7 @@ public class SpearheadActivity extends TabActivity {
 	public static void showHelp(Context mContext) {
 		Drawable d = mContext.getResources().getDrawable(R.drawable.fire_help);
 		firehelp.setBackgroundDrawable(d);
-		firehelp.setVisibility(View.VISIBLE);
+//		firehelp.setVisibility(View.VISIBLE);
 		firehelp.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -112,13 +112,7 @@ public class SpearheadActivity extends TabActivity {
 	}
 
 	public static void hideHelp() {
-		firehelp.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				firehelp.setVisibility(View.INVISIBLE);
-			}
-		});
+		firehelp.setVisibility(View.INVISIBLE);
 	}
 
 	/**

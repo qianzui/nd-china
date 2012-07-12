@@ -407,21 +407,19 @@ public class FireWallActivity extends Activity {
 		super.onResume();
 		SQLHelperFireWall SQLFire = new SQLHelperFireWall();
 		SQLFire.resetMP(mContext);
-		SpearheadActivity.hideHelp();
 		// MobclickAgent.onResume(this);
 	}
 
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		SpearheadActivity.hideHelp();
+		SpearheadActivity.hideHelp(); 
 	}
 
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		SpearheadActivity.hideHelp();
 	}
 
 
