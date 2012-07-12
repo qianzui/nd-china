@@ -97,8 +97,8 @@ public class FireWallActivity extends Activity {
 					setAdapter();
 					 customdialog.dismiss();
 					 if (Block.isShowHelp(mContext)) {
-							SpearheadActivity.showHelp(mContext);
-							Block.isShowHelpSet(mContext, false);
+							showHelp(mContext);
+						 SpearheadActivity.isHide = true;
 						} else {
 							if (Block.fireTip(mContext)) {
 								Toast.makeText(mContext, "下拉列表可以进行刷新!",
@@ -132,6 +132,19 @@ public class FireWallActivity extends Activity {
 		}).start();
 	}
 
+	public void showHelp(final Context mContext) {
+		Drawable d = mContext.getResources().getDrawable(R.drawable.fire_help);
+		SpearheadActivity.firehelp.setBackgroundDrawable(d);
+//		firehelp.setVisibility(View.VISIBLE);
+		SpearheadActivity.firehelp.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				SpearheadActivity.firehelp.setVisibility(View.INVISIBLE);
+				Block.isShowHelpSet(mContext, false);
+			}
+		});
+	}
 	public void setAdapter() {
 		appListView = (MyListView) findViewById(R.id.app_list);
 		appListAdapter = new AppListAdapter(FireWallActivity.this, getList(mContext)
