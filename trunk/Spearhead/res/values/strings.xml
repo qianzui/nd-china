@@ -1,37 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="hello">Hello World, main!</string>
-	<string name="app_name">  先锋流量监控</string>
-	<string name="main_1">流量监控</string>
-	<string name="main_2">防火墙</string>
-	<string name="main_3">流量预警</string>
-	<string name="main_edit">编写</string>
-	<string name="twoGthreeG">\u0020\u0020 2G/3G</string>
-	<string name="wifi">\u0020\u0020 总流量</string>
-	<string name="todayUsed">今日已用:\u0020</string>
-	<string name="rate">0</string>
-	<string name="weekUsed">剩余流量:\u0020</string>
-	<string name="monthTotal">本月统计:\u0020</string>
-	
-	<string name="tip">    此功能(切换联网状态)需要Root权限!请确定您的机器已经破解并获得Root权限</string>
-	<string name="tip_content">    此功能(切换联网状态)需要Root权限! 您确定要继续吗?</string>
-	<string name="tip_content_isroot">\n 是否获取？</string>  
-	<string name="ok">确定</string>
-	<string name="cancle">取消</string>
-	<string name="fire_applyed">防火墙已应用成功！</string>
-	<item type="id" name="tag_holder"></item>
-	<item type="id" name="tag_pkginfo"></item>
-	<item type="id" name="tag_view"></item>
-	<string name="daySelect">请选择日期</string>
-	<string name="warningActionSelect">请选择预警动作</string>
-	<string name="unitSelect">请选择单位</string>
-	<string name="provinceSelect">请选择省份</string>
-	<string name="citySelect">请选择城市</string>
-	<string name="operatorSelect">请选择运营商</string>
-	<string name="brankSelect">请选择品牌</string>
-	<string name="onlynotify"><b>仅通知栏提示</b></string>
-	<string name="notifyandvit"><b>振动提示</b></string>
-	<string name="autooffnet"><b>自动断网</b></string>
-	<string name="vitandaotuoffnet"><b>振动+自动断网</b></string>
-	
+
+    <string name="hello">Hello World, main!</string>
+    <string name="app_name">  先锋流量监控</string>
+    <string name="main_1">流量监控</string>
+    <string name="main_2">防火墙</string>
+    <string name="main_3">流量预警</string>
+    <string name="main_edit">编写</string>
+    <string name="twoGthreeG">\u0020\u0020 2G/3G</string>
+    <string name="wifi">\u0020\u0020 总流量</string>
+    <string name="todayUsed">今日已用:\u0020</string>
+    <string name="rate">0</string>
+    <string name="weekUsed">剩余流量:\u0020</string>
+    <string name="monthTotal">本月统计:\u0020</string>
+    <string name="tip">    此功能(切换联网状态)需要Root权限!请确定您的机器已经破解并获得Root权限</string>
+    <string name="tip_content">    此功能(切换联网状态)需要Root权限! 您确定要继续吗?</string>
+    <string name="tip_content_isroot">\n 是否获取？</string>
+    <string name="ok">确定</string>
+    <string name="cancle">取消</string>
+    <string name="fire_applyed">防火墙已应用成功！</string>
+
+    <item name="tag_holder" type="id"></item>
+    <item name="tag_pkginfo" type="id"></item>
+    <item name="tag_view" type="id"></item>
+
+    <string name="daySelect">请选择日期</string>
+    <string name="warningActionSelect">请选择预警动作</string>
+    <string name="unitSelect">请选择单位</string>
+    <string name="provinceSelect">请选择省份</string>
+    <string name="citySelect">请选择城市</string>
+    <string name="operatorSelect">请选择运营商</string>
+    <string name="brankSelect">请选择品牌</string>
+    <string name="onlynotify"><b>仅通知栏提示</b></string>
+    <string name="notifyandvit"><b>振动提示</b></string>
+    <string name="autooffnet"><b>自动断网</b></string>
+    <string name="vitandaotuoffnet"><b>振动+自动断网</b></string>
+    <string name="wifi_on">wifi正在开启</string>
+    <string name="wifi_off">wifi正在关闭</string>
+    <string name="wifi_turing"></string>
+    <string name="mobile_nosim">未检测到SIM卡或者SIM卡未就绪，无法启动移动网络</string>
+    <string name="mobile_notsupport">您的手机或者Android系统版本不支持操作移动数据开关</string>
+    <string name="mobile_on">移动网络正在开启</string>
+    <string name="mobile_off">移动网络正在关闭</string>
+
 </resources>
