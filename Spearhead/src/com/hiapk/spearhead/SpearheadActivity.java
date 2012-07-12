@@ -86,6 +86,7 @@ public class SpearheadActivity extends TabActivity {
 				switch (checkedId) {
 				case R.id.radio_button0:
 					hideHelp();
+					isHide = false;
 					tabHost.setCurrentTabByTag(TAB_MONITOR);
 					break;
 				case R.id.radio_button1:
@@ -94,6 +95,7 @@ public class SpearheadActivity extends TabActivity {
 					break;
 				case R.id.radio_button2:
 					hideHelp();
+					isHide = false;
 					tabHost.setCurrentTabByTag(TAB_WARNING);
 					break;
 				default:
@@ -103,15 +105,16 @@ public class SpearheadActivity extends TabActivity {
 		});
 	}
 
-	public static  void showHelp(Context mContext) {
+	public  void showHelp(Context mContext) {
 		Drawable d = mContext.getResources().getDrawable(R.drawable.fire_help);
 		firehelp.setBackgroundDrawable(d);
-//		firehelp.setVisibility(View.VISIBLE);
+		firehelp.setVisibility(View.VISIBLE);
 		firehelp.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				firehelp.setVisibility(View.INVISIBLE);
+				Block.isShowHelpSet(context, false);
 			}
 		});
 	}
@@ -120,10 +123,12 @@ public class SpearheadActivity extends TabActivity {
 		firehelp.setVisibility(View.INVISIBLE);
 	}
 	public  void showHelp() {
-		 if (Block.isShowHelp(context)) {
-			 firehelp.setVisibility(View.VISIBLE);
-			}
-		
+		if(Block.isShowHelp(context)){
+			firehelp.setVisibility(View.VISIBLE);
+		}
+		if(Block.isShowHelp(context) && isHide){
+			 showHelp(context);
+		}
 	}
 
 	/**
