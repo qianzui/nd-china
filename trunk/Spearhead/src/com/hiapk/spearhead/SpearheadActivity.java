@@ -5,6 +5,7 @@ import java.util.TimerTask;
 
 import com.hiapk.alertaction.AlertActionNotify;
 import com.hiapk.alertdialog.CustomDialogFAQBeen;
+import com.hiapk.firewall.Block;
 import com.hiapk.prefrencesetting.PrefrenceSetting;
 import com.hiapk.progressdialog.CustomProgressDialog;
 
@@ -43,6 +44,7 @@ public class SpearheadActivity extends TabActivity {
 	public ProgressDialog pro;
 	public static ImageView firehelp;
 	private Timer tExit = new Timer();
+	public static boolean isHide = false;
 	private TimerTask task = new TimerTask() {
 		@Override
 		public void run() {
@@ -83,12 +85,15 @@ public class SpearheadActivity extends TabActivity {
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				switch (checkedId) {
 				case R.id.radio_button0:
+					hideHelp();
 					tabHost.setCurrentTabByTag(TAB_MONITOR);
 					break;
 				case R.id.radio_button1:
+					showHelp();
 					tabHost.setCurrentTabByTag(TAB_FIREWALL);
 					break;
 				case R.id.radio_button2:
+					hideHelp();
 					tabHost.setCurrentTabByTag(TAB_WARNING);
 					break;
 				default:
@@ -98,7 +103,7 @@ public class SpearheadActivity extends TabActivity {
 		});
 	}
 
-	public static void showHelp(Context mContext) {
+	public static  void showHelp(Context mContext) {
 		Drawable d = mContext.getResources().getDrawable(R.drawable.fire_help);
 		firehelp.setBackgroundDrawable(d);
 //		firehelp.setVisibility(View.VISIBLE);
@@ -111,8 +116,14 @@ public class SpearheadActivity extends TabActivity {
 		});
 	}
 
-	public static void hideHelp() {
+	public  void hideHelp() {
 		firehelp.setVisibility(View.INVISIBLE);
+	}
+	public  void showHelp() {
+		 if (Block.isShowHelp(context)) {
+			 firehelp.setVisibility(View.VISIBLE);
+			}
+		
 	}
 
 	/**
