@@ -123,13 +123,14 @@
         <receiver android:name="com.hiapk.broadcreceiver.ConnectivityChange" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                  <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
-                
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
         </receiver>
         <receiver android:name="com.hiapk.broadcreceiver.RecordDataReceiver" >
         </receiver>
         <receiver android:name="com.hiapk.broadcreceiver.DateChangeBroadcast" >
+        </receiver>
+        <receiver android:name="com.hiapk.broadcreceiver.ExitAppBroadcast" >
         </receiver>
         <receiver android:name="com.hiapk.broadcreceiver.TimeChangeToStartDateChange" >
             <intent-filter>

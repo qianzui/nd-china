@@ -134,7 +134,7 @@ public class UnitHandler {
 			unit.setText(" MB");
 		} else if ((floatnum = (float) temp / 1024) < 1) {
 			DecimalFormat format = new DecimalFormat("0.##");
-			value = format.format(temp);
+			value = format.format(floatnum);
 			unit.setText(" MB");
 		} else if ((floatGB = floatnum / 1024) < 1) {
 			DecimalFormat format = new DecimalFormat("0.##");

@@ -20,7 +20,8 @@ public class SetText {
 	public static String text1 = "今日已用: ...";
 	public static String text2 = "距结算日: ...";
 	public static SpannableStringBuilder text3 = null;
-
+	public static int FloatIntX=50;
+	public static int FloatIntY=50;
 	/**
 	 * 获取通知栏与小部件显示文字
 	 * 

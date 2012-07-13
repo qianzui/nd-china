@@ -22,6 +22,8 @@ public class SharedPrefrenceDataWidget {
 	private final String MODE_NOTINIT = "SQLisnotINIT";
 	private final String MODE_HASINIT = "SQLhasINIT";
 	private String TODAY_MOBILE_DATA = "todaymobiledata";
+	private final String FLOAT_X = "floatX";
+	private final String FLOAT_Y = "floatY";
 
 	public SharedPrefrenceDataWidget(Context context) {
 		prefs = context.getSharedPreferences(PREFS_NAME, 0);
@@ -30,6 +32,28 @@ public class SharedPrefrenceDataWidget {
 		// UseEditor_sys =
 		// PreferenceManager.getDefaultSharedPreferences(context)
 		// .edit();
+	}
+
+	public int getIntX() {
+		int TodayMobileDataLong = prefs.getInt(FLOAT_X, 50);
+		return TodayMobileDataLong;
+	}
+
+	public void setIntX(int TodayMobileDataLong) {
+		UseEditor.putInt(FLOAT_X, TodayMobileDataLong);
+		UseEditor.commit();
+
+	}
+
+	public int getIntY() {
+		int TodayMobileDataLong = prefs.getInt(FLOAT_Y, 50);
+		return TodayMobileDataLong;
+	}
+
+	public void setIntY(int TodayMobileDataLong) {
+		UseEditor.putInt(FLOAT_Y, TodayMobileDataLong);
+		UseEditor.commit();
+
 	}
 
 	public long getTodayMobileDataLong() {

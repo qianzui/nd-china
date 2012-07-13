@@ -69,7 +69,7 @@ public class Main extends Activity {
 		SetText.setText(context);
 		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
 				context);
-		if (sharedDatawidget.isNotifyOpen()) {
+		if (sharedDatawidget.isNotifyOpen()||sharedDatawidget.isWidGet14Open()) {
 			alset.StartWidgetAlarm(context);
 		}
 		setonclicklistens();
