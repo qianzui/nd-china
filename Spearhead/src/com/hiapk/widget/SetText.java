@@ -33,9 +33,6 @@ public class SetText {
 		// TODO Auto-generated method stub
 		// ¼ÇÂ¼Êý¾ÝÃüÁî
 		// trafficManager.statsTotalTraffic(context, false);
-		if (TrafficManager.mobile_month_use == 1) {
-			SQLHelperDataexe.initShowData(context);
-		}
 		Time t = new Time();
 		t.setToNow();
 		int year = t.year;

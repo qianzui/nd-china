@@ -116,61 +116,59 @@ public class SQLHelperDataexe {
 
 	private static void initDataWithnoNetwork(Context context) {
 		SQLStatic.initTablemobileAndwifi(context);
-		network = SQLStatic.TableWiFiOrG23;
-		if (TrafficManager.mobile_month_use == 1) {
-			long mobile_month_use_afterSet = 0;
-			long[] wifi_month_data = new long[64];
-			long[] mobile_month_data = new long[64];
-			long[] wifi_month_data_before = new long[64];
-			long[] mobile_month_data_before = new long[64];
-			MonthlyUseData monthlyUseData = new MonthlyUseData();
-			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
-			SQLiteDatabase sqlDataBase = SQLHelperCreateClose
-					.creatSQLTotal(context);
-			sqlDataBase.beginTransaction();
-			try {
-				// 断网后的最后一次记录
-				sqlhelperTotal.RecordTotalwritestats(context, sqlDataBase,
-						false, network);
-				// 生成基本常用数据
-				initTime();
-				mobile_month_use_afterSet = monthlyUseData.getMonthUseData(
-						context, sqlDataBase);
-				wifi_month_data = sqlhelperTotal.SelectWifiData(sqlDataBase,
-						year, month);
-				mobile_month_data = sqlhelperTotal.SelectMobileData(
-						sqlDataBase, year, month);
-				if (month == 1) {
-					mobile_month_data_before = sqlhelperTotal.SelectMobileData(
-							sqlDataBase, year - 1, 12);
-					wifi_month_data_before = sqlhelperTotal.SelectWifiData(
-							sqlDataBase, year - 1, 12);
-				} else {
-					mobile_month_data_before = sqlhelperTotal.SelectMobileData(
-							sqlDataBase, year, month - 1);
-					wifi_month_data_before = sqlhelperTotal.SelectWifiData(
-							sqlDataBase, year, month - 1);
-				}
-				sqlhelperTotal.autoClearData(sqlDataBase);
-				sqlDataBase.setTransactionSuccessful();
-				// 对数据进行赋值
-				TrafficManager.mobile_month_use = mobile_month_use_afterSet;
-				TrafficManager.wifi_month_data = wifi_month_data;
-				TrafficManager.mobile_month_data = mobile_month_data;
-				TrafficManager.mobile_month_data_before = mobile_month_data_before;
-				TrafficManager.wifi_month_data_before = wifi_month_data_before;
-				SharedPrefrenceDataWidget sharedData = new SharedPrefrenceDataWidget(
-						context);
-				sharedData.setTodayMobileDataLong(mobile_month_data[monthDay]
-						+ mobile_month_data[monthDay + 31]);
-				// showLog("wifitotal=" + wifi_month_data[0] + "");
-			} catch (Exception e) {
-			} finally {
-				sqlDataBase.endTransaction();
-				SQLStatic.isTotalAlarmRecording = false;
+		network = "nonetwork";
+		long mobile_month_use_afterSet = 0;
+		long[] wifi_month_data = new long[64];
+		long[] mobile_month_data = new long[64];
+		long[] wifi_month_data_before = new long[64];
+		long[] mobile_month_data_before = new long[64];
+		MonthlyUseData monthlyUseData = new MonthlyUseData();
+		SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
+		SQLiteDatabase sqlDataBase = SQLHelperCreateClose
+				.creatSQLTotal(context);
+		sqlDataBase.beginTransaction();
+		try {
+			// 断网后的最后一次记录
+			sqlhelperTotal.RecordTotalwritestats(context, sqlDataBase, false,
+					network);
+			// 生成基本常用数据
+			initTime();
+			mobile_month_use_afterSet = monthlyUseData.getMonthUseData(context,
+					sqlDataBase);
+			wifi_month_data = sqlhelperTotal.SelectWifiData(sqlDataBase, year,
+					month);
+			mobile_month_data = sqlhelperTotal.SelectMobileData(sqlDataBase,
+					year, month);
+			if (month == 1) {
+				mobile_month_data_before = sqlhelperTotal.SelectMobileData(
+						sqlDataBase, year - 1, 12);
+				wifi_month_data_before = sqlhelperTotal.SelectWifiData(
+						sqlDataBase, year - 1, 12);
+			} else {
+				mobile_month_data_before = sqlhelperTotal.SelectMobileData(
+						sqlDataBase, year, month - 1);
+				wifi_month_data_before = sqlhelperTotal.SelectWifiData(
+						sqlDataBase, year, month - 1);
 			}
-			SQLHelperCreateClose.closeSQL(sqlDataBase);
+			sqlhelperTotal.autoClearData(sqlDataBase);
+			sqlDataBase.setTransactionSuccessful();
+			// 对数据进行赋值
+			TrafficManager.mobile_month_use = mobile_month_use_afterSet;
+			TrafficManager.wifi_month_data = wifi_month_data;
+			TrafficManager.mobile_month_data = mobile_month_data;
+			TrafficManager.mobile_month_data_before = mobile_month_data_before;
+			TrafficManager.wifi_month_data_before = wifi_month_data_before;
+			SharedPrefrenceDataWidget sharedData = new SharedPrefrenceDataWidget(
+					context);
+			sharedData.setTodayMobileDataLong(mobile_month_data[monthDay]
+					+ mobile_month_data[monthDay + 31]);
+			// showLog("wifitotal=" + wifi_month_data[0] + "");
+		} catch (Exception e) {
+		} finally {
+			sqlDataBase.endTransaction();
+			SQLStatic.isTotalAlarmRecording = false;
 		}
+		SQLHelperCreateClose.closeSQL(sqlDataBase);
 	}
 
 	/**
