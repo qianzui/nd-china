@@ -72,7 +72,6 @@ public class Main extends Activity {
 		if (sharedDatawidget.isNotifyOpen()) {
 			alset.StartWidgetAlarm(context);
 		}
-
 		setonclicklistens();
 		// setontvclicklisten();
 	}

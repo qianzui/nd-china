@@ -26,6 +26,7 @@ public class UpdateWidget extends BroadcastReceiver {
 		boolean isWidGet14Open = sharedDatawidget.isWidGet14Open();
 		boolean isopen = sharedDatawidget.isFloatOpen();
 		if (SQLStatic.getIsInit(context) && (isNotifyOpen || isWidGet14Open)) {
+			SetText.setText(context);
 			if (isNotifyOpen) {
 				ProgramNotify programNotify = new ProgramNotify();
 				// if (TrafficManager.mobile_month_data[0] == 0
@@ -39,11 +40,6 @@ public class UpdateWidget extends BroadcastReceiver {
 			}
 
 			if (isWidGet14Open) {
-				if (!(TrafficManager.mobile_month_data[0] == 0
-						&& TrafficManager.wifi_month_data[0] == 0
-						&& TrafficManager.mobile_month_data[63] == 0 && TrafficManager.wifi_month_data[63] == 0)) {
-					SetText.setText(context);
-				}
 				// setWidgetOnlistener(context);
 				Intent intentTextUpdate = new Intent();
 				intentTextUpdate.setAction(BROADCAST_TRAFF);
