@@ -106,6 +106,8 @@
             android:name="com.hiapk.broadcreceiver.BootAndShutdownBroadcast"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
             <intent-filter>
+                <action android:name="android.intent.action.SIM_STATE_CHANGED" >
+                </action>
                 <action android:name="android.intent.action.BOOT_COMPLETED" >
                 </action>
                 <action android:name="android.intent.action.ACTION_SHUTDOWN" >
