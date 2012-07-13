@@ -2,6 +2,7 @@ package com.hiapk.alertdialog;
 
 import android.content.Context;
 import android.content.SharedPreferences.Editor;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +55,7 @@ public class CustomDialogMain3Been {
 				R.layout.custom_dialog_on_main_text_entry, null);
 		final EditText et_month = (EditText) textEntryView
 				.findViewById(R.id.ev_alert);
+		et_month.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL ); 
 		final Spinner spin_unit = (Spinner) textEntryView
 				.findViewById(R.id.sp_unit);
 		ArrayAdapter<CharSequence> adp = ArrayAdapter.createFromResource(
@@ -176,6 +178,7 @@ public class CustomDialogMain3Been {
 				.findViewById(R.id.tv_show_Traff);
 		final EditText et_month_Traff = (EditText) textEntryView
 				.findViewById(R.id.et_show_Traff);
+		et_month_Traff.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
 		final TextView tv_percent = (TextView) textEntryView
 				.findViewById(R.id.tv_percent);
 		tv_month_Traff.setTextSize(20);
@@ -195,12 +198,22 @@ public class CustomDialogMain3Been {
 			// 进行初始化
 			// 流量数值前方的说明文字
 			final String text = "";
-			seekbar_warning
-					.setProgress((int) (warningMonthset * 100 / monthset));
-			et_month_Traff.setText(text
-					+ UnitHandler.unitHandler(warningMonthset, tv_month_Traff));
-			tv_percent.setText(" (" + (int) (warningMonthset * 100 / monthset)
-					+ " %)");
+			if (warningMonthset != 0) {
+				seekbar_warning
+						.setProgress((int) (warningMonthset * 100 / monthset));
+				et_month_Traff.setText(text
+						+ UnitHandler.unitHandler(warningMonthset,
+								tv_month_Traff));
+				// 移动符号位
+				et_month_Traff.setSelection(et_month_Traff.getText().toString()
+						.length());
+			} else {
+				seekbar_warning.setProgress((int) (0));
+				et_month_Traff.setText(text);
+				tv_month_Traff.setText(" MB");
+			}
+			tv_percent.setText("( " + (int) (warningMonthset * 100 / monthset)
+					+ "% )");
 			seekbar_warning
 					.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 						@Override
@@ -220,7 +233,9 @@ public class CustomDialogMain3Been {
 							et_month_Traff.setText(text
 									+ UnitHandler.unitHandler(monthset
 											* progress / 100, tv_month_Traff));
-							tv_percent.setText(" (" + progress + " %)");
+							et_month_Traff.setSelection(et_month_Traff
+									.getText().toString().length());
+							tv_percent.setText("( " + progress + "% )");
 						}
 					});
 			final CustomDialog monthWarning = new CustomDialog.Builder(context)
@@ -339,6 +354,7 @@ public class CustomDialogMain3Been {
 				.findViewById(R.id.tv_show_Traff);
 		final EditText et_month_Traff = (EditText) textEntryView
 				.findViewById(R.id.et_show_Traff);
+		et_month_Traff.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
 		final TextView tv_percent = (TextView) textEntryView
 				.findViewById(R.id.tv_percent);
 		tv_month_Traff.setTextSize(20);
@@ -356,11 +372,22 @@ public class CustomDialogMain3Been {
 		if (monthset != 0) {
 			// 进行初始化
 			final String text = "";
-			seekbar_warning.setProgress((int) (warningDayset * 100 / monthset));
-			et_month_Traff.setText(text
-					+ UnitHandler.unitHandler(warningDayset, tv_month_Traff));
-			tv_percent.setText(" (" + (int) (warningDayset * 100 / monthset)
-					+ " %)");
+			if (warningDayset != 0) {
+				seekbar_warning
+						.setProgress((int) (warningDayset * 100 / monthset));
+				et_month_Traff.setText(text
+						+ UnitHandler
+								.unitHandler(warningDayset, tv_month_Traff));
+				// 移动符号位
+				et_month_Traff.setSelection(et_month_Traff.getText().toString()
+						.length());
+			} else {
+				seekbar_warning.setProgress((int) (0));
+				et_month_Traff.setText(text);
+				tv_month_Traff.setText(" MB");
+			}
+			tv_percent.setText("( " + (int) (warningDayset * 100 / monthset)
+					+ "% )");
 			seekbar_warning
 					.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
@@ -381,7 +408,9 @@ public class CustomDialogMain3Been {
 							et_month_Traff.setText(text
 									+ UnitHandler.unitHandler(monthset
 											* progress / 100, tv_month_Traff));
-							tv_percent.setText(" (" + progress + " %)");
+							et_month_Traff.setSelection(et_month_Traff
+									.getText().toString().length());
+							tv_percent.setText("( " + progress + "% )");
 						}
 					});
 			final CustomDialog dayWarning = new CustomDialog.Builder(context)
