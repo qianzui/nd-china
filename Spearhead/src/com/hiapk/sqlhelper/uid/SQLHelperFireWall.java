@@ -104,7 +104,7 @@ public class SQLHelperFireWall {
 	 * @param string
 	 */
 	private void showLog(String string) {
-		Log.d("SQLFireWall", string);
+//		Log.d("SQLFireWall", string);
 	}
 
 }
