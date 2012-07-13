@@ -356,8 +356,6 @@ public class Appwidget extends AppWidgetProvider {
 			Toast.makeText(context, R.string.wifi_on, Toast.LENGTH_SHORT)
 					.show();
 		} else {
-			Toast.makeText(context, R.string.wifi_turing, Toast.LENGTH_SHORT)
-					.show();
 		}
 	}
 

@@ -108,25 +108,6 @@ public class Splash extends Activity {
 		UseEditor.commit();
 	}
 
-	private class AsyncTaskSetappName extends
-			AsyncTask<PackageInfo, Integer, Integer> {
-
-		@Override
-		protected Integer doInBackground(PackageInfo... params) {
-			int uid = params[0].applicationInfo.uid;
-			String pkgName = params[0].applicationInfo.packageName;
-			String appname = params[0].applicationInfo.loadLabel(pm).toString();
-			UseEditor.putString(pkgName, appname);
-			Block.appnamemap.put(uid, appname);
-			UseEditor.commit();
-			return 3;
-		}
-
-		@Override
-		protected void onPostExecute(Integer result) {
-		}
-	}
-
 	private class AsyncTaskonResume extends
 			AsyncTask<Context, Integer, Integer> {
 
@@ -220,64 +201,62 @@ public class Splash extends Activity {
 
 	private void initDataWithnoNetwork(Context context) {
 		SQLStatic.initTablemobileAndwifi(context);
-		network = SQLStatic.TableWiFiOrG23;
+		network = "nonetwork";
 		showLog("initDataWithnoNetwork=" + network);
-		if (TrafficManager.mobile_month_use == 1) {
-			long mobile_month_use_afterSet = 0;
-			long[] wifi_month_data = new long[64];
-			long[] mobile_month_data = new long[64];
-			long[] wifi_month_data_before = new long[64];
-			long[] mobile_month_data_before = new long[64];
-			MonthlyUseData monthlyUseData = new MonthlyUseData();
-			SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
-			SQLiteDatabase sqlDataBase = SQLHelperCreateClose
-					.creatSQLTotal(context);
-			sqlDataBase.beginTransaction();
-			try {
-				// 断网后的最后一次记录
-				sqlhelperTotal.RecordTotalwritestats(context, sqlDataBase,
-						false, network);
-				// 生成基本常用数据
-				initTime();
-				showLog(monthDay + "0");
-				mobile_month_use_afterSet = monthlyUseData.getMonthUseData(
-						context, sqlDataBase);
-				showLog(monthDay + "1");
-				wifi_month_data = sqlhelperTotal.SelectWifiData(sqlDataBase,
-						year, month);
-				showLog(monthDay + "2");
-				mobile_month_data = sqlhelperTotal.SelectMobileData(
-						sqlDataBase, year, month);
-				if (month == 1) {
-					mobile_month_data_before = sqlhelperTotal.SelectMobileData(
-							sqlDataBase, year - 1, 12);
-					wifi_month_data_before = sqlhelperTotal.SelectWifiData(
-							sqlDataBase, year - 1, 12);
-				} else {
-					mobile_month_data_before = sqlhelperTotal.SelectMobileData(
-							sqlDataBase, year, month - 1);
-					wifi_month_data_before = sqlhelperTotal.SelectWifiData(
-							sqlDataBase, year, month - 1);
-				}
-				sqlhelperTotal.autoClearData(sqlDataBase);
-				sqlDataBase.setTransactionSuccessful();
-				// 对数据进行赋值
-				TrafficManager.mobile_month_use = mobile_month_use_afterSet;
-				TrafficManager.wifi_month_data = wifi_month_data;
-				TrafficManager.mobile_month_data = mobile_month_data;
-				TrafficManager.mobile_month_data_before = mobile_month_data_before;
-				TrafficManager.wifi_month_data_before = wifi_month_data_before;
-
-				// showLog("wifitotal=" + wifi_month_data[0] + "");
-			} catch (Exception e) {
-				// TODO: handle exception
-				showLog("数据记录失败");
-			} finally {
-				sqlDataBase.endTransaction();
-				SQLStatic.isTotalAlarmRecording = false;
+		long mobile_month_use_afterSet = 0;
+		long[] wifi_month_data = new long[64];
+		long[] mobile_month_data = new long[64];
+		long[] wifi_month_data_before = new long[64];
+		long[] mobile_month_data_before = new long[64];
+		MonthlyUseData monthlyUseData = new MonthlyUseData();
+		SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
+		SQLiteDatabase sqlDataBase = SQLHelperCreateClose
+				.creatSQLTotal(context);
+		sqlDataBase.beginTransaction();
+		try {
+			// 断网后的最后一次记录
+			sqlhelperTotal.RecordTotalwritestats(context, sqlDataBase, false,
+					network);
+			// 生成基本常用数据
+			initTime();
+			showLog(monthDay + "0");
+			mobile_month_use_afterSet = monthlyUseData.getMonthUseData(context,
+					sqlDataBase);
+			showLog(monthDay + "1");
+			wifi_month_data = sqlhelperTotal.SelectWifiData(sqlDataBase, year,
+					month);
+			showLog(monthDay + "2");
+			mobile_month_data = sqlhelperTotal.SelectMobileData(sqlDataBase,
+					year, month);
+			if (month == 1) {
+				mobile_month_data_before = sqlhelperTotal.SelectMobileData(
+						sqlDataBase, year - 1, 12);
+				wifi_month_data_before = sqlhelperTotal.SelectWifiData(
+						sqlDataBase, year - 1, 12);
+			} else {
+				mobile_month_data_before = sqlhelperTotal.SelectMobileData(
+						sqlDataBase, year, month - 1);
+				wifi_month_data_before = sqlhelperTotal.SelectWifiData(
+						sqlDataBase, year, month - 1);
 			}
-			SQLHelperCreateClose.closeSQL(sqlDataBase);
+			sqlhelperTotal.autoClearData(sqlDataBase);
+			sqlDataBase.setTransactionSuccessful();
+			// 对数据进行赋值
+			TrafficManager.mobile_month_use = mobile_month_use_afterSet;
+			TrafficManager.wifi_month_data = wifi_month_data;
+			TrafficManager.mobile_month_data = mobile_month_data;
+			TrafficManager.mobile_month_data_before = mobile_month_data_before;
+			TrafficManager.wifi_month_data_before = wifi_month_data_before;
+
+			// showLog("wifitotal=" + wifi_month_data[0] + "");
+		} catch (Exception e) {
+			// TODO: handle exception
+			showLog("数据记录失败");
+		} finally {
+			sqlDataBase.endTransaction();
+			SQLStatic.isTotalAlarmRecording = false;
 		}
+		SQLHelperCreateClose.closeSQL(sqlDataBase);
 	}
 
 	/**
@@ -296,6 +275,6 @@ public class Splash extends Activity {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-//		Log.d("Splash", string);
+		// Log.d("Splash", string);
 	}
 }

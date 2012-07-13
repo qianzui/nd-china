@@ -338,7 +338,7 @@ public class SQLHelperUidRecord {
 
 			// 初始化写入数据（wifi以及g23）
 			// 如果之前数据大于新的数据，则重新计数
-			if ((oldup0 > upload) || (olddown0 > download)) {
+			if ((oldup0 > (upload + 10000)) || (olddown0 > (download + 10000))) {
 				oldup0 = upload;
 				olddown0 = upload;
 			} else {

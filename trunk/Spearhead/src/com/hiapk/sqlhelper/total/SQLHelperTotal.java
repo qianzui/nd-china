@@ -245,7 +245,7 @@ public class SQLHelperTotal {
 			cur = null;
 			// 初始化写入数据（wifi以及mobile）
 			// 如果之前数据大于新的数据，则重新计数
-			if ((oldup0 > upload) || (olddown0 > download)) {
+			if ((oldup0 > (upload + 10000)) || (olddown0 > (download + 10000))) {
 				oldup0 = upload;
 				olddown0 = download;
 
@@ -437,34 +437,16 @@ public class SQLHelperTotal {
 		// 自动进行数据记录---不记录上传下载为0的数据
 		if (!network.equals("")) {
 			// SQLiteDatabase sqlDataBase = creatSQLTotal(context);
-			long[] totalTraff = SQLHelperDataexe.initTotalData(network);
 			initTime();
+			long[] totalTraff = SQLHelperDataexe.initTotalData("mobile");
 			// showLog("upload=" + totalTraff[0] + "download=" + totalTraff[1]);
-			statsSQLtotal(context, sqlDataBase, network, date, time,
+			statsSQLtotal(context, sqlDataBase, "mobile", date, time,
 					totalTraff[0], totalTraff[1], 2, null, daily);
 			// closeSQL(sqlDataBase);
-		}
-	}
-
-	/**
-	 * 记录wifi，mobile流量数据
-	 * 
-	 * @param context
-	 * @param daily
-	 *            true则强制记录，false则不记录流量为0的数据
-	 */
-	public void RecordTotalwritestats(Context context, boolean daily,
-			String network) {
-		// TODO Auto-generated method stub
-		// 自动进行数据记录---不记录上传下载为0的数据
-		if (!network.equals("")) {
-			SQLiteDatabase sqlDataBase = SQLHelperCreateClose
-					.creatSQLTotal(context);
-			long[] totalTraff = SQLHelperDataexe.initTotalData(network);
-			initTime();
-			statsSQLtotal(context, sqlDataBase, network, date, time,
-					totalTraff[0], totalTraff[1], 2, null, daily);
-			SQLHelperCreateClose.closeSQL(sqlDataBase);
+			long[] totalTraff2 = SQLHelperDataexe.initTotalData("wifi");
+			// showLog("upload=" + totalTraff[0] + "download=" + totalTraff[1]);
+			statsSQLtotal(context, sqlDataBase, "wifi", date, time,
+					totalTraff2[0], totalTraff2[1], 2, null, daily);
 		}
 	}
 
