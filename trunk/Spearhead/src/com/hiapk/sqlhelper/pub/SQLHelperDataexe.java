@@ -22,6 +22,7 @@ public class SQLHelperDataexe {
 	private static int month;
 	private static String network;
 	private static int monthDay;
+	private static boolean isiniting = false;
 
 	/**
 	 * 初始化流量数据
@@ -88,7 +89,10 @@ public class SQLHelperDataexe {
 	}
 
 	public static void initShowData(Context context) {
-		new AsyncTaskonResume().execute(context);
+		if (isiniting == false) {
+			isiniting = true;
+			new AsyncTaskonResume().execute(context);
+		}
 	}
 
 	private static class AsyncTaskonResume extends
@@ -111,6 +115,7 @@ public class SQLHelperDataexe {
 
 		@Override
 		protected void onPostExecute(Integer result) {
+			isiniting = false;
 		}
 	}
 

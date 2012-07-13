@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Resources;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import com.hiapk.alertdialog.CustomDialog;
 import com.hiapk.alertdialog.CustomDialogOtherBeen;
+import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
@@ -116,6 +118,9 @@ public class CustomSPBeen {
 					long arg3) {
 				// TODO Auto-generated method stub
 				sharedDatawidget.setWidgetFresh(arg2);
+				AlarmSet alset=new AlarmSet();
+				alset.StartAlarm(context);
+				alset.StartWidgetAlarm(context);
 				freshtime.dismiss();
 			}
 		});
@@ -324,6 +329,7 @@ public class CustomSPBeen {
 				R.layout.custom_dialog_on_main_text_entry, null);
 		final EditText et_month = (EditText) textEntryView
 				.findViewById(R.id.ev_alert);
+		et_month.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL ); 
 		final Spinner spin_unit = (Spinner) textEntryView
 				.findViewById(R.id.sp_unit);
 		ArrayAdapter<CharSequence> adp = ArrayAdapter.createFromResource(
