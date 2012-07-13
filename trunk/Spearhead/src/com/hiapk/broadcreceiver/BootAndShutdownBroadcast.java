@@ -19,6 +19,14 @@ public class BootAndShutdownBroadcast extends BroadcastReceiver {
 			showLog("getbootaction");
 			// showLog("onboot the system");
 		}
+		// 强化开机信号
+		if (intent.getAction()
+				.equals("android.intent.action.SIM_STATE_CHANGED")) {
+			Onsysreboot sysreboot = new Onsysreboot();
+			sysreboot.onsysreboot(context);
+			showLog("getbootaction");
+			// showLog("onboot the system");
+		}
 		// 识别到关机信号
 		if (intent.getAction().equals(Intent.ACTION_SHUTDOWN)) {
 			Onshutdown sysshutdown = new Onshutdown();
@@ -31,6 +39,6 @@ public class BootAndShutdownBroadcast extends BroadcastReceiver {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-//		Log.d("Receiver", string);
+		// Log.d("Receiver", string);
 	}
 }

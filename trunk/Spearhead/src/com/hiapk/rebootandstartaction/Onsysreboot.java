@@ -8,6 +8,7 @@ import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.Block;
 import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
+import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 
 public class Onsysreboot {
@@ -32,9 +33,11 @@ public class Onsysreboot {
 			isWidget1X4Open = sharedDatawidget.isWidGet14Open();
 			// showLog("isNotifyOpen"+isNotifyOpen);
 			// showLog("isFloatOpen"+isFloatOpen);
-			if ((TrafficManager.mobile_month_data[0] == 0)
-					&& (TrafficManager.wifi_month_data[0] == 0)) {
-				new AsyncTaskonBoot().execute(context);
+			if (TrafficManager.mobile_month_use == 1) {
+				if (SQLStatic.TableWiFiOrG23 == "") {
+					SQLHelperDataexe.initShowData(context);
+				} else
+					new AsyncTaskonBoot().execute(context);
 			} else {
 				if (isFloatOpen) {
 					context.startService(new Intent("com.hiapk.server"));
@@ -78,8 +81,7 @@ public class Onsysreboot {
 		@Override
 		protected Long doInBackground(Context... params) {
 			int timetap = 0;
-			while ((TrafficManager.mobile_month_data[0] == 0)
-					&& (TrafficManager.wifi_month_data[0] == 0)) {
+			while (TrafficManager.mobile_month_use == 1) {
 				timetap++;
 				try {
 					Thread.sleep(500);
