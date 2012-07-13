@@ -242,6 +242,7 @@ public class CustomDialogOtherBeen {
 				TrafficManager.mobile_month_data_before = new long[64];
 				sharedData.setMonthHasUsedStack(0);
 				sharedData.setTodayMobileDataLong(0);
+				SQLStatic.uiddata=null;
 				SetText.resetWidgetAndNotify(context);
 				SQLStatic.setSQLTotalOnUsed(false);
 				SQLStatic.setSQLUidOnUsed(false);
