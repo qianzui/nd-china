@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
+import android.text.InputType;
 import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,6 +83,7 @@ public class CustomDialogMainBeen {
 				R.layout.custom_dialog_on_main_text_entry, null);
 		final EditText et_month = (EditText) textEntryView
 				.findViewById(R.id.ev_alert);
+		et_month.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL ); 
 		final Spinner spin_unit = (Spinner) textEntryView
 				.findViewById(R.id.sp_unit);
 		ArrayAdapter<CharSequence> adp = ArrayAdapter.createFromResource(
@@ -232,6 +234,7 @@ public class CustomDialogMainBeen {
 				R.layout.custom_dialog_on_main_text_entry, null);
 		final EditText et_month = (EditText) textEntryView
 				.findViewById(R.id.ev_alert);
+		et_month.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL ); 
 		final Spinner spin_unit = (Spinner) textEntryView
 				.findViewById(R.id.sp_unit);
 		ArrayAdapter<CharSequence> adp = ArrayAdapter.createFromResource(
