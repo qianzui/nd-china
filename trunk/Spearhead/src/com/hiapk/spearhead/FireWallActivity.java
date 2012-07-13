@@ -50,8 +50,8 @@ public class FireWallActivity extends Activity {
 	private static final String APP_DETAILS_CLASS_NAME = "com.android.settings.InstalledAppDetails";
 	private List<PackageInfo> packageInfo;
 	private AppListAdapter appListAdapter;
-	public  MyListView appListView;
-    CustomProgressDialog customdialog;
+	public MyListView appListView;
+	CustomProgressDialog customdialog;
 	public ArrayList<PackageInfo> myAppList;
 	public ArrayList<PackageInfo> myAppList2;
 	private Context mContext = this;
@@ -61,7 +61,9 @@ public class FireWallActivity extends Activity {
 	HashMap<Integer, Data> mp;
 	private ArrayList<Integer> uidList;
 	long time = 0;
-    Handler  handler  = new Handler();
+	Handler handler = new Handler();
+	Handler handler2 = new Handler();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -70,20 +72,7 @@ public class FireWallActivity extends Activity {
 		setContentView(R.layout.main2);
 		// 为了退出。
 		Mapplication.getInstance().addActivity(this);
-//		initList(); 	
-		
-		 handler.post(new Runnable() {  
-             @Override  
-             public void run() { 
-            	 initList(); 
-             }  
-         });  
-	}
-    
-    
-
-
-	public void initList() { 
+		// initList();
 		CustomProgressDialog customProgressDialog = new CustomProgressDialog(
 				mContext);
 		customdialog = customProgressDialog.createDialog(mContext);
@@ -91,43 +80,52 @@ public class FireWallActivity extends Activity {
 		customProgressDialog.setTitile("提示");
 		customProgressDialog.setMessage("获取列表中,请耐心等待,获取的时间长短取决于您安装软件的数量...");
 		customdialog.show();
-		final Handler handler = new Handler() {
+		handler.post(new Runnable() {
+			@Override
+			public void run() {
+				initList();
+			}
+		});
+		handler2 = new Handler() {
 			public void handleMessage(Message msg) {
 				try {
 					setAdapter();
-					 customdialog.dismiss();
-					 if (Block.isShowHelp(mContext)) {
-							showHelp(mContext);
-						 SpearheadActivity.isHide = true;
-						} else {
-							if (Block.fireTip(mContext)) {
-								Toast.makeText(mContext, "下拉列表可以进行刷新!",
-										Toast.LENGTH_SHORT).show();
-							}
+					customdialog.dismiss();
+					if (Block.isShowHelp(mContext)) {
+						showHelp(mContext);
+						SpearheadActivity.isHide = true;
+					} else {
+						if (Block.fireTip(mContext)) {
+							Toast.makeText(mContext, "下拉列表可以进行刷新!",
+									Toast.LENGTH_SHORT).show();
 						}
+					}
 				} catch (Exception ex) {
 				}
 			}
 		};
+	}
+
+	public void initList() {
+
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				getList(mContext);
 				mp = getData();
-				do
-				{
+				do {
 					try {
 						Thread.sleep(300);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					if(Block.appList.size() == Block.appnamemap.size()){
+					if (Block.appList.size() == Block.appnamemap.size()) {
 						break;
 					}
-				} while(Block.appList.size() != Block.appnamemap.size());
+				} while (Block.appList.size() != Block.appnamemap.size());
 				uidList = comp(Block.appList);
-				handler.sendEmptyMessage(0);
+				handler2.sendEmptyMessage(0);
 			}
 		}).start();
 	}
@@ -135,7 +133,7 @@ public class FireWallActivity extends Activity {
 	public void showHelp(final Context mContext) {
 		Drawable d = mContext.getResources().getDrawable(R.drawable.fire_help);
 		SpearheadActivity.firehelp.setBackgroundDrawable(d);
-//		firehelp.setVisibility(View.VISIBLE);
+		// firehelp.setVisibility(View.VISIBLE);
 		SpearheadActivity.firehelp.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -145,10 +143,12 @@ public class FireWallActivity extends Activity {
 			}
 		});
 	}
+
 	public void setAdapter() {
 		appListView = (MyListView) findViewById(R.id.app_list);
-		appListAdapter = new AppListAdapter(FireWallActivity.this, getList(mContext)
-				,appListView,mp,Block.appnamemap,Block.appList,uidList);
+		appListAdapter = new AppListAdapter(FireWallActivity.this,
+				getList(mContext), appListView, mp, Block.appnamemap,
+				Block.appList, uidList);
 		appListView.setAdapter(appListAdapter);
 		appListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -168,6 +168,7 @@ public class FireWallActivity extends Activity {
 						uidList = comp(Block.appList);
 						return null;
 					}
+
 					@Override
 					protected void onPostExecute(Void result) {
 						MyListView.loadImage();
@@ -180,18 +181,17 @@ public class FireWallActivity extends Activity {
 		});
 	}
 
-	public  ArrayList<PackageInfo> getList(Context context) {
+	public ArrayList<PackageInfo> getList(Context context) {
 		packageInfo = context.getPackageManager().getInstalledPackages(0);
 		final PackageManager pm = getPackageManager();
-		myAppList = new  ArrayList<PackageInfo>();
+		myAppList = new ArrayList<PackageInfo>();
 		Block.appList = new HashMap<Integer, PackageInfo>();
 		for (int i = 0; i < packageInfo.size(); i++) {
 			final PackageInfo pkgInfo = packageInfo.get(i);
-			final int uid  = pkgInfo.applicationInfo.uid;
+			final int uid = pkgInfo.applicationInfo.uid;
 			final String pkgName = pkgInfo.applicationInfo.packageName;
-			if ( PackageManager.PERMISSION_GRANTED == pm.checkPermission(
-							Manifest.permission.INTERNET,
-							pkgName)) {
+			if (PackageManager.PERMISSION_GRANTED == pm.checkPermission(
+					Manifest.permission.INTERNET, pkgName)) {
 				if (Block.filter.contains(pkgName)) {
 				} else {
 					Block.appList.put(uid, pkgInfo);
@@ -202,10 +202,11 @@ public class FireWallActivity extends Activity {
 		}
 		return myAppList;
 	}
-	public HashMap<Integer, Data> getData(){
+
+	public HashMap<Integer, Data> getData() {
 		do {
 			SQLHelperFireWall SQLFire = new SQLHelperFireWall();
-			SQLFire.resetMP(mContext);//	alset.StartAlarm(mContext);
+			SQLFire.resetMP(mContext);// alset.StartAlarm(mContext);
 			if (SQLStatic.uiddata != null) {
 				mp = SQLStatic.uiddata;
 				break;
@@ -217,46 +218,47 @@ public class FireWallActivity extends Activity {
 				e.printStackTrace();
 			}
 		} while (mp == null);
-		return mp; 
+		return mp;
 	}
 
-	public ArrayList<Integer> comp(HashMap<Integer,PackageInfo> appList) {
-		uidList =  new ArrayList<Integer>();
-		ArrayList<Integer> uidList2 =  new ArrayList<Integer>();
+	public ArrayList<Integer> comp(HashMap<Integer, PackageInfo> appList) {
+		uidList = new ArrayList<Integer>();
+		ArrayList<Integer> uidList2 = new ArrayList<Integer>();
 		ArrayList keys = new ArrayList(appList.keySet());
 		MyCompTraffic mt = new MyCompTraffic();
 		mt.init(mp);
-		Collections.sort(keys ,mt);
+		Collections.sort(keys, mt);
 		for (int i = 0; i < keys.size(); i++) {
 			int uid = (Integer) keys.get(i);
 			long tff;
 			if (mp.containsKey(uid)) {
 				tff = mp.get(uid).upload + mp.get(uid).download;
-		    }else{
-		    	tff = -1000;
+			} else {
+				tff = -1000;
 			}
-			if(tff > 0){
+			if (tff > 0) {
 				uidList.add(uid);
-			}else{
+			} else {
 				uidList2.add(uid);
 			}
 		}
 		MyCompName mn = new MyCompName();
 		mn.init(Block.appnamemap);
-		Collections.sort(uidList2 ,mn);
+		Collections.sort(uidList2, mn);
 		for (int i = 0; i < uidList2.size(); i++) {
 			int uid = uidList2.get(i);
 			uidList.add(uid);
 		}
 		return uidList;
 	}
-	
 
 	public void menuDialog(View arg1) {
 		final PackageInfo pkgInfo = (PackageInfo) arg1.getTag(R.id.tag_pkginfo);
 		final int uid = pkgInfo.applicationInfo.uid;
 		final String pkname = pkgInfo.applicationInfo.packageName;
-		final String appname = pkgInfo.applicationInfo.loadLabel(getPackageManager()).toString();;
+		final String appname = pkgInfo.applicationInfo.loadLabel(
+				getPackageManager()).toString();
+		;
 		final long up;
 		final long down;
 		if (mp.containsKey(uid)) {
@@ -433,7 +435,6 @@ public class FireWallActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 	}
-
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
