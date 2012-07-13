@@ -66,12 +66,6 @@ public class Main extends Activity {
 		// }
 		// }
 		// ------------
-		SetText.setText(context);
-		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
-				context);
-		if (sharedDatawidget.isNotifyOpen()||sharedDatawidget.isWidGet14Open()) {
-			alset.StartWidgetAlarm(context);
-		}
 		setonclicklistens();
 		// setontvclicklisten();
 	}
@@ -166,6 +160,12 @@ public class Main extends Activity {
 		alset.StartAlarm(context);
 		initValues();
 		initWifiBar();
+		SetText.setText(context);
+		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
+				context);
+		if (sharedDatawidget.isNotifyOpen()||sharedDatawidget.isWidGet14Open()) {
+			alset.StartWidgetAlarm(context);
+		}
 	}
 
 	private void setonclicklistens() {
