@@ -6,6 +6,7 @@ import com.hiapk.spearhead.R;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
@@ -34,12 +35,15 @@ public class FloatService extends Service {
 	private float StartX;
 	private float StartY;
 	int delaytime = 3000;
+	Context context = this;
+	SharedPrefrenceDataWidget sharedata;
 
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		showLog("oncreate");
 		super.onCreate();
+		sharedata = new SharedPrefrenceDataWidget(context);
 		view = LayoutInflater.from(this)
 				.inflate(R.layout.floating_widget, null);
 		tx = (TextView) view.findViewById(R.id.textUp);
@@ -67,8 +71,10 @@ public class FloatService extends Service {
 		wmParams.flags |= 8;
 		wmParams.gravity = Gravity.LEFT | Gravity.TOP; // 调整悬浮窗口至左上角
 		// 以屏幕左上角为原点，设置x、y初始值
-		wmParams.x = 0;
-		wmParams.y = 0;
+		int x_p = sharedata.getIntX();
+		int y_p = sharedata.getIntY();
+		wmParams.x = x_p;
+		wmParams.y = y_p;
 		// 设置悬浮窗口长宽数据
 		wmParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
 		wmParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -149,17 +155,18 @@ public class FloatService extends Service {
 			tx.setText(" "
 					+ UnitHandler.unitHandlerAccurate(TrafficInfomation
 							.getspeed(this)) + "/s ");
-		}else{
-			tx.setText(" "
-					+ "0 KB" + "/s ");
+		} else {
+			tx.setText(" " + "0 KB" + "/s ");
 		}
 		// tx1.setText("" + TrafficInfomation.getspeed(this) + "KB");
 	}
 
 	private void updateViewPosition() {
 		// 更新浮动窗口位置参数
-		wmParams.x = (int) (x - mTouchStartX);
-		wmParams.y = (int) (y - mTouchStartY - 48);
+		SetText.FloatIntX = (int) (x - mTouchStartX);
+		SetText.FloatIntY = (int) (y - mTouchStartY - 48);
+		wmParams.x = SetText.FloatIntX;
+		wmParams.y = SetText.FloatIntY;
 		wm.updateViewLayout(view, wmParams);
 	}
 

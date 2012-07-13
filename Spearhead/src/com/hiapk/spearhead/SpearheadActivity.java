@@ -7,7 +7,10 @@ import com.hiapk.alertaction.AlertActionNotify;
 import com.hiapk.alertdialog.CustomDialogFAQBeen;
 import com.hiapk.firewall.Block;
 import com.hiapk.prefrencesetting.PrefrenceSetting;
+import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.progressdialog.CustomProgressDialog;
+import com.hiapk.rebootandstartaction.OnExit;
+import com.hiapk.widget.SetText;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -105,7 +108,7 @@ public class SpearheadActivity extends TabActivity {
 		});
 	}
 
-	public  void showHelp(Context mContext) {
+	public void showHelp(Context mContext) {
 		Drawable d = mContext.getResources().getDrawable(R.drawable.fire_help);
 		firehelp.setBackgroundDrawable(d);
 		firehelp.setVisibility(View.VISIBLE);
@@ -119,15 +122,16 @@ public class SpearheadActivity extends TabActivity {
 		});
 	}
 
-	public  void hideHelp() {
+	public void hideHelp() {
 		firehelp.setVisibility(View.INVISIBLE);
 	}
-	public  void showHelp() {
-		if(Block.isShowHelp(context)){
+
+	public void showHelp() {
+		if (Block.isShowHelp(context)) {
 			firehelp.setVisibility(View.VISIBLE);
 		}
-		if(Block.isShowHelp(context) && isHide){
-			 showHelp(context);
+		if (Block.isShowHelp(context) && isHide) {
+			showHelp(context);
 		}
 	}
 
@@ -193,7 +197,8 @@ public class SpearheadActivity extends TabActivity {
 			customAbout.dialogAbout();
 			break;
 		case 4:
-			Mapplication.getInstance().exit();
+			OnExit exit = new OnExit();
+			exit.onExit(context);
 			break;
 
 		default:
@@ -276,7 +281,8 @@ public class SpearheadActivity extends TabActivity {
 
 				return false;
 			}
-			Mapplication.getInstance().exit();
+			OnExit exit = new OnExit();
+			exit.onExit(context);
 			tExit.cancel();
 			task.cancel();
 		}

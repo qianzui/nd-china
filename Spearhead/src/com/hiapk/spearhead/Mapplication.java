@@ -5,6 +5,8 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
 
 /**
  * 还有一种比较流行的Android经典完美退出方法，使用单例模式创建一个Activity管理对象，
@@ -22,6 +24,7 @@ import android.app.Application;
 public class Mapplication extends Application {
 	private List<Activity> activityList = new LinkedList<Activity>();
 	private static Mapplication instance;
+	Context context = this;
 
 	private Mapplication() {
 	}
@@ -45,13 +48,8 @@ public class Mapplication extends Application {
 			activity.finish();
 		}
 		System.exit(0);
-//		SharedPrefrenceDataWidget sharedWidget = new SharedPrefrenceDataWidget(
-//				context);
-//		if (sharedWidget.isFloatOpen()) {
-//			context.startService(new Intent("com.hiapk.server"));
-//		}
-//		if (sharedWidget.isNotifyOpen() || sharedWidget.isWidGet14Open()) {
-//			SetText.resetWidgetAndNotify(context);
-//		}
+		// if (sharedWidget.isNotifyOpen() || sharedWidget.isWidGet14Open()) {
+		// SetText.resetWidgetAndNotify(context);
+		// }
 	}
 }
