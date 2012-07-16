@@ -126,6 +126,20 @@ public class FireWallActivity extends Activity {
 							break;
 						}
 				} while (Block.appList.size() != Block.appnamemap.size());
+				}else{
+					getList(mContext);
+					Splash.getList(mContext);
+					do {
+						try {
+							Thread.sleep(300);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+							if (Block.appList.size() == Block.appnamemap.size()) {
+								break;
+							}
+					} while (Block.appList.size() != Block.appnamemap.size());
 				}
 				uidList = comp(Block.appList);
 				handler2.sendEmptyMessage(0);
