@@ -26,8 +26,8 @@ public class DateChangeBroadcast extends BroadcastReceiver {
 		int countday = sharedData.getCountDay() + 1;
 		if (monthDay == countday) {
 			sharedData.setMonthHasUsedStack(0);
-			SetText.resetWidgetAndNotify(context);
 		}
+		sharedData.setTodayMobileDataLong(0);
 		SetText.resetWidgetAndNotify(context);
 		showLog("todya is " + monthDay);
 		// }

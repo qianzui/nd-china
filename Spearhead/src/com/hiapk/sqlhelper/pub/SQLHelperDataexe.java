@@ -22,7 +22,7 @@ public class SQLHelperDataexe {
 	private static int month;
 	private static String network;
 	private static int monthDay;
-	private static boolean isiniting = false;
+	public static boolean isiniting = false;
 
 	/**
 	 * 初始化流量数据
