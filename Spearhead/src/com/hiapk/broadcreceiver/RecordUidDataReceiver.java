@@ -3,17 +3,22 @@ package com.hiapk.broadcreceiver;
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.sqlhelper.uid.SQLHelperUidRecord;
+import com.hiapk.sqlhelper.uid.SQLHelperUidRecordFire;
+import com.hiapk.sqlhelper.uid.SQLHelperUidtraffStats;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.text.StaticLayout;
 import android.util.Log;
 
 public class RecordUidDataReceiver extends BroadcastReceiver {
 	public static final int MODE_PRIVATE = 0;
 	// use database
 	private SQLHelperUidRecord sqlhelperUidRecord;
+	private SQLHelperUidRecordFire sqlhelperUidFire;
 	long time;
 	private String network;
 
@@ -21,6 +26,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		if (SQLStatic.isUidAlarmRecording == false) {
 			sqlhelperUidRecord = new SQLHelperUidRecord(context);
+			sqlhelperUidFire = new SQLHelperUidRecordFire(context);
 			SQLStatic.isUidAlarmRecording = true;
 			SQLStatic.initTablemobileAndwifi(context);
 			if (SQLStatic.TableWiFiOrG23 == "") {
@@ -86,13 +92,13 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			sqlhelperUidRecord.RecordUidwritestats(sqlDataBase, numbers, false,
 					network);
 			// // // 获取uid的总流量数据
-			// mp = sqlhelperUidRecord.getSQLUidtraff(sqlDataBase, numbers,
-			// network);
+			SQLStatic.uiddata = sqlhelperUidFire.getSQLUidtraff(sqlDataBase,
+					numbers);
 
 			sqlDataBase.setTransactionSuccessful();
 		} catch (Exception e) {
 			// TODO: handle exception
-			showLog("批量输入uid网络数据失败");
+			showLog("批量输入uid网络数据失败" + e);
 		} finally {
 			sqlDataBase.endTransaction();
 		}
@@ -139,8 +145,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 	}
 
 	private void showLog(String string) {
-		// TODO Auto-generated method stub
-//		Log.d("ReceiverUid", string);
+		Log.d("ReceiverUid", string);
 	}
 
 }

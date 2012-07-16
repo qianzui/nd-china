@@ -30,8 +30,8 @@ public class SQLHelperFireWall {
 
 	public void resetMP(Context context) {
 		time = System.currentTimeMillis();
-		AlarmSet alset = new AlarmSet();
-		alset.StartAlarm(context);
+//		AlarmSet alset = new AlarmSet();
+//		alset.StartAlarm(context);
 		showLog("alarmover" + (System.currentTimeMillis() - time));
 		if (SQLStatic.getIsInit(context)) {
 			if (isReseting == false) {

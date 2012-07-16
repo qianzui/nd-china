@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+
+import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.firewall.AppListAdapter;
 import com.hiapk.firewall.Block;
@@ -120,10 +122,11 @@ public class FireWallActivity extends Activity {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					if(Block.appList !=null && Block.appnamemap != null){
-					if (Block.appList.size() == Block.appnamemap.size()) {
-						break;
-					}}
+					if (Block.appList != null && Block.appnamemap != null) {
+						if (Block.appList.size() == Block.appnamemap.size()) {
+							break;
+						}
+					}
 				} while (Block.appList.size() != Block.appnamemap.size());
 				uidList = comp(Block.appList);
 				handler2.sendEmptyMessage(0);
@@ -206,8 +209,13 @@ public class FireWallActivity extends Activity {
 
 	public HashMap<Integer, Data> getData() {
 		do {
-			SQLHelperFireWall SQLFire = new SQLHelperFireWall();
-			SQLFire.resetMP(mContext);// alset.StartAlarm(mContext);
+			if (SQLStatic.TableWiFiOrG23 != "") {
+				AlarmSet alset = new AlarmSet();
+				alset.StartAlarmUid(mContext);
+			} else {
+				SQLHelperFireWall SQLFire = new SQLHelperFireWall();
+				SQLFire.resetMP(mContext);// alset.StartAlarm(mContext);
+			}
 			if (SQLStatic.uiddata != null) {
 				mp = SQLStatic.uiddata;
 				break;
@@ -421,8 +429,13 @@ public class FireWallActivity extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		SQLHelperFireWall SQLFire = new SQLHelperFireWall();
-		SQLFire.resetMP(mContext);
+		if (SQLStatic.TableWiFiOrG23 != "") {
+			AlarmSet alset = new AlarmSet();
+			alset.StartAlarmUid(mContext);
+		} else {
+			SQLHelperFireWall SQLFire = new SQLHelperFireWall();
+			SQLFire.resetMP(mContext);// alset.StartAlarm(mContext);
+		}
 		// MobclickAgent.onResume(this);
 	}
 
