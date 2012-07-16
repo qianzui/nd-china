@@ -86,7 +86,7 @@ public class Onsysreboot {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if (timetap > 5) {
+				if (timetap > 10) {
 					break;
 				}
 			}
