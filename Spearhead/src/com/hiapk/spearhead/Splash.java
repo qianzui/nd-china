@@ -38,11 +38,13 @@ public class Splash extends Activity {
 	private boolean isinited;
 	private static PackageManager pm;
 	private static Editor UseEditor;
+	private static final String ACTION_TIME_CHANGED = Intent.ACTION_TIME_CHANGED;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
+		context.sendBroadcast(new Intent(ACTION_TIME_CHANGED));
 		pm = context.getPackageManager();
 		time = System.currentTimeMillis();
 		// MobclickAgent.onError(this);
@@ -50,6 +52,7 @@ public class Splash extends Activity {
 		showLog("isinited=" + isinited);
 		if (isinited) {
 			alset.StartAlarm(context);
+			alset.StartWidgetAlarm(context);
 			new AsyncTaskonResume().execute(context);
 		} else {
 			new AsyncTaskinitDatabase().execute(context);
