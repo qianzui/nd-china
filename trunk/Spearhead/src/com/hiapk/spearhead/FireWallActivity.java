@@ -234,30 +234,17 @@ public class FireWallActivity extends Activity {
 		uidList = new ArrayList<Integer>();
 		ArrayList<Integer> uidList2 = new ArrayList<Integer>();
 		ArrayList keys = new ArrayList(appList.keySet());
-		MyCompTraffic mt = new MyCompTraffic();
-		mt.init(mp);
-		Collections.sort(keys, mt);
 		for (int i = 0; i < keys.size(); i++) {
 			int uid = (Integer) keys.get(i);
-			long tff;
-			if (mp.containsKey(uid)) {
-				tff = mp.get(uid).upload + mp.get(uid).download;
-			} else {
-				tff = -1000;
-			}
-			if (tff > 0) {
-				uidList.add(uid);
-			} else {
-				uidList2.add(uid);
-			}
+			uidList.add(uid);
 		}
 		MyCompName mn = new MyCompName();
 		mn.init(Block.appnamemap);
-		Collections.sort(uidList2, mn);
-		for (int i = 0; i < uidList2.size(); i++) {
-			int uid = uidList2.get(i);
-			uidList.add(uid);
-		}
+		Collections.sort(uidList, mn);
+		
+		MyCompTraffic mt = new MyCompTraffic();
+		mt.init(mp);
+		Collections.sort(uidList, mt);
 		return uidList;
 	}
 
