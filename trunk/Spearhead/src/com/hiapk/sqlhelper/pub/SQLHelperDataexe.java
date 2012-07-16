@@ -4,6 +4,7 @@ import com.hiapk.dataexe.MonthlyUseData;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.sqlhelper.total.SQLHelperTotal;
+import com.hiapk.widget.SetText;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -110,6 +111,7 @@ public class SQLHelperDataexe {
 
 			initDataWithnoNetwork(params[0]);
 			SQLStatic.setSQLTotalOnUsed(false);
+			SetText.resetWidgetAndNotify(params[0]);
 			return 3;
 		}
 

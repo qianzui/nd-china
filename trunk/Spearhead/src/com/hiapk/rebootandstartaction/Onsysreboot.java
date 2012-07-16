@@ -10,6 +10,7 @@ import com.hiapk.firewall.Block;
 import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 import com.hiapk.sqlhelper.pub.SQLStatic;
+import com.hiapk.widget.SetText;
 
 public class Onsysreboot {
 	boolean isNotifyOpen = true;
@@ -44,11 +45,7 @@ public class Onsysreboot {
 				} else {
 					context.stopService(new Intent("com.hiapk.server"));
 				}
-				if (isNotifyOpen || isWidget1X4Open) {
-					alset.StartWidgetAlarm(context);
-				} else {
-					alset.StopWidgetAlarm(context);
-				}
+				SetText.resetWidgetAndNotify(context);
 			}
 
 			// Intent intentTextUpdate = new Intent();
@@ -89,10 +86,11 @@ public class Onsysreboot {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if (timetap > 15) {
+				if (timetap > 5) {
 					break;
 				}
 			}
+
 			return null;
 		}
 
