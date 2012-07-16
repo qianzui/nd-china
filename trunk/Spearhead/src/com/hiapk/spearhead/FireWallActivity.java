@@ -109,7 +109,6 @@ public class FireWallActivity extends Activity {
 	}
 
 	public void initList() {
-
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
