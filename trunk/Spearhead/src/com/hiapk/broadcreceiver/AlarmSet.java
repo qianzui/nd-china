@@ -75,7 +75,7 @@ public class AlarmSet {
 
 	public void StartAlarmUid(Context context) {
 		setdefaulttime(context);
-		setwidgetdefaulttime(context);
+//		setwidgetdefaulttime(context);
 		int uidtime = uidrefreshtime
 		// < widgetrefreshtime ? uidrefreshtime
 		// : widgetrefreshtime
