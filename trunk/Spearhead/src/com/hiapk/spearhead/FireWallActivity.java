@@ -120,9 +120,10 @@ public class FireWallActivity extends Activity {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					if(Block.appList !=null && Block.appnamemap != null){
 					if (Block.appList.size() == Block.appnamemap.size()) {
 						break;
-					}
+					}}
 				} while (Block.appList.size() != Block.appnamemap.size());
 				uidList = comp(Block.appList);
 				handler2.sendEmptyMessage(0);
