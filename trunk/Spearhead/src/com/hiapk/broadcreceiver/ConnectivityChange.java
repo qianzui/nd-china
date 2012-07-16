@@ -42,15 +42,8 @@ public class ConnectivityChange extends BroadcastReceiver {
 				if (SQLStatic.TableWiFiOrG23 != "") {
 					// // 启动闹钟
 					// alset.StartAlarm(context);
-					if (sharedDatawidget.isNotifyOpen()) {
-						alset.StartWidgetAlarm(context);
-					}
 					showLog("何种方式连线" + SQLStatic.TableWiFiOrG23);
 				} else {
-
-					if (sharedDatawidget.isNotifyOpen()) {
-						alset.StartWidgetAlarm(context);
-					}
 					showLog("无可用网络");
 					alset.StopAlarm(context);
 				}

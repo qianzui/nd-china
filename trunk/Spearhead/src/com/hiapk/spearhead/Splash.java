@@ -124,7 +124,7 @@ public class Splash extends Activity {
 			showLog("uidinitover" + (System.currentTimeMillis() - time));
 			while (SQLStatic.setSQLTotalOnUsed(true)) {
 				try {
-					Thread.sleep(100);
+					Thread.sleep(50);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -132,13 +132,13 @@ public class Splash extends Activity {
 			}
 
 			initDataWithnoNetwork(context);
-			SQLStatic.setSQLTotalOnUsed(false);
 			showLog("overinitMaindata" + (System.currentTimeMillis() - time));
 			return 3;
 		}
 
 		@Override
 		protected void onPostExecute(Integer result) {
+			SQLStatic.setSQLTotalOnUsed(false);
 			showLog("startingMain" + (System.currentTimeMillis() - time));
 			Intent mainIntent = new Intent(Splash.this, SpearheadActivity.class);
 			Bundle choosetab = new Bundle();

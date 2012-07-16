@@ -12,8 +12,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.preference.PreferenceManager;
-import android.util.Log;
 
 public class AlarmSet {
 	private int totalrefreshtime = 30;
@@ -22,8 +20,6 @@ public class AlarmSet {
 	private final String PREFS_NAME = "allprefs";
 	private final String TOTAL_REFLASH = "totalrefreshtime";
 	private final String UID_REFLASH = "uidrefreshtime";
-	// 系统设置
-	private final String SYS_PRE_REFRESH_FRZ = "refreshfrz";
 
 	/**
 	 * 依据预设值启用计时器，默认总流量统计间隔30秒，uid统计间隔240分钟
