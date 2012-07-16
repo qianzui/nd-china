@@ -29,7 +29,7 @@ public class MyCompTraffic implements  Comparator {
 		}
 		if (mp.containsKey(uid2)) {
 			try{
-			traffic2 = mp.get(uid2).upload + mp.get(uid1).download;
+			traffic2 = mp.get(uid2).upload + mp.get(uid2).download;
 			 }catch(Exception e){
 			  traffic2 = -1000;
 			}
