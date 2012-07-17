@@ -106,7 +106,7 @@ public class FireWallActivity extends Activity {
 				}
 			}
 		};
-	}
+	} 
 
 	public void initList() {
 		new Thread(new Runnable() {
@@ -115,31 +115,24 @@ public class FireWallActivity extends Activity {
 				getList(mContext);
 				mp = getData();
 				if (Block.appList != null && Block.appnamemap != null) {
+			    int i = 0 ;
 				do {
-					try {
+					try { 
+						i++;
 						Thread.sleep(300);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
+					   } catch (InterruptedException e) {
 						e.printStackTrace();
-					}
-						if (Block.appList.size() == Block.appnamemap.size()) {
+				       	}
+					if (Block.appList.size() == Block.appnamemap.size()) {
 							break;
 						}
+					if(i >= 30){
+						break;
+					}
 				} while (Block.appList.size() != Block.appnamemap.size());
 				}else{
 					getList(mContext);
 					Splash.getList(mContext);
-					do {
-						try {
-							Thread.sleep(300);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-							if (Block.appList.size() == Block.appnamemap.size()) {
-								break;
-							}
-					} while (Block.appList.size() != Block.appnamemap.size());
 				}
 				uidList = comp(Block.appList);
 				handler2.sendEmptyMessage(0);
@@ -164,7 +157,7 @@ public class FireWallActivity extends Activity {
 	public void setAdapter() {
 		appListView = (MyListView) findViewById(R.id.app_list);
 		appListAdapter = new AppListAdapter(FireWallActivity.this,
-				getList(mContext), appListView, mp, Block.appnamemap,
+				myAppList, appListView, mp, Block.appnamemap,
 				Block.appList, uidList);
 		appListView.setAdapter(appListAdapter);
 		appListView.setOnItemClickListener(new OnItemClickListener() {
