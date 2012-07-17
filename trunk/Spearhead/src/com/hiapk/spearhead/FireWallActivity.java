@@ -33,6 +33,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -106,7 +107,7 @@ public class FireWallActivity extends Activity {
 				}
 			}
 		};
-	} 
+	}
 
 	public void initList() {
 		new Thread(new Runnable() {
@@ -115,22 +116,22 @@ public class FireWallActivity extends Activity {
 				getList(mContext);
 				mp = getData();
 				if (Block.appList != null && Block.appnamemap != null) {
-			    int i = 0 ;
-				do {
-					try { 
-						i++;
-						Thread.sleep(300);
-					   } catch (InterruptedException e) {
-						e.printStackTrace();
-				       	}
-					if (Block.appList.size() == Block.appnamemap.size()) {
+					int i = 0;
+					do {
+						try {
+							i++;
+							Thread.sleep(300);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						if (Block.appList.size() == Block.appnamemap.size()) {
 							break;
 						}
-					if(i >= 30){
-						break;
-					}
-				} while (Block.appList.size() != Block.appnamemap.size());
-				}else{
+						if (i >= 30) {
+							break;
+						}
+					} while (Block.appList.size() != Block.appnamemap.size());
+				} else {
 					getList(mContext);
 					Splash.getList(mContext);
 				}
@@ -156,9 +157,8 @@ public class FireWallActivity extends Activity {
 
 	public void setAdapter() {
 		appListView = (MyListView) findViewById(R.id.app_list);
-		appListAdapter = new AppListAdapter(FireWallActivity.this,
-				myAppList, appListView, mp, Block.appnamemap,
-				Block.appList, uidList);
+		appListAdapter = new AppListAdapter(FireWallActivity.this, myAppList,
+				appListView, mp, Block.appnamemap, Block.appList, uidList);
 		appListView.setAdapter(appListAdapter);
 		appListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -215,6 +215,7 @@ public class FireWallActivity extends Activity {
 
 	public HashMap<Integer, Data> getData() {
 		do {
+			showLog("TableWiFiOrG23=" + SQLStatic.TableWiFiOrG23);
 			if (SQLStatic.TableWiFiOrG23 != "") {
 				AlarmSet alset = new AlarmSet();
 				alset.StartAlarmUid(mContext);
@@ -247,7 +248,7 @@ public class FireWallActivity extends Activity {
 		MyCompName mn = new MyCompName();
 		mn.init(Block.appnamemap);
 		Collections.sort(uidList, mn);
-		
+
 		MyCompTraffic mt = new MyCompTraffic();
 		mt.init(mp);
 		Collections.sort(uidList, mt);
@@ -452,4 +453,14 @@ public class FireWallActivity extends Activity {
 		return super.onKeyDown(keyCode, event);
 	}
 
+	/**
+	 * 用于显示日志
+	 * 
+	 * @param string
+	 */
+	private void showLog(String string) {
+		if (SQLStatic.isshowLog) {
+			Log.d("FireWallActivity", string);
+		}
+	}
 }

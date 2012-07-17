@@ -24,6 +24,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		showLog("isUidAlarmRecording=" + SQLStatic.isUidAlarmRecording);
 		if (SQLStatic.isUidAlarmRecording == false) {
 			sqlhelperUidRecord = new SQLHelperUidRecord(context);
 			sqlhelperUidFire = new SQLHelperUidRecordFire(context);
@@ -35,6 +36,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 				network = SQLStatic.TableWiFiOrG23;
 			}
 			showLog("TableWiFiOrG23=" + SQLStatic.TableWiFiOrG23);
+			showLog("network=" + network);
 			if (SQLStatic.getIsInit(context)) {
 				if (network != "") {
 					// 进行之前使用的网络是何种网络进行判断
@@ -57,6 +59,8 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 					// SQLStatic.isUidAlarmRecording = false;
 					// showLog("Uid数据库忙");
 					// }
+				} else {
+					SQLStatic.isUidAlarmRecording = false;
 				}
 			} else {
 				// sqlhelper.initSQL(context);
@@ -145,7 +149,9 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 	}
 
 	private void showLog(String string) {
-		Log.d("ReceiverUid", string);
+		if (SQLStatic.isshowLog) {
+			Log.d("ReceiverUid", string);
+		}
 	}
 
 }

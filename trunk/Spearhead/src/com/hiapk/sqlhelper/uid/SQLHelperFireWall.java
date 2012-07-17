@@ -30,12 +30,12 @@ public class SQLHelperFireWall {
 
 	public void resetMP(Context context) {
 		time = System.currentTimeMillis();
-//		AlarmSet alset = new AlarmSet();
-//		alset.StartAlarm(context);
+		// AlarmSet alset = new AlarmSet();
+		// alset.StartAlarm(context);
 		showLog("alarmover" + (System.currentTimeMillis() - time));
 		if (SQLStatic.getIsInit(context)) {
 			if (isReseting == false) {
-				isReseting=true;
+				isReseting = true;
 				new AsyncTaskonResume().execute(context);
 			}
 		}
@@ -49,7 +49,7 @@ public class SQLHelperFireWall {
 			while (SQLStatic.uidnumbers == null) {
 				SQLStatic.getuidsAndpacname(params[0]);
 				try {
-					Thread.sleep(50);
+					Thread.sleep(200);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -94,7 +94,7 @@ public class SQLHelperFireWall {
 		protected void onPostExecute(HashMap<Integer, Data> result) {
 			showLog("Recordover" + (System.currentTimeMillis() - time));
 			SQLStatic.uiddata = result;
-			isReseting=false;
+			isReseting = false;
 		}
 	}
 
@@ -104,7 +104,9 @@ public class SQLHelperFireWall {
 	 * @param string
 	 */
 	private void showLog(String string) {
-//		Log.d("SQLFireWall", string);
+		if (SQLStatic.isshowLog) {
+			Log.d("SQLFireWall", string);
+		}
 	}
 
 }
