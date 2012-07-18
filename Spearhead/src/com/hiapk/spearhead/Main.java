@@ -108,10 +108,10 @@ public class Main extends Activity {
 		TextView monthSetunit = (TextView) findViewById(R.id.unit5);
 		// 初始化流量获取函数
 		// 取得月度流量
-		mobileTraffic = TrafficManager.mobile_month_data;
+		// mobileTraffic = TrafficManager.mobile_month_data;
+		long todayUsedLong = sharedData.getTodayMobileDataLong();
 		// 进行流量设置
-		todayMobil.setText(UnitHandler.unitHandlerAcurrac(
-				mobileTraffic[monthDay] + mobileTraffic[monthDay + 31],
+		todayMobil.setText(UnitHandler.unitHandlerAcurrac(todayUsedLong,
 				todayMobilunit));
 		// todayMobil.setText(unitHandler(8888080, todayMobilunit));
 		// 月度流量设置
@@ -160,12 +160,7 @@ public class Main extends Activity {
 		alset.StartAlarm(context);
 		initValues();
 		initWifiBar();
-		SetText.setText(context);
-		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
-				context);
-		if (sharedDatawidget.isNotifyOpen()||sharedDatawidget.isWidGet14Open()) {
-			alset.StartWidgetAlarm(context);
-		}
+		SetText.resetWidgetAndNotify(context);
 	}
 
 	private void setonclicklistens() {
@@ -191,10 +186,9 @@ public class Main extends Activity {
 					// 初始化网络状态
 					// 启动闹钟
 					alset.StartAlarmMobile(context);
-					SetText.resetWidgetAndNotify(context);
 					initValues();
 					initWifiBar();
-
+					SetText.resetWidgetAndNotify(context);
 					return true;
 				}
 				return false;

@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class Appwidget extends AppWidgetProvider {
 		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
 				context);
 		sharedDatawidget.setWidGet14Open(true);
+		showLog("isWidGet14Open=" + sharedDatawidget.isWidGet14Open());
 		// boolean isNotifyOpen = sharedData.isNotifyOpen();
 		if (SQLStatic.TableWiFiOrG23 == "") {
 			SQLStatic.initTablemobileAndwifi(context);
@@ -423,7 +425,8 @@ public class Appwidget extends AppWidgetProvider {
 	 * @param string
 	 */
 	private void showLog(String string) {
-		// TODO Auto-generated method stub
-		// Log.d("appwidget", string);
+		if (SQLStatic.isshowLog) {
+			Log.d("Appwidget", string);
+		}
 	}
 }

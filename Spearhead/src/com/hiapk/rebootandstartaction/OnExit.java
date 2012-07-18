@@ -40,13 +40,6 @@ public class OnExit {
 		alarmManager.setRepeating(AlarmManager.RTC,
 				calendar.getTimeInMillis() + 500, 356 * 24 * 60 * 60 * 1000,
 				pendingIntent);
-		SetText.setText(context);
-		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
-				context);
-		if (sharedDatawidget.isNotifyOpen()||sharedDatawidget.isWidGet14Open()) {
-			AlarmSet alset=new AlarmSet();
-			alset.StartWidgetAlarm(context);
-		}
 		Mapplication.getInstance().exit();
 	}
 

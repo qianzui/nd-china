@@ -1,12 +1,15 @@
 package com.hiapk.alertaction;
 
+import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
+import com.hiapk.sqlhelper.pub.SQLStatic;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.text.format.Time;
+import android.util.Log;
 
 public class TrafficAlert {
 	// ²Ù×÷sharedprefrence
@@ -153,6 +156,9 @@ public class TrafficAlert {
 			break;
 		}
 		UseEditor.commit();
+		AlarmSet alset = new AlarmSet();
+		alset.StartAlarm(context);
+		alset.StartWidgetAlarm(context);
 	}
 
 	// /**
@@ -184,14 +190,14 @@ public class TrafficAlert {
 	}
 
 	private void startMonthNotify(Context context, boolean vibrate) {
-//		SharedPreferences prefs_setting = PreferenceManager
-//				.getDefaultSharedPreferences(context);
-//		boolean allowNotify = prefs_setting.getBoolean(SYS_PRE_NOTIFY, true);
+		// SharedPreferences prefs_setting = PreferenceManager
+		// .getDefaultSharedPreferences(context);
+		// boolean allowNotify = prefs_setting.getBoolean(SYS_PRE_NOTIFY, true);
 		// showLog(allowNotify + "");
-//		if (allowNotify) {
-			AlertActionNotify actNotify = new AlertActionNotify();
-			actNotify.startNotifyMonth(context, vibrate);
-//		}
+		// if (allowNotify) {
+		AlertActionNotify actNotify = new AlertActionNotify();
+		actNotify.startNotifyMonth(context, vibrate);
+		// }
 	}
 
 	private void startDayNotify(Context context, boolean vibrate) {
@@ -206,7 +212,8 @@ public class TrafficAlert {
 	}
 
 	private void showLog(String string) {
-		// TODO Auto-generated method stub
-		// Log.d("alertaction", string);
+		if (SQLStatic.isshowLog) {
+			Log.d("TrafficAlert", string);
+		}
 	}
 }
