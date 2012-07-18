@@ -45,7 +45,7 @@ public class Splash extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
 		context.sendBroadcast(new Intent(ACTION_TIME_CHANGED));
-		pm = context.getPackageManager();
+		
 		time = System.currentTimeMillis();
 		// MobclickAgent.onError(this);
 		isinited = SQLStatic.getIsInit(context);
@@ -76,7 +76,7 @@ public class Splash extends Activity {
 	}
 
 	public static void getList(Context context) {
-
+		pm = context.getPackageManager();
 		List<PackageInfo> packageInfo = context.getPackageManager()
 				.getInstalledPackages(0);
 		Block.appnamemap = new HashMap<Integer, String>();
