@@ -205,7 +205,7 @@ public class Splash extends Activity {
 	private void initDataWithnoNetwork(Context context) {
 		SQLStatic.initTablemobileAndwifi(context);
 		network = "nonetwork";
-		showLog("initDataWithnoNetwork=" + network);
+		showLog("initDataWithnoNet=" + network);
 		long mobile_month_use_afterSet = 0;
 		long[] wifi_month_data = new long[64];
 		long[] mobile_month_data = new long[64];
@@ -257,7 +257,6 @@ public class Splash extends Activity {
 			showLog("Êý¾Ý¼ÇÂ¼Ê§°Ü");
 		} finally {
 			sqlDataBase.endTransaction();
-			SQLStatic.isTotalAlarmRecording = false;
 		}
 		SQLHelperCreateClose.closeSQL(sqlDataBase);
 	}
@@ -278,6 +277,8 @@ public class Splash extends Activity {
 
 	private void showLog(String string) {
 		// TODO Auto-generated method stub
-		// Log.d("Splash", string);
+		if (SQLStatic.isshowLog) {
+			Log.d("Splash", string);
+		}
 	}
 }

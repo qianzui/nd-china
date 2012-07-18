@@ -442,6 +442,9 @@ public class FireWallActivity extends Activity {
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
+		if (customdialog.isShowing()) {
+			customdialog.dismiss();
+		}
 	}
 
 	@Override

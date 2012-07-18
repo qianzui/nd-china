@@ -48,7 +48,7 @@ public class ProgramNotify {
 		// setText(context);
 		// textUp = SetText.textUp;
 		// textDown = SetText.textDown;
-		SetText.setText(context);
+//		SetText.setText(context);
 		contentView.setTextViewText(R.id.textUp, SetText.textUp);
 		contentView.setTextViewText(R.id.textDown, SetText.textDown);
 		notification.contentView = contentView;

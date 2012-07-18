@@ -224,8 +224,9 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	}
 
 	private void showLog(String string) {
-		// TODO Auto-generated method stub
-		// Log.d("ReceiverTotal", string);
+		if (SQLStatic.isshowLog) {
+			Log.d("ReceiverTotal", string);
+		}
 	}
 
 }

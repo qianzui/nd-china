@@ -173,9 +173,9 @@ public class SQLHelperDataexe {
 		} catch (Exception e) {
 		} finally {
 			sqlDataBase.endTransaction();
-			SQLStatic.isTotalAlarmRecording = false;
 		}
 		SQLHelperCreateClose.closeSQL(sqlDataBase);
+		SQLStatic.isTotalAlarmRecording = false;
 	}
 
 	/**

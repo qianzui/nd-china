@@ -12,6 +12,7 @@ import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.customspinner.CustomSPBeen;
 import com.hiapk.firewall.Block;
 import com.hiapk.spearhead.R;
+import com.hiapk.widget.SetText;
 
 public class PrefrenceBeen {
 	Context context;
@@ -115,6 +116,12 @@ public class PrefrenceBeen {
 				// TODO Auto-generated method stub
 				boolean isopen = sharedDatawidget.isFloatOpen();
 				if (isopen) {
+					if (SetText.FloatIntX != 50) {
+						sharedDatawidget.setIntX(SetText.FloatIntX);
+					}
+					if (SetText.FloatIntY != 50) {
+						sharedDatawidget.setIntY(SetText.FloatIntY);
+					}
 					context.stopService(new Intent("com.hiapk.server"));
 					checkBoxRightDrawChange(showText, isopen);
 					sharedDatawidget.setFloatOpen(false);
