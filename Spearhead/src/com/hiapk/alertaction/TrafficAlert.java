@@ -156,9 +156,6 @@ public class TrafficAlert {
 			break;
 		}
 		UseEditor.commit();
-		AlarmSet alset = new AlarmSet();
-		alset.StartAlarm(context);
-		alset.StartWidgetAlarm(context);
 	}
 
 	// /**
