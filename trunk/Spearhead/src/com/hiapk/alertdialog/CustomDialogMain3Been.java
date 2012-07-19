@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.hiapk.dataexe.UnitHandler;
-import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
+import com.hiapk.prefrencesetting.PrefrenceStaticOperator;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.spearhead.R;
 import com.hiapk.widget.SetText;
@@ -145,7 +145,7 @@ public class CustomDialogMain3Been {
 				} else {
 					sharedData.setMonthSetHasSet(true);
 				}
-				PrefrenceOperatorUnit.resetHasWarning(context);
+				PrefrenceStaticOperator.resetHasWarning(context);
 				monthSetAlert.dismiss();
 				/* User clicked OK so do some stuff */
 				// MobclickAgent.onEvent(context, "monthUse",
@@ -299,7 +299,7 @@ public class CustomDialogMain3Been {
 						button.setText(UnitHandler.unitHandler(mobileWarning));
 					}
 					// ÷ÿ÷√‘§æØ◊¥Ã¨
-					PrefrenceOperatorUnit.resetHasWarning(context);
+					PrefrenceStaticOperator.resetHasWarningMonth(context);
 					monthWarning.dismiss();
 				}
 			});
@@ -474,7 +474,7 @@ public class CustomDialogMain3Been {
 
 					// init_dayWarning();
 					// ÷ÿ÷√‘§æØ◊¥Ã¨
-					PrefrenceOperatorUnit.resetHasWarning(context);
+					PrefrenceStaticOperator.resetHasWarningDay(context);
 					dayWarning.dismiss();
 				}
 			});

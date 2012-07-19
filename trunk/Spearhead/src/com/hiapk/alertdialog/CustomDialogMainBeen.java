@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
-import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
+import com.hiapk.prefrencesetting.PrefrenceStaticOperator;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.provider.ColorChangeMainBeen;
 import com.hiapk.regulate.Regulate;
@@ -182,7 +182,7 @@ public class CustomDialogMainBeen {
 					customOther.dialogHasUsedLongTooMuch();
 				}
 				SetText.resetWidgetAndNotify(context);
-				PrefrenceOperatorUnit.resetHasWarning(context);
+				PrefrenceStaticOperator.resetHasWarning(context);
 				commitUsedTrafficTime();
 				// 月度流量设置
 				long monthLeft = 0;
@@ -308,7 +308,7 @@ public class CustomDialogMainBeen {
 					sharedData.setMonthSetHasSet(true);
 					btn_toThree.setText("  校准流量  ");
 				}
-				PrefrenceOperatorUnit.resetHasWarning(context);
+				PrefrenceStaticOperator.resetHasWarning(context);
 				// 重设主界面数值包月流量
 				long mobileSet = sharedData.getMonthMobileSetOfLong();
 				if (mobileSet != 0) {

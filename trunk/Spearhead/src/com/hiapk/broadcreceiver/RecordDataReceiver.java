@@ -90,27 +90,30 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	 * @param context
 	 */
 	private void trafficAlertTest(Context context) {
-		// TODO Auto-generated method stub
-		TrafficAlert trafficalert = new TrafficAlert();
-		// showLog("month" + trafficalert.isTrafficOverMonthSet(context) + "day"
-		// + trafficalert.isTrafficOverDaySet(context));
-		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-		boolean monthHasWarning = prefs.getBoolean(MOBILE_HAS_WARNING_MONTH,
-				false);
-		if (!monthHasWarning) {
-			// 月度
-			if (trafficalert.isTrafficOverMonthSet(context)) {
-				trafficalert.exeWarningActionMonth(context);
+		if (network == "mobile") {
+			TrafficAlert trafficalert = new TrafficAlert();
+			// showLog("month" + trafficalert.isTrafficOverMonthSet(context) +
+			// "day"
+			// + trafficalert.isTrafficOverDaySet(context));
+			SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME,
+					0);
+			boolean monthHasWarning = prefs.getBoolean(
+					MOBILE_HAS_WARNING_MONTH, false);
+			if (!monthHasWarning) {
+				// 月度
+				if (trafficalert.isTrafficOverMonthSet(context)) {
+					trafficalert.exeWarningActionMonth(context);
+				}
+			}
+			// 日预警
+			boolean dayHasWarning = prefs.getBoolean(MOBILE_HAS_WARNING_DAY,
+					false);
+			if (!dayHasWarning) {
+				if (trafficalert.isTrafficOverDaySet(context)) {
+					trafficalert.exeWarningActionDay(context);
+				}
 			}
 		}
-		// 日预警
-		boolean dayHasWarning = prefs.getBoolean(MOBILE_HAS_WARNING_DAY, false);
-		if (!dayHasWarning) {
-			if (trafficalert.isTrafficOverDaySet(context)) {
-				trafficalert.exeWarningActionDay(context);
-			}
-		}
-
 	}
 
 	/**
