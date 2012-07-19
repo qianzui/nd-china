@@ -23,7 +23,7 @@ import com.hiapk.alertdialog.CustomDialogOtherBeen;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
-import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
+import com.hiapk.prefrencesetting.PrefrenceStaticOperator;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.regulate.Regulate;
@@ -422,7 +422,7 @@ public class CustomSPBeen {
 					customOther.dialogHasUsedLongTooMuch();
 				}
 				SetText.resetWidgetAndNotify(context);
-				PrefrenceOperatorUnit.resetHasWarning(context);
+				PrefrenceStaticOperator.resetHasWarning(context);
 				// Çå³ý¶Ô»°¿ò
 				monthHasUsedAlert.dismiss();
 			}

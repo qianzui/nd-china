@@ -10,7 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.hiapk.dataexe.TrafficManager;
-import com.hiapk.prefrencesetting.PrefrenceOperatorUnit;
+import com.hiapk.prefrencesetting.PrefrenceStaticOperator;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.progressdialog.CustomProgressDialog;
@@ -49,7 +49,7 @@ public class CustomDialogOtherBeen {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				PrefrenceOperatorUnit.resetHasWarning(context);
+				PrefrenceStaticOperator.resetHasWarning(context);
 				dayWarning.dismiss();
 			}
 		});

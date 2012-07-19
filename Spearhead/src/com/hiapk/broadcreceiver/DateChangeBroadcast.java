@@ -1,12 +1,15 @@
 package com.hiapk.broadcreceiver;
 
+import com.hiapk.prefrencesetting.PrefrenceStaticOperator;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
+import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.widget.SetText;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.text.format.Time;
+import android.util.Log;
 
 public class DateChangeBroadcast extends BroadcastReceiver {
 	// private static final String ACTION_TIME_CHANGED =
@@ -26,9 +29,11 @@ public class DateChangeBroadcast extends BroadcastReceiver {
 		int countday = sharedData.getCountDay() + 1;
 		if (monthDay == countday) {
 			sharedData.setMonthHasUsedStack(0);
+			PrefrenceStaticOperator.resetHasWarningMonth(context);
 		}
 		sharedData.setTodayMobileDataLong(0);
 		SetText.resetWidgetAndNotify(context);
+		PrefrenceStaticOperator.resetHasWarningDay(context);
 		showLog("todya is " + monthDay);
 		// }
 	}
@@ -46,7 +51,8 @@ public class DateChangeBroadcast extends BroadcastReceiver {
 	}
 
 	private void showLog(String string) {
-		// TODO Auto-generated method stub
-		// Log.d("DataChangeBroad", string);
+		if (SQLStatic.isshowLog) {
+			Log.d("DataChangeBroad", string);
+		}
 	}
 }
