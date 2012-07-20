@@ -52,7 +52,8 @@ public class Main3 extends Activity {
 				}
 			}
 		});
-
+//		//Ä£ÄâÒì³£ 
+//        throw new  RuntimeException("my exception error"); 
 	}
 
 	/**
