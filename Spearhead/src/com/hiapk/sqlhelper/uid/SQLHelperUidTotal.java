@@ -105,8 +105,6 @@ public class SQLHelperUidTotal {
 				+ upload + split + download + split + 0 + split + type + split
 				+ other + split + "Install" + "'" + End;
 		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
-		// ('1','1','1','1','1','1')
-		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
 		// ('date','time','upload','download','uid','type')
 		try {
 			mySQL.execSQL(string);
@@ -130,12 +128,6 @@ public class SQLHelperUidTotal {
 		// group by SID)
 		string = DeleteTable + TableUidTotal + Where + " packagename='"
 				+ packagename + "'";
-		// string = InsertTable + TableUidIndex + Start
-		// + InsertUidIndexColumnTotal + ",other" + End + Value
-		// + uidnumber + split + packagename + split + 0 + split
-		// + "Install" + "'" + End;
-		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
-		// ('1','1','1','1','1','1')
 		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
 		// ('date','time','upload','download','uid','type')
 		showLog(string);
@@ -195,12 +187,6 @@ public class SQLHelperUidTotal {
 				cur.close();
 			}
 
-			// if (uids != null && uids[0] != 1019) {
-			// for (int i = 0; i < uids.length; i++) {
-			// DeleteUnusedUidTotalData(mySQL, uids[i]);
-			// }
-			// }
-
 			// showLog("新安装软件" + packageName + uidnumber);
 			// 删除多余的uid数据
 			for (int i = 0; i < pacs_hasset.length; i++) {
@@ -212,24 +198,6 @@ public class SQLHelperUidTotal {
 					DeleteUnusedUidTotalDatabyPacname(mySQL,
 							pacs_hasset[i].trim());
 					uid_List_Del.add(uid_hasset[i]);
-					// } else {
-					// int uid = 999999;
-					// showLog("show！=-1packagenmae=" + pacs_hasset[i]);
-					// try {
-					// PackageManager pm = context.getPackageManager();
-					// ApplicationInfo ai = pm.getApplicationInfo(
-					// pacs_hasset[i],
-					// PackageManager.GET_ACTIVITIES);
-					// uid = ai.uid;
-					// // Log.d("!!", "!!" + ai.uid);
-					// } catch (NameNotFoundException e1) {
-					// // TODO Auto-generated catch block
-					// e1.printStackTrace();
-					// showLog("存在未添加的packagenmae=" + pacs_hasset[i] + uid);
-					// }
-					// uid_List.add(uid);
-					// exeSQLcreateUidTotaltables(mySQL, new int[] { uid },
-					// new String[] { pacs_hasset[i] });
 				}
 			}
 
