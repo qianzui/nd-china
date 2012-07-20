@@ -116,7 +116,7 @@ public class SQLStatic {
 	 * @param allset
 	 *            是否改变uid与total的记录值
 	 */
-	public static void initTablemobileAndwifi(Context context) {
+	public static synchronized void initTablemobileAndwifi(Context context) {
 		ConnectivityManager connec = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		if (connec.getActiveNetworkInfo() != null) {
