@@ -1,5 +1,6 @@
 package com.hiapk.broadcreceiver;
 
+import com.hiapk.exception.WriteLog;
 import com.hiapk.prefrencesetting.PrefrenceStaticOperator;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.sqlhelper.pub.SQLStatic;
@@ -30,6 +31,8 @@ public class DateChangeBroadcast extends BroadcastReceiver {
 		if (monthDay == countday) {
 			sharedData.setMonthHasUsedStack(0);
 			PrefrenceStaticOperator.resetHasWarningMonth(context);
+			WriteLog writelog = new WriteLog(context);
+			writelog.clearmonthLog();
 		}
 		sharedData.setTodayMobileDataLong(0);
 		SetText.resetWidgetAndNotify(context);
