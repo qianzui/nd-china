@@ -209,7 +209,7 @@ public class StackedBarChart extends ViewBase {
 	public void setyMaxvalue(double yMaxvalue) {
 		this.yMaxvalue = yMaxvalue;
 	}
-	
+
 	/**
 	 * 设置数轴颜色
 	 * 
@@ -227,7 +227,7 @@ public class StackedBarChart extends ViewBase {
 	public void setLableColor(int lableColor) {
 		this.lableColor = lableColor;
 	}
-	
+
 	/**
 	 * Executes the chart demo.
 	 * 
@@ -257,7 +257,7 @@ public class StackedBarChart extends ViewBase {
 		for (String xaxis : xaxles) {
 			i++;
 			String name = xaxis;
-			renderer.addTextLabel(i, name);
+			renderer.addXTextLabel(i, name);
 		}
 		//
 		renderer.setYLabels(10);
@@ -266,8 +266,14 @@ public class StackedBarChart extends ViewBase {
 		// renderer.setZoomEnabled(false);
 		// other
 		renderer.setShowGrid(true);
-		renderer.setDisplayChartValues(true);
-		renderer.setChartValuesTextSize(ChartValuesTextsize);
+		SimpleSeriesRenderer r1 = renderer.getSeriesRendererAt(0);
+		SimpleSeriesRenderer r2 = renderer.getSeriesRendererAt(1);
+		r1.setChartValuesSpacing(5);
+		r1.setDisplayChartValues(true);
+		r1.setChartValuesTextSize(ChartValuesTextsize);
+		r2.setChartValuesSpacing(5);
+		r2.setDisplayChartValues(true);
+		r2.setChartValuesTextSize(ChartValuesTextsize);
 		// 设置边界等
 		// Log.d("main", width+"");
 		double[] limit = new double[] { 0.5, showDay + 0.5, 0, MaxTraffic };
@@ -282,7 +288,6 @@ public class StackedBarChart extends ViewBase {
 	}
 
 	private void initSize() {
-		// TODO Auto-generated method stub
 		AxisTitleTextSize = windowswidesize / 16;
 		ChartTitleTextSize = windowswidesize / 12;
 		LabelsTextSize = windowswidesize / 16;
@@ -353,6 +358,8 @@ public class StackedBarChart extends ViewBase {
 		renderer.setYAxisMax(yMax);
 		renderer.setAxesColor(axesColor);
 		renderer.setLabelsColor(labelsColor);
+		renderer.setXLabelsColor(labelsColor);
+		renderer.setYLabelsColor(0, labelsColor);
 	}
 
 	/**

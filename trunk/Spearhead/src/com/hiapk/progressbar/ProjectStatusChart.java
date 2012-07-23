@@ -23,15 +23,17 @@ import java.util.List;
 import org.achartengine.ChartFactory;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.model.CategorySeries;
-import org.achartengine.model.TimeSeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
+import com.hiapk.dataexe.MonthDay;
 import com.hiapk.provider.UiColors;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint.Align;
 import android.view.View;
 
 /**
@@ -44,7 +46,6 @@ public class ProjectStatusChart extends ViewBase {
 		super(context);
 		this.windowswidesize = windowswidesize;
 		// Log.d("main", windowswidesize+"windowswidesize");
-		// TODO Auto-generated constructor stub
 	}
 
 	// 名称数的个数要与data数与color数统一！
@@ -64,8 +65,9 @@ public class ProjectStatusChart extends ViewBase {
 	double MinTraffic = 0;
 	// X轴显示的字
 	String XaxisText = "日期";
-	//标题
+	// 标题
 	String mainTitle = "日流量统计";
+
 	/**
 	 * 主标题
 	 * 
@@ -74,6 +76,7 @@ public class ProjectStatusChart extends ViewBase {
 	public void setMainTitle(String mainTitle) {
 		this.mainTitle = mainTitle;
 	}
+
 	public void setXaxisText(String XaxisText) {
 		this.XaxisText = XaxisText;
 	}
@@ -89,7 +92,7 @@ public class ProjectStatusChart extends ViewBase {
 		// List<Date[]> dates = new ArrayList<Date[]>();
 		// 初始化前月的天数与这个月天数
 		if (month != 1) {
-			beforeDayofMonth = countDay(year, month - 1);
+			beforeDayofMonth = MonthDay.countDay(year, month - 1);
 		} else {
 			beforeDayofMonth = 31;
 		}
@@ -114,37 +117,6 @@ public class ProjectStatusChart extends ViewBase {
 			// showlog(xaxles[i]);
 		}
 		this.xaxles = xaxles;
-
-		// int length = titles.length;
-		// for (int i = 0; i < length; i++) {
-		// dates.add(new Date[showDay]);
-		// if (month != 1) {
-		// for (int j = 0; j < beforeDayofMonth; j++) {
-		// dates.get(i)[j] = new Date(date1, date2 - 1, j + 1);
-		// // showlog(date1 + "," + (date2 - 1) + "," + (j + 1));
-		// }
-		// for (int j = beforeDayofMonth; j < showDay; j++) {
-		// dates.get(i)[j] = new Date(date1, date2, j
-		// - beforeDayofMonth + 1);
-		// // showlog(date1 + "," + (date2) + ","
-		// // + (j - beforeDayofMonth + 1));
-		// }
-		// } else {
-		// for (int j = 0; j < beforeDayofMonth; j++) {
-		// dates.get(i)[j] = new Date(date1 - 1, 11, j + 1);
-		// // showlog(date1 - 1 + "," + 11 + "," + (j + 1));
-		// }
-		// for (int j = beforeDayofMonth; j < showDay; j++) {
-		// dates.get(i)[j] = new Date(date1, date2, j
-		// - beforeDayofMonth + 1);
-		// // showlog(date1 + "," + (date2) + ","
-		// // + (j - beforeDayofMonth + 1));
-		// }
-		// }
-		//
-		// // dates.get(i)[0] = new Date(108, 9, 1);
-		// }
-		// this.dates = dates;
 	}
 
 	/**
@@ -197,10 +169,6 @@ public class ProjectStatusChart extends ViewBase {
 		}
 		this.dataMobile = dataMobile;
 		this.dataWifi = dataWifi;
-		// for (int i = 0; i < dataMobile.length; i++) {
-		// // showlog("dataMobile=" + dataMobile[i] + "dataWifi=" +
-		// // dataWifi[i]);
-		// }
 		if (MaxTraffic == 0) {
 			this.MaxTraffic = 1;
 		} else {
@@ -241,64 +209,47 @@ public class ProjectStatusChart extends ViewBase {
 		PointStyle[] styles = new PointStyle[] { PointStyle.SQUARE,
 				PointStyle.DIAMOND };
 		XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
-		for (int i = 0; i < length; i++) {
-
-			((XYSeriesRenderer) renderer.getSeriesRendererAt(i))
-					.setFillPoints(true);
-		}
 		// 设置背景色
 		renderer.setMarginsColor(Color.WHITE);
 		renderer.setBackgroundColor(Color.WHITE);
 		renderer.setApplyBackgroundColor(true);
 		// X轴
+		renderer.setYLabelsAlign(Align.LEFT);
 		renderer.setXLabels(0);
 		int i = 0;
 		for (String xaxis : xaxles) {
 			i++;
 			String name = xaxis;
-			renderer.addTextLabel(i, name);
+			renderer.addXTextLabel(i, name);
 		}
 		renderer.setPointSize(windowswidesize / 70);
-		renderer.setChartValuesTextSize(windowswidesize / 11);
-		setChartSettings(renderer, mainTitle, "", "流量（MB）", showDay - 5.5,
-				showDay + 0.5, MinTraffic, MaxTraffic, Color.rgb(80, 80, 80),
+		setChartSettings(renderer, mainTitle, "", "流量（MB）", showDay - 4.5,
+				showDay + 0.5, 0, MaxTraffic, Color.rgb(80, 80, 80),
 				Color.rgb(80, 80, 80));
-		// setChartSettings(renderer, mainTitle, XaxisText, YaxisText,
-		// xMinvalue,
-		// xMaxvalue, yMinvalue, yMaxvalue, AxisColor, lableColor);
-		// setChartSettings(renderer, "历史流量统计", "日期", "流量（MB）",
-		//
-		// dates.get(0)[0].getTime(), dates.get(0)[3].getTime(), 0, 50,
-		// Color.GRAY, Color.LTGRAY);
-		renderer.getSeriesRendererAt(0).setDisplayChartValues(true);
-		renderer.getSeriesRendererAt(1).setDisplayChartValues(true);
-		// renderer.setXLabels(5);
 		renderer.setYLabels(10);
-		length = renderer.getSeriesRendererCount();
-		// for (int i = 0; i < length; i++) {
-		// SimpleSeriesRenderer seriesRenderer = renderer
-		// .getSeriesRendererAt(i);
-		// seriesRenderer.setDisplayChartValues(true);
-		// }
-
 		// 设置边界等
 		// Log.d("main", width+"");
-		double[] limit = new double[] { 0.5, showDay + 0.5, 0, MaxTraffic / 3 };
-		double[] limit2 = new double[] { 1, showDay - 1, 0, 0 };
+		double[] limit = new double[] { 0.5, showDay + 0.5, 0, MaxTraffic };
+		double[] limit2 = new double[] { 1, showDay - 1, 0, 10 };
 		renderer.setPanLimits(limit);
+		renderer.setPanEnabled(true, false);
 		renderer.setZoomLimits(limit2);
-		renderer.setZoomRate(0f);
+		renderer.setBarSpacing(1f);
+		renderer.setZoomRate(1f);
+		// 条条的具体设置
+		for (int j = 0; j < length; j++) {
+			SimpleSeriesRenderer seriesRenderer = renderer
+					.getSeriesRendererAt(j);
+			seriesRenderer.setDisplayChartValues(true);
+			seriesRenderer.setChartValuesTextSize(windowswidesize / 11);
+			seriesRenderer.setChartValuesSpacing(5);
+			((XYSeriesRenderer) seriesRenderer).setFillPoints(true);
+		}
 		return ChartFactory.getLineChartView(context,
 				buildBarDataset(titles, values)
 				// buildDateDataset(titles, dates, values)
 				, renderer);
 	}
-
-	// ,"MM/dd/yyyy"
-
-	// (context,
-	// buildDateDataset(titles, dates, values), renderer,
-	// Type.DEFAULT);
 
 	/**
 	 * Builds an XY multiple series renderer.
@@ -316,7 +267,6 @@ public class ProjectStatusChart extends ViewBase {
 		return renderer;
 	}
 
-	@SuppressWarnings("deprecation")
 	private void setRenderer(XYMultipleSeriesRenderer renderer, int[] colors,
 			PointStyle[] styles) {
 		// 轴上的日期
@@ -399,86 +349,16 @@ public class ProjectStatusChart extends ViewBase {
 		renderer.setYAxisMax(yMax);
 		renderer.setAxesColor(axesColor);
 		renderer.setLabelsColor(labelsColor);
+		renderer.setXLabelsColor(labelsColor);
+		renderer.setYLabelsColor(0, labelsColor);
 	}
 
-//	/**
-//	 * Builds an XY multiple time dataset using the provided values.
-//	 * 
-//	 * @param titles
-//	 *            the series titles
-//	 * @param xValues
-//	 *            the values for the X axis
-//	 * @param yValues
-//	 *            the values for the Y axis
-//	 * @return the XY multiple time dataset
-//	 */
-//	private XYMultipleSeriesDataset buildDateDataset(String[] titles,
-//			List<Date[]> xValues, List<long[]> yValues) {
-//		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-//		int length = titles.length;
-//		for (int i = 0; i < length; i++) {
-//			TimeSeries series = new TimeSeries(titles[i]);
-//			Date[] xV = xValues.get(i);
-//			long[] yV = yValues.get(i);
-//			int seriesLength = xV.length;
-//			for (int k = 0; k < seriesLength; k++) {
-//				series.add(xV[k], yV[k]);
-//			}
-//			dataset.addSeries(series);
-//		}
-//		return dataset;
-//	}
-
-	/**
-	 * 计算单月有几天
-	 * 
-	 * @param year
-	 *            输入年份
-	 * @param month
-	 *            输入月份
-	 * @return 返回天数
-	 */
-	private int countDay(int year, int month) {
-		if ((year % 400 == 0) || ((year % 4 == 0) && (year % 100 != 0))
-				&& month == 2) {
-			return 29;
-		} else {
-			switch (month) {
-			case 1:
-				return 31;
-			case 2:
-				return 28;
-			case 3:
-				return 31;
-			case 4:
-				return 30;
-			case 5:
-				return 31;
-			case 6:
-				return 30;
-			case 7:
-				return 31;
-			case 8:
-				return 31;
-			case 9:
-				return 30;
-			case 10:
-				return 31;
-			case 11:
-				return 30;
-			case 12:
-				return 31;
-			}
-		}
-		return 31;
-	}
-
-//	/**
-//	 * 显示日志
-//	 * 
-//	 * @param string
-//	 */
-//	private void showlog(String string) {
-//		// Log.d("project", string);
-//	}
+	// /**
+	// * 显示日志
+	// *
+	// * @param string
+	// */
+	// private void showlog(String string) {
+	// // Log.d("project", string);
+	// }
 }
