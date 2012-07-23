@@ -10,7 +10,7 @@ public class MonthDay {
 	 *            输入月份
 	 * @return 返回天数
 	 */
-	public static int countDay(int year, int month) {
+	public static synchronized int countDay(int year, int month) {
 		if ((year % 400 == 0) || ((year % 4 == 0) && (year % 100 != 0))
 				&& month == 2) {
 			return 29;

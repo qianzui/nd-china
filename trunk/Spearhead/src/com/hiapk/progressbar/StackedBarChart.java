@@ -42,7 +42,6 @@ public class StackedBarChart extends ViewBase {
 		super(context);
 		this.windowswidesize = width;
 		// Log.d("main", windowswidesize+"windowswidesize");
-		// TODO Auto-generated constructor stub
 	}
 
 	// 名称数的个数要与data数与color数统一！
@@ -78,7 +77,7 @@ public class StackedBarChart extends ViewBase {
 	int backgroundcolor = Color.WHITE;
 
 	// 本月的天数
-	double showDay = 31;
+	double showDay = 62;
 	// x轴显示的数字
 	String[] xaxles = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
 			"11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21",
@@ -210,7 +209,7 @@ public class StackedBarChart extends ViewBase {
 	public void setyMaxvalue(double yMaxvalue) {
 		this.yMaxvalue = yMaxvalue;
 	}
-
+	
 	/**
 	 * 设置数轴颜色
 	 * 
@@ -228,26 +227,7 @@ public class StackedBarChart extends ViewBase {
 	public void setLableColor(int lableColor) {
 		this.lableColor = lableColor;
 	}
-
-
-	/**
-	 * Returns the chart name.
-	 * 
-	 * @return the chart name
-	 */
-	public String getName() {
-		return "Sales stacked bar chart";
-	}
-
-	/**
-	 * Returns the chart description.
-	 * 
-	 * @return the chart description
-	 */
-	public String getDesc() {
-		return "The monthly sales for the last 2 years (stacked bar chart)";
-	}
-
+	
 	/**
 	 * Executes the chart demo.
 	 * 
@@ -270,8 +250,6 @@ public class StackedBarChart extends ViewBase {
 		// 设置进度条其他参数等。
 		setChartSettings(renderer, mainTitle, XaxisText, YaxisText, xMinvalue,
 				xMaxvalue, yMinvalue, yMaxvalue, AxisColor, lableColor);
-		renderer.getSeriesRendererAt(0).setDisplayChartValues(true);
-		renderer.getSeriesRendererAt(1).setDisplayChartValues(true);
 		// renderer.setXLabels(7);
 		renderer.setXLabels(0);
 		// x轴
@@ -288,15 +266,17 @@ public class StackedBarChart extends ViewBase {
 		// renderer.setZoomEnabled(false);
 		// other
 		renderer.setShowGrid(true);
+		renderer.setDisplayChartValues(true);
 		renderer.setChartValuesTextSize(ChartValuesTextsize);
 		// 设置边界等
 		// Log.d("main", width+"");
 		double[] limit = new double[] { 0.5, showDay + 0.5, 0, MaxTraffic };
-		double[] limit2 = new double[] { 1, 31, 0, 0 };
+		double[] limit2 = new double[] { 1, 31, 0, MaxTraffic };
 		renderer.setPanLimits(limit);
+		renderer.setPanEnabled(true, false);
 		renderer.setZoomLimits(limit2);
-		renderer.setZoomRate(1.1f);
-		renderer.setBarSpacing(1f);
+		renderer.setZoomEnabled(true, false);
+		renderer.setBarSpacing(1.2f);
 		return ChartFactory.getBarChartView(context,
 				buildBarDataset(paramstitles, values), renderer, Type.DEFAULT);
 	}
