@@ -115,7 +115,7 @@ public class FireWallActivity extends Activity {
 			public void run() {
 				getList(mContext);
 				mp = getData();
-				if (Block.appList != null && Block.appnamemap != null) {
+					if (Block.appList.size() == Block.appnamemap.size()) {
 					int i = 0;
 					do {
 						try {
@@ -138,9 +138,9 @@ public class FireWallActivity extends Activity {
 				uidList = comp(Block.appList);
 				handler2.sendEmptyMessage(0);
 			}
-		}).start();
-	}
-
+		}).start(); 
+	  }
+		
 	public void showHelp(final Context mContext) {
 		Drawable d = mContext.getResources().getDrawable(R.drawable.fire_help);
 		SpearheadActivity.firehelp.setBackgroundDrawable(d);
