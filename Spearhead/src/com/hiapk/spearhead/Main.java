@@ -344,8 +344,7 @@ public class Main extends Activity {
 			chartbar.setMaxTraffic((double) (long) maxTraffic / 1048576 * 1.2);
 			chartbar.setyMaxvalue((double) (long) maxTraffic / 1048576 * 1.2);
 		}
-
-		chartbar.setxMinvalue(monthbeforetotalDay + monthDay - 6.5);
+		chartbar.setxMinvalue(monthbeforetotalDay + monthDay - 7.5);
 		chartbar.setxMaxvalue(monthbeforetotalDay + monthDay + 0.5);
 		// 设置显示的日期
 		String[] xaxles = new String[monthDay + monthbeforetotalDay];
