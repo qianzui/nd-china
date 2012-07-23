@@ -235,11 +235,11 @@ public class CustomDialogOtherBeen {
 		protected void onPostExecute(Integer result) {
 			// TODO Auto-generated method stub
 			if (result == 0) {
-				TrafficManager.mobile_month_use = 1;
 				TrafficManager.wifi_month_data = new long[64];
 				TrafficManager.wifi_month_data_before = new long[64];
 				TrafficManager.mobile_month_data = new long[64];
 				TrafficManager.mobile_month_data_before = new long[64];
+				TrafficManager.mobile_month_use = 1;
 				sharedData.setMonthHasUsedStack(0);
 				sharedData.setTodayMobileDataLong(0);
 				SQLStatic.uiddata=null;
