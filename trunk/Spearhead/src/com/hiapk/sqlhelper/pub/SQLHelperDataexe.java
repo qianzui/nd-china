@@ -160,11 +160,11 @@ public class SQLHelperDataexe {
 			sqlhelperTotal.autoClearData(sqlDataBase);
 			sqlDataBase.setTransactionSuccessful();
 			// 对数据进行赋值
-			TrafficManager.mobile_month_use = mobile_month_use_afterSet;
 			TrafficManager.wifi_month_data = wifi_month_data;
 			TrafficManager.mobile_month_data = mobile_month_data;
 			TrafficManager.mobile_month_data_before = mobile_month_data_before;
 			TrafficManager.wifi_month_data_before = wifi_month_data_before;
+			TrafficManager.mobile_month_use = mobile_month_use_afterSet;
 			SharedPrefrenceDataWidget sharedData = new SharedPrefrenceDataWidget(
 					context);
 			sharedData.setTodayMobileDataLong(mobile_month_data[monthDay]

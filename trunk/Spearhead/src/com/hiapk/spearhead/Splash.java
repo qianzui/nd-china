@@ -245,12 +245,11 @@ public class Splash extends Activity {
 			sqlhelperTotal.autoClearData(sqlDataBase);
 			sqlDataBase.setTransactionSuccessful();
 			// 对数据进行赋值
-			TrafficManager.mobile_month_use = mobile_month_use_afterSet;
 			TrafficManager.wifi_month_data = wifi_month_data;
 			TrafficManager.mobile_month_data = mobile_month_data;
 			TrafficManager.mobile_month_data_before = mobile_month_data_before;
 			TrafficManager.wifi_month_data_before = wifi_month_data_before;
-
+			TrafficManager.mobile_month_use = mobile_month_use_afterSet;
 			// showLog("wifitotal=" + wifi_month_data[0] + "");
 		} catch (Exception e) {
 			// TODO: handle exception
