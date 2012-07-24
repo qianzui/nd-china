@@ -16,6 +16,7 @@ public class Onsysreboot {
 	boolean isNotifyOpen = true;
 	boolean isFloatOpen = false;
 	boolean isWidget1X4Open = true;
+	private static final String ACTION_TIME_CHANGED = Intent.ACTION_TIME_CHANGED;
 	Context context;
 	AlarmSet alset = new AlarmSet();
 
@@ -58,19 +59,9 @@ public class Onsysreboot {
 		if (!iptableEmpty(context)) {
 			Block.applyIptablesRules(context, false);
 		}
-		// 启动闹钟
-		// 开启总流量与uid自动记录功能并进行首次记录(startAlarm已经记录)
-		// if (SQLHelperTotal.isSQLTotalOnUsed != true) {
-		// SQLHelperTotal.isSQLTotalOnUsed = true;
-		// trafficManager.statsTotalTraffic(context, true);
-		// // sqlhelperTotal.RecordTotalwritestats(context, false);
-		// SQLHelperTotal.isSQLTotalOnUsed = false;
-		// }
-		// if (SQLHelperTotal.isSQLUidOnUsed != true) {
-		// SQLHelperTotal.isSQLUidOnUsed = true;
-		// sqlhelperUid.RecordUidwritestats(context, false);
-		// SQLHelperTotal.isSQLUidOnUsed = false;
-		// }
+		// 发送零点重置广播
+		context.sendBroadcast(new Intent(ACTION_TIME_CHANGED));
+
 	}
 
 	private class AsyncTaskonBoot extends AsyncTask<Context, Long, Long> {
