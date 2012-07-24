@@ -44,43 +44,42 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
 		showLog("onReceive");
+		if (SQLStatic.isTotalAlarmRecording == true)
+			return;
+		SQLStatic.isTotalAlarmRecording = true;
 		sharedData = new SharedPrefrenceDataWidget(context);
-		if (SQLStatic.isTotalAlarmRecording == false) {
-			SQLStatic.isTotalAlarmRecording = true;
-			SQLStatic.initTablemobileAndwifi(context);
-			this.context = context;
-			if (SQLStatic.TableWiFiOrG23 == "") {
-				network = SQLStatic.TableWiFiOrG23Before;
-			} else {
-				network = SQLStatic.TableWiFiOrG23;
-			}
-			showLog("TableWiFiOrG23=" + SQLStatic.TableWiFiOrG23);
-			showLog("TableWiFiOrG23Before=" + SQLStatic.TableWiFiOrG23Before);
-			// 初始化数据库后进行操作
-			if (SQLStatic.getIsInit(context)) {
+		SQLStatic.initTablemobileAndwifi(context);
+		this.context = context;
+		if (SQLStatic.TableWiFiOrG23 == "") {
+			network = SQLStatic.TableWiFiOrG23Before;
+		} else {
+			network = SQLStatic.TableWiFiOrG23;
+		}
+		showLog("TableWiFiOrG23=" + SQLStatic.TableWiFiOrG23);
+		showLog("TableWiFiOrG23Before=" + SQLStatic.TableWiFiOrG23Before);
+		// 初始化数据库后进行操作
+		if (SQLStatic.getIsInit(context)) {
 
-				if (network != "") {
-					if (SQLStatic.setSQLTotalOnUsed(true)) {
-						time = System.currentTimeMillis();
-						sqlDataBase = SQLHelperCreateClose
-								.creatSQLTotal(context);
-						new AsyncTaskonRecordTotalData().execute(context);
-						// showLog(SQLHelperTotal.TableWiFiOrG23);
-					} else {
-						SQLStatic.isTotalAlarmRecording = false;
-						showLog("数据库忙，未记录");
-					}
+			if (network != "") {
+				if (SQLStatic.setSQLTotalOnUsed(true)) {
+					time = System.currentTimeMillis();
+					sqlDataBase = SQLHelperCreateClose.creatSQLTotal(context);
+					new AsyncTaskonRecordTotalData().execute(context);
+					// showLog(SQLHelperTotal.TableWiFiOrG23);
 				} else {
-					if (TrafficManager.mobile_month_use == 1) {
-						SQLHelperDataexe.initShowData(context);
-					}
 					SQLStatic.isTotalAlarmRecording = false;
+					showLog("数据库忙，未记录");
 				}
 			} else {
-				// sqlhelper.initSQL(context);
+				if (TrafficManager.mobile_month_use == 1) {
+					SQLHelperDataexe.initShowData(context);
+				}
 				SQLStatic.isTotalAlarmRecording = false;
-				showLog("please init the database");
 			}
+		} else {
+			// sqlhelper.initSQL(context);
+			SQLStatic.isTotalAlarmRecording = false;
+			showLog("please init the database");
 		}
 	}
 
