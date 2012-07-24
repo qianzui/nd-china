@@ -22,7 +22,6 @@ public class Regulate extends Activity {
 	// Button smsRead;
 	private static TextView smsText;
 	private static TextView smsNum;
-	private static TextView smsResult;
 	SharedPrefrenceDataRegulate sharedData;
 	String city;
 	String brand;
@@ -42,7 +41,6 @@ public class Regulate extends Activity {
 		// smsRead = (Button)findViewById(R.id.smsRead);
 		smsText = (TextView) findViewById(R.id.smsText);
 		smsNum = (TextView) findViewById(R.id.smsNum);
-		smsResult = (TextView) findViewById(R.id.smsResult);
 		// city = sharedData.getCity();
 		// brand = sharedData.getBrand();
 		//

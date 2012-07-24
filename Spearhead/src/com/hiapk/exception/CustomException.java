@@ -12,7 +12,6 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.util.Log;
 
 public class CustomException implements UncaughtExceptionHandler {
 	// 获取application 对象；

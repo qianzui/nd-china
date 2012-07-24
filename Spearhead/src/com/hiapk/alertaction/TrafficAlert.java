@@ -1,6 +1,5 @@
 package com.hiapk.alertaction;
 
-import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 

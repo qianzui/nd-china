@@ -12,7 +12,6 @@ import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.provider.ColorChangeMainBeen;
-import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 
 public class SetText {
 	public static String textUp = "今日已用: 0 KB";
@@ -32,9 +31,7 @@ public class SetText {
 	 * @return
 	 */
 	public static synchronized void setText(Context context) {
-		// TODO Auto-generated method stub
 		// 记录数据命令
-		// trafficManager.statsTotalTraffic(context, false);
 		Time t = new Time();
 		t.setToNow();
 		int year = t.year;
@@ -106,7 +103,6 @@ public class SetText {
 
 	private static String getday(Context context, int year, int month,
 			int monthDay) {
-		// TODO Auto-generated method stub
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		int setDay = sharedData.getCountDay() + 1;
 		int maxDay = MonthDay.countDay(year, month);
@@ -126,7 +122,6 @@ public class SetText {
 
 	private static String getdate(Context context, int year, int month,
 			int monthDay) {
-		// TODO Auto-generated method stub
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		int setDay = sharedData.getCountDay() + 1;
 		int maxDay = MonthDay.countDay(year, month);
@@ -157,7 +152,6 @@ public class SetText {
 	// * @param string
 	// */
 	// private static void showLog(String string) {
-	// // TODO Auto-generated method stub
 	// // Log.d("SetText", string);
 	// }
 }

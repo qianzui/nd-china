@@ -6,8 +6,6 @@ import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.regulate.PhoneSet;
 import com.hiapk.regulate.Regulate;
-import com.hiapk.widget.ProgramNotify;
-import com.hiapk.widget.SetText;
 import com.hiapk.regulate.SharedPrefrenceDataRegulate;
 import android.app.Activity;
 import android.content.Context;

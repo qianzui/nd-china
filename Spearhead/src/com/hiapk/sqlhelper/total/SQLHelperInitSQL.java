@@ -1,21 +1,14 @@
 package com.hiapk.sqlhelper.total;
 
 import com.hiapk.broadcreceiver.AlarmSet;
-import com.hiapk.spearhead.SpearheadActivity;
-import com.hiapk.spearhead.Splash;
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
-import com.hiapk.sqlhelper.pub.SQLStatic;
-
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences.Editor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.TrafficStats;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.text.format.Time;
-import android.util.Log;
 
 public class SQLHelperInitSQL {
 	private Context context;

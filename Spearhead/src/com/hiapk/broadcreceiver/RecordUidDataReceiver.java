@@ -4,14 +4,11 @@ import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.sqlhelper.uid.SQLHelperUidRecord;
 import com.hiapk.sqlhelper.uid.SQLHelperUidRecordFire;
-import com.hiapk.sqlhelper.uid.SQLHelperUidtraffStats;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.text.StaticLayout;
 import android.util.Log;
 
 public class RecordUidDataReceiver extends BroadcastReceiver {
