@@ -144,8 +144,6 @@ public class SQLHelperUidTotal {
 		List<Integer> uid_List_Del = new LinkedList<Integer>();
 		// List<Integer> uid_List_Add = new LinkedList<Integer>();
 		SQLiteDatabase mySQL = SQLHelperCreateClose.creatSQLUidTotal(context);
-		// 更新UidTotal数据库
-		mySQL = SQLHelperCreateClose.creatSQLUidTotal(context);
 		mySQL.beginTransaction();
 		try {
 			// 选择现有的uid数据
@@ -218,9 +216,6 @@ public class SQLHelperUidTotal {
 		// List<Integer> uid_List_Del = new LinkedList<Integer>();
 		List<Integer> uid_List_Add = new LinkedList<Integer>();
 		SQLiteDatabase mySQL = SQLHelperCreateClose.creatSQLUidTotal(context);
-		// 更新UidTotal数据库
-		mySQL = SQLHelperCreateClose.creatSQLUidTotal(context);
-
 		uid_List_Add.add(uidnumber);
 		exeSQLcreateUidTotaltables(mySQL, new int[] { uidnumber },
 				new String[] { packageName });
