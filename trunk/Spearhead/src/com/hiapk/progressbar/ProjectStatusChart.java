@@ -223,7 +223,7 @@ public class ProjectStatusChart extends ViewBase {
 			renderer.addXTextLabel(i, name);
 		}
 		renderer.setPointSize(windowswidesize / 70);
-		setChartSettings(renderer, mainTitle, "", "流量（MB）", showDay - 4.5,
+		setChartSettings(renderer, mainTitle, "", "流量（MB）", showDay - 3.5,
 				showDay + 0.5, 0, MaxTraffic, Color.rgb(80, 80, 80),
 				Color.rgb(80, 80, 80));
 		renderer.setYLabels(10);
