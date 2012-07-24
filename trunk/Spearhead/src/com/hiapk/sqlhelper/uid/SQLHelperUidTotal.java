@@ -75,12 +75,6 @@ public class SQLHelperUidTotal {
 				// 2为记录的软件使用流量情况
 				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i],
 						packagenames[i], upload, download, 0, "");
-				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i],
-						packagenames[i], upload, download, 1, "");
-				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i],
-						packagenames[i], 0, 0, 2, "wifi");
-				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i],
-						packagenames[i], 0, 0, 2, "mobile");
 			}
 
 		}
