@@ -6,7 +6,6 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 
 /**
  * 还有一种比较流行的Android经典完美退出方法，使用单例模式创建一个Activity管理对象，

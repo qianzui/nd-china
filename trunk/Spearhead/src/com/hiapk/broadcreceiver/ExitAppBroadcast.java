@@ -1,7 +1,6 @@
 package com.hiapk.broadcreceiver;
 
 import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
-import com.hiapk.widget.FloatService;
 import com.hiapk.widget.SetText;
 
 import android.content.BroadcastReceiver;

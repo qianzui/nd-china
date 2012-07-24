@@ -6,7 +6,6 @@ import com.hiapk.dataexe.MonthDay;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.progressbar.StackedBarChart;
 import com.hiapk.provider.ColorChangeMainBeen;
 import com.hiapk.widget.SetText;
@@ -33,10 +32,6 @@ public class Main extends Activity {
 	private int year;
 	private int month;
 	private int monthDay;
-	/**
-	 * 完整月份的移动数据流量
-	 */
-	private long[] mobileTraffic = new long[64];
 	// 屏幕宽度
 	private int windowswidesize;
 	private SharedPrefrenceData sharedData;

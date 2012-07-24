@@ -3,15 +3,10 @@ package com.hiapk.sqlhelper.uid;
 import java.util.HashMap;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
 
-import com.hiapk.broadcreceiver.AlarmSet;
-import com.hiapk.spearhead.SpearheadActivity;
-import com.hiapk.spearhead.Splash;
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 

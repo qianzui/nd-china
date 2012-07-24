@@ -11,13 +11,11 @@ import android.view.Window;
 import android.widget.TextView;
 
 public class CustomProgressDialog extends Dialog {
-	private Context context = null;
 	private CustomProgressDialog customProgressDialog = null;
 	private View textEntryView;
 
 	public CustomProgressDialog(Context context) {
 		super(context);
-		this.context = context;
 	}
 
 	public CustomProgressDialog(Context context, int theme) {

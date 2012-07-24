@@ -1,7 +1,6 @@
 package com.hiapk.sqlhelper.total;
 
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 
 import android.content.Context;

@@ -1,17 +1,5 @@
 package com.hiapk.regulate;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
-
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteException;
-import android.net.Uri;
-import android.util.Log;
-import android.widget.Toast;
-
 public class SmsRead {
 //	public boolean isRead = true;
 //	SharedPrefrenceData sharedData;
