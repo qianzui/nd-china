@@ -88,16 +88,7 @@ public class UidMonthTraff extends Activity {
 		tv_chart.setText("(日流量统计)");
 		new AsyncTaskonInitProChart().execute(context);
 		new AsyncTaskonInitPieChart().execute(context);
-		// View viewPro = initProjectChart(uidnumber);
-		// View viewPie = initPie(uidnumber);
 
-		// 添加视图
-		// LinearLayout linearProject = (LinearLayout)
-		// findViewById(R.id.new_series);
-		// linearProject.addView(viewPro);
-		// LinearLayout linearPie = (LinearLayout)
-		// findViewById(R.id.new_budget);
-		// linearPie.addView(viewPie);
 
 	}
 
@@ -143,36 +134,9 @@ public class UidMonthTraff extends Activity {
 				}
 			}
 
-			// onProgressUpdate((long) 1);
-			// try {
-			// Thread.sleep(20);
-			// } catch (InterruptedException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
-			// if (uidtraff_UidTotalSQL == false)
-			// return false;
-			// SQLHelperUidTotal sqlUidTotal = new SQLHelperUidTotal();
-			// pieValue = sqlUidTotal.SelectUidNetData(params[0], uidnumber);
-			// if ((pieValue[0] == 0 )&& (pieValue[1] == 0)) {
-			// budgetPie.setValues(new long[] { 1, 1 });
-			// }
-
 			return true;
 		}
 
-		// @Override
-		// protected void onProgressUpdate(Long... values) {
-		// // TODO Auto-generated method stub
-		// super.onProgressUpdate(values);
-		// if (values[0] == 1) {
-		// if (SQLHelperTotal.isSQLUidTotalOnUsed == false) {
-		// SQLHelperTotal.isSQLUidTotalOnUsed = true;
-		// uidtraff_UidTotalSQL = true;
-		// }
-		// showlog("values[0]==1");
-		// }
-		// }
 
 		@Override
 		protected void onPostExecute(Boolean result) {
@@ -272,15 +236,6 @@ public class UidMonthTraff extends Activity {
 					return false;
 				}
 			}
-			// onProgressUpdate((long) 1);
-			// try {
-			// Thread.sleep(20);
-			// } catch (InterruptedException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
-			// if (uidtraff_UidSQL == false)
-			// return false;
 			SQLHelperUidtraffStats sqlhelperUidtraff = new SQLHelperUidtraffStats();
 			mobileBefore = new long[64];
 			mobileNow = new long[64];
@@ -312,18 +267,6 @@ public class UidMonthTraff extends Activity {
 			return true;
 		}
 
-		// @Override
-		// protected void onProgressUpdate(Long... values) {
-		// // TODO Auto-generated method stub
-		// super.onProgressUpdate(values);
-		// if (values[0] == 1) {
-		// if (SQLHelperTotal.isSQLUidOnUsed == false) {
-		// SQLHelperTotal.isSQLUidOnUsed = true;
-		// uidtraff_UidSQL = true;
-		// }
-		// showlog("values[0]==1");
-		// }
-		// }
 
 		@Override
 		protected void onPostExecute(Boolean result) {
