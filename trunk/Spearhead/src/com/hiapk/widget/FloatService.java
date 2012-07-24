@@ -165,7 +165,7 @@ public class FloatService extends Service {
 	private void updateViewPosition() {
 		// 更新浮动窗口位置参数
 		SetText.FloatIntX = (int) (x - mTouchStartX);
-		SetText.FloatIntY = (int) (y - mTouchStartY - 48);
+		SetText.FloatIntY = (int) (y - mTouchStartY - 46);
 		wmParams.x = SetText.FloatIntX;
 		wmParams.y = SetText.FloatIntY;
 		wm.updateViewLayout(view, wmParams);
