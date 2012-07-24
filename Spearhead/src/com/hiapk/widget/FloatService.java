@@ -118,11 +118,12 @@ public class FloatService extends Service {
 		iv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Intent serviceStop = new Intent();
 				SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
 						FloatService.this);
 				sharedDatawidget.setFloatOpen(false);
+				sharedDatawidget.setIntX(SetText.FloatIntX);
+				sharedDatawidget.setIntY(SetText.FloatIntY);
 				// boolean isFloatOpen = sharedData.isFloatOpen();
 				serviceStop.setClass(FloatService.this, FloatService.class);
 				stopService(serviceStop);
