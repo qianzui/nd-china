@@ -195,7 +195,7 @@ public class CustomDialogMainBeen {
 						monthRemainunit));
 				// 启动计时
 				AlarmSet alarm = new AlarmSet();
-				alarm.StartAlarm(context);
+				alarm.StartWidgetAlarm(context);
 				// 清除对话框
 				monthHasUsedAlert.dismiss();
 			}
