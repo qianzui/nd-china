@@ -8,13 +8,17 @@ import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.progressbar.StackedBarChart;
 import com.hiapk.provider.ColorChangeMainBeen;
+import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
+import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.widget.SetText;
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,6 +52,7 @@ public class Main extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		onCreateWifiBar();
 		// 为了退出。
 		Mapplication.getInstance().addActivity(this);
 		// umeng
@@ -154,8 +159,32 @@ public class Main extends Activity {
 		monthDay = t.monthDay;
 		alset.StartAlarm(context);
 		initValues();
-		initWifiBar();
+		new AsyncTaskoninitWifiBar().execute(context);
 		SetText.resetWidgetAndNotify(context);
+	}
+
+	/**
+	 * 避免achareengine在初始化时的报错
+	 * 
+	 * @author Administrator
+	 * 
+	 */
+	private class AsyncTaskoninitWifiBar extends AsyncTask<Context, Long, Long> {
+		@Override
+		protected Long doInBackground(Context... params) {
+			try {
+				Thread.sleep(150);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Long result) {
+			initWifiBar();
+		}
 	}
 
 	private void setonclicklistens() {
@@ -236,6 +265,18 @@ public class Main extends Activity {
 
 			}
 		});
+	}
+
+	/**
+	 * 初始化wifi部分的柱状图
+	 */
+	private void onCreateWifiBar() {
+		// TODO Auto-generated method stub
+		LinearLayout layout_mobile = (LinearLayout) findViewById(R.id.linearlayout_wifi);
+		LayoutInflater factory = LayoutInflater.from(context);
+		View loading = factory.inflate(R.layout.loading_layout, null);
+		layout_mobile.removeAllViews();
+		layout_mobile.addView(loading);
 	}
 
 	/**
