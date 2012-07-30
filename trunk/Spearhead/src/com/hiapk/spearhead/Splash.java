@@ -7,6 +7,7 @@ import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.MonthlyUseData;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.Block;
+import com.hiapk.prefrencesetting.SharedPrefrenceDataOnUpdate;
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
@@ -45,7 +46,7 @@ public class Splash extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
 		context.sendBroadcast(new Intent(ACTION_TIME_CHANGED));
-		
+
 		time = System.currentTimeMillis();
 		// MobclickAgent.onError(this);
 		isinited = SQLStatic.getIsInit(context);
@@ -55,6 +56,10 @@ public class Splash extends Activity {
 			alset.StartWidgetAlarm(context);
 			new AsyncTaskonResume().execute(context);
 		} else {
+			// 数据库未初始化则不需要进行版本更新时的特殊操作
+			SharedPrefrenceDataOnUpdate sharedUpdate = new SharedPrefrenceDataOnUpdate(
+					context);
+			sharedUpdate.setUidRecordUpdated(true);
 			new AsyncTaskinitDatabase().execute(context);
 		}
 
