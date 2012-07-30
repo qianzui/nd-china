@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 
 public class AlarmSet {
 	private int totalrefreshtime = 30;
@@ -36,7 +37,7 @@ public class AlarmSet {
 		// : widgetrefreshtime
 		;
 		// showLog(totaltime + "");
-//		showLog("StartAlarm="+totaltime+"");
+		// showLog("StartAlarm="+totaltime+"");
 		if (SQLStatic.isTotalAlarmRecording != true) {
 			TotalAlarmStart(context, totaltime);
 		}
@@ -57,7 +58,7 @@ public class AlarmSet {
 	 */
 	public void StartWidgetAlarm(Context context) {
 		setwidgetdefaulttime(context);
-//		showLog("StartWidgetAlarm="+widgetrefreshtime+"");
+		// showLog("StartWidgetAlarm="+widgetrefreshtime+"");
 		WidgetAlarmStart(context, widgetrefreshtime);
 		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
 	}
@@ -75,7 +76,7 @@ public class AlarmSet {
 
 	public void StartAlarmUid(Context context) {
 		setdefaulttime(context);
-//		setwidgetdefaulttime(context);
+		// setwidgetdefaulttime(context);
 		int uidtime = uidrefreshtime
 		// < widgetrefreshtime ? uidrefreshtime
 		// : widgetrefreshtime
@@ -127,9 +128,10 @@ public class AlarmSet {
 	 * @param context
 	 */
 	private void setwidgetdefaulttime(Context context) {
-		SharedPrefrenceDataWidget sharedata=new SharedPrefrenceDataWidget(context); 
+		SharedPrefrenceDataWidget sharedata = new SharedPrefrenceDataWidget(
+				context);
 		int set = sharedata.getWidgetFresh();
-//		 showLog(set + "");
+		showLog(set + "");
 		switch (set) {
 		case 0:
 			widgetrefreshtime = 5;
@@ -279,8 +281,11 @@ public class AlarmSet {
 		programNotify.cancelProgramNotify(context);
 	}
 
-	 private void showLog(String string) {
-//	  Log.d("AlarmSet", string);
-	 }
+	private void showLog(String string) {
+		if (SQLStatic.isshowLog) {
+			Log.d("AlarmSet", string);
+		}
+
+	}
 
 }

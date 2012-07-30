@@ -2,6 +2,8 @@ package com.hiapk.sqlhelper.uid;
 
 import java.util.List;
 
+import com.hiapk.dataexe.TrafficManager;
+import com.hiapk.prefrencesetting.SharedPrefrenceDataOnUpdate;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 import android.app.ActivityManager;
@@ -206,25 +208,49 @@ public class SQLHelperUidRecord {
 	 * @param daily
 	 *            true则强制记录，false则不记录流量为0的数据
 	 */
-	public void RecordUidwritestats(SQLiteDatabase sqlDataBase,
-			int[] uidnumbers, boolean daily, String network) {
-		List<ActivityManager.RunningAppProcessInfo> appProcessList = mActivityManager
-				.getRunningAppProcesses();
-		initTime();
-		for (ActivityManager.RunningAppProcessInfo appProcessInfo : appProcessList) {
-			// 通过pacname判断是否为需要记录的应用
-			String pacname = appProcessInfo.processName;
-			if (SQLStatic.packagename_ALL.contains(pacname)) {
-				int uidnumber = appProcessInfo.uid;
-				long[] uiddata = SQLHelperDataexe.initUidData(uidnumber);
-				if (uiddata[0] != 0 || uiddata[1] != 0) {
-					statsSQLuid(sqlDataBase, uidnumber, date, time, uiddata[0],
-							uiddata[1], 2, null, daily, network);
+	public void RecordUidwritestats(Context context,
+			SQLiteDatabase sqlDataBase, int[] uidnumbers, boolean daily,
+			String network) {
+		SharedPrefrenceDataOnUpdate sharedUpdate = new SharedPrefrenceDataOnUpdate(
+				context);
+		boolean isUpdated = sharedUpdate.isUidRecordUpdated();
+		if (isUpdated) {
+			List<ActivityManager.RunningAppProcessInfo> appProcessList = mActivityManager
+					.getRunningAppProcesses();
+			initTime();
+			for (ActivityManager.RunningAppProcessInfo appProcessInfo : appProcessList) {
+				// 通过pacname判断是否为需要记录的应用
+				String pacname = appProcessInfo.processName;
+				if (SQLStatic.packagename_ALL.contains(pacname)) {
+					int uidnumber = appProcessInfo.uid;
+					long[] uiddata = SQLHelperDataexe.initUidData(uidnumber);
+					if (uiddata[0] != 0 || uiddata[1] != 0) {
+						statsSQLuid(context, sqlDataBase, uidnumber, date,
+								time, uiddata[0], uiddata[1], 2, null, daily,
+								network);
+					}
+				}
+
+			}
+		} else {
+			// 初始化数据，为了更新
+			while (SQLStatic.uidnumbers == null) {
+				SQLStatic.getuidsAndpacname(context);
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					showLog("获取uid数据失败");
+					e.printStackTrace();
 				}
 			}
-
+			for (int uidnumber : SQLStatic.uidnumbers) {
+				statsSQLuidinitxml(context, sqlDataBase, uidnumber, network,
+						network);
+			}
 		}
-
+		if (isUpdated == false) {
+			sharedUpdate.setUidRecordUpdated(true);
+		}
 		// if (!network.equals("")) {
 		// uidRecordwritestats(sqlDataBase, uidnumbers, daily, network);
 		// }
@@ -298,9 +324,9 @@ public class SQLHelperUidRecord {
 	 * @param daily
 	 *            true则强制记录，false则不记录流量为0的数据
 	 */
-	private void statsSQLuid(SQLiteDatabase mySQL, int uidnumber, String date,
-			String time, long upload, long download, int type, String other,
-			boolean daily, String network) {
+	private void statsSQLuid(Context context, SQLiteDatabase mySQL,
+			int uidnumber, String date, String time, long upload,
+			long download, int type, String other, boolean daily, String network) {
 		String string = null;
 		// select oldest upload and download 之前记录的数据的查询操作
 		// SELECT * FROM table WHERE type=0
@@ -336,6 +362,8 @@ public class SQLHelperUidRecord {
 		}
 		if (oldup0 != -100) {
 
+			// TrafficManager
+			// .setUidtraffinit(context, uidnumber, oldup0, olddown0);
 			// 初始化写入数据（wifi以及g23）
 			// 如果之前数据大于新的数据，则重新计数
 			if ((oldup0 > (upload + 10000)) || (olddown0 > (download + 10000))) {
@@ -388,8 +416,8 @@ public class SQLHelperUidRecord {
 								network, 2);
 						updateSQLUidType(mySQL, date, time, upload, download,
 								uidnumber, 0, network, 0);
-						statsSQLuidTotaldata(mySQL, uidnumber, date, time,
-								oldup0, olddown0, network);
+						statsSQLuidTotaldata(context, mySQL, uidnumber, date,
+								time, oldup0, olddown0, network);
 					}
 					// 进行添加add
 				} else {
@@ -400,13 +428,117 @@ public class SQLHelperUidRecord {
 					// updateSQLUidType(mySQL, date, time, upload, download,
 					// uidnumber, 0, network, 0);
 
-					statsSQLuidTotaldata(mySQL, uidnumber, date, time, oldup0,
-							olddown0, network);
+					statsSQLuidTotaldata(context, mySQL, uidnumber, date, time,
+							oldup0, olddown0, network);
 				}
 				if (cur != null) {
 					cur.close();
 				}
 			}
+		}
+	}
+
+	/**
+	 * 对数据库数据进行统计，写入时间范围内的上传，下载数据，未来删除，用于版本更新时更新记录的xml
+	 * 
+	 * @param mySQL
+	 *            进行写入操作的数据库SQLiteDatagase
+	 * @param uidnumber
+	 *            数据库的表：uid表
+	 * @param date
+	 *            记录数据的日期
+	 * @param time
+	 *            记录数据的时间
+	 * @param upload
+	 *            记录上传流量
+	 * @param download
+	 *            记录下载流量
+	 * @param type
+	 *            用于记录数据状态，以统计数据
+	 * @param other
+	 *            用于记录特殊数据等
+	 * @param daily
+	 *            true则强制记录，false则不记录流量为0的数据
+	 */
+	private void statsSQLuidinitxml(Context context, SQLiteDatabase mySQL,
+			int uidnumber, String date, String time) {
+		long totalup = 0;
+		long totaldown = 0;
+		String string = null;
+		// select oldest upload and download 之前记录的数据的查询操作
+		// SELECT * FROM table WHERE type=0
+		string = SelectTable + "uid" + uidnumber + Where + "type=" + 3;
+		try {
+			cur = mySQL.rawQuery(string, null);
+		} catch (Exception e) {
+			// TODO: handle exception
+			SQLHelperUidSelectFail selectfail = new SQLHelperUidSelectFail();
+			selectfail.selectfails(mySQL, "uid" + uidnumber, uidnumber);
+		}
+		long oldup0 = -100;
+		long olddown0 = -100;
+		if (cur != null) {
+			try {
+				int minup = cur.getColumnIndex("upload");
+				int mindown = cur.getColumnIndex("download");
+				// showLog(cur.getColumnIndex("minute") + "");
+				if (cur.moveToFirst()) {
+					// 获得之前的上传下载值
+					oldup0 = cur.getLong(minup);
+					olddown0 = cur.getLong(mindown);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				showLog("cur-searchfail");
+				oldup0 = -100;
+				olddown0 = -100;
+			}
+		}
+		if (oldup0 != -100) {
+			totalup += oldup0;
+			totaldown += olddown0;
+		}
+		if (cur != null) {
+			cur.close();
+		}
+		string = SelectTable + "uid" + uidnumber + Where + "type=" + 4;
+		try {
+			cur = mySQL.rawQuery(string, null);
+		} catch (Exception e) {
+			// TODO: handle exception
+			SQLHelperUidSelectFail selectfail = new SQLHelperUidSelectFail();
+			selectfail.selectfails(mySQL, "uid" + uidnumber, uidnumber);
+		}
+		oldup0 = -100;
+		olddown0 = -100;
+		if (cur != null) {
+			try {
+				int minup = cur.getColumnIndex("upload");
+				int mindown = cur.getColumnIndex("download");
+				// showLog(cur.getColumnIndex("minute") + "");
+				if (cur.moveToFirst()) {
+					// 获得之前的上传下载值
+					oldup0 = cur.getLong(minup);
+					olddown0 = cur.getLong(mindown);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				showLog("cur-searchfail");
+				oldup0 = -100;
+				olddown0 = -100;
+			}
+		}
+		if (oldup0 != -100) {
+			totalup += oldup0;
+			totaldown += olddown0;
+		}
+		if (cur != null) {
+			cur.close();
+		}
+
+		if (totaldown != 0) {
+			TrafficManager.setUidtraffinit(context, uidnumber, totalup,
+					totaldown);
 		}
 	}
 
@@ -421,15 +553,18 @@ public class SQLHelperUidRecord {
 	 * @param download
 	 * @param network
 	 */
-	private void statsSQLuidTotaldata(SQLiteDatabase mySQL, int uidnumber,
-			String date, String time, long upload, long download, String network) {
+	private void statsSQLuidTotaldata(Context context, SQLiteDatabase mySQL,
+			int uidnumber, String date, String time, long upload,
+			long download, String network) {
 		if (network == NETWORK_FLAG) {
 			long[] beforeTotal = new long[3];
+			TrafficManager.setUidtraff(context, uidnumber, upload, download);
 			beforeTotal = getSQLuidtotalData(mySQL, uidnumber, network);
 			updateSQLUidType(mySQL, date, time, beforeTotal[1] + upload,
 					beforeTotal[2] + download, uidnumber, 3, null, 3);
 		} else {
 			long[] beforeTotal = new long[3];
+			TrafficManager.setUidtraff(context, uidnumber, upload, download);
 			beforeTotal = getSQLuidtotalData(mySQL, uidnumber, network);
 			updateSQLUidType(mySQL, date, time, beforeTotal[1] + upload,
 					beforeTotal[2] + download, uidnumber, 4, null, 4);

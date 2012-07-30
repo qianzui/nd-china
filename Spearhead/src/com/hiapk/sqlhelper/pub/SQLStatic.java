@@ -29,6 +29,8 @@ public class SQLStatic {
 	private final static String PREF_INITSQL = "isSQLINIT";
 	private final static String MODE_NOTINIT = "SQLisnotINIT";
 	private final static String MODE_HASINIT = "SQLhasINIT";
+	// 正在获取UidNumber中
+	private static boolean isGettinguidsAndpacname = false;
 	// 数据库正在使用。重要中。
 	public static boolean isSQLTotalOnUsed = false;
 	public static boolean isSQLUidOnUsed = false;
@@ -198,7 +200,11 @@ public class SQLStatic {
 	// return uids;
 	// }
 
-	public static void getuidsAndpacname(Context context) {
+	public static synchronized void getuidsAndpacname(Context context) {
+		if (isGettinguidsAndpacname == true) {
+			return;
+		}
+		isGettinguidsAndpacname = true;
 		int j = 0;
 		PackageManager pkgmanager = context.getPackageManager();
 		List<PackageInfo> packages = context.getPackageManager()
@@ -233,6 +239,7 @@ public class SQLStatic {
 		if (packagename_ALL == null) {
 			packagename_ALL = pacstemp;
 		}
+		isGettinguidsAndpacname = false;
 	}
 
 	/**
