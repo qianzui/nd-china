@@ -45,6 +45,25 @@ public class TrafficManager {
 	}
 
 	/**
+	 * 清楚被删除软件的流量信息
+	 * 
+	 * @param context
+	 * @param uid
+	 *            输入的uid号
+	 */
+	public static void clearUidtraff(Context context, int uid) {
+		String uidstrup = UID_START_STR_UP + uid;
+		String uidstrdown = UID_START_STR_DOWN + uid;
+		Editor UseEditor = context.getSharedPreferences(UID_PREFS_NAME, 0)
+				.edit();
+		UseEditor.putLong(uidstrup, 0);
+		UseEditor.putLong(uidstrdown, 0);
+		showLog(uid + "clear");
+		showLog(uid + "clear");
+		UseEditor.commit();
+	}
+
+	/**
 	 * 用于记录防火墙显示的流量数据数量(仅用于初始化一次)从1.0.3之后保留两个版本
 	 * 
 	 * @param context
