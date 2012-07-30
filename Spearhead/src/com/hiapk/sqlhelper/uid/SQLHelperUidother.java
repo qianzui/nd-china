@@ -3,6 +3,7 @@ package com.hiapk.sqlhelper.uid;
 import java.util.List;
 
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.Block;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
@@ -117,6 +118,8 @@ public class SQLHelperUidother {
 			if (uid_List_Add != null) {
 				for (Integer uid : uid_List_Add) {
 					// DropUnusedUidTable(mySQL, uid);
+					//新软件清除旧的uid数据
+					TrafficManager.clearUidtraff(context, uid);
 					initTime();
 					initUidTable(mySQL, uid);
 					String string = "";
