@@ -1,5 +1,6 @@
 package com.hiapk.broadcreceiver;
 
+import com.hiapk.prefrencesetting.SharedPrefrenceDataOnUpdate;
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.sqlhelper.uid.SQLHelperUidRecord;
@@ -57,7 +58,20 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 					// showLog("Uid数据库忙");
 					// }
 				} else {
-					SQLStatic.isUidAlarmRecording = false;
+					// 1.0.3更新额外添加语句
+					SharedPrefrenceDataOnUpdate sharedUpdate = new SharedPrefrenceDataOnUpdate(
+							context);
+					boolean isupdated = sharedUpdate.isUidRecordUpdated();
+					if (isupdated == false) {
+						if (SQLStatic.setSQLUidOnUsed(true)) {
+							new AsyncTaskonRecordUidData().execute(context);
+							// showLog(SQLHelperTotal.TableWiFiOrG23);
+						} else {
+							SQLStatic.isUidAlarmRecording = false;
+							showLog("Uid数据库忙");
+						}
+					} else
+						SQLStatic.isUidAlarmRecording = false;
 				}
 			} else {
 				// sqlhelper.initSQL(context);
