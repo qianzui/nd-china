@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.R;
@@ -40,20 +41,18 @@ public class AppListAdapter extends BaseAdapter {
 	HashMap map;
 	public static SyncImageLoader syncImageLoader = new SyncImageLoader();
 	public static ListView mListView;
-	HashMap<Integer, Data> mp;
 	ArrayList<Integer> uidList;
 	HashMap<Integer,PackageInfo> appList;
 	HashMap<Integer,String> appname;
 	int uid;
 
 	public AppListAdapter(Context context , ArrayList<PackageInfo> myAppList,ListView mListView 
-			,HashMap<Integer, Data> mp ,HashMap<Integer,String> appname      
+			,HashMap<Integer,String> appname      
 			,HashMap<Integer,PackageInfo> appList, ArrayList<Integer> uidList) {
 		inflater = LayoutInflater.from(context);
 		this.mContext = context;
 		this.map = Block.getMap(context, myAppList);
 		this.mListView = mListView;
-		this.mp = mp;
 		this.appname = appname;
 		this.appList = appList;
 		this.uidList = uidList;
@@ -94,15 +93,8 @@ public class AppListAdapter extends BaseAdapter {
 		
 		int uid = uidList.get(position);
 		PackageInfo pkgInfo = appList.get(uid);
-		long up = 0;
-		long down = 0; 
-		  if (mp.containsKey(uid)) {
-			   up = mp.get(uid).upload;
-			   down = mp.get(uid).download;
-		   } else {
-			   up = -1000;
-			   down = -1000;
-		   }
+		long traffic[] = TrafficManager.getUidtraff(mContext, uid);
+		
 		if(appname.containsKey(uid)){
 			holder.appname.setText(appname.get(uid));
 		}else{
@@ -112,11 +104,7 @@ public class AppListAdapter extends BaseAdapter {
 		holder.icon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_launcher));
 		
 		holder.icon.setTag(position);
-		if (up == -1000 && down == -1000) { 
-			holder.trafficup.setText("ÔÝÎÞÊý¾Ý!");
-		} else {
-			holder.trafficup.setText(UnitHandler.unitHandlerAccurate(up + down));
-		}
+		holder.trafficup.setText(UnitHandler.unitHandlerAccurate(traffic[0]));
 		syncImageLoader.loadImage(position,pkgInfo,mContext,imageLoadListener ,holder.icon,uid);
 		holder.e_toggle.setChecked(ic.selected_3g);
 		holder.wifi_toggle.setChecked(ic.selected_wifi);
