@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.firewall.AppListAdapter;
 import com.hiapk.firewall.Block;
@@ -61,7 +62,6 @@ public class FireWallActivity extends Activity {
 	ProgressDialog mydialog;
 	ProgressDialog pro;
 	long[] traffic;
-	HashMap<Integer, Data> mp;
 	private ArrayList<Integer> uidList;
 	long time = 0;
 	Handler handler = new Handler();
@@ -114,7 +114,6 @@ public class FireWallActivity extends Activity {
 			@Override
 			public void run() {
 				getList(mContext);
-				mp = getData();
 					if (Block.appList.size() == Block.appnamemap.size()) {
 					int i = 0;
 					do {
@@ -158,7 +157,7 @@ public class FireWallActivity extends Activity {
 	public void setAdapter() {
 		appListView = (MyListView) findViewById(R.id.app_list);
 		appListAdapter = new AppListAdapter(FireWallActivity.this, myAppList,
-				appListView, mp, Block.appnamemap, Block.appList, uidList);
+				appListView,Block.appnamemap, Block.appList, uidList);
 		appListView.setAdapter(appListAdapter);
 		appListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -172,7 +171,6 @@ public class FireWallActivity extends Activity {
 				new AsyncTask<Void, Void, Void>() {
 					@Override
 					protected Void doInBackground(Void... params) {
-						mp = getData();
 						getList(mContext);
 						Splash.getList(mContext);
 						uidList = comp(Block.appList);
@@ -213,30 +211,6 @@ public class FireWallActivity extends Activity {
 		return myAppList;
 	}
 
-	public HashMap<Integer, Data> getData() {
-		do {
-			showLog("TableWiFiOrG23=" + SQLStatic.TableWiFiOrG23);
-			if (SQLStatic.TableWiFiOrG23 != "") {
-				AlarmSet alset = new AlarmSet();
-				alset.StartAlarmUid(mContext);
-			} else {
-				SQLHelperFireWall SQLFire = new SQLHelperFireWall();
-				SQLFire.resetMP(mContext);// alset.StartAlarm(mContext);
-			}
-			if (SQLStatic.uiddata != null) {
-				mp = SQLStatic.uiddata;
-				break;
-			}
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} while (mp == null);
-		return mp;
-	}
-
 	public ArrayList<Integer> comp(HashMap<Integer, PackageInfo> appList) {
 		uidList = new ArrayList<Integer>();
 		ArrayList<Integer> uidList2 = new ArrayList<Integer>();
@@ -248,9 +222,9 @@ public class FireWallActivity extends Activity {
 		MyCompName mn = new MyCompName();
 		mn.init(Block.appnamemap);
 		Collections.sort(uidList, mn);
-
+		
 		MyCompTraffic mt = new MyCompTraffic();
-		mt.init(mp);
+		mt.init(mContext);
 		Collections.sort(uidList, mt);
 		return uidList;
 	}
@@ -261,25 +235,9 @@ public class FireWallActivity extends Activity {
 		final String pkname = pkgInfo.applicationInfo.packageName;
 		final String appname = pkgInfo.applicationInfo.loadLabel(
 				getPackageManager()).toString();
-		;
-		final long up;
-		final long down;
-		if (mp.containsKey(uid)) {
-			up = mp.get(uid).upload;
-			down = mp.get(uid).download;
-		} else {
-			up = -1000;
-			down = -1000;
-		}
-		final String trafficup;
-		final String trafficdown;
-		if (up == -1000 && down == -1000) {
-			trafficup = UnitHandler.unitHandlerAccurate(0);
-			trafficdown = UnitHandler.unitHandlerAccurate(0);
-		} else {
-			trafficup = UnitHandler.unitHandlerAccurate(up);
-			trafficdown = UnitHandler.unitHandlerAccurate(down);
-		}
+		final long traffic[] = TrafficManager.getUidtraff(mContext, uid);
+		final String trafficup  = UnitHandler.unitHandlerAccurate(traffic[1]);
+		final String trafficdown = UnitHandler.unitHandlerAccurate(traffic[2]);
 		final Drawable d = mContext.getResources().getDrawable(
 				R.drawable.bg_fire_option);
 		LayoutInflater factory = LayoutInflater.from(mContext);
