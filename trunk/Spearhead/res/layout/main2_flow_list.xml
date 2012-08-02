@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bground_dark"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="48dip"
+        android:background="@drawable/maintab_toolbar_bg"
+        android:orientation="horizontal"
+        android:paddingRight="5dip" >
+
+        <TextView
+            android:id="@+id/flow_list_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="推送软件列表"
+            android:textColor="#FFFFFF"
+            android:textSize="23sp" />
+
+        <ImageView
+            android:id="@+id/wifi_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/wifi_fire" />
+
+        <ImageView
+            android:id="@+id/e_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/wifi_icon"
+            android:src="@drawable/mobile_fire" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/flow_list_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_scan_notify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btnselector_main"
+            android:text="开始扫描推送广告" />
+    </LinearLayout>
+
+</LinearLayout>
