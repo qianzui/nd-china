@@ -43,6 +43,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -55,6 +56,7 @@ public class FireWallActivity extends Activity {
 	private List<PackageInfo> packageInfo;
 	private AppListAdapter appListAdapter;
 	public MyListView appListView;
+	public LinearLayout loading_content;
 	CustomProgressDialog customdialog;
 	public ArrayList<PackageInfo> myAppList;
 	public ArrayList<PackageInfo> myAppList2;
@@ -73,16 +75,10 @@ public class FireWallActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		// MobclickAgent.onError(this);
 		setContentView(R.layout.main2);
+		loading_content = (LinearLayout)findViewById(R.id.loading_content);
+		loading_content.setVisibility(View.VISIBLE);
 		// 为了退出。
 		Mapplication.getInstance().addActivity(this);
-		// initList();
-		CustomProgressDialog customProgressDialog = new CustomProgressDialog(
-				mContext);
-		customdialog = customProgressDialog.createDialog(mContext);
-		customdialog.setCancelable(false);
-		customProgressDialog.setTitile("提示");
-		customProgressDialog.setMessage("获取列表中,请耐心等待,获取的时间长短取决于您安装软件的数量...");
-		customdialog.show();
 		handler.post(new Runnable() {
 			@Override
 			public void run() {
@@ -93,7 +89,7 @@ public class FireWallActivity extends Activity {
 			public void handleMessage(Message msg) {
 				try {
 					setAdapter();
-					customdialog.dismiss();
+					loading_content.setVisibility(View.INVISIBLE);
 					if (Block.isShowHelp(mContext)) {
 						showHelp(mContext);
 						SpearheadActivity.isHide = true;
