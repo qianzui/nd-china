@@ -21,7 +21,8 @@ public class AlertActionNotify {
 
 		int icon = R.drawable.icon_3_n; // 通知图标
 
-		CharSequence tickerText = "已达日流量预警值"; // 状态栏(Status Bar)显示的通知文本提示
+		CharSequence tickerText = context.getString(R.string.reach_day_alert); // 状态栏(Status
+																				// Bar)显示的通知文本提示
 
 		long when = System.currentTimeMillis(); // 通知产生的时间，会在通知信息里显示
 
@@ -38,7 +39,9 @@ public class AlertActionNotify {
 		// 获得PendingIntent
 		PendingIntent pi = PendingIntent.getActivity(context, 3, intent, 0);
 		// 发出通知
-		notification.setLatestEventInfo(context, "先锋流量监控", "日流量已超标", pi);
+		notification.setLatestEventInfo(context,
+				context.getString(R.string.spearheadnotify),
+				context.getString(R.string.day_traff_over_set), pi);
 		mNotificationManager.notify(DAY_WARNING_ID, notification);
 	}
 
@@ -48,7 +51,8 @@ public class AlertActionNotify {
 
 		int icon = R.drawable.icon_3_n; // 通知图标
 
-		CharSequence tickerText = "已达月流量预警值"; // 状态栏(Status Bar)显示的通知文本提示
+		CharSequence tickerText = context.getString(R.string.reach_month_alert); // 状态栏(Status
+																					// Bar)显示的通知文本提示
 
 		long when = System.currentTimeMillis(); // 通知产生的时间，会在通知信息里显示
 
@@ -65,7 +69,9 @@ public class AlertActionNotify {
 		// 获得PendingIntent
 		PendingIntent pi = PendingIntent.getActivity(context, 3, intent, 0);
 		// 发出通知
-		notification.setLatestEventInfo(context, "先锋流量监控", "月流量已超标", pi);
+		notification.setLatestEventInfo(context,
+				context.getString(R.string.spearheadnotify),
+				context.getString(R.string.month_traff_over_set), pi);
 		mNotificationManager.notify(MONTH_WARNING_ID, notification);
 	}
 
