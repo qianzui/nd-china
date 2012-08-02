@@ -106,9 +106,9 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			// 记录数据
 			sqlhelperUidRecord.RecordUidwritestats(context, sqlDataBase,
 					numbers, false, network);
-			// // // 获取uid的总流量数据
-			SQLStatic.uiddata = sqlhelperUidFire.getSQLUidtraff(sqlDataBase,
-					numbers);
+			// // // // 获取uid的总流量数据
+			// SQLStatic.uiddata = sqlhelperUidFire.getSQLUidtraff(sqlDataBase,
+			// numbers);
 
 			sqlDataBase.setTransactionSuccessful();
 		} catch (Exception e) {
