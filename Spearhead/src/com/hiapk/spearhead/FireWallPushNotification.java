@@ -43,12 +43,11 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class FireWallActivity extends Activity {
+public class FireWallPushNotification extends Activity {
 	private static final String APP_PKG_NAME_21 = "com.android.settings.ApplicationPkgName";
 	private static final String APP_PKG_NAME_22 = "pkg";
 	private static final String APP_DETAILS_PACKAGE_NAME = "com.android.settings";
@@ -56,8 +55,6 @@ public class FireWallActivity extends Activity {
 	private List<PackageInfo> packageInfo;
 	private AppListAdapter appListAdapter;
 	public MyListView appListView;
-	public LinearLayout loading_content;
-	CustomProgressDialog customdialog;
 	public ArrayList<PackageInfo> myAppList;
 	public ArrayList<PackageInfo> myAppList2;
 	private Context mContext = this;
@@ -74,35 +71,33 @@ public class FireWallActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		// MobclickAgent.onError(this);
-		setContentView(R.layout.main2);
-		loading_content = (LinearLayout)findViewById(R.id.loading_content);
-		loading_content.setVisibility(View.VISIBLE);
+		setContentView(R.layout.main2_flow_list);
 		// 为了退出。
 		Mapplication.getInstance().addActivity(this);
-		handler.post(new Runnable() {
-			@Override
-			public void run() {
-				initList();
-			}
-		});
-		handler2 = new Handler() {
-			public void handleMessage(Message msg) {
-				try {
-					setAdapter();
-					loading_content.setVisibility(View.INVISIBLE);
-					if (Block.isShowHelp(mContext)) {
-						showHelp(mContext);
-						SpearheadActivity.isHide = true;
-					} else {
-						if (Block.fireTip(mContext)) {
-							Toast.makeText(mContext, "下拉列表可以进行刷新!",
-									Toast.LENGTH_SHORT).show();
-						}
-					}
-				} catch (Exception ex) {
-				}
-			}
-		};
+		// initList();
+//		handler.post(new Runnable() {
+//			@Override
+//			public void run() {
+//				initList();
+//			}
+//		});
+//		handler2 = new Handler() {
+//			public void handleMessage(Message msg) {
+//				try {
+//					setAdapter();
+//					if (Block.isShowHelp(mContext)) {
+//						showHelp(mContext);
+//						SpearheadActivity.isHide = true;
+//					} else {
+//						if (Block.fireTip(mContext)) {
+//							Toast.makeText(mContext, "下拉列表可以进行刷新!",
+//									Toast.LENGTH_SHORT).show();
+//						}
+//					}
+//				} catch (Exception ex) {
+//				}
+//			}
+//		};
 	}
 
 	public void initList() {
@@ -152,7 +147,7 @@ public class FireWallActivity extends Activity {
 
 	public void setAdapter() {
 		appListView = (MyListView) findViewById(R.id.app_list);
-		appListAdapter = new AppListAdapter(FireWallActivity.this, myAppList,
+		appListAdapter = new AppListAdapter(FireWallPushNotification.this, myAppList,
 				appListView,Block.appnamemap, Block.appList, uidList);
 		appListView.setAdapter(appListAdapter);
 		appListView.setOnItemClickListener(new OnItemClickListener() {
@@ -239,7 +234,7 @@ public class FireWallActivity extends Activity {
 		LayoutInflater factory = LayoutInflater.from(mContext);
 		final View mDialogView = factory.inflate(R.layout.fire_options, null);
 		final AlertDialog mDialog = new AlertDialog.Builder(
-				FireWallActivity.this).create();
+				FireWallPushNotification.this).create();
 		mDialog.show();
 		Window window = mDialog.getWindow();
 		window.setContentView(mDialogView, new LayoutParams(
@@ -262,7 +257,7 @@ public class FireWallActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				showInstalledAppDetails(FireWallActivity.this, pkname);
+				showInstalledAppDetails(FireWallPushNotification.this, pkname);
 				manager.setBackgroundDrawable(d);
 				mDialog.cancel();
 
@@ -276,7 +271,7 @@ public class FireWallActivity extends Activity {
 				final View mDetailView = infalter.inflate(R.layout.fire_detail,
 						null);
 				final AlertDialog detailDialog = new AlertDialog.Builder(
-						FireWallActivity.this).create();
+						FireWallPushNotification.this).create();
 				detailDialog.show();
 				Window wd = detailDialog.getWindow();
 				wd.setContentView(mDetailView, new LayoutParams(
