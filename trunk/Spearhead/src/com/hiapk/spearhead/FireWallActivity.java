@@ -152,7 +152,8 @@ public class FireWallActivity extends Activity {
 
 	public void setAdapter() {
 		appListView = (MyListView) findViewById(R.id.app_list);
-		appListAdapter = new AppListAdapter(FireWallActivity.this, myAppList,
+		Context context=FireWallActivity.this.getParent();
+		appListAdapter = new AppListAdapter(context, myAppList,
 				appListView,Block.appnamemap, Block.appList, uidList);
 		appListView.setAdapter(appListAdapter);
 		appListView.setOnItemClickListener(new OnItemClickListener() {
@@ -239,7 +240,7 @@ public class FireWallActivity extends Activity {
 		LayoutInflater factory = LayoutInflater.from(mContext);
 		final View mDialogView = factory.inflate(R.layout.fire_options, null);
 		final AlertDialog mDialog = new AlertDialog.Builder(
-				FireWallActivity.this).create();
+				this.getParent()).create();
 		mDialog.show();
 		Window window = mDialog.getWindow();
 		window.setContentView(mDialogView, new LayoutParams(
@@ -276,7 +277,7 @@ public class FireWallActivity extends Activity {
 				final View mDetailView = infalter.inflate(R.layout.fire_detail,
 						null);
 				final AlertDialog detailDialog = new AlertDialog.Builder(
-						FireWallActivity.this).create();
+						FireWallActivity.this.getParent()).create();
 				detailDialog.show();
 				Window wd = detailDialog.getWindow();
 				wd.setContentView(mDetailView, new LayoutParams(
