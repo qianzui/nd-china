@@ -70,15 +70,13 @@ public class MyListView extends ListView implements OnScrollListener {
 
 		headView = (LinearLayout) inflater.inflate(R.layout.head, null);
 
-		arrowImageView = (ImageView) headView
-				.findViewById(R.id.arrow_image);
+		arrowImageView = (ImageView) headView.findViewById(R.id.arrow_image);
 		arrowImageView.setMinimumWidth(70);
 		arrowImageView.setMinimumHeight(50);
 		progressBar = (ProgressBar) headView
 				.findViewById(R.id.progressBar_head);
 		tipsTextview = (TextView) headView.findViewById(R.id.text_head);
-		lastUpdatedTextView = (TextView) headView
-				.findViewById(R.id.time_head);
+		lastUpdatedTextView = (TextView) headView.findViewById(R.id.time_head);
 
 		measureView(headView);
 		headContentHeight = headView.getMeasuredHeight();
@@ -86,8 +84,6 @@ public class MyListView extends ListView implements OnScrollListener {
 
 		headView.setPadding(0, -1 * headContentHeight, 0, 0);
 		headView.invalidate();
-
-
 
 		addHeaderView(headView, null, false);
 		setOnScrollListener(this);
@@ -114,30 +110,33 @@ public class MyListView extends ListView implements OnScrollListener {
 			int arg3) {
 		firstItemIndex = firstVisiableItem;
 	}
+
 	public void onScrollStateChanged(AbsListView arg0, int scrollState) {
-		 switch (scrollState) {  
-         case AbsListView.OnScrollListener.SCROLL_STATE_FLING:  
-             AppListAdapter.syncImageLoader.lock();  
-             break;  
-         case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:  
-             loadImage(); 
-             break;  
-         case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:  
-        	 AppListAdapter.syncImageLoader.lock();  
-             break;  
-         default:  
-             break;  
-     }  
+		switch (scrollState) {
+		case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+			AppListAdapter.syncImageLoader.lock();
+			break;
+		case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+			loadImage();
+			break;
+		case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+			AppListAdapter.syncImageLoader.lock();
+			break;
+		default:
+			break;
+		}
 	}
-	public static void loadImage(){  
-	    int start = AppListAdapter.mListView.getFirstVisiblePosition()-1;  
-	    int end = AppListAdapter.mListView.getLastVisiblePosition();  
-	    if(end >= AppListAdapter.mListView.getCount()){  
-	        end = AppListAdapter.mListView.getCount() -1;  
-	    }  
-	    AppListAdapter.syncImageLoader.setLoadLimit(start, end);  
-	    AppListAdapter.syncImageLoader.unlock();  
-	} 
+
+	public static void loadImage() {
+		int start = AppListAdapter.mListView.getFirstVisiblePosition() - 1;
+		int end = AppListAdapter.mListView.getLastVisiblePosition();
+		if (end >= AppListAdapter.mListView.getCount()) {
+			end = AppListAdapter.mListView.getCount() - 1;
+		}
+		AppListAdapter.syncImageLoader.setLoadLimit(start, end);
+		AppListAdapter.syncImageLoader.unlock();
+	}
+
 	public boolean onTouchEvent(MotionEvent event) {
 		if (isRefreshable) {
 			switch (event.getAction()) {
@@ -185,13 +184,11 @@ public class MyListView extends ListView implements OnScrollListener {
 							state = PULL_To_REFRESH;
 							changeHeaderViewByState();
 
-						}
-						else if (tempY - startY <= 0) {
+						} else if (tempY - startY <= 0) {
 							state = DONE;
 							changeHeaderViewByState();
 
-						}
-						else {
+						} else {
 						}
 					}
 					if (state == PULL_To_REFRESH) {
@@ -202,8 +199,7 @@ public class MyListView extends ListView implements OnScrollListener {
 							isBack = true;
 							changeHeaderViewByState();
 
-						}
-						else if (tempY - startY <= 0) {
+						} else if (tempY - startY <= 0) {
 							state = DONE;
 							changeHeaderViewByState();
 						}
@@ -229,10 +225,29 @@ public class MyListView extends ListView implements OnScrollListener {
 				}
 
 				break;
+			case MotionEvent.ACTION_CANCEL:
+				if (state != REFRESHING && state != LOADING) {
+					if (state == DONE) {
+					}
+					if (state == PULL_To_REFRESH) {
+						state = DONE;
+						changeHeaderViewByState();
+					}
+					if (state == RELEASE_To_REFRESH) {
+						state = REFRESHING;
+						changeHeaderViewByState();
+						onRefresh();
+					}
+				}
+				isRecored = false;
+				isBack = false;
+				break;
 			}
+
 		}
 		return super.onTouchEvent(event);
 	}
+
 	private void changeHeaderViewByState() {
 		switch (state) {
 		case RELEASE_To_REFRESH:
@@ -289,20 +304,22 @@ public class MyListView extends ListView implements OnScrollListener {
 	public interface OnRefreshListener {
 		public void onRefresh();
 	}
+
 	public void onRefreshComplete() {
 		state = DONE;
-		Time time = new  Time();
+		Time time = new Time();
 		time.setToNow();
 		int year = time.year;
-		int month = time.month+1;
+		int month = time.month + 1;
 		int day = time.monthDay;
 		String hour = judge(time.hour);
 		String minute = judge(time.minute);
 		String second = judge(time.second);
-		lastUpdatedTextView.setText("最近刷新:"  + year +"-" + month + "-" + day + "  "
-				+ hour + ":" + minute + ":" + second);
+		lastUpdatedTextView.setText("最近刷新:" + year + "-" + month + "-" + day
+				+ "  " + hour + ":" + minute + ":" + second);
 		changeHeaderViewByState();
 	}
+
 	private void onRefresh() {
 		if (refreshListener != null) {
 			refreshListener.onRefresh();
@@ -329,26 +346,26 @@ public class MyListView extends ListView implements OnScrollListener {
 	}
 
 	public void setAdapter(BaseAdapter adapter) {
-		Time time = new  Time();
+		Time time = new Time();
 		time.setToNow();
 		int year = time.year;
-		int month = time.month+1;
+		int month = time.month + 1;
 		int day = time.monthDay;
 		String hour = judge(time.hour);
 		String minute = judge(time.minute);
 		String second = judge(time.second);
-		lastUpdatedTextView.setText("最近刷新:"  + year +"-" + month + "-" + day + "  "
-				+ hour + ":" + minute + ":" + second);
+		lastUpdatedTextView.setText("最近刷新:" + year + "-" + month + "-" + day
+				+ "  " + hour + ":" + minute + ":" + second);
 		super.setAdapter(adapter);
 	}
-	public String judge(int i)
-	{
+
+	public String judge(int i) {
 		String j;
-		if(i < 10)
-		 j = "0" + i;
+		if (i < 10)
+			j = "0" + i;
 		else
-		 j = "" + i ;
+			j = "" + i;
 		return j;
 	}
- 
+
 }
