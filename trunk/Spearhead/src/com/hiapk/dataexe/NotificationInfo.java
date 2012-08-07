@@ -1,0 +1,166 @@
+package com.hiapk.dataexe;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+
+import android.content.Context;
+import android.util.Log;
+
+public class NotificationInfo {
+	static String TAG = "notifyt";
+	private final static String SCRIPT_FILE = "spearedhead.sh";
+	public static StringBuilder notificationRes = new StringBuilder();
+
+	// ArrayList<String[]> notificationAppInfo = new ArrayList<String[]>();
+	/**
+	 * 获取当前通知栏的所有通知列表
+	 * 
+	 * @param res
+	 *            当判断不为空时，使用NotificationInfo.notificationRes
+	 * @return 返回一个ArrayList<String[]>
+	 *         每个String[0]为通知包名，String[1]为通知id，String[2]为通知的文本信息；
+	 */
+	public static ArrayList<String[]> getNotificationApp(StringBuilder res) {
+		ArrayList<String[]> apps = new ArrayList<String[]>();
+		int startPKG = 0;
+		int endPKG = res.indexOf("Notification List:");
+		int startId = 0;
+		int endId = 0;
+		int startText = 0;
+		int endText = 0;
+		// String test =
+		// "123123123 pkg=com.sdfou.sdfiu id=2342,sdfkj  / com.sdfou.owuer:dra/diousdf contentIntent=sdflkasjdf tickerText=sdfousdf contentView=sdfklj sdfl;a";
+		// test += test;
+		// test += test;
+		// Log.d(TAG, "test=" + test);
+		while (startPKG != -1) {
+			startPKG = res.indexOf(" pkg=", endPKG + 1);
+			endPKG = res.indexOf(" id=", endPKG + 1);
+			startId = res.indexOf(" id=", endId + 1);
+			endId = res.indexOf(" tag=", endId + 3);
+			startText = res.indexOf("tickerText=", endText + 3);
+			endText = res.indexOf("contentView=", endText + 3);
+			if (startPKG != -1) {
+				String[] notificationAppInfo = new String[3];
+				notificationAppInfo[0] = res.substring(startPKG + 5, endPKG);
+				notificationAppInfo[1] = res.substring(startId + 4, endId);
+				notificationAppInfo[2] = res.substring(startText + 11,
+						endText - 7);
+				Log.d(TAG, "pkg=" + notificationAppInfo[0]);
+				Log.d(TAG, "idStr=" + notificationAppInfo[1]);
+				Log.d(TAG, "textStr=" + notificationAppInfo[2]);
+				apps.add(notificationAppInfo);
+			}
+			// Log.d(TAG, "no=" + res);
+		}
+		// Log.d(TAG, "test=" + res);
+
+		return apps;
+	}
+
+	/**
+	 * 执行一个获取通知栏信息的命令，执行成功后，
+	 * NotificationInfo.notificationRes将储存获得的信息后需要通过getNotificationApp进行处理
+	 * 
+	 * @param context
+	 */
+	public static synchronized void startRootcomand(Context context) {
+		StringBuilder cmd = new StringBuilder();
+		cmd.append("dumpsys notification");
+		final File file = new File(context.getDir("bin", 0), SCRIPT_FILE);
+		final ScriptRunner runner = new ScriptRunner(file, cmd.toString(), true);
+		runner.start();
+	}
+
+	/**
+	 * 用于执行adb命令
+	 */
+	private static final class ScriptRunner extends Thread {
+		private final File file;
+		private final String script;
+		private final boolean asroot;
+		public int exitcode = -1;
+		private Process exec;
+
+		/**
+		 * Creates a new script runner.
+		 * 
+		 * @param file
+		 *            temporary script file
+		 * @param script
+		 *            script to run
+		 * @param res
+		 *            response output
+		 * @param asroot
+		 *            if true, executes the script as root
+		 */
+		public ScriptRunner(File file, String script, boolean asroot) {
+			this.file = file;
+			this.script = script;
+			this.asroot = asroot;
+		}
+
+		@Override
+		public void run() {
+			try {
+				notificationRes = new StringBuilder();
+				file.createNewFile();
+				final String abspath = file.getAbsolutePath();
+				Runtime.getRuntime().exec("chmod 777 " + abspath).waitFor();
+				final OutputStreamWriter out = new OutputStreamWriter(
+						new FileOutputStream(file));
+				if (new File("/system/bin/sh").exists()) {
+					out.write("#!/system/bin/sh\n");
+				}
+				out.write(script);
+				if (!script.endsWith("\n"))
+					out.write("\n");
+				out.write("exit\n");
+				out.flush();
+				out.close();
+				if (this.asroot) {
+					exec = Runtime.getRuntime().exec("su -c " + abspath);
+				} else {
+					exec = Runtime.getRuntime().exec("sh " + abspath);
+				}
+				InputStreamReader r = new InputStreamReader(
+						exec.getInputStream());
+				final char buf[] = new char[1024];
+				int read = 0;
+				while ((read = r.read(buf)) != -1) {
+					if (notificationRes != null)
+						notificationRes.append(buf, 0, read);
+				}
+				r = new InputStreamReader(exec.getErrorStream());
+				read = 0;
+				while ((read = r.read(buf)) != -1) {
+					if (notificationRes != null)
+						notificationRes.append(buf, 0, read);
+				}
+				if (exec != null)
+					this.exitcode = exec.waitFor();
+			} catch (InterruptedException ex) {
+				if (notificationRes != null)
+					notificationRes.append("\nOperation timed-out");
+			} catch (Exception ex) {
+				if (notificationRes != null)
+					notificationRes.append("\n" + ex);
+			} finally {
+				destroy();
+			}
+		}
+
+		/**
+		 * Destroy this script runner
+		 */
+		public synchronized void destroy() {
+			if (exec != null)
+				exec.destroy();
+			exec = null;
+		}
+	}
+}
