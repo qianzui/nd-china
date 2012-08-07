@@ -2,11 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#6B6B6B"
-    android:cacheColorHint="#00000000"
+    android:background="@drawable/bground_dark"
     android:orientation="vertical" >
 
-    <RelativeLayout
+     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="30dip"
         android:background="@drawable/firewall_bluebar"
@@ -19,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:text="所有应用程序占用的流量排行"
+            android:text="查找推送广告的应用"
             android:textColor="@color/whitesmoke"
             android:textSize="14sp" />
 
@@ -44,45 +43,18 @@
             android:textSize="14sp" />
     </RelativeLayout>
 
-    <FrameLayout
+    <LinearLayout
+        android:id="@+id/flow_list_content"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="horizontal" >
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="horizontal" >
-
-            <com.hiapk.firewall.MyListView
-                android:id="@+id/app_list"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:cacheColorHint="#00000000"
-                android:divider="#EDEDED"
-                android:dividerHeight="0.5dip" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/loading_content"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:gravity="center"
-            android:orientation="vertical" >
-
-            <ProgressBar
-                android:id="@+id/loading_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="获取列表中，请稍候..."
-                android:textSize="18sp" />
-        </LinearLayout>
-    </FrameLayout>
+        <Button
+            android:id="@+id/btn_scan_notify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btnselector_main"
+            android:text="开始扫描推送广告" />
+    </LinearLayout>
 
 </LinearLayout>

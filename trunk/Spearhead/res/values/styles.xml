@@ -3,6 +3,7 @@
 
     <style name="noTitle">
         <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <style name="main_tab_bottom">
@@ -15,8 +16,25 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
         <item name="android:button">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
         <item name="android:singleLine">true</item>
         <item name="android:drawablePadding">@dimen/bottom_tab_padding_drawable</item>
+        <item name="android:layout_weight">1.0</item>
+    </style>
+
+    <style name="firewall_subtab_bottom">
+        <item name="android:textSize">@dimen/fire_tab_font_size</item>
+        <item name="android:textColor">@color/fire_subtab_tv_color</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/fire_subtab_btn_bg</item>
+        <item name="android:paddingTop">@dimen/bottom_tab_padding_up</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:button">@null</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:drawablePadding">0dp</item>
         <item name="android:layout_weight">1.0</item>
     </style>
 
