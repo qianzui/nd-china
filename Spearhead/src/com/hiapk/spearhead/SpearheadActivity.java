@@ -74,10 +74,10 @@ public class SpearheadActivity extends TabActivity {
 		tabHost = getTabHost();
 		tabHost.addTab(tabHost.newTabSpec(TAB_MONITOR)
 				.setIndicator(TAB_MONITOR)
-				.setContent(new Intent(this, Main.class)));
+				.setContent(new Intent(context, Main.class)));
 		tabHost.addTab(tabHost.newTabSpec(TAB_FIREWALL)
 				.setIndicator(TAB_FIREWALL)
-				.setContent(new Intent(this, ViewFlowMainScene.class)));
+				.setContent(new Intent(context, ViewFlowMainScene.class)));
 		tabHost.addTab(tabHost.newTabSpec(TAB_WARNING)
 				.setIndicator(TAB_WARNING)
 				.setContent(new Intent(this, Main3.class)));

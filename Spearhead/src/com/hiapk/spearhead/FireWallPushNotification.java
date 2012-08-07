@@ -1,384 +1,246 @@
 package com.hiapk.spearhead;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 
-import com.hiapk.broadcreceiver.AlarmSet;
-import com.hiapk.dataexe.TrafficManager;
-import com.hiapk.dataexe.UnitHandler;
-import com.hiapk.firewall.AppListAdapter;
-import com.hiapk.firewall.Block;
-import com.hiapk.firewall.MyCompName;
-import com.hiapk.firewall.MyCompTraffic;
-import com.hiapk.firewall.MyListView;
-import com.hiapk.firewall.MyListView.OnRefreshListener;
-import com.hiapk.progressdialog.CustomProgressDialog;
 import com.hiapk.sqlhelper.pub.SQLStatic;
-import com.hiapk.sqlhelper.uid.SQLHelperFireWall;
-import com.hiapk.sqlhelper.uid.SQLHelperFireWall.Data;
-import com.hiapk.uidtraff.UidMonthTraff;
-import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class FireWallPushNotification extends Activity {
-	private static final String APP_PKG_NAME_21 = "com.android.settings.ApplicationPkgName";
-	private static final String APP_PKG_NAME_22 = "pkg";
-	private static final String APP_DETAILS_PACKAGE_NAME = "com.android.settings";
-	private static final String APP_DETAILS_CLASS_NAME = "com.android.settings.InstalledAppDetails";
-	private List<PackageInfo> packageInfo;
-	private AppListAdapter appListAdapter;
-	public MyListView appListView;
-	public ArrayList<PackageInfo> myAppList;
-	public ArrayList<PackageInfo> myAppList2;
-	private Context mContext = this;
-	ProgressDialog mydialog;
-	ProgressDialog pro;
-	long[] traffic;
-	private ArrayList<Integer> uidList;
 	long time = 0;
-	Handler handler = new Handler();
-	Handler handler2 = new Handler();
+	static String TAG = "notifyt";
+	private static final String SCRIPT_FILE = "spearedhead.sh";
+	Context context;
+	static StringBuilder resMain = new StringBuilder();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		// MobclickAgent.onError(this);
-		setContentView(R.layout.main2_flow_list);
+		setContentView(R.layout.main2_nofity);
 		// 为了退出。
 		Mapplication.getInstance().addActivity(this);
+		context = this;
+
+		// 获取notification信息你
+		final StringBuilder cmd = new StringBuilder();
+		cmd.append("dumpsys notification");
+		String back = null;
+		try {
+			back = run(context, cmd.toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// Log.d(TAG, "resMain=" + resMain);
+
+		Button btn_scan = (Button) findViewById(R.id.btn_scan_notify);
+		btn_scan.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (resMain != null) {
+					// ArrayList<String[]> appInfos=new ArrayList<String[]>();
+					// appInfos=
+					getNotificationApp(resMain);
+					// String[] app=appInfos.get(3);
+					// for (int i = 0; i < app.length; i++) {
+					// Log.d(TAG, app[i]);
+					// }
+				}
+
+			}
+		});
 		// initList();
-//		handler.post(new Runnable() {
-//			@Override
-//			public void run() {
-//				initList();
-//			}
-//		});
-//		handler2 = new Handler() {
-//			public void handleMessage(Message msg) {
-//				try {
-//					setAdapter();
-//					if (Block.isShowHelp(mContext)) {
-//						showHelp(mContext);
-//						SpearheadActivity.isHide = true;
-//					} else {
-//						if (Block.fireTip(mContext)) {
-//							Toast.makeText(mContext, "下拉列表可以进行刷新!",
-//									Toast.LENGTH_SHORT).show();
-//						}
-//					}
-//				} catch (Exception ex) {
-//				}
-//			}
-//		};
+		// handler.post(new Runnable() {
+		// @Override
+		// public void run() {
+		// initList();
+		// }
+		// });
+		// handler2 = new Handler() {
+		// public void handleMessage(Message msg) {
+		// try {
+		// setAdapter();
+		// if (Block.isShowHelp(mContext)) {
+		// showHelp(mContext);
+		// SpearheadActivity.isHide = true;
+		// } else {
+		// if (Block.fireTip(mContext)) {
+		// Toast.makeText(mContext, "下拉列表可以进行刷新!",
+		// Toast.LENGTH_SHORT).show();
+		// }
+		// }
+		// } catch (Exception ex) {
+		// }
+		// }
+		// };
 	}
 
-	public void initList() {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				getList(mContext);
-					if (Block.appList.size() == Block.appnamemap.size()) {
-					int i = 0;
-					do {
-						try {
-							i++;
-							Thread.sleep(300);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-						if (Block.appList.size() == Block.appnamemap.size()) {
-							break;
-						}
-						if (i >= 30) {
-							break;
-						}
-					} while (Block.appList.size() != Block.appnamemap.size());
-				} else {
-					getList(mContext);
-					Splash.getList(mContext);
+	private ArrayList<String[]> getNotificationApp(StringBuilder res) {
+		ArrayList<String[]> apps = new ArrayList<String[]>();
+
+		int startPKG = 0;
+		int endPKG = res.indexOf("Notification List:");
+		int startIcon = 0;
+		int endIcon = 0;
+		int startText = 0;
+		int endText = 0;
+		// String test =
+		// "123123123 pkg=com.sdfou.sdfiu id=2342,sdfkj  / com.sdfou.owuer:dra/diousdf contentIntent=sdflkasjdf tickerText=sdfousdf contentView=sdfklj sdfl;a";
+		// test += test;
+		// test += test;
+		// Log.d(TAG, "test=" + test);
+		while (startPKG != -1) {
+			startPKG = res.indexOf(" pkg=", endPKG + 1);
+			endPKG = res.indexOf(" id=", endPKG + 1);
+			startIcon = res.indexOf(" / ", endIcon + 1);
+			endIcon = res.indexOf("contentIntent=", endIcon + 3);
+			startText = res.indexOf("tickerText=", endText + 3);
+			endText = res.indexOf("contentView=", endText + 3);
+			if (startPKG != -1) {
+				String[] notificationAppInfo = new String[3];
+				notificationAppInfo[0] = res.substring(startPKG + 5, endPKG);
+				notificationAppInfo[1] = res.substring(startIcon + 3,
+						endIcon - 7);
+				notificationAppInfo[2] = res.substring(startText + 11,
+						endText - 7);
+				Log.d(TAG, "pkg=" + notificationAppInfo[0]);
+				Log.d(TAG, "iconStr=" + notificationAppInfo[1]);
+				Log.d(TAG, "textStr=" + notificationAppInfo[2]);
+				apps.add(notificationAppInfo);
+			}
+			// Log.d(TAG, "no=" + res);
+		}
+		// Log.d(TAG, "test=" + res);
+
+		return apps;
+	}
+
+	/**
+	 * 执行一个shell命令，并返回字符串值
+	 * 
+	 * @param cmd
+	 *            命令名称&参数组成的数组（例如：{"/system/bin/cat", "/proc/version"}）
+	 * @param workdirectory
+	 *            命令执行路径（例如："system/bin/"）
+	 * @return 执行结果组成的字符串
+	 * @throws IOException
+	 */
+	public static synchronized String run(Context context, String cmd)
+			throws IOException {
+
+		final File file = new File(context.getDir("bin", 0), SCRIPT_FILE);
+		final ScriptRunner runner = new ScriptRunner(file, cmd, true);
+		runner.start();
+		return null;
+	}
+
+	/**
+	 * Internal thread used to execute scripts (as root or not).
+	 */
+	private static final class ScriptRunner extends Thread {
+		private final File file;
+		private final String script;
+		private final boolean asroot;
+		public int exitcode = -1;
+		private Process exec;
+
+		/**
+		 * Creates a new script runner.
+		 * 
+		 * @param file
+		 *            temporary script file
+		 * @param script
+		 *            script to run
+		 * @param res
+		 *            response output
+		 * @param asroot
+		 *            if true, executes the script as root
+		 */
+		public ScriptRunner(File file, String script, boolean asroot) {
+			this.file = file;
+			this.script = script;
+			this.asroot = asroot;
+		}
+
+		@Override
+		public void run() {
+			try {
+				resMain = new StringBuilder();
+				file.createNewFile();
+				final String abspath = file.getAbsolutePath();
+				Runtime.getRuntime().exec("chmod 777 " + abspath).waitFor();
+				final OutputStreamWriter out = new OutputStreamWriter(
+						new FileOutputStream(file));
+				if (new File("/system/bin/sh").exists()) {
+					out.write("#!/system/bin/sh\n");
 				}
-				uidList = comp(Block.appList);
-				handler2.sendEmptyMessage(0);
-			}
-		}).start(); 
-	  }
-		
-	public void showHelp(final Context mContext) {
-		Drawable d = mContext.getResources().getDrawable(R.drawable.fire_help);
-		SpearheadActivity.firehelp.setBackgroundDrawable(d);
-		// firehelp.setVisibility(View.VISIBLE);
-		SpearheadActivity.firehelp.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				SpearheadActivity.firehelp.setVisibility(View.INVISIBLE);
-				Block.isShowHelpSet(mContext, false);
-			}
-		});
-	}
-
-	public void setAdapter() {
-		appListView = (MyListView) findViewById(R.id.app_list);
-		appListAdapter = new AppListAdapter(FireWallPushNotification.this, myAppList,
-				appListView,Block.appnamemap, Block.appList, uidList);
-		appListView.setAdapter(appListAdapter);
-		appListView.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				menuDialog(arg1);
-			}
-		});
-		appListView.setonRefreshListener(new OnRefreshListener() {
-			public void onRefresh() {
-				new AsyncTask<Void, Void, Void>() {
-					@Override
-					protected Void doInBackground(Void... params) {
-						getList(mContext);
-						Splash.getList(mContext);
-						uidList = comp(Block.appList);
-						return null;
-					}
-
-					@Override
-					protected void onPostExecute(Void result) {
-						MyListView.loadImage();
-						setAdapter();
-						appListAdapter.notifyDataSetChanged();
-						appListView.onRefreshComplete();
-					}
-				}.execute();
-			}
-		});
-	}
-
-	public ArrayList<PackageInfo> getList(Context context) {
-		packageInfo = context.getPackageManager().getInstalledPackages(0);
-		final PackageManager pm = getPackageManager();
-		myAppList = new ArrayList<PackageInfo>();
-		Block.appList = new HashMap<Integer, PackageInfo>();
-		for (int i = 0; i < packageInfo.size(); i++) {
-			final PackageInfo pkgInfo = packageInfo.get(i);
-			final int uid = pkgInfo.applicationInfo.uid;
-			final String pkgName = pkgInfo.applicationInfo.packageName;
-			if (PackageManager.PERMISSION_GRANTED == pm.checkPermission(
-					Manifest.permission.INTERNET, pkgName)) {
-				if (Block.filter.contains(pkgName)) {
+				out.write(script);
+				if (!script.endsWith("\n"))
+					out.write("\n");
+				out.write("exit\n");
+				out.flush();
+				out.close();
+				if (this.asroot) {
+					exec = Runtime.getRuntime().exec("su -c " + abspath);
 				} else {
-					Block.appList.put(uid, pkgInfo);
-					myAppList.add(pkgInfo);
-					Block.appList.put(uid, pkgInfo);
+					exec = Runtime.getRuntime().exec("sh " + abspath);
 				}
+				InputStreamReader r = new InputStreamReader(
+						exec.getInputStream());
+				final char buf[] = new char[1024];
+				int read = 0;
+				while ((read = r.read(buf)) != -1) {
+					if (resMain != null)
+						resMain.append(buf, 0, read);
+				}
+				r = new InputStreamReader(exec.getErrorStream());
+				read = 0;
+				while ((read = r.read(buf)) != -1) {
+					if (resMain != null)
+						resMain.append(buf, 0, read);
+				}
+				if (exec != null)
+					this.exitcode = exec.waitFor();
+			} catch (InterruptedException ex) {
+				if (resMain != null)
+					resMain.append("\nOperation timed-out");
+			} catch (Exception ex) {
+				if (resMain != null)
+					resMain.append("\n" + ex);
+			} finally {
+				destroy();
 			}
 		}
-		return myAppList;
-	}
 
-	public ArrayList<Integer> comp(HashMap<Integer, PackageInfo> appList) {
-		uidList = new ArrayList<Integer>();
-		ArrayList<Integer> uidList2 = new ArrayList<Integer>();
-		ArrayList keys = new ArrayList(appList.keySet());
-		for (int i = 0; i < keys.size(); i++) {
-			int uid = (Integer) keys.get(i);
-			uidList.add(uid);
+		/**
+		 * Destroy this script runner
+		 */
+		public synchronized void destroy() {
+			if (exec != null)
+				exec.destroy();
+			exec = null;
 		}
-		MyCompName mn = new MyCompName();
-		mn.init(Block.appnamemap);
-		Collections.sort(uidList, mn);
-		
-		MyCompTraffic mt = new MyCompTraffic();
-		mt.init(mContext);
-		Collections.sort(uidList, mt);
-		return uidList;
-	}
-
-	public void menuDialog(View arg1) {
-		final PackageInfo pkgInfo = (PackageInfo) arg1.getTag(R.id.tag_pkginfo);
-		final int uid = pkgInfo.applicationInfo.uid;
-		final String pkname = pkgInfo.applicationInfo.packageName;
-		final String appname = pkgInfo.applicationInfo.loadLabel(
-				getPackageManager()).toString();
-		final long traffic[] = TrafficManager.getUidtraff(mContext, uid);
-		final String trafficup  = UnitHandler.unitHandlerAccurate(traffic[1]);
-		final String trafficdown = UnitHandler.unitHandlerAccurate(traffic[2]);
-		final Drawable d = mContext.getResources().getDrawable(
-				R.drawable.bg_fire_option);
-		LayoutInflater factory = LayoutInflater.from(mContext);
-		final View mDialogView = factory.inflate(R.layout.fire_options, null);
-		final AlertDialog mDialog = new AlertDialog.Builder(
-				FireWallPushNotification.this).create();
-		mDialog.show();
-		Window window = mDialog.getWindow();
-		window.setContentView(mDialogView, new LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		final int heigh = window.getWindowManager().getDefaultDisplay()
-				.getHeight();
-		final int width = window.getWindowManager().getDefaultDisplay()
-				.getWidth();
-		window.setLayout((int) (width * 0.8), LayoutParams.WRAP_CONTENT);
-		final TextView manager = (TextView) mDialogView
-				.findViewById(R.id.button_manager);
-		final TextView detail = (TextView) mDialogView
-				.findViewById(R.id.button_detail);
-		final TextView uninstalled = (TextView) mDialogView
-				.findViewById(R.id.button_uninstall);
-		final TextView back = (TextView) mDialogView
-				.findViewById(R.id.button_back);
-
-		manager.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				showInstalledAppDetails(FireWallPushNotification.this, pkname);
-				manager.setBackgroundDrawable(d);
-				mDialog.cancel();
-
-			}
-		});
-
-		detail.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				LayoutInflater infalter = LayoutInflater.from(mContext);
-				final View mDetailView = infalter.inflate(R.layout.fire_detail,
-						null);
-				final AlertDialog detailDialog = new AlertDialog.Builder(
-						FireWallPushNotification.this).create();
-				detailDialog.show();
-				Window wd = detailDialog.getWindow();
-				wd.setContentView(mDetailView, new LayoutParams(
-						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-				wd.setLayout((int) (width * 0.8), LayoutParams.WRAP_CONTENT);
-
-				final TextView traffic_up = (TextView) mDetailView
-						.findViewById(R.id.fire_traffic_up);
-				final TextView traffic_down = (TextView) mDetailView
-						.findViewById(R.id.fire_traffic_down);
-				final Button detail_ok = (Button) mDetailView
-						.findViewById(R.id.detail_ok);
-				final Button detail_history = (Button) mDetailView
-						.findViewById(R.id.detail_history);
-
-				traffic_up.setText("上传： " + trafficup);
-				traffic_down.setText("下载： " + trafficdown);
-
-				detail_ok.setOnClickListener(new Button.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						detailDialog.cancel();
-					}
-				});
-				detail_history.setOnClickListener(new Button.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						Intent intent = new Intent();
-						intent.setClass(mContext, UidMonthTraff.class);
-						Bundle bData = new Bundle();
-						bData.putInt("uid", uid);
-						bData.putString("appname", appname);
-						bData.putString("pkname", pkname);
-						intent.putExtras(bData);
-						mContext.startActivity(intent);
-						detailDialog.cancel();
-					}
-				});
-				detail.setBackgroundDrawable(d);
-				mDialog.cancel();
-			}
-		});
-
-		uninstalled.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Uri uri = Uri.fromParts("package", pkname, null);
-				Intent intent = new Intent(Intent.ACTION_DELETE, uri);
-				startActivity(intent);
-				uninstalled.setBackgroundDrawable(d);
-				mDialog.cancel();
-			}
-
-		});
-
-		back.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				back.setBackgroundDrawable(d);
-				mDialog.cancel();
-			}
-
-		});
-	}
-
-	public long judge(long tff) {
-		if (tff == -1)
-			tff = 0;
-		return tff;
-	}
-
-	public static void showInstalledAppDetails(Context context,
-			String packageName) {
-		Intent intent = new Intent();
-		final int apiLevel = Build.VERSION.SDK_INT;
-		if (apiLevel >= 9) {
-			intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-			Uri uri = Uri.fromParts("package", packageName, null);
-			intent.setData(uri);
-		} else {
-			final String appPackageName = (apiLevel == 8 ? APP_PKG_NAME_22
-					: APP_PKG_NAME_21);
-			intent.setAction(Intent.ACTION_VIEW);
-			intent.setClassName(APP_DETAILS_PACKAGE_NAME,
-					APP_DETAILS_CLASS_NAME);
-			intent.putExtra(appPackageName, packageName);
-		}
-		context.startActivity(intent);
 	}
 
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		if (SQLStatic.TableWiFiOrG23 != "") {
-			AlarmSet alset = new AlarmSet();
-			alset.StartAlarmUid(mContext);
-		} else {
-			SQLHelperFireWall SQLFire = new SQLHelperFireWall();
-			SQLFire.resetMP(mContext);// alset.StartAlarm(mContext);
-		}
 		// MobclickAgent.onResume(this);
 	}
 
