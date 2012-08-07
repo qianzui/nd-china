@@ -14,4 +14,5 @@
     <dimen name="widget_logo_size">35.0dip</dimen>
     <dimen name="title_height">74.0dip</dimen>
     <dimen name="new_blog_size">70.0dip</dimen>
+    <dimen name="fire_tab_font_size">23.0dip</dimen>
 </resources>
