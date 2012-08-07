@@ -7,15 +7,15 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
+import com.hiapk.sqlhelper.pub.SQLStatic;
+
 import android.content.Context;
 import android.util.Log;
 
 public class NotificationInfo {
-	static String TAG = "notifyt";
 	private final static String SCRIPT_FILE = "spearedhead.sh";
 	public static StringBuilder notificationRes = new StringBuilder();
 
-	// ArrayList<String[]> notificationAppInfo = new ArrayList<String[]>();
 	/**
 	 * 获取当前通知栏的所有通知列表
 	 * 
@@ -32,11 +32,6 @@ public class NotificationInfo {
 		int endId = 0;
 		int startText = 0;
 		int endText = 0;
-		// String test =
-		// "123123123 pkg=com.sdfou.sdfiu id=2342,sdfkj  / com.sdfou.owuer:dra/diousdf contentIntent=sdflkasjdf tickerText=sdfousdf contentView=sdfklj sdfl;a";
-		// test += test;
-		// test += test;
-		// Log.d(TAG, "test=" + test);
 		while (startPKG != -1) {
 			startPKG = res.indexOf(" pkg=", endPKG + 1);
 			endPKG = res.indexOf(" id=", endPKG + 1);
@@ -50,14 +45,12 @@ public class NotificationInfo {
 				notificationAppInfo[1] = res.substring(startId + 4, endId);
 				notificationAppInfo[2] = res.substring(startText + 11,
 						endText - 7);
-				Log.d(TAG, "pkg=" + notificationAppInfo[0]);
-				Log.d(TAG, "idStr=" + notificationAppInfo[1]);
-				Log.d(TAG, "textStr=" + notificationAppInfo[2]);
+				showlog("pkg=" + notificationAppInfo[0]);
+				showlog("idStr=" + notificationAppInfo[1]);
+				showlog("textStr=" + notificationAppInfo[2]);
 				apps.add(notificationAppInfo);
 			}
-			// Log.d(TAG, "no=" + res);
 		}
-		// Log.d(TAG, "test=" + res);
 
 		return apps;
 	}
@@ -163,4 +156,16 @@ public class NotificationInfo {
 			exec = null;
 		}
 	}
+
+	/**
+	 * 显示日志
+	 * 
+	 * @param string
+	 */
+	private static void showlog(String string) {
+		if (SQLStatic.isshowLog) {
+			Log.d("NotificationInfo", string);
+		}
+	}
+
 }
