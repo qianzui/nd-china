@@ -2,7 +2,6 @@ package com.hiapk.dataexe;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
@@ -76,7 +75,6 @@ public class NotificationInfo {
 		private final File file;
 		private final String script;
 		private final boolean asroot;
-		public int exitcode = -1;
 		private Process exec;
 
 		/**
@@ -134,8 +132,6 @@ public class NotificationInfo {
 					if (notificationRes != null)
 						notificationRes.append(buf, 0, read);
 				}
-				if (exec != null)
-					this.exitcode = exec.waitFor();
 			} catch (InterruptedException ex) {
 				if (notificationRes != null)
 					notificationRes.append("\nOperation timed-out");
