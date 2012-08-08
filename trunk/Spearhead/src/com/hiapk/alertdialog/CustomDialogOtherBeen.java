@@ -18,9 +18,9 @@ import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.progressdialog.CustomProgressDialog;
 import com.hiapk.spearhead.R;
+import com.hiapk.spearhead.FireWallMainScene;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
-import com.hiapk.viewflow.ViewFlowMainScene;
 import com.hiapk.widget.SetText;
 
 public class CustomDialogOtherBeen {
@@ -77,7 +77,7 @@ public class CustomDialogOtherBeen {
 			public void onClick(View v) {
 				NotificationInfo.notificationRes = new StringBuilder();
 				NotificationInfo.callbyonResume = false;
-				ViewFlowMainScene.switScene(1);
+				FireWallMainScene.switScene(1);
 				scanNotificationRootFail.dismiss();
 			}
 		});
@@ -88,7 +88,7 @@ public class CustomDialogOtherBeen {
 			@Override
 			public void onClick(View v) {
 				NotificationInfo.notificationRes = new StringBuilder();
-				ViewFlowMainScene.switScene(0);
+				FireWallMainScene.switScene(0);
 				NotificationInfo.callbyonResume = false;
 				scanNotificationRootFail.dismiss();
 			}
@@ -98,7 +98,7 @@ public class CustomDialogOtherBeen {
 			@Override
 			public void onCancel(DialogInterface dialog) {
 				NotificationInfo.notificationRes = new StringBuilder();
-				ViewFlowMainScene.switScene(0);
+				FireWallMainScene.switScene(0);
 				NotificationInfo.callbyonResume = false;
 				scanNotificationRootFail.dismiss();
 			}
