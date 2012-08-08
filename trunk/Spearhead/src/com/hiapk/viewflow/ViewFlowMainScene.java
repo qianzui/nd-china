@@ -15,140 +15,108 @@
  */
 package com.hiapk.viewflow;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.LinkedList;
-import java.util.zip.Inflater;
 
-import com.hiapk.firewall.MyListView;
 import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.FireWallPushNotification;
 import com.hiapk.spearhead.Main;
 import com.hiapk.spearhead.Main3;
+import com.hiapk.spearhead.Mapplication;
 import com.hiapk.spearhead.R;
-import com.hiapk.uidtraff.UidMonthTraff;
-import com.hiapk.viewflow.ViewFlow.AdapterDataSetObserver;
+import com.hiapk.spearhead.SpearheadActivity;
 import com.hiapk.viewflow.ViewFlow.LazyInit;
-import com.hiapk.viewflow.ViewFlow.ViewLazyInitializeListener;
-import com.hiapk.viewflow.ViewFlow.ViewSwitchListener;
-
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.app.ActivityGroup;
+import android.app.TabActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.VelocityTracker;
 import android.view.View;
 import android.view.View.MeasureSpec;
-import android.view.ViewConfiguration;
-import android.view.ViewGroup;
-import android.view.WindowManager.LayoutParams;
-import android.widget.Adapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Scroller;
-import android.widget.TextView;
+import android.widget.RadioGroup;
+import android.widget.TabHost;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 
-public class ViewFlowMainScene extends ActivityGroup {
-
-	private ViewFlow viewFlow;
-	private ActivityGroup group;
-	private Context context;
-	private boolean isviewFlow = false;
-	private LinkedList<Bitmap> bitmaps;
-	private LinkedList<View> views = new LinkedList<View>();
-	private View firewall = null;
-	private View notifywall = null;
-	private int pos = 1;
-	LinearLayout mLayout;
-	LayoutInflater mInflater;
-	// from viewflow
-
-	private String TAG = "viewflowMainScene";
-	private boolean isStaticView = false;
-	private static final int SNAP_VELOCITY = 1000;
-	private static final int INVALID_SCREEN = -1;
-	private final static int TOUCH_STATE_REST = 0;
-	private final static int TOUCH_STATE_SCROLLING = 1;
-
-	private LinkedList<View> mLoadedViews;
-	private LinkedList<View> mRecycledViews;
-	private int mCurrentBufferIndex;
-	private int mCurrentAdapterIndex;
-	private int mSideBuffer = 2;
-	private Scroller mScroller;
-	private VelocityTracker mVelocityTracker;
-	private int mTouchState = TOUCH_STATE_REST;
-	private float mLastMotionX;
-	private int mTouchSlop;
-	private int mMaximumVelocity;
-	private int mCurrentScreen;
-	private int mNextScreen = INVALID_SCREEN;
-	private boolean mFirstLayout = true;
-	private ViewSwitchListener mViewSwitchListener;
-	private ViewLazyInitializeListener mViewInitializeListener;
-	private EnumSet<LazyInit> mLazyInit = EnumSet.allOf(LazyInit.class);
-	private Adapter mAdapter;
-	private int mLastScrollDirection;
-	private AdapterDataSetObserver mDataSetObserver;
-	private FlowIndicator mIndicator;
-	private int mLastOrientation = -1;
+public class ViewFlowMainScene extends TabActivity {
+	private static RadioGroup group;
+	public static TabHost tabHost;
+	public static final String TAB_FIREWALL = "tabfire";
+	public static final String TAB_NOTIFYADB = "tabnotify";
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.mainviewflow);
-		// loading view
-		context = this;
-		mLayout = (LinearLayout) findViewById(R.id.linearlayout_viewflow);
-		mInflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		setContentView(R.layout.main_sub_tabs);
+		Mapplication.getInstance().addActivity(this);
+		initScene();
+		switchScene();
 
-		 firewall = getLocalActivityManager().startActivity("fire",
-		 new Intent(ViewFlowMainScene.this, FireWallActivity.class))
-		 .getDecorView();
-		 notifywall = getLocalActivityManager().startActivity(
-		 "notify",
-		 new Intent(ViewFlowMainScene.this,
-		 FireWallPushNotification.class)).getDecorView();
-		 viewFlow = new ViewFlow(context, 5);
-		 views.addLast(firewall);
-		 views.addLast(notifywall);
-		 AndroidVersionAdapter viewpager_Adapter = new AndroidVersionAdapter(
-		 views, context);
-		 viewFlow.setAdapter(viewpager_Adapter, pos);
-		 mLayout.removeAllViews();
-		 LayoutParams params = new LayoutParams(
-		 ViewGroup.LayoutParams.FILL_PARENT,
-		 ViewGroup.LayoutParams.FILL_PARENT);
-		 mLayout.addView(viewFlow, params);
+	}
 
-//		firewall = mInflater.inflate(R.layout.main2_flow_list, null);
-//		TextView tv_title = (TextView) firewall
-//				.findViewById(R.id.flow_list_title);
-//		tv_title.setText("流量排行");
-//		LinearLayout flowlayout = (LinearLayout) firewall
-//				.findViewById(R.id.flow_list_content);
-//		flowlayout.removeAllViews();
-//		MyListView myListView = new MyListView(context);
-//		// TODO
-//		flowlayout.addView(myListView);
-//		notifywall = mInflater.inflate(R.layout.loading_layout, null);
-//		viewFlow = new ViewFlow(context, 5);
-//		views.addLast(firewall);
-//		views.addLast(notifywall);
-//		AndroidVersionAdapter viewpager_Adapter = new AndroidVersionAdapter(
-//				views, context);
-//		viewFlow.setAdapter(viewpager_Adapter, pos);
-//		mLayout.removeAllViews();
-//		LayoutParams params = new LayoutParams(
-//				ViewGroup.LayoutParams.FILL_PARENT,
-//				ViewGroup.LayoutParams.FILL_PARENT);
-//		mLayout.addView(viewFlow, params);
+	/**
+	 * 初始化
+	 */
+	private void initScene() {
+		// TODO Auto-generated method stub
+		group = (RadioGroup) findViewById(R.id.main_radio);
+		tabHost = getTabHost();
+		tabHost.addTab(tabHost
+				.newTabSpec(TAB_FIREWALL)
+				.setIndicator(TAB_FIREWALL)
+				.setContent(
+						new Intent(ViewFlowMainScene.this,
+								FireWallActivity.class)));
+		tabHost.addTab(tabHost
+				.newTabSpec(TAB_NOTIFYADB)
+				.setIndicator(TAB_NOTIFYADB)
+				.setContent(
+						new Intent(ViewFlowMainScene.this,
+								FireWallPushNotification.class)));
+		group.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				switch (checkedId) {
+				case R.id.radio_button0:
+					tabHost.setCurrentTabByTag(TAB_FIREWALL);
+					break;
+				case R.id.radio_button1:
+					tabHost.setCurrentTabByTag(TAB_NOTIFYADB);
+					break;
+				default:
+					break;
+				}
+			}
+		});
+	}
+
+	/**
+	 * 初始显示第几个页面
+	 */
+	private void switchScene() {
+		// 选择界面
+		group.clearCheck();
+		group.check(R.id.radio_button0);
+		tabHost.setCurrentTabByTag(TAB_FIREWALL);
+	}
+
+	public static void switScene(int scenenumber) {
+		switch (scenenumber) {
+		case 0:
+			group.clearCheck();
+			group.check(R.id.radio_button0);
+			tabHost.setCurrentTabByTag(TAB_FIREWALL);
+			break;
+		default:
+			group.clearCheck();
+			group.check(R.id.radio_button1);
+			tabHost.setCurrentTabByTag(TAB_FIREWALL);
+			tabHost.setCurrentTabByTag(TAB_NOTIFYADB);
+			break;
+		}
+
 	}
 
 	// @Override
