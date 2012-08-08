@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.hiapk.alertdialog.CustomDialogOtherBeen;
 import com.hiapk.dataexe.NotificationInfo;
+import com.hiapk.sqlhelper.pub.SQLStatic;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -76,15 +78,17 @@ public class FireWallPushNotification extends Activity {
 			return;
 		showLoadingView();
 		NotificationInfo.callbyonResume = true;
-		if (String.valueOf(NotificationInfo.notificationRes).trim() == "") {
+		if (NotificationInfo.notificationRes.length() == 0) {
 			new AsyncTaskGetAdbArrayListonResume().execute(context);
 		}
 	}
-/**
- * 在onCreate中执行的获取通知栏信息的方法
- * @author Administrator
- *
- */
+
+	/**
+	 * 在onCreate中执行的获取通知栏信息的方法
+	 * 
+	 * @author Administrator
+	 * 
+	 */
 	private class AsyncTaskGetAdbArrayListonCreate extends
 			AsyncTask<Context, Long, Boolean> {
 		@Override
@@ -95,7 +99,7 @@ public class FireWallPushNotification extends Activity {
 
 		@Override
 		protected Boolean doInBackground(Context... params) {
-			while (String.valueOf(NotificationInfo.notificationRes).trim() == "") {
+			while (NotificationInfo.notificationRes.length() == 0) {
 				try {
 					Thread.sleep(500);
 				} catch (InterruptedException e) {
@@ -123,10 +127,12 @@ public class FireWallPushNotification extends Activity {
 			callbyonCreate = false;
 		}
 	}
+
 	/**
 	 * 在onResume中执行的获取通知栏信息的方法
+	 * 
 	 * @author Administrator
-	 *
+	 * 
 	 */
 	private class AsyncTaskGetAdbArrayListonResume extends
 			AsyncTask<Context, Long, Boolean> {
@@ -138,7 +144,7 @@ public class FireWallPushNotification extends Activity {
 
 		@Override
 		protected Boolean doInBackground(Context... params) {
-			while (String.valueOf(NotificationInfo.notificationRes).trim() == "") {
+			while (NotificationInfo.notificationRes.length() == 0) {
 				try {
 					Thread.sleep(500);
 				} catch (InterruptedException e) {
@@ -182,8 +188,8 @@ public class FireWallPushNotification extends Activity {
 	 * @param string
 	 */
 	private void showLog(String string) {
-		// if (SQLStatic.isshowLog) {
-		Log.d("FireNotif", string);
-		// }
+		if (SQLStatic.isshowLog) {
+			Log.d("FireNotif", string);
+		}
 	}
 }
