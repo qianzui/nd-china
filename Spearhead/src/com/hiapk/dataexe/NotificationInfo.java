@@ -14,6 +14,7 @@ import android.util.Log;
 public class NotificationInfo {
 	private final static String SCRIPT_FILE = "spearedhead.sh";
 	public static StringBuilder notificationRes = new StringBuilder();
+	public static boolean callbyonResume = false;
 
 	/**
 	 * 获取当前通知栏的所有通知列表
@@ -37,13 +38,18 @@ public class NotificationInfo {
 			startId = res.indexOf(" id=", endId + 1);
 			endId = res.indexOf(" tag=", endId + 3);
 			startText = res.indexOf("tickerText=", endText + 3);
-			endText = res.indexOf("contentView=", endText + 3);
+			endText = res.indexOf("contentView=", startText);
 			if (startPKG != -1) {
 				String[] notificationAppInfo = new String[3];
 				notificationAppInfo[0] = res.substring(startPKG + 5, endPKG);
+
 				notificationAppInfo[1] = res.substring(startId + 4, endId);
-				notificationAppInfo[2] = res.substring(startText + 11,
-						endText - 7);
+				if (startText != -1) {
+					notificationAppInfo[2] = res.substring(startText + 11,
+							endText - 7);
+				} else {
+					notificationAppInfo[2] = "";
+				}
 				showlog("pkg=" + notificationAppInfo[0]);
 				showlog("idStr=" + notificationAppInfo[1]);
 				showlog("textStr=" + notificationAppInfo[2]);
@@ -98,7 +104,6 @@ public class NotificationInfo {
 		@Override
 		public void run() {
 			try {
-				notificationRes = new StringBuilder();
 				file.createNewFile();
 				final String abspath = file.getAbsolutePath();
 				Runtime.getRuntime().exec("chmod 777 " + abspath).waitFor();
@@ -124,20 +129,26 @@ public class NotificationInfo {
 				int read = 0;
 				while ((read = r.read(buf)) != -1) {
 					if (notificationRes != null)
-						notificationRes.append(buf, 0, read);
+						notificationRes = new StringBuilder();
+					notificationRes.append(buf, 0, read);
 				}
 				r = new InputStreamReader(exec.getErrorStream());
 				read = 0;
 				while ((read = r.read(buf)) != -1) {
 					if (notificationRes != null)
-						notificationRes.append(buf, 0, read);
+						notificationRes = new StringBuilder();
+					notificationRes.append(buf, 0, read);
 				}
 			} catch (InterruptedException ex) {
-				if (notificationRes != null)
+				if (notificationRes != null) {
+					notificationRes = new StringBuilder();
 					notificationRes.append("\nOperation timed-out");
+				}
 			} catch (Exception ex) {
-				if (notificationRes != null)
+				if (notificationRes != null) {
+					notificationRes = new StringBuilder();
 					notificationRes.append("\n" + ex);
+				}
 			} finally {
 				destroy();
 			}

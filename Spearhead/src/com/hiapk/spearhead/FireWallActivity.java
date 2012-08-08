@@ -193,6 +193,7 @@ public class FireWallActivity extends Activity {
 		Block.appList = new HashMap<Integer, PackageInfo>();
 		for (int i = 0; i < packageInfo.size(); i++) {
 			final PackageInfo pkgInfo = packageInfo.get(i);
+			
 			final int uid = pkgInfo.applicationInfo.uid;
 			final String pkgName = pkgInfo.applicationInfo.packageName;
 			if (PackageManager.PERMISSION_GRANTED == pm.checkPermission(

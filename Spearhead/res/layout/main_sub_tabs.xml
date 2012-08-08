@@ -27,7 +27,7 @@
                     android:id="@+id/radio_button0"
                     style="@style/firewall_subtab_bottom"
                     android:tag="radio_button0"
-                    android:text="流量监控" />
+                    android:text="流量排行" />
 
                 <RadioButton
                     android:id="@+id/radio_button1"

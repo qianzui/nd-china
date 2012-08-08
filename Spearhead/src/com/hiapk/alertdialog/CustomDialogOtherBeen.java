@@ -3,12 +3,15 @@ package com.hiapk.alertdialog;
 import java.util.List;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.pm.PackageInfo;
 import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.hiapk.dataexe.NotificationInfo;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.prefrencesetting.PrefrenceStaticOperator;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
@@ -17,6 +20,7 @@ import com.hiapk.progressdialog.CustomProgressDialog;
 import com.hiapk.spearhead.R;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
+import com.hiapk.viewflow.ViewFlowMainScene;
 import com.hiapk.widget.SetText;
 
 public class CustomDialogOtherBeen {
@@ -28,6 +32,77 @@ public class CustomDialogOtherBeen {
 		this.context = context;
 		sharedDatawidget = new SharedPrefrenceDataWidget(context);
 		sharedData = new SharedPrefrenceData(context);
+	}
+
+	/**
+	 * 通知栏广告需要获取root权限-----未被使用
+	 */
+	public void dialogNotificationNeedRoot() {
+
+		final CustomDialog monthSetAlert = new CustomDialog.Builder(context)
+				.setTitle("注意：").setMessage("广告检测功能需要Root权限！")
+				.setPositiveButton("确定", null).create();
+		monthSetAlert.show();
+		Button btn_ok = (Button) monthSetAlert
+				.findViewById(R.id.positiveButton);
+		btn_ok.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+//				SharedPrefrenceDataOnUpdate sharedUP = new SharedPrefrenceDataOnUpdate(
+//						context);
+//				sharedUP.setAdbRootAllow(true);
+				// NotificationInfo.startRootcomand(context);
+				monthSetAlert.dismiss();
+			}
+		});
+	}
+
+	/**
+	 * 通知栏检测时获取root权限失败
+	 */
+	public void dialogNotificationRootFail() {
+
+		final CustomDialog scanNotificationRootFail = new CustomDialog.Builder(
+				context)
+				.setTitle("操作失败")
+				.setMessage(
+						"获取Root权限失败，可能原因：\n\n1.您的设备未破解\n2.尝试获取Root失败\n建议退出后重新尝试。")
+				.setPositiveButton("重试", null).setNegativeButton("取消", null)
+				.setwindowHeight(0.5).create();
+		scanNotificationRootFail.show();
+		Button btn_ok = (Button) scanNotificationRootFail
+				.findViewById(R.id.positiveButton);
+		btn_ok.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				NotificationInfo.notificationRes = new StringBuilder();
+				NotificationInfo.callbyonResume = false;
+				ViewFlowMainScene.switScene(1);
+				scanNotificationRootFail.dismiss();
+			}
+		});
+		Button btn_cancel = (Button) scanNotificationRootFail
+				.findViewById(R.id.negativeButton);
+		btn_cancel.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				NotificationInfo.notificationRes = new StringBuilder();
+				ViewFlowMainScene.switScene(0);
+				NotificationInfo.callbyonResume = false;
+				scanNotificationRootFail.dismiss();
+			}
+		});
+		scanNotificationRootFail.setOnCancelListener(new OnCancelListener() {
+
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				NotificationInfo.notificationRes = new StringBuilder();
+				ViewFlowMainScene.switScene(0);
+				NotificationInfo.callbyonResume = false;
+				scanNotificationRootFail.dismiss();
+			}
+		});
 	}
 
 	/**
@@ -48,7 +123,6 @@ public class CustomDialogOtherBeen {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				PrefrenceStaticOperator.resetHasWarning(context);
 				dayWarning.dismiss();
 			}
@@ -99,7 +173,6 @@ public class CustomDialogOtherBeen {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				monthSetAlert.dismiss();
 			}
 		});
@@ -128,7 +201,6 @@ public class CustomDialogOtherBeen {
 			AsyncTask<Context, Integer, Integer> {
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
 			// mydialog = ProgressDialog
 			// .show(context, "请稍等...", "正在清空数据...", true);
 			CustomProgressDialog customProgressDialog = new CustomProgressDialog(
@@ -149,7 +221,6 @@ public class CustomDialogOtherBeen {
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				timetap++;
@@ -163,7 +234,6 @@ public class CustomDialogOtherBeen {
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				timetap++;
@@ -178,7 +248,6 @@ public class CustomDialogOtherBeen {
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				timetap++;
@@ -213,7 +282,6 @@ public class CustomDialogOtherBeen {
 				try {
 					Thread.sleep(300);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -223,7 +291,6 @@ public class CustomDialogOtherBeen {
 
 		@Override
 		protected void onProgressUpdate(Integer... values) {
-			// TODO Auto-generated method stub
 			super.onProgressUpdate(values);
 			if (values[0] == 1) {
 				customdialog.dismiss();
@@ -233,7 +300,6 @@ public class CustomDialogOtherBeen {
 
 		@Override
 		protected void onPostExecute(Integer result) {
-			// TODO Auto-generated method stub
 			if (result == 0) {
 				TrafficManager.wifi_month_data = new long[64];
 				TrafficManager.wifi_month_data_before = new long[64];
@@ -242,7 +308,7 @@ public class CustomDialogOtherBeen {
 				TrafficManager.mobile_month_use = 1;
 				sharedData.setMonthHasUsedStack(0);
 				sharedData.setTodayMobileDataLong(0);
-				SQLStatic.uiddata=null;
+				SQLStatic.uiddata = null;
 				SetText.resetWidgetAndNotify(context);
 				SQLStatic.setSQLTotalOnUsed(false);
 				SQLStatic.setSQLUidOnUsed(false);
