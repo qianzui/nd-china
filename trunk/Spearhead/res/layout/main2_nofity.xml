@@ -5,7 +5,7 @@
     android:background="@drawable/bground_dark"
     android:orientation="vertical" >
 
-     <RelativeLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="30dip"
         android:background="@drawable/firewall_bluebar"
@@ -44,17 +44,23 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/flow_list_content"
+        android:id="@+id/adblock_content"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="horizontal" >
+        android:gravity="center"
+        android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/btn_scan_notify"
+        <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/btnselector_main"
-            android:text="开始扫描推送广告" />
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/tv_adblock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="正在扫描通知栏信息。。。" />
     </LinearLayout>
 
 </LinearLayout>
