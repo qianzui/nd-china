@@ -54,8 +54,8 @@ public class FireWallActivity extends Activity {
 	private static final String APP_DETAILS_PACKAGE_NAME = "com.android.settings";
 	private static final String APP_DETAILS_CLASS_NAME = "com.android.settings.InstalledAppDetails";
 	private List<PackageInfo> packageInfo;
-	private AppListAdapter appListAdapter;
-	public MyListView appListView;
+	public static AppListAdapter appListAdapter;
+	public static MyListView appListView;
 	public LinearLayout loading_content;
 	CustomProgressDialog customdialog;
 	public ArrayList<PackageInfo> myAppList;
@@ -64,10 +64,11 @@ public class FireWallActivity extends Activity {
 	ProgressDialog mydialog;
 	ProgressDialog pro;
 	long[] traffic;
-	private ArrayList<Integer> uidList;
+	public static ArrayList<Integer> uidList;
 	long time = 0;
 	Handler handler = new Handler();
 	Handler handler2 = new Handler();
+	public static int banPosition = 0 ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -186,6 +187,11 @@ public class FireWallActivity extends Activity {
 		});
 	}
 
+	public static void setSelectionItem(int position){
+		FireWallActivity.appListView.setSelection(position);
+		FireWallActivity.banPosition = 0 ;
+		Log.i("test","set selection");
+	}
 	public ArrayList<PackageInfo> getList(Context context) {
 		packageInfo = context.getPackageManager().getInstalledPackages(0);
 		final PackageManager pm = getPackageManager();
@@ -385,6 +391,9 @@ public class FireWallActivity extends Activity {
 		} else {
 			SQLHelperFireWall SQLFire = new SQLHelperFireWall();
 			SQLFire.resetMP(mContext);// alset.StartAlarm(mContext);
+		}
+		if(appListView == null){}else{
+			setSelectionItem(banPosition);
 		}
 		// MobclickAgent.onResume(this);
 	}
