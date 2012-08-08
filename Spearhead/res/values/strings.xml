@@ -23,6 +23,9 @@
     <item name="tag_holder" type="id"></item>
     <item name="tag_pkginfo" type="id"></item>
     <item name="tag_view" type="id"></item>
+    <item name="tag_notif_holder" type="id"></item>
+    <item name="tag_notif_pkgInfo" type="id"></item>
+    <item name="tag_notif_id" type="id"></item>
 
     <string name="daySelect">请选择日期</string>
     <string name="warningActionSelect">请选择预警动作</string>
