@@ -57,6 +57,7 @@ public class ViewFlowMainScene extends TabActivity {
 
 	}
 
+
 	/**
 	 * 初始化
 	 */
@@ -91,6 +92,7 @@ public class ViewFlowMainScene extends TabActivity {
 			}
 		});
 	}
+
 
 	/**
 	 * 初始显示第几个页面
