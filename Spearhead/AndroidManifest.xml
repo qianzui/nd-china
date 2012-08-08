@@ -36,7 +36,7 @@
         </activity>
         <activity android:name=".Main3" >
         </activity>
-        <activity android:name="com.hiapk.viewflow.ViewFlowMainScene" >
+        <activity android:name=".FireWallMainScene" >
         </activity>
         <activity
             android:name="com.hiapk.uidtraff.UidMonthTraff"
