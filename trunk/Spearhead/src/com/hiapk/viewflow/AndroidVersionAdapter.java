@@ -45,11 +45,6 @@ public class AndroidVersionAdapter extends BaseAdapter implements TitleProvider 
 	private ActivityGroup group;
 	private Context context;
 
-	private static final int[] ids = { R.drawable.cupcake, R.drawable.donut,
-			R.drawable.eclair, R.drawable.froyo
-	// ,R.drawable.gingerbread, R.drawable.honeycomb, R.drawable.icecream
-	};
-
 	// public AndroidVersionAdapter(ArrayList<View> views) {
 	// // mInflater = (LayoutInflater) context
 	// // .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
