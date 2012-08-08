@@ -4,13 +4,8 @@ import java.util.ArrayList;
 
 import com.hiapk.dataexe.NotificationInfo;
 import com.hiapk.sqlhelper.pub.SQLStatic;
-import com.hiapk.viewflow.ViewFlowMainScene;
 import com.hiapk.alertdialog.CustomDialogOtherBeen;
-import com.hiapk.dataexe.NotificationInfo;
-import com.hiapk.firewall.Block;
-import com.hiapk.firewall.MyListView;
 import com.hiapk.firewall.NotifListAdapter;
-import com.hiapk.sqlhelper.pub.SQLStatic;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
@@ -159,7 +154,7 @@ public class FireWallPushNotification extends Activity {
 						FireWallActivity.banPosition = i + 1;
 					}
 				}
-				ViewFlowMainScene.switScene(0);
+				FireWallMainScene.switScene(0);
 				ban.setBackgroundDrawable(d);
 				mNotifDialog.cancel();
 			}

@@ -8,7 +8,6 @@ import com.hiapk.alertdialog.CustomDialogFAQBeen;
 import com.hiapk.firewall.Block;
 import com.hiapk.prefrencesetting.PrefrenceSetting;
 import com.hiapk.rebootandstartaction.OnExit;
-import com.hiapk.viewflow.ViewFlowMainScene;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -77,7 +76,7 @@ public class SpearheadActivity extends TabActivity {
 				.setContent(new Intent(context, Main.class)));
 		tabHost.addTab(tabHost.newTabSpec(TAB_FIREWALL)
 				.setIndicator(TAB_FIREWALL)
-				.setContent(new Intent(context, ViewFlowMainScene.class)));
+				.setContent(new Intent(context, FireWallMainScene.class)));
 		tabHost.addTab(tabHost.newTabSpec(TAB_WARNING)
 				.setIndicator(TAB_WARNING)
 				.setContent(new Intent(this, Main3.class)));
