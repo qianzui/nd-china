@@ -127,7 +127,7 @@ public class Main extends Activity {
 				.setText(UnitHandler.unitHandler(monthLeft, monthRemainunit));
 		if (mobileSet != 0) {
 			monthSet.setText(UnitHandler.unitHandler(mobileSet, monthSetunit));
-			monthSet.setTextColor(ColorChangeMainBeen.colorBlue);
+			monthSet.setTextColor(ColorChangeMainBeen.colorDarkGray2);
 		} else {
 			monthSet.setText("Œ¥…Ë÷√");
 			monthSet.setTextColor(ColorChangeMainBeen.colorRed);
