@@ -1,10 +1,12 @@
 package com.hiapk.spearhead;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.hiapk.dataexe.NotificationInfo;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.alertdialog.CustomDialogOtherBeen;
+import com.hiapk.firewall.MyCompNotifName;
 import com.hiapk.firewall.NotifListAdapter;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -65,14 +67,15 @@ public class FireWallPushNotification extends Activity {
 		notifListView  = new ListView(context);
 		notifListView.setDivider(context.getResources().getDrawable(R.drawable.divider));
 		notifListView.setDividerHeight(2);
-		
-		Log.i("test", notificationInfos.size() + "");
 		notificationLayout.addView(notifListView,LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT);
 		setAdapter();
 		NotificationInfo.notificationRes = new StringBuilder();
 	}
 
 	public void setAdapter(){
+		MyCompNotifName comp = new MyCompNotifName();
+		comp.init(context);
+		Collections.sort(notificationInfos, comp);
 		NotifListAdapter notifAdapter = new NotifListAdapter(context, notificationInfos);
 		notifListView.setAdapter(notifAdapter);
 		notifListView.setOnItemClickListener(new OnItemClickListener() {
