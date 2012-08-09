@@ -4,7 +4,6 @@ import com.hiapk.prefrencesetting.SharedPrefrenceDataOnUpdate;
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.sqlhelper.uid.SQLHelperUidRecord;
-import com.hiapk.sqlhelper.uid.SQLHelperUidRecordFire;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +15,6 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 	public static final int MODE_PRIVATE = 0;
 	// use database
 	private SQLHelperUidRecord sqlhelperUidRecord;
-	private SQLHelperUidRecordFire sqlhelperUidFire;
 	long time;
 	private String network;
 
@@ -25,7 +23,6 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 		showLog("isUidAlarmRecording=" + SQLStatic.isUidAlarmRecording);
 		if (SQLStatic.isUidAlarmRecording == false) {
 			sqlhelperUidRecord = new SQLHelperUidRecord(context);
-			sqlhelperUidFire = new SQLHelperUidRecordFire(context);
 			SQLStatic.isUidAlarmRecording = true;
 			SQLStatic.initTablemobileAndwifi(context);
 			if (SQLStatic.TableWiFiOrG23 == "") {
@@ -112,7 +109,6 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 
 			sqlDataBase.setTransactionSuccessful();
 		} catch (Exception e) {
-			// TODO: handle exception
 			showLog("批量输入uid网络数据失败" + e);
 		} finally {
 			sqlDataBase.endTransaction();
@@ -126,7 +122,6 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			AsyncTask<Context, Integer, Integer> {
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
 			super.onPreExecute();
 			time = System.currentTimeMillis();
 			// SQLHelperTotal.isSQLUidOnUsed = true;
@@ -140,7 +135,6 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 
 		@Override
 		protected void onPostExecute(Integer result) {
-			// TODO Auto-generated method stub
 			// SQLHelperTotal.isSQLUidOnUsed = false;
 			SQLStatic.setSQLUidOnUsed(false);
 			SQLStatic.isUidAlarmRecording = false;
@@ -151,9 +145,6 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 			}
 			if (result == 1) {
 				showLog("uid数据更新");
-			}
-			if (SQLStatic.TableWiFiOrG23 == "" && network != "") {
-				SQLStatic.TableWiFiOrG23Before = SQLStatic.TableWiFiOrG23;
 			}
 		}
 
