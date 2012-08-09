@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 
 public class PhoneSet extends Activity {
 	Button province;
@@ -30,6 +31,17 @@ public class PhoneSet extends Activity {
 		// MobclickAgent.onError(this);
 		sharedData = new SharedPrefrenceDataRegulate(this);
 		res = context.getResources();
+		
+		final ImageView back = (ImageView)findViewById(R.id.phoneset_back);
+		back.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				onBackPressed();
+				back.setImageResource(R.drawable.back_black);
+			}
+		});
+		
 		next = (Button) findViewById(R.id.next);
 		next.setOnClickListener(new OnClickListener() {
 

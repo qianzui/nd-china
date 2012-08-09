@@ -63,7 +63,7 @@ public class NotifListAdapter extends BaseAdapter{
 		}
 		int uid = pkgInfo.applicationInfo.uid;
 		long traffic[] = TrafficManager.getUidtraff(mContext, uid);
-		holder.traffic.setText("总流量:" + UnitHandler.unitHandlerAccurate(traffic[0]));
+		holder.traffic.setText("总流量: " + UnitHandler.unitHandlerAccurate(traffic[0]));
 		holder.content.setText(notifRecord[2]);
 		convertView.setTag(R.id.tag_notif_pkgInfo,pkgInfo);
 		convertView.setTag(R.id.tag_notif_id,notifRecord[1]);

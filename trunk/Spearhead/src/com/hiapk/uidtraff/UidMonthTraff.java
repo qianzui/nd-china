@@ -66,6 +66,16 @@ public class UidMonthTraff extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.uid_traff);
+		
+		final ImageView back = (ImageView)findViewById(R.id.history_back);
+		back.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				onBackPressed();
+				back.setImageResource(R.drawable.back_black);
+			}
+		});
 		// MobclickAgent.onError(this);
 		// 获取导入数据
 		Bundle bData = this.getIntent().getExtras();
@@ -88,8 +98,7 @@ public class UidMonthTraff extends Activity {
 		tv_chart.setText("(日流量统计)");
 		new AsyncTaskonInitProChart().execute(context);
 		new AsyncTaskonInitPieChart().execute(context);
-
-
+		
 	}
 
 	private class AsyncTaskonInitPieChart extends
