@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +49,15 @@ public class Regulate extends Activity {
 		// smsNum.setText(sharedData.getSmsNum());
 		// smsText.setText(sharedData.getSmsText());
 
+		final ImageView back = (ImageView)findViewById(R.id.regulate_back);
+		back.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				onBackPressed();
+				back.setImageResource(R.drawable.back_black);
+			}
+		});
 		chooseBtn.setOnClickListener(new OnClickListener() {
 
 			@Override

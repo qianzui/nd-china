@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.PreferenceScreen;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 public class PrefrenceSetting extends Activity {
@@ -46,6 +49,15 @@ public class PrefrenceSetting extends Activity {
 		prefBeen.initCheckBoxHelpMessage(layout_help_info);
 		prefBeen.initListBoxFresh(layout_freshplv);
 		prefBeen.initClickBoxDataClear(layout_cleardata);
+		final ImageView back = (ImageView)findViewById(R.id.setting_back);
+		back.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				onBackPressed();
+				back.setImageResource(R.drawable.back_black);
+			}
+		});
 		// this.addPreferencesFromResource(R.xml.setting_pref);
 		// isNotifyOpen = (CheckBoxPreference) findPreference(SYS_PRE_NOTIFY);
 		// isfloatIndicatorOpen = (CheckBoxPreference)
@@ -307,4 +319,11 @@ public class PrefrenceSetting extends Activity {
 	// }
 	// return null;
 	// }
+
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+	}
+	
 }
