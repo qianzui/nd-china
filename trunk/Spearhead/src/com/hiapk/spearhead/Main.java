@@ -8,8 +8,6 @@ import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.progressbar.StackedBarChart;
 import com.hiapk.provider.ColorChangeMainBeen;
-import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
-import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.widget.SetText;
 import android.app.Activity;
 import android.content.Context;
@@ -74,7 +72,6 @@ public class Main extends Activity {
 	 * 初始化界面
 	 */
 	private void initScene() {
-		// TODO Auto-generated method stub
 		// 设置按钮显示文字
 		boolean hasTraffSet = sharedData.isMonthSetHasSet();
 		Button btn_toThree = (Button) findViewById(R.id.setTaoCan);
@@ -90,7 +87,6 @@ public class Main extends Activity {
 	 * 初始化显示数值
 	 */
 	private void initValues() {
-		// TODO Auto-generated method stub
 		// 初始化小部件
 		// 今日已用
 		TextView todayMobil = (TextView) findViewById(R.id.todayRate);
@@ -127,7 +123,7 @@ public class Main extends Activity {
 				.setText(UnitHandler.unitHandler(monthLeft, monthRemainunit));
 		if (mobileSet != 0) {
 			monthSet.setText(UnitHandler.unitHandler(mobileSet, monthSetunit));
-			monthSet.setTextColor(ColorChangeMainBeen.colorDarkGray2);
+			monthSet.setTextColor(ColorChangeMainBeen.colorBlue);
 		} else {
 			monthSet.setText("未设置");
 			monthSet.setTextColor(ColorChangeMainBeen.colorRed);
@@ -138,7 +134,6 @@ public class Main extends Activity {
 
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 		// umeng
 		// MobclickAgent.onPause(this);
@@ -146,7 +141,6 @@ public class Main extends Activity {
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		initScene();
 		// umeng
@@ -175,7 +169,6 @@ public class Main extends Activity {
 			try {
 				Thread.sleep(150);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return null;
@@ -193,7 +186,6 @@ public class Main extends Activity {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
 				if (event.getAction() == KeyEvent.ACTION_DOWN) {
 					btn_refresh
 							.setBackgroundResource(R.drawable.arrow_refresh_icon_on);
@@ -223,7 +215,6 @@ public class Main extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 
 				// specialfortext----test
 				// SQLHelperUidTotal sqlUidTotal = new SQLHelperUidTotal();
@@ -237,7 +228,6 @@ public class Main extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				// gotoThree();
 				CustomDialogMainBeen customDialog = new CustomDialogMainBeen(
 						context);
@@ -271,7 +261,6 @@ public class Main extends Activity {
 	 * 初始化wifi部分的柱状图
 	 */
 	private void onCreateWifiBar() {
-		// TODO Auto-generated method stub
 		LinearLayout layout_mobile = (LinearLayout) findViewById(R.id.linearlayout_wifi);
 		LayoutInflater factory = LayoutInflater.from(context);
 		View loading = factory.inflate(R.layout.loading_layout, null);
@@ -283,7 +272,6 @@ public class Main extends Activity {
 	 * 初始化wifi部分的柱状图
 	 */
 	private void initWifiBar() {
-		// TODO Auto-generated method stub
 
 		LinearLayout layout_mobile = (LinearLayout) findViewById(R.id.linearlayout_wifi);
 		StackedBarChart chartbar = initStackedBarChart(context);
@@ -414,7 +402,6 @@ public class Main extends Activity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
 			return false;
 		}

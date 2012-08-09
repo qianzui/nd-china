@@ -55,6 +55,8 @@ public class SQLStatic {
 	// 记录网络状态
 	public static String TableWiFiOrG23 = "";
 	public static String TableWiFiOrG23Before = "";
+	// 连接变化时使用，用于检测是否正在等待中
+	public static boolean ConnectSleepWaiting = false;
 	/**
 	 * 初始化用pacs
 	 */

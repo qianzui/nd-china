@@ -42,7 +42,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		// TODO Auto-generated method stub
 		showLog("onReceive");
 		if (SQLStatic.isTotalAlarmRecording == true)
 			return;
@@ -163,7 +162,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 					+ mobile_month_data[monthDay + 31]);
 			// showLog("wifitotal=" + wifi_month_data[0] + "");
 		} catch (Exception e) {
-			// TODO: handle exception
 			showLog("Êý¾Ý¼ÇÂ¼Ê§°Ü");
 		} finally {
 			sqlDataBase.endTransaction();
@@ -182,7 +180,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			AsyncTask<Context, Long, Long> {
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
 			super.onPreExecute();
 			// SQLHelperTotal.isSQLTotalOnUsed = true;
 			showLog("network=" + network);
@@ -201,7 +198,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 
 		@Override
 		protected void onPostExecute(Long result) {
-			// TODO Auto-generated method stub
 			SQLStatic.isTotalAlarmRecording = false;
 			SQLHelperCreateClose.closeSQL(sqlDataBase);
 			// SQLHelperTotal.isSQLTotalOnUsed = false;

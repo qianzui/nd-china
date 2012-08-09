@@ -22,7 +22,9 @@ public class UpdateWidget extends BroadcastReceiver {
 				context);
 		boolean isopen = sharedDatawidget.isFloatOpen();
 		if (SQLStatic.getIsInit(context)) {
-			SetText.resetWidgetAndNotify(context);
+			if (SQLStatic.TableWiFiOrG23 != "") {
+				SetText.resetWidgetAndNotify(context);
+			}
 			if (isopen) {
 				context.startService(new Intent("com.hiapk.server"));
 			} else {
