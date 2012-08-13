@@ -83,7 +83,7 @@ public class CustomDialogMainBeen {
 				R.layout.custom_dialog_on_main_text_entry, null);
 		final EditText et_month = (EditText) textEntryView
 				.findViewById(R.id.ev_alert);
-		et_month.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL ); 
+		et_month.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
 		final Spinner spin_unit = (Spinner) textEntryView
 				.findViewById(R.id.sp_unit);
 		ArrayAdapter<CharSequence> adp = ArrayAdapter.createFromResource(
@@ -234,7 +234,7 @@ public class CustomDialogMainBeen {
 				R.layout.custom_dialog_on_main_text_entry, null);
 		final EditText et_month = (EditText) textEntryView
 				.findViewById(R.id.ev_alert);
-		et_month.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL ); 
+		et_month.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
 		final Spinner spin_unit = (Spinner) textEntryView
 				.findViewById(R.id.sp_unit);
 		ArrayAdapter<CharSequence> adp = ArrayAdapter.createFromResource(
@@ -314,7 +314,7 @@ public class CustomDialogMainBeen {
 				if (mobileSet != 0) {
 					monthSet.setText(UnitHandler.unitHandler(mobileSet,
 							monthSetunit));
-					monthSet.setTextColor(ColorChangeMainBeen.colorBlue);
+					monthSet.setTextColor(ColorChangeMainBeen.colorDarkGray2);
 				} else {
 					monthSet.setText("Œ¥…Ë÷√");
 					monthSet.setTextColor(ColorChangeMainBeen.colorRed);
