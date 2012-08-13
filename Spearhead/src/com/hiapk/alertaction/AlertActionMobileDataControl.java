@@ -75,6 +75,7 @@ public class AlertActionMobileDataControl {
 	/*
 	 * 反射機制調用
 	 */
+	@SuppressWarnings("rawtypes")
 	private Object invokeMethod(String methodName, Object[] arg)
 			throws Exception {
 		Class ownerClass = cmmobile.getClass();
@@ -90,6 +91,7 @@ public class AlertActionMobileDataControl {
 	/*
 	 * 反射機制調用
 	 */
+	@SuppressWarnings("rawtypes")
 	private Object invokeBooleanArgMethod(String methodName, boolean value)
 			throws Exception {
 		Class ownerClass = cmmobile.getClass();

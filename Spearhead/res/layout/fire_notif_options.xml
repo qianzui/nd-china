@@ -92,7 +92,7 @@
         android:gravity="center_vertical"
         android:clickable="true"
         android:focusable="true"
-        android:text="清除通知"
+        android:text="应用管理"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:paddingLeft="10dp"

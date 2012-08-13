@@ -10,13 +10,13 @@ import com.hiapk.firewall.MyCompNotifName;
 import com.hiapk.firewall.NotifListAdapter;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -39,8 +39,8 @@ public class FireWallPushNotification extends Activity {
 	ArrayList<String[]> notificationInfos = new ArrayList<String[]>();
 	Context context;
 	boolean callbyonCreate = false;
-    public ListView notifListView;
-	
+	public ListView notifListView;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,30 +63,33 @@ public class FireWallPushNotification extends Activity {
 		LinearLayout notificationLayout = (LinearLayout) findViewById(R.id.adblock_content);
 		notificationLayout.removeAllViews();
 		showLog("**********这里进行显示(用下面那个方法)*************");
-//		notificationLayout.addView();
-		notifListView  = new ListView(context);
-		notifListView.setDivider(context.getResources().getDrawable(R.drawable.divider));
+		// notificationLayout.addView();
+		notifListView = new ListView(context);
+		notifListView.setDivider(context.getResources().getDrawable(
+				R.drawable.divider));
 		notifListView.setDividerHeight(2);
-		notificationLayout.addView(notifListView,LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT);
+		notificationLayout.addView(notifListView, LayoutParams.FILL_PARENT,
+				LayoutParams.FILL_PARENT);
 		setAdapter();
 		NotificationInfo.notificationRes = new StringBuilder();
 	}
 
-	public void setAdapter(){
+	public void setAdapter() {
 		MyCompNotifName comp = new MyCompNotifName();
 		comp.init(context);
 		Collections.sort(notificationInfos, comp);
-		NotifListAdapter notifAdapter = new NotifListAdapter(context, notificationInfos);
+		NotifListAdapter notifAdapter = new NotifListAdapter(context,
+				notificationInfos);
 		notifListView.setAdapter(notifAdapter);
 		notifListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
 				menu(view);
 			}
 		});
 	}
+
 	/**
 	 * 显示读取中
 	 */
@@ -100,10 +103,12 @@ public class FireWallPushNotification extends Activity {
 		text.setText("正在扫描通知栏信息。。。");
 		notificationLayout.addView(loading);
 	}
-	public void menu(View arg1){
+
+	public void menu(View arg1) {
 		final Drawable d = context.getResources().getDrawable(
 				R.drawable.bg_fire_option);
-		final PackageInfo pkgInfo = (PackageInfo)arg1.getTag(R.id.tag_notif_pkgInfo);
+		final PackageInfo pkgInfo = (PackageInfo) arg1
+				.getTag(R.id.tag_notif_pkgInfo);
 		final int uid = pkgInfo.applicationInfo.uid;
 		final String pkgname = pkgInfo.applicationInfo.packageName.toString();
 		final String idString = (String) arg1.getTag(R.id.tag_notif_id);
@@ -111,13 +116,14 @@ public class FireWallPushNotification extends Activity {
 		try {
 			ids = Integer.parseInt(idString);
 		} catch (Exception e) {
-			// TODO: handle exception
 		}
 		final int id = ids;
-		LayoutInflater factory = LayoutInflater.from(FireWallPushNotification.this);
-		final View mNotifDialogView = factory.inflate(R.layout.fire_notif_options, null);
-		final AlertDialog mNotifDialog = new AlertDialog.Builder(
-				getParent()).create();
+		LayoutInflater factory = LayoutInflater
+				.from(FireWallPushNotification.this);
+		final View mNotifDialogView = factory.inflate(
+				R.layout.fire_notif_options, null);
+		final AlertDialog mNotifDialog = new AlertDialog.Builder(getParent())
+				.create();
 		mNotifDialog.show();
 		Window window = mNotifDialog.getWindow();
 		window.setContentView(mNotifDialogView, new LayoutParams(
@@ -135,11 +141,10 @@ public class FireWallPushNotification extends Activity {
 				.findViewById(R.id.button_notif_clear);
 		final TextView back = (TextView) mNotifDialogView
 				.findViewById(R.id.button_notif_back);
-		
+
 		uninstall.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Uri uri = Uri.fromParts("package", pkgname, null);
 				Intent intent = new Intent(Intent.ACTION_DELETE, uri);
 				startActivity(intent);
@@ -147,13 +152,12 @@ public class FireWallPushNotification extends Activity {
 				mNotifDialog.cancel();
 			}
 		});
-		
+
 		ban.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				for (int i = 0; i < FireWallActivity.uidList.size(); i++) {
-					if(FireWallActivity.uidList.get(i) == uid){
+					if (FireWallActivity.uidList.get(i) == uid) {
 						FireWallActivity.banPosition = i + 1;
 					}
 				}
@@ -165,22 +169,27 @@ public class FireWallPushNotification extends Activity {
 		clear.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				NotificationManager nm = (NotificationManager) getSystemService(context.NOTIFICATION_SERVICE);
-				nm.cancel(id);
-				clear.setBackgroundDrawable(d);
+				// NotificationManager nm = (NotificationManager)
+				// getSystemService(context.NOTIFICATION_SERVICE);
+				// nm.cancel(id);
+				// clear.setBackgroundDrawable(d);
+				// mNotifDialog.cancel();
+				// Uri uri = Uri.fromParts("package", pkgname, null);
+				// Intent intent = new Intent(Intent.action_a, uri);
+				// startActivity(intent);
+				ShowAppInfo.showInstalledAppDetails(context, pkgname);
+				uninstall.setBackgroundDrawable(d);
 				mNotifDialog.cancel();
 			}
 		});
 		back.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				back.setBackgroundDrawable(d);
 				mNotifDialog.cancel();
 			}
 		});
-		
+
 	}
 
 	@Override
@@ -287,6 +296,54 @@ public class FireWallPushNotification extends Activity {
 				customDialog.dialogNotificationRootFail();
 			}
 
+		}
+	}
+
+	static class ShowAppInfo {
+		private static final String SCHEME = "package";
+		/**
+		 * 调用系统InstalledAppDetails界面所需的Extra名称(用于Android 2.1及之前版本)
+		 */
+		private static final String APP_PKG_NAME_21 = "com.android.settings.ApplicationPkgName";
+		/**
+		 * 调用系统InstalledAppDetails界面所需的Extra名称(用于Android 2.2)
+		 */
+		private static final String APP_PKG_NAME_22 = "pkg";
+		/**
+		 * InstalledAppDetails所在包名
+		 */
+		private static final String APP_DETAILS_PACKAGE_NAME = "com.android.settings";
+		/**
+		 * InstalledAppDetails类名
+		 */
+		private static final String APP_DETAILS_CLASS_NAME = "com.android.settings.InstalledAppDetails";
+
+		/**
+		 * 调用系统InstalledAppDetails界面显示已安装应用程序的详细信息。 对于Android 2.3（Api Level
+		 * 9）以上，使用SDK提供的接口； 2.3以下，使用非公开的接口（查看InstalledAppDetails源码）。
+		 * 
+		 * @param context
+		 * 
+		 * @param packageName
+		 *            应用程序的包名
+		 */
+		static void showInstalledAppDetails(Context context, String packageName) {
+			Intent intent = new Intent();
+			final int apiLevel = Build.VERSION.SDK_INT;
+			if (apiLevel >= 9) { // 2.3（ApiLevel 9）以上，使用SDK提供的接口
+				intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+				Uri uri = Uri.fromParts(SCHEME, packageName, null);
+				intent.setData(uri);
+			} else { // 2.3以下，使用非公开的接口（查看InstalledAppDetails源码）
+				// 2.2和2.1中，InstalledAppDetails使用的APP_PKG_NAME不同。
+				final String appPkgName = (apiLevel == 8 ? APP_PKG_NAME_22
+						: APP_PKG_NAME_21);
+				intent.setAction(Intent.ACTION_VIEW);
+				intent.setClassName(APP_DETAILS_PACKAGE_NAME,
+						APP_DETAILS_CLASS_NAME);
+				intent.putExtra(appPkgName, packageName);
+			}
+			context.startActivity(intent);
 		}
 	}
 

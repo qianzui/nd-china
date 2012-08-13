@@ -81,6 +81,7 @@ public class CustomException implements UncaughtExceptionHandler {
 	 * 
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private String getMobileInfo() {
 		StringBuffer sb = new StringBuffer();
 		// 通过反射获取系统的硬件信息
