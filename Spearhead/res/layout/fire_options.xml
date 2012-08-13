@@ -4,70 +4,45 @@
     android:layout_height="fill_parent"
     android:background="@drawable/main_item"
     android:orientation="vertical" >
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="2dip"
-        android:layout_marginTop="2dip"
         android:layout_marginRight="2dip"
+        android:layout_marginTop="2dip"
         android:background="@drawable/shape_on_main_custom_dialog"
         android:orientation="vertical" >
+
         <TextView
             style="@style/CustomDialogText.Title"
             android:layout_width="fill_parent"
             android:layout_height="45dip"
             android:gravity="center_vertical"
-            android:text="请选择"
             android:paddingLeft="8dip"
-            android:paddingRight="8dip" />
+            android:paddingRight="8dip"
+            android:text="请选择" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="50dip"
         android:orientation="vertical" >
-     <TextView
-        android:id="@+id/button_manager"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="center_vertical"
-        android:clickable="true"
-        android:focusable="true"
-        android:text="应用管理"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:paddingLeft="10dp"
-        />
-    </LinearLayout>
-     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:layout_weight="0.1"
-        android:orientation="vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
-       <ImageView
+
+        <TextView
+            android:id="@+id/button_manager"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/divider" />
+            android:layout_height="fill_parent"
+            android:background="@drawable/fire_sudialog_btn_bg"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="应用管理"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="50dip"
-        android:orientation="vertical" >
-     <TextView
-        android:id="@+id/button_detail"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="center_vertical"
-        android:clickable="true"
-        android:focusable="true"
-        android:text="流量详情"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:paddingLeft="10dp"
-        />
-    </LinearLayout>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
@@ -76,28 +51,32 @@
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp" >
-       <ImageView
+
+        <ImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/divider" />
     </LinearLayout>
-     <LinearLayout
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="50dip"
         android:orientation="vertical" >
-     <TextView
-        android:id="@+id/button_uninstall"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="center_vertical"
-        android:clickable="true"
-        android:focusable="true"
-        android:text="卸载"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:paddingLeft="10dp"
-        />
+
+        <TextView
+            android:id="@+id/button_detail"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/fire_sudialog_btn_bg"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="流量详情"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
@@ -106,27 +85,64 @@
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp" >
-       <ImageView
+
+        <ImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/divider" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="50dip"
         android:orientation="vertical" >
-     <TextView
-        android:id="@+id/button_back"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="center_vertical"
-        android:clickable="true"
-        android:focusable="true"
-        android:text="返回"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:paddingLeft="10dp"
-        />
+
+        <TextView
+            android:id="@+id/button_uninstall"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/fire_sudialog_btn_bg"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="卸载"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
     </LinearLayout>
-      
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="0.1"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/divider" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/button_back"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/fire_sudialog_btn_bg"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="返回"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
 </LinearLayout>

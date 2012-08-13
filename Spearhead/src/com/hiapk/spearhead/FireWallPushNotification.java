@@ -105,8 +105,6 @@ public class FireWallPushNotification extends Activity {
 	}
 
 	public void menu(View arg1) {
-		final Drawable d = context.getResources().getDrawable(
-				R.drawable.bg_fire_option);
 		final PackageInfo pkgInfo = (PackageInfo) arg1
 				.getTag(R.id.tag_notif_pkgInfo);
 		final int uid = pkgInfo.applicationInfo.uid;
@@ -148,7 +146,6 @@ public class FireWallPushNotification extends Activity {
 				Uri uri = Uri.fromParts("package", pkgname, null);
 				Intent intent = new Intent(Intent.ACTION_DELETE, uri);
 				startActivity(intent);
-				uninstall.setBackgroundDrawable(d);
 				mNotifDialog.cancel();
 			}
 		});
@@ -162,7 +159,6 @@ public class FireWallPushNotification extends Activity {
 					}
 				}
 				FireWallMainScene.switScene(0);
-				ban.setBackgroundDrawable(d);
 				mNotifDialog.cancel();
 			}
 		});
@@ -178,14 +174,12 @@ public class FireWallPushNotification extends Activity {
 				// Intent intent = new Intent(Intent.action_a, uri);
 				// startActivity(intent);
 				ShowAppInfo.showInstalledAppDetails(context, pkgname);
-				uninstall.setBackgroundDrawable(d);
 				mNotifDialog.cancel();
 			}
 		});
 		back.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				back.setBackgroundDrawable(d);
 				mNotifDialog.cancel();
 			}
 		});
