@@ -37,7 +37,7 @@ public class Onsysreboot {
 			// showLog("isFloatOpen"+isFloatOpen);
 			if (TrafficManager.mobile_month_use == 1) {
 				if (SQLStatic.TableWiFiOrG23 == "") {
-					SQLHelperDataexe.initShowData(context);
+					SQLHelperDataexe.initShowDataOnBroadCast(context);
 				} else
 					new AsyncTaskonBoot().execute(context);
 			} else {

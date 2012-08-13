@@ -213,7 +213,7 @@ public class SQLStatic {
 				.getInstalledPackages(0);
 		int[] uidstp = new int[packages.size()];
 		String[] packagenamestp = new String[packages.size()];
-		String pacstemp = new String();
+		StringBuilder pacstemp = new StringBuilder();
 		for (int i = 0; i < packages.size(); i++) {
 			PackageInfo packageinfo = packages.get(i);
 			String fliter = Block.filter;
@@ -222,7 +222,7 @@ public class SQLStatic {
 			if (!(PackageManager.PERMISSION_GRANTED != pkgmanager
 					.checkPermission(Manifest.permission.INTERNET, pacname))) {
 				if (!fliter.contains(pacname)) {
-					pacstemp += pacname;
+					pacstemp.append(pacname);
 					uidstp[j] = uid;
 					packagenamestp[j] = pacname;
 					// showLog("进行显示的uid=" + uid);
@@ -239,7 +239,7 @@ public class SQLStatic {
 			SQLStatic.packagenames[i] = packagenamestp[i];
 		}
 		if (packagename_ALL == null) {
-			packagename_ALL = pacstemp;
+			packagename_ALL = pacstemp.toString();
 		}
 		isGettinguidsAndpacname = false;
 	}

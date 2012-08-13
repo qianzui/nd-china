@@ -89,40 +89,84 @@ public class SQLHelperDataexe {
 		return totaltraff;
 	}
 
-	public static void initShowData(Context context) {
+	/**
+	 * 用于在断网时显示流量数据包含操作isTotalAlarmRecording=false
+	 * 
+	 * @param context
+	 */
+	public static void initShowDataOnBroadCast(Context context) {
 		if (isiniting == false) {
 			isiniting = true;
-			new AsyncTaskonResume().execute(context);
+			new AsyncTaskonOnBroadCast().execute(context);
 		}
 	}
 
-	private static class AsyncTaskonResume extends
+	/**
+	 * 用于在断网时显示流量数据splash
+	 * 
+	 * @param context
+	 */
+	public static void initShowDataOnSplash(Context context) {
+		if (isiniting == false) {
+			isiniting = true;
+			new AsyncTaskonOnSplash().execute(context);
+		}
+	}
+
+	private static class AsyncTaskonOnBroadCast extends
 			AsyncTask<Context, Integer, Integer> {
+		Context context;
 
 		@Override
 		protected Integer doInBackground(Context... params) {
+			context = params[0];
 			while (SQLStatic.setSQLTotalOnUsed(true)) {
 				try {
-					Thread.sleep(100);
+					Thread.sleep(80);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
-
 			initDataWithnoNetwork(params[0]);
-			SQLStatic.setSQLTotalOnUsed(false);
-			SetText.resetWidgetAndNotify(params[0]);
 			return 3;
 		}
 
 		@Override
 		protected void onPostExecute(Integer result) {
+			SQLStatic.setSQLTotalOnUsed(false);
+			SQLStatic.isTotalAlarmRecording = false;
+			SetText.resetWidgetAndNotify(context);
+			isiniting = false;
+		}
+	}
+
+	private static class AsyncTaskonOnSplash extends
+			AsyncTask<Context, Integer, Integer> {
+		Context context;
+
+		@Override
+		protected Integer doInBackground(Context... params) {
+			context = params[0];
+			while (SQLStatic.setSQLTotalOnUsed(true)) {
+				try {
+					Thread.sleep(80);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			initDataWithnoNetwork(params[0]);
+			return 3;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			SQLStatic.setSQLTotalOnUsed(false);
+			SetText.resetWidgetAndNotify(context);
 			isiniting = false;
 		}
 	}
 
 	private static void initDataWithnoNetwork(Context context) {
-		SQLStatic.initTablemobileAndwifi(context);
 		network = "nonetwork";
 		long mobile_month_use_afterSet = 0;
 		long[] wifi_month_data = new long[64];
@@ -175,7 +219,6 @@ public class SQLHelperDataexe {
 			sqlDataBase.endTransaction();
 		}
 		SQLHelperCreateClose.closeSQL(sqlDataBase);
-		SQLStatic.isTotalAlarmRecording = false;
 	}
 
 	/**
