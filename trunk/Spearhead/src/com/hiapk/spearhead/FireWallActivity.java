@@ -242,8 +242,6 @@ public class FireWallActivity extends Activity {
 		final long traffic[] = TrafficManager.getUidtraff(mContext, uid);
 		final String trafficup  = UnitHandler.unitHandlerAccurate(traffic[1]);
 		final String trafficdown = UnitHandler.unitHandlerAccurate(traffic[2]);
-		final Drawable d = mContext.getResources().getDrawable(
-				R.drawable.bg_fire_option);
 		LayoutInflater factory = LayoutInflater.from(mContext);
 		final View mDialogView = factory.inflate(R.layout.fire_options, null);
 		final AlertDialog mDialog = new AlertDialog.Builder(
@@ -271,7 +269,6 @@ public class FireWallActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				showInstalledAppDetails(FireWallActivity.this, pkname);
-				manager.setBackgroundDrawable(d);
 				mDialog.cancel();
 
 			}
@@ -325,7 +322,6 @@ public class FireWallActivity extends Activity {
 						detailDialog.cancel();
 					}
 				});
-				detail.setBackgroundDrawable(d);
 				mDialog.cancel();
 			}
 		});
@@ -338,7 +334,6 @@ public class FireWallActivity extends Activity {
 				Uri uri = Uri.fromParts("package", pkname, null);
 				Intent intent = new Intent(Intent.ACTION_DELETE, uri);
 				startActivity(intent);
-				uninstalled.setBackgroundDrawable(d);
 				mDialog.cancel();
 			}
 
@@ -349,7 +344,6 @@ public class FireWallActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				back.setBackgroundDrawable(d);
 				mDialog.cancel();
 			}
 

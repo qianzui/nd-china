@@ -8,9 +8,11 @@ import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.progressbar.StackedBarChart;
 import com.hiapk.provider.ColorChangeMainBeen;
+import com.hiapk.spearhead.R.color;
 import com.hiapk.widget.SetText;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.Time;
@@ -123,7 +125,7 @@ public class Main extends Activity {
 				.setText(UnitHandler.unitHandler(monthLeft, monthRemainunit));
 		if (mobileSet != 0) {
 			monthSet.setText(UnitHandler.unitHandler(mobileSet, monthSetunit));
-			monthSet.setTextColor(ColorChangeMainBeen.colorBlue);
+			monthSet.setTextColor(ColorChangeMainBeen.colorDarkGray2);
 		} else {
 			monthSet.setText("Œ¥…Ë÷√");
 			monthSet.setTextColor(ColorChangeMainBeen.colorRed);
