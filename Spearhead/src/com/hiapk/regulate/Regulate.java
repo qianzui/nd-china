@@ -49,8 +49,8 @@ public class Regulate extends Activity {
 		// smsNum.setText(sharedData.getSmsNum());
 		// smsText.setText(sharedData.getSmsText());
 
-		final ImageView back = (ImageView)findViewById(R.id.regulate_back);
-		back.setOnClickListener(new OnClickListener(){
+		final ImageView back = (ImageView) findViewById(R.id.regulate_back);
+		back.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -75,6 +75,7 @@ public class Regulate extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				sms();
+				Regulate.this.finish();
 				// smsSend();
 
 			}

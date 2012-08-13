@@ -18,29 +18,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:text="查找推送广告的应用"
+            android:text="  查找推送广告的应用"
             android:textColor="@color/whitesmoke"
             android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/wifi_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="WIFI  "
-            android:textColor="@color/whitesmoke"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/e_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/wifi_icon"
-            android:text="2G/3G "
-            android:textColor="@color/whitesmoke"
-            android:textSize="14sp" />
     </RelativeLayout>
 
     <LinearLayout

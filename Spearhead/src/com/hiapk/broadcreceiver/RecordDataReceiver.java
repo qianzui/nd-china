@@ -71,9 +71,8 @@ public class RecordDataReceiver extends BroadcastReceiver {
 				}
 			} else {
 				if (TrafficManager.mobile_month_use == 1) {
-					SQLHelperDataexe.initShowData(context);
+					SQLHelperDataexe.initShowDataOnBroadCast(context);
 				}
-				SQLStatic.isTotalAlarmRecording = false;
 			}
 		} else {
 			// sqlhelper.initSQL(context);
