@@ -32,11 +32,11 @@ public class AlarmSet {
 		setwidgetdefaulttime(context);
 		int totaltime = totalrefreshtime < widgetrefreshtime ? totalrefreshtime
 				: widgetrefreshtime;
-		int uidtime = uidrefreshtime
+		int uidtime = uidrefreshtime;
 		// < widgetrefreshtime ? uidrefreshtime
 		// : widgetrefreshtime
-		;
-		// showLog(totaltime + "");
+		showLog("isTotalAlarmRecording=" + SQLStatic.isTotalAlarmRecording
+				+ "isUidAlarmRecording" + SQLStatic.isUidAlarmRecording);
 		// showLog("StartAlarm="+totaltime+"");
 		if (SQLStatic.isTotalAlarmRecording != true) {
 			TotalAlarmStart(context, totaltime);

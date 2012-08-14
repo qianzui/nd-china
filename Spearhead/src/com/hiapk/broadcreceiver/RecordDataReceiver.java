@@ -42,7 +42,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		showLog("onReceive");
+		showLog("isTotalAlarmRecording=" + SQLStatic.isTotalAlarmRecording);
 		if (SQLStatic.isTotalAlarmRecording == true)
 			return;
 		SQLStatic.isTotalAlarmRecording = true;
@@ -72,6 +72,8 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			} else {
 				if (TrafficManager.mobile_month_use == 1) {
 					SQLHelperDataexe.initShowDataOnBroadCast(context);
+				} else {
+					SQLStatic.isTotalAlarmRecording = false;
 				}
 			}
 		} else {

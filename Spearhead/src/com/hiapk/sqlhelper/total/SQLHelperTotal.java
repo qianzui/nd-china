@@ -434,19 +434,17 @@ public class SQLHelperTotal {
 			SQLiteDatabase sqlDataBase, boolean daily, String network) {
 		// TODO Auto-generated method stub
 		// 自动进行数据记录---不记录上传下载为0的数据
-		if (!network.equals("")) {
-			// SQLiteDatabase sqlDataBase = creatSQLTotal(context);
-			initTime();
-			long[] totalTraff = SQLHelperDataexe.initTotalData("mobile");
-			// showLog("upload=" + totalTraff[0] + "download=" + totalTraff[1]);
-			statsSQLtotal(context, sqlDataBase, "mobile", date, time,
-					totalTraff[0], totalTraff[1], 2, null, daily);
-			// closeSQL(sqlDataBase);
-			long[] totalTraff2 = SQLHelperDataexe.initTotalData("wifi");
-			// showLog("upload=" + totalTraff[0] + "download=" + totalTraff[1]);
-			statsSQLtotal(context, sqlDataBase, "wifi", date, time,
-					totalTraff2[0], totalTraff2[1], 2, null, daily);
-		}
+		// SQLiteDatabase sqlDataBase = creatSQLTotal(context);
+		initTime();
+		long[] totalTraff = SQLHelperDataexe.initTotalData("mobile");
+		// showLog("upload=" + totalTraff[0] + "download=" + totalTraff[1]);
+		statsSQLtotal(context, sqlDataBase, "mobile", date, time,
+				totalTraff[0], totalTraff[1], 2, null, daily);
+		// closeSQL(sqlDataBase);
+		long[] totalTraff2 = SQLHelperDataexe.initTotalData("wifi");
+		// showLog("upload=" + totalTraff[0] + "download=" + totalTraff[1]);
+		statsSQLtotal(context, sqlDataBase, "wifi", date, time, totalTraff2[0],
+				totalTraff2[1], 2, null, daily);
 	}
 
 	/**
@@ -482,8 +480,6 @@ public class SQLHelperTotal {
 			int month) {
 		return SelectData(sqlDataBase, year, month, TableMobile);
 	}
-
-
 
 	/**
 	 * 进行数据流量历史流量查询
