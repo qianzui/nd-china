@@ -65,40 +65,24 @@
 		        android:focusable = "false"
 		        android:layout_gravity="center_vertical" 
 		        > 
-		                <LinearLayout
-		                  android:layout_weight="1" 
-		                  android:layout_width="0dip" 
-		                  android:layout_height="fill_parent"
-		                  android:orientation="horizontal"
-		                  android:focusable = "false"
-		                  android:layout_gravity="center" 
-		                  > 
                          <CheckBox 
                              android:id="@+id/e_toggle"
-                             android:layout_width="45dip"
+                             android:layout_width="0dip"
                              android:layout_height="45dip"
+                             android:layout_weight="1"
                              android:layout_gravity="center" 
                              android:button="@null"
                              android:background="@drawable/btn_check"
                              />
-                         </LinearLayout>
-                         <LinearLayout
-		                  android:layout_weight="1" 
-		                  android:layout_width="0dip" 
-		                  android:layout_height="fill_parent"
-		                  android:orientation="horizontal"
-		                  android:focusable = "false"
-		                  android:layout_gravity="center" 
-		                  > 
                           <CheckBox 
                              android:id="@+id/wifi_toggle"
-                             android:layout_width="45dip"
+                             android:layout_width="0dip"
                              android:layout_height="45dip"
+                              android:layout_weight="1"
                              android:layout_gravity="center" 
                              android:button="@null"
                              android:background="@drawable/btn_check"
                              /> 
-                          </LinearLayout>       
              </LinearLayout>
           </LinearLayout>    
      </LinearLayout>
