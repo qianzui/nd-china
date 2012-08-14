@@ -15,6 +15,10 @@ public class NotificationInfo {
 	private final static String SCRIPT_FILE = "spearedhead.sh";
 	public static StringBuilder notificationRes = new StringBuilder();
 	public static boolean callbyonResume = false;
+	/**
+	 * 每次跳转先跳到防火墙
+	 */
+	public static boolean callbyonFirstBacktoFire = false;
 
 	/**
 	 * 获取当前通知栏的所有通知列表
@@ -25,7 +29,7 @@ public class NotificationInfo {
 	 *         每个String[0]为通知包名，String[1]为通知id，String[2]为通知的文本信息；
 	 */
 	public static ArrayList<String[]> getNotificationApp(StringBuilder res) {
-		showlog("length="+res.length()+"");
+		showlog("length=" + res.length() + "");
 		ArrayList<String[]> apps = new ArrayList<String[]>();
 		int startPKG = 0;
 		int endPKG = res.indexOf("Notification List:");
@@ -130,13 +134,13 @@ public class NotificationInfo {
 				int read = 0;
 				while ((read = r.read(buf)) != -1) {
 					if (notificationRes != null)
-					notificationRes.append(buf, 0, read);
+						notificationRes.append(buf, 0, read);
 				}
 				r = new InputStreamReader(exec.getErrorStream());
 				read = 0;
 				while ((read = r.read(buf)) != -1) {
 					if (notificationRes != null)
-					notificationRes.append(buf, 0, read);
+						notificationRes.append(buf, 0, read);
 				}
 			} catch (InterruptedException ex) {
 				if (notificationRes != null) {

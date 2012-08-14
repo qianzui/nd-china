@@ -195,6 +195,9 @@ public class FireWallPushNotification extends Activity {
 			return;
 		if (NotificationInfo.callbyonResume)
 			return;
+		if (NotificationInfo.callbyonFirstBacktoFire)
+			return;
+
 		showLoadingView();
 		NotificationInfo.callbyonResume = true;
 		if (NotificationInfo.notificationRes.length() == 0) {

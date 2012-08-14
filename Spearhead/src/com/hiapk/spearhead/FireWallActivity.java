@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.dataexe.NotificationInfo;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.firewall.AppListAdapter;
@@ -386,10 +387,12 @@ public class FireWallActivity extends Activity {
 			SQLHelperFireWall SQLFire = new SQLHelperFireWall();
 			SQLFire.resetMP(mContext);// alset.StartAlarm(mContext);
 		}
+		//每次点击防火墙，跳转到第一个页面
+		NotificationInfo.callbyonFirstBacktoFire=false;
 		if(appListView == null){}else{
 			setSelectionItem(banPosition);
 		}
-		// MobclickAgent.onResume(this);
+//		 MobclickAgent.onResume(this);
 	}
 
 	protected void onPause() {
