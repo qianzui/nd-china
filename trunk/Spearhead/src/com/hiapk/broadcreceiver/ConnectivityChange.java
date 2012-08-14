@@ -114,6 +114,8 @@ public class ConnectivityChange extends BroadcastReceiver {
 			if (SQLStatic.TableWiFiOrG23 == "") {
 				SQLStatic.TableWiFiOrG23Before = "";
 				alset.StopAlarm(context);
+				SQLStatic.isTotalAlarmRecording = false;
+				SQLStatic.isUidAlarmRecording = false;
 			}
 			SQLStatic.ConnectSleepWaiting = false;
 		}

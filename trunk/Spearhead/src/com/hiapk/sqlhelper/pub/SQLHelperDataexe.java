@@ -53,7 +53,7 @@ public class SQLHelperDataexe {
 	 * 
 	 * @param table
 	 *            wifi或者mobile，若为空则无数据
-	 * @return traff[0]为uid的上传流量，traff[1]为uid的下载流量
+	 * @return traff[0]为的上传流量，traff[1]为的下载流量
 	 */
 	public static long[] initTotalData(String table) {
 		long upload = 0, download = 0;
