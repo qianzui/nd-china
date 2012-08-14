@@ -84,12 +84,13 @@ public class PrefrenceBeen {
 				boolean isopen = sharedDatawidget.isNotifyOpen();
 				AlarmSet alset = new AlarmSet();
 				if (isopen) {
-					alset.StopWidgetAlarm(context);
 					sharedDatawidget.setNotifyOpen(false);
+					alset.StopWidgetAlarm(context);
 					checkBoxRightDrawChange(showText, isopen);
 				} else {
-					alset.StartWidgetAlarm(context);
 					sharedDatawidget.setNotifyOpen(true);
+					SetText.resetWidgetAndNotify(context);
+					alset.StartWidgetAlarm(context);
 					checkBoxRightDrawChange(showText, isopen);
 				}
 			}

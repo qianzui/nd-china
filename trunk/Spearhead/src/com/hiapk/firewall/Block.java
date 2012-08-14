@@ -67,8 +67,8 @@ public class Block {
 	// Preferences
 	private static final String PREFS_NAME = "DroidWallPrefs";
 	public static boolean isChanged = false;
-	public static HashMap<Integer,String> appnamemap;
-	public static HashMap<Integer,PackageInfo> appList;
+	public static HashMap<Integer, String> appnamemap = new HashMap<Integer, String>();
+	public static HashMap<Integer, PackageInfo> appList = new HashMap<Integer, PackageInfo>();
 	public static ArrayList<PackageInfo> myList;
 
 	public static String filter = "android.media.dlnaservicecom.android.cameracom.android.htmlviewer.com.android.music.com.android.providersuserdictionary.com.android.quicksearchbox.com.android.stk.updater.com.google.android.location.com.google.android.street.com.google.android.talk.com.meizu.MzAutoInstaller.com.meizu.account.com.meizu.backupandrestore.com.meizu.cloud.com.meizu.filemanager.com.meizu.flyme.service.find.com.meizu.input.com.meizu.mzsimcontacts.com.meizu.mzsyncservice.com.meizu.notepaper.com.meizu.recent.app"
@@ -303,8 +303,7 @@ public class Block {
 			if (showErrors) {
 
 			}
-			CustomDialogOtherBeen customdialog = new CustomDialogOtherBeen(
-					ctx);
+			CustomDialogOtherBeen customdialog = new CustomDialogOtherBeen(ctx);
 			customdialog.dialogOpenFireWallFail();
 			// alert(ctx, "Ó¦ÓÃ·À»ðÇ½³ö´í" + e);
 		}
