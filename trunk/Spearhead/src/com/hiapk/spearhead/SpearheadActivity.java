@@ -5,6 +5,7 @@ import java.util.TimerTask;
 
 import com.hiapk.alertaction.AlertActionNotify;
 import com.hiapk.alertdialog.CustomDialogFAQBeen;
+import com.hiapk.dataexe.NotificationInfo;
 import com.hiapk.firewall.Block;
 import com.hiapk.prefrencesetting.PrefrenceSetting;
 import com.hiapk.rebootandstartaction.OnExit;
@@ -90,7 +91,9 @@ public class SpearheadActivity extends TabActivity {
 					break;
 				case R.id.radio_button1:
 					showHelp();
+					NotificationInfo.callbyonFirstBacktoFire=true;
 					tabHost.setCurrentTabByTag(TAB_FIREWALL);
+					FireWallMainScene.switScene(0);
 					break;
 				case R.id.radio_button2:
 					hideHelp();

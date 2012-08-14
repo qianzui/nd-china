@@ -48,9 +48,10 @@ public class CustomDialogOtherBeen {
 		btn_ok.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				SharedPrefrenceDataOnUpdate sharedUP = new SharedPrefrenceDataOnUpdate(
-//						context);
-//				sharedUP.setAdbRootAllow(true);
+				// SharedPrefrenceDataOnUpdate sharedUP = new
+				// SharedPrefrenceDataOnUpdate(
+				// context);
+				// sharedUP.setAdbRootAllow(true);
 				// NotificationInfo.startRootcomand(context);
 				monthSetAlert.dismiss();
 			}
@@ -275,6 +276,7 @@ public class CustomDialogOtherBeen {
 				packagenames[i] = packageinfo.packageName;
 				// Log.d("pac", packagenames[i]);
 				uids[i] = packageinfo.applicationInfo.uid;
+				TrafficManager.clearUidtraff(context, uids[i]);
 			}
 			SQLHelperInitSQL sqlhelperInit = new SQLHelperInitSQL(context);
 			sqlhelperInit.initSQL(params[0], uids, packagenames);

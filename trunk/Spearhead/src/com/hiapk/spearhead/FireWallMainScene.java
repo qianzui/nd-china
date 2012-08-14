@@ -104,7 +104,6 @@ public class FireWallMainScene extends TabActivity {
 		}
 
 	}
-
 	// @Override
 	// public boolean onTouchEvent(MotionEvent ev) {
 	//
