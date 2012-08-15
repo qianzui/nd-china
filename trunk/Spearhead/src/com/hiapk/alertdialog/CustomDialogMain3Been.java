@@ -55,7 +55,8 @@ public class CustomDialogMain3Been {
 				R.layout.custom_dialog_on_main_text_entry, null);
 		final EditText et_month = (EditText) textEntryView
 				.findViewById(R.id.ev_alert);
-		et_month.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL ); 
+		et_month.setInputType(InputType.TYPE_CLASS_NUMBER
+				| InputType.TYPE_NUMBER_FLAG_DECIMAL);
 		final Spinner spin_unit = (Spinner) textEntryView
 				.findViewById(R.id.sp_unit);
 		ArrayAdapter<CharSequence> adp = ArrayAdapter.createFromResource(
@@ -178,7 +179,8 @@ public class CustomDialogMain3Been {
 				.findViewById(R.id.tv_show_Traff);
 		final EditText et_month_Traff = (EditText) textEntryView
 				.findViewById(R.id.et_show_Traff);
-		et_month_Traff.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+		et_month_Traff.setInputType(InputType.TYPE_CLASS_NUMBER
+				| InputType.TYPE_NUMBER_FLAG_DECIMAL);
 		final TextView tv_percent = (TextView) textEntryView
 				.findViewById(R.id.tv_percent);
 		tv_month_Traff.setTextSize(20);
@@ -354,7 +356,8 @@ public class CustomDialogMain3Been {
 				.findViewById(R.id.tv_show_Traff);
 		final EditText et_month_Traff = (EditText) textEntryView
 				.findViewById(R.id.et_show_Traff);
-		et_month_Traff.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+		et_month_Traff.setInputType(InputType.TYPE_CLASS_NUMBER
+				| InputType.TYPE_NUMBER_FLAG_DECIMAL);
 		final TextView tv_percent = (TextView) textEntryView
 				.findViewById(R.id.tv_percent);
 		tv_month_Traff.setTextSize(20);
