@@ -69,7 +69,7 @@ public class FireWallActivity extends Activity {
 	long time = 0;
 	Handler handler = new Handler();
 	Handler handler2 = new Handler();
-	public static int banPosition = 0 ;
+	public static int banPosition = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +77,7 @@ public class FireWallActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		// MobclickAgent.onError(this);
 		setContentView(R.layout.main2);
-		loading_content = (LinearLayout)findViewById(R.id.loading_content);
+		loading_content = (LinearLayout) findViewById(R.id.loading_content);
 		loading_content.setVisibility(View.VISIBLE);
 		// 为了退出。
 		Mapplication.getInstance().addActivity(this);
@@ -112,7 +112,7 @@ public class FireWallActivity extends Activity {
 			@Override
 			public void run() {
 				getList(mContext);
-					if (Block.appList.size() == Block.appnamemap.size()) {
+				if (Block.appList.size() == Block.appnamemap.size()) {
 					int i = 0;
 					do {
 						try {
@@ -135,9 +135,9 @@ public class FireWallActivity extends Activity {
 				uidList = comp(Block.appList);
 				handler2.sendEmptyMessage(0);
 			}
-		}).start(); 
-	  }
-		
+		}).start();
+	}
+
 	public void showHelp(final Context mContext) {
 		Drawable d = mContext.getResources().getDrawable(R.drawable.fire_help);
 		SpearheadActivity.firehelp.setBackgroundDrawable(d);
@@ -154,9 +154,9 @@ public class FireWallActivity extends Activity {
 
 	public void setAdapter() {
 		appListView = (MyListView) findViewById(R.id.app_list);
-		Context context=FireWallActivity.this.getParent();
-		appListAdapter = new AppListAdapter(context, myAppList,
-				appListView,Block.appnamemap, Block.appList, uidList);
+		Context context = FireWallActivity.this.getParent();
+		appListAdapter = new AppListAdapter(context, myAppList, appListView,
+				Block.appnamemap, Block.appList, uidList);
 		appListView.setAdapter(appListAdapter);
 		appListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -188,11 +188,12 @@ public class FireWallActivity extends Activity {
 		});
 	}
 
-	public static void setSelectionItem(int position){
+	public static void setSelectionItem(int position) {
 		FireWallActivity.appListView.setSelection(position);
-		FireWallActivity.banPosition = 0 ;
-		Log.i("test","set selection");
+		FireWallActivity.banPosition = -1;
+		Log.i("test", "set selection");
 	}
+
 	public ArrayList<PackageInfo> getList(Context context) {
 		packageInfo = context.getPackageManager().getInstalledPackages(0);
 		final PackageManager pm = getPackageManager();
@@ -200,7 +201,7 @@ public class FireWallActivity extends Activity {
 		Block.appList = new HashMap<Integer, PackageInfo>();
 		for (int i = 0; i < packageInfo.size(); i++) {
 			final PackageInfo pkgInfo = packageInfo.get(i);
-			
+
 			final int uid = pkgInfo.applicationInfo.uid;
 			final String pkgName = pkgInfo.applicationInfo.packageName;
 			if (PackageManager.PERMISSION_GRANTED == pm.checkPermission(
@@ -227,7 +228,7 @@ public class FireWallActivity extends Activity {
 		MyCompName mn = new MyCompName();
 		mn.init(Block.appnamemap);
 		Collections.sort(uidList, mn);
-		
+
 		MyCompTraffic mt = new MyCompTraffic();
 		mt.init(mContext);
 		Collections.sort(uidList, mt);
@@ -241,12 +242,12 @@ public class FireWallActivity extends Activity {
 		final String appname = pkgInfo.applicationInfo.loadLabel(
 				getPackageManager()).toString();
 		final long traffic[] = TrafficManager.getUidtraff(mContext, uid);
-		final String trafficup  = UnitHandler.unitHandlerAccurate(traffic[1]);
+		final String trafficup = UnitHandler.unitHandlerAccurate(traffic[1]);
 		final String trafficdown = UnitHandler.unitHandlerAccurate(traffic[2]);
 		LayoutInflater factory = LayoutInflater.from(mContext);
 		final View mDialogView = factory.inflate(R.layout.fire_options, null);
-		final AlertDialog mDialog = new AlertDialog.Builder(
-				this.getParent()).create();
+		final AlertDialog mDialog = new AlertDialog.Builder(this.getParent())
+				.create();
 		mDialog.show();
 		Window window = mDialog.getWindow();
 		window.setContentView(mDialogView, new LayoutParams(
@@ -387,12 +388,16 @@ public class FireWallActivity extends Activity {
 			SQLHelperFireWall SQLFire = new SQLHelperFireWall();
 			SQLFire.resetMP(mContext);// alset.StartAlarm(mContext);
 		}
-		//每次点击防火墙，跳转到第一个页面
-		NotificationInfo.callbyonFirstBacktoFire=false;
-		if(appListView == null){}else{
-			setSelectionItem(banPosition);
+		// 每次点击防火墙，跳转到第一个页面
+		NotificationInfo.callbyonFirstBacktoFire = false;
+		if (appListView == null) {
+		} else {
+			if (FireWallActivity.banPosition != -1) {
+				setSelectionItem(banPosition);
+			}
+
 		}
-//		 MobclickAgent.onResume(this);
+		// MobclickAgent.onResume(this);
 	}
 
 	protected void onPause() {
