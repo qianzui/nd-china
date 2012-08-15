@@ -33,25 +33,25 @@ public class CustomException implements UncaughtExceptionHandler {
 
 	@Override
 	public void uncaughtException(Thread thread, Throwable exception) {
-		// TODO Auto-generated method stub
 		if (defaultExceptionHandler != null) {
 			// 1.获取当前程序的版本号. 版本的id
 			String versioninfo = getVersionInfo();
 
 			// 2.获取手机的硬件信息.
-//			String mobileInfo = getMobileInfo();
+			// String mobileInfo = getMobileInfo();
 			// 3.把错误的堆栈信息 获取出来
 			String errorinfo = getErrorInfo(exception);
-//			Log.e("versioninfo", versioninfo);
-//			Log.e("mobileInfo", mobileInfo);
-//			Log.e("errorinfo", errorinfo);
+			// Log.e("versioninfo", versioninfo);
+			// Log.e("mobileInfo", mobileInfo);
+			// Log.e("errorinfo", errorinfo);
 			WriteLog writelog = new WriteLog(context);
 			Calendar calendar = Calendar.getInstance();
 			Date expiredDate = calendar.getTime();
 			expiredDate.toLocaleString();
-			writelog.writeLog(expiredDate.toString()+"\n");
-			writelog.writeLog(versioninfo+"\n");
+			writelog.writeLog(expiredDate.toString() + "\n");
+			writelog.writeLog(versioninfo + "\n");
 			writelog.writeLog(errorinfo);
+			writelog.writeLog("\n" + "\n");
 			// System.out.println(errorinfo);
 			// Log.e("tag",
 			// "exception >>>>>>>"+exception.getLocalizedMessage());
