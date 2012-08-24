@@ -338,8 +338,8 @@ public class SQLHelperUidRecord {
 			SQLHelperUidSelectFail selectfail = new SQLHelperUidSelectFail();
 			selectfail.selectfails(mySQL, "uid" + uidnumber, uidnumber);
 		}
-		long oldup0 = -100;
-		long olddown0 = -100;
+		long oldup0 = -50;
+		long olddown0 = -50;
 		if (cur != null) {
 			try {
 				int minup = cur.getColumnIndex("upload");
@@ -360,8 +360,11 @@ public class SQLHelperUidRecord {
 		if (cur != null) {
 			cur.close();
 		}
-		if (oldup0 != -100) {
-
+		if (oldup0 != -100 && olddown0 != -100) {
+			if (oldup0 < 0)
+				oldup0 = 0;
+			if (olddown0 < 0)
+				olddown0 = 0;
 			// TrafficManager
 			// .setUidtraffinit(context, uidnumber, oldup0, olddown0);
 			// 初始化写入数据（wifi以及g23）

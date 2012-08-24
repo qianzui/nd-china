@@ -216,8 +216,8 @@ public class SQLHelperTotal {
 			// TODO: handle exception
 			showLog(string);
 		}
-		long oldup0 = -100;
-		long olddown0 = -100;
+		long oldup0 = -50;
+		long olddown0 = -50;
 
 		if (cur != null) {
 			try {
@@ -241,6 +241,10 @@ public class SQLHelperTotal {
 			cur.close();
 		}
 		if (oldup0 != -100) {
+			if (oldup0 < 0)
+				oldup0 = 0;
+			if (olddown0 < 0)
+				olddown0 = 0;
 			cur = null;
 			// 初始化写入数据（wifi以及mobile）
 			// 如果之前数据大于新的数据，则重新计数
