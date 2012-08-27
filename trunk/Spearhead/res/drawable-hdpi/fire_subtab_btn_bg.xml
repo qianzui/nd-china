@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<selector
-  xmlns:android="http://schemas.android.com/apk/res/android">
-  <item android:state_checked="false" android:state_enabled="true" android:state_focused="false" android:state_pressed="false" android:drawable="@color/whitesmoke"/>
-    <item android:state_focused="true" android:state_enabled="true" android:state_pressed="false" android:drawable="@drawable/bg_fire_option" />
-    <item android:state_enabled="true" android:state_pressed="true" android:drawable="@drawable/bg_fire_option3" />
-    <item android:state_enabled="true" android:state_checked="true" android:drawable="@drawable/maintab_toolbar_short_bg" />  
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/maintab_toolbar_short_bg" android:state_checked="false" android:state_enabled="true" android:state_focused="false" android:state_pressed="false"/>
+    <item android:drawable="@drawable/bg_fire_option" android:state_enabled="true" android:state_focused="true" android:state_pressed="false"/>
+    <item android:drawable="@drawable/bg_fire_option3" android:state_enabled="true" android:state_pressed="true"/>
+    <item android:drawable="@color/whitesmoke" android:state_checked="true" android:state_enabled="true"/>
+
 </selector>
