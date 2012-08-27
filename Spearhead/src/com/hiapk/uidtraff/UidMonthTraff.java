@@ -66,9 +66,9 @@ public class UidMonthTraff extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.uid_traff);
-		
-		final ImageView back = (ImageView)findViewById(R.id.history_back);
-		back.setOnClickListener(new OnClickListener(){
+
+		final ImageView back = (ImageView) findViewById(R.id.history_back);
+		back.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -93,12 +93,12 @@ public class UidMonthTraff extends Activity {
 		windowswidesize = dm.densityDpi;
 		// 初始化视图
 		TextView tv_pie = (TextView) findViewById(R.id.new_budget_tv);
-		tv_pie.setText("(历史流量占比)");
+		tv_pie.setText("[历史流量占比]");
 		TextView tv_chart = (TextView) findViewById(R.id.new_chart_tv);
-		tv_chart.setText("(日流量统计)");
+		tv_chart.setText("[日流量统计] (MB)");
 		new AsyncTaskonInitProChart().execute(context);
 		new AsyncTaskonInitPieChart().execute(context);
-		
+
 	}
 
 	private class AsyncTaskonInitPieChart extends
@@ -145,7 +145,6 @@ public class UidMonthTraff extends Activity {
 
 			return true;
 		}
-
 
 		@Override
 		protected void onPostExecute(Boolean result) {
@@ -276,7 +275,6 @@ public class UidMonthTraff extends Activity {
 			return true;
 		}
 
-
 		@Override
 		protected void onPostExecute(Boolean result) {
 			View view = null;
@@ -292,7 +290,7 @@ public class UidMonthTraff extends Activity {
 						wifiNow);
 				projectChart.setXaxisText(year + "年");
 				projectChart.setMainTitle("");
-				view = projectChart.execute(context);
+				view = projectChart.execute2(context);
 			} else {
 				LayoutInflater factory = LayoutInflater.from(context);
 				view = factory.inflate(R.layout.load_fail, null);
@@ -334,7 +332,6 @@ public class UidMonthTraff extends Activity {
 		tv_mobile.setText("加载中..");
 		tv_wifi.setText("加载中..");
 	}
-
 
 	/**
 	 * 初始化系统时间

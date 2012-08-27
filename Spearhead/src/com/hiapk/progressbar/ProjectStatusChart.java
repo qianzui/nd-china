@@ -24,6 +24,7 @@ import org.achartengine.ChartFactory;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.model.CategorySeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
@@ -34,6 +35,7 @@ import com.hiapk.provider.UiColors;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -61,8 +63,10 @@ public class ProjectStatusChart extends ViewBase {
 	List<Date[]> dates = new ArrayList<Date[]>();
 	String[] titles = new String[] { "移动数据流量", "WIFI数据流量" };
 	// 本月的最大流量数
-	double MaxTraffic = 10;
-	double MinTraffic = 0;
+	double MaxTrafficWifi = 10;
+	double MaxTrafficMobile = 10;
+	double MinTrafficWifi = 0;
+	double MinTrafficMobile = 0;
 	// X轴显示的字
 	String XaxisText = "日期";
 	// 标题
@@ -131,8 +135,10 @@ public class ProjectStatusChart extends ViewBase {
 			long[] wifiDatabefor, long[] wifiDatanow) {
 		double[] dataMobile = new double[showDay];
 		double[] dataWifi = new double[showDay];
-		double MaxTraffic = 0;
-		double MinTraffic = 0;
+		double MaxTrafficWifi = 0;
+		double MinTrafficWifi = 0;
+		double MaxTrafficMobile = 0;
+		double MinTrafficMobile = 0;
 		long temp = 0;
 		DecimalFormat df = new DecimalFormat("0.00");
 		// showlog("showDay" + showDay);
@@ -140,45 +146,55 @@ public class ProjectStatusChart extends ViewBase {
 		for (int i = 0; i < beforeDayofMonth; i++) {
 			temp = mobileDatabefore[i + 1] + mobileDatabefore[i + 32];
 			dataMobile[i] = Double.valueOf(df.format((double) temp / 1048576));
-			if (dataMobile[i] > MaxTraffic)
-				MaxTraffic = dataMobile[i];
-			if (dataMobile[i] < MinTraffic)
-				MinTraffic = dataMobile[i];
+			if (dataMobile[i] > MaxTrafficMobile)
+				MaxTrafficMobile = dataMobile[i];
+			if (dataMobile[i] < MinTrafficMobile)
+				MinTrafficMobile = dataMobile[i];
 			temp = wifiDatabefor[i + 1] + wifiDatabefor[i + 32];
 			dataWifi[i] = Double.valueOf(df.format((double) temp / 1048576));
-			if (dataWifi[i] > MaxTraffic)
-				MaxTraffic = dataWifi[i];
-			if (dataWifi[i] < MinTraffic)
-				MinTraffic = dataWifi[i];
+			if (dataWifi[i] > MaxTrafficWifi)
+				MaxTrafficWifi = dataWifi[i];
+			if (dataWifi[i] < MinTrafficWifi)
+				MinTrafficWifi = dataWifi[i];
 		}
 		int j = 1;
 		for (int i = beforeDayofMonth; i < showDay; i++) {
 			temp = mobileDatanow[j] + mobileDatanow[j + 31];
 			dataMobile[i] = Double.valueOf(df.format((double) temp / 1048576));
-			if (dataMobile[i] > MaxTraffic)
-				MaxTraffic = dataMobile[i];
-			if (dataMobile[i] < MinTraffic)
-				MinTraffic = dataMobile[i];
+			if (dataMobile[i] > MaxTrafficMobile)
+				MaxTrafficMobile = dataMobile[i];
+			if (dataMobile[i] < MinTrafficMobile)
+				MinTrafficMobile = dataMobile[i];
 			temp = wifiDatanow[j] + wifiDatanow[j + 31];
 			dataWifi[i] = Double.valueOf(df.format((double) temp / 1048576));
-			if (dataWifi[i] > MaxTraffic)
-				MaxTraffic = dataWifi[i];
-			if (dataWifi[i] < MinTraffic)
-				MinTraffic = dataWifi[i];
+			if (dataWifi[i] > MaxTrafficWifi)
+				MaxTrafficWifi = dataWifi[i];
+			if (dataWifi[i] < MinTrafficWifi)
+				MinTrafficWifi = dataWifi[i];
 			j++;
 		}
 		this.dataMobile = dataMobile;
 		this.dataWifi = dataWifi;
-		if (MaxTraffic == 0) {
-			this.MaxTraffic = 1;
+		if (MaxTrafficWifi == 0) {
+			this.MaxTrafficWifi = 1;
 		} else {
-			this.MaxTraffic = (double) MaxTraffic * 1.2;
+			this.MaxTrafficWifi = (double) MaxTrafficWifi * 1.35;
+		}
+		if (MaxTrafficMobile == 0) {
+			this.MaxTrafficMobile = 1;
+		} else {
+			this.MaxTrafficMobile = (double) MaxTrafficMobile * 1.35;
 		}
 
-		if (MinTraffic > 0) {
-			this.MinTraffic = MinTraffic * 4 / 5;
+		if (MinTrafficWifi > 0) {
+			this.MinTrafficWifi = MinTrafficWifi * 4 / 5;
 		} else {
-			this.MinTraffic = 0;
+			this.MinTrafficWifi = 0;
+		}
+		if (MinTrafficMobile > 0) {
+			this.MinTrafficMobile = MinTrafficMobile * 4 / 5;
+		} else {
+			this.MinTrafficMobile = 0;
 		}
 
 	}
@@ -223,13 +239,14 @@ public class ProjectStatusChart extends ViewBase {
 			renderer.addXTextLabel(i, name);
 		}
 		renderer.setPointSize(windowswidesize / 70);
-		setChartSettings(renderer, mainTitle, "", "流量（MB）", showDay - 3.5,
-				showDay + 0.5, 0, MaxTraffic, Color.rgb(80, 80, 80),
-				Color.rgb(80, 80, 80));
+		// // 设置起始坐标
+		// setChartSettings(renderer, mainTitle, "", "流量（MB）", showDay - 3.5,
+		// showDay + 0.5, -MaxTrafficMobile / 15, MaxTrafficMobile,
+		// Color.rgb(80, 80, 80), Color.rgb(80, 80, 80));
 		renderer.setYLabels(10);
 		// 设置边界等
 		// Log.d("main", width+"");
-		double[] limit = new double[] { 0.5, showDay + 0.5, 0, MaxTraffic };
+		double[] limit = new double[] { 0.5, showDay + 0.5, 0, MaxTrafficMobile };
 		double[] limit2 = new double[] { 1, showDay - 1, 0, 10 };
 		renderer.setPanLimits(limit);
 		renderer.setPanEnabled(true, false);
@@ -251,6 +268,154 @@ public class ProjectStatusChart extends ViewBase {
 				, renderer);
 	}
 
+	public View execute2(Context context) {
+		String[] titles = new String[] { "移动网络" };
+		List<double[]> x = new ArrayList<double[]>();
+		double[] dou = new double[showDay];
+		for (int i = 0; i < showDay; i++) {
+			dou[i] = i + 1;
+		}
+		x.add(dou);
+		// showlog("MaxTrafficMobile=" + MaxTrafficMobile);
+		showlog("MaxTrafficWifi=" + MaxTrafficWifi);
+		List<double[]> values = new ArrayList<double[]>();
+		values.add(dataMobile);
+
+		// List<double[]> x = new ArrayList<double[]>();
+		// for (int i = 0; i < titles.length; i++) {
+		// x.add(new double[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 });
+		// }
+		// List<double[]> values = new ArrayList<double[]>();
+		// values.add(new double[] { 12.3, 12.5, 13.8, 16.8, 20.4, 24.4, 26.4,
+		// 26.1, 23.6, 20.3, 17.2, 13.9 });
+
+		int[] colors = UiColors.chartbarcolor;
+		PointStyle[] styles = new PointStyle[] { PointStyle.CIRCLE,
+				PointStyle.SQUARE };
+		// XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer(2);
+		XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
+
+		// int length = renderer.getSeriesRendererCount();
+		// for (int i = 0; i < length; i++) {
+		// XYSeriesRenderer r = (XYSeriesRenderer) renderer
+		// .getSeriesRendererAt(i);
+		// r.setPointStyle(PointStyle.POINT);
+		// r.setPointStyle(PointStyle.SQUARE);
+		// r.setLineWidth(3f);
+		// }
+		//
+		// 设置背景色
+		renderer.setMarginsColor(Color.WHITE);
+		renderer.setBackgroundColor(Color.WHITE);
+		renderer.setApplyBackgroundColor(true);
+		// X轴
+		// renderer.setYLabelsAlign(Align.LEFT);
+		renderer.setXLabels(0);
+		int i = 0;
+		for (String xaxis : xaxles) {
+			i++;
+			String name = xaxis;
+			renderer.addXTextLabel(i, name);
+		}
+		//
+
+		// setRenderer(renderer, colors, styles);
+		// int length = renderer.getSeriesRendererCount();
+		// for (int j = 0; j < length; j++) {
+		// XYSeriesRenderer r = (XYSeriesRenderer) renderer
+		// .getSeriesRendererAt(j);
+		// r.setLineWidth(3f);
+		// }
+		setChartSettings(renderer, "",
+				"",
+				// new String[] { "        2G/3G", "        WIFI " },
+				new String[] { "        ", "        " }, new double[] {
+						showDay - 5.5, showDay - 5.5 }, new double[] {
+						showDay + 0.5, showDay + 0.5 }, new double[] {
+						-MaxTrafficMobile / 20, -MaxTrafficWifi / 6 },
+				new double[] { MaxTrafficMobile, MaxTrafficWifi },
+				Color.rgb(80, 80, 80), colors);
+		// renderer.setYLabels(10);
+
+		// renderer.setXLabels(12);
+		// renderer.setYLabels(10);
+		// // renderer.setShowGrid(true);
+		// renderer.setXLabelsAlign(Align.RIGHT);
+		// renderer.setYLabelsAlign(Align.RIGHT);
+		// renderer.setZoomButtonsVisible(true);
+		// renderer.setPanLimits(new double[] { -10, 20, -10, 40 });
+		// renderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
+		// renderer.setZoomRate(1.05f);
+
+		// 设置边界等
+		// Log.d("main", width+"");
+		double[] limit = new double[] { 0.5, showDay + 0.5, 0, MaxTrafficMobile };
+		double[] limit2 = new double[] { 1, showDay - 1, 0, 10 };
+		renderer.setPanLimits(limit);
+		renderer.setPanEnabled(true, false);
+		renderer.setZoomLimits(limit2);
+		renderer.setBarSpacing(1f);
+		renderer.setZoomRate(1f);
+
+		// renderer.setLabelsColor(Color.WHITE);
+		// renderer.setXLabelsColor(Color.GREEN);
+		// renderer.setYLabelsColor(0, colors[0]);
+		// renderer.setYLabelsColor(1, colors[1]);
+
+		// renderer.addYTextLabel(20, "Test", 0);
+		// renderer.addYTextLabel(10, "New Test", 1);
+
+		XYMultipleSeriesDataset dataset = buildDataset(titles, x, values);
+		values.clear();
+		values.add(dataWifi);
+		// values.add(new double[] { 4.3, 4.9, 5.9, 8.8, 10.8, 11.9, 13.6, 12.8,
+		// 11.4, 9.5, 7.5, 5.5 });
+		addXYSeries(dataset, new String[] { "WIFI网络" }, x, values, 1);
+
+		// // 条条的具体设置
+		// for (int j = 0; j < 2; j++) {
+		// SimpleSeriesRenderer seriesRenderer = renderer
+		// .getSeriesRendererAt(j);
+		// seriesRenderer.setDisplayChartValues(true);
+		// seriesRenderer.setChartValuesTextSize(windowswidesize / 11);
+		// seriesRenderer.setChartValuesSpacing(1);
+		// // ((XYSeriesRenderer) seriesRenderer).setFillPoints(true);
+		// }
+		// View view = ChartFactory.getLineChartView(context, dataset,
+		// renderer);
+		View view = ChartFactory.getCubeLineChartView(context, dataset,
+				renderer, 0f);
+		// ChartFactory.getCubicLineChartIntent(context, dataset,
+		// renderer, 0.3f, "Average temperature");
+		return view;
+	}
+
+	protected XYMultipleSeriesDataset buildDataset(String[] titles,
+			List<double[]> xValues, List<double[]> yValues) {
+		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+		addXYSeries(dataset, titles, xValues, yValues, 0);
+		return dataset;
+	}
+
+	public void addXYSeries(XYMultipleSeriesDataset dataset, String[] titles,
+			List<double[]> xValues, List<double[]> yValues, int scale) {
+		int length = titles.length;
+		for (int i = 0; i < length; i++) {
+			XYSeries series = new XYSeries(titles[i], scale);
+			double[] xV = xValues.get(i);
+			for (int j = 0; j < xV.length; j++) {
+				// showlog("xV" + j + "=" + xV[j]);
+			}
+			double[] yV = yValues.get(i);
+			int seriesLength = xV.length;
+			for (int k = 0; k < seriesLength; k++) {
+				series.add(xV[k], yV[k]);
+			}
+			dataset.addSeries(series);
+		}
+	}
+
+	// ///////
 	/**
 	 * Builds an XY multiple series renderer.
 	 * 
@@ -262,7 +427,7 @@ public class ProjectStatusChart extends ViewBase {
 	 */
 	private XYMultipleSeriesRenderer buildRenderer(int[] colors,
 			PointStyle[] styles) {
-		XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
+		XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer(2);
 		setRenderer(renderer, colors, styles);
 		return renderer;
 	}
@@ -270,19 +435,22 @@ public class ProjectStatusChart extends ViewBase {
 	private void setRenderer(XYMultipleSeriesRenderer renderer, int[] colors,
 			PointStyle[] styles) {
 		// 轴上的日期
-		renderer.setAxisTitleTextSize(windowswidesize / 16);
-		renderer.setChartTitleTextSize(windowswidesize / 10);
+		renderer.setAxisTitleTextSize(windowswidesize / 11);
+		renderer.setChartTitleTextSize((float) (windowswidesize / 9.5));
 		// 12345等数字
-		renderer.setLabelsTextSize(windowswidesize / 18);
+		renderer.setLabelsTextSize(windowswidesize / 13);
 		// 有颜色的左下小标题
 		renderer.setLegendTextSize(windowswidesize / 11);
-		renderer.setPointSize(5f);
-		renderer.setMargins(new int[] { 20, 30, 15, 20 });
+		renderer.setPointSize(windowswidesize / 70);
+		renderer.setMargins(new int[] { 20, 12, 33, 8 });
 		int length = colors.length;
 		for (int i = 0; i < length; i++) {
 			XYSeriesRenderer r = new XYSeriesRenderer();
 			r.setColor(colors[i]);
 			r.setPointStyle(styles[i]);
+			r.setLineWidth(2f);
+			r.setFillPoints(true);
+			r.setGradientEnabled(true);
 			renderer.addSeriesRenderer(r);
 		}
 	}
@@ -337,28 +505,42 @@ public class ProjectStatusChart extends ViewBase {
 	 *            the labels color
 	 */
 	private void setChartSettings(XYMultipleSeriesRenderer renderer,
-			String title, String xTitle, String yTitle, double xMin,
-			double xMax, double yMin, double yMax, int axesColor,
-			int labelsColor) {
+			String title, String xTitle, String[] yTitle, double[] xMin,
+			double[] xMax, double[] yMin, double[] yMax, int axesColor,
+			int[] labelsColor) {
+		// new String[] { "移动网络（MB）", "WIFI网络（MB）" },
+		renderer.setYTitle("       移动网络（MB）", 0);
+		renderer.setYTitle("       WIFI网络（MB）", 1);
 		renderer.setChartTitle(title);
 		renderer.setXTitle(xTitle);
-		renderer.setYTitle(yTitle);
-		renderer.setXAxisMin(xMin);
-		renderer.setXAxisMax(xMax);
-		renderer.setYAxisMin(yMin);
-		renderer.setYAxisMax(yMax);
+		renderer.setXAxisMin(xMin[0], 0);
+		renderer.setXAxisMax(xMax[0], 0);
+		renderer.setXAxisMin(xMin[1], 1);
+		renderer.setXAxisMax(xMax[1], 1);
+		renderer.setYAxisMin(yMin[0], 0);
+		renderer.setYAxisMax(yMax[0], 0);
+		renderer.setYAxisMin(yMin[1], 1);
+		renderer.setYAxisMax(yMax[1], 1);
 		renderer.setAxesColor(axesColor);
-		renderer.setLabelsColor(labelsColor);
-		renderer.setXLabelsColor(labelsColor);
-		renderer.setYLabelsColor(0, labelsColor);
+		renderer.setXLabelsColor(axesColor);
+		renderer.setLabelsColor(axesColor);
+		renderer.setYLabelsColor(0, labelsColor[0]);
+		renderer.setYLabelsColor(1, labelsColor[1]);
+		renderer.setYTitle(yTitle[0], 0);
+		renderer.setYTitle(yTitle[1], 1);
+		renderer.setYAxisAlign(Align.LEFT, 0);
+		renderer.setYLabelsAlign(Align.LEFT, 0);
+		renderer.setYAxisAlign(Align.RIGHT, 1);
+		renderer.setYLabelsAlign(Align.RIGHT, 1);
+
 	}
 
-	// /**
-	// * 显示日志
-	// *
-	// * @param string
-	// */
-	// private void showlog(String string) {
-	// // Log.d("project", string);
-	// }
+	/**
+	 * 显示日志
+	 * 
+	 * @param string
+	 */
+	private void showlog(String string) {
+		Log.d("project", string);
+	}
 }

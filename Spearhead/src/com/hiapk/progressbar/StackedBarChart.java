@@ -121,7 +121,7 @@ public class StackedBarChart extends ViewBase {
 	}
 
 	// 柱状条颜色
-	int[] chartbarcolor = UiColors.chartbarcolor;
+	int[] chartbarcolor = UiColors.chartbarcolorNoWifi;
 	// int[] chartbarcolor = new int[] { Color.CYAN };
 	float AxisTitleTextSize = windowswidesize / 2;
 	float ChartTitleTextSize = windowswidesize / 2;
@@ -129,9 +129,9 @@ public class StackedBarChart extends ViewBase {
 	float LegendTextSize = windowswidesize / 3;
 	float ChartValuesTextsize = windowswidesize / 3;
 
-	public void setParamstitles(String[] paramstitles) {
-		this.paramstitles = paramstitles;
-	}
+	// public void setParamstitles(String[] paramstitles) {
+	// this.paramstitles = paramstitles;
+	// }
 
 	/**
 	 * 主标题
@@ -143,7 +143,8 @@ public class StackedBarChart extends ViewBase {
 	}
 
 	public void setTopTitle(String topTitle) {
-		paramstitles = new String[] { topTitle + "    ", "WIFI网络" };
+		paramstitles = new String[] { topTitle + "    " };
+		// paramstitles = new String[] { topTitle + "    ", "WIFI网络" };
 	}
 
 	/**
@@ -244,7 +245,7 @@ public class StackedBarChart extends ViewBase {
 		// 22030, 21200, 19500, 15500,
 		// 12600, 14000 });
 		values.add(data1);
-		values.add(data2);
+		// values.add(data2);
 		// int[] colors = new int[] { Color.BLUE, Color.CYAN };
 		XYMultipleSeriesRenderer renderer = buildBarRenderer(chartbarcolor);
 		// 设置进度条其他参数等。
@@ -267,13 +268,15 @@ public class StackedBarChart extends ViewBase {
 		// other
 		renderer.setShowGrid(true);
 		SimpleSeriesRenderer r1 = renderer.getSeriesRendererAt(0);
-		SimpleSeriesRenderer r2 = renderer.getSeriesRendererAt(1);
-		r1.setChartValuesSpacing(5);
+		// SimpleSeriesRenderer r2 = renderer.getSeriesRendererAt(1);
+		r1.setChartValuesSpacing(4);
 		r1.setDisplayChartValues(true);
 		r1.setChartValuesTextSize(ChartValuesTextsize);
-		r2.setChartValuesSpacing(5);
-		r2.setDisplayChartValues(true);
-		r2.setChartValuesTextSize(ChartValuesTextsize);
+		r1.setChartValuesTextAlign(Align.RIGHT);
+		// r2.setChartValuesSpacing(4);
+		// r2.setDisplayChartValues(true);
+		// r2.setChartValuesTextSize(ChartValuesTextsize);
+		// r2.setChartValuesTextAlign(Align.CENTER);
 		// 设置边界等
 		// Log.d("main", width+"");
 		double[] limit = new double[] { 0.5, showDay + 0.5, 0, MaxTraffic };
@@ -282,9 +285,10 @@ public class StackedBarChart extends ViewBase {
 		renderer.setPanEnabled(true, false);
 		renderer.setZoomLimits(limit2);
 		renderer.setZoomEnabled(true, false);
-		renderer.setBarSpacing(1.2f);
+		renderer.setBarSpacing(1f);
 		return ChartFactory.getBarChartView(context,
-				buildBarDataset(paramstitles, values), renderer, Type.DEFAULT);
+				buildBarDataset(new String[] { "移动网络" }, values), renderer,
+				Type.DEFAULT);
 	}
 
 	private void initSize() {
@@ -292,7 +296,7 @@ public class StackedBarChart extends ViewBase {
 		ChartTitleTextSize = windowswidesize / 12;
 		LabelsTextSize = windowswidesize / 16;
 		LegendTextSize = windowswidesize / 13;
-		ChartValuesTextsize = windowswidesize / 15;
+		ChartValuesTextsize = windowswidesize / 16;
 	}
 
 	/**

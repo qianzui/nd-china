@@ -101,9 +101,6 @@ public class Main extends Activity {
 		// 本月剩余
 		TextView monthRemain = (TextView) findViewById(R.id.monthRemain);
 		TextView monthRemainunit = (TextView) findViewById(R.id.unit4);
-		// 包月流量
-		TextView monthSet = (TextView) findViewById(R.id.monthSet);
-		TextView monthSetunit = (TextView) findViewById(R.id.unit5);
 		// 初始化流量获取函数
 		// 取得月度流量
 		// mobileTraffic = TrafficManager.mobile_month_data;
@@ -123,14 +120,6 @@ public class Main extends Activity {
 				monthMobilunit));
 		monthRemain
 				.setText(UnitHandler.unitHandler(monthLeft, monthRemainunit));
-		if (mobileSet != 0) {
-			monthSet.setText(UnitHandler.unitHandler(mobileSet, monthSetunit));
-			monthSet.setTextColor(ColorChangeMainBeen.colorDarkGray2);
-		} else {
-			monthSet.setText("未设置");
-			monthSet.setTextColor(ColorChangeMainBeen.colorRed);
-			monthSetunit.setText("");
-		}
 
 	}
 
@@ -238,14 +227,13 @@ public class Main extends Activity {
 					Button btn_toThree = (Button) findViewById(R.id.setTaoCan);
 					// 包月流量
 					TextView monthSet = (TextView) findViewById(R.id.monthSet);
-					TextView monthSetunit = (TextView) findViewById(R.id.unit5);
 					TextView monthMobil = (TextView) findViewById(R.id.monthRate);
 					TextView monthMobilunit = (TextView) findViewById(R.id.unit3);
 					TextView monthRemain = (TextView) findViewById(R.id.monthRemain);
 					TextView monthRemainunit = (TextView) findViewById(R.id.unit4);
 					customDialog.dialogMonthSet_Main(btn_toThree, monthSet,
-							monthSetunit, monthRemain, monthRemainunit,
-							monthMobil, monthMobilunit);
+							monthRemain, monthRemainunit, monthMobil,
+							monthMobilunit);
 				} else {
 					TextView monthMobil = (TextView) findViewById(R.id.monthRate);
 					TextView monthMobilunit = (TextView) findViewById(R.id.unit3);
@@ -314,28 +302,30 @@ public class Main extends Activity {
 		// TextView tvtraff = (TextView) findViewById(R.id.tv_stackChart);
 		// switch (stackflag) {
 		// case 0:
-		for (int i = 0; i < wifiTraff.length; i++) {
-			long temp = 0;
-			if (i < monthbeforetotalDay) {
-				temp = TrafficManager.wifi_month_data_before[i + 1]
-						+ TrafficManager.wifi_month_data_before[i + 32];
-			} else {
-				temp = TrafficManager.wifi_month_data[i - monthbeforetotalDay
-						+ 1]
-						+ TrafficManager.wifi_month_data[i
-								- monthbeforetotalDay + 32];
-			}
-
-			// + TrafficManager.mobile_month_data[i + 1]
-			// + TrafficManager.mobile_month_data[i + 32]
-
-			// 小数点2位
-			wifiTraff[i] = (double) ((long) temp * 100 / 1024 / 1024) / 100;
-			// format.format(wifi[i]);
-			if (temp > maxTraffic) {
-				maxTraffic = temp;
-			}
-		}
+		// 统计最大wifi流量
+		// for (int i = 0; i < wifiTraff.length; i++) {
+		// long temp = 0;
+		// if (i < monthbeforetotalDay) {
+		// temp = TrafficManager.wifi_month_data_before[i + 1]
+		// + TrafficManager.wifi_month_data_before[i + 32];
+		// } else {
+		// temp = TrafficManager.wifi_month_data[i - monthbeforetotalDay
+		// + 1]
+		// + TrafficManager.wifi_month_data[i
+		// - monthbeforetotalDay + 32];
+		// }
+		//
+		// // + TrafficManager.mobile_month_data[i + 1]
+		// // + TrafficManager.mobile_month_data[i + 32]
+		//
+		// // 小数点2位
+		// wifiTraff[i] = (double) ((long) temp * 100 / 1024 / 1024) / 100;
+		// // format.format(wifi[i]);
+		// if (temp > maxTraffic) {
+		// maxTraffic = temp;
+		// }
+		// }
+		//
 		// showlog(TrafficManager.wifi_month_data_before[0]
 		// + TrafficManager.wifi_month_data_before[63] + "");
 		chartbar.setMainTitle("流量统计(总)");
@@ -370,7 +360,7 @@ public class Main extends Activity {
 			chartbar.setMaxTraffic((double) (long) maxTraffic / 1048576 * 1.2);
 			chartbar.setyMaxvalue((double) (long) maxTraffic / 1048576 * 1.2);
 		}
-		chartbar.setxMinvalue(monthbeforetotalDay + monthDay - 7.5);
+		chartbar.setxMinvalue(monthbeforetotalDay + monthDay - 5.5);
 		chartbar.setxMaxvalue(monthbeforetotalDay + monthDay + 0.5);
 		// 设置显示的日期
 		String[] xaxles = new String[monthDay + monthbeforetotalDay];
