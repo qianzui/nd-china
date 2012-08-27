@@ -38,7 +38,6 @@ public class ConnectivityChange extends BroadcastReceiver {
 					Intent intentNetUpdate = new Intent();
 					intentNetUpdate.setAction(APPWIDGET_UPDATE);
 					context.sendBroadcast(intentNetUpdate);
-					SetText.resetWidgetAndNotify(context);
 				}
 				SQLStatic.initTablemobileAndwifi(context);
 				if (SQLStatic.TableWiFiOrG23 != "") {
@@ -111,6 +110,7 @@ public class ConnectivityChange extends BroadcastReceiver {
 		@Override
 		protected void onPostExecute(Long result) {
 			SQLStatic.initTablemobileAndwifi(context);
+			SetText.resetWidgetAndNotify(context);
 			if (SQLStatic.TableWiFiOrG23 == "") {
 				SQLStatic.TableWiFiOrG23Before = "";
 				alset.StopAlarm(context);

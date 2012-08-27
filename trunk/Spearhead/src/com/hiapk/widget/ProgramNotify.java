@@ -3,12 +3,15 @@ package com.hiapk.widget;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ProgressBar;
 import android.widget.RemoteViews;
 
 import com.hiapk.spearhead.R;
+import com.hiapk.spearhead.R.color;
 import com.hiapk.spearhead.Splash;
 
 /**
@@ -28,7 +31,7 @@ public class ProgramNotify {
 	// Notification标示ID
 	private static final int ID = 5;
 
-	public void showNotice(Context context) {
+	public void showNotice(Context context, int percent) {
 
 		// 获得NotificationManager实例
 		String service = Context.NOTIFICATION_SERVICE;
@@ -48,9 +51,23 @@ public class ProgramNotify {
 		// setText(context);
 		// textUp = SetText.textUp;
 		// textDown = SetText.textDown;
-//		SetText.setText(context);
+		// SetText.setText(context);
 		contentView.setTextViewText(R.id.textUp, SetText.textUp);
 		contentView.setTextViewText(R.id.textDown, SetText.textDown);
+		if (SetText.HasSetMonthUsed == false) {
+			contentView.setInt(R.id.probar_down, "setProgress", 0);
+			contentView.setInt(R.id.probar_down, "setSecondaryProgress", 0);
+		} else {
+			if (percent > 90) {
+				contentView.setInt(R.id.probar_down, "setProgress", 0);
+				contentView.setInt(R.id.probar_down, "setSecondaryProgress",
+						percent);
+			} else {
+				contentView.setInt(R.id.probar_down, "setProgress", percent);
+			}
+		}
+		ProgressBar aa = new ProgressBar(context);
+		// aa.setSecondaryProgress(10);
 		notification.contentView = contentView;
 		notification.flags = Notification.FLAG_ONGOING_EVENT;
 

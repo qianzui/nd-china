@@ -16,6 +16,12 @@ public class UiColors {
 	 */
 	public static int[] chartbarcolor = new int[] { Color.rgb(4, 107, 154),
 			Color.rgb(124, 22, 36) };
+
+	/**
+	 * 移动网络颜色
+	 */
+	public static int[] chartbarcolorNoWifi = new int[] {
+			Color.rgb(4, 107, 154)};
 	/**
 	 * 饼图的划线
 	 */

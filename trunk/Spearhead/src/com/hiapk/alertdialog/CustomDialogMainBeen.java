@@ -222,9 +222,9 @@ public class CustomDialogMainBeen {
 	 * @return 返回对话框
 	 */
 	public void dialogMonthSet_Main(final Button btn_toThree,
-			final TextView monthSet, final TextView monthSetunit,
-			final TextView monthRemain, final TextView monthRemainunit,
-			final TextView monthUse, final TextView monthUseunit) {
+			final TextView monthSet, final TextView monthRemain,
+			final TextView monthRemainunit, final TextView monthUse,
+			final TextView monthUseunit) {
 
 		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		int mobileUnit = sharedData.getMonthMobileSetUnit();
@@ -313,15 +313,6 @@ public class CustomDialogMainBeen {
 				PrefrenceStaticOperator.resetHasWarning(context);
 				// 重设主界面数值包月流量
 				long mobileSet = sharedData.getMonthMobileSetOfLong();
-				if (mobileSet != 0) {
-					monthSet.setText(UnitHandler.unitHandler(mobileSet,
-							monthSetunit));
-					monthSet.setTextColor(ColorChangeMainBeen.colorDarkGray2);
-				} else {
-					monthSet.setText("未设置");
-					monthSet.setTextColor(ColorChangeMainBeen.colorRed);
-					monthSetunit.setText("");
-				}
 				// 月度流量设置
 				long mobile_month_use = TrafficManager
 						.getMonthUseMobile(context);
