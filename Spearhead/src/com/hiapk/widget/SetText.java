@@ -21,6 +21,8 @@ public class SetText {
 	public static SpannableStringBuilder text3 = null;
 	public static int FloatIntX = 50;
 	public static int FloatIntY = 50;
+	public static int ProgressBarPercent = 0;
+	public static boolean HasSetMonthUsed = false;
 
 	/**
 	 * 获取通知栏与小部件显示文字
@@ -49,6 +51,10 @@ public class SetText {
 		String todayUsedStr = UnitHandler.unitHandlerAccurate(todayUsedLong);
 		String date = getdate(context, year, month, monthDay);
 		String day = getday(context, year, month, monthDay);
+		ProgressBarPercent = (int) (((double) monthUsedLong / monthSetLong) * 100);
+		if (monthSetLong != 0) {
+			HasSetMonthUsed = true;
+		}
 		// textUp = "今日已用：xxx kB(MB)";
 		// textDown = "xx MB / 50 MB --> 2012.06.01";
 		textUp = "今日已用: " + todayUsedStr;// + (int) (30 * Math.random());
@@ -91,7 +97,7 @@ public class SetText {
 		setText(context);
 		if (isNotifyOpen) {
 			ProgramNotify programNotify = new ProgramNotify();
-			programNotify.showNotice(context);
+			programNotify.showNotice(context, ProgressBarPercent);
 			// }
 		}
 		if (isWidGet14Open) {

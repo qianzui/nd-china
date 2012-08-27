@@ -58,7 +58,10 @@ public class NotificationInfo {
 				showlog("pkg=" + notificationAppInfo[0]);
 				showlog("idStr=" + notificationAppInfo[1]);
 				showlog("textStr=" + notificationAppInfo[2]);
-				apps.add(notificationAppInfo);
+				if (!notificationAppInfo[0].startsWith("com.hiapk.spearhead")) {
+					apps.add(notificationAppInfo);
+				}
+
 			}
 		}
 
@@ -109,7 +112,9 @@ public class NotificationInfo {
 		@Override
 		public void run() {
 			try {
-				file.createNewFile();
+				if (!file.isFile()) {
+					file.createNewFile();
+				}
 				final String abspath = file.getAbsolutePath();
 				Runtime.getRuntime().exec("chmod 777 " + abspath).waitFor();
 				final OutputStreamWriter out = new OutputStreamWriter(
@@ -117,6 +122,7 @@ public class NotificationInfo {
 				if (new File("/system/bin/sh").exists()) {
 					out.write("#!/system/bin/sh\n");
 				}
+//				out.write("chown root " +abspath);
 				out.write(script);
 				if (!script.endsWith("\n"))
 					out.write("\n");
@@ -142,11 +148,11 @@ public class NotificationInfo {
 					if (notificationRes != null)
 						notificationRes.append(buf, 0, read);
 				}
-			} catch (InterruptedException ex) {
-				if (notificationRes != null) {
-					notificationRes = new StringBuilder();
-					notificationRes.append("\nOperation timed-out");
-				}
+//			} catch (InterruptedException ex) {
+//				if (notificationRes != null) {
+//					notificationRes = new StringBuilder();
+//					notificationRes.append("\nOperation timed-out");
+//				}
 			} catch (Exception ex) {
 				if (notificationRes != null) {
 					notificationRes = new StringBuilder();
