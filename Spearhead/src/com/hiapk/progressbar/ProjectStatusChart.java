@@ -326,11 +326,10 @@ public class ProjectStatusChart extends ViewBase {
 		// .getSeriesRendererAt(j);
 		// r.setLineWidth(3f);
 		// }
-		setChartSettings(renderer, "",
-				"",
-				// new String[] { "        2G/3G", "        WIFI " },
-				new String[] { "        ", "        " }, new double[] {
-						showDay - 5.5, showDay - 5.5 }, new double[] {
+		setChartSettings(renderer, "", "",
+				new String[] { "        流量(MB)", "         " },
+				// new String[] { "        ", "        " },
+				new double[] { showDay - 5.5, showDay - 5.5 }, new double[] {
 						showDay + 0.5, showDay + 0.5 }, new double[] {
 						-MaxTrafficMobile / 20, -MaxTrafficWifi / 6 },
 				new double[] { MaxTrafficMobile, MaxTrafficWifi },
@@ -442,7 +441,7 @@ public class ProjectStatusChart extends ViewBase {
 		// 有颜色的左下小标题
 		renderer.setLegendTextSize(windowswidesize / 11);
 		renderer.setPointSize(windowswidesize / 70);
-		renderer.setMargins(new int[] { 20, 12, 33, 8 });
+		renderer.setMargins(new int[] { 20, 30, 33, 8 });
 		int length = colors.length;
 		for (int i = 0; i < length; i++) {
 			XYSeriesRenderer r = new XYSeriesRenderer();
