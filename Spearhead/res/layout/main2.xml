@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#6B6B6B"
+    android:background="@drawable/bground_dark"
     android:cacheColorHint="#00000000"
     android:orientation="vertical" >
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="30dip"
-        android:background="@color/white"
+        android:background="@drawable/bground_dark"
         android:orientation="horizontal"
         android:paddingRight="5dip" >
 
