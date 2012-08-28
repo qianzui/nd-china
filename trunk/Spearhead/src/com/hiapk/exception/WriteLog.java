@@ -35,6 +35,9 @@ public class WriteLog {
 		}
 	}
 
+	/**
+	 * 错误日志每个月清除一次
+	 */
 	public void clearmonthLog() {
 		File file = new File(LOG_PATH_SDCARD_DIR);
 		if (Environment.getExternalStorageState().equals(

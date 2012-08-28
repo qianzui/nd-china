@@ -138,6 +138,44 @@ public class TrafficManager {
 
 	}
 
+	/**
+	 * 月度清除UID流量信息
+	 * 
+	 * @param context
+	 */
+	public static void clearUidtraffMonthly(Context context) {
+		int[] numbers = null;
+		if (SQLStatic.uidnumbers == null) {
+			// 重新定义静态的uid集合
+			SQLStatic.getuidsAndpacname(context);
+		}
+		if (SQLStatic.uidnumbers != null) {
+			numbers = SQLStatic.uidnumbers;
+			clearUidData(context, numbers);
+		}
+
+	}
+
+	/**
+	 * 月度的UID流量重置
+	 * 
+	 * @param context
+	 * @param numbers
+	 *            输入的重置数组
+	 */
+	private static void clearUidData(Context context, int[] numbers) {
+		Editor UseEditor = context.getSharedPreferences(UID_PREFS_NAME, 0)
+				.edit();
+		for (int i : numbers) {
+			String uidstrup = UID_START_STR_UP + i;
+			String uidstrdown = UID_START_STR_DOWN + i;
+			UseEditor.putLong(uidstrup, 0);
+			UseEditor.putLong(uidstrdown, 0);
+			showLog("UID=" + i + "已重置");
+		}
+		UseEditor.commit();
+	}
+
 	private static void showLog(String string) {
 		if (SQLStatic.isshowLog) {
 			Log.d("TrafficManager", string);
