@@ -22,6 +22,7 @@
  
         <TabWidget
             android:id="@android:id/tabs"
+            style="@style/firewall_tab_bottom"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.0"
