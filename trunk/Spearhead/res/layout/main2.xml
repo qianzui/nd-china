@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="30dip"
-        android:background="@drawable/firewall_bluebar"
+        android:background="@color/white"
         android:orientation="horizontal"
         android:paddingRight="5dip" >
 
@@ -20,7 +20,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:text="  所有应用程序占用的流量排行"
-            android:textColor="@color/whitesmoke"
+            android:textColor="@color/darkgray2"
             android:textSize="14sp" />
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:text="WIFI  "
-            android:textColor="@color/whitesmoke"
+            android:textColor="@color/darkgray2"
             android:textSize="14sp" />
 
         <TextView
@@ -40,21 +40,22 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/wifi_icon"
             android:text="2G/3G    "
-            android:textColor="@color/whitesmoke"
+            android:textColor="@color/darkgray2"
             android:textSize="14sp" />
     </RelativeLayout>
 
-     <FrameLayout
+    <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="horizontal" >
-            <com.hiapk.firewall.MyListView
-                android:id="@+id/app_list"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:cacheColorHint="#00000000"
-                android:divider="#EDEDED"
-                android:dividerHeight="0.5dip" />
+
+        <com.hiapk.firewall.MyListView
+            android:id="@+id/app_list"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="#00000000"
+            android:divider="@drawable/divider"
+            android:dividerHeight="0.5dip" />
 
         <LinearLayout
             android:id="@+id/loading_content"

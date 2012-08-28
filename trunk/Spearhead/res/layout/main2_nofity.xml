@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="30dip"
-        android:background="@drawable/firewall_bluebar"
+        android:background="@color/white"
         android:orientation="horizontal"
         android:paddingRight="5dip" >
 
@@ -16,13 +16,17 @@
             android:id="@+id/firewall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:text="  查找推送广告的应用"
-            android:textColor="@color/whitesmoke"
+            android:textColor="@color/darkgray2"
             android:textSize="14sp" />
-
     </RelativeLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/divider" />
 
     <LinearLayout
         android:id="@+id/adblock_content"
