@@ -292,11 +292,11 @@ public class StackedBarChart extends ViewBase {
 	}
 
 	private void initSize() {
-		AxisTitleTextSize = windowswidesize / 16;
-		ChartTitleTextSize = windowswidesize / 12;
-		LabelsTextSize = windowswidesize / 16;
-		LegendTextSize = windowswidesize / 13;
-		ChartValuesTextsize = windowswidesize / 16;
+		AxisTitleTextSize = windowswidesize / 14;
+		ChartTitleTextSize = windowswidesize / 11;
+		LabelsTextSize = windowswidesize / 14;
+		LegendTextSize = windowswidesize / 12;
+		ChartValuesTextsize = windowswidesize / 14;
 	}
 
 	/**
@@ -318,7 +318,7 @@ public class StackedBarChart extends ViewBase {
 			r.setColor(colors[i]);
 			renderer.addSeriesRenderer(r);
 		}
-		// renderer.setMargins(new int[] {20, 30, 15,0}); // …Ë÷√4±ﬂ¡Ù∞◊
+		renderer.setMargins(new int[] { 30, 35, 25, 25 }); // …Ë÷√4±ﬂ¡Ù∞◊
 		renderer.setMarginsColor(Color.WHITE);
 		renderer.setBackgroundColor(Color.WHITE);
 		renderer.setApplyBackgroundColor(true);
