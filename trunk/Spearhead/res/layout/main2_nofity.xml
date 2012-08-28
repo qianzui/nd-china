@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="  查找推送广告的应用"
+            android:text="  查找推送广告的应用    "
             android:textColor="@color/darkgray2"
             android:textSize="14sp" />
     </RelativeLayout>

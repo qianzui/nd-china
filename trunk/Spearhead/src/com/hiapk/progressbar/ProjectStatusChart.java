@@ -434,14 +434,14 @@ public class ProjectStatusChart extends ViewBase {
 	private void setRenderer(XYMultipleSeriesRenderer renderer, int[] colors,
 			PointStyle[] styles) {
 		// 轴上的日期
-		renderer.setAxisTitleTextSize(windowswidesize / 11);
+		renderer.setAxisTitleTextSize(windowswidesize / 13);
 		renderer.setChartTitleTextSize((float) (windowswidesize / 9.5));
 		// 12345等数字
 		renderer.setLabelsTextSize(windowswidesize / 13);
 		// 有颜色的左下小标题
 		renderer.setLegendTextSize(windowswidesize / 11);
 		renderer.setPointSize(windowswidesize / 70);
-		renderer.setMargins(new int[] { 20, 30, 33, 8 });
+		renderer.setMargins(new int[] { 20, 32, 33, 8 });
 		int length = colors.length;
 		for (int i = 0; i < length; i++) {
 			XYSeriesRenderer r = new XYSeriesRenderer();
