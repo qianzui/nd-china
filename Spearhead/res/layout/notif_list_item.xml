@@ -18,10 +18,11 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="0dip"
         android:layout_height="fill_parent"
         android:layout_marginLeft="5dip"
         android:gravity="center"
+        android:layout_weight="9"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -64,6 +65,17 @@
                 android:singleLine="true"
                 android:textColor="@color/black" />
         </LinearLayout>
+    </LinearLayout>
+     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:gravity="center" >
+        <ImageView
+            android:id="@+id/info_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:src="@drawable/ic_arrow_not_enabled"/>
     </LinearLayout>
 
 </LinearLayout>
