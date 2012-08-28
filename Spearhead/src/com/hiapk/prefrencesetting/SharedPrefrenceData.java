@@ -168,7 +168,10 @@ public class SharedPrefrenceData {
 		UseEditor.putLong(VALUE_MOBILE_HASUSED_LONG, monthMobileHasUse);
 		UseEditor.commit();
 	}
-
+/**
+ * 获取结算日的数值，实际日期需要+1
+ * @return
+ */
 	public int getCountDay() {
 		int mobileSetCountDay = prefs.getInt(MOBILE_COUNT_DAY, 0);
 		return mobileSetCountDay;

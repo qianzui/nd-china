@@ -1,5 +1,6 @@
 package com.hiapk.broadcreceiver;
 
+import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.exception.WriteLog;
 import com.hiapk.prefrencesetting.PrefrenceStaticOperator;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
@@ -31,6 +32,7 @@ public class DateChangeBroadcast extends BroadcastReceiver {
 		if (monthDay == countday) {
 			sharedData.setMonthHasUsedStack(0);
 			PrefrenceStaticOperator.resetHasWarningMonth(context);
+			TrafficManager.clearUidtraffMonthly(context);
 			WriteLog writelog = new WriteLog(context);
 			writelog.clearmonthLog();
 		}
