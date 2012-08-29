@@ -441,7 +441,7 @@ public class ProjectStatusChart extends ViewBase {
 		// 有颜色的左下小标题
 		renderer.setLegendTextSize(windowswidesize / 11);
 		renderer.setPointSize(windowswidesize / 70);
-		renderer.setMargins(new int[] { 20, 32, 33, 8 });
+		renderer.setMargins(new int[] { 20, 32, 28, 8 });
 		int length = colors.length;
 		for (int i = 0; i < length; i++) {
 			XYSeriesRenderer r = new XYSeriesRenderer();

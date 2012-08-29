@@ -326,7 +326,7 @@
 
             <ImageButton
                 android:id="@+id/img_btn_change_chart"
-                android:layout_width="25dp"
+                android:layout_width="30dp"
                 android:layout_height="fill_parent"
                 android:layout_gravity="right"
                 android:background="#00000000"
