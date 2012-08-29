@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="5.0dip"
                 android:text="流量设置"
-                android:textColor="@color/bluemain3title"
+                android:textColor="@color/blue_mobile_chart"
                 android:textSize="23sp"
                 android:textStyle="bold" />
 
@@ -211,7 +211,7 @@
                 android:layout_centerVertical="true"
                 android:paddingLeft="5.0dip"
                 android:text="流量校正"
-                android:textColor="@color/bluemain3title"
+                android:textColor="@color/blue_mobile_chart"
                 android:textSize="23dp" />
 
             <Button
@@ -245,7 +245,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="5dip"
             android:text="流量提醒"
-            android:textColor="@color/bluemain3title"
+            android:textColor="@color/blue_mobile_chart"
             android:textSize="23dp" />
 
         <ImageView
