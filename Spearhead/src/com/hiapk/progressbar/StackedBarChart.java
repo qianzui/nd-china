@@ -328,7 +328,7 @@ public class StackedBarChart extends ViewBase {
 			r.setColor(colors[i]);
 			renderer.addSeriesRenderer(r);
 		}
-		renderer.setMargins(new int[] { 30, 35, 20, 25 }); // ÉèÖÃ4±ßÁô°×
+		renderer.setMargins(new int[] { 30, 35, 17, 25 }); // ÉèÖÃ4±ßÁô°×
 		renderer.setMarginsColor(Color.WHITE);
 		renderer.setBackgroundColor(Color.WHITE);
 		renderer.setApplyBackgroundColor(true);
