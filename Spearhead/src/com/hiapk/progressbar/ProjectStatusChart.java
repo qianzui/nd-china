@@ -338,7 +338,7 @@ public class ProjectStatusChart extends ViewBase {
 
 		// renderer.setXLabels(12);
 		// renderer.setYLabels(10);
-		// // renderer.setShowGrid(true);
+		// renderer.setShowGrid(true);
 		// renderer.setXLabelsAlign(Align.RIGHT);
 		// renderer.setYLabelsAlign(Align.RIGHT);
 		// renderer.setZoomButtonsVisible(true);

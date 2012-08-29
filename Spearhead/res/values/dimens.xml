@@ -15,4 +15,5 @@
     <dimen name="title_height">74.0dip</dimen>
     <dimen name="new_blog_size">70.0dip</dimen>
     <dimen name="fire_tab_font_size">23.0dip</dimen>
+    <dimen name="main_mobile_wifi_chart_radio">18.0dip</dimen>
 </resources>
