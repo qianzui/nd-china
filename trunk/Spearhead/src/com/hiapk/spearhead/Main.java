@@ -152,7 +152,8 @@ public class Main extends Activity {
 		monthDay = t.monthDay;
 		alset.StartAlarm(context);
 		initValues();
-		initChartBar();
+		// initChartBar();
+		new AsyncTaskoninitChartBar().execute(context);
 		SetText.resetWidgetAndNotify(context);
 	}
 
@@ -523,6 +524,30 @@ public class Main extends Activity {
 		chartbar.setXaxles(xaxles);
 		// showlog(monthDay+"");
 		return chartbar;
+	}
+
+	/**
+	 * 避免achareengine在初始化时的报错
+	 * 
+	 * @author Administrator
+	 * 
+	 */
+	private class AsyncTaskoninitChartBar extends
+			AsyncTask<Context, Long, Long> {
+		@Override
+		protected Long doInBackground(Context... params) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Long result) {
+			initChartBar();
+		}
 	}
 
 	// /**
