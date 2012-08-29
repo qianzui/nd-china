@@ -58,8 +58,35 @@ public class NotificationInfo {
 				showlog("pkg=" + notificationAppInfo[0]);
 				showlog("idStr=" + notificationAppInfo[1]);
 				showlog("textStr=" + notificationAppInfo[2]);
+				// 过滤自身
 				if (!notificationAppInfo[0].startsWith("com.hiapk.spearhead")) {
-					apps.add(notificationAppInfo);
+					// 过滤包名重复，同时显示文本为null的通知栏
+					if (apps.size() != 0) {
+						for (String[] strings : apps) {
+							if (!strings[0].startsWith(notificationAppInfo[0]
+									.trim())) {
+								continue;
+							} else if (!strings[2]
+									.startsWith(notificationAppInfo[2].trim())) {
+								continue;
+							} else {
+								// showlog(strings[0] + " STlength="
+								// + strings[0].length());
+								// showlog(strings[2] + " STlength="
+								// + strings[2].length());
+								// showlog(notificationAppInfo[0] + " length="
+								// + notificationAppInfo[0].length());
+								// showlog(notificationAppInfo[2] + " length="
+								// + notificationAppInfo[2].length());
+								notificationAppInfo[0] = "noUse";
+							}
+						}
+						if (notificationAppInfo[0] != "noUse") {
+							apps.add(notificationAppInfo);
+						}
+					} else {
+						apps.add(notificationAppInfo);
+					}
 				}
 
 			}
@@ -122,7 +149,7 @@ public class NotificationInfo {
 				if (new File("/system/bin/sh").exists()) {
 					out.write("#!/system/bin/sh\n");
 				}
-//				out.write("chown root " +abspath);
+				// out.write("chown root " +abspath);
 				out.write(script);
 				if (!script.endsWith("\n"))
 					out.write("\n");
@@ -148,11 +175,11 @@ public class NotificationInfo {
 					if (notificationRes != null)
 						notificationRes.append(buf, 0, read);
 				}
-//			} catch (InterruptedException ex) {
-//				if (notificationRes != null) {
-//					notificationRes = new StringBuilder();
-//					notificationRes.append("\nOperation timed-out");
-//				}
+				// } catch (InterruptedException ex) {
+				// if (notificationRes != null) {
+				// notificationRes = new StringBuilder();
+				// notificationRes.append("\nOperation timed-out");
+				// }
 			} catch (Exception ex) {
 				if (notificationRes != null) {
 					notificationRes = new StringBuilder();
