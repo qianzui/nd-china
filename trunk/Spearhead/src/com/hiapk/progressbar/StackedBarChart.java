@@ -121,7 +121,8 @@ public class StackedBarChart extends ViewBase {
 	}
 
 	// 柱状条颜色
-	int[] chartbarcolor = UiColors.chartbarcolorNoWifi;
+	int[] chartbarcolor = UiColors.chartbarcolorMobile;
+
 	// int[] chartbarcolor = new int[] { Color.CYAN };
 	float AxisTitleTextSize = windowswidesize / 2;
 	float ChartTitleTextSize = windowswidesize / 2;
@@ -132,6 +133,15 @@ public class StackedBarChart extends ViewBase {
 	// public void setParamstitles(String[] paramstitles) {
 	// this.paramstitles = paramstitles;
 	// }
+	/**
+	 * wifi与移动的颜色
+	 * 
+	 * @param chartbarcolor
+	 *            数组，length=2
+	 */
+	public void setChartbarcolor(int[] chartbarcolor) {
+		this.chartbarcolor = chartbarcolor;
+	}
 
 	/**
 	 * 主标题
@@ -287,8 +297,8 @@ public class StackedBarChart extends ViewBase {
 		renderer.setZoomEnabled(true, false);
 		renderer.setBarSpacing(1f);
 		return ChartFactory.getBarChartView(context,
-				buildBarDataset(new String[] { "移动网络" }, values), renderer,
-				Type.DEFAULT);
+				buildBarDataset(new String[] { paramstitles[0] }, values),
+				renderer, Type.DEFAULT);
 	}
 
 	private void initSize() {
@@ -318,7 +328,7 @@ public class StackedBarChart extends ViewBase {
 			r.setColor(colors[i]);
 			renderer.addSeriesRenderer(r);
 		}
-		renderer.setMargins(new int[] { 30, 35, 25, 25 }); // 设置4边留白
+		renderer.setMargins(new int[] { 30, 35, 20, 25 }); // 设置4边留白
 		renderer.setMarginsColor(Color.WHITE);
 		renderer.setBackgroundColor(Color.WHITE);
 		renderer.setApplyBackgroundColor(true);

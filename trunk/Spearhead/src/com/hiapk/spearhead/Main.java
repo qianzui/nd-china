@@ -8,6 +8,7 @@ import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.progressbar.StackedBarChart;
 import com.hiapk.provider.ColorChangeMainBeen;
+import com.hiapk.provider.UiColors;
 import com.hiapk.spearhead.R.color;
 import com.hiapk.widget.SetText;
 import android.app.Activity;
@@ -24,6 +25,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -41,6 +43,12 @@ public class Main extends Activity {
 	private SharedPrefrenceData sharedData;
 	// Alarm
 	private AlarmSet alset = new AlarmSet();
+
+	LinearLayout layout_mobile;
+	/**
+	 * 图表种类，0代表移动，1代表wifi
+	 */
+	private int chartType = 0;
 
 	// fortest
 
@@ -144,31 +152,8 @@ public class Main extends Activity {
 		monthDay = t.monthDay;
 		alset.StartAlarm(context);
 		initValues();
-		new AsyncTaskoninitWifiBar().execute(context);
+		initChartBar();
 		SetText.resetWidgetAndNotify(context);
-	}
-
-	/**
-	 * 避免achareengine在初始化时的报错
-	 * 
-	 * @author Administrator
-	 * 
-	 */
-	private class AsyncTaskoninitWifiBar extends AsyncTask<Context, Long, Long> {
-		@Override
-		protected Long doInBackground(Context... params) {
-			try {
-				Thread.sleep(150);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(Long result) {
-			initWifiBar();
-		}
 	}
 
 	private void setonclicklistens() {
@@ -194,7 +179,7 @@ public class Main extends Activity {
 					// 启动闹钟
 					alset.StartAlarmMobile(context);
 					initValues();
-					initWifiBar();
+					initChartBar();
 					SetText.resetWidgetAndNotify(context);
 					return true;
 				}
@@ -245,13 +230,30 @@ public class Main extends Activity {
 
 			}
 		});
+		ImageButton img_btn_chart = (ImageButton) findViewById(R.id.img_btn_change_chart);
+		img_btn_chart.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				switch (chartType) {
+				case 0:
+					chartType = 1;
+					initChartBar();
+					break;
+				case 1:
+					chartType = 0;
+					initChartBar();
+					break;
+				}
+			}
+		});
 	}
 
 	/**
 	 * 初始化wifi部分的柱状图
 	 */
 	private void onCreateWifiBar() {
-		LinearLayout layout_mobile = (LinearLayout) findViewById(R.id.linearlayout_wifi);
+		layout_mobile = (LinearLayout) findViewById(R.id.linearlayout_wifi);
 		LayoutInflater factory = LayoutInflater.from(context);
 		View loading = factory.inflate(R.layout.loading_layout, null);
 		layout_mobile.removeAllViews();
@@ -259,24 +261,49 @@ public class Main extends Activity {
 	}
 
 	/**
-	 * 初始化wifi部分的柱状图
+	 * onResume时初始化chart
 	 */
-	private void initWifiBar() {
+	private void initChartBar() {
+		switch (chartType) {
+		case 0:
+			initMobileBar();
+			break;
+		case 1:
+			initWifiBar();
+			break;
+		default:
+			initMobileBar();
+			break;
+		}
+	}
 
-		LinearLayout layout_mobile = (LinearLayout) findViewById(R.id.linearlayout_wifi);
-		StackedBarChart chartbar = initStackedBarChart(context);
+	/**
+	 * 初始化mobile部分的柱状图
+	 */
+	private void initMobileBar() {
+		StackedBarChart chartbar = initStackedBarMobileChart(context);
 		View view = chartbar.execute(context);
 		layout_mobile.removeAllViews();
 		layout_mobile.addView(view);
 	}
 
 	/**
-	 * 设置wifi部分的柱状图
+	 * 初始化wifi部分的柱状图
+	 */
+	private void initWifiBar() {
+		StackedBarChart chartbar = initStackedBarWifiChart(context);
+		View view = chartbar.execute(context);
+		layout_mobile.removeAllViews();
+		layout_mobile.addView(view);
+	}
+
+	/**
+	 * 设置mobile部分的柱状图
 	 * 
 	 * @param context
 	 * @return 返回显示的柱状图
 	 */
-	private StackedBarChart initStackedBarChart(Context context) {
+	private StackedBarChart initStackedBarMobileChart(Context context) {
 		DisplayMetrics dm = new DisplayMetrics();
 		// 取得窗口属性
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -328,8 +355,9 @@ public class Main extends Activity {
 		//
 		// showlog(TrafficManager.wifi_month_data_before[0]
 		// + TrafficManager.wifi_month_data_before[63] + "");
-		chartbar.setMainTitle("流量统计(总)");
+		chartbar.setMainTitle("流量统计(2G/3G)");
 		chartbar.setTopTitle("移动网络");
+		chartbar.setChartbarcolor(UiColors.chartbarcolorMobile);
 		// tvtraff.setText("   总流量");
 		double[] mobileTraff = new double[monthbeforetotalDay + monthDay];
 		// break;
@@ -353,6 +381,120 @@ public class Main extends Activity {
 			// format.format(wifi[i]);
 		}
 		chartbar.setData1(mobileTraff, wifiTraff);
+		if (maxTraffic < 848576) {
+			chartbar.setyMaxvalue(1);
+			chartbar.setMaxTraffic(1);
+		} else {
+			chartbar.setMaxTraffic((double) (long) maxTraffic / 1048576 * 1.2);
+			chartbar.setyMaxvalue((double) (long) maxTraffic / 1048576 * 1.2);
+		}
+		chartbar.setxMinvalue(monthbeforetotalDay + monthDay - 5.5);
+		chartbar.setxMaxvalue(monthbeforetotalDay + monthDay + 0.5);
+		// 设置显示的日期
+		String[] xaxles = new String[monthDay + monthbeforetotalDay];
+		for (int i = 0; i < monthDay + monthbeforetotalDay; i++) {
+			if (i < monthbeforetotalDay) {
+				int j = i + 1;
+				if (month == 1) {
+					xaxles[i] = 12 + "月" + j + "日";
+				} else {
+					xaxles[i] = month - 1 + "月" + j + "日";
+				}
+			} else {
+				int j = i - monthbeforetotalDay + 1;
+				xaxles[i] = month + "月" + j + "日";
+			}
+
+		}
+		chartbar.setXaxles(xaxles);
+		// showlog(monthDay+"");
+		return chartbar;
+	}
+
+	/**
+	 * 设置wifi部分的柱状图
+	 * 
+	 * @param context
+	 * @return 返回显示的柱状图
+	 */
+	private StackedBarChart initStackedBarWifiChart(Context context) {
+		DisplayMetrics dm = new DisplayMetrics();
+		// 取得窗口属性
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		// 窗口的宽度
+		// windowswidesize = dm.widthPixels / 10;
+		windowswidesize = dm.densityDpi;
+		StackedBarChart chartbar = new StackedBarChart(context, windowswidesize);
+		// chartbar.setXaxisText(year + "年");
+		chartbar.setXaxisText("");
+		MonthDay.countDay(year, month);
+		int monthbeforetotalDay = 0;
+		if (month == 1) {
+			monthbeforetotalDay = MonthDay.countDay(year - 1, 12);
+		} else {
+			monthbeforetotalDay = MonthDay.countDay(year, month - 1);
+		}
+		chartbar.setShowDay(monthbeforetotalDay + monthDay);
+		// 设置y轴显示值及范围
+		double[] wifiTraff = new double[monthbeforetotalDay + monthDay];
+		long maxTraffic = 0;
+		// DecimalFormat format = new DecimalFormat("0.#");
+		// wifi[0] = (double) (wifiTraffic[0] + wifiTraffic[63]) / 1000000;
+		// TextView tvtraff = (TextView) findViewById(R.id.tv_stackChart);
+		// switch (stackflag) {
+		// case 0:
+		// 统计最大wifi流量
+		for (int i = 0; i < wifiTraff.length; i++) {
+			long temp = 0;
+			if (i < monthbeforetotalDay) {
+				temp = TrafficManager.wifi_month_data_before[i + 1]
+						+ TrafficManager.wifi_month_data_before[i + 32];
+			} else {
+				temp = TrafficManager.wifi_month_data[i - monthbeforetotalDay
+						+ 1]
+						+ TrafficManager.wifi_month_data[i
+								- monthbeforetotalDay + 32];
+			}
+
+			// + TrafficManager.mobile_month_data[i + 1]
+			// + TrafficManager.mobile_month_data[i + 32]
+
+			// 小数点2位
+			wifiTraff[i] = (double) ((long) temp * 100 / 1024 / 1024) / 100;
+			// format.format(wifi[i]);
+			if (temp > maxTraffic) {
+				maxTraffic = temp;
+			}
+		}
+
+		// showlog(TrafficManager.wifi_month_data_before[0]
+		// + TrafficManager.wifi_month_data_before[63] + "");
+		chartbar.setMainTitle("流量统计(WIFI)");
+		chartbar.setTopTitle("WIFI网络");
+		chartbar.setChartbarcolor(UiColors.chartbarcolorWifi);
+		// tvtraff.setText("   总流量");
+		double[] mobileTraff = new double[monthbeforetotalDay + monthDay];
+		// break;
+		// case 1:
+		// for (int i = 0; i < mobileTraff.length; i++) {
+		// long temp = 0;
+		// if (i < monthbeforetotalDay) {
+		// temp = TrafficManager.mobile_month_data_before[i + 1]
+		// + TrafficManager.mobile_month_data_before[i + 32];
+		// } else {
+		// temp = TrafficManager.mobile_month_data[i - monthbeforetotalDay
+		// + 1]
+		// + TrafficManager.mobile_month_data[i
+		// - monthbeforetotalDay + 32];
+		// }
+		// // 小数点2位
+		// mobileTraff[i] = (double) ((long) temp * 100 / 1024 / 1024) / 100;
+		// if (temp > maxTraffic) {
+		// maxTraffic = temp;
+		// }
+		// // format.format(wifi[i]);
+		// }
+		chartbar.setData1(wifiTraff, mobileTraff);
 		if (maxTraffic < 848576) {
 			chartbar.setyMaxvalue(1);
 			chartbar.setMaxTraffic(1);
