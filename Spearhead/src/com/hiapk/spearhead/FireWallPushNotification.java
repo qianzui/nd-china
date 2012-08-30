@@ -13,6 +13,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -150,18 +151,22 @@ public class FireWallPushNotification extends Activity {
 			}
 		});
 
-		ban.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				for (int i = 0; i < FireWallActivity.uidList.size(); i++) {
-					if (FireWallActivity.uidList.get(i) == uid) {
-						FireWallActivity.banPosition = i + 1;
+		if(FireWallActivity.uidList.contains(uid)){
+			ban.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					for (int i = 0; i < FireWallActivity.uidList.size(); i++) {
+						if (FireWallActivity.uidList.get(i) == uid) {
+							FireWallActivity.banPosition = i + 1;
+						}
 					}
+					FireWallMainScene.switScene(0);
+					mNotifDialog.cancel();
 				}
-				FireWallMainScene.switScene(0);
-				mNotifDialog.cancel();
-			}
-		});
+			});
+		}else{
+			ban.setTextColor(Color.GRAY);
+		}
 		clear.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
