@@ -40,7 +40,6 @@ public class SpearheadActivity extends TabActivity {
 	Context context = this;
 	// 按两次退出
 	public static Boolean isExit = false;
-	private static Boolean hasTask = false;
 	public ProgressDialog pro;
 	public static ImageView firehelp;
 	private Timer tExit = new Timer();
@@ -54,7 +53,6 @@ public class SpearheadActivity extends TabActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		// MobclickAgent.onError(this);
 		setContentView(R.layout.maintabs);
@@ -69,7 +67,6 @@ public class SpearheadActivity extends TabActivity {
 	 * 初始化
 	 */
 	private void initScene() {
-		// TODO Auto-generated method stub
 		group = (RadioGroup) findViewById(R.id.main_radio);
 		tabHost = getTabHost();
 		tabHost.addTab(tabHost.newTabSpec(TAB_MONITOR)
@@ -114,7 +111,6 @@ public class SpearheadActivity extends TabActivity {
 		firehelp.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				firehelp.setVisibility(View.INVISIBLE);
 				Block.isShowHelpSet(context, false);
 			}
@@ -168,7 +164,6 @@ public class SpearheadActivity extends TabActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
 		menu.add(0, 1, 1, "设置");
 		menu.add(0, 2, 2, "FAQ");
 		menu.add(0, 3, 3, "关于");
@@ -178,7 +173,6 @@ public class SpearheadActivity extends TabActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 		case 1:
 			Intent intentPref = new Intent();
@@ -244,19 +238,16 @@ public class SpearheadActivity extends TabActivity {
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		// 清楚通知栏信息
 		AlertActionNotify notifyctrl = new AlertActionNotify();
 		notifyctrl.cancelAlertNotify(context);
 		isExit = false;
-		hasTask = false;
 		// MobclickAgent.onResume(this);
 	}
 
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 		// umeng
 		// MobclickAgent.onPause(this);
