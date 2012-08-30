@@ -6,6 +6,7 @@ import java.util.Collections;
 import com.hiapk.dataexe.NotificationInfo;
 import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.alertdialog.CustomDialogOtherBeen;
+import com.hiapk.firewall.Block;
 import com.hiapk.firewall.MyCompNotifName;
 import com.hiapk.firewall.NotifListAdapter;
 
@@ -157,7 +158,8 @@ public class FireWallPushNotification extends Activity {
 		if (FireWallActivity.uidList.contains(uid)
 				&& (PackageManager.PERMISSION_GRANTED == getPackageManager()
 						.checkPermission(Manifest.permission.INTERNET, pkgname))
-				&& SQLStatic.packagename_ALL.contains(pkgname)) {
+				&& SQLStatic.packagename_ALL.contains(pkgname)
+				&& !Block.filter.contains(pkgname)) {
 			ban.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
