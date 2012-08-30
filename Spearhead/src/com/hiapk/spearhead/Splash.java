@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -73,16 +74,15 @@ public class Splash extends Activity {
 
 	public static void getList(Context context) {
 		pm = context.getPackageManager();
-		List<PackageInfo> packageInfo = context.getPackageManager()
-				.getInstalledPackages(0);
+		List<ApplicationInfo> appInfos = pm.getInstalledApplications(0);
 		Block.appnamemap = new HashMap<Integer, String>();
 		SharedPreferences prefs = context.getSharedPreferences("firewall", 0);
 		UseEditor = context.getSharedPreferences("firewall", 0).edit();
 		String appname;
-		for (int i = 0; i < packageInfo.size(); i++) {
-			final PackageInfo pkgInfo = packageInfo.get(i);
-			final int uid = pkgInfo.applicationInfo.uid;
-			final String pkgName = pkgInfo.applicationInfo.packageName;
+		for (int i = 0; i < appInfos.size(); i++) {
+			final ApplicationInfo appInfo = appInfos.get(i);
+			final int uid = appInfo.uid;
+			final String pkgName = appInfo.packageName;
 			if (PackageManager.PERMISSION_GRANTED == pm.checkPermission(
 					Manifest.permission.INTERNET, pkgName)) {
 				if (Block.filter.contains(pkgName)) {
@@ -92,8 +92,7 @@ public class Splash extends Activity {
 						Block.appnamemap.put(uid, appname);
 					} else {
 						// new AsyncTaskSetappName().execute(pkgInfo);
-						appname = pkgInfo.applicationInfo.loadLabel(pm)
-								.toString();
+						appname = appInfo.loadLabel(pm).toString();
 						UseEditor.putString(pkgName, appname);
 						Block.appnamemap.put(uid, appname);
 					}
@@ -115,8 +114,11 @@ public class Splash extends Activity {
 			showLog("alarmover" + (System.currentTimeMillis() - time));
 			// MobclickAgent.onError(this);
 			showLog("uidinitbeforeover" + (System.currentTimeMillis() - time));
-			SQLStatic.getuidsAndpacname(context);
+			if (SQLStatic.packagenames == null) {
+				SQLStatic.getuidsAndpacname(context);
+			}
 			showLog("uidinitover" + (System.currentTimeMillis() - time));
+			showLog("SQLStatic.pac.size=" + SQLStatic.packagenames.length);
 			// 说明已经初始化
 			if (TrafficManager.mobile_month_use != 1)
 				return 0;
