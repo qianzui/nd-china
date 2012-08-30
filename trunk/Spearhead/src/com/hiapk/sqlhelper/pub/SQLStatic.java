@@ -1,13 +1,17 @@
 package com.hiapk.sqlhelper.pub;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
@@ -209,16 +213,17 @@ public class SQLStatic {
 		isGettinguidsAndpacname = true;
 		int j = 0;
 		PackageManager pkgmanager = context.getPackageManager();
-		List<PackageInfo> packages = context.getPackageManager()
-				.getInstalledPackages(0);
-		int[] uidstp = new int[packages.size()];
-		String[] packagenamestp = new String[packages.size()];
+		List<ApplicationInfo> appInfos = pkgmanager
+				.getInstalledApplications(0);
+
+		int[] uidstp = new int[appInfos.size()];
+		String[] packagenamestp = new String[appInfos.size()];
 		StringBuilder pacstemp = new StringBuilder();
-		for (int i = 0; i < packages.size(); i++) {
-			PackageInfo packageinfo = packages.get(i);
+		for (int i = 0; i < appInfos.size(); i++) {
+			ApplicationInfo appInfo = appInfos.get(i);
 			String fliter = Block.filter;
-			String pacname = packageinfo.packageName;
-			int uid = packageinfo.applicationInfo.uid;
+			String pacname = appInfo.packageName;
+			int uid = appInfo.uid;
 			if (!(PackageManager.PERMISSION_GRANTED != pkgmanager
 					.checkPermission(Manifest.permission.INTERNET, pacname))) {
 				if (!fliter.contains(pacname)) {
