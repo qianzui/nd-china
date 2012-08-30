@@ -8,11 +8,14 @@ import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.alertdialog.CustomDialogOtherBeen;
 import com.hiapk.firewall.MyCompNotifName;
 import com.hiapk.firewall.NotifListAdapter;
+
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -151,7 +154,10 @@ public class FireWallPushNotification extends Activity {
 			}
 		});
 
-		if(FireWallActivity.uidList.contains(uid)){
+		if (FireWallActivity.uidList.contains(uid)
+				&& (PackageManager.PERMISSION_GRANTED == getPackageManager()
+						.checkPermission(Manifest.permission.INTERNET, pkgname))
+				&& SQLStatic.packagename_ALL.contains(pkgname)) {
 			ban.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -164,7 +170,7 @@ public class FireWallPushNotification extends Activity {
 					mNotifDialog.cancel();
 				}
 			});
-		}else{
+		} else {
 			ban.setTextColor(Color.GRAY);
 		}
 		clear.setOnClickListener(new OnClickListener() {
