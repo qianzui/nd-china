@@ -20,7 +20,7 @@ public class TimeChangeToStartDateChange extends BroadcastReceiver {
 			c.set(Calendar.HOUR_OF_DAY, 0);
 			c.set(Calendar.MINUTE, 0);
 			c.set(Calendar.SECOND, 0);
-			c.setTimeInMillis(c.getTimeInMillis() + 1000 * 60 * 60 * 24);
+			c.setTimeInMillis(c.getTimeInMillis() + 1000 * 60 * 60 * 24 - 1000);
 			long triggerTime = c.getTimeInMillis();
 			AlarmManager alarmManager = (AlarmManager) context
 					.getSystemService(Context.ALARM_SERVICE);
