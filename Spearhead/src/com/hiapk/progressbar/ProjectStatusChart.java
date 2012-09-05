@@ -332,7 +332,7 @@ public class ProjectStatusChart extends ViewBase {
 				new double[] { showDay - 5.5, showDay - 5.5 }, new double[] {
 						showDay + 0.5, showDay + 0.5 }, new double[] {
 						-MaxTrafficMobile / 20, -MaxTrafficWifi / 6 },
-				new double[] { MaxTrafficMobile, MaxTrafficWifi },
+				new double[] { MaxTrafficMobile, MaxTrafficWifi * 0.85 },
 				Color.rgb(80, 80, 80), colors);
 		// renderer.setYLabels(10);
 
