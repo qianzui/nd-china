@@ -8,9 +8,9 @@
     <!-- 标题 -->
 
     <LinearLayout
+        style="@style/CustomDialogTitle"
         android:layout_width="fill_parent"
         android:layout_height="38dp"
-        android:background="@drawable/shape_on_main_custom_dialog"
         android:orientation="vertical" >
 
         <TextView
@@ -56,7 +56,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1.2"
-            android:background="@drawable/btnselector_main_dataset"
+            android:background="@drawable/btnselector_dark0"
             android:textColor="@color/darkgray2" />
 
         <Button
@@ -67,7 +67,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="@drawable/btnselector_main_dataset"
+            android:background="@drawable/btnselector_dark0"
             android:textColor="@color/darkgray2" />
 
         <Button
@@ -78,7 +78,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="@drawable/btnselector_main_dataset"
+            android:background="@drawable/btnselector_dark0"
             android:textColor="@color/darkgray2" />
     </LinearLayout>
 

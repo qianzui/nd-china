@@ -1,6 +1,7 @@
 package com.hiapk.ui.custom;
 
 import com.hiapk.spearhead.R;
+import com.hiapk.ui.skin.SkinCustomDialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -245,37 +246,30 @@ public class CustomDialog extends Dialog {
 			LayoutInflater inflater = LayoutInflater.from(context);
 			final CustomDialog dialog = new CustomDialog(context,
 					R.style.CustomDialog);
-			// 取得窗口属性
-			Window window = dialog.getWindow();
-			int heigh = window.getWindowManager().getDefaultDisplay()
-					.getHeight();
-			int width = window.getWindowManager().getDefaultDisplay()
-					.getWidth();
 			// 获取定义好的布局文件
 			View layout = inflater.inflate(R.layout.custom_dialog_normal, null);
-			// 窗体大小设置
-			if (windowHeight == 0) {
-				windowHeight = LayoutParams.WRAP_CONTENT;
-			} else {
-				windowHeight = windowHeight * heigh;
-			}
-			if (windowWidth == 0) {
-				windowWidth = 0.9 * width;
-			} else {
-				windowWidth = windowWidth * width;
-			}
 			// 取得窗口属性
 			dialog.addContentView(layout, new LayoutParams(
 					LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-			// windowHeight = 0.3;
-			// windowWidth = 0.9;
-			window.setLayout((int) windowWidth, (int) windowHeight);
+			// 设置属性
+			setWindowParam(dialog);
 			// 设置标题
-			((TextView) layout.findViewById(R.id.title)).setText(title);
+			TextView titleText = (TextView) layout
+					.findViewById(R.id.title_text);
+			titleText.setText(title);
+			LinearLayout titlebar = (LinearLayout) layout
+					.findViewById(R.id.title_bar);
+			// 设置皮肤
+			titlebar.setBackgroundResource(SkinCustomDialog
+					.titleBarBackground());
 			// 设置其他按钮
 			if (otherBtnStr != null) {
 				((Button) layout.findViewById(R.id.otherButton))
 						.setText(otherBtnStr);
+				// 设置皮肤
+				((Button) layout.findViewById(R.id.otherButton))
+						.setBackgroundResource(SkinCustomDialog
+								.buttonBackground());
 				if (otherListener != null) {
 					((Button) layout.findViewById(R.id.otherButton))
 							.setOnClickListener(new View.OnClickListener() {
@@ -294,6 +288,10 @@ public class CustomDialog extends Dialog {
 			if (positiveBtnStr != null) {
 				((Button) layout.findViewById(R.id.positiveButton))
 						.setText(positiveBtnStr);
+				// 设置皮肤
+				((Button) layout.findViewById(R.id.positiveButton))
+						.setBackgroundResource(SkinCustomDialog
+								.buttonBackground());
 				if (positiveListener != null) {
 					((Button) layout.findViewById(R.id.positiveButton))
 							.setOnClickListener(new View.OnClickListener() {
@@ -313,6 +311,10 @@ public class CustomDialog extends Dialog {
 			if (negativeBtnStr != null) {
 				((Button) layout.findViewById(R.id.negativeButton))
 						.setText(negativeBtnStr);
+				// 设置皮肤
+				((Button) layout.findViewById(R.id.negativeButton))
+						.setBackgroundResource(SkinCustomDialog
+								.buttonBackground());
 				if (negativeListener != null) {
 					((Button) layout.findViewById(R.id.negativeButton))
 							.setOnClickListener(new View.OnClickListener() {
@@ -344,6 +346,30 @@ public class CustomDialog extends Dialog {
 			}
 			dialog.setContentView(layout);
 			return dialog;
+		}
+
+		/**
+		 * 设置窗口参数
+		 */
+		private void setWindowParam(CustomDialog dialog) {
+			// 取得窗口属性
+			Window window = dialog.getWindow();
+			int heigh = window.getWindowManager().getDefaultDisplay()
+					.getHeight();
+			int width = window.getWindowManager().getDefaultDisplay()
+					.getWidth();
+			// 窗体大小设置
+			if (windowHeight == 0) {
+				windowHeight = LayoutParams.WRAP_CONTENT;
+			} else {
+				windowHeight = windowHeight * heigh;
+			}
+			if (windowWidth == 0) {
+				windowWidth = 0.9 * width;
+			} else {
+				windowWidth = windowWidth * width;
+			}
+			window.setLayout((int) windowWidth, (int) windowHeight);
 		}
 	}
 

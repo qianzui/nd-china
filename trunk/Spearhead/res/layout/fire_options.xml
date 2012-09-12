@@ -6,12 +6,12 @@
     android:orientation="vertical" >
 
     <LinearLayout
+        style="@style/CustomDialogTitle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="2dip"
         android:layout_marginRight="2dip"
         android:layout_marginTop="2dip"
-        android:background="@drawable/shape_on_main_custom_dialog"
         android:orientation="vertical" >
 
         <TextView
