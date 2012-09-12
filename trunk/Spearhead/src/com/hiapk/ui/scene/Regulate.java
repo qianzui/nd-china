@@ -2,6 +2,8 @@ package com.hiapk.ui.scene;
 
 import com.hiapk.spearhead.Mapplication;
 import com.hiapk.spearhead.R;
+import com.hiapk.util.SharedPrefrenceDataRegulate;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

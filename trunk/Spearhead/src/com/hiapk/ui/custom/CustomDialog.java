@@ -1,4 +1,4 @@
-package com.hiapk.alertdialog;
+package com.hiapk.ui.custom;
 
 import com.hiapk.spearhead.R;
 
@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class CustomDialog extends Dialog {
+
 	public CustomDialog(Context context) {
 		super(context);
 	}
@@ -42,14 +43,25 @@ public class CustomDialog extends Dialog {
 		private String negativeBtnStr;
 
 		private View contentView;
+
 		private int tv_size = 0;
-		private double windowHeight = 0.3;
-		private double windowWidth = 0.9;
+
+		private double windowHeight = 0;
+
+		private double windowWidth = 0;
+
+		private int theme = 0;
+
 		private DialogInterface.OnClickListener otherListener,
 				positiveListener, negativeListener;
 
 		public Builder(Context context) {
 			this.context = context;
+		}
+
+		public Builder(Context context, int theme) {
+			this.context = context;
+			this.theme = theme;
 		}
 
 		/**
@@ -64,7 +76,7 @@ public class CustomDialog extends Dialog {
 		}
 
 		/**
-		 * 设置窗体高度
+		 * 设置窗体高度，默认wrap_content
 		 * 
 		 * @param message
 		 * @return
@@ -75,7 +87,7 @@ public class CustomDialog extends Dialog {
 		}
 
 		/**
-		 * 设置窗体宽度
+		 * 设置窗体宽度缩进比例默认0.9
 		 * 
 		 * @param message
 		 * @return
@@ -233,22 +245,31 @@ public class CustomDialog extends Dialog {
 			LayoutInflater inflater = LayoutInflater.from(context);
 			final CustomDialog dialog = new CustomDialog(context,
 					R.style.CustomDialog);
-			// 获取定义好的布局文件
-			View layout = inflater.inflate(
-					R.layout.custom_alert_dialog_on_main, null);
-			// 取得窗口属性
-			dialog.addContentView(layout, new LayoutParams(
-					LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 			// 取得窗口属性
 			Window window = dialog.getWindow();
 			int heigh = window.getWindowManager().getDefaultDisplay()
 					.getHeight();
 			int width = window.getWindowManager().getDefaultDisplay()
 					.getWidth();
+			// 获取定义好的布局文件
+			View layout = inflater.inflate(R.layout.custom_dialog_normal, null);
+			// 窗体大小设置
+			if (windowHeight == 0) {
+				windowHeight = LayoutParams.WRAP_CONTENT;
+			} else {
+				windowHeight = windowHeight * heigh;
+			}
+			if (windowWidth == 0) {
+				windowWidth = 0.9 * width;
+			} else {
+				windowWidth = windowWidth * width;
+			}
+			// 取得窗口属性
+			dialog.addContentView(layout, new LayoutParams(
+					LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 			// windowHeight = 0.3;
-			// windowWidth = 0.8;
-			window.setLayout((int) (width * windowWidth),
-					(int) (heigh * windowHeight));
+			// windowWidth = 0.9;
+			window.setLayout((int) windowWidth, (int) windowHeight);
 			// 设置标题
 			((TextView) layout.findViewById(R.id.title)).setText(title);
 			// 设置其他按钮
@@ -324,7 +345,6 @@ public class CustomDialog extends Dialog {
 			dialog.setContentView(layout);
 			return dialog;
 		}
-
 	}
 
 }

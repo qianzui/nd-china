@@ -3,6 +3,8 @@ package com.hiapk.ui.scene;
 import com.hiapk.customspinner.CustomSPPhoneSetBeen;
 import com.hiapk.customspinner.SPDataSet;
 import com.hiapk.spearhead.R;
+import com.hiapk.util.SharedPrefrenceDataRegulate;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

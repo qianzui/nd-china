@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import com.hiapk.dataexe.NotificationInfo;
+import com.hiapk.ui.custom.CustomDialogOtherBeen;
 import com.hiapk.util.SQLStatic;
-import com.hiapk.alertdialog.CustomDialogOtherBeen;
 import com.hiapk.firewall.Block;
 import com.hiapk.firewall.MyCompNotifName;
 import com.hiapk.firewall.NotifListAdapter;

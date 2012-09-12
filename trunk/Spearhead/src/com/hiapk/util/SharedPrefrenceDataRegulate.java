@@ -1,4 +1,4 @@
-package com.hiapk.ui.scene;
+package com.hiapk.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -55,12 +55,12 @@ public class SharedPrefrenceDataRegulate {
 	// return hasClear;
 	// }
 	//
-	// protected void setHasUsedClearOnCountDay(boolean countDay) {
+	// public void setHasUsedClearOnCountDay(boolean countDay) {
 	// UseEditor.putBoolean(MOBILE_HAS_USED_CLEAR_ON_COUNT_DAY, countDay);
 	// UseEditor.commit();
 	// }
 
-	protected void setPhoneInfo(String city, String brand, int shengfenId,
+	public void setPhoneInfo(String city, String brand, int shengfenId,
 			String smsNum, String smsText) {
 		UseEditor.putString(CITY, city);
 		UseEditor.putString(BRAND, brand);
@@ -71,74 +71,74 @@ public class SharedPrefrenceDataRegulate {
 		UseEditor.commit();
 	}
 
-	protected void setIsSend(Boolean isSend) {
+	public void setIsSend(Boolean isSend) {
 		UseEditor.putBoolean("IS_SEND", isSend);
 		UseEditor.commit();
 	}
 
-	protected void setIsReceive(Boolean isReceive) {
+	public void setIsReceive(Boolean isReceive) {
 		UseEditor.putBoolean("IS_RECEIVE", isReceive);
 		UseEditor.commit();
 	}
 
-	protected boolean getIsSend() {
+	public boolean getIsSend() {
 		boolean isSend = prefs.getBoolean("IS_SEND", false);
 		return isSend;
 
 	}
 
-	protected boolean getIsReceive() {
+	public boolean getIsReceive() {
 		boolean isReceive = prefs.getBoolean("IS_RECEIVE", false);
 		return isReceive;
 	}
 
-	protected String getCity() {
+	public String getCity() {
 		String city = prefs.getString(CITY, "进入地区选择页");
 		return city;
 
 	}
 
-	protected String getBrand() {
+	public String getBrand() {
 		String brand = prefs.getString(BRAND, "");
 		return brand;
 
 	}
 
-	protected int getProvinceID() {
+	public int getProvinceID() {
 		int city = prefs.getInt(PROVINCE_ID, 0);
 		return city;
 
 	}
 
-	protected String getChooseCity() {
+	public String getChooseCity() {
 		String smsNum = prefs.getString(CHOOSED_CITY, "北京--神州行");
 		return smsNum;
 
 	}
 
-	protected void setChooseCity(String str) {
+	public void setChooseCity(String str) {
 		UseEditor.putString(CHOOSED_CITY, str);
 		UseEditor.commit();
 	}
 
-	protected String getSmsNum() {
+	public String getSmsNum() {
 		String smsNum = prefs.getString(SMSNUM, "10086");
 		return smsNum;
 
 	}
 
-	protected void setSmsNum(String str) {
+	public void setSmsNum(String str) {
 		UseEditor.putString(SMSNUM, str);
 		UseEditor.commit();
 	}
 
-	protected String getSmsText() {
+	public String getSmsText() {
 		String smsText = prefs.getString(SMSTEXT, "CXLL");
 		return smsText;
 
 	}
 
-	protected void setSmsText(String str) {
+	public void setSmsText(String str) {
 		UseEditor.putString(SMSTEXT, str);
 		UseEditor.commit();
 	}
@@ -154,45 +154,45 @@ public class SharedPrefrenceDataRegulate {
 
 	}
 
-	protected void setCurrentCity(String str) {
+	public void setCurrentCity(String str) {
 		UseEditor.putString(CURRENT_CITY, str);
 		UseEditor.commit();
 	}
 
-	protected String getCurrentCity() {
+	public String getCurrentCity() {
 		String result = prefs.getString(CURRENT_CITY, "北京");
 		return result;
 
 	}
 
-	protected void setCurrentProvince(String str) {
+	public void setCurrentProvince(String str) {
 		UseEditor.putString(CURRENT_PROVINCE, str);
 		UseEditor.commit();
 	}
 
-	protected String getCurrentProvince() {
+	public String getCurrentProvince() {
 		String result = prefs.getString(CURRENT_PROVINCE, "北京");
 		return result;
 
 	}
 
-	protected void setCurrentYunyinshang(String str) {
+	public void setCurrentYunyinshang(String str) {
 		UseEditor.putString(CURRENT_YUNYINGSHANG, str);
 		UseEditor.commit();
 	}
 
-	protected String getCurrentYunyinshang() {
+	public String getCurrentYunyinshang() {
 		String result = prefs.getString(CURRENT_YUNYINGSHANG, "中国移动");
 		return result;
 
 	}
 
-	protected void setCurrentPinpai(String str) {
+	public void setCurrentPinpai(String str) {
 		UseEditor.putString(CURRENT_PINPAI, str);
 		UseEditor.commit();
 	}
 
-	protected String getCurrentPinpai() {
+	public String getCurrentPinpai() {
 		String result = prefs.getString(CURRENT_PINPAI, "神州行");
 		return result;
 

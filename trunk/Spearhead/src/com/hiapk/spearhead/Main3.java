@@ -1,12 +1,12 @@
 package com.hiapk.spearhead;
 
-import com.hiapk.alertdialog.CustomDialogMain3Been;
 import com.hiapk.customspinner.CustomSPBeen;
 import com.hiapk.dataexe.UnitHandler;
+import com.hiapk.ui.custom.CustomDialogMain3Been;
 import com.hiapk.ui.scene.PhoneSet;
 import com.hiapk.ui.scene.Regulate;
-import com.hiapk.ui.scene.SharedPrefrenceDataRegulate;
 import com.hiapk.util.SharedPrefrenceData;
+import com.hiapk.util.SharedPrefrenceDataRegulate;
 
 import android.app.Activity;
 import android.content.Context;

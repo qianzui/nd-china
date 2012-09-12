@@ -1,4 +1,4 @@
-package com.hiapk.alertdialog;
+package com.hiapk.ui.custom;
 
 import java.util.List;
 
@@ -69,7 +69,7 @@ public class CustomDialogOtherBeen {
 				.setMessage(
 						"获取Root权限失败，可能原因：\n\n1.您的设备未破解\n2.尝试获取Root失败\n建议退出后重新尝试。")
 				.setPositiveButton("重试", null).setNegativeButton("取消", null)
-				.setwindowHeight(0.5).create();
+			.create();
 		scanNotificationRootFail.show();
 		Button btn_ok = (Button) scanNotificationRootFail
 				.findViewById(R.id.positiveButton);
@@ -114,7 +114,6 @@ public class CustomDialogOtherBeen {
 	public void dialogHasUsedLongTooMuch() {
 		final CustomDialog dayWarning = new CustomDialog.Builder(context)
 				.setTitle("注意！").setMessage("您设置的本月已用流量超过包月流量！")
-				.setwindowHeight(0.35)
 				// .setView(textEntryView)
 				.setPositiveButton("确定", null).create();
 		dayWarning.show();
@@ -136,7 +135,6 @@ public class CustomDialogOtherBeen {
 		monthSetAlert = new CustomDialog.Builder(context)
 				.setTitle("未能开启防火墙")
 				.setTv_size(18)
-				.setwindowHeight(0.7)
 				.setMessage(
 						"由于安卓系统的限制,只有获得最高权限(称为\"Root\")的机器才能使用防火墙功能。\n当前操作失败,可能原因有:\n\n1.您拒绝了Root权限 \n2.系统原因,防火墙应用失败 \n3.部分机型不支持防火墙操作")
 				.setPositiveButton("确定", null).create();
@@ -154,7 +152,7 @@ public class CustomDialogOtherBeen {
 	public void dialogConfirmClearData() {
 
 		final CustomDialog monthSetAlert = new CustomDialog.Builder(context)
-				.setTitle("注意！").setwindowHeight((double) 0.35)
+				.setTitle("注意！")
 				.setMessage("该操作将清除所有历史数据，您确定要继续吗？")
 				.setPositiveButton("确定", null).setNegativeButton("取消", null)
 				.create();

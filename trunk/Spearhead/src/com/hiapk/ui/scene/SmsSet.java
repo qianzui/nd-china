@@ -1,5 +1,7 @@
 package com.hiapk.ui.scene;
 
+import com.hiapk.util.SharedPrefrenceDataRegulate;
+
 import android.content.Context;
 
 public class SmsSet {
