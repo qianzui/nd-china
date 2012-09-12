@@ -102,6 +102,10 @@
         <item name="android:windowIsFloating">true</item>
     </style>
 
+    <style name="CustomDialogTitle">
+        <item name="android:background"> @drawable/custom_dialog_title_background0</item>
+    </style>
+
     <style name="CustomDialogText">
         <item name="android:textColor">@color/darkgray2</item>
         <item name="android:textSize">18sp</item>

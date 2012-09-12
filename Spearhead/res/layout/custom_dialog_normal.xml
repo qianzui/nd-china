@@ -8,13 +8,14 @@
     <!-- 标题 -->
 
     <LinearLayout
+        android:id="@+id/title_bar"
+        style="@style/CustomDialogTitle"
         android:layout_width="fill_parent"
         android:layout_height="38dp"
-        android:background="@drawable/shape_on_main_custom_dialog"
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/title_text"
             style="@style/CustomDialogText.Title"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -29,9 +30,9 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:gravity="center_vertical"
         android:layout_marginBottom="2dp"
         android:layout_weight="10"
+        android:gravity="center_vertical"
         android:orientation="vertical" >
 
         <TextView
@@ -42,8 +43,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"
             android:gravity="left|center_vertical"
-            android:padding="5dip"
-            />
+            android:padding="5dip" />
     </LinearLayout>
     <!-- 按钮 -->
 
@@ -76,7 +76,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1.2"
-            android:background="@drawable/btnselector_main_dataset" />
+            android:background="@drawable/btnselector_dark0" />
 
         <Button
             android:id="@+id/positiveButton"
@@ -86,7 +86,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="@drawable/btnselector_main_dataset" />
+            android:background="@drawable/btnselector_dark0" />
 
         <Button
             android:id="@+id/negativeButton"
@@ -96,7 +96,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="@drawable/btnselector_main_dataset" />
+            android:background="@drawable/btnselector_dark0" />
     </LinearLayout>
 
 </LinearLayout>

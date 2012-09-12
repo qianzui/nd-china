@@ -4,24 +4,27 @@
     android:layout_height="fill_parent"
     android:background="@drawable/main_item"
     android:orientation="vertical" >
-   <LinearLayout
+
+    <LinearLayout
+        style="@style/CustomDialogTitle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="2dip"
-        android:layout_marginTop="2dip"
         android:layout_marginRight="2dip"
-        android:background="@drawable/shape_on_main_custom_dialog"
+        android:layout_marginTop="2dip"
         android:orientation="vertical" >
+
         <TextView
             style="@style/CustomDialogText.Title"
             android:layout_width="fill_parent"
             android:layout_height="45dip"
             android:gravity="center_vertical"
-            android:text="注意"
             android:paddingLeft="8dip"
-            android:paddingRight="8dip" />
+            android:paddingRight="8dip"
+            android:text="注意" />
     </LinearLayout>
-     <LinearLayout
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
@@ -29,26 +32,29 @@
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp" >
-       <ImageView
+
+        <ImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/divider" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="60dip"
         android:orientation="vertical" >
-     <TextView
-        android:id="@+id/fire_tip2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:textColor="@color/black"
-        android:textSize="17sp"
-        android:paddingLeft="10dp"
-        />
+
+        <TextView
+            android:id="@+id/fire_tip2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
     </LinearLayout>
-     <LinearLayout
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
@@ -56,28 +62,31 @@
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp" >
-       <ImageView
+
+        <ImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/divider" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="55dip"
         android:orientation="horizontal" >
+
         <Button
             android:id="@+id/fire_yes"
-            android:layout_height="fill_parent"
             android:layout_width="fill_parent"
-            android:gravity="center"
-            android:text="确定"
-            android:textColor="@color/black"
-            android:textSize="17sp" 
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="3dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:background="@drawable/btnselector_main_dataset"           
-            />
+            android:background="@drawable/btnselector_dark0"
+            android:gravity="center"
+            android:text="确定"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
     </LinearLayout>
+
 </LinearLayout>
