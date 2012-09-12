@@ -2,8 +2,8 @@ package com.hiapk.broadcreceiver;
 
 import java.util.Calendar;
 
-import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.util.SQLStatic;
+import com.hiapk.util.SharedPrefrenceDataWidget;
 import com.hiapk.widget.ProgramNotify;
 
 import android.app.AlarmManager;

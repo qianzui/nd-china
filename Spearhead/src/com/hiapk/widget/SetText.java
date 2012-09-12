@@ -9,9 +9,9 @@ import android.text.style.ForegroundColorSpan;
 import com.hiapk.dataexe.MonthDay;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
-import com.hiapk.provider.ColorChangeMainBeen;
+import com.hiapk.ui.skin.ColorChangeMainBeen;
+import com.hiapk.util.SharedPrefrenceData;
+import com.hiapk.util.SharedPrefrenceDataWidget;
 
 public class SetText {
 	public static String textUp = "今日已用: 0 KB";

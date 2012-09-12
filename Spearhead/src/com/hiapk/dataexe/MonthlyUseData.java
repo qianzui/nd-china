@@ -1,6 +1,7 @@
 package com.hiapk.dataexe;
 
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
+import com.hiapk.util.SharedPrefrenceData;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 

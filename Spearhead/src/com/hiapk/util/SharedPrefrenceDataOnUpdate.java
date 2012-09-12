@@ -1,4 +1,4 @@
-package com.hiapk.prefrencesetting;
+package com.hiapk.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;

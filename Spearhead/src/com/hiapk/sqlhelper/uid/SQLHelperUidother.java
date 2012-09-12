@@ -7,10 +7,10 @@ import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.Block;
 import com.hiapk.logs.Logs;
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 import com.hiapk.util.SQLStatic;
+import com.hiapk.util.SharedPrefrenceData;
 
 import android.Manifest;
 import android.content.Context;

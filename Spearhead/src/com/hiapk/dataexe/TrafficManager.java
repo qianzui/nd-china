@@ -5,8 +5,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.util.SQLStatic;
+import com.hiapk.util.SharedPrefrenceData;
 
 /**
  * 用于获取各种流量数据的总类

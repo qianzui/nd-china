@@ -1,6 +1,6 @@
 package com.hiapk.progressbar;
 
-import com.hiapk.provider.UiColors;
+import com.hiapk.ui.skin.UiColors;
 
 import android.content.Context;
 import android.graphics.Canvas;

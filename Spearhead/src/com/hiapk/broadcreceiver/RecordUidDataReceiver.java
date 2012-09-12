@@ -1,9 +1,9 @@
 package com.hiapk.broadcreceiver;
 
-import com.hiapk.prefrencesetting.SharedPrefrenceDataOnUpdate;
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.uid.SQLHelperUidRecord;
 import com.hiapk.util.SQLStatic;
+import com.hiapk.util.SharedPrefrenceDataOnUpdate;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

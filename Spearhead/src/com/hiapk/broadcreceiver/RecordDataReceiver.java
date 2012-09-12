@@ -3,11 +3,11 @@ package com.hiapk.broadcreceiver;
 import com.hiapk.alertaction.TrafficAlert;
 import com.hiapk.dataexe.MonthlyUseData;
 import com.hiapk.dataexe.TrafficManager;
-import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 import com.hiapk.sqlhelper.total.SQLHelperTotal;
 import com.hiapk.util.SQLStatic;
+import com.hiapk.util.SharedPrefrenceDataWidget;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

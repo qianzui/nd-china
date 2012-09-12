@@ -5,9 +5,9 @@ import java.util.List;
 import com.hiapk.bean.UidTraffs;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.logs.Logs;
-import com.hiapk.prefrencesetting.SharedPrefrenceDataOnUpdate;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 import com.hiapk.util.SQLStatic;
+import com.hiapk.util.SharedPrefrenceDataOnUpdate;
 
 import android.app.ActivityManager;
 import android.content.Context;

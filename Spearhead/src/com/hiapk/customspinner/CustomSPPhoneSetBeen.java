@@ -9,8 +9,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import com.hiapk.regulate.SharedPrefrenceDataRegulate;
 import com.hiapk.spearhead.R;
+import com.hiapk.ui.scene.SharedPrefrenceDataRegulate;
 
 /**
  * 初始化手机卡归属地页面

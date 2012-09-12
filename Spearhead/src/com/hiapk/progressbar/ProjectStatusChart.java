@@ -30,7 +30,7 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
 import com.hiapk.dataexe.MonthDay;
-import com.hiapk.provider.UiColors;
+import com.hiapk.ui.skin.UiColors;
 
 import android.content.Context;
 import android.graphics.Color;
