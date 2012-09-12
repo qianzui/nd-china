@@ -1,8 +1,8 @@
 package com.hiapk.ui.scene;
 
-import com.hiapk.customspinner.CustomSPPhoneSetBeen;
-import com.hiapk.customspinner.SPDataSet;
 import com.hiapk.spearhead.R;
+import com.hiapk.ui.custom.CustomSPDataSet;
+import com.hiapk.ui.custom.CustomSPPhoneSetBeen;
 import com.hiapk.util.SharedPrefrenceDataRegulate;
 
 import android.app.Activity;
@@ -98,7 +98,7 @@ public class PhoneSet extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				String[] content = res.getStringArray(SPDataSet
+				String[] content = res.getStringArray(CustomSPDataSet
 						.getSpinCity(sharedData.getCurrentProvinceID()));
 				int beforepos = sharedData.getCurrentCityID();
 				customSP.dialogPhoneSetSecond(content, beforepos, "请选择城市",
@@ -110,7 +110,7 @@ public class PhoneSet extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				String[] content = res.getStringArray(SPDataSet
+				String[] content = res.getStringArray(CustomSPDataSet
 						.getSpinBrand(sharedData.getCurrentYunyinshangID()));
 				int beforepos = sharedData.getCurrentPinpaiID();
 				customSP.dialogPhoneSetSecond(content, beforepos, "请选择品牌",
@@ -130,11 +130,11 @@ public class PhoneSet extends Activity {
 		content = res.getStringArray(R.array.operator);
 		beforepos = sharedData.getCurrentYunyinshangID();
 		operator.setText(content[beforepos]);
-		content = res.getStringArray(SPDataSet.getSpinBrand(sharedData
+		content = res.getStringArray(CustomSPDataSet.getSpinBrand(sharedData
 				.getCurrentYunyinshangID()));
 		beforepos = sharedData.getCurrentPinpaiID();
 		brand.setText(content[beforepos]);
-		content = res.getStringArray(SPDataSet.getSpinCity(sharedData
+		content = res.getStringArray(CustomSPDataSet.getSpinCity(sharedData
 				.getCurrentProvinceID()));
 		beforepos = sharedData.getCurrentCityID();
 		city.setText(content[beforepos]);
