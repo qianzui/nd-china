@@ -1,11 +1,11 @@
 package com.hiapk.sqlhelper.uid;
 
+import com.hiapk.logs.Logs;
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 /**
  * 用于流量详情界面获取统计数据
@@ -29,6 +29,8 @@ public class SQLHelperUidtraffStats {
 	private Cursor cur;
 	// flag-network-onuidtraff
 	private String NETWORK_FLAG = "mobile";
+	// logs
+	private String TAG = "UidstraffStats";
 
 	/**
 	 * 获取pie用的uid总流量
@@ -64,17 +66,19 @@ public class SQLHelperUidtraffStats {
 	 */
 	private long[] getSQLuidtotalData(SQLiteDatabase mySQL, int uidnumber,
 			String network) {
-		String string = null;
+		StringBuilder string = new StringBuilder();
 		if (network == NETWORK_FLAG) {
 			// select oldest upload and download 之前记录的数据的查询操作
-			string = SelectTable + "uid" + uidnumber + Where + "type=" + 3;
+			string = string.append(SelectTable).append("uid").append(uidnumber)
+					.append(Where).append("type=").append(3);
 		} else {
-			string = SelectTable + "uid" + uidnumber + Where + "type=" + 4;
+			string = string.append(SelectTable).append("uid").append(uidnumber)
+					.append(Where).append("type=").append(4);
 		}
 		try {
-			cur = mySQL.rawQuery(string, null);
+			cur = mySQL.rawQuery(string.toString(), null);
 		} catch (Exception e) {
-			showLog("uidstraffstats" + "error" + string);
+			Logs.d(TAG, "uidstraffstats" + "error" + string.toString()+e);
 		}
 		long[] a = new long[3];
 		if (cur != null) {
@@ -88,7 +92,7 @@ public class SQLHelperUidtraffStats {
 					a[2] = cur.getLong(mindown);
 				}
 			} catch (Exception e) {
-				showLog("uidstraffstats-cur-searchfail");
+				Logs.d(TAG, "uidstraffstats-cur-searchfail"+e);
 			}
 		}
 		if (cur != null) {
@@ -140,23 +144,26 @@ public class SQLHelperUidtraffStats {
 			int month, String table, int uid, String other) {
 		long[] a = new long[64];
 		SQLiteDatabase sqlDataBase = SQLHelperCreateClose.creatSQLUid(context);
-		String string = null;
+		StringBuilder string = new StringBuilder();
 		// select oldest upload and download 之前记录的数据的查询操作
 		// SELECT * FROM table WHERE type=0
 		String month2 = month + "";
 		if (month < 10)
 			month2 = "0" + month2;
-		string = SelectTable + table + Where + "date" + Between + year + "-"
-				+ month2 + "-" + "01" + AND_B + year + "-" + month2 + "-"
-				+ "31" + AND + "other=" + "'" + other + AND + "type=" + 2;
+		string = string.append(SelectTable).append(table).append(Where)
+				.append("date").append(Between).append(year).append("-")
+				.append(month2).append("-").append("01").append(AND_B)
+				.append(year).append("-").append(month2).append("-")
+				.append("31").append(AND).append("other=").append("'")
+				.append(other).append(AND).append("type=").append(2);
 		try {
-			cur = sqlDataBase.rawQuery(string, null);
+			cur = sqlDataBase.rawQuery(string.toString(), null);
 		} catch (Exception e) {
 			// 搜索失败则新建表
 			SQLHelperUidSelectFail uidselectFail = new SQLHelperUidSelectFail();
 			uidselectFail.selectfails(sqlDataBase, table, uid);
 			cur = null;
-			showLog("selectfail" + string);
+			Logs.d(TAG, "selectfail" + string.toString()+e);
 
 		}
 		String newdate = "";
@@ -218,7 +225,7 @@ public class SQLHelperUidtraffStats {
 				a[0] += a[i];
 				a[63] += a[i + 31];
 			} catch (Exception e) {
-				showLog("uidstraffstats-cur-searchfail");
+				Logs.d(TAG, "uidstraffstats-cur-searchfail" + e);
 			}
 		}
 		if (cur != null) {
@@ -229,14 +236,5 @@ public class SQLHelperUidtraffStats {
 		// showLog(j + "liuliang" + a[j] + "");
 		// }
 		return a;
-	}
-
-	/**
-	 * 用于显示日志
-	 * 
-	 * @param string
-	 */
-	private void showLog(String string) {
-		Log.d("UidstraffStats", string);
 	}
 }

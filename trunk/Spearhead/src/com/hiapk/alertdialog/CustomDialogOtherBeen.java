@@ -19,8 +19,8 @@ import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.progressdialog.CustomProgressDialog;
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.FireWallMainScene;
-import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
+import com.hiapk.util.SQLStatic;
 import com.hiapk.widget.SetText;
 
 public class CustomDialogOtherBeen {

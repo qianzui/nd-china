@@ -1,5 +1,7 @@
 package com.hiapk.sqlhelper.total;
 
+import com.hiapk.bean.TotalTraffs;
+import com.hiapk.logs.Logs;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 
@@ -7,14 +9,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.format.Time;
-import android.util.Log;
 
 public class SQLHelperTotal {
 
 	public SQLHelperTotal() {
 		super();
-		// initTime();
-		// TODO Auto-generated constructor stub
 	}
 
 	private String TableWiFi = "wifi";
@@ -42,6 +41,8 @@ public class SQLHelperTotal {
 	private int second;
 	private String date;
 	private String time;
+	// log
+	private String TAG = "databaseTotal";
 
 	/**
 	 * 对数据库总体数据进行更新
@@ -68,19 +69,19 @@ public class SQLHelperTotal {
 	private void updateSQLtotalType(SQLiteDatabase mySQL, String table,
 			long upload, long download, int type, String other, int typechange) {
 		initTime();
-		// TODO Auto-generated method stub
-		String string = null;
-		string = UpdateTable + table + UpdateSet + "date='" + date + "',time='"
-				+ time + "',upload='" + upload + "',download='" + download
-				+ "' ,type=" + typechange + Where + "type=" + type;
+		StringBuilder string = new StringBuilder();
+		string = string.append(UpdateTable).append(table).append(UpdateSet)
+				.append("date='").append(date).append("',time='").append(time)
+				.append("',upload='").append(upload).append("',download='")
+				.append(download).append("' ,type=").append(typechange)
+				.append(Where).append("type=").append(type);
 		// UPDATE Person SET
 		// date='date',time='time',upload='upload',download='download'
 		// ,type='typechange' WHERE type=type
 		try {
-			mySQL.execSQL(string);
+			mySQL.execSQL(string.toString());
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
+			Logs.d(TAG, string.toString() + "fail" + e);
 		}
 	}
 
@@ -109,77 +110,75 @@ public class SQLHelperTotal {
 	private void updateSQLtotalTypeDate(SQLiteDatabase mySQL, String table,
 			long upload, long download, int type, String other, int typechange) {
 		initTime();
-		// TODO Auto-generated method stub
-		String string = null;
-		string = UpdateTable + table + UpdateSet + "time='" + time
-				+ "',upload='" + upload + "',download='" + download
-				+ "' ,type=" + typechange + Where + "date='" + date + AND
-				+ "type=" + type;
+		StringBuilder string = new StringBuilder();
+		string = string.append(UpdateTable).append(table).append(UpdateSet)
+				.append("time='").append(time).append("',upload='")
+				.append(upload).append("',download='").append(download)
+				.append("' ,type=").append(typechange).append(Where)
+				.append("date='").append(date).append(AND).append("type=")
+				.append(type);
 		// UPDATE Person SET
 		// date='date',time='time',upload='upload',download='download'
 		// ,type='typechange' WHERE type=type
 		try {
-			mySQL.execSQL(string);
+			mySQL.execSQL(string.toString());
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
+			Logs.d(TAG, string.toString() + "fail" + e);
 		}
 	}
 
 	private void updateSQLtotalTypeDate0to3(SQLiteDatabase mySQL, String table,
 			long upload, long download, int type, String other, int typechange) {
 		initTime();
-		// TODO Auto-generated method stub
-		String string = null;
-		string = UpdateTable + table + UpdateSet + "time='" + time
-				+ "',upload='" + upload + "',download='" + download
-				+ "' ,type=" + typechange + " ,date='" + date + "' " + Where
-				+ "type=" + type;
+		StringBuilder string = new StringBuilder();
+		string = string.append(UpdateTable).append(table).append(UpdateSet)
+				.append("time='").append(time).append("',upload='")
+				.append(upload).append("',download='").append(download)
+				.append("' ,type=").append(typechange).append(" ,date='")
+				.append(date).append("' ").append(Where).append("type=")
+				.append(type);
 		// UPDATE Person SET
 		// date='date',time='time',upload='upload',download='download'
 		// ,type='typechange' WHERE type=type
 		try {
-			mySQL.execSQL(string);
+			mySQL.execSQL(string.toString());
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
+			Logs.d(TAG, string.toString() + "fail" + e);
 		}
 	}
 
-	/**
-	 * 对数据库总体数据进行更新,自动生成时间，日期上传，下载流量
-	 * 
-	 * @param mySQL
-	 *            进行写入操作的数据库SQLiteDatagase
-	 * @param table
-	 *            数据库的表：有wifi，mobile等
-	 * @param type
-	 *            用于记录数据状态，以统计数据
-	 * @param other
-	 *            用于记录特殊数据等
-	 * @param typechange
-	 *            改变type值2的值为数据库中实际记录数据的数值
-	 */
-	public void updateSQLtotalType(SQLiteDatabase mySQL, String table,
-			int type, String other, int typechange) {
-		initTime();
-		long[] totalTraff = SQLHelperDataexe.initTotalData(table);
-		// TODO Auto-generated method stub
-		String string = null;
-		string = UpdateTable + table + UpdateSet + "date='" + date + "',time='"
-				+ time + "',upload='" + totalTraff[0] + "',download='"
-				+ totalTraff[1] + "' ,type=" + typechange + Where + "type="
-				+ type;
-		// UPDATE Person SET
-		// date='date',time='time',upload='upload',download='download'
-		// ,type='typechange' WHERE type=type
-		try {
-			mySQL.execSQL(string);
-		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
-		}
-	}
+	// /**
+	// * 对数据库总体数据进行更新,自动生成时间，日期上传，下载流量
+	// *
+	// * @param mySQL
+	// * 进行写入操作的数据库SQLiteDatagase
+	// * @param table
+	// * 数据库的表：有wifi，mobile等
+	// * @param type
+	// * 用于记录数据状态，以统计数据
+	// * @param other
+	// * 用于记录特殊数据等
+	// * @param typechange
+	// * 改变type值2的值为数据库中实际记录数据的数值
+	// */
+	// public void updateSQLtotalType(SQLiteDatabase mySQL, String table,
+	// int type, String other, int typechange) {
+	// initTime();
+	// long[] totalTraff = SQLHelperDataexe.initTotalData(table);
+	// StringBuilder string = new StringBuilder();
+	// string = UpdateTable + table + UpdateSet + "date='" + date + "',time='"
+	// + time + "',upload='" + totalTraff[0] + "',download='"
+	// + totalTraff[1] + "' ,type=" + typechange + Where + "type="
+	// + type;
+	// // UPDATE Person SET
+	// // date='date',time='time',upload='upload',download='download'
+	// // ,type='typechange' WHERE type=type
+	// try {
+	// mySQL.execSQL(string.toString());
+	// } catch (Exception e) {
+	// Logs.d(TAG, string.toString() + "fail" + e);
+	// }
+	// }
 
 	/**
 	 * 对数据库总体数据进行统计，写入时间范围内的上传，下载数据
@@ -206,15 +205,15 @@ public class SQLHelperTotal {
 	private void statsSQLtotal(Context context, SQLiteDatabase mySQL,
 			String table, String date, String time, long upload, long download,
 			int type, String other, boolean daily) {
-		String string = null;
+		StringBuilder string = new StringBuilder();
 		// select oldest upload and download 之前记录的数据的查询操作
 		// SELECT * FROM table WHERE type=0
-		string = SelectTable + table + Where + "type=" + 0;
+		string = string.append(SelectTable).append(table).append(Where)
+				.append("type=").append(0);
 		try {
-			cur = mySQL.rawQuery(string, null);
+			cur = mySQL.rawQuery(string.toString(), null);
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
+			Logs.d(TAG, string.toString() + "fail" + e);
 		}
 		long oldup0 = -50;
 		long olddown0 = -50;
@@ -223,15 +222,14 @@ public class SQLHelperTotal {
 			try {
 				int minup = cur.getColumnIndex("upload");
 				int mindown = cur.getColumnIndex("download");
-				// showLog(cur.getColumnIndex("minute") + "");
+				// showLog(cur.getColumnIndex("minute") ).append( "");
 				if (cur.moveToFirst()) {
 					// 获得之前的上传下载值
 					oldup0 = cur.getLong(minup);
 					olddown0 = cur.getLong(mindown);
 				}
 			} catch (Exception e) {
-				// TODO: handle exception
-				showLog("数据库搜索失败");
+				Logs.d(TAG, "数据库搜索失败");
 				oldup0 = -100;
 				olddown0 = -100;
 			}
@@ -259,14 +257,14 @@ public class SQLHelperTotal {
 			// showLog("oldup0 up=" + oldup0 + "olddown0 down=" + olddown0);
 			if ((olddown0 != 0 || oldup0 != 0)
 					&& ((olddown0 > 512) || (oldup0 > 512))) {
-
-				string = SelectTable + table + Where + "date='" + date + AND
-						+ "type=" + 3;
+				string = new StringBuilder();
+				string = string.append(SelectTable).append(table).append(Where)
+						.append("date='").append(date).append(AND)
+						.append("type=").append(3);
 				try {
-					cur = mySQL.rawQuery(string, null);
+					cur = mySQL.rawQuery(string.toString(), null);
 				} catch (Exception e) {
-					// TODO: handle exception
-					showLog(string);
+					Logs.d(TAG, string.toString() + "fail" + e);
 				}
 				long oldup3 = 0;
 				long olddown3 = 0;
@@ -287,8 +285,7 @@ public class SQLHelperTotal {
 							olddate3 = cur.getString(dateIndex);
 						}
 					} catch (Exception e) {
-						// TODO: handle exception
-						showLog("cur-searchfail");
+						Logs.d(TAG, "cur-searchfail");
 						oldup3 = 0;
 						olddown3 = 0;
 						olddate3 = "";
@@ -366,19 +363,19 @@ public class SQLHelperTotal {
 
 	private void exeSQLtotalSetData(SQLiteDatabase mySQL, String table,
 			long upload, long download, int type, String other) {
-		// TODO Auto-generated method stub
-		String string = null;
-		string = InsertTable + table + Start + InsertColumnTotal + End + Value
-				+ date + split + time + split + upload + split + download
-				+ split + type + split + other + "'" + End;
+		StringBuilder string = new StringBuilder();
+		string = string.append(InsertTable).append(table).append(Start)
+				.append(InsertColumnTotal).append(End).append(Value)
+				.append(date).append(split).append(time).append(split)
+				.append(upload).append(split).append(download).append(split)
+				.append(type).append(split).append(other).append("'" + End);
 		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
 		// ('date','time','upload','download','uid','type')
 
 		try {
-			mySQL.execSQL(string);
+			mySQL.execSQL(string.toString());
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
+			Logs.d(TAG, string.toString() + "fail" + e);
 		}
 	}
 
@@ -436,19 +433,19 @@ public class SQLHelperTotal {
 	 */
 	public void RecordTotalwritestats(Context context,
 			SQLiteDatabase sqlDataBase, boolean daily, String network) {
-		// TODO Auto-generated method stub
 		// 自动进行数据记录---不记录上传下载为0的数据
 		// SQLiteDatabase sqlDataBase = creatSQLTotal(context);
 		initTime();
-		long[] totalTraff = SQLHelperDataexe.initTotalData("mobile");
+		TotalTraffs totalTraff = SQLHelperDataexe.initTotalData();
 		// showLog("upload=" + totalTraff[0] + "download=" + totalTraff[1]);
 		statsSQLtotal(context, sqlDataBase, "mobile", date, time,
-				totalTraff[0], totalTraff[1], 2, null, daily);
+				totalTraff.getMobileUpload(), totalTraff.getMobileDownload(),
+				2, null, daily);
 		// closeSQL(sqlDataBase);
-		long[] totalTraff2 = SQLHelperDataexe.initTotalData("wifi");
 		// showLog("upload=" + totalTraff[0] + "download=" + totalTraff[1]);
-		statsSQLtotal(context, sqlDataBase, "wifi", date, time, totalTraff2[0],
-				totalTraff2[1], 2, null, daily);
+		statsSQLtotal(context, sqlDataBase, "wifi", date, time,
+				totalTraff.getWifiUpload(), totalTraff.getWifiDownload(), 2,
+				null, daily);
 	}
 
 	/**
@@ -506,18 +503,19 @@ public class SQLHelperTotal {
 		if (month < 10)
 			month2 = "0" + month2;
 		// showLog(month2);
-		String string = null;
+		StringBuilder string = new StringBuilder();
 		// select oldest upload and download 之前记录的数据的查询操作
 		// SELECT * FROM table WHERE type=0
-		string = SelectTable + table + Where + "date" + Between + year + "-"
-				+ month2 + "-" + "01" + AND_B + year + "-" + month2 + "-"
-				+ "31" + AND + "type=" + 3;
+		string = string.append(SelectTable).append(table).append(Where)
+				.append("date").append(Between).append(year).append("-")
+				.append(month2).append("-").append("01").append(AND_B)
+				.append(year).append("-").append(month2).append("-")
+				.append("31").append(AND).append("type=").append(3);
 		// showLog(string);
 		try {
-			cur = sqlDataBase.rawQuery(string, null);
+			cur = sqlDataBase.rawQuery(string.toString(), null);
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
+			Logs.d(TAG, string.toString() + "fail" + e);
 		}
 		String newdate = "";
 		String countdate = "";
@@ -583,8 +581,7 @@ public class SQLHelperTotal {
 				a[0] += a[i];
 				a[63] += a[i + 31];
 			} catch (Exception e) {
-				// TODO: handle exception
-				showLog("datacur-searchfail");
+				Logs.d(TAG, "datacur-searchfail");
 			}
 		}
 		if (cur != null) {
@@ -605,31 +602,26 @@ public class SQLHelperTotal {
 		// 进行自动数据清理
 		initTime();
 		if (hour == 3 && minute == 10) {
-			String string = null;
+			StringBuilder string = new StringBuilder();
 			// delete from Yookey where tit not in (select min(tit) from
 			// Yookey
 			// group by SID)
-			string = "DELETE   FROM " + TableMobile + Where + "type=" + 2;
+			string = string.append("DELETE   FROM ").append(TableMobile)
+					.append(Where).append("type=").append(2);
 			try {
-				mySQL.execSQL(string);
+				mySQL.execSQL(string.toString());
 			} catch (Exception e) {
-				showLog(string + "fail");
+				Logs.d(TAG, string.toString() + "fail" + e);
 			}
-			string = "DELETE   FROM " + TableWiFi + Where + "type=" + 2;
+			string = new StringBuilder();
+			string = string.append("DELETE   FROM ").append(TableWiFi)
+					.append(Where).append("type=").append(2);
 			try {
-				mySQL.execSQL(string);
+				mySQL.execSQL(string.toString());
 			} catch (Exception e) {
-				showLog(string + "fail");
+				Logs.d(TAG, string.toString() + "fail" + e);
 			}
 		}
 	}
 
-	/**
-	 * 用于显示日志
-	 * 
-	 * @param string
-	 */
-	private void showLog(String string) {
-		Log.d("databaseTotal", string);
-	}
 }

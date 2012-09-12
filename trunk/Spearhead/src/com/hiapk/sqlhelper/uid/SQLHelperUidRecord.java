@@ -2,26 +2,26 @@ package com.hiapk.sqlhelper.uid;
 
 import java.util.List;
 
+import com.hiapk.bean.UidTraffs;
 import com.hiapk.dataexe.TrafficManager;
+import com.hiapk.logs.Logs;
 import com.hiapk.prefrencesetting.SharedPrefrenceDataOnUpdate;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
-import com.hiapk.sqlhelper.pub.SQLStatic;
+import com.hiapk.util.SQLStatic;
+
 import android.app.ActivityManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.format.Time;
-import android.util.Log;
 
 public class SQLHelperUidRecord {
 	private ActivityManager mActivityManager = null;
 
 	public SQLHelperUidRecord(Context context) {
 		super();
-		// initTime();
 		mActivityManager = (ActivityManager) context
 				.getSystemService(Context.ACTIVITY_SERVICE);
-		// TODO Auto-generated constructor stub
 	}
 
 	private String InsertTable = "INSERT INTO ";
@@ -47,6 +47,8 @@ public class SQLHelperUidRecord {
 	private String time;
 	// flag-network-onuidtraff
 	private String NETWORK_FLAG = "mobile";
+	// logs
+	private String TAG = "databaseUidRecord";
 
 	/**
 	 * * 对数据库uid数据进行更新
@@ -73,60 +75,63 @@ public class SQLHelperUidRecord {
 	private void updateSQLUidType(SQLiteDatabase mySQL, String date,
 			String time, long uidupload, long uiddownload, int uidnumber,
 			int type, String other, int typechange) {
-		// TODO Auto-generated method stub
-		String string = null;
-		string = UpdateTable + "uid" + uidnumber + UpdateSet + "date='" + date
-				+ "',time='" + time + "',upload='" + uidupload + "',download='"
-				+ uiddownload + "' ,type=" + typechange + ", other=" + "'"
-				+ other + "'" + Where + "type=" + type;
+		StringBuilder string = new StringBuilder();
+		string = string.append(UpdateTable).append("uid").append(uidnumber)
+				.append(UpdateSet).append("date='").append(date)
+				.append("',time='").append(time).append("',upload='")
+				.append(uidupload).append("',download='").append(uiddownload)
+				.append("' ,type=").append(typechange).append(", other=")
+				.append("'").append(other).append("'").append(Where)
+				.append("type=").append(type);
 		// UPDATE Person SET
 		// date='date',time='time',upload='upload',download='download'
 		// ,type='typechange' WHERE type=type
 		try {
-			mySQL.execSQL(string);
+			mySQL.execSQL(string.toString());
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
+			Logs.d(TAG, string.toString() + "fail-updateSQLUidType");
 		}
 	}
 
 	private void updateSQLUidTypeDate2to2(SQLiteDatabase mySQL, String date,
 			String time, long uidupload, long uiddownload, int uidnumber,
 			int type, String network, int typechange) {
-		// TODO Auto-generated method stub
-		String string = null;
-		string = UpdateTable + "uid" + uidnumber + UpdateSet + "time='" + time
-				+ "',upload='" + uidupload + "',download='" + uiddownload
-				+ "' ,type=" + typechange + Where + "date='" + date + AND
-				+ "other='" + network + AND + "type=" + type;
+		StringBuilder string = new StringBuilder();
+		string = string.append(UpdateTable).append("uid").append(uidnumber)
+				.append(UpdateSet).append("time='").append(time)
+				.append("',upload='").append(uidupload).append("',download='")
+				.append(uiddownload).append("' ,type=").append(typechange)
+				.append(Where).append("date='").append(date).append(AND)
+				.append("other='").append(network).append(AND).append("type=")
+				.append(type);
 		// UPDATE Person SET
 		// date='date',time='time',upload='upload',download='download'
 		// ,type='typechange' WHERE type=type
 		try {
-			mySQL.execSQL(string);
+			mySQL.execSQL(string.toString());
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
+			Logs.d(TAG, string.toString() + "fail-updateSQLUidTypeDate2to2");
 		}
 	}
 
 	private void updateSQLUidTypeDate0to2(SQLiteDatabase mySQL, String date,
 			String time, long uidupload, long uiddownload, int uidnumber,
 			int type, String network, int typechange) {
-		// TODO Auto-generated method stub
-		String string = null;
-		string = UpdateTable + "uid" + uidnumber + UpdateSet + "time='" + time
-				+ "',upload='" + uidupload + "',download='" + uiddownload
-				+ "' ,type=" + typechange + " ,date='" + date + "',other='"
-				+ network + "'" + Where + "type=" + type;
+		StringBuilder string = new StringBuilder();
+		string = string.append(UpdateTable).append("uid").append(uidnumber)
+				.append(UpdateSet).append("time='").append(time)
+				.append("',upload='").append(uidupload).append("',download='")
+				.append(uiddownload).append("' ,type=").append(typechange)
+				.append(" ,date='").append(date).append("',other='")
+				.append(network).append("'").append(Where).append("type=")
+				.append(type);
 		// UPDATE Person SET
 		// date='date',time='time',upload='upload',download='download'
 		// ,type='typechange' WHERE type=type
 		try {
-			mySQL.execSQL(string);
+			mySQL.execSQL(string.toString());
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
+			Logs.d(TAG, string.toString() + "fail-updateSQLUidTypeDate0to2");
 		}
 	}
 
@@ -149,20 +154,22 @@ public class SQLHelperUidRecord {
 	private void exeSQLcreateUidtableSetData(SQLiteDatabase mySQL, String date,
 			String time, int uidnumber, long upload, long download, int type,
 			String other) {
-		String string = null;
+		StringBuilder string = new StringBuilder();
 		// 表示是否为总流量，总流量初始数据为0
-		string = InsertTable + "uid" + uidnumber + Start + InsertUidColumnTotal
-				+ End + Value + date + split + time + split + upload + split
-				+ download + split + type + split + other + "'" + End;
+		string = string.append(InsertTable).append("uid").append(uidnumber)
+				.append(Start).append(InsertUidColumnTotal).append(End)
+				.append(Value).append(date).append(split).append(time)
+				.append(split).append(upload).append(split).append(download)
+				.append(split).append(type).append(split).append(other)
+				.append("'").append(End);
 		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
 		// ('1','1','1','1','1','1')
 		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
 		// ('date','time','upload','download','uid','type')
 		try {
-			mySQL.execSQL(string);
+			mySQL.execSQL(string.toString());
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
+			Logs.d(TAG, string.toString() + "fail-exeSQLcreateUidtableSetData");
 		}
 	}
 
@@ -223,11 +230,11 @@ public class SQLHelperUidRecord {
 				String pacname = appProcessInfo.processName;
 				if (SQLStatic.packagename_ALL.contains(pacname)) {
 					int uidnumber = appProcessInfo.uid;
-					long[] uiddata = SQLHelperDataexe.initUidData(uidnumber);
-					if (uiddata[0] != 0 || uiddata[1] != 0) {
+					UidTraffs uiddata = SQLHelperDataexe.initUidData(uidnumber);
+					if (uiddata.getUpload() != 0 || uiddata.getDownload() != 0) {
 						statsSQLuid(context, sqlDataBase, uidnumber, date,
-								time, uiddata[0], uiddata[1], 2, null, daily,
-								network);
+								time, uiddata.getUpload(),
+								uiddata.getDownload(), 2, null, daily, network);
 					}
 				}
 
@@ -239,7 +246,7 @@ public class SQLHelperUidRecord {
 				try {
 					Thread.sleep(50);
 				} catch (InterruptedException e) {
-					showLog("获取uid数据失败");
+					Logs.d(TAG, "获取uid数据失败");
 					e.printStackTrace();
 				}
 			}
@@ -266,18 +273,20 @@ public class SQLHelperUidRecord {
 	 */
 	private long[] getSQLuidtotalData(SQLiteDatabase mySQL, int uidnumber,
 			String network) {
-		String string = null;
+		StringBuilder string = new StringBuilder();
 		if (network == NETWORK_FLAG) {
 			// select oldest upload and download 之前记录的数据的查询操作
-			string = SelectTable + "uid" + uidnumber + Where + "type=" + 3;
+			string = string.append(SelectTable).append("uid").append(uidnumber)
+					.append(Where).append("type=").append(3);
 		} else {
-			string = SelectTable + "uid" + uidnumber + Where + "type=" + 4;
+			string = string.append(SelectTable).append("uid").append(uidnumber)
+					.append(Where).append("type=").append(4);
 		}
 		try {
-			cur = mySQL.rawQuery(string, null);
+			cur = mySQL.rawQuery(string.toString(), null);
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog("error" + string);
+
+			Logs.d(TAG, string.toString() + "fail" + e);
 		}
 		long[] a = new long[3];
 		if (cur != null) {
@@ -291,8 +300,7 @@ public class SQLHelperUidRecord {
 					a[2] = cur.getLong(mindown);
 				}
 			} catch (Exception e) {
-				// TODO: handle exception
-				showLog("cur-searchfail");
+				Logs.d(TAG, "cur-searchfail");
 			}
 		}
 		if (cur != null) {
@@ -327,14 +335,14 @@ public class SQLHelperUidRecord {
 	private void statsSQLuid(Context context, SQLiteDatabase mySQL,
 			int uidnumber, String date, String time, long upload,
 			long download, int type, String other, boolean daily, String network) {
-		String string = null;
+		StringBuilder string = new StringBuilder();
 		// select oldest upload and download 之前记录的数据的查询操作
 		// SELECT * FROM table WHERE type=0
-		string = SelectTable + "uid" + uidnumber + Where + "type=" + 0;
+		string = string.append(SelectTable).append("uid").append(uidnumber)
+				.append(Where).append("type=").append(0);
 		try {
-			cur = mySQL.rawQuery(string, null);
+			cur = mySQL.rawQuery(string.toString(), null);
 		} catch (Exception e) {
-			// TODO: handle exception
 			SQLHelperUidSelectFail selectfail = new SQLHelperUidSelectFail();
 			selectfail.selectfails(mySQL, "uid" + uidnumber, uidnumber);
 		}
@@ -351,8 +359,7 @@ public class SQLHelperUidRecord {
 					olddown0 = cur.getLong(mindown);
 				}
 			} catch (Exception e) {
-				// TODO: handle exception
-				showLog("cur-searchfail");
+				Logs.d(TAG, "cur-searchfail");
 				oldup0 = -100;
 				olddown0 = -100;
 			}
@@ -381,13 +388,15 @@ public class SQLHelperUidRecord {
 					&& ((olddown0 > 512) || (oldup0 > 512))) {
 				cur = null;
 				// 覆盖添加判断
-				string = SelectTable + "uid" + uidnumber + Where + "date='"
-						+ date + AND + "other='" + network + AND + "type=" + 2;
+				string = new StringBuilder();
+				string = string.append(SelectTable).append("uid")
+						.append(uidnumber).append(Where).append("date='")
+						.append(date).append(AND).append("other='")
+						.append(network).append(AND).append("type=").append(2);
 				try {
-					cur = mySQL.rawQuery(string, null);
+					cur = mySQL.rawQuery(string.toString(), null);
 				} catch (Exception e) {
-					// TODO: handle exception
-					showLog("error" + string);
+					Logs.d(TAG, string.toString() + "fail" + e);
 				}
 				long oldup2 = 0;
 				long olddown2 = 0;
@@ -407,8 +416,7 @@ public class SQLHelperUidRecord {
 							olddate2 = cur.getString(dateIndex);
 						}
 					} catch (Exception e) {
-						// TODO: handle exception
-						showLog("cur-searchfail");
+						Logs.d(TAG, "cur-searchfail");
 						oldup2 = 0;
 						olddown2 = 0;
 						olddate2 = "";
@@ -467,14 +475,14 @@ public class SQLHelperUidRecord {
 			int uidnumber, String date, String time) {
 		long totalup = 0;
 		long totaldown = 0;
-		String string = null;
+		StringBuilder string = new StringBuilder();
 		// select oldest upload and download 之前记录的数据的查询操作
 		// SELECT * FROM table WHERE type=0
-		string = SelectTable + "uid" + uidnumber + Where + "type=" + 3;
+		string = string.append(SelectTable).append("uid").append(uidnumber)
+				.append(Where).append("type=").append(3);
 		try {
-			cur = mySQL.rawQuery(string, null);
+			cur = mySQL.rawQuery(string.toString(), null);
 		} catch (Exception e) {
-			// TODO: handle exception
 			SQLHelperUidSelectFail selectfail = new SQLHelperUidSelectFail();
 			selectfail.selectfails(mySQL, "uid" + uidnumber, uidnumber);
 		}
@@ -491,8 +499,7 @@ public class SQLHelperUidRecord {
 					olddown0 = cur.getLong(mindown);
 				}
 			} catch (Exception e) {
-				// TODO: handle exception
-				showLog("cur-searchfail");
+				Logs.d(TAG, "cur-searchfail");
 				oldup0 = -100;
 				olddown0 = -100;
 			}
@@ -504,11 +511,11 @@ public class SQLHelperUidRecord {
 		if (cur != null) {
 			cur.close();
 		}
-		string = SelectTable + "uid" + uidnumber + Where + "type=" + 4;
+		string = string.append(SelectTable).append("uid").append(uidnumber)
+				.append(Where).append("type=").append(4);
 		try {
-			cur = mySQL.rawQuery(string, null);
+			cur = mySQL.rawQuery(string.toString(), null);
 		} catch (Exception e) {
-			// TODO: handle exception
 			SQLHelperUidSelectFail selectfail = new SQLHelperUidSelectFail();
 			selectfail.selectfails(mySQL, "uid" + uidnumber, uidnumber);
 		}
@@ -525,8 +532,7 @@ public class SQLHelperUidRecord {
 					olddown0 = cur.getLong(mindown);
 				}
 			} catch (Exception e) {
-				// TODO: handle exception
-				showLog("cur-searchfail");
+				Logs.d(TAG, "cur-searchfail");
 				oldup0 = -100;
 				olddown0 = -100;
 			}
@@ -574,12 +580,4 @@ public class SQLHelperUidRecord {
 		}
 	}
 
-	/**
-	 * 用于显示日志
-	 * 
-	 * @param string
-	 */
-	private void showLog(String string) {
-		Log.d("databaseUidRecord", string);
-	}
 }

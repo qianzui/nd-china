@@ -9,8 +9,8 @@ import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.R;
-import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.sqlhelper.uid.SQLHelperFireWall.Data;
+import com.hiapk.util.SQLStatic;
 
 import android.app.AlertDialog;
 import android.content.Context;

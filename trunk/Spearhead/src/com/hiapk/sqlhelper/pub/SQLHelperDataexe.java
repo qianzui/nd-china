@@ -1,9 +1,12 @@
 package com.hiapk.sqlhelper.pub;
 
+import com.hiapk.bean.TotalTraffs;
+import com.hiapk.bean.UidTraffs;
 import com.hiapk.dataexe.MonthlyUseData;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.sqlhelper.total.SQLHelperTotal;
+import com.hiapk.util.SQLStatic;
 import com.hiapk.widget.SetText;
 
 import android.content.Context;
@@ -30,11 +33,13 @@ public class SQLHelperDataexe {
 	 * 
 	 * @param uidnumber
 	 *            依据uid获取流量数据
-	 * @return uidtraff[0]为uid的上传流量，uidtraff[1]为uid的下载流量
+	 * @return
 	 */
-	public static long[] initUidData(int uidnumber) {
-		long uidupload, uiddownload;
-		long[] uidtraff = new long[2];
+	public static UidTraffs initUidData(int uidnumber) {
+		UidTraffs uidTraff = new UidTraffs();
+		uidTraff.setUid(uidnumber);
+		long uidupload = 0;
+		long uiddownload = 0;
 		uidupload = TrafficStats.getUidTxBytes(uidnumber);
 		uiddownload = TrafficStats.getUidRxBytes(uidnumber);
 		if (uidupload == -1) {
@@ -43,9 +48,9 @@ public class SQLHelperDataexe {
 		if (uiddownload == -1) {
 			uiddownload = 0;
 		}
-		uidtraff[0] = uidupload;
-		uidtraff[1] = uiddownload;
-		return uidtraff;
+		uidTraff.setUpload(uidupload);
+		uidTraff.setDownload(uiddownload);
+		return uidTraff;
 	}
 
 	/**
@@ -55,38 +60,41 @@ public class SQLHelperDataexe {
 	 *            wifi或者mobile，若为空则无数据
 	 * @return traff[0]为的上传流量，traff[1]为的下载流量
 	 */
-	public static long[] initTotalData(String table) {
+	public static TotalTraffs initTotalData() {
+		TotalTraffs traff = new TotalTraffs();
 		long upload = 0, download = 0;
-		long[] totaltraff = new long[2];
-		if (table == "wifi") {
-			upload = TrafficStats.getTotalTxBytes()
-					- TrafficStats.getMobileTxBytes();
-			download = TrafficStats.getTotalRxBytes()
-					- TrafficStats.getMobileRxBytes();
-			if (upload == 1) {
-				upload = 0;
-			}
-			if (download == 1) {
-				download = 0;
-			}
-		}
-		if (table == "mobile") {
-			upload = TrafficStats.getMobileTxBytes();
-			download = TrafficStats.getMobileRxBytes();
-			if (upload == -1) {
-				upload = 0;
-			}
-			if (download == -1) {
-				download = 0;
-			}
-		}
-		if (table == "") {
+		// if (table == "wifi") {
+		upload = TrafficStats.getTotalTxBytes()
+				- TrafficStats.getMobileTxBytes();
+		download = TrafficStats.getTotalRxBytes()
+				- TrafficStats.getMobileRxBytes();
+		if (upload == 1) {
 			upload = 0;
+		}
+		if (download == 1) {
 			download = 0;
 		}
-		totaltraff[0] = upload;
-		totaltraff[1] = download;
-		return totaltraff;
+		traff.setWifiDownload(download);
+		traff.setWifiUpload(upload);
+
+		// }
+		// if (table == "mobile") {
+		upload = TrafficStats.getMobileTxBytes();
+		download = TrafficStats.getMobileRxBytes();
+		if (upload == -1) {
+			upload = 0;
+		}
+		if (download == -1) {
+			download = 0;
+		}
+		traff.setMobileDownload(download);
+		traff.setMobileUpload(upload);
+		// }
+		// if (table == "") {
+		// upload = 0;
+		// download = 0;
+		// }
+		return traff;
 	}
 
 	/**

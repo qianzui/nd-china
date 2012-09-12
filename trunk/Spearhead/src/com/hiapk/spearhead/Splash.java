@@ -8,8 +8,9 @@ import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.Block;
 import com.hiapk.prefrencesetting.SharedPrefrenceDataOnUpdate;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
-import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
+import com.hiapk.util.SQLStatic;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;

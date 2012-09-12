@@ -4,8 +4,9 @@ import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.progressbar.ProjectStatusChart;
 import com.hiapk.progressbar.SimplePie;
 import com.hiapk.spearhead.R;
-import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.sqlhelper.uid.SQLHelperUidtraffStats;
+import com.hiapk.util.SQLStatic;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;

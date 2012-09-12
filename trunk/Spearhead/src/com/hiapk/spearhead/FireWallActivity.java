@@ -16,10 +16,11 @@ import com.hiapk.firewall.MyCompTraffic;
 import com.hiapk.firewall.MyListView;
 import com.hiapk.firewall.MyListView.OnRefreshListener;
 import com.hiapk.progressdialog.CustomProgressDialog;
-import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.sqlhelper.uid.SQLHelperFireWall;
 import com.hiapk.sqlhelper.uid.SQLHelperFireWall.Data;
 import com.hiapk.uidtraff.UidMonthTraff;
+import com.hiapk.util.SQLStatic;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;

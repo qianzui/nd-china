@@ -2,13 +2,16 @@ package com.hiapk.sqlhelper.uid;
 
 import java.util.List;
 
+import com.hiapk.bean.UidTraffs;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.Block;
+import com.hiapk.logs.Logs;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
-import com.hiapk.sqlhelper.pub.SQLStatic;
+import com.hiapk.util.SQLStatic;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -16,14 +19,11 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.format.Time;
-import android.util.Log;
 
 public class SQLHelperUidother {
 
 	public SQLHelperUidother() {
 		super();
-		// initTime();
-		// TODO Auto-generated constructor stub
 	}
 
 	private String CreateTable = "CREATE TABLE IF NOT EXISTS ";
@@ -48,6 +48,8 @@ public class SQLHelperUidother {
 	private int second;
 	private String date;
 	private String time;
+	// log
+	private String TAG = "databaseUidother";
 
 	/**
 	 * 在安装新程序时更新uidIndex目录
@@ -79,7 +81,7 @@ public class SQLHelperUidother {
 			// 新安装软件
 			SQLStatic.packagename_ALL = selectPackagenames(context);
 			sharedData.setPackageNames(SQLStatic.packagename_ALL);
-			if (SQLStatic.TableWiFiOrG23=="") {
+			if (SQLStatic.TableWiFiOrG23 == "") {
 				SQLStatic.initTablemobileAndwifi(context);
 			}
 			AlarmSet alset = new AlarmSet();
@@ -118,19 +120,20 @@ public class SQLHelperUidother {
 			if (uid_List_Add != null) {
 				for (Integer uid : uid_List_Add) {
 					// DropUnusedUidTable(mySQL, uid);
-					//新软件清除旧的uid数据
+					// 新软件清除旧的uid数据
 					TrafficManager.clearUidtraff(context, uid);
 					initTime();
 					initUidTable(mySQL, uid);
-					String string = "";
-					string = SelectTable + "uid" + uid + Where + "type=" + 0;
+					StringBuilder string = new StringBuilder();
+					string = string.append(SelectTable).append("uid")
+							.append(uid).append(Where).append("type=")
+							.append(0);
 					// showLog(string);
 					try {
-						cur = mySQL.rawQuery(string, null);
+						cur = mySQL.rawQuery(string.toString(), null);
 					} catch (Exception e) {
-						// TODO: handle exception
 						// 搜索失败则新建表
-						showLog("selectfail" + string);
+						Logs.d(TAG, "selectfail" + string.toString());
 					}
 					if (!cur.moveToFirst()) {
 						exeSQLcreateUidtable(mySQL, date, time, uid, 0, null);
@@ -145,8 +148,7 @@ public class SQLHelperUidother {
 			}
 			mySQL.setTransactionSuccessful();
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog("更新索引表失败");
+			Logs.d(TAG, "更新索引表失败");
 		} finally {
 			mySQL.endTransaction();
 			SQLHelperCreateClose.closeSQL(mySQL);
@@ -162,7 +164,6 @@ public class SQLHelperUidother {
 	 * @return
 	 */
 	public String selectPackagenames(Context context) {
-		// TODO Auto-generated method stub
 		PackageManager pkgmanager = context.getPackageManager();
 		List<PackageInfo> packages = context.getPackageManager()
 				.getInstalledPackages(0);
@@ -206,29 +207,32 @@ public class SQLHelperUidother {
 	 */
 	private void exeSQLcreateUidtable(SQLiteDatabase mySQL, String date,
 			String time, int uidnumber, int type, String other) {
-		long[] uiddata = SQLHelperDataexe.initUidData(uidnumber);
-		String string = null;
+		UidTraffs uiddata = SQLHelperDataexe.initUidData(uidnumber);
+		StringBuilder string = new StringBuilder();
 		// 表示是否为总流量，总流量初始数据为0
 		if (type == 3 || type == 4) {
-			string = InsertTable + "uid" + uidnumber + Start
-					+ InsertUidColumnTotal + End + Value + date + split + time
-					+ split + "0" + split + "0" + split + type + split + other
-					+ "'" + End;
+			string = string.append(InsertTable).append("uid").append(uidnumber)
+					.append(Start).append(InsertUidColumnTotal).append(End)
+					.append(Value).append(date).append(split).append(time)
+					.append(split).append("0").append(split).append("0")
+					.append(split).append(type).append(split).append(other)
+					.append("'").append(End);
 		} else {
-			string = InsertTable + "uid" + uidnumber + Start
-					+ InsertUidColumnTotal + End + Value + date + split + time
-					+ split + uiddata[0] + split + uiddata[1] + split + type
-					+ split + other + "'" + End;
+			string = string.append(InsertTable).append("uid").append(uidnumber)
+					.append(Start).append(InsertUidColumnTotal).append(End)
+					.append(Value).append(date).append(split).append(time)
+					.append(split).append(uiddata.getUpload()).append(split)
+					.append(uiddata.getDownload()).append(split).append(type)
+					.append(split).append(other).append("'").append(End);
 		}
 		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
 		// ('1','1','1','1','1','1')
 		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
 		// ('date','time','upload','download','uid','type')
 		try {
-			mySQL.execSQL(string);
+			mySQL.execSQL(string.toString());
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
+			Logs.d(TAG, string.toString() + "fail" + e);
 		}
 	}
 
@@ -240,14 +244,12 @@ public class SQLHelperUidother {
 	 *            要清空的uid表
 	 */
 	private void DropUnusedUidTable(SQLiteDatabase mySQL, int uidnumber) {
-		String string = null;
-		// delete from Yookey where tit not in (select min(tit) from Yookey
-		// group by SID)
-		string = DeleteTable + "uid" + uidnumber;
+		StringBuilder string = new StringBuilder();
+		string = string.append(DeleteTable).append("uid").append(uidnumber);
 		try {
-			mySQL.execSQL(string);
+			mySQL.execSQL(string.toString());
 		} catch (Exception e) {
-			showLog(string + "fail");
+			Logs.d(TAG, string + "fail");
 		}
 	}
 
@@ -260,13 +262,13 @@ public class SQLHelperUidother {
 	 *            要建立的uid表
 	 */
 	private void initUidTable(SQLiteDatabase sqldatabase, int uidnumber) {
-		String string = null;
-		string = CreateTable + "uid" + uidnumber + Start + SQLId
-				+ CreateparamUid + End;
+		StringBuilder string = new StringBuilder();
+		string = string.append(CreateTable).append("uid").append(uidnumber)
+				.append(Start).append(SQLId).append(CreateparamUid).append(End);
 		try {
-			sqldatabase.execSQL(string);
+			sqldatabase.execSQL(string.toString());
 		} catch (Exception e) {
-			showLog(string);
+			Logs.d(TAG, string.toString() + "fail" + e);
 		}
 	}
 
@@ -305,12 +307,4 @@ public class SQLHelperUidother {
 		// showLog("日期：" + date + "，" + SQLname + "，tableName：" + Table);
 	}
 
-	/**
-	 * 用于显示日志
-	 * 
-	 * @param string
-	 */
-	private void showLog(String string) {
-		Log.d("databaseUidother", string);
-	}
 }
