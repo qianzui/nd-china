@@ -18,13 +18,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import com.hiapk.alertdialog.CustomDialog;
-import com.hiapk.alertdialog.CustomDialogOtherBeen;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.PrefrenceStaticOperator;
 import com.hiapk.spearhead.R;
+import com.hiapk.ui.custom.CustomDialog;
+import com.hiapk.ui.custom.CustomDialogOtherBeen;
 import com.hiapk.ui.scene.Regulate;
 import com.hiapk.util.SharedPrefrenceData;
 import com.hiapk.util.SharedPrefrenceDataWidget;
@@ -280,7 +280,6 @@ public class CustomSPBeen {
 		// 弹出建议设置已用流量对话框
 		final CustomDialog dayWarning = new CustomDialog.Builder(context)
 				.setTitle("注意！").setMessage("设置结算日后请重新对流量进行校准。")
-				.setwindowHeight(0.35)
 				// .setView(textEntryView)
 				.setPositiveButton("确定", null).setNegativeButton("取消", null)
 				.create();

@@ -1,4 +1,4 @@
-package com.hiapk.alertdialog;
+package com.hiapk.ui.custom;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -27,7 +27,7 @@ public class CustomDialogFAQBeen {
 		LayoutInflater factory = LayoutInflater.from(context);
 		final View textEntryView = factory.inflate(R.layout.faq, null);
 		final CustomDialog monthHasUsedAlert = new CustomDialog.Builder(context)
-				.setwindowHeight(0.65).setTitle("关于先锋流量监控")
+				.setTitle("关于先锋流量监控")
 				.setContentView(textEntryView).setPositiveButton("确定", null)
 				.create();
 		try {
@@ -65,7 +65,6 @@ public class CustomDialogFAQBeen {
 		LayoutInflater factory = LayoutInflater.from(context);
 		final View textEntryView = factory.inflate(R.layout.faq, null);
 		final CustomDialog monthHasUsedAlert = new CustomDialog.Builder(context)
-				.setwindowHeight(0.85).setwindowWidth(0.9)
 				.setTitle("先锋流量监控  FAQ :").setContentView(textEntryView)
 				.setPositiveButton("确定", null).create();
 		try {

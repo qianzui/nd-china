@@ -1,4 +1,4 @@
-package com.hiapk.alertdialog;
+package com.hiapk.ui.custom;
 
 import java.text.DecimalFormat;
 

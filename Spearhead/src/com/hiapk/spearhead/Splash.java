@@ -207,8 +207,6 @@ public class Splash extends Activity {
 	}
 
 	private void showLog(String string) {
-		 if (SQLStatic.isshowLog) {
 		Log.d("Splash", string);
-		 }
 	}
 }

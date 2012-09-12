@@ -4,11 +4,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.hiapk.alertaction.AlertActionNotify;
-import com.hiapk.alertdialog.CustomDialogFAQBeen;
 import com.hiapk.dataexe.NotificationInfo;
 import com.hiapk.firewall.Block;
 import com.hiapk.prefrencesetting.PrefrenceSetting;
 import com.hiapk.rebootandstartaction.OnExit;
+import com.hiapk.ui.custom.CustomDialogFAQBeen;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;

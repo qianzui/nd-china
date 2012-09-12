@@ -1,4 +1,4 @@
-package com.hiapk.alertdialog;
+package com.hiapk.ui.custom;
 
 import android.content.Context;
 import android.content.SharedPreferences.Editor;
@@ -242,7 +242,7 @@ public class CustomDialogMain3Been {
 					});
 			final CustomDialog monthWarning = new CustomDialog.Builder(context)
 					.setTitle("月流量达到下列数值报警").setContentView(textEntryView)
-					.setPositiveButton("确定", null).setwindowHeight(0.35)
+					.setPositiveButton("确定", null)
 					.setNegativeButton("取消", null).create();
 			monthWarning.show();
 			Button btn_ok = (Button) monthWarning
@@ -276,7 +276,6 @@ public class CustomDialogMain3Been {
 						final CustomDialog monthWarning = new CustomDialog.Builder(
 								context).setTitle("注意！")
 								.setMessage("您设置的本月预警流量超过了包月套餐！")
-								.setwindowHeight(0.35)
 								// .setView(textEntryView)
 								.setPositiveButton("确定", null).create();
 						monthWarning.show();
@@ -319,7 +318,6 @@ public class CustomDialogMain3Been {
 		} else {
 			final CustomDialog monthWarning = new CustomDialog.Builder(context)
 					.setTitle("注意！").setMessage("您还没有设置流量套餐，请进行包月流量设置。")
-					.setwindowHeight(0.35)
 					// .setView(textEntryView)
 					.setPositiveButton("确定", null).create();
 			monthWarning.show();
@@ -418,7 +416,7 @@ public class CustomDialogMain3Been {
 					});
 			final CustomDialog dayWarning = new CustomDialog.Builder(context)
 					.setTitle("日流量达到下列数值报警").setContentView(textEntryView)
-					.setPositiveButton("确定", null).setwindowHeight(0.35)
+					.setPositiveButton("确定", null)
 					.setNegativeButton("取消", null).create();
 			dayWarning.show();
 			Button btn_ok = (Button) dayWarning
@@ -452,7 +450,6 @@ public class CustomDialogMain3Been {
 						final CustomDialog dayWarning = new CustomDialog.Builder(
 								context).setTitle("注意！")
 								.setMessage("您设置的本日预警流量超过了包月套餐！")
-								.setwindowHeight(0.35)
 								// .setView(textEntryView)
 								.setPositiveButton("确定", null).create();
 						dayWarning.show();
@@ -495,7 +492,6 @@ public class CustomDialogMain3Been {
 		} else {
 			final CustomDialog monthWarning = new CustomDialog.Builder(context)
 					.setTitle("注意！").setMessage("您还没有设置流量套餐，请进行包月流量设置。")
-					.setwindowHeight(0.35)
 					// .setView(textEntryView)
 					.setPositiveButton("确定", null).create();
 			monthWarning.show();

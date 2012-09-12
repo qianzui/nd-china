@@ -10,7 +10,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import com.hiapk.spearhead.R;
-import com.hiapk.ui.scene.SharedPrefrenceDataRegulate;
+import com.hiapk.util.SharedPrefrenceDataRegulate;
 
 /**
  * 初始化手机卡归属地页面
