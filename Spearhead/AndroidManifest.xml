@@ -39,14 +39,14 @@
         <activity android:name=".FireWallMainScene" >
         </activity>
         <activity
-            android:name="com.hiapk.uidtraff.UidMonthTraff"
+            android:name="com.hiapk.ui.scene.UidMonthTraff"
             android:screenOrientation="portrait"
             android:theme="@style/noTitle" >
         </activity>
         <activity android:name="com.hiapk.viewflow.ViewFlowMainScene" >
         </activity>
         <activity
-            android:name="com.hiapk.regulate.Regulate"
+            android:name="com.hiapk.ui.scene.Regulate"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/noTitle" >
@@ -57,7 +57,7 @@
             android:theme="@style/noTitle" >
         </activity>
         <activity
-            android:name="com.hiapk.regulate.PhoneSet"
+            android:name="com.hiapk.ui.scene.PhoneSet"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/noTitle" >
