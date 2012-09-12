@@ -6,7 +6,7 @@ import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.Splash;
-import com.hiapk.sqlhelper.pub.SQLStatic;
+import com.hiapk.util.SQLStatic;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;

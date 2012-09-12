@@ -3,7 +3,7 @@ package com.hiapk.rebootandstartaction;
 import android.content.Context;
 import android.content.Intent;
 import com.hiapk.broadcreceiver.AlarmSet;
-import com.hiapk.sqlhelper.pub.SQLStatic;
+import com.hiapk.util.SQLStatic;
 
 public class Onshutdown {
 	public void onsysshutdown(Context context) {

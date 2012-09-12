@@ -3,13 +3,14 @@ package com.hiapk.sqlhelper.uid;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.hiapk.logs.Logs;
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
-import com.hiapk.sqlhelper.pub.SQLStatic;
+import com.hiapk.util.SQLStatic;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.TrafficStats;
-import android.util.Log;
 
 public class SQLHelperUidTotal {
 	private String CreateTable = "CREATE TABLE IF NOT EXISTS ";
@@ -25,6 +26,8 @@ public class SQLHelperUidTotal {
 	private String Value = "values('";
 	private String split = "','";
 	private Cursor cur;
+	// logs
+	private String TAG = "databaseUidTotal";
 
 	/**
 	 * 初始化uidTotal索引表
@@ -33,19 +36,16 @@ public class SQLHelperUidTotal {
 	 * @return
 	 */
 	protected boolean initUidTotalTables(SQLiteDatabase sqldatabase) {
-		// TODO Auto-generated method stub
-		String string = null;
-		string = CreateTable + TableUidTotal + Start + SQLId
-				+ CreateparamUidTotal + End;
+		StringBuilder string = new StringBuilder();
+		string = string.append(CreateTable).append(TableUidTotal).append(Start)
+				.append(SQLId).append(CreateparamUidTotal).append(End);
 		// CREATE TABLE IF NOT EXISTS t4 (_id INTEGER PRIMARY KEY,date
 		// datetime,upload INTEGER,download INTEGER,uid INTEGER,type
 		// varchar(15),other varchar(15))
 		try {
-			sqldatabase.execSQL(string);
+			sqldatabase.execSQL(string.toString());
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string);
-			showLog("initUidIndexTables-fail");
+			Logs.d(TAG, string.toString() + "initUidIndexTables");
 			return false;
 		}
 		return true;
@@ -93,18 +93,20 @@ public class SQLHelperUidTotal {
 	private void exeSQLcreateUidTotaltable(SQLiteDatabase mySQL, int uidnumber,
 			String packagename, long upload, long download, int type,
 			String other) {
-		String string = null;
-		string = InsertTable + TableUidTotal + Start + InsertUidTotalColumn
-				+ End + Value + uidnumber + split + packagename + split
-				+ upload + split + download + split + 0 + split + type + split
-				+ other + split + "Install" + "'" + End;
+		StringBuilder string = new StringBuilder();
+		string = string.append(InsertTable).append(TableUidTotal).append(Start)
+				.append(InsertUidTotalColumn).append(End).append(Value)
+				.append(uidnumber).append(split).append(packagename)
+				.append(split).append(upload).append(split).append(download)
+				.append(split).append(0).append(split).append(type)
+				.append(split).append(other).append(split).append("Install")
+				.append("'").append(End);
 		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
 		// ('date','time','upload','download','uid','type')
 		try {
-			mySQL.execSQL(string);
+			mySQL.execSQL(string.toString());
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string + "fail");
+			Logs.d(TAG, string.toString() + "fail" + e);
 		}
 	}
 
@@ -117,19 +119,17 @@ public class SQLHelperUidTotal {
 	 */
 	public void DeleteUnusedUidTotalDatabyPacname(SQLiteDatabase mySQL,
 			String packagename) {
-		String string = null;
+		StringBuilder string = new StringBuilder();
 		// delete from Yookey where tit not in (select min(tit) from Yookey
 		// group by SID)
-		string = DeleteTable + TableUidTotal + Where + " packagename='"
-				+ packagename + "'";
+		string = string.append(DeleteTable).append(TableUidTotal).append(Where)
+				.append(" packagename='").append(packagename).append("'");
 		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
 		// ('date','time','upload','download','uid','type')
-		showLog(string);
 		try {
-			mySQL.execSQL(string);
+			mySQL.execSQL(string.toString());
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog(string + "fail");
+			Logs.d(TAG, string.toString() + "fail" + e);
 		}
 	}
 
@@ -141,17 +141,16 @@ public class SQLHelperUidTotal {
 		mySQL.beginTransaction();
 		try {
 			// 选择现有的uid数据
-			String string = null;
+			StringBuilder string = new StringBuilder();
 			// select oldest upload and download 之前记录的数据的查询操作
 			// SELECT * FROM table WHERE type=0
-			string = "SELECT * FROM " + TableUidTotal + Where + "type='" + "0"
-					+ "'";
+			string = string.append("SELECT * FROM ").append(TableUidTotal)
+					.append(Where).append("type='").append("0").append("'");
 			try {
-				cur = mySQL.rawQuery(string, null);
+				cur = mySQL.rawQuery(string.toString(), null);
 				// showLog(string);
 			} catch (Exception e) {
-				// TODO: handle exception
-				showLog("fail-List-cur" + string);
+				Logs.d(TAG, "fail-List-cur" + string.toString());
 			}
 			String[] pacs_hasset = new String[cur.getCount()];
 			int[] uid_hasset = new int[cur.getCount()];
@@ -171,8 +170,7 @@ public class SQLHelperUidTotal {
 						} while (cur.moveToNext());
 					}
 				} catch (Exception e) {
-					// TODO: handle exception
-					showLog("cur-searchfail" + e);
+					Logs.d(TAG, "cur-searchfail" + e);
 				}
 			}
 			if (cur != null) {
@@ -195,8 +193,7 @@ public class SQLHelperUidTotal {
 
 			mySQL.setTransactionSuccessful();
 		} catch (Exception e) {
-			// TODO: handle exception
-			showLog("更新索引表失败");
+			Logs.d(TAG, "更新索引表失败");
 		} finally {
 			mySQL.endTransaction();
 		}
@@ -222,7 +219,6 @@ public class SQLHelperUidTotal {
 		// }
 		// mySQL.setTransactionSuccessful();
 		// } catch (Exception e) {
-		// // TODO: handle exception
 		// showLog("更新索引表失败");
 		// } finally {
 		// mySQL.endTransaction();
@@ -230,16 +226,6 @@ public class SQLHelperUidTotal {
 		SQLHelperCreateClose.closeSQL(mySQL);
 
 		return uid_List_Add;
-	}
-
-	/**
-	 * 用于显示日志
-	 * 
-	 * @param string
-	 */
-	private void showLog(String string) {
-		// TODO Auto-generated method stub
-		Log.d("databaseUidTotal", string);
 	}
 
 }

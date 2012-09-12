@@ -1,7 +1,7 @@
 package com.hiapk.broadcreceiver;
 
 import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
-import com.hiapk.sqlhelper.pub.SQLStatic;
+import com.hiapk.util.SQLStatic;
 import com.hiapk.widget.SetText;
 
 import android.content.BroadcastReceiver;

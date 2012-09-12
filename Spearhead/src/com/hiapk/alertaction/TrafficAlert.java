@@ -1,7 +1,7 @@
 package com.hiapk.alertaction;
 
 import com.hiapk.dataexe.TrafficManager;
-import com.hiapk.sqlhelper.pub.SQLStatic;
+import com.hiapk.util.SQLStatic;
 
 import android.content.Context;
 import android.content.SharedPreferences;

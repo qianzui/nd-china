@@ -9,7 +9,7 @@ import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.Block;
 import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
-import com.hiapk.sqlhelper.pub.SQLStatic;
+import com.hiapk.util.SQLStatic;
 import com.hiapk.widget.SetText;
 
 public class Onsysreboot {

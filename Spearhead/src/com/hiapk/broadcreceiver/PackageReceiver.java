@@ -4,9 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.hiapk.rebootandstartaction.OnUninstallitself;
-import com.hiapk.sqlhelper.pub.SQLStatic;
 import com.hiapk.sqlhelper.uid.SQLHelperUidother;
 import com.hiapk.sqlhelper.uid.SQLHelperUidTotal;
+import com.hiapk.util.SQLStatic;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;

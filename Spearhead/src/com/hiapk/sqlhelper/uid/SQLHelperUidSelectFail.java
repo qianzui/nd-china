@@ -1,10 +1,11 @@
 package com.hiapk.sqlhelper.uid;
 
+import com.hiapk.bean.UidTraffs;
+import com.hiapk.logs.Logs;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.text.format.Time;
-import android.util.Log;
 
 /**
  * 获取uid信息失败等时候补充建立uid表
@@ -13,6 +14,7 @@ import android.util.Log;
  * 
  */
 public class SQLHelperUidSelectFail {
+	private String TAG = "UidSelectFail";
 
 	public SQLHelperUidSelectFail() {
 		super();
@@ -39,12 +41,13 @@ public class SQLHelperUidSelectFail {
 	private String time;
 
 	public void selectfails(SQLiteDatabase sqlDataBase, String table, int uid) {
-		String string = null;
-		string = CreateTable + table + Start + SQLId + CreateparamUid + End;
+		StringBuilder string = new StringBuilder();
+		string = string.append(CreateTable).append(table).append(Start)
+				.append(SQLId).append(CreateparamUid).append(End);
 		try {
-			sqlDataBase.execSQL(string);
+			sqlDataBase.execSQL(string.toString());
 		} catch (Exception e) {
-			showLog("fail" + string);
+			Logs.d(TAG, string.toString() + "fail" + e);
 		}
 		initTime();
 		exeSQLcreateUidtable(sqlDataBase, date, time, uid, 0, null);
@@ -70,28 +73,32 @@ public class SQLHelperUidSelectFail {
 	 */
 	private void exeSQLcreateUidtable(SQLiteDatabase mySQL, String date,
 			String time, int uidnumber, int type, String other) {
-		long[] uiddata = SQLHelperDataexe.initUidData(uidnumber);
-		String string = null;
+		UidTraffs uiddata = SQLHelperDataexe.initUidData(uidnumber);
+		StringBuilder string = new StringBuilder();
 		// 表示是否为总流量，总流量初始数据为0
 		if (type == 3 || type == 4) {
-			string = InsertTable + "uid" + uidnumber + Start
-					+ InsertUidColumnTotal + End + Value + date + split + time
-					+ split + "0" + split + "0" + split + type + split + other
-					+ "'" + End;
+			string = string.append(InsertTable).append("uid").append(uidnumber)
+					.append(Start).append(InsertUidColumnTotal).append(End)
+					.append(Value).append(date).append(split).append(time)
+					.append(split).append("0").append(split).append("0")
+					.append(split).append(type).append(split).append(other)
+					.append("'").append(End);
 		} else {
-			string = InsertTable + "uid" + uidnumber + Start
-					+ InsertUidColumnTotal + End + Value + date + split + time
-					+ split + uiddata[0] + split + uiddata[1] + split + type
-					+ split + other + "'" + End;
+			string = string.append(InsertTable).append("uid").append(uidnumber)
+					.append(Start).append(InsertUidColumnTotal).append(End)
+					.append(Value).append(date).append(split).append(time)
+					.append(split).append(uiddata.getUpload()).append(split)
+					.append(uiddata.getDownload()).append(split).append(type)
+					.append(split).append(other).append("'").append(End);
 		}
 		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
 		// ('1','1','1','1','1','1')
 		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
 		// ('date','time','upload','download','uid','type')
 		try {
-			mySQL.execSQL(string);
+			mySQL.execSQL(string.toString());
 		} catch (Exception e) {
-			showLog("fail" + string);
+			Logs.d(TAG, string.toString() + "fail" + e);
 		}
 	}
 
@@ -130,12 +137,4 @@ public class SQLHelperUidSelectFail {
 		// showLog("日期：" + date + "，" + SQLname + "，tableName：" + Table);
 	}
 
-	/**
-	 * 用于显示日志
-	 * 
-	 * @param string
-	 */
-	private void showLog(String string) {
-		Log.d("UidSelectFail", string);
-	}
 }

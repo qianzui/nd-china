@@ -2,16 +2,17 @@ package com.hiapk.sqlhelper.pub;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+
 /**
  * 创建和关闭数据库
+ * 
  * @author Administrator
- *
+ * 
  */
 public class SQLHelperCreateClose {
 
 	public SQLHelperCreateClose() {
 		super();
-		// initTime();
 	}
 
 	// SQL
@@ -19,8 +20,6 @@ public class SQLHelperCreateClose {
 	private static String SQLUidname = "SQLUid.db";
 	private static String SQLUidTotaldata = "SQLTotaldata.db";
 	private static final int MODE_PRIVATE = 0;
-
-	// classes
 
 	/**
 	 * 创建总数据库
@@ -31,7 +30,6 @@ public class SQLHelperCreateClose {
 	public static SQLiteDatabase creatSQLTotal(Context context) {
 		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLTotalname,
 				MODE_PRIVATE, null);
-		// showLog("db-CreatComplete");
 		return mySQL;
 	}
 
@@ -44,7 +42,6 @@ public class SQLHelperCreateClose {
 	public static SQLiteDatabase creatSQLUid(Context context) {
 		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLUidname,
 				MODE_PRIVATE, null);
-		// showLog("db-CreatComplete");
 		return mySQL;
 	}
 
@@ -57,7 +54,6 @@ public class SQLHelperCreateClose {
 	public static SQLiteDatabase creatSQLUidTotal(Context context) {
 		SQLiteDatabase mySQL = context.openOrCreateDatabase(SQLUidTotaldata,
 				MODE_PRIVATE, null);
-		// showLog("db-CreatComplete");
 		return mySQL;
 	}
 
@@ -71,12 +67,4 @@ public class SQLHelperCreateClose {
 		mySQL.close();
 	}
 
-	// /**
-	// * 用于显示日志
-	// *
-	// * @param string
-	// */
-	// private void showLog(String string) {
-	// Log.d("databaseCreateCloseSQL", string);
-	// }
 }

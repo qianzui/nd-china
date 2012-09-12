@@ -4,7 +4,7 @@ import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.exception.WriteLog;
 import com.hiapk.prefrencesetting.PrefrenceStaticOperator;
 import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.sqlhelper.pub.SQLStatic;
+import com.hiapk.util.SQLStatic;
 import com.hiapk.widget.SetText;
 
 import android.content.BroadcastReceiver;

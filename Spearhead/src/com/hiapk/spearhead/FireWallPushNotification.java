@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import com.hiapk.dataexe.NotificationInfo;
-import com.hiapk.sqlhelper.pub.SQLStatic;
+import com.hiapk.util.SQLStatic;
 import com.hiapk.alertdialog.CustomDialogOtherBeen;
 import com.hiapk.firewall.Block;
 import com.hiapk.firewall.MyCompNotifName;

@@ -3,21 +3,22 @@ package com.hiapk.sqlhelper.uid;
 import java.util.HashMap;
 import java.util.List;
 
-import com.hiapk.sqlhelper.pub.SQLStatic;
+import com.hiapk.logs.Logs;
 import com.hiapk.sqlhelper.uid.SQLHelperFireWall.Data;
+import com.hiapk.util.SQLStatic;
 
 import android.app.ActivityManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 public class SQLHelperUidRecordFire {
 	private ActivityManager mActivityManager = null;
+	// log
+	private String TAG = "databaseUidRecord";
 
 	public SQLHelperUidRecordFire(Context context) {
 		super();
-		// initTime();
 		mActivityManager = (ActivityManager) context
 				.getSystemService(Context.ACTIVITY_SERVICE);
 	}
@@ -133,17 +134,19 @@ public class SQLHelperUidRecordFire {
 	 */
 	private long[] getSQLuidtotalData(SQLiteDatabase mySQL, int uidnumber,
 			String network) {
-		String string = null;
+		StringBuilder string = new StringBuilder();
 		if (network == NETWORK_FLAG) {
 			// select oldest upload and download 之前记录的数据的查询操作
-			string = SelectTable + "uid" + uidnumber + Where + "type=" + 3;
+			string = string.append(SelectTable).append("uid").append(uidnumber)
+					.append(Where).append("type=").append(3);
 		} else {
-			string = SelectTable + "uid" + uidnumber + Where + "type=" + 4;
+			string = string.append(SelectTable).append("uid").append(uidnumber)
+					.append(Where).append("type=").append(4);
 		}
 		try {
-			cur = mySQL.rawQuery(string, null);
+			cur = mySQL.rawQuery(string.toString(), null);
 		} catch (Exception e) {
-			showLog("error+CreateTable" + string);
+			Logs.d(TAG, "error+CreateTable" + string);
 			SQLHelperUidSelectFail selectFail = new SQLHelperUidSelectFail();
 			selectFail.selectfails(mySQL, "uid" + uidnumber, uidnumber);
 		}
@@ -159,7 +162,7 @@ public class SQLHelperUidRecordFire {
 					a[2] = cur.getLong(mindown);
 				}
 			} catch (Exception e) {
-				showLog("cur-searchfail");
+				Logs.d(TAG, "cur-searchfail" + e);
 			}
 		}
 		if (cur != null) {
@@ -169,12 +172,4 @@ public class SQLHelperUidRecordFire {
 		return a;
 	}
 
-	/**
-	 * 用于显示日志
-	 * 
-	 * @param string
-	 */
-	private void showLog(String string) {
-		Log.d("databaseUidRecord", string);
-	}
 }

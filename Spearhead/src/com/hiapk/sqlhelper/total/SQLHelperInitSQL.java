@@ -1,5 +1,7 @@
 package com.hiapk.sqlhelper.total;
 
+import com.hiapk.bean.TotalTraffs;
+import com.hiapk.bean.UidTraffs;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
@@ -75,10 +77,21 @@ public class SQLHelperInitSQL {
 	private void exeSQLtotal(SQLiteDatabase mySQL, String table, int type,
 			String other) {
 		String string = null;
-		long[] totalTraff = SQLHelperDataexe.initTotalData(table);
-		string = InsertTable + table + Start + InsertColumnTotal + End + Value
-				+ date + split + time + split + totalTraff[0] + split
-				+ totalTraff[1] + split + type + split + other + "'" + End;
+		TotalTraffs totalTraff = SQLHelperDataexe.initTotalData();
+		if (table == "mobile") {
+			string = InsertTable + table + Start + InsertColumnTotal + End
+					+ Value + date + split + time + split
+					+ totalTraff.getMobileUpload() + split
+					+ totalTraff.getMobileDownload() + split + type + split
+					+ other + "'" + End;
+		} else {
+			string = InsertTable + table + Start + InsertColumnTotal + End
+					+ Value + date + split + time + split
+					+ totalTraff.getWifiUpload() + split
+					+ totalTraff.getWifiDownload() + split + type + split
+					+ other + "'" + End;
+		}
+
 		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
 		// ('date','time','upload','download','uid','type')
 
@@ -132,28 +145,32 @@ public class SQLHelperInitSQL {
 	 */
 	private void exeSQLcreateUidtable(SQLiteDatabase mySQL, String date,
 			String time, int uidnumber, int type, String other) {
-		long[] uiddata = SQLHelperDataexe.initUidData(uidnumber);
-		String string = null;
+		UidTraffs uiddata = SQLHelperDataexe.initUidData(uidnumber);
+		StringBuilder string = new StringBuilder();
 		// 表示是否为总流量，总流量初始数据为0
 		if (type == 3 || type == 4) {
-			string = InsertTable + "uid" + uidnumber + Start
-					+ InsertUidColumnTotal + End + Value + date + split + time
-					+ split + "0" + split + "0" + split + type + split + other
-					+ "'" + End;
+			string.append(InsertTable).append("uid").append(uidnumber)
+					.append(Start).append(InsertUidColumnTotal).append(End)
+					.append(Value).append(date).append(split).append(time)
+					.append(split).append(0).append(split).append(0)
+					.append(split).append(type).append(split).append(other)
+					.append("'").append(End);
 		} else {
-			string = InsertTable + "uid" + uidnumber + Start
-					+ InsertUidColumnTotal + End + Value + date + split + time
-					+ split + uiddata[0] + split + uiddata[1] + split + type
-					+ split + other + "'" + End;
+			string.append(InsertTable).append("uid").append(uidnumber)
+					.append(Start).append(InsertUidColumnTotal).append(End)
+					.append(Value).append(date).append(split).append(time)
+					.append(split).append(uiddata.getUpload()).append(split)
+					.append(uiddata.getDownload()).append(split).append(type)
+					.append(split).append(other).append("'").append(End);
 		}
 		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
 		// ('1','1','1','1','1','1')
 		// INSERT INTO t4 (date,time,upload,download,uid,type) VALUES
 		// ('date','time','upload','download','uid','type')
 		try {
-			mySQL.execSQL(string);
+			mySQL.execSQL(string.toString());
 		} catch (Exception e) {
-			showLog("fail+" + string);
+			showLog("fail+" + string.toString());
 		}
 	}
 
@@ -258,12 +275,12 @@ public class SQLHelperInitSQL {
 				// 2为记录的软件使用流量情况
 				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i],
 						packagenames[i], upload, download, 0, "");
-//				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i],
-//						packagenames[i], upload, download, 1, "");
-//				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i],
-//						packagenames[i], 0, 0, 2, "wifi");
-//				exeSQLcreateUidTotaltable(mySQL, uidnumbers[i],
-//						packagenames[i], 0, 0, 2, "mobile");
+				// exeSQLcreateUidTotaltable(mySQL, uidnumbers[i],
+				// packagenames[i], upload, download, 1, "");
+				// exeSQLcreateUidTotaltable(mySQL, uidnumbers[i],
+				// packagenames[i], 0, 0, 2, "wifi");
+				// exeSQLcreateUidTotaltable(mySQL, uidnumbers[i],
+				// packagenames[i], 0, 0, 2, "mobile");
 			}
 
 		}
@@ -540,6 +557,6 @@ public class SQLHelperInitSQL {
 	 * @param string
 	 */
 	private void showLog(String string) {
-//		Log.d("databaseSQLInit", string);
+		// Log.d("databaseSQLInit", string);
 	}
 }

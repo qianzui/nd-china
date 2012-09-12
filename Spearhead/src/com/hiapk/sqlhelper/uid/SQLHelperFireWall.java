@@ -5,14 +5,15 @@ import java.util.HashMap;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.util.Log;
 
+import com.hiapk.logs.Logs;
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
-import com.hiapk.sqlhelper.pub.SQLStatic;
+import com.hiapk.util.SQLStatic;
 
 public class SQLHelperFireWall {
 	long time;
 	private static boolean isReseting = false;
+	private String TAG = "SQLFireWall";
 
 	/**
 	 * Small structure to hold an application info
@@ -27,7 +28,7 @@ public class SQLHelperFireWall {
 		time = System.currentTimeMillis();
 		// AlarmSet alset = new AlarmSet();
 		// alset.StartAlarm(context);
-		showLog("alarmover" + (System.currentTimeMillis() - time));
+		Logs.iop(TAG, "alarmover" + (System.currentTimeMillis() - time));
 		if (SQLStatic.getIsInit(context)) {
 			if (isReseting == false) {
 				isReseting = true;
@@ -50,7 +51,7 @@ public class SQLHelperFireWall {
 				}
 
 			}
-			showLog("getuids" + (System.currentTimeMillis() - time));
+			Logs.iop(TAG, "getuids" + (System.currentTimeMillis() - time));
 			numbers = SQLStatic.uidnumbers;
 			SQLHelperUidRecordFire sqlhelperUidRecordall = new SQLHelperUidRecordFire(
 					params[0]);
@@ -64,7 +65,7 @@ public class SQLHelperFireWall {
 			}
 			SQLiteDatabase sqlDataBase = SQLHelperCreateClose
 					.creatSQLUid(params[0]);
-			showLog("startRecord" + (System.currentTimeMillis() - time));
+			Logs.iop(TAG, "startRecord" + (System.currentTimeMillis() - time));
 			sqlDataBase.beginTransaction();
 			try {
 
@@ -73,7 +74,7 @@ public class SQLHelperFireWall {
 
 				sqlDataBase.setTransactionSuccessful();
 			} catch (Exception e) {
-				showLog("获取防火墙页面流量信息失败");
+				Logs.d(TAG, "获取防火墙页面流量信息失败");
 			} finally {
 				sqlDataBase.endTransaction();
 			}
@@ -87,20 +88,9 @@ public class SQLHelperFireWall {
 
 		@Override
 		protected void onPostExecute(HashMap<Integer, Data> result) {
-			showLog("Recordover" + (System.currentTimeMillis() - time));
+			Logs.iop(TAG, "Recordover" + (System.currentTimeMillis() - time));
 			SQLStatic.uiddata = result;
 			isReseting = false;
-		}
-	}
-
-	/**
-	 * 用于显示日志
-	 * 
-	 * @param string
-	 */
-	private void showLog(String string) {
-		if (SQLStatic.isshowLog) {
-			Log.d("SQLFireWall", string);
 		}
 	}
 
