@@ -25,7 +25,7 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
-import com.hiapk.provider.UiColors;
+import com.hiapk.ui.skin.UiColors;
 
 import android.content.Context;
 import android.graphics.Color;

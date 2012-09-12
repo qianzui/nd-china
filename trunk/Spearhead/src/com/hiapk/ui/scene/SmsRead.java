@@ -1,4 +1,4 @@
-package com.hiapk.regulate;
+package com.hiapk.ui.scene;
 
 public class SmsRead {
 //	public boolean isRead = true;

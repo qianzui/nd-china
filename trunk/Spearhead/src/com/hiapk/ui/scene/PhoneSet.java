@@ -1,4 +1,4 @@
-package com.hiapk.regulate;
+package com.hiapk.ui.scene;
 
 import com.hiapk.customspinner.CustomSPPhoneSetBeen;
 import com.hiapk.customspinner.SPDataSet;

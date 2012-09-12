@@ -6,10 +6,10 @@ import java.util.List;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.Block;
-import com.hiapk.prefrencesetting.SharedPrefrenceDataOnUpdate;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
 import com.hiapk.util.SQLStatic;
+import com.hiapk.util.SharedPrefrenceDataOnUpdate;
 
 import android.Manifest;
 import android.app.Activity;

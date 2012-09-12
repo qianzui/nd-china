@@ -1,6 +1,8 @@
 package com.hiapk.prefrencesetting;
 
 import com.hiapk.spearhead.R;
+import com.hiapk.util.SharedPrefrenceData;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;

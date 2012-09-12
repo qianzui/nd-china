@@ -7,9 +7,9 @@ import android.os.AsyncTask;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.Block;
-import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 import com.hiapk.util.SQLStatic;
+import com.hiapk.util.SharedPrefrenceDataWidget;
 import com.hiapk.widget.SetText;
 
 public class Onsysreboot {

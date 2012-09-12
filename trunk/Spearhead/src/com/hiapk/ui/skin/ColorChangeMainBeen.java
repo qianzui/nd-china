@@ -1,4 +1,4 @@
-package com.hiapk.provider;
+package com.hiapk.ui.skin;
 
 import android.graphics.Color;
 import android.widget.TextView;

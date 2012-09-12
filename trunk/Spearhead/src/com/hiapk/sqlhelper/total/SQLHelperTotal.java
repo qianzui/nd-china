@@ -2,8 +2,8 @@ package com.hiapk.sqlhelper.total;
 
 import com.hiapk.bean.TotalTraffs;
 import com.hiapk.logs.Logs;
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
+import com.hiapk.util.SharedPrefrenceData;
 
 import android.content.Context;
 import android.database.Cursor;

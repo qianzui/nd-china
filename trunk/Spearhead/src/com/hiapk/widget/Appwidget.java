@@ -2,11 +2,11 @@ package com.hiapk.widget;
 
 import com.hiapk.alertaction.AlertActionMobileDataControl;
 import com.hiapk.broadcreceiver.AlarmSet;
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.Splash;
 import com.hiapk.util.SQLStatic;
+import com.hiapk.util.SharedPrefrenceData;
+import com.hiapk.util.SharedPrefrenceDataWidget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;

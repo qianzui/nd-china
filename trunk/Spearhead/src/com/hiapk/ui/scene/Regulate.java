@@ -1,4 +1,4 @@
-package com.hiapk.regulate;
+package com.hiapk.ui.scene;
 
 import com.hiapk.spearhead.Mapplication;
 import com.hiapk.spearhead.R;

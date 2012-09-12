@@ -24,10 +24,10 @@ import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.PrefrenceStaticOperator;
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
-import com.hiapk.regulate.Regulate;
 import com.hiapk.spearhead.R;
+import com.hiapk.ui.scene.Regulate;
+import com.hiapk.util.SharedPrefrenceData;
+import com.hiapk.util.SharedPrefrenceDataWidget;
 import com.hiapk.widget.SetText;
 
 public class CustomSPBeen {

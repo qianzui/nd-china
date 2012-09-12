@@ -14,13 +14,13 @@ import android.widget.Button;
 import com.hiapk.dataexe.NotificationInfo;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.prefrencesetting.PrefrenceStaticOperator;
-import com.hiapk.prefrencesetting.SharedPrefrenceData;
-import com.hiapk.prefrencesetting.SharedPrefrenceDataWidget;
 import com.hiapk.progressdialog.CustomProgressDialog;
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.FireWallMainScene;
 import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
 import com.hiapk.util.SQLStatic;
+import com.hiapk.util.SharedPrefrenceData;
+import com.hiapk.util.SharedPrefrenceDataWidget;
 import com.hiapk.widget.SetText;
 
 public class CustomDialogOtherBeen {
