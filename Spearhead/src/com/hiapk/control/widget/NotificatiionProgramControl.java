@@ -52,6 +52,8 @@ public class NotificatiionProgramControl {
 		// SetText.setText(context);
 		contentView.setTextViewText(R.id.textUp, SetText.textUp);
 		contentView.setTextViewText(R.id.textDown, SetText.textDown);
+		// 进度条设置
+		//		ProgressBar aa=new ProgressBar(context);
 		if (SetText.HasSetMonthUsed == false) {
 			contentView.setInt(R.id.probar_down, "setProgress", 0);
 			contentView.setInt(R.id.probar_down, "setSecondaryProgress", 0);
