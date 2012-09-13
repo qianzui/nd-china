@@ -4,7 +4,7 @@ import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.MonthDay;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.dataexe.UnitHandler;
-import com.hiapk.progressbar.StackedBarChart;
+import com.hiapk.ui.chart.StackedBarChart;
 import com.hiapk.ui.custom.CustomDialogMainBeen;
 import com.hiapk.ui.skin.ColorChangeMainBeen;
 import com.hiapk.ui.skin.UiColors;

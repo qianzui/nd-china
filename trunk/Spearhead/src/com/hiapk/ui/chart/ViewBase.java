@@ -1,7 +1,7 @@
 /**
  * @epic bin @2010
  */
-package com.hiapk.progressbar;
+package com.hiapk.ui.chart;
 
 import android.content.Context;
 import android.view.View;

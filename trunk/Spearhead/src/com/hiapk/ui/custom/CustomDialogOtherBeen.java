@@ -13,10 +13,10 @@ import android.widget.Button;
 
 import com.hiapk.dataexe.NotificationInfo;
 import com.hiapk.dataexe.TrafficManager;
-import com.hiapk.prefrencesetting.PrefrenceStaticOperator;
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.FireWallMainScene;
 import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
+import com.hiapk.ui.scene.PrefrenceStaticOperator;
 import com.hiapk.ui.widget.SetText;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceData;

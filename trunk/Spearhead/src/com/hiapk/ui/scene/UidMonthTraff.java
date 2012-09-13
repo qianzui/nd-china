@@ -1,10 +1,10 @@
 package com.hiapk.ui.scene;
 
 import com.hiapk.dataexe.UnitHandler;
-import com.hiapk.progressbar.ProjectStatusChart;
-import com.hiapk.progressbar.SimplePie;
 import com.hiapk.spearhead.R;
 import com.hiapk.sqlhelper.uid.SQLHelperUidtraffStats;
+import com.hiapk.ui.chart.ProjectStatusChart;
+import com.hiapk.ui.chart.SimplePie;
 import com.hiapk.util.SQLStatic;
 
 import android.app.Activity;
