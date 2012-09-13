@@ -4,6 +4,7 @@ import com.hiapk.ui.custom.CustomDialogMain3Been;
 import com.hiapk.ui.custom.CustomSPBeen;
 import com.hiapk.ui.scene.PhoneSet;
 import com.hiapk.ui.scene.Regulate;
+import com.hiapk.ui.skin.SkinCustomMains;
 import com.hiapk.util.SharedPrefrenceData;
 import com.hiapk.util.SharedPrefrenceDataRegulate;
 import com.hiapk.util.UnitHandler;
@@ -19,7 +20,30 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class Main3 extends Activity {
-	private Button combo;
+	/**
+	 * 查询流量套餐按钮
+	 */
+	private Button findtaocan;
+	/**
+	 * 预警动作按钮
+	 */
+	private Button warningAlertActionButton;
+	/**
+	 * 日流量预警按钮
+	 */
+	private Button dayWarningButton;
+	/**
+	 * 月流量预警
+	 */
+	private Button monthWarningButton;
+	/**
+	 * 选择结算日期按钮
+	 */
+	private Button countDaySpButton;
+	/**
+	 * 包月套餐设置按钮
+	 */
+	private Button btn_monthSet;
 	private Context context = this;
 	// 调用单位处理函数
 	// 获取固定存放数据
@@ -27,7 +51,6 @@ public class Main3 extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		// MobclickAgent.onError(this);
 		setContentView(R.layout.main3);
@@ -35,13 +58,12 @@ public class Main3 extends Activity {
 		SpearheadApplication.getInstance().addActivity(this);
 		sharedData = new SharedPrefrenceData(context);
 		init_Spinner();
-		combo = (Button) findViewById(R.id.combo);
-		combo.setOnClickListener(new OnClickListener() {
+		findtaocan = (Button) findViewById(R.id.combo);
+		findtaocan.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				SharedPrefrenceDataRegulate sharedDataReg = new SharedPrefrenceDataRegulate(
 						context);
-				// TODO Auto-generated method stub
 				if (sharedDataReg.getIsFirstRegulate()) {
 					Intent i = new Intent(Main3.this, PhoneSet.class);
 					startActivity(i);
@@ -51,42 +73,60 @@ public class Main3 extends Activity {
 				}
 			}
 		});
-//		//模拟异常 
-//        throw new  RuntimeException("my exception error"); 
+		// //模拟异常
+		// throw new RuntimeException("my exception error");
+	}
+
+	/**
+	 * 初始化按钮皮肤
+	 */
+	private void init_skin() {
+		findtaocan
+				.setBackgroundResource(SkinCustomMains.buttonBackgroundDark());
+		warningAlertActionButton.setBackgroundResource(SkinCustomMains
+				.buttonBackgroundDark());
+		dayWarningButton.setBackgroundResource(SkinCustomMains
+				.buttonBackgroundDark());
+		monthWarningButton.setBackgroundResource(SkinCustomMains
+				.buttonBackgroundDark());
+		countDaySpButton.setBackgroundResource(SkinCustomMains
+				.buttonBackgroundDark());
+		btn_monthSet.setBackgroundResource(SkinCustomMains
+				.buttonBackgroundDark());
 	}
 
 	/**
 	 * 初始化预警动作按钮
 	 */
 	private void init_warningAct() {
-		final Button alertAction = (Button) findViewById(R.id.warningAct);
+		warningAlertActionButton = (Button) findViewById(R.id.warningAct);
 		// 0-30代表1-31
 		int beforeDay = sharedData.getAlertAction();
 		Resources res = context.getResources();
 		String[] alertactionString = res.getStringArray(R.array.warningaction);
 		switch (beforeDay) {
 		case 0:
-			alertAction.setText(alertactionString[0]);
+			warningAlertActionButton.setText(alertactionString[0]);
 			break;
 		case 1:
-			alertAction.setText(alertactionString[1]);
+			warningAlertActionButton.setText(alertactionString[1]);
 			break;
 		case 2:
-			alertAction.setText(alertactionString[2]);
+			warningAlertActionButton.setText(alertactionString[2]);
 			break;
 		case 3:
-			alertAction.setText(alertactionString[3]);
+			warningAlertActionButton.setText(alertactionString[3]);
 			break;
 		default:
-			alertAction.setText(alertactionString[0]);
+			warningAlertActionButton.setText(alertactionString[0]);
 			break;
 		}
 
-		alertAction.setOnClickListener(new OnClickListener() {
+		warningAlertActionButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				CustomSPBeen customSP = new CustomSPBeen(context);
-				customSP.dialogAlertType(alertAction);
+				customSP.dialogAlertType(warningAlertActionButton);
 			}
 		});
 	}
@@ -95,17 +135,15 @@ public class Main3 extends Activity {
 	 * 初始化日流量预警按钮
 	 */
 	private void init_dayWarning() {
-		// TODO Auto-generated method stub
-		final Button dayWarning = (Button) findViewById(R.id.dayWarning);
+		dayWarningButton = (Button) findViewById(R.id.dayWarning);
 		long mobileWarning = sharedData.getAlertWarningDay();
-		dayWarning.setText(UnitHandler.unitHandler(mobileWarning));
-		dayWarning.setOnClickListener(new OnClickListener() {
+		dayWarningButton.setText(UnitHandler.unitHandler(mobileWarning));
+		dayWarningButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				CustomDialogMain3Been customDialog = new CustomDialogMain3Been(
 						context);
-				customDialog.dialogDayWarning(dayWarning);
+				customDialog.dialogDayWarning(dayWarningButton);
 
 			}
 		});
@@ -115,16 +153,15 @@ public class Main3 extends Activity {
 	 * 初始化月流量预警按钮
 	 */
 	private void init_monthWarning() {
-		final Button monthWarning = (Button) findViewById(R.id.monthWarning);
+		monthWarningButton = (Button) findViewById(R.id.monthWarning);
 		long mobileWarning = sharedData.getAlertWarningMonth();
-		monthWarning.setText(UnitHandler.unitHandler(mobileWarning));
-		monthWarning.setOnClickListener(new OnClickListener() {
+		monthWarningButton.setText(UnitHandler.unitHandler(mobileWarning));
+		monthWarningButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				CustomDialogMain3Been customDialog = new CustomDialogMain3Been(
 						context);
-				customDialog.dialogMonthWarning(monthWarning);
+				customDialog.dialogMonthWarning(monthWarningButton);
 
 			}
 		});
@@ -134,16 +171,16 @@ public class Main3 extends Activity {
 	 * 设置下拉条
 	 */
 	private void init_Spinner() {
-		final Button dayUnit = (Button) findViewById(R.id.dayUnit);
+		countDaySpButton = (Button) findViewById(R.id.dayUnit);
 		final Button btn_HasUsed = (Button) findViewById(R.id.btn_monthHasUseSet_Unit);
 		// 0-30代表1-31
 		int beforeDay = sharedData.getCountDay();
-		dayUnit.setText((beforeDay + 1) + " 日");
-		dayUnit.setOnClickListener(new OnClickListener() {
+		countDaySpButton.setText((beforeDay + 1) + " 日");
+		countDaySpButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				CustomSPBeen customSP = new CustomSPBeen(context);
-				customSP.dialogDaySet(dayUnit, btn_HasUsed);
+				customSP.dialogDaySet(countDaySpButton, btn_HasUsed);
 			}
 		});
 	}
@@ -152,21 +189,20 @@ public class Main3 extends Activity {
 	 * 对月度显示文本进行初始化设置等
 	 */
 	private void init_btn_month() {
-		final Button btn_month = (Button) findViewById(R.id.btn_monthSet_Unit);
+		btn_monthSet = (Button) findViewById(R.id.btn_monthSet_Unit);
 		// 设置默认显示值
 		long mobileSetLong = sharedData.getMonthMobileSetOfLong();
 		// showlog(mobileSetLong + "");
-		btn_month.setText(UnitHandler.unitHandler(mobileSetLong));
+		btn_monthSet.setText(UnitHandler.unitHandler(mobileSetLong));
 		final Button dayWarning = (Button) findViewById(R.id.dayWarning);
 		final Button monthWarning = (Button) findViewById(R.id.monthWarning);
 		// 设置监听
-		btn_month.setOnClickListener(new OnClickListener() {
+		btn_monthSet.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				CustomDialogMain3Been customDialog = new CustomDialogMain3Been(
 						context);
-				customDialog.dialogMonthSet_Main3(btn_month, dayWarning,
+				customDialog.dialogMonthSet_Main3(btn_monthSet, dayWarning,
 						monthWarning);
 			}
 		});
@@ -174,7 +210,6 @@ public class Main3 extends Activity {
 
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 		// umeng
 		// MobclickAgent.onPause(this);
@@ -182,12 +217,12 @@ public class Main3 extends Activity {
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		init_btn_month();
 		init_monthWarning();
 		init_dayWarning();
 		init_warningAct();
+		init_skin();
 		// umeng
 		// MobclickAgent.onResume(this);
 
@@ -204,7 +239,6 @@ public class Main3 extends Activity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
 			return false;
 		}
