@@ -360,6 +360,7 @@ public class CustomDialog extends Dialog {
 						View.GONE);
 				layout.findViewById(R.id.custom_imagview).setVisibility(
 						View.GONE);
+				layout.findViewById(R.id.content).setPadding(5, 42, 10, 10);
 			}
 			dialog.setContentView(layout);
 			return dialog;

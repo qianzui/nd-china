@@ -13,8 +13,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="1.2"
         android:background="@drawable/content"
+        android:digits="1234567890"
         android:maxLength="6"
-       android:digits="1234567890"
         android:textColor="@color/darkgray" />
 
     <TextView
