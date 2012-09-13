@@ -118,7 +118,7 @@
             android:layout_width="150dip"
             android:layout_height="60dip"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/btnselector_main"
+            android:background="@drawable/btnselector_light0"
             android:text="发送短信"
             android:textColor="@color/darkgray2"
             android:textSize="20sp" />

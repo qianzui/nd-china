@@ -293,7 +293,7 @@
                             android:layout_width="180sp"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:background="@drawable/btnselector_main"
+                            android:background="@drawable/btnselector_light0"
                             android:gravity="center"
                             android:text=" 请设置流量套餐 "
                             android:textColor="@color/darkgray2"

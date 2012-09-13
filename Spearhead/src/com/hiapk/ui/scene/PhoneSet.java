@@ -3,6 +3,7 @@ package com.hiapk.ui.scene;
 import com.hiapk.spearhead.R;
 import com.hiapk.ui.custom.CustomSPDataSet;
 import com.hiapk.ui.custom.CustomSPPhoneSetBeen;
+import com.hiapk.ui.skin.SkinCustomMains;
 import com.hiapk.util.SharedPrefrenceDataRegulate;
 
 import android.app.Activity;
@@ -33,9 +34,9 @@ public class PhoneSet extends Activity {
 		// MobclickAgent.onError(this);
 		sharedData = new SharedPrefrenceDataRegulate(this);
 		res = context.getResources();
-		
-		final ImageView back = (ImageView)findViewById(R.id.phoneset_back);
-		back.setOnClickListener(new OnClickListener(){
+
+		final ImageView back = (ImageView) findViewById(R.id.phoneset_back);
+		back.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -43,8 +44,10 @@ public class PhoneSet extends Activity {
 				back.setImageResource(R.drawable.back_black);
 			}
 		});
-		
+
 		next = (Button) findViewById(R.id.next);
+		// …Ë÷√∆§∑Ù
+		next.setBackgroundResource(SkinCustomMains.buttonBackgroundLight());
 		next.setOnClickListener(new OnClickListener() {
 
 			@Override

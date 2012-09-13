@@ -2,6 +2,7 @@ package com.hiapk.ui.scene;
 
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.SpearheadApplication;
+import com.hiapk.ui.skin.SkinCustomMains;
 import com.hiapk.util.SharedPrefrenceDataRegulate;
 
 import android.app.Activity;
@@ -44,6 +45,9 @@ public class Regulate extends Activity {
 		// smsRead = (Button)findViewById(R.id.smsRead);
 		smsText = (TextView) findViewById(R.id.smsText);
 		smsNum = (TextView) findViewById(R.id.smsNum);
+
+		// …Ë÷√∆§∑Ù
+		smsSend.setBackgroundResource(SkinCustomMains.buttonBackgroundLight());
 		// city = sharedData.getCity();
 		// brand = sharedData.getBrand();
 		//

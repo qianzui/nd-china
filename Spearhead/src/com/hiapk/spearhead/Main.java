@@ -6,6 +6,7 @@ import com.hiapk.control.widget.SetText;
 import com.hiapk.ui.chart.StackedBarChart;
 import com.hiapk.ui.custom.CustomDialogMainBeen;
 import com.hiapk.ui.skin.ColorChangeMainBeen;
+import com.hiapk.ui.skin.SkinCustomMains;
 import com.hiapk.ui.skin.UiColors;
 import com.hiapk.util.MonthDay;
 import com.hiapk.util.SharedPrefrenceData;
@@ -84,6 +85,9 @@ public class Main extends Activity {
 		// 设置按钮显示文字
 		boolean hasTraffSet = sharedData.isMonthSetHasSet();
 		Button btn_toThree = (Button) findViewById(R.id.setTaoCan);
+		// 设置皮肤
+		btn_toThree.setBackgroundResource(SkinCustomMains
+				.buttonBackgroundLight());
 		if (hasTraffSet) {
 			btn_toThree.setText("  校准流量  ");
 		} else {
