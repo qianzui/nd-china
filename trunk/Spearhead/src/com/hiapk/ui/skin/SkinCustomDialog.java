@@ -5,7 +5,7 @@ import com.hiapk.spearhead.SpearheadApplication;
 import android.content.res.Resources;
 
 public class SkinCustomDialog {
-	private static String TAG = "SkinCustomDialog";
+//	private static String TAG = "SkinCustomDialog";
 	static Resources res;
 
 	/**

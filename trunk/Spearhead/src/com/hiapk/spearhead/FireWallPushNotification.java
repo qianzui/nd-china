@@ -53,7 +53,7 @@ public class FireWallPushNotification extends Activity {
 		// MobclickAgent.onError(this);
 		setContentView(R.layout.main2_nofity);
 		// ÎªÁËÍË³ö¡£
-		Mapplication.getInstance().addActivity(this);
+		SpearheadApplication.getInstance().addActivity(this);
 		context = this;
 		callbyonCreate = true;
 		new AsyncTaskGetAdbArrayListonCreate().execute(context);

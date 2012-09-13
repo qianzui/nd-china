@@ -1,7 +1,7 @@
 package com.hiapk.ui.scene;
 
-import com.hiapk.spearhead.Mapplication;
 import com.hiapk.spearhead.R;
+import com.hiapk.spearhead.SpearheadApplication;
 import com.hiapk.util.SharedPrefrenceDataRegulate;
 
 import android.app.Activity;
@@ -36,7 +36,7 @@ public class Regulate extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.regulate);
 		// ÎªÁËÍË³ö¡£
-		Mapplication.getInstance().addActivity(this);
+		SpearheadApplication.getInstance().addActivity(this);
 		// MobclickAgent.onError(this);
 		sharedData = new SharedPrefrenceDataRegulate(this);
 		chooseBtn = (Button) findViewById(R.id.choose);

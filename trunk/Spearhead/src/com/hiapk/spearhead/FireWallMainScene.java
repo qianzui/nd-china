@@ -38,7 +38,7 @@ public class FireWallMainScene extends TabActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_sub_tabs);
-		Mapplication.getInstance().addActivity(this);
+		SpearheadApplication.getInstance().addActivity(this);
 		initScene();
 		switchScene();
 

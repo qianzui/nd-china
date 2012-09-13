@@ -2,13 +2,9 @@ package com.hiapk.ui.custom;
 
 import com.hiapk.spearhead.R;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.widget.TextView;
 
 public class CustomProgressDialogBeen {
 	private Context context;

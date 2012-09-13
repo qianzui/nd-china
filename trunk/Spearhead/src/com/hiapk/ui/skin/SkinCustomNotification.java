@@ -5,7 +5,7 @@ import android.content.res.Resources;
 import com.hiapk.spearhead.SpearheadApplication;
 
 public class SkinCustomNotification {
-	private static String TAG = "SkinCustomNotification";
+	// private static String TAG = "SkinCustomNotification";
 	static Resources res;
 
 	/**
