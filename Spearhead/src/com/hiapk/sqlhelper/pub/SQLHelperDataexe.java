@@ -5,9 +5,9 @@ import com.hiapk.bean.UidTraffs;
 import com.hiapk.dataexe.MonthlyUseData;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.sqlhelper.total.SQLHelperTotal;
+import com.hiapk.ui.widget.SetText;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceDataWidget;
-import com.hiapk.widget.SetText;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

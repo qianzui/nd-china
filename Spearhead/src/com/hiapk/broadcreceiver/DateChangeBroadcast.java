@@ -3,9 +3,9 @@ package com.hiapk.broadcreceiver;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.exception.WriteLog;
 import com.hiapk.prefrencesetting.PrefrenceStaticOperator;
+import com.hiapk.ui.widget.SetText;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceData;
-import com.hiapk.widget.SetText;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

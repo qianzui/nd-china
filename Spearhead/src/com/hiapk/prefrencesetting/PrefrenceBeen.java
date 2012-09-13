@@ -12,8 +12,8 @@ import com.hiapk.firewall.Block;
 import com.hiapk.spearhead.R;
 import com.hiapk.ui.custom.CustomDialogOtherBeen;
 import com.hiapk.ui.custom.CustomSPBeen;
+import com.hiapk.ui.widget.SetText;
 import com.hiapk.util.SharedPrefrenceDataWidget;
-import com.hiapk.widget.SetText;
 
 public class PrefrenceBeen {
 	Context context;

@@ -23,8 +23,8 @@ import com.hiapk.prefrencesetting.PrefrenceStaticOperator;
 import com.hiapk.spearhead.R;
 import com.hiapk.ui.scene.Regulate;
 import com.hiapk.ui.skin.ColorChangeMainBeen;
+import com.hiapk.ui.widget.SetText;
 import com.hiapk.util.SharedPrefrenceData;
-import com.hiapk.widget.SetText;
 
 public class CustomDialogMainBeen {
 	// ²Ù×÷sharedprefrence
