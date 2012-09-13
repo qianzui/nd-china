@@ -87,13 +87,11 @@ public class CustomDialogMain3Been {
 		btn_ok.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				// 输入的数值
 				float i = 0;
 				try {
 					i = Float.valueOf(et_month.getText().toString());
 				} catch (NumberFormatException e) {
-					// TODO: handle exception
 					i = 0;
 				}
 				showlog(i + "");
@@ -160,7 +158,6 @@ public class CustomDialogMain3Been {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				monthSetAlert.dismiss();
 			}
 		});
@@ -172,8 +169,8 @@ public class CustomDialogMain3Been {
 	public void dialogMonthWarning(final Button button) {
 		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		LayoutInflater factory = LayoutInflater.from(context);
-		View textEntryView = factory.inflate(
-				R.layout.month_warning_set_alert_dialog, null);
+		View textEntryView = factory.inflate(R.layout.custom_warning_set_alert_dialog,
+				null);
 		// 流量预警设置窗口上方的文本
 		final TextView tv_month_Traff = (TextView) textEntryView
 				.findViewById(R.id.tv_show_Traff);
@@ -220,18 +217,15 @@ public class CustomDialogMain3Been {
 					.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 						@Override
 						public void onStopTrackingTouch(SeekBar seekBar) {
-							// TODO Auto-generated method stub
 						}
 
 						@Override
 						public void onStartTrackingTouch(SeekBar seekBar) {
-							// TODO Auto-generated method stub
 						}
 
 						@Override
 						public void onProgressChanged(SeekBar seekBar,
 								int progress, boolean fromUser) {
-							// TODO Auto-generated method stub
 							et_month_Traff.setText(text
 									+ UnitHandler.unitHandler(monthset
 											* progress / 100, tv_month_Traff));
@@ -250,7 +244,6 @@ public class CustomDialogMain3Been {
 			btn_ok.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					// 输入的数值
 					Editor UseEditor = context.getSharedPreferences(PREFS_NAME,
 							0).edit();
@@ -258,7 +251,6 @@ public class CustomDialogMain3Been {
 					try {
 						i = Float.valueOf(et_month_Traff.getText().toString());
 					} catch (NumberFormatException e) {
-						// TODO: handle exception
 						i = 0;
 					}
 					long newmonthset = 0;
@@ -284,7 +276,6 @@ public class CustomDialogMain3Been {
 						btn_ok.setOnClickListener(new OnClickListener() {
 							@Override
 							public void onClick(View v) {
-								// TODO Auto-generated method stub
 								// 输入的数值
 								monthWarning.dismiss();
 							}
@@ -326,7 +317,6 @@ public class CustomDialogMain3Been {
 			btn_ok.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					// 输入的数值
 					monthWarning.dismiss();
 				}
@@ -345,8 +335,8 @@ public class CustomDialogMain3Been {
 	public void dialogDayWarning(final Button button) {
 		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		LayoutInflater factory = LayoutInflater.from(context);
-		View textEntryView = factory.inflate(
-				R.layout.month_warning_set_alert_dialog, null);
+		View textEntryView = factory.inflate(R.layout.custom_warning_set_alert_dialog,
+				null);
 		// final TextView tv_day_warning = (TextView) textEntryView
 		// .findViewById(R.id.tv_warning_alert);
 		// 流量预警设置窗口上方的文本
@@ -405,7 +395,6 @@ public class CustomDialogMain3Been {
 						@Override
 						public void onProgressChanged(SeekBar seekBar,
 								int progress, boolean fromUser) {
-							// TODO Auto-generated method stub
 							et_month_Traff.setText(text
 									+ UnitHandler.unitHandler(monthset
 											* progress / 100, tv_month_Traff));
@@ -424,7 +413,6 @@ public class CustomDialogMain3Been {
 			btn_ok.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					// 输入的数值
 					Editor UseEditor = context.getSharedPreferences(PREFS_NAME,
 							0).edit();
@@ -458,7 +446,6 @@ public class CustomDialogMain3Been {
 						btn_ok.setOnClickListener(new OnClickListener() {
 							@Override
 							public void onClick(View v) {
-								// TODO Auto-generated method stub
 								// 输入的数值
 								dayWarning.dismiss();
 							}
@@ -535,7 +522,6 @@ public class CustomDialogMain3Been {
 	// btn_ok.setOnClickListener(new OnClickListener() {
 	// @Override
 	// public void onClick(View v) {
-	// // TODO Auto-generated method stub
 	// dayWarning.dismiss();
 	// }
 	// });

@@ -5,8 +5,8 @@
     android:layout_gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingLeft="25dp"
-    android:paddingRight="30dp"
-    android:paddingTop="8dp" >
+    android:paddingRight="30dp" 
+    android:paddingTop="5dp">
 
     <EditText
         android:id="@+id/ev_alert"
