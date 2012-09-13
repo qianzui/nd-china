@@ -18,8 +18,8 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.prefrencesetting.PrefrenceStaticOperator;
 import com.hiapk.spearhead.R;
+import com.hiapk.ui.widget.SetText;
 import com.hiapk.util.SharedPrefrenceData;
-import com.hiapk.widget.SetText;
 
 public class CustomDialogMain3Been {
 	// ²Ù×÷sharedprefrence

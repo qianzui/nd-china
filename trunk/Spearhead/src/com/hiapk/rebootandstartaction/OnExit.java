@@ -8,8 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import com.hiapk.broadcreceiver.ExitAppBroadcast;
 import com.hiapk.spearhead.Mapplication;
+import com.hiapk.ui.widget.SetText;
 import com.hiapk.util.SharedPrefrenceDataWidget;
-import com.hiapk.widget.SetText;
 
 public class OnExit {
 

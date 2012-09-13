@@ -1,7 +1,7 @@
 package com.hiapk.broadcreceiver;
 
+import com.hiapk.ui.widget.SetText;
 import com.hiapk.util.SharedPrefrenceDataWidget;
-import com.hiapk.widget.SetText;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

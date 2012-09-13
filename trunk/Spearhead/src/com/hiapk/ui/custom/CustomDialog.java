@@ -51,8 +51,6 @@ public class CustomDialog extends Dialog {
 
 		private double windowWidth = 0;
 
-		private int theme = 0;
-
 		private DialogInterface.OnClickListener otherListener,
 				positiveListener, negativeListener;
 
@@ -62,7 +60,6 @@ public class CustomDialog extends Dialog {
 
 		public Builder(Context context, int theme) {
 			this.context = context;
-			this.theme = theme;
 		}
 
 		/**

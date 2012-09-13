@@ -8,9 +8,9 @@ import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.firewall.Block;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
+import com.hiapk.ui.widget.SetText;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceDataWidget;
-import com.hiapk.widget.SetText;
 
 public class Onsysreboot {
 	boolean isNotifyOpen = true;
