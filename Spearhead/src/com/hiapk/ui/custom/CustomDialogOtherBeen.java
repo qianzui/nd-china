@@ -14,7 +14,6 @@ import android.widget.Button;
 import com.hiapk.dataexe.NotificationInfo;
 import com.hiapk.dataexe.TrafficManager;
 import com.hiapk.prefrencesetting.PrefrenceStaticOperator;
-import com.hiapk.progressdialog.CustomProgressDialog;
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.FireWallMainScene;
 import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
@@ -69,7 +68,7 @@ public class CustomDialogOtherBeen {
 				.setMessage(
 						"获取Root权限失败，可能原因：\n\n1.您的设备未破解\n2.尝试获取Root失败\n建议退出后重新尝试。")
 				.setPositiveButton("重试", null).setNegativeButton("取消", null)
-			.create();
+				.create();
 		scanNotificationRootFail.show();
 		Button btn_ok = (Button) scanNotificationRootFail
 				.findViewById(R.id.positiveButton);
@@ -152,8 +151,7 @@ public class CustomDialogOtherBeen {
 	public void dialogConfirmClearData() {
 
 		final CustomDialog monthSetAlert = new CustomDialog.Builder(context)
-				.setTitle("注意！")
-				.setMessage("该操作将清除所有历史数据，您确定要继续吗？")
+				.setTitle("注意！").setMessage("该操作将清除所有历史数据，您确定要继续吗？")
 				.setPositiveButton("确定", null).setNegativeButton("取消", null)
 				.create();
 		monthSetAlert.show();
@@ -194,7 +192,7 @@ public class CustomDialogOtherBeen {
 		});
 	}
 
-	CustomProgressDialog customdialog;
+	CustomDialog customProgressDialog;
 
 	private class AsyncTaskonClearSQL extends
 			AsyncTask<Context, Integer, Integer> {
@@ -202,14 +200,11 @@ public class CustomDialogOtherBeen {
 		protected void onPreExecute() {
 			// mydialog = ProgressDialog
 			// .show(context, "请稍等...", "正在清空数据...", true);
-			CustomProgressDialog customProgressDialog = new CustomProgressDialog(
+			CustomProgressDialogBeen customPDBeen = new CustomProgressDialogBeen(
 					context);
-
-			customdialog = customProgressDialog.createDialog(context);
-			customdialog.setCancelable(false);
-			customProgressDialog.setTitile("清除历史记录...");
-			customProgressDialog.setMessage("清除中，请稍候。。。");
-			customdialog.show();
+			customProgressDialog = customPDBeen.progressDialog();
+			customProgressDialog.setCancelable(false);
+			customProgressDialog.show();
 			super.onPreExecute();
 		}
 
@@ -293,7 +288,7 @@ public class CustomDialogOtherBeen {
 		protected void onProgressUpdate(Integer... values) {
 			super.onProgressUpdate(values);
 			if (values[0] == 1) {
-				customdialog.dismiss();
+				customProgressDialog.dismiss();
 				dialogClearDataFail();
 			}
 		}
@@ -314,7 +309,7 @@ public class CustomDialogOtherBeen {
 				SQLStatic.setSQLUidOnUsed(false);
 				SQLStatic.setSQLUidTotalOnUsed(false);
 				sharedDatawidget.setSQLinited(true);
-				customdialog.dismiss();
+				customProgressDialog.dismiss();
 			}
 
 		}

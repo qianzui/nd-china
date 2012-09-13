@@ -31,7 +31,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:layout_marginBottom="2dp"
-        android:layout_weight="10"
         android:gravity="center_vertical"
         android:orientation="vertical" >
 
@@ -48,6 +47,7 @@
     <!-- 按钮 -->
 
     <LinearLayout
+        android:id="@+id/custom_imagview"
         android:layout_width="fill_parent"
         android:layout_height="2dp"
         android:layout_gravity="center"
@@ -58,10 +58,12 @@
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/divider" />
+            android:background="@drawable/divider"
+            android:contentDescription="@drawable/divider" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/custom_Buttons"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
