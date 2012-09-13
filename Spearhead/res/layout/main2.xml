@@ -6,6 +6,27 @@
     android:cacheColorHint="#00000000"
     android:orientation="vertical" >
 
+    <!-- 标题栏开始 -->
+
+    <RelativeLayout
+        android:id="@+id/main2TitleBackground"
+        android:layout_width="fill_parent"
+        android:layout_height="48dip"
+        android:background="@drawable/maintab_title_bg0"
+        android:orientation="horizontal"
+        android:paddingRight="10dip" >
+
+        <TextView
+            android:id="@+id/main2Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/main_2"
+            android:textColor="@color/white"
+            android:textSize="23sp" />
+    </RelativeLayout>
+    <!-- 标题栏结束 -->
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="30dip"

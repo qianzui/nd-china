@@ -1,6 +1,7 @@
 package com.hiapk.ui.scene;
 
 import com.hiapk.spearhead.R;
+import com.hiapk.ui.skin.SkinCustomMains;
 import com.hiapk.util.SharedPrefrenceData;
 
 import android.app.Activity;
@@ -12,6 +13,7 @@ import android.preference.ListPreference;
 import android.preference.PreferenceScreen;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -51,8 +53,9 @@ public class PrefrenceSetting extends Activity {
 		prefBeen.initCheckBoxHelpMessage(layout_help_info);
 		prefBeen.initListBoxFresh(layout_freshplv);
 		prefBeen.initClickBoxDataClear(layout_cleardata);
-		final ImageView back = (ImageView)findViewById(R.id.setting_back);
-		back.setOnClickListener(new OnClickListener(){
+
+		final ImageView back = (ImageView) findViewById(R.id.setting_back);
+		back.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -82,6 +85,19 @@ public class PrefrenceSetting extends Activity {
 		// String refreshValue = sharedData.getWidgetFresh();
 		// refreshFres.setValue(refreshValue);
 	}
+
+	private void initScene() {
+		FrameLayout title = (FrameLayout) findViewById(R.id.settingTitleBackground);
+		title.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		initScene();
+	}
+
 	//
 	// OnPreferenceClickListener oclick = new OnPreferenceClickListener() {
 	//
@@ -327,5 +343,5 @@ public class PrefrenceSetting extends Activity {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
 	}
-	
+
 }

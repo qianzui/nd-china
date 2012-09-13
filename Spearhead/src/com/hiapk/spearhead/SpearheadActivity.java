@@ -60,7 +60,7 @@ public class SpearheadActivity extends TabActivity {
 		SpearheadApplication.getInstance().addActivity(this);
 		firehelp = (ImageView) findViewById(R.id.help_image);
 		initScene();
-		switchScene();
+//		switchScene();
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class SpearheadActivity extends TabActivity {
 				.setContent(new Intent(context, Main.class)));
 		tabHost.addTab(tabHost.newTabSpec(TAB_FIREWALL)
 				.setIndicator(TAB_FIREWALL)
-				.setContent(new Intent(context, FireWallMainScene.class)));
+				.setContent(new Intent(context, FireWallActivity.class)));
 		tabHost.addTab(tabHost.newTabSpec(TAB_WARNING)
 				.setIndicator(TAB_WARNING)
 				.setContent(new Intent(this, Main3.class)));
@@ -90,7 +90,7 @@ public class SpearheadActivity extends TabActivity {
 					showHelp();
 					NotificationInfo.callbyonFirstBacktoFire=true;
 					tabHost.setCurrentTabByTag(TAB_FIREWALL);
-					FireWallMainScene.switScene(0);
+//					FireWallMainScene.switScene(0);
 					break;
 				case R.id.radio_button2:
 					hideHelp();

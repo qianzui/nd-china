@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -152,9 +153,17 @@ public class Regulate extends Activity {
 		chooseBtn.setText(sharedData.getChooseCity());
 		smsNum.setText(sharedData.getSmsNum());
 		smsText.setText(sharedData.getSmsText());
+		initScene();
 		// sr = new SmsRead();
 		// umeng
 		// MobclickAgent.onResume(this);
+	}
+	/**
+	 * Æ¤·ô
+	 */
+	public void initScene() {
+		FrameLayout title = (FrameLayout) findViewById(R.id.regulateTitleBackground);
+		title.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
 	}
 
 }
