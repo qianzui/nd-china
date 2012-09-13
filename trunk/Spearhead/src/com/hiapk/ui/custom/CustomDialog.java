@@ -51,6 +51,8 @@ public class CustomDialog extends Dialog {
 
 		private double windowWidth = 0;
 
+		private boolean showButton = true;
+
 		private DialogInterface.OnClickListener otherListener,
 				positiveListener, negativeListener;
 
@@ -60,6 +62,17 @@ public class CustomDialog extends Dialog {
 
 		public Builder(Context context, int theme) {
 			this.context = context;
+		}
+
+		/**
+		 * 是否显示按钮
+		 * 
+		 * @param showButton
+		 * @return
+		 */
+		public Builder setShowButton(Boolean showButton) {
+			this.showButton = showButton;
+			return this;
 		}
 
 		/**
@@ -340,6 +353,13 @@ public class CustomDialog extends Dialog {
 				((LinearLayout) layout.findViewById(R.id.content)).addView(
 						contentView, new LayoutParams(LayoutParams.FILL_PARENT,
 								LayoutParams.WRAP_CONTENT));
+			}
+			// 是否显示按钮。
+			if (!showButton) {
+				layout.findViewById(R.id.custom_Buttons).setVisibility(
+						View.GONE);
+				layout.findViewById(R.id.custom_imagview).setVisibility(
+						View.GONE);
 			}
 			dialog.setContentView(layout);
 			return dialog;

@@ -15,9 +15,9 @@ import com.hiapk.firewall.MyCompName;
 import com.hiapk.firewall.MyCompTraffic;
 import com.hiapk.firewall.MyListView;
 import com.hiapk.firewall.MyListView.OnRefreshListener;
-import com.hiapk.progressdialog.CustomProgressDialog;
 import com.hiapk.sqlhelper.uid.SQLHelperFireWall;
 import com.hiapk.sqlhelper.uid.SQLHelperFireWall.Data;
+import com.hiapk.ui.custom.CustomProgressDialogBeen;
 import com.hiapk.ui.scene.UidMonthTraff;
 import com.hiapk.util.SQLStatic;
 
@@ -59,7 +59,6 @@ public class FireWallActivity extends Activity {
 	public static AppListAdapter appListAdapter;
 	public static MyListView appListView;
 	public LinearLayout loading_content;
-	CustomProgressDialog customdialog;
 	public ArrayList<PackageInfo> myAppList;
 	public ArrayList<PackageInfo> myAppList2;
 	private Context mContext = this;
