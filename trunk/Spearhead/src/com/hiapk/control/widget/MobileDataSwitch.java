@@ -14,7 +14,7 @@ import android.util.Log;
  * @author wind
  * 
  */
-public class AlertActionMobileDataControl {
+public class MobileDataSwitch {
 	protected final String TAG = "setMobileData";
 	private ConnectivityManager cmmobile;
 

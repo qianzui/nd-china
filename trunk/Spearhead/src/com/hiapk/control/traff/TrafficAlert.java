@@ -1,7 +1,7 @@
 package com.hiapk.control.traff;
 
-import com.hiapk.control.widget.AlertActionMobileDataControl;
-import com.hiapk.control.widget.AlertActionNotify;
+import com.hiapk.control.widget.MobileDataSwitch;
+import com.hiapk.control.widget.NotificationWarningControl;
 import com.hiapk.util.SQLStatic;
 
 import android.content.Context;
@@ -88,7 +88,7 @@ public class TrafficAlert {
 		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
 		Editor UseEditor = context.getSharedPreferences(PREFS_NAME, 0).edit();
 		int WarningAction = prefs.getInt(WARNING_ACTION, 0);
-		AlertActionMobileDataControl mbDatactrl = new AlertActionMobileDataControl();
+		MobileDataSwitch mbDatactrl = new MobileDataSwitch();
 		switch (WarningAction) {
 		case 0:
 			startDayNotify(context, false);
@@ -128,7 +128,7 @@ public class TrafficAlert {
 		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
 		Editor UseEditor = context.getSharedPreferences(PREFS_NAME, 0).edit();
 		int WarningAction = prefs.getInt(WARNING_ACTION, 0);
-		AlertActionMobileDataControl mbDatactrl = new AlertActionMobileDataControl();
+		MobileDataSwitch mbDatactrl = new MobileDataSwitch();
 		switch (WarningAction) {
 		case 0:
 			startMonthNotify(context, false);
@@ -192,7 +192,7 @@ public class TrafficAlert {
 		// boolean allowNotify = prefs_setting.getBoolean(SYS_PRE_NOTIFY, true);
 		// showLog(allowNotify + "");
 		// if (allowNotify) {
-		AlertActionNotify actNotify = new AlertActionNotify();
+		NotificationWarningControl actNotify = new NotificationWarningControl();
 		actNotify.startNotifyMonth(context, vibrate);
 		// }
 	}
@@ -203,7 +203,7 @@ public class TrafficAlert {
 		boolean allowNotify = prefs_setting.getBoolean(SYS_PRE_NOTIFY, true);
 		// showLog(allowNotify + "");
 		if (allowNotify) {
-			AlertActionNotify actNotify = new AlertActionNotify();
+			NotificationWarningControl actNotify = new NotificationWarningControl();
 			actNotify.startNotifyDay(context, vibrate);
 		}
 	}

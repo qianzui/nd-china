@@ -2,11 +2,11 @@ package com.hiapk.spearhead;
 
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.traff.TrafficManager;
+import com.hiapk.control.widget.SetText;
 import com.hiapk.ui.chart.StackedBarChart;
 import com.hiapk.ui.custom.CustomDialogMainBeen;
 import com.hiapk.ui.skin.ColorChangeMainBeen;
 import com.hiapk.ui.skin.UiColors;
-import com.hiapk.ui.widget.SetText;
 import com.hiapk.util.MonthDay;
 import com.hiapk.util.SharedPrefrenceData;
 import com.hiapk.util.UnitHandler;

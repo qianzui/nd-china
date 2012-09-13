@@ -1,7 +1,8 @@
 package com.hiapk.ui.widget;
 
 import com.hiapk.broadcreceiver.AlarmSet;
-import com.hiapk.control.widget.AlertActionMobileDataControl;
+import com.hiapk.control.widget.MobileDataSwitch;
+import com.hiapk.control.widget.SetText;
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.Splash;
 import com.hiapk.util.SQLStatic;
@@ -173,7 +174,7 @@ public class Appwidget extends AppWidgetProvider {
 					R.drawable.widget_wifi_off);
 		}
 		// ≥ı ºªØmobile
-		AlertActionMobileDataControl mobile_on_of = new AlertActionMobileDataControl();
+		MobileDataSwitch mobile_on_of = new MobileDataSwitch();
 		TelephonyManager tm = (TelephonyManager) context
 				.getSystemService(Context.TELEPHONY_SERVICE);
 		if (tm.getSimState() != TelephonyManager.SIM_STATE_READY
@@ -370,7 +371,7 @@ public class Appwidget extends AppWidgetProvider {
 	private void mobileswitch(Context context, RemoteViews views) {
 		TelephonyManager tm = (TelephonyManager) context
 				.getSystemService(Context.TELEPHONY_SERVICE);
-		AlertActionMobileDataControl mobile_on_of = new AlertActionMobileDataControl();
+		MobileDataSwitch mobile_on_of = new MobileDataSwitch();
 		tm.getSimState();
 		if (Integer.valueOf(android.os.Build.VERSION.SDK) < 10) {
 			Toast.makeText(context, R.string.mobile_notsupport,

@@ -15,9 +15,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
+import com.hiapk.control.widget.SetText;
 import com.hiapk.spearhead.R;
 import com.hiapk.ui.scene.PrefrenceStaticOperator;
-import com.hiapk.ui.widget.SetText;
 import com.hiapk.util.SharedPrefrenceData;
 import com.hiapk.util.UnitHandler;
 

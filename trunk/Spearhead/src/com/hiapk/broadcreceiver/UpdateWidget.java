@@ -1,6 +1,6 @@
 package com.hiapk.broadcreceiver;
 
-import com.hiapk.ui.widget.SetText;
+import com.hiapk.control.widget.SetText;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceDataWidget;
 

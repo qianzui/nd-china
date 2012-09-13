@@ -1,4 +1,4 @@
-package com.hiapk.ui.widget;
+package com.hiapk.bean;
 
 import android.content.Context;
 import android.net.TrafficStats;

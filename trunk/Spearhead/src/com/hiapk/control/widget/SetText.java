@@ -1,4 +1,4 @@
-package com.hiapk.ui.widget;
+package com.hiapk.control.widget;
 
 import android.content.Context;
 import android.content.Intent;
@@ -97,7 +97,7 @@ public class SetText {
 		boolean isWidGet14Open = sharedDatawidget.isWidGet14Open();
 		setText(context);
 		if (isNotifyOpen) {
-			ProgramNotify programNotify = new ProgramNotify();
+			NotificatiionProgramControl programNotify = new NotificatiionProgramControl();
 			programNotify.showNotice(context, ProgressBarPercent);
 			// }
 		}

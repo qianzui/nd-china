@@ -8,11 +8,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.control.widget.SetText;
 import com.hiapk.firewall.Block;
 import com.hiapk.spearhead.R;
 import com.hiapk.ui.custom.CustomDialogOtherBeen;
 import com.hiapk.ui.custom.CustomSPBeen;
-import com.hiapk.ui.widget.SetText;
 import com.hiapk.util.SharedPrefrenceDataWidget;
 
 public class PrefrenceBeen {
