@@ -1,4 +1,4 @@
-package com.hiapk.prefrencesetting;
+package com.hiapk.ui.scene;
 
 import android.content.Context;
 import android.content.Intent;

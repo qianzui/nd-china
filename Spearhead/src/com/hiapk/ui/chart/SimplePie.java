@@ -1,4 +1,4 @@
-package com.hiapk.progressbar;
+package com.hiapk.ui.chart;
 
 import com.hiapk.ui.skin.UiColors;
 

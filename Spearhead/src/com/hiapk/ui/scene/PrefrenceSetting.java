@@ -1,4 +1,4 @@
-package com.hiapk.prefrencesetting;
+package com.hiapk.ui.scene;
 
 import com.hiapk.spearhead.R;
 import com.hiapk.util.SharedPrefrenceData;
