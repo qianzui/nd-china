@@ -83,7 +83,7 @@
             android:label="@string/app_name" >
         </application>
 
-        <service android:name="com.hiapk.widget.FloatService" >
+        <service android:name="com.hiapk.ui.widget.FloatService" >
             <intent-filter>
                 <action android:name="com.hiapk.server" />
 
@@ -92,7 +92,7 @@
         </service>
 
         <receiver
-            android:name="com.hiapk.widget.Appwidget"
+            android:name="com.hiapk.ui.widget.Appwidget"
             android:icon="@drawable/ic_launcher"
             android:label="先锋流量监控(4X1)" >
             <intent-filter>
