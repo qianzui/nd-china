@@ -1,11 +1,11 @@
 package com.hiapk.ui.widget;
 
-import com.hiapk.bean.TrafficInfomation;
+import com.hiapk.bean.FloatWindowStr;
+import com.hiapk.control.widget.FloatWindowTextSet;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.spearhead.R;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceDataWidget;
-import com.hiapk.util.UnitHandler;
 
 import android.app.Service;
 import android.content.Context;
@@ -42,7 +42,6 @@ public class FloatService extends Service {
 
 	@Override
 	public void onCreate() {
-		// TODO Auto-generated method stub
 		showLog("oncreate");
 		super.onCreate();
 		sharedata = new SharedPrefrenceDataWidget(context);
@@ -50,9 +49,9 @@ public class FloatService extends Service {
 				.inflate(R.layout.floating_widget, null);
 		tx = (TextView) view.findViewById(R.id.textUp);
 		// tx1 = (TextView) view.findViewById(R.id.textDown);
-		tx.setText(" "
-				+ UnitHandler.unitHandlerAccurate(TrafficInfomation
-						.getspeed(this)) + "/s ");
+		// 获取数值
+		FloatWindowStr floatStr = FloatWindowTextSet.getspeed();
+		tx.setText(floatStr.getFloatString());
 		// tx1.setText("" + TrafficInfomation.getspeed(this) + "KB");
 		iv = (ImageView) view.findViewById(R.id.image);
 		iv.setImageResource(R.drawable.cross);
@@ -62,7 +61,6 @@ public class FloatService extends Service {
 	}
 
 	private void createView() {
-		// TODO Auto-generated method stub
 		// 获取WindowManager
 		wm = (WindowManager) getApplicationContext().getSystemService("window");
 		// 设置LayoutParams(全局变量）相关参数
@@ -146,7 +144,6 @@ public class FloatService extends Service {
 	private Handler handler = new Handler();
 	private Runnable task = new Runnable() {
 		public void run() {
-			// TODO Auto-generated method stub
 			dataRefresh();
 			handler.postDelayed(this, delaytime);
 			wm.updateViewLayout(view, wmParams);
@@ -155,9 +152,9 @@ public class FloatService extends Service {
 
 	public void dataRefresh() {
 		if (SQLStatic.TableWiFiOrG23 != "") {
-			tx.setText(" "
-					+ UnitHandler.unitHandlerAccurate(TrafficInfomation
-							.getspeed(this)) + "/s ");
+			// 获取数值
+			FloatWindowStr floatStr = FloatWindowTextSet.getspeed();
+			tx.setText(floatStr.getFloatString());
 		} else {
 			tx.setText(" " + "0 KB" + "/s ");
 		}
@@ -190,7 +187,6 @@ public class FloatService extends Service {
 
 	@Override
 	public IBinder onBind(Intent arg0) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -200,7 +196,6 @@ public class FloatService extends Service {
 	 * @param string
 	 */
 	private void showLog(String string) {
-		// TODO Auto-generated method stub
 		// Log.d("FloatService", string);
 	}
 }

@@ -64,7 +64,7 @@
         <item name="android:minWidth">100dip</item>
         <item name="android:maxWidth">150dip</item>
     </style>
-    <!-- title自定义 -->
+    <!-- 通知栏自定义外观风格 -->
     <style name="myProgressBarStyleNotify">
         <item name="android:indeterminateOnly">false</item>
         <item name="android:progressDrawable"> @drawable/progressbar_notify</item>
