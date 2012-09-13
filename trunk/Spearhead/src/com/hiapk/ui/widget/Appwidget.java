@@ -1,7 +1,7 @@
 package com.hiapk.ui.widget;
 
-import com.hiapk.alertaction.AlertActionMobileDataControl;
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.control.widget.AlertActionMobileDataControl;
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.Splash;
 import com.hiapk.util.SQLStatic;

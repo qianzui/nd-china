@@ -15,11 +15,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.spearhead.R;
 import com.hiapk.ui.scene.PrefrenceStaticOperator;
 import com.hiapk.ui.widget.SetText;
 import com.hiapk.util.SharedPrefrenceData;
+import com.hiapk.util.UnitHandler;
 
 public class CustomDialogMain3Been {
 	// ²Ù×÷sharedprefrence

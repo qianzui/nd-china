@@ -6,12 +6,13 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.format.Time;
 import android.text.style.ForegroundColorSpan;
-import com.hiapk.dataexe.MonthDay;
-import com.hiapk.dataexe.TrafficManager;
-import com.hiapk.dataexe.UnitHandler;
+
+import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.ui.skin.ColorChangeMainBeen;
+import com.hiapk.util.MonthDay;
 import com.hiapk.util.SharedPrefrenceData;
 import com.hiapk.util.SharedPrefrenceDataWidget;
+import com.hiapk.util.UnitHandler;
 
 public class SetText {
 	public static String textUp = "今日已用: 0 KB";

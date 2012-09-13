@@ -2,9 +2,9 @@ package com.hiapk.firewall;
 
 import java.util.ArrayList;
 
-import com.hiapk.dataexe.TrafficManager;
-import com.hiapk.dataexe.UnitHandler;
+import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.spearhead.R;
+import com.hiapk.util.UnitHandler;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;

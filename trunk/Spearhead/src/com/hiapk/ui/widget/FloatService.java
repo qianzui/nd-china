@@ -1,9 +1,9 @@
 package com.hiapk.ui.widget;
 
-import com.hiapk.dataexe.UnitHandler;
 import com.hiapk.spearhead.R;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceDataWidget;
+import com.hiapk.util.UnitHandler;
 
 import android.app.Service;
 import android.content.Context;

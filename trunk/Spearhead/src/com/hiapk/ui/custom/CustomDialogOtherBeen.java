@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-import com.hiapk.dataexe.NotificationInfo;
-import com.hiapk.dataexe.TrafficManager;
+import com.hiapk.control.traff.NotificationInfo;
+import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.FireWallMainScene;
 import com.hiapk.sqlhelper.total.SQLHelperInitSQL;

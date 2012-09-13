@@ -3,7 +3,7 @@ package com.hiapk.broadcreceiver;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.hiapk.rebootandstartaction.OnUninstallitself;
+import com.hiapk.control.bootandclose.OnUninstallitself;
 import com.hiapk.sqlhelper.uid.SQLHelperUidother;
 import com.hiapk.sqlhelper.uid.SQLHelperUidTotal;
 import com.hiapk.util.SQLStatic;

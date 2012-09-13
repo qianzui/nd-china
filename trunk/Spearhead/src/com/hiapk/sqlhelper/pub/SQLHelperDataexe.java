@@ -2,8 +2,8 @@ package com.hiapk.sqlhelper.pub;
 
 import com.hiapk.bean.TotalTraffs;
 import com.hiapk.bean.UidTraffs;
-import com.hiapk.dataexe.MonthlyUseData;
-import com.hiapk.dataexe.TrafficManager;
+import com.hiapk.control.traff.MonthlyUseData;
+import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.sqlhelper.total.SQLHelperTotal;
 import com.hiapk.ui.widget.SetText;
 import com.hiapk.util.SQLStatic;

@@ -1,4 +1,4 @@
-package com.hiapk.alertaction;
+package com.hiapk.control.widget;
 
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.Splash;

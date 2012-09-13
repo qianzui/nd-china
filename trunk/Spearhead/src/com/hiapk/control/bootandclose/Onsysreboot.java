@@ -1,11 +1,11 @@
-package com.hiapk.rebootandstartaction;
+package com.hiapk.control.bootandclose;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import com.hiapk.broadcreceiver.AlarmSet;
-import com.hiapk.dataexe.TrafficManager;
+import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.firewall.Block;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 import com.hiapk.ui.widget.SetText;

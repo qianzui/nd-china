@@ -1,7 +1,7 @@
-package com.hiapk.rebootandstartaction;
+package com.hiapk.control.bootandclose;
 
 import com.hiapk.broadcreceiver.AlarmSet;
-import com.hiapk.dataexe.TrafficManager;
+import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceDataWidget;

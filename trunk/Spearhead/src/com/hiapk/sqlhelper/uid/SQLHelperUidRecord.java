@@ -3,7 +3,7 @@ package com.hiapk.sqlhelper.uid;
 import java.util.List;
 
 import com.hiapk.bean.UidTraffs;
-import com.hiapk.dataexe.TrafficManager;
+import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.logs.Logs;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 import com.hiapk.util.SQLStatic;
