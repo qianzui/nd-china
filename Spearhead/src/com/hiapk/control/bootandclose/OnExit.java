@@ -1,4 +1,4 @@
-package com.hiapk.rebootandstartaction;
+package com.hiapk.control.bootandclose;
 
 import java.util.Calendar;
 

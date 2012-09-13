@@ -7,7 +7,7 @@ import java.util.HashMap;
 import android.content.Context;
 import android.util.Log;
 
-import com.hiapk.dataexe.TrafficManager;
+import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.sqlhelper.uid.SQLHelperFireWall.Data;
 
 

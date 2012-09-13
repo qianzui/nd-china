@@ -26,7 +26,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.hiapk.prefrencesetting.PrefrenceSetting"
+            android:name="com.hiapk.ui.scene.PrefrenceSetting"
             android:screenOrientation="portrait"
             android:theme="@style/noTitle" >
         </activity>

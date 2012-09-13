@@ -1,6 +1,6 @@
 package com.hiapk.broadcreceiver;
 
-import com.hiapk.dataexe.TrafficManager;
+import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.exception.WriteLog;
 import com.hiapk.ui.scene.PrefrenceStaticOperator;
 import com.hiapk.ui.widget.SetText;
