@@ -6,9 +6,9 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.traff.TrafficManager;
+import com.hiapk.control.widget.SetText;
 import com.hiapk.firewall.Block;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
-import com.hiapk.ui.widget.SetText;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceDataWidget;
 

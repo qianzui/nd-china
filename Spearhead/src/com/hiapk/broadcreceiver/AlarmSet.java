@@ -2,7 +2,7 @@ package com.hiapk.broadcreceiver;
 
 import java.util.Calendar;
 
-import com.hiapk.ui.widget.ProgramNotify;
+import com.hiapk.control.widget.NotificatiionProgramControl;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceDataWidget;
 
@@ -277,7 +277,7 @@ public class AlarmSet {
 		AlarmManager alarmManager = (AlarmManager) context
 				.getSystemService("alarm");
 		alarmManager.cancel(pendingIntent);
-		ProgramNotify programNotify = new ProgramNotify();
+		NotificatiionProgramControl programNotify = new NotificatiionProgramControl();
 		programNotify.cancelProgramNotify(context);
 	}
 

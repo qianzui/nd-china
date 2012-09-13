@@ -10,7 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-public class AlertActionNotify {
+public class NotificationWarningControl {
 	private static final int MONTH_WARNING_ID = 2;
 	private static final int DAY_WARNING_ID = 3;
 

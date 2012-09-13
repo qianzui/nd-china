@@ -5,7 +5,7 @@ import java.util.TimerTask;
 
 import com.hiapk.control.bootandclose.OnExit;
 import com.hiapk.control.traff.NotificationInfo;
-import com.hiapk.control.widget.AlertActionNotify;
+import com.hiapk.control.widget.NotificationWarningControl;
 import com.hiapk.firewall.Block;
 import com.hiapk.ui.custom.CustomDialogFAQBeen;
 import com.hiapk.ui.scene.PrefrenceSetting;
@@ -240,7 +240,7 @@ public class SpearheadActivity extends TabActivity {
 	protected void onResume() {
 		super.onResume();
 		// 清楚通知栏信息
-		AlertActionNotify notifyctrl = new AlertActionNotify();
+		NotificationWarningControl notifyctrl = new NotificationWarningControl();
 		notifyctrl.cancelAlertNotify(context);
 		isExit = false;
 		// MobclickAgent.onResume(this);

@@ -1,9 +1,8 @@
-package com.hiapk.ui.widget;
+package com.hiapk.control.widget;
 
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.widget.ProgressBar;
 import android.widget.RemoteViews;
 
 import com.hiapk.spearhead.R;
-import com.hiapk.spearhead.R.color;
 import com.hiapk.spearhead.Splash;
 
 /**
@@ -20,7 +18,7 @@ import com.hiapk.spearhead.Splash;
  * @author Administrator
  * 
  */
-public class ProgramNotify {
+public class NotificatiionProgramControl {
 	// œµÕ≥…Ë÷√
 	String SYS_PRE_NOTIFY = "notifyCtrl";
 	String SYS_PRE_FLOAT_CTRL = "floatCtrl";
@@ -66,7 +64,6 @@ public class ProgramNotify {
 				contentView.setInt(R.id.probar_down, "setProgress", percent);
 			}
 		}
-		ProgressBar aa = new ProgressBar(context);
 		// aa.setSecondaryProgress(10);
 		notification.contentView = contentView;
 		notification.flags = Notification.FLAG_ONGOING_EVENT;
@@ -85,7 +82,6 @@ public class ProgramNotify {
 	}
 
 	// private void setText(Context context) {
-	// // TODO Auto-generated method stub
 	// TrafficManager trafficManager = new TrafficManager();
 	// trafficManager.statsTotalTraffic(context, false);
 	// Time t = new Time();

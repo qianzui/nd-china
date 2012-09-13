@@ -18,11 +18,11 @@ import android.widget.TextView;
 
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.traff.TrafficManager;
+import com.hiapk.control.widget.SetText;
 import com.hiapk.spearhead.R;
 import com.hiapk.ui.scene.PrefrenceStaticOperator;
 import com.hiapk.ui.scene.Regulate;
 import com.hiapk.ui.skin.ColorChangeMainBeen;
-import com.hiapk.ui.widget.SetText;
 import com.hiapk.util.SharedPrefrenceData;
 import com.hiapk.util.UnitHandler;
 
