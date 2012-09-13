@@ -80,7 +80,7 @@ public class FireWallActivity extends Activity {
 		loading_content = (LinearLayout) findViewById(R.id.loading_content);
 		loading_content.setVisibility(View.VISIBLE);
 		// ÎªÁËÍË³ö¡£
-		Mapplication.getInstance().addActivity(this);
+		SpearheadApplication.getInstance().addActivity(this);
 		handler.post(new Runnable() {
 			@Override
 			public void run() {

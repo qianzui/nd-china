@@ -61,7 +61,7 @@ public class Main extends Activity {
 		setContentView(R.layout.main);
 		onCreateWifiBar();
 		// 为了退出。
-		Mapplication.getInstance().addActivity(this);
+		SpearheadApplication.getInstance().addActivity(this);
 		// umeng
 		// .. MobclickAgent.onError(this);
 		// 获取固定存放数据

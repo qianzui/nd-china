@@ -8,7 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import com.hiapk.broadcreceiver.ExitAppBroadcast;
 import com.hiapk.control.widget.SetText;
-import com.hiapk.spearhead.Mapplication;
+import com.hiapk.spearhead.SpearheadApplication;
 import com.hiapk.util.SharedPrefrenceDataWidget;
 
 public class OnExit {
@@ -35,7 +35,7 @@ public class OnExit {
 		alarmManager.setRepeating(AlarmManager.RTC,
 				calendar.getTimeInMillis() + 500, 356 * 24 * 60 * 60 * 1000,
 				pendingIntent);
-		Mapplication.getInstance().exit();
+		SpearheadApplication.getInstance().exit();
 	}
 
 }

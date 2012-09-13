@@ -57,7 +57,7 @@ public class SpearheadActivity extends TabActivity {
 		// MobclickAgent.onError(this);
 		setContentView(R.layout.maintabs);
 		// ÎªÁËÍË³ö¡£
-		Mapplication.getInstance().addActivity(this);
+		SpearheadApplication.getInstance().addActivity(this);
 		firehelp = (ImageView) findViewById(R.id.help_image);
 		initScene();
 		switchScene();

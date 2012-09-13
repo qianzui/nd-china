@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.content.res.Resources;
 
 import com.hiapk.exception.CustomException;

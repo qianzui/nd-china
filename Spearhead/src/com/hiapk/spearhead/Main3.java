@@ -32,7 +32,7 @@ public class Main3 extends Activity {
 		// MobclickAgent.onError(this);
 		setContentView(R.layout.main3);
 		// ÎªÁËÍË³ö¡£
-		Mapplication.getInstance().addActivity(this);
+		SpearheadApplication.getInstance().addActivity(this);
 		sharedData = new SharedPrefrenceData(context);
 		init_Spinner();
 		combo = (Button) findViewById(R.id.combo);
