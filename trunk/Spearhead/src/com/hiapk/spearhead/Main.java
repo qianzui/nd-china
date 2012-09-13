@@ -27,6 +27,7 @@ import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class Main extends Activity {
@@ -85,9 +86,11 @@ public class Main extends Activity {
 		// 设置按钮显示文字
 		boolean hasTraffSet = sharedData.isMonthSetHasSet();
 		Button btn_toThree = (Button) findViewById(R.id.setTaoCan);
+		RelativeLayout title = (RelativeLayout) findViewById(R.id.mainTitleBackground);
 		// 设置皮肤
 		btn_toThree.setBackgroundResource(SkinCustomMains
 				.buttonBackgroundLight());
+		title.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
 		if (hasTraffSet) {
 			btn_toThree.setText("  校准流量  ");
 		} else {

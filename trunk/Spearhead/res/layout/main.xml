@@ -8,9 +8,10 @@
     <!-- 标题栏开始 -->
 
     <RelativeLayout
+         android:id="@+id/mainTitleBackground"
         android:layout_width="fill_parent"
         android:layout_height="48dip"
-        android:background="@drawable/maintab_toolbar_bg"
+        android:background="@drawable/maintab_title_bg0"
         android:orientation="horizontal"
         android:paddingRight="10dip" >
 

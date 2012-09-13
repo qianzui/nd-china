@@ -18,6 +18,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 public class Main3 extends Activity {
 	/**
@@ -93,6 +94,8 @@ public class Main3 extends Activity {
 				.buttonBackgroundDark());
 		btn_monthSet.setBackgroundResource(SkinCustomMains
 				.buttonBackgroundDark());
+		RelativeLayout title = (RelativeLayout) findViewById(R.id.main3TitleBackground);
+		title.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
 	}
 
 	/**

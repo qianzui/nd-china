@@ -18,6 +18,7 @@ import com.hiapk.sqlhelper.uid.SQLHelperFireWall;
 import com.hiapk.sqlhelper.uid.SQLHelperFireWall.Data;
 import com.hiapk.ui.custom.CustomProgressDialogBeen;
 import com.hiapk.ui.scene.UidMonthTraff;
+import com.hiapk.ui.skin.SkinCustomMains;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.UnitHandler;
 
@@ -46,6 +47,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -397,7 +399,16 @@ public class FireWallActivity extends Activity {
 			}
 
 		}
+		initScene();
 		// MobclickAgent.onResume(this);
+	}
+
+	/**
+	 * ”√”⁄…Ë÷√∆§∑Ù
+	 */
+	private void initScene() {
+		RelativeLayout title = (RelativeLayout) findViewById(R.id.main2TitleBackground);
+		title.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
 	}
 
 	protected void onPause() {

@@ -4,6 +4,7 @@ import com.hiapk.spearhead.R;
 import com.hiapk.sqlhelper.uid.SQLHelperUidtraffStats;
 import com.hiapk.ui.chart.ProjectStatusChart;
 import com.hiapk.ui.chart.SimplePie;
+import com.hiapk.ui.skin.SkinCustomMains;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.UnitHandler;
 
@@ -21,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -50,8 +52,17 @@ public class UidMonthTraff extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		initScene();
 		// umeng
 		// MobclickAgent.onResume(this);
+	}
+
+	/**
+	 * Æ¤·ô
+	 */
+	public void initScene() {
+		FrameLayout title = (FrameLayout) findViewById(R.id.uid_traffTitleBackground);
+		title.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
 	}
 
 	@Override

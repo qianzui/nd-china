@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 public class PhoneSet extends Activity {
@@ -185,10 +186,17 @@ public class PhoneSet extends Activity {
 		super.onResume();
 		init_spinners();
 		setonItemSelectListener();
+		initScene();
 		// umeng
 		// MobclickAgent.onResume(this);
 	}
-
+	/**
+	 * Æ¤·ô
+	 */
+	public void initScene() {
+		FrameLayout title = (FrameLayout) findViewById(R.id.phonesetTitleBackground);
+		title.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
+	}
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
