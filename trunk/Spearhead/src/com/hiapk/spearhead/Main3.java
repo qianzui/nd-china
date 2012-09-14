@@ -228,6 +228,14 @@ public class Main3 extends Activity {
 	 */
 	private void init_isdo_ALert() {
 		line_isdoAlert = (LinearLayout) findViewById(R.id.isalert_notify);
+		line_isdoAlert.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 	}
 
 	@Override
