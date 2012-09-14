@@ -57,7 +57,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
-            android:background="@drawable/bg_about"
+            android:background="@drawable/send_message_bg1"
             android:prompt="@string/provinceSelect"
             android:textColor="@color/blueflock"
             android:textSize="19dip" />
@@ -74,7 +74,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
-            android:background="@drawable/bg_about"
+            android:background="@drawable/send_message_bg1"
             android:prompt="@string/citySelect"
             android:textColor="@color/blueflock"
             android:textSize="19dip" />
@@ -91,7 +91,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
-            android:background="@drawable/bg_about"
+            android:background="@drawable/send_message_bg1"
             android:prompt="@string/operatorSelect"
             android:textColor="@color/blueflock"
             android:textSize="19dip" />
@@ -108,7 +108,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
-            android:background="@drawable/bg_about"
+            android:background="@drawable/send_message_bg1"
             android:prompt="@string/brankSelect"
             android:textColor="@color/blueflock"
             android:textSize="19dip" />
