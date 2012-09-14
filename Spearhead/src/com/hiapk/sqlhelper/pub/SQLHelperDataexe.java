@@ -35,8 +35,7 @@ public class SQLHelperDataexe {
 	 *            依据uid获取流量数据
 	 * @return
 	 */
-	public static UidTraffs initUidData(int uidnumber) {
-		UidTraffs uidTraff = new UidTraffs();
+	public static UidTraffs initUidData(int uidnumber, UidTraffs uidTraff) {
 		uidTraff.setUid(uidnumber);
 		long uidupload = 0;
 		long uiddownload = 0;

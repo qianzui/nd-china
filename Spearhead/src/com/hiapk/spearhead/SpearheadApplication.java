@@ -11,33 +11,34 @@ import com.hiapk.exception.CustomException;
 
 public class SpearheadApplication extends Application {
 	private List<Activity> activityList = new LinkedList<Activity>();
-	private static SpearheadApplication instance;
+	private static SpearheadApplication instance = null;
 	private static Resources res = null;
 
 	/**
 	 * 初始化全局环境
 	 */
 	public SpearheadApplication() {
-
+		instance = this;
 	}
 
 	@Override
 	public void onCreate() {
-
 		super.onCreate();
 		CustomException customException = CustomException.getInstance();
-		instance = this;
 		customException.init(getApplicationContext());
 	}
 
 	// 单例模式中获取唯一的MyApplication实例
 	public static SpearheadApplication getInstance() {
+		if (instance == null) {
+			instance = new SpearheadApplication();
+		}
 		return instance;
 	}
 
 	public Resources getRes() {
 		if (res == null) {
-			res = this.getResources();
+			res = getApplicationContext().getResources();
 		}
 		return res;
 	}

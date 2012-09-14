@@ -16,12 +16,8 @@ public class ExitAppBroadcast extends BroadcastReceiver {
 		if (sharedData.isFloatOpen()) {
 			context.startService(new Intent("com.hiapk.server"));
 		}
-		
+
 		SetText.resetWidgetAndNotify(context);
 	}
 
-	// private void showLog(String string) {
-	// // TODO Auto-generated method stub
-	// // Log.d("DataChangeBroad", string);
-	// }
 }

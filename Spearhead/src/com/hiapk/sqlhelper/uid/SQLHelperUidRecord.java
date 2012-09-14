@@ -225,12 +225,15 @@ public class SQLHelperUidRecord {
 			List<ActivityManager.RunningAppProcessInfo> appProcessList = mActivityManager
 					.getRunningAppProcesses();
 			initTime();
+			String pacname = "";
+			int uidnumber;
+			UidTraffs uiddata = new UidTraffs();
 			for (ActivityManager.RunningAppProcessInfo appProcessInfo : appProcessList) {
 				// 通过pacname判断是否为需要记录的应用
-				String pacname = appProcessInfo.processName;
+				pacname = appProcessInfo.processName;
 				if (SQLStatic.packagename_ALL.contains(pacname)) {
-					int uidnumber = appProcessInfo.uid;
-					UidTraffs uiddata = SQLHelperDataexe.initUidData(uidnumber);
+					uidnumber = appProcessInfo.uid;
+					uiddata = SQLHelperDataexe.initUidData(uidnumber, uiddata);
 					if (uiddata.getUpload() != 0 || uiddata.getDownload() != 0) {
 						statsSQLuid(context, sqlDataBase, uidnumber, date,
 								time, uiddata.getUpload(),

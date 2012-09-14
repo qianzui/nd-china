@@ -10,14 +10,11 @@ import android.content.Intent;
 
 public class UpdateWidget extends BroadcastReceiver {
 	String BROADCAST_TRAFF = "com.hiapk.traffwidget";
-	Context context;
 	String BROADCAST_WIFI = "com.hiapk.wifiwidget";
 	String BROADCAST_GPRS = "com.hiapk.prgswidget";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		// TODO Auto-generated method stub
-		this.context = context;
 		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
 				context);
 		boolean isopen = sharedDatawidget.isFloatOpen();
@@ -39,7 +36,6 @@ public class UpdateWidget extends BroadcastReceiver {
 	// * @param string
 	// */
 	// private void showLog(String string) {
-	// // TODO Auto-generated method stub
 	// // Log.d("Receiver", string);
 	// }
 

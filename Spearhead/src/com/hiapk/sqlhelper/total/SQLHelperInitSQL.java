@@ -144,8 +144,9 @@ public class SQLHelperInitSQL {
 	 *            用于记录特殊数据等
 	 */
 	private void exeSQLcreateUidtable(SQLiteDatabase mySQL, String date,
-			String time, int uidnumber, int type, String other) {
-		UidTraffs uiddata = SQLHelperDataexe.initUidData(uidnumber);
+			String time, int uidnumber, int type, String other,
+			UidTraffs uiddata) {
+		uiddata = SQLHelperDataexe.initUidData(uidnumber, uiddata);
 		StringBuilder string = new StringBuilder();
 		// 表示是否为总流量，总流量初始数据为0
 		if (type == 3 || type == 4) {
@@ -207,20 +208,21 @@ public class SQLHelperInitSQL {
 			// initUidTable(sqldatabase, 0);
 			// exeSQLcreateUidtable(sqldatabase, date, time, 0, 0, null);
 			// exeSQLcreateUidtable(sqldatabase, date, time, 0, 1, null);
+			UidTraffs uiddata = new UidTraffs();
 			for (int uidnumber : uidnumbers) {
 				// -1为重复项
 				if (uidnumber != -1) {
 					initUidTable(sqldatabase, uidnumber);
 					exeSQLcreateUidtable(sqldatabase, date, time, uidnumber, 0,
-							null);
+							null, uiddata);
 					// exeSQLcreateUidtable(sqldatabase, date, time, uidnumber,
 					// 1,
 					// null);
 					// 3mobile，4wifi
 					exeSQLcreateUidtable(sqldatabase, date, time, uidnumber, 3,
-							null);
+							null, uiddata);
 					exeSQLcreateUidtable(sqldatabase, date, time, uidnumber, 4,
-							null);
+							null, uiddata);
 				}
 			}
 		} catch (Exception e) {

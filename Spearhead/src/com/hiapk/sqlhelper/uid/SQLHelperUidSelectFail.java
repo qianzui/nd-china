@@ -50,9 +50,10 @@ public class SQLHelperUidSelectFail {
 			Logs.d(TAG, string.toString() + "fail" + e);
 		}
 		initTime();
-		exeSQLcreateUidtable(sqlDataBase, date, time, uid, 0, null);
-		exeSQLcreateUidtable(sqlDataBase, date, time, uid, 3, null);
-		exeSQLcreateUidtable(sqlDataBase, date, time, uid, 4, null);
+		UidTraffs uiddata = new UidTraffs();
+		exeSQLcreateUidtable(sqlDataBase, date, time, uid, 0, null, uiddata);
+		exeSQLcreateUidtable(sqlDataBase, date, time, uid, 3, null, uiddata);
+		exeSQLcreateUidtable(sqlDataBase, date, time, uid, 4, null, uiddata);
 	}
 
 	/**
@@ -72,8 +73,9 @@ public class SQLHelperUidSelectFail {
 	 *            用于记录特殊数据等
 	 */
 	private void exeSQLcreateUidtable(SQLiteDatabase mySQL, String date,
-			String time, int uidnumber, int type, String other) {
-		UidTraffs uiddata = SQLHelperDataexe.initUidData(uidnumber);
+			String time, int uidnumber, int type, String other,
+			UidTraffs uiddata) {
+		uiddata = SQLHelperDataexe.initUidData(uidnumber, uiddata);
 		StringBuilder string = new StringBuilder();
 		// 表示是否为总流量，总流量初始数据为0
 		if (type == 3 || type == 4) {

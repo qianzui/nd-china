@@ -33,8 +33,6 @@ public class AlarmSet {
 		int totaltime = totalrefreshtime < widgetrefreshtime ? totalrefreshtime
 				: widgetrefreshtime;
 		int uidtime = uidrefreshtime;
-		// < widgetrefreshtime ? uidrefreshtime
-		// : widgetrefreshtime
 		showLog("isTotalAlarmRecording=" + SQLStatic.isTotalAlarmRecording
 				+ "isUidAlarmRecording" + SQLStatic.isUidAlarmRecording);
 		// showLog("StartAlarm="+totaltime+"");
@@ -44,10 +42,6 @@ public class AlarmSet {
 		if (SQLStatic.isUidAlarmRecording != true) {
 			UidAlarmStart(context, uidtime);
 		}
-		// if (SQLStatic.isUidTotalAlarmRecording != true) {
-		// UidTotalAlarmStart(context, uidrefreshtime);
-		// }
-
 		// showLog("总流量统计间隔" + totalrefreshtime + "  uid统计间隔" + uidrefreshtime);
 	}
 
@@ -77,10 +71,7 @@ public class AlarmSet {
 	public void StartAlarmUid(Context context) {
 		setdefaulttime(context);
 		// setwidgetdefaulttime(context);
-		int uidtime = uidrefreshtime
-		// < widgetrefreshtime ? uidrefreshtime
-		// : widgetrefreshtime
-		;
+		int uidtime = uidrefreshtime;
 		if (SQLStatic.isUidAlarmRecording != true) {
 			UidAlarmStart(context, uidtime);
 		}
@@ -185,7 +176,6 @@ public class AlarmSet {
 	 *            i为设置计时间隔秒
 	 */
 	private void TotalAlarmStart(Context context, int i) {
-		// TODO Auto-generated method stub
 		Intent intent = new Intent(context, RecordDataReceiver.class);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
 				intent, 0);
@@ -205,7 +195,6 @@ public class AlarmSet {
 	 *            i为设置计时间隔分钟数
 	 */
 	private void UidAlarmStart(Context context, int i) {
-		// TODO Auto-generated method stub
 		Intent intent = new Intent(context, RecordUidDataReceiver.class);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
 				intent, 0);
@@ -225,7 +214,6 @@ public class AlarmSet {
 	 *            i为设置计时间隔秒
 	 */
 	private void WidgetAlarmStart(Context context, int i) {
-		// TODO Auto-generated method stub
 		Intent intent = new Intent(context, UpdateWidget.class);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
 				intent, 0);

@@ -15,20 +15,12 @@ import android.text.format.Time;
 import android.util.Log;
 
 public class DateChangeBroadcast extends BroadcastReceiver {
-	// private static final String ACTION_TIME_CHANGED =
-	// Intent.ACTION_TIME_CHANGED;
-	// date
-	// private int year;
-	// private int month;
 	private int monthDay;
 	private Context context;
 	private AlarmSet alset = new AlarmSet();
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		// String action = intent.getAction();
-		// if (ACTION_TIME_CHANGED.equals(action)) {
-		// showLog("DataChange");
 		this.context = context;
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		initTime();
@@ -48,7 +40,6 @@ public class DateChangeBroadcast extends BroadcastReceiver {
 		if (SQLStatic.ConnectSleepWaiting == false) {
 			new AsyncTaskonWaitingDayChange().execute(context);
 		}
-		// }
 	}
 
 	/**
@@ -95,8 +86,6 @@ public class DateChangeBroadcast extends BroadcastReceiver {
 		// Time t = new Time("GMT+8");
 		Time t = new Time();
 		t.setToNow(); // 取得系统时间。
-		// year = t.year;
-		// month = t.month + 1;
 		monthDay = t.monthDay;
 	}
 

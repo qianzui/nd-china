@@ -28,10 +28,6 @@ public class SharedPrefrenceDataWidget {
 	public SharedPrefrenceDataWidget(Context context) {
 		prefs = context.getSharedPreferences(PREFS_NAME, 0);
 		UseEditor = context.getSharedPreferences(PREFS_NAME, 0).edit();
-		// prefs_sys = PreferenceManager.getDefaultSharedPreferences(context);
-		// UseEditor_sys =
-		// PreferenceManager.getDefaultSharedPreferences(context)
-		// .edit();
 	}
 
 	public int getIntX() {
@@ -67,7 +63,6 @@ public class SharedPrefrenceDataWidget {
 
 	}
 
-	// SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
 	public void setSQLinited(boolean isSQLinited) {
 		if (isSQLinited) {
 			UseEditor.putString(PREF_INITSQL, MODE_HASINIT);
@@ -116,13 +111,5 @@ public class SharedPrefrenceDataWidget {
 		UseEditor.putBoolean(SYS_PRE_NOTIFY, isNotifyOpen);
 		UseEditor.commit();
 	}
-
-	int countDay = 0;
-	long alertWarningMonth = 0;
-	long alertWarningDay = 0;
-	int alertAction = 0;
-	int monthMobileSetUnit = 0;
-	int monthHasUsedUnit = 0;
-	long monthUseDataTemp;
 
 }
