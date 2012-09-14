@@ -16,12 +16,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.text.format.Time;
 
 public class SQLHelperUidRecord {
-	private ActivityManager mActivityManager = null;
 
 	public SQLHelperUidRecord(Context context) {
 		super();
-		mActivityManager = (ActivityManager) context
-				.getSystemService(Context.ACTIVITY_SERVICE);
 	}
 
 	private String InsertTable = "INSERT INTO ";
@@ -222,6 +219,8 @@ public class SQLHelperUidRecord {
 				context);
 		boolean isUpdated = sharedUpdate.isUidRecordUpdated();
 		if (isUpdated) {
+			ActivityManager mActivityManager = (ActivityManager) context
+					.getSystemService(Context.ACTIVITY_SERVICE);
 			List<ActivityManager.RunningAppProcessInfo> appProcessList = mActivityManager
 					.getRunningAppProcesses();
 			initTime();

@@ -62,7 +62,7 @@ public class SQLStatic {
 	 */
 	public static String[] packagenames = null;
 	// show log
-	public static boolean isshowLog = false;
+	public static boolean isshowLog = true;
 
 	public static synchronized boolean setSQLTotalOnUsed(boolean SQLTotalOnUsed) {
 		if (SQLTotalOnUsed == true && isSQLTotalOnUsed == false) {
@@ -106,11 +106,6 @@ public class SQLStatic {
 		} else
 			return false;
 	}
-
-	public static final Object sqlTotalSync = new Object();
-	public static final Object sqlIndexSync = new Object();
-	public static final Object sqlUidSync = new Object();
-	public static final Object sqlUidTotalSync = new Object();
 
 	/**
 	 * 用于初始化网络状态确定当前使用何种网络
@@ -209,8 +204,7 @@ public class SQLStatic {
 		isGettinguidsAndpacname = true;
 		int j = 0;
 		PackageManager pkgmanager = context.getPackageManager();
-		List<ApplicationInfo> appInfos = pkgmanager
-				.getInstalledApplications(0);
+		List<ApplicationInfo> appInfos = pkgmanager.getInstalledApplications(0);
 
 		int[] uidstp = new int[appInfos.size()];
 		String[] packagenamestp = new String[appInfos.size()];
