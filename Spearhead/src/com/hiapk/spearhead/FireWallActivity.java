@@ -32,6 +32,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -58,6 +59,7 @@ public class FireWallActivity extends Activity {
 	private static final String APP_DETAILS_PACKAGE_NAME = "com.android.settings";
 	private static final String APP_DETAILS_CLASS_NAME = "com.android.settings.InstalledAppDetails";
 	private List<PackageInfo> packageInfo;
+	protected ArrayList<LinearLayout> menuList = new ArrayList<LinearLayout>();
 	public static AppListAdapter appListAdapter;
 	public static MyListView appListView;
 	public LinearLayout loading_content;
@@ -165,6 +167,8 @@ public class FireWallActivity extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				menuDialog(arg1);
+				
+				
 			}
 		});
 		appListView.setonRefreshListener(new OnRefreshListener() {
@@ -246,41 +250,47 @@ public class FireWallActivity extends Activity {
 		final long traffic[] = TrafficManager.getUidtraff(mContext, uid);
 		final String trafficup = UnitHandler.unitHandlerAccurate(traffic[1]);
 		final String trafficdown = UnitHandler.unitHandlerAccurate(traffic[2]);
-		LayoutInflater factory = LayoutInflater.from(mContext);
-		final View mDialogView = factory.inflate(R.layout.fire_options, null);
-		final AlertDialog mDialog = new AlertDialog.Builder(this.getParent())
-				.create();
-		mDialog.show();
-		Window window = mDialog.getWindow();
-		window.setContentView(mDialogView, new LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		final int heigh = window.getWindowManager().getDefaultDisplay()
-				.getHeight();
-		final int width = window.getWindowManager().getDefaultDisplay()
-				.getWidth();
-		window.setLayout((int) (width * 0.8), LayoutParams.WRAP_CONTENT);
-		final TextView manager = (TextView) mDialogView
-				.findViewById(R.id.button_manager);
-		final TextView detail = (TextView) mDialogView
-				.findViewById(R.id.button_detail);
-		final TextView uninstalled = (TextView) mDialogView
-				.findViewById(R.id.button_uninstall);
-		final TextView back = (TextView) mDialogView
-				.findViewById(R.id.button_back);
-
-		manager.setOnClickListener(new OnClickListener() {
+		
+		final LinearLayout ll = (LinearLayout) arg1.findViewById(R.id.detail_menu);
+		if(menuList.size() == 0){
+			if (ll.isShown()) {
+				ll.setVisibility(View.GONE);
+				menuList.clear();
+			} else {
+				ll.setVisibility(View.VISIBLE);
+				menuList.add(ll);
+			}
+		}else{
+			if (ll.isShown()) {
+				ll.setVisibility(View.GONE);
+				menuList.clear();
+			} else {
+				for (int i = 0; i < menuList.size(); i++) {
+					menuList.get(i).setVisibility(View.GONE);
+				}
+				ll.setVisibility(View.VISIBLE);
+				menuList.add(ll);
+			}
+		}
+		
+		Button bt_manager = (Button)arg1.findViewById(R.id.bt_manage);
+		Button bt_detail = (Button)arg1.findViewById(R.id.bt_detail);
+		Button bt_uninstall = (Button)arg1.findViewById(R.id.bt_uninstalled);
+		
+		bt_manager.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				showInstalledAppDetails(FireWallActivity.this, pkname);
-				mDialog.cancel();
-
+				ll.setVisibility(View.GONE);
 			}
 		});
-
-		detail.setOnClickListener(new OnClickListener() {
+		
+		bt_detail.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
 				LayoutInflater infalter = LayoutInflater.from(mContext);
 				final View mDetailView = infalter.inflate(R.layout.fire_detail,
 						null);
@@ -290,6 +300,8 @@ public class FireWallActivity extends Activity {
 				Window wd = detailDialog.getWindow();
 				wd.setContentView(mDetailView, new LayoutParams(
 						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+				final int width = wd.getWindowManager().getDefaultDisplay()
+				.getWidth();
 				wd.setLayout((int) (width * 0.8), LayoutParams.WRAP_CONTENT);
 
 				final TextView traffic_up = (TextView) mDetailView
@@ -326,32 +338,21 @@ public class FireWallActivity extends Activity {
 						detailDialog.cancel();
 					}
 				});
-				mDialog.cancel();
+				ll.setVisibility(View.GONE);
 			}
 		});
-
-		uninstalled.setOnClickListener(new OnClickListener() {
-
+		
+		bt_uninstall.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Uri uri = Uri.fromParts("package", pkname, null);
 				Intent intent = new Intent(Intent.ACTION_DELETE, uri);
 				startActivity(intent);
-				mDialog.cancel();
+				ll.setVisibility(View.GONE);
 			}
-
 		});
 
-		back.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mDialog.cancel();
-			}
-
-		});
 	}
 
 	public long judge(long tff) {

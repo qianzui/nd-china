@@ -29,6 +29,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -86,6 +87,7 @@ public class AppListAdapter extends BaseAdapter {
 			holder.trafficup = (TextView) convertView.findViewById(R.id.trafficup);
 			holder.e_toggle = (CheckBox) convertView.findViewById(R.id.e_toggle);
 			holder.wifi_toggle = (CheckBox) convertView.findViewById(R.id.wifi_toggle);
+			holder.ll = (LinearLayout)convertView.findViewById(R.id.detail_menu);
 			convertView.setTag(R.id.tag_holder, holder);
 		} else {
 			holder = (ViewHolder)convertView.getTag(R.id.tag_holder);
@@ -110,6 +112,7 @@ public class AppListAdapter extends BaseAdapter {
 		holder.wifi_toggle.setChecked(ic.selected_wifi);
 		holder.e_toggle.setOnClickListener(new EListener(holder.e_toggle, ic));
 		holder.wifi_toggle.setOnClickListener(new WifiListener(holder.wifi_toggle, ic));
+		holder.ll.setVisibility(View.GONE);
 		convertView.setTag(R.id.tag_pkginfo, pkgInfo);
 		return convertView;
 	}
@@ -140,6 +143,7 @@ public class AppListAdapter extends BaseAdapter {
 		TextView trafficup;
 		CheckBox e_toggle;
 		CheckBox wifi_toggle;
+		LinearLayout ll;
 	}
 
 	class EListener implements OnClickListener {
