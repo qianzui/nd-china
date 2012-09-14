@@ -42,7 +42,6 @@ public class FloatService extends Service {
 
 	@Override
 	public void onCreate() {
-		showLog("oncreate");
 		super.onCreate();
 		sharedata = new SharedPrefrenceDataWidget(context);
 		view = LayoutInflater.from(this)
@@ -87,7 +86,7 @@ public class FloatService extends Service {
 				// 获取相对屏幕的坐标，即以屏幕左上角为原点
 				x = event.getRawX();
 				y = event.getRawY(); // 25是系统状态栏的高度
-				showLog("currX" + x + "====currY" + y); // 调试信息
+				// showLog("currX" + x + "====currY" + y); // 调试信息
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
 					state = MotionEvent.ACTION_DOWN;
@@ -96,8 +95,8 @@ public class FloatService extends Service {
 					// 获取相对View的坐标，即以此View左上角为原点
 					mTouchStartX = event.getX();
 					mTouchStartY = event.getY();
-					showLog("startX" + mTouchStartX + "====startY"
-							+ mTouchStartY);// 调试信息
+					// showLog("startX" + mTouchStartX + "====startY"
+					// + mTouchStartY);// 调试信息
 					break;
 				case MotionEvent.ACTION_MOVE:
 					state = MotionEvent.ACTION_MOVE;
@@ -119,15 +118,11 @@ public class FloatService extends Service {
 			@Override
 			public void onClick(View v) {
 				Intent serviceStop = new Intent();
-				SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
-						FloatService.this);
-				sharedDatawidget.setFloatOpen(false);
-				sharedDatawidget.setIntX(SetText.FloatIntX);
-				sharedDatawidget.setIntY(SetText.FloatIntY);
-				// boolean isFloatOpen = sharedData.isFloatOpen();
+				sharedata.setFloatOpen(false);
+				sharedata.setIntX(SetText.FloatIntX);
+				sharedata.setIntY(SetText.FloatIntY);
 				serviceStop.setClass(FloatService.this, FloatService.class);
 				stopService(serviceStop);
-				// showLog("isFloatOpen"+isFloatOpen);
 			}
 		});
 	}
@@ -172,7 +167,6 @@ public class FloatService extends Service {
 
 	@Override
 	public void onStart(Intent intent, int startId) {
-		showLog("onStart");
 		setForeground(true);
 		super.onStart(intent, startId);
 	}
@@ -180,7 +174,6 @@ public class FloatService extends Service {
 	@Override
 	public void onDestroy() {
 		handler.removeCallbacks(task);
-		showLog("onDestroy");
 		wm.removeView(view);
 		super.onDestroy();
 	}
@@ -190,12 +183,4 @@ public class FloatService extends Service {
 		return null;
 	}
 
-	/**
-	 * 用于显示日志
-	 * 
-	 * @param string
-	 */
-	private void showLog(String string) {
-		// Log.d("FloatService", string);
-	}
 }

@@ -166,12 +166,14 @@ public class TrafficManager {
 	private static void clearUidData(Context context, int[] numbers) {
 		Editor UseEditor = context.getSharedPreferences(UID_PREFS_NAME, 0)
 				.edit();
+		String uidstrup = "";
+		String uidstrdown = "";
 		for (int i : numbers) {
-			String uidstrup = UID_START_STR_UP + i;
-			String uidstrdown = UID_START_STR_DOWN + i;
+			uidstrup = UID_START_STR_UP + i;
+			uidstrdown = UID_START_STR_DOWN + i;
 			UseEditor.putLong(uidstrup, 0);
 			UseEditor.putLong(uidstrdown, 0);
-			showLog("UID=" + i + "已重置");
+			// showLog("UID=" + i + "已重置");
 		}
 		UseEditor.commit();
 	}

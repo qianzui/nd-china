@@ -15,7 +15,6 @@ import android.util.Log;
 public class RecordUidDataReceiver extends BroadcastReceiver {
 	public static final int MODE_PRIVATE = 0;
 	// use database
-	private SQLHelperUidRecord sqlhelperUidRecord;
 	long time;
 	private String network;
 
@@ -23,7 +22,6 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		showLog("isUidAlarmRecording=" + SQLStatic.isUidAlarmRecording);
 		if (SQLStatic.isUidAlarmRecording == false) {
-			sqlhelperUidRecord = new SQLHelperUidRecord(context);
 			SQLStatic.isUidAlarmRecording = true;
 			SQLStatic.initTablemobileAndwifi(context);
 			if (SQLStatic.TableWiFiOrG23 == "") {
@@ -102,6 +100,8 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 		sqlDataBase.beginTransaction();
 		try {
 			// 记录数据
+			SQLHelperUidRecord sqlhelperUidRecord = new SQLHelperUidRecord(
+					context);
 			sqlhelperUidRecord.RecordUidwritestats(context, sqlDataBase,
 					numbers, false, network);
 			// // // // 获取uid的总流量数据

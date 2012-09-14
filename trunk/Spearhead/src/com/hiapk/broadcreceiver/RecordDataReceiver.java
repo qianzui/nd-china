@@ -24,7 +24,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	public static final int MODE_PRIVATE = 0;
 	// use database
 	private SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
-	private SQLiteDatabase sqlDataBase;
 	// 操作sharedprefrence
 	String PREFS_NAME = "allprefs";
 	// 流量预警
@@ -35,10 +34,9 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	private int month;
 	private int monthDay;
 	private String network;
+
 	// fortest
-	long time;
-	Context context;
-	SharedPrefrenceDataWidget sharedData;
+	// long time;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -46,9 +44,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		if (SQLStatic.isTotalAlarmRecording == true)
 			return;
 		SQLStatic.isTotalAlarmRecording = true;
-		sharedData = new SharedPrefrenceDataWidget(context);
 		SQLStatic.initTablemobileAndwifi(context);
-		this.context = context;
 		if (SQLStatic.TableWiFiOrG23 == "") {
 			network = SQLStatic.TableWiFiOrG23Before;
 		} else {
@@ -61,8 +57,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 
 			if (network != "") {
 				if (SQLStatic.setSQLTotalOnUsed(true)) {
-					time = System.currentTimeMillis();
-					sqlDataBase = SQLHelperCreateClose.creatSQLTotal(context);
+					// time = System.currentTimeMillis();
 					new AsyncTaskonRecordTotalData().execute(context);
 					// showLog(SQLHelperTotal.TableWiFiOrG23);
 				} else {
@@ -126,6 +121,8 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		long[] wifi_month_data_before = new long[64];
 		long[] mobile_month_data_before = new long[64];
 		MonthlyUseData monthlyUseData = new MonthlyUseData();
+		SQLiteDatabase sqlDataBase = SQLHelperCreateClose
+				.creatSQLTotal(context);
 		sqlDataBase.beginTransaction();
 		try {
 			// sqlhelperTotal.updateSQLtotalType(sqlDataBase, network, 1, null,
@@ -159,6 +156,9 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			TrafficManager.mobile_month_data_before = mobile_month_data_before;
 			TrafficManager.wifi_month_data_before = wifi_month_data_before;
 			TrafficManager.mobile_month_use = mobile_month_use_afterSet;
+			// 数据存入xml
+			SharedPrefrenceDataWidget sharedData = new SharedPrefrenceDataWidget(
+					context);
 			sharedData.setTodayMobileDataLong(mobile_month_data[monthDay]
 					+ mobile_month_data[monthDay + 31]);
 			// showLog("wifitotal=" + wifi_month_data[0] + "");
@@ -166,6 +166,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			showLog("数据记录失败");
 		} finally {
 			sqlDataBase.endTransaction();
+			SQLHelperCreateClose.closeSQL(sqlDataBase);
 		}
 
 		// TrafficManager.setMonthUseDate(context);
@@ -200,7 +201,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		@Override
 		protected void onPostExecute(Long result) {
 			SQLStatic.isTotalAlarmRecording = false;
-			SQLHelperCreateClose.closeSQL(sqlDataBase);
 			// SQLHelperTotal.isSQLTotalOnUsed = false;
 			SQLStatic.setSQLTotalOnUsed(false);
 			// time = System.currentTimeMillis() - time;

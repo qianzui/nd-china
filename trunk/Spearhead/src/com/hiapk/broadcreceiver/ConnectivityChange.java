@@ -28,9 +28,6 @@ public class ConnectivityChange extends BroadcastReceiver {
 			// 网络状态变化时
 			if (intent.getAction().equals(
 					"android.net.conn.CONNECTIVITY_CHANGE")) {
-				// if (SQLStatic.TableWiFiOrG23 == "") {
-				// SQLStatic.initTablemobileAndwifi(context);
-				// }
 				// 记录之前的
 				alset.StartAlarm(context);
 				// 更新小部件
@@ -46,9 +43,7 @@ public class ConnectivityChange extends BroadcastReceiver {
 					// alset.StartAlarm(context);
 					showLog("何种方式连线" + SQLStatic.TableWiFiOrG23);
 				} else {
-					// alset.StopWidgetAlarm(context);
 					showLog("无可用网络");
-					// alset.StopAlarm(context);
 					if (SQLStatic.ConnectSleepWaiting == false) {
 						new AsyncTaskonWaitingForStopAll().execute(context);
 					}

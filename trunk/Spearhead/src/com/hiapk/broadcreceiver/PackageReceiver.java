@@ -20,7 +20,6 @@ public class PackageReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		// TODO Auto-generated method stub
 		// 设置数据库
 		String packageNames = intent.getDataString();
 		SQLStatic.packageName = packageNames.split(":");
@@ -31,13 +30,10 @@ public class PackageReceiver extends BroadcastReceiver {
 				if (packageNames.equals("package:com.hiapk.spearhead")) {
 					OnUninstallitself uninstall = new OnUninstallitself();
 					uninstall.unInstallAction(context);
-					// new AsyTaskOnItselfUninstall().execute(context);
 					showLog("卸载" + SQLStatic.packageName[1]);
 				} else {
 					// new AsyTaskOnUninstall().execute(context);
 					SQLStatic.getuidsAndpacname(context);
-//					AlarmSet alset = new AlarmSet();
-//					alset.StartAlarm(context);
 					showLog("其他卸载" + SQLStatic.packageName[1]);
 				}
 
@@ -77,7 +73,6 @@ public class PackageReceiver extends BroadcastReceiver {
 
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
 			super.onPreExecute();
 			// this.uid = SQLStatic.uidnumber;
 			// this.pacName = SQLStatic.packageName[1];
@@ -92,7 +87,6 @@ public class PackageReceiver extends BroadcastReceiver {
 						.getPackageInfo(SQLStatic.packageName[1],
 								getResultCode()).applicationInfo.uid;
 			} catch (NameNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 				showLog("获取包信息失败");
 			}
@@ -115,7 +109,6 @@ public class PackageReceiver extends BroadcastReceiver {
 						try {
 							Thread.sleep(100);
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
@@ -143,7 +136,6 @@ public class PackageReceiver extends BroadcastReceiver {
 						try {
 							Thread.sleep(100);
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
@@ -159,13 +151,11 @@ public class PackageReceiver extends BroadcastReceiver {
 
 		@Override
 		protected void onPostExecute(Integer result) {
-			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 		}
 	}
 
 	private void showLog(String string) {
-		// TODO Auto-generated method stub
 		// Log.d("Receiver", string);
 	}
 }
