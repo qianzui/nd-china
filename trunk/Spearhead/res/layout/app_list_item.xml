@@ -4,8 +4,12 @@
     android:layout_height="wrap_content"
     android:background="@drawable/list_item_selector"
     android:descendantFocusability="blocksDescendants"
-    android:orientation="horizontal" >
+    android:orientation="vertical" >
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal" >
     <LinearLayout
         android:layout_width="45dip"
         android:layout_height="50dip"
@@ -17,11 +21,6 @@
             android:layout_height="40dip"
             android:layout_gravity="center" />
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="horizontal" >
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -81,6 +80,41 @@
                 android:background="@drawable/btn_check"
                 android:button="@null" />
         </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/detail_menu"
+        android:visibility="gone"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:orientation="horizontal"
+        android:paddingTop="8dip"
+        android:paddingBottom="2dip"
+        android:background="@drawable/action_view_down_bg">
+        <Button
+            android:id="@+id/bt_manage"
+            android:text="应用管理"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dip"
+            />
+        <Button
+            android:id="@+id/bt_detail"
+            android:text="流量详情"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
+            />
+        <Button
+            android:id="@+id/bt_uninstalled"
+            android:text="卸载"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:layout_marginRight="10dip"
+            />
     </LinearLayout>
 
 </LinearLayout>
