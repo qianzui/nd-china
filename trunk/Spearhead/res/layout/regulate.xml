@@ -58,7 +58,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
-            android:background="@drawable/bg_about"
+            android:background="@drawable/send_message_bg1"
             android:text="进入地区选择页"
             android:textColor="@color/blueflock"
             android:textSize="19dip" />
@@ -75,7 +75,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
-            android:background="@drawable/bg_about"
+            android:background="@drawable/send_message_bg0"
             android:text="流量剩余量"
             android:textColor="@color/darkgray2"
             android:textSize="19dip" />
@@ -92,7 +92,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
-            android:background="@drawable/bg_about"
+            android:background="@drawable/send_message_bg0"
             android:text="CXLL"
             android:textColor="@color/darkgray2"
             android:textSize="19dip" />
@@ -109,7 +109,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dip"
-            android:background="@drawable/bg_about"
+            android:background="@drawable/send_message_bg0"
             android:text="10086"
             android:textColor="@color/darkgray2"
             android:textSize="19dip" />

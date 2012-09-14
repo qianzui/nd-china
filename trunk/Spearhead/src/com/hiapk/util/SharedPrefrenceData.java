@@ -36,6 +36,7 @@ public class SharedPrefrenceData {
 	// 累计月度流量统计-与设置的月度使用值不同
 	private String MONTH_HAS_USE_STACK_DATA = "monthhasusestack";
 	private String TODAY_MOBILE_DATA = "todaymobiledata";
+	private String FireWallType = "firewalltype";
 
 	public SharedPrefrenceData(Context context) {
 		prefs = context.getSharedPreferences(PREFS_NAME, 0);
@@ -168,10 +169,12 @@ public class SharedPrefrenceData {
 		UseEditor.putLong(VALUE_MOBILE_HASUSED_LONG, monthMobileHasUse);
 		UseEditor.commit();
 	}
-/**
- * 获取结算日的数值，实际日期需要+1
- * @return
- */
+
+	/**
+	 * 获取结算日的数值，实际日期需要+1
+	 * 
+	 * @return
+	 */
 	public int getCountDay() {
 		int mobileSetCountDay = prefs.getInt(MOBILE_COUNT_DAY, 0);
 		return mobileSetCountDay;
@@ -207,6 +210,16 @@ public class SharedPrefrenceData {
 
 	public void setAlertAction(int alertAction) {
 		UseEditor.putInt(WARNING_ACTION, alertAction);
+		UseEditor.commit();
+	}
+
+	public int getFireWallType() {
+		int FireWallTypeint = prefs.getInt(FireWallType, 0);
+		return FireWallTypeint;
+	}
+
+	public void setFireWallType(int fireWallType) {
+		UseEditor.putInt(FireWallType, fireWallType);
 		UseEditor.commit();
 	}
 
