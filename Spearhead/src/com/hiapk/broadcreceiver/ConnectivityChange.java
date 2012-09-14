@@ -111,6 +111,7 @@ public class ConnectivityChange extends BroadcastReceiver {
 				alset.StopAlarm(context);
 				SQLStatic.isTotalAlarmRecording = false;
 				SQLStatic.isUidAlarmRecording = false;
+				android.os.Process.killProcess(android.os.Process.myPid());
 			}
 			SQLStatic.ConnectSleepWaiting = false;
 		}
