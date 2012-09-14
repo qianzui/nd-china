@@ -33,7 +33,7 @@ public class SetText {
 	 *            i=0返回通知栏上，1返回通知栏下，2-4返回小部件上中下。
 	 * @return
 	 */
-	public static synchronized void setText(Context context) {
+	private static void setText(Context context) {
 		// 记录数据命令
 		Time t = new Time();
 		t.setToNow();
@@ -50,7 +50,7 @@ public class SetText {
 		String monthUsedStr = UnitHandler.unitHandlerAccurate(monthUsedLong);
 		String monthSetStr = UnitHandler.unitHandler(monthSetLong);
 		String todayUsedStr = UnitHandler.unitHandlerAccurate(todayUsedLong);
-		String date = getdate(context, year, month, monthDay);
+		String date = getdate(context, year, month, monthDay).toString();
 		String day = getday(context, year, month, monthDay);
 		ProgressBarPercent = (int) (((double) monthUsedLong / monthSetLong) * 100);
 		if (monthSetLong != 0) {
@@ -127,9 +127,10 @@ public class SetText {
 
 	}
 
-	private static String getdate(Context context, int year, int month,
+	private static StringBuilder getdate(Context context, int year, int month,
 			int monthDay) {
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		StringBuilder date = new StringBuilder();
 		int setDay = sharedData.getCountDay() + 1;
 		int maxDay = MonthDay.countDay(year, month);
 		if (setDay > maxDay) {
@@ -138,21 +139,24 @@ public class SetText {
 		if (setDay < monthDay) {
 			if (month == 12) {
 				year += 1;
-				return year + "." + 1 + "." + setDay;
+				return date.append(year).append(".").append(1).append(".")
+						.append(setDay);
 			} else {
 				month += 1;
-				return year + "." + month + "." + setDay;
+				return date.append(year).append(".").append(month).append(".")
+						.append(setDay);
 			}
 
 		} else if (setDay == monthDay) {
 			month += 1;
-			return year + "." + month + "." + setDay;
+			return date.append(year).append(".").append(month).append(".")
+					.append(setDay);
 		} else {
-			return year + "." + month + "." + setDay;
+			return date.append(year).append(".").append(month).append(".")
+					.append(setDay);
 		}
 
 	}
-
 	// /**
 	// * 用于显示日志
 	// *

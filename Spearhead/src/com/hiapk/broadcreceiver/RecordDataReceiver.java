@@ -22,8 +22,6 @@ import android.util.Log;
 public class RecordDataReceiver extends BroadcastReceiver {
 	//
 	public static final int MODE_PRIVATE = 0;
-	// use database
-	private SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 	// ²Ù×÷sharedprefrence
 	String PREFS_NAME = "allprefs";
 	// Á÷Á¿Ô¤¾¯
@@ -124,6 +122,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		SQLiteDatabase sqlDataBase = SQLHelperCreateClose
 				.creatSQLTotal(context);
 		sqlDataBase.beginTransaction();
+		SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
 		try {
 			// sqlhelperTotal.updateSQLtotalType(sqlDataBase, network, 1, null,
 			// 1);
