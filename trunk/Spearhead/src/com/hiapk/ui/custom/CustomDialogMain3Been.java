@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -44,8 +45,8 @@ public class CustomDialogMain3Been {
 	 *            传入点击的TextView
 	 * @return 返回对话框
 	 */
-	public void dialogMonthSet_Main3(final Button btn_month,
-			final Button dayWarning, final Button monthWarning) {
+	public void dialogMonthSet_Main3(final LinearLayout btn_month,
+			final TextView dayWarning_tv, final TextView monthWarning_tv,final TextView monthSet_Unit_tv) {
 		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		int mobileUnit = sharedData.getMonthMobileSetUnit();
 		float mobileSetFloat = sharedData.getMonthMobileSetOfFloat();
@@ -110,10 +111,10 @@ public class CustomDialogMain3Been {
 					passfileEditor.putLong(MOBILE_WARNING_DAY,
 							monthsetTraffMB / 10);
 					// 设置会改变的3个数值。++
-					btn_month.setText(UnitHandler.unitHandler(monthsetTraffMB));
-					monthWarning.setText(UnitHandler
+					monthSet_Unit_tv.setText(UnitHandler.unitHandler(monthsetTraffMB));
+					monthWarning_tv.setText(UnitHandler
 							.unitHandler(monthsetTraffMB * 9 / 10));
-					dayWarning.setText(UnitHandler
+					dayWarning_tv.setText(UnitHandler
 							.unitHandler(monthsetTraffMB / 10));
 				} else if (mobileUnit == 1) {
 					long monthsetTraffGB = (long) (i * 1024 * 1024 * 1024);
@@ -124,10 +125,10 @@ public class CustomDialogMain3Been {
 					passfileEditor.putLong(MOBILE_WARNING_DAY,
 							monthsetTraffGB / 10);
 					// 设置会改变的3个数值。++
-					btn_month.setText(UnitHandler.unitHandler(monthsetTraffGB));
-					monthWarning.setText(UnitHandler
+					monthSet_Unit_tv.setText(UnitHandler.unitHandler(monthsetTraffGB));
+					monthWarning_tv.setText(UnitHandler
 							.unitHandler(monthsetTraffGB * 9 / 10));
-					dayWarning.setText(UnitHandler
+					dayWarning_tv.setText(UnitHandler
 							.unitHandler(monthsetTraffGB / 10));
 				}
 				passfileEditor.putInt(MOBILE_SET_UNIT, mobileUnit);
@@ -166,11 +167,12 @@ public class CustomDialogMain3Been {
 	/**
 	 * 月度预警弹出的对话框
 	 */
-	public void dialogMonthWarning(final Button button) {
+	public void dialogMonthWarning(final LinearLayout button,
+			final TextView monthWarning_tv) {
 		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		LayoutInflater factory = LayoutInflater.from(context);
-		View textEntryView = factory.inflate(R.layout.custom_warning_set_alert_dialog,
-				null);
+		View textEntryView = factory.inflate(
+				R.layout.custom_warning_set_alert_dialog, null);
 		// 流量预警设置窗口上方的文本
 		final TextView tv_month_Traff = (TextView) textEntryView
 				.findViewById(R.id.tv_show_Traff);
@@ -288,7 +290,8 @@ public class CustomDialogMain3Been {
 						long mobileWarning = sharedData.getAlertWarningMonth();
 						// float
 						// a=Float.valueOf(mobileWarning).floatValue();
-						button.setText(UnitHandler.unitHandler(mobileWarning));
+						monthWarning_tv.setText(UnitHandler
+								.unitHandler(mobileWarning));
 					}
 					// 重置预警状态
 					PrefrenceStaticOperator.resetHasWarningMonth(context);
@@ -302,7 +305,6 @@ public class CustomDialogMain3Been {
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					monthWarning.dismiss();
 				}
 			});
@@ -332,11 +334,12 @@ public class CustomDialogMain3Been {
 	 * @param button
 	 * @return
 	 */
-	public void dialogDayWarning(final Button button) {
+	public void dialogDayWarning(final LinearLayout button,
+			final TextView warning_tv) {
 		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		LayoutInflater factory = LayoutInflater.from(context);
-		View textEntryView = factory.inflate(R.layout.custom_warning_set_alert_dialog,
-				null);
+		View textEntryView = factory.inflate(
+				R.layout.custom_warning_set_alert_dialog, null);
 		// final TextView tv_day_warning = (TextView) textEntryView
 		// .findViewById(R.id.tv_warning_alert);
 		// 流量预警设置窗口上方的文本
@@ -456,7 +459,8 @@ public class CustomDialogMain3Been {
 						long mobileWarning = sharedData.getAlertWarningDay();
 						// float
 						// a=Float.valueOf(mobileWarning).floatValue();
-						button.setText(UnitHandler.unitHandler(mobileWarning));
+						warning_tv.setText(UnitHandler
+								.unitHandler(mobileWarning));
 					}
 
 					// init_dayWarning();

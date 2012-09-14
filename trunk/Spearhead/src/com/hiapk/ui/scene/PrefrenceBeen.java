@@ -20,7 +20,6 @@ public class PrefrenceBeen {
 	SharedPrefrenceDataWidget sharedDatawidget;
 
 	public PrefrenceBeen(Context context) {
-		// TODO Auto-generated constructor stub
 		this.context = context;
 		sharedDatawidget = new SharedPrefrenceDataWidget(context);
 	}
@@ -30,13 +29,12 @@ public class PrefrenceBeen {
 		final View listView = factory.inflate(R.layout.settings_listbox, null);
 		final Button showText = (Button) listView
 				.findViewById(R.id.setting_tv_box);
-		showText.setText("刷新状态栏和小部件的频率");
+		showText.setText(R.string.prefrence_setting_listbox_fresh);
 		layout_freshplv.removeAllViews();
 		layout_freshplv.addView(listView);
 		showText.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				CustomSPBeen customSpbenn = new CustomSPBeen(context);
 				customSpbenn.dialogSettingFreshplv();
 			}
@@ -50,13 +48,12 @@ public class PrefrenceBeen {
 				.inflate(R.layout.settings_clickbox, null);
 		final Button showText = (Button) clickView
 				.findViewById(R.id.setting_tv_box);
-		showText.setText("清空历史数据");
+		showText.setText(R.string.prefrence_setting_clickbox_dataclear);
 		layout_cleardata.removeAllViews();
 		layout_cleardata.addView(clickView);
 		showText.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				CustomDialogOtherBeen customOther = new CustomDialogOtherBeen(
 						context);
 				customOther.dialogConfirmClearData();
@@ -69,7 +66,7 @@ public class PrefrenceBeen {
 		final View boxView = factory.inflate(R.layout.settings_checkbox, null);
 		final Button showText = (Button) boxView
 				.findViewById(R.id.setting_tv_box);
-		showText.setText("通知栏提示");
+		showText.setText(R.string.prefrence_setting_checkbox_notify);
 		boolean isopen = sharedDatawidget.isNotifyOpen();
 		if (isopen) {
 			checkBoxRightDrawinit(showText, isopen);
@@ -81,7 +78,6 @@ public class PrefrenceBeen {
 		showText.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				boolean isopen = sharedDatawidget.isNotifyOpen();
 				AlarmSet alset = new AlarmSet();
 				if (isopen) {
@@ -103,7 +99,7 @@ public class PrefrenceBeen {
 		final View boxView = factory.inflate(R.layout.settings_checkbox, null);
 		final Button showText = (Button) boxView
 				.findViewById(R.id.setting_tv_box);
-		showText.setText("流量指示悬浮窗");
+		showText.setText(R.string.prefrence_setting_clickbox_floatwindow);
 		boolean isopen = sharedDatawidget.isFloatOpen();
 		if (isopen) {
 			checkBoxRightDrawinit(showText, isopen);
@@ -115,7 +111,6 @@ public class PrefrenceBeen {
 		showText.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				boolean isopen = sharedDatawidget.isFloatOpen();
 				if (isopen) {
 					if (SetText.FloatIntX != 50) {
@@ -141,7 +136,7 @@ public class PrefrenceBeen {
 		final View boxView = factory.inflate(R.layout.settings_checkbox, null);
 		final Button showText = (Button) boxView
 				.findViewById(R.id.setting_tv_box);
-		showText.setText("显示软件提示信息");
+		showText.setText(R.string.prefrence_setting_clickbox_help);
 		boolean isopen = Block.fireTip(context);
 		if (isopen) {
 			checkBoxRightDrawinit(showText, isopen);
@@ -153,7 +148,6 @@ public class PrefrenceBeen {
 		showText.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				boolean isopen = Block.fireTip(context);
 				if (isopen) {
 					Block.fireTipSet(context, false);

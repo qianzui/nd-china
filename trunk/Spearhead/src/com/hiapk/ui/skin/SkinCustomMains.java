@@ -37,6 +37,7 @@ public class SkinCustomMains {
 
 		return btn_dark_Id;
 	}
+
 	/**
 	 * 设置自定义标题背景
 	 * 
@@ -47,6 +48,21 @@ public class SkinCustomMains {
 			res = SpearheadApplication.getInstance().getRes();
 		}
 		int title_bg_Id = res.getIdentifier("maintab_title_bg0", "drawable",
+				"com.hiapk.spearhead");
+
+		return title_bg_Id;
+	}
+
+	/**
+	 * 设置横条的背景色
+	 * 
+	 * @return
+	 */
+	public static int barsBackground() {
+		if (res == null) {
+			res = SpearheadApplication.getInstance().getRes();
+		}
+		int title_bg_Id = res.getIdentifier("linear_selector0", "drawable",
 				"com.hiapk.spearhead");
 
 		return title_bg_Id;
