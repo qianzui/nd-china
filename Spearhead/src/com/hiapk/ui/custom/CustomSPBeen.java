@@ -16,8 +16,11 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
+
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.SetText;
@@ -132,7 +135,8 @@ public class CustomSPBeen {
 	 *            传入点击的TextView
 	 * @return 返回对话框
 	 */
-	public void dialogAlertType(final Button btn_Alert) {
+	public void dialogAlertType(final LinearLayout btn_Alert,
+			final TextView warning_tv) {
 
 		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 
@@ -177,7 +181,7 @@ public class CustomSPBeen {
 				// TODO Auto-generated method stub
 				operatorOnAlertClick();
 				sharedData.setAlertAction(arg2);
-				btn_Alert.setText((CharSequence) arg0.getItemAtPosition(arg2));
+				warning_tv.setText((CharSequence) arg0.getItemAtPosition(arg2));
 				notifySet.dismiss();
 			}
 		});
@@ -198,7 +202,8 @@ public class CustomSPBeen {
 	 *            传入点击的TextView
 	 * @return 返回对话框
 	 */
-	public void dialogDaySet(final Button btn_date, final Button btn_HasUsed) {
+	public void dialogDaySet(final LinearLayout btn_date,
+			final Button btn_HasUsed, final TextView countDaySpButton_tv) {
 
 		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		final int beforeDay = sharedData.getCountDay();
@@ -261,7 +266,8 @@ public class CustomSPBeen {
 					passfileEditor.commit();// 委托，存入数据
 				}
 				sharedData.setCountDay(arg2);
-				btn_date.setText((CharSequence) arg0.getItemAtPosition(arg2));
+				countDaySpButton_tv.setText((CharSequence) arg0
+						.getItemAtPosition(arg2));
 				dateSet.dismiss();
 			}
 		});

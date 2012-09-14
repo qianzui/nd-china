@@ -50,5 +50,10 @@
     <string name="spearheadnotify">先锋流量监控提示</string>
     <string name="day_traff_over_set">日流量已超标</string>
     <string name="month_traff_over_set">月流量已超标</string>
+    <string name="prefrence_setting_listbox_fresh">刷新状态栏和小部件的频率</string>
+    <string name="prefrence_setting_clickbox_dataclear">清空历史数据</string>
+    <string name="prefrence_setting_checkbox_notify">通知栏提示</string>
+    <string name="prefrence_setting_clickbox_floatwindow">流量指示悬浮窗</string>
+    <string name="prefrence_setting_clickbox_help">显示帮助信息</string>
 
 </resources>

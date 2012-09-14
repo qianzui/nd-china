@@ -18,33 +18,39 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class Main3 extends Activity {
 	/**
+	 * 是否执行预警动作
+	 */
+	private LinearLayout line_isdoAlert;
+	/**
 	 * 查询流量套餐按钮
 	 */
-	private Button findtaocan;
+	private LinearLayout line_findtaocan;
 	/**
 	 * 预警动作按钮
 	 */
-	private Button warningAlertActionButton;
+	private LinearLayout warningAlertActionButton;
 	/**
 	 * 日流量预警按钮
 	 */
-	private Button dayWarningButton;
+	private LinearLayout dayWarningButton;
 	/**
 	 * 月流量预警
 	 */
-	private Button monthWarningButton;
+	private LinearLayout monthWarningButton;
 	/**
 	 * 选择结算日期按钮
 	 */
-	private Button countDaySpButton;
+	private LinearLayout countDaySpButton;
 	/**
 	 * 包月套餐设置按钮
 	 */
-	private Button btn_monthSet;
+	private LinearLayout btn_monthSet;
 	private Context context = this;
 	// 调用单位处理函数
 	// 获取固定存放数据
@@ -59,8 +65,8 @@ public class Main3 extends Activity {
 		SpearheadApplication.getInstance().addActivity(this);
 		sharedData = new SharedPrefrenceData(context);
 		init_Spinner();
-		findtaocan = (Button) findViewById(R.id.combo);
-		findtaocan.setOnClickListener(new OnClickListener() {
+		line_findtaocan = (LinearLayout) findViewById(R.id.combo);
+		line_findtaocan.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				SharedPrefrenceDataRegulate sharedDataReg = new SharedPrefrenceDataRegulate(
@@ -82,18 +88,17 @@ public class Main3 extends Activity {
 	 * 初始化按钮皮肤
 	 */
 	private void init_skin() {
-		findtaocan
-				.setBackgroundResource(SkinCustomMains.buttonBackgroundDark());
+		line_isdoAlert.setBackgroundResource(SkinCustomMains.barsBackground());
+		line_findtaocan.setBackgroundResource(SkinCustomMains.barsBackground());
 		warningAlertActionButton.setBackgroundResource(SkinCustomMains
-				.buttonBackgroundDark());
-		dayWarningButton.setBackgroundResource(SkinCustomMains
-				.buttonBackgroundDark());
+				.barsBackground());
+		dayWarningButton
+				.setBackgroundResource(SkinCustomMains.barsBackground());
 		monthWarningButton.setBackgroundResource(SkinCustomMains
-				.buttonBackgroundDark());
-		countDaySpButton.setBackgroundResource(SkinCustomMains
-				.buttonBackgroundDark());
-		btn_monthSet.setBackgroundResource(SkinCustomMains
-				.buttonBackgroundDark());
+				.barsBackground());
+		countDaySpButton
+				.setBackgroundResource(SkinCustomMains.barsBackground());
+		btn_monthSet.setBackgroundResource(SkinCustomMains.barsBackground());
 		RelativeLayout title = (RelativeLayout) findViewById(R.id.main3TitleBackground);
 		title.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
 	}
@@ -102,26 +107,27 @@ public class Main3 extends Activity {
 	 * 初始化预警动作按钮
 	 */
 	private void init_warningAct() {
-		warningAlertActionButton = (Button) findViewById(R.id.warningAct);
+		warningAlertActionButton = (LinearLayout) findViewById(R.id.warningAct);
+		final TextView warning_tv = (TextView) findViewById(R.id.warningAct_tv);
 		// 0-30代表1-31
 		int beforeDay = sharedData.getAlertAction();
 		Resources res = context.getResources();
 		String[] alertactionString = res.getStringArray(R.array.warningaction);
 		switch (beforeDay) {
 		case 0:
-			warningAlertActionButton.setText(alertactionString[0]);
+			warning_tv.setText(alertactionString[0]);
 			break;
 		case 1:
-			warningAlertActionButton.setText(alertactionString[1]);
+			warning_tv.setText(alertactionString[1]);
 			break;
 		case 2:
-			warningAlertActionButton.setText(alertactionString[2]);
+			warning_tv.setText(alertactionString[2]);
 			break;
 		case 3:
-			warningAlertActionButton.setText(alertactionString[3]);
+			warning_tv.setText(alertactionString[3]);
 			break;
 		default:
-			warningAlertActionButton.setText(alertactionString[0]);
+			warning_tv.setText(alertactionString[0]);
 			break;
 		}
 
@@ -129,7 +135,7 @@ public class Main3 extends Activity {
 			@Override
 			public void onClick(View v) {
 				CustomSPBeen customSP = new CustomSPBeen(context);
-				customSP.dialogAlertType(warningAlertActionButton);
+				customSP.dialogAlertType(warningAlertActionButton, warning_tv);
 			}
 		});
 	}
@@ -138,15 +144,16 @@ public class Main3 extends Activity {
 	 * 初始化日流量预警按钮
 	 */
 	private void init_dayWarning() {
-		dayWarningButton = (Button) findViewById(R.id.dayWarning);
+		dayWarningButton = (LinearLayout) findViewById(R.id.dayWarning);
+		final TextView dayWarning_tv = (TextView) findViewById(R.id.dayWarning_tv);
 		long mobileWarning = sharedData.getAlertWarningDay();
-		dayWarningButton.setText(UnitHandler.unitHandler(mobileWarning));
+		dayWarning_tv.setText(UnitHandler.unitHandler(mobileWarning));
 		dayWarningButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				CustomDialogMain3Been customDialog = new CustomDialogMain3Been(
 						context);
-				customDialog.dialogDayWarning(dayWarningButton);
+				customDialog.dialogDayWarning(dayWarningButton, dayWarning_tv);
 
 			}
 		});
@@ -156,15 +163,17 @@ public class Main3 extends Activity {
 	 * 初始化月流量预警按钮
 	 */
 	private void init_monthWarning() {
-		monthWarningButton = (Button) findViewById(R.id.monthWarning);
+		monthWarningButton = (LinearLayout) findViewById(R.id.monthWarning);
+		final TextView monthWarning_tv = (TextView) findViewById(R.id.monthWarning_tv);
 		long mobileWarning = sharedData.getAlertWarningMonth();
-		monthWarningButton.setText(UnitHandler.unitHandler(mobileWarning));
+		monthWarning_tv.setText(UnitHandler.unitHandler(mobileWarning));
 		monthWarningButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				CustomDialogMain3Been customDialog = new CustomDialogMain3Been(
 						context);
-				customDialog.dialogMonthWarning(monthWarningButton);
+				customDialog.dialogMonthWarning(monthWarningButton,
+						monthWarning_tv);
 
 			}
 		});
@@ -174,16 +183,18 @@ public class Main3 extends Activity {
 	 * 设置下拉条
 	 */
 	private void init_Spinner() {
-		countDaySpButton = (Button) findViewById(R.id.dayUnit);
+		countDaySpButton = (LinearLayout) findViewById(R.id.dayUnit);
 		final Button btn_HasUsed = (Button) findViewById(R.id.btn_monthHasUseSet_Unit);
+		final TextView countDaySpButton_tv = (TextView) findViewById(R.id.countDaySpButton_tv);
 		// 0-30代表1-31
 		int beforeDay = sharedData.getCountDay();
-		countDaySpButton.setText((beforeDay + 1) + " 日");
+		countDaySpButton_tv.setText((beforeDay + 1) + " 日");
 		countDaySpButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				CustomSPBeen customSP = new CustomSPBeen(context);
-				customSP.dialogDaySet(countDaySpButton, btn_HasUsed);
+				customSP.dialogDaySet(countDaySpButton, btn_HasUsed,
+						countDaySpButton_tv);
 			}
 		});
 	}
@@ -192,23 +203,31 @@ public class Main3 extends Activity {
 	 * 对月度显示文本进行初始化设置等
 	 */
 	private void init_btn_month() {
-		btn_monthSet = (Button) findViewById(R.id.btn_monthSet_Unit);
+		btn_monthSet = (LinearLayout) findViewById(R.id.btn_monthSet_Unit);
+		final TextView monthSet_Unit_tv = (TextView) findViewById(R.id.monthSet_Unit_tv);
 		// 设置默认显示值
 		long mobileSetLong = sharedData.getMonthMobileSetOfLong();
 		// showlog(mobileSetLong + "");
-		btn_monthSet.setText(UnitHandler.unitHandler(mobileSetLong));
-		final Button dayWarning = (Button) findViewById(R.id.dayWarning);
-		final Button monthWarning = (Button) findViewById(R.id.monthWarning);
+		monthSet_Unit_tv.setText(UnitHandler.unitHandler(mobileSetLong));
+		final TextView dayWarning_tv = (TextView) findViewById(R.id.dayWarning_tv);
+		final TextView monthWarning_tv = (TextView) findViewById(R.id.monthWarning_tv);
 		// 设置监听
 		btn_monthSet.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				CustomDialogMain3Been customDialog = new CustomDialogMain3Been(
 						context);
-				customDialog.dialogMonthSet_Main3(btn_monthSet, dayWarning,
-						monthWarning);
+				customDialog.dialogMonthSet_Main3(btn_monthSet, dayWarning_tv,
+						monthWarning_tv, monthSet_Unit_tv);
 			}
 		});
+	}
+
+	/**
+	 * 是否进行预警动作条
+	 */
+	private void init_isdo_ALert() {
+		line_isdoAlert = (LinearLayout) findViewById(R.id.isalert_notify);
 	}
 
 	@Override
@@ -225,7 +244,10 @@ public class Main3 extends Activity {
 		init_monthWarning();
 		init_dayWarning();
 		init_warningAct();
+		init_isdo_ALert();
+		// /skin
 		init_skin();
+
 		// umeng
 		// MobclickAgent.onResume(this);
 
