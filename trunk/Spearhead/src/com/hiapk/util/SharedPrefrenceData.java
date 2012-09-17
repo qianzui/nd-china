@@ -36,7 +36,10 @@ public class SharedPrefrenceData {
 	// 累计月度流量统计-与设置的月度使用值不同
 	private String MONTH_HAS_USE_STACK_DATA = "monthhasusestack";
 	private String TODAY_MOBILE_DATA = "todaymobiledata";
+	// 防火墙页面显示的类型
 	private String FireWallType = "firewalltype";
+	// 是否允许流量预警
+	private String IsAllowAlert = "isallowalert";
 
 	public SharedPrefrenceData(Context context) {
 		prefs = context.getSharedPreferences(PREFS_NAME, 0);
@@ -220,6 +223,16 @@ public class SharedPrefrenceData {
 
 	public void setFireWallType(int fireWallType) {
 		UseEditor.putInt(FireWallType, fireWallType);
+		UseEditor.commit();
+	}
+
+	public boolean IsAllowAlert() {
+		boolean blean = prefs.getBoolean(IsAllowAlert, true);
+		return blean;
+	}
+
+	public void setIsAllowAlert(boolean blean) {
+		UseEditor.putBoolean(IsAllowAlert, blean);
 		UseEditor.commit();
 	}
 
