@@ -15,7 +15,6 @@ import com.hiapk.firewall.MyCompTraffic;
 import com.hiapk.firewall.MyListView;
 import com.hiapk.firewall.MyListView.OnRefreshListener;
 import com.hiapk.sqlhelper.uid.SQLHelperFireWall;
-import com.hiapk.sqlhelper.uid.SQLHelperFireWall.Data;
 import com.hiapk.ui.custom.CustomProgressDialogBeen;
 import com.hiapk.ui.scene.UidMonthTraff;
 import com.hiapk.ui.skin.SkinCustomMains;
@@ -384,11 +383,12 @@ public class FireWallActivity extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		SQLHelperFireWall SQLFire = new SQLHelperFireWall();
 		if (SQLStatic.TableWiFiOrG23 != "") {
 			AlarmSet alset = new AlarmSet();
 			alset.StartAlarmUid(mContext);
+			SQLFire.resetMP(mContext);// alset.StartAlarm(mContext);
 		} else {
-			SQLHelperFireWall SQLFire = new SQLHelperFireWall();
 			SQLFire.resetMP(mContext);// alset.StartAlarm(mContext);
 		}
 		// 每次点击防火墙，跳转到第一个页面

@@ -8,7 +8,6 @@ import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.R;
-import com.hiapk.sqlhelper.uid.SQLHelperFireWall.Data;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.UnitHandler;
 

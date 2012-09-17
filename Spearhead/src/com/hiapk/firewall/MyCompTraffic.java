@@ -8,7 +8,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.hiapk.control.traff.TrafficManager;
-import com.hiapk.sqlhelper.uid.SQLHelperFireWall.Data;
 
 
 public class MyCompTraffic implements  Comparator {
