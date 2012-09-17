@@ -150,7 +150,7 @@ public class Main3 extends Activity {
 	 */
 	private void init_dayWarning() {
 		long mobileWarning = sharedData.getAlertWarningDay();
-		dayWarning_tv1.setText(UnitHandler.unitHandler(mobileWarning));
+		dayWarning_tv2.setText(UnitHandler.unitHandler(mobileWarning));
 
 	}
 
@@ -299,7 +299,7 @@ public class Main3 extends Activity {
 		dayWarningButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				customDialog.dialogDayWarning(dayWarningButton, dayWarning_tv1);
+				customDialog.dialogDayWarning(dayWarningButton, dayWarning_tv2);
 
 			}
 		});
@@ -314,7 +314,7 @@ public class Main3 extends Activity {
 		btn_monthSet.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				customDialog.dialogMonthSet_Main3(btn_monthSet, dayWarning_tv1,
+				customDialog.dialogMonthSet_Main3(btn_monthSet, dayWarning_tv2,
 						monthWarning_tv2, monthSet_Unit_tv);
 			}
 		});
