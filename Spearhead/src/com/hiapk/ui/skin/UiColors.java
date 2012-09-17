@@ -30,6 +30,10 @@ public class UiColors {
 	 * 饼图的划线
 	 */
 	public static int simplePieLine = Color.rgb(211, 215, 212);
+	/**
+	 * darkgray2的颜色
+	 */
+	public static int colorDarkGray2 = Color.rgb(80, 80, 80);
 	// public static int[] chartbarcolor;
 	// chartbarcolor=new int[] { Color.BLUE, Color.GREEN };
 }
