@@ -23,10 +23,12 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	//
 	public static final int MODE_PRIVATE = 0;
 	// 操作sharedprefrence
-	String PREFS_NAME = "allprefs";
+	private String PREFS_NAME = "allprefs";
 	// 流量预警
-	String MOBILE_HAS_WARNING_MONTH = "mobilemonthhaswarning";
-	String MOBILE_HAS_WARNING_DAY = "mobiledayhaswarning";
+	private String MOBILE_HAS_WARNING_MONTH = "mobilemonthhaswarning";
+	private String MOBILE_HAS_WARNING_DAY = "mobiledayhaswarning";
+	// 是否允许流量预警
+	private String IsAllowAlert = "isallowalert";
 	// date
 	private int year;
 	private int month;
@@ -82,28 +84,32 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	 * @param context
 	 */
 	private void trafficAlertTest(Context context) {
-		if (network == "mobile") {
-			TrafficAlert trafficalert = new TrafficAlert();
-			// showLog("month" + trafficalert.isTrafficOverMonthSet(context) +
-			// "day"
-			// + trafficalert.isTrafficOverDaySet(context));
-			SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME,
-					0);
-			boolean monthHasWarning = prefs.getBoolean(
-					MOBILE_HAS_WARNING_MONTH, false);
-			if (!monthHasWarning) {
-				// 月度
-				if (trafficalert.isTrafficOverMonthSet(context)) {
-					trafficalert.exeWarningActionMonth(context);
-				}
+		// 判断当前网络状态
+		if (network != "mobile")
+			return;
+		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+		// 判断是否允许预警
+		boolean isAllowAlert = prefs.getBoolean(IsAllowAlert, true);
+		if (isAllowAlert == false)
+			return;
+		boolean monthHasWarning = prefs.getBoolean(MOBILE_HAS_WARNING_MONTH,
+				false);
+		// showLog("month" + trafficalert.isTrafficOverMonthSet(context) +
+		// "day"
+		// + trafficalert.isTrafficOverDaySet(context));
+
+		TrafficAlert trafficalert = new TrafficAlert();
+		if (!monthHasWarning) {
+			// 月度
+			if (trafficalert.isTrafficOverMonthSet(context)) {
+				trafficalert.exeWarningActionMonth(context);
 			}
-			// 日预警
-			boolean dayHasWarning = prefs.getBoolean(MOBILE_HAS_WARNING_DAY,
-					false);
-			if (!dayHasWarning) {
-				if (trafficalert.isTrafficOverDaySet(context)) {
-					trafficalert.exeWarningActionDay(context);
-				}
+		}
+		// 日预警
+		boolean dayHasWarning = prefs.getBoolean(MOBILE_HAS_WARNING_DAY, false);
+		if (!dayHasWarning) {
+			if (trafficalert.isTrafficOverDaySet(context)) {
+				trafficalert.exeWarningActionDay(context);
 			}
 		}
 	}
