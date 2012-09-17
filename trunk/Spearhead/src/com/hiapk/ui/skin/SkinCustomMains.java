@@ -47,7 +47,8 @@ public class SkinCustomMains {
 		if (res == null) {
 			res = SpearheadApplication.getInstance().getRes();
 		}
-		int title_bg_Id = res.getIdentifier("maintab_title_bg0", "drawable",
+		int title_bg_Id = res.getIdentifier("maintab_title_bg"
+				+ SpearheadApplication.getInstance().getSkinType(), "drawable",
 				"com.hiapk.spearhead");
 
 		return title_bg_Id;
