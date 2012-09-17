@@ -8,11 +8,13 @@ import android.app.Application;
 import android.content.res.Resources;
 
 import com.hiapk.exception.CustomException;
+import com.hiapk.util.SharedPrefrenceData;
 
 public class SpearheadApplication extends Application {
 	private List<Activity> activityList = new LinkedList<Activity>();
 	private static SpearheadApplication instance = null;
 	private Resources res = null;
+	private SharedPrefrenceData sharedDate = new SharedPrefrenceData(this);
 
 	/**
 	 * 初始化全局环境
@@ -41,6 +43,10 @@ public class SpearheadApplication extends Application {
 			res = getApplicationContext().getResources();
 		}
 		return res;
+	}
+
+	public int getSkinType() {
+		return sharedDate.getFireWallType();
 	}
 
 	// 添加Activity到容器中
