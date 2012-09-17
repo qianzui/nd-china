@@ -35,7 +35,6 @@ public class Appwidget extends AppWidgetProvider {
 
 	@Override
 	public void onEnabled(Context context) {
-		// TODO Auto-generated method stub
 		super.onEnabled(context);
 		showLog("onEnabled");
 		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
@@ -56,7 +55,6 @@ public class Appwidget extends AppWidgetProvider {
 
 	@Override
 	public void onDisabled(Context context) {
-		// TODO Auto-generated method stub
 		super.onDisabled(context);
 		showLog("onDisabled");
 		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
@@ -68,7 +66,6 @@ public class Appwidget extends AppWidgetProvider {
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
 			int[] appWidgetIds) {
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
-		// TODO Auto-generated method stub
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 		showLog("onupdate");
 		final int N = appWidgetIds.length;
@@ -152,7 +149,6 @@ public class Appwidget extends AppWidgetProvider {
 	 * @param views
 	 */
 	private void initWidget(Context context, RemoteViews views) {
-		// TODO Auto-generated method stub
 		// 初始化wifi
 		WifiManager wfm_on_off;
 		wfm_on_off = (WifiManager) context
@@ -205,7 +201,6 @@ public class Appwidget extends AppWidgetProvider {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		// TODO Auto-generated method stub
 		super.onReceive(context, intent);
 		showLog("onReceive=" + intent.getAction());
 		// Intent intentAppUpdate = new Intent();
@@ -217,7 +212,6 @@ public class Appwidget extends AppWidgetProvider {
 			SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 			monthSet = sharedData.getMonthMobileSetOfLong();
 		} catch (Exception e) {
-			// TODO: handle exception
 			monthSet = 0;
 		}
 
@@ -373,10 +367,12 @@ public class Appwidget extends AppWidgetProvider {
 				.getSystemService(Context.TELEPHONY_SERVICE);
 		MobileDataSwitch mobile_on_of = new MobileDataSwitch();
 		tm.getSimState();
+		// SDK版本过低，点击无效
 		if (Integer.valueOf(android.os.Build.VERSION.SDK) < 10) {
 			Toast.makeText(context, R.string.mobile_notsupport,
 					Toast.LENGTH_SHORT).show();
 		} else {
+			// 无sim卡则点击无效
 			if (tm.getSimState() != TelephonyManager.SIM_STATE_READY) {
 				mobile_on_of.setMobileDataDisable(context);
 				views.setImageViewResource(R.id.widget_gprs,

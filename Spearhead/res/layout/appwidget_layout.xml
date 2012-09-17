@@ -6,114 +6,115 @@
     android:baselineAligned="false"
     android:orientation="horizontal"
     android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    >
-    
- <LinearLayout 
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:layout_gravity="center"
-    android:baselineAligned="false"
-    android:orientation="horizontal"
-    android:background="@drawable/bg_widget"  >
+    android:paddingRight="10dp" >
+
     <LinearLayout
-        android:id="@+id/widget1X4LinnerLayout1"
-        android:layout_width="0dip"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:layout_weight="2.5"
-        android:paddingLeft="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_widget"
+        android:baselineAligned="false"
         android:orientation="horizontal" >
-        <ImageView
-            android:id="@+id/widget_wifi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/app_name"
-            android:layout_gravity="center_vertical"
-            android:maxHeight="36dp"
-            android:maxWidth="36dp"
-            android:src="@drawable/widget_wifi_on" />
-        
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="0dip"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center"
-        android:layout_weight="0.1"
-        android:orientation="vertical"
-        >
-       <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:src="@drawable/widget_divider" />
-    </LinearLayout>
-    
-    <LinearLayout
-        android:id="@+id/widget1X4LinnerLayout2"
-        android:layout_width="0dip"
-        android:layout_height="match_parent"
-        android:layout_weight="2.5"
-        android:gravity="center"
-        android:orientation="horizontal">
-        <ImageView
-            android:id="@+id/widget_gprs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/app_name"
-            android:layout_gravity="center_vertical"
-            android:maxHeight="36dp"
-            android:maxWidth="36dp"
-            android:src="@drawable/widget_gprs_on" />
-    </LinearLayout>
-     <LinearLayout
-        android:layout_width="0dip"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center"
-        android:layout_weight="0.1"
-        android:orientation="vertical"
-        >
-       <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:src="@drawable/widget_divider" />
-    </LinearLayout>
-    
-    <LinearLayout
-        android:id="@+id/widget1X4LinnerLayout3"
-        android:layout_width="0dip"
-        android:layout_height="match_parent"
-        android:layout_weight="6.0"
-        android:paddingTop="11dp"
-        android:paddingBottom="8dp"
-        android:paddingLeft="4dp"
-        android:orientation="vertical" >
-       
-         <TextView
-            android:id="@+id/widgetTextview1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.0"
-            android:text="今日已用: ..."
-            android:textColor="@color/darkgray2" />
 
-        <TextView
-            android:id="@+id/widgetTextview2"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.0"
-            android:text="距结算日: ..."
-            android:textColor="@color/darkgray2" />
+        <LinearLayout
+            android:id="@+id/widget1X4LinnerLayout1"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp" >
 
-        <TextView
-            android:id="@+id/widgetTextview3"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.0"
-            android:text="... / ..."
-            android:textColor="@color/darkgray2" />
+            <ImageView
+                android:id="@+id/widget_wifi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/app_name"
+                android:maxHeight="36dp"
+                android:maxWidth="36dp"
+                android:src="@drawable/widget_wifi_off" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="0.1"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:src="@drawable/widget_divider" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/widget1X4LinnerLayout2"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/widget_gprs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/app_name"
+                android:maxHeight="36dp"
+                android:maxWidth="36dp"
+                android:src="@drawable/widget_gprs_off" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="0.1"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:src="@drawable/widget_divider" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/widget1X4LinnerLayout3"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="6.0"
+            android:orientation="vertical"
+            android:paddingBottom="8dp"
+            android:paddingLeft="4dp"
+            android:paddingTop="11dp" >
+
+            <TextView
+                android:id="@+id/widgetTextview1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.0"
+                android:text="今日已用: ..."
+                android:textColor="@color/darkgray2" />
+
+            <TextView
+                android:id="@+id/widgetTextview2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.0"
+                android:text="距结算日: ..."
+                android:textColor="@color/darkgray2" />
+
+            <TextView
+                android:id="@+id/widgetTextview3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.0"
+                android:text="... / ..."
+                android:textColor="@color/darkgray2" />
+        </LinearLayout>
     </LinearLayout>
-    
-</LinearLayout>
-    
 
 </LinearLayout>

@@ -76,6 +76,7 @@ public class SQLHelperFireWall {
 				sqlDataBase.setTransactionSuccessful();
 			} catch (Exception e) {
 				Logs.d(TAG, "获取防火墙页面流量信息失败");
+				mp = new HashMap<Integer, DatauidHash>();
 			} finally {
 				sqlDataBase.endTransaction();
 			}
