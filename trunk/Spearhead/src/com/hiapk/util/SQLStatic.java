@@ -12,8 +12,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+import com.hiapk.bean.DatauidHash;
 import com.hiapk.firewall.Block;
-import com.hiapk.sqlhelper.uid.SQLHelperFireWall.Data;
 
 /**
  * 用于存储在程序运行过程中使用的某些静态变量
@@ -44,7 +44,18 @@ public class SQLStatic {
 	public static int[] uidnumbers = null;
 	// 在SQLuidother里面也有更新
 	public static String packagename_ALL = null;
-	public static HashMap<Integer, Data> uiddata = null;
+	/**
+	 * 今日uid数据
+	 */
+	public static HashMap<Integer, DatauidHash> uiddataToday = null;
+	/**
+	 * 本周uid数据
+	 */
+	public static HashMap<Integer, DatauidHash> uiddataWeek = null;
+	/**
+	 * 本月uid数据
+	 */
+	public static HashMap<Integer, DatauidHash> uiddataMonth = null;
 	// public static boolean isuiddataOperating = false;
 	// 正在读取uid流量
 	public static boolean isuiddataRecording = false;

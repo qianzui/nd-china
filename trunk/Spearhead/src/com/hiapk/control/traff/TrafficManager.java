@@ -58,8 +58,8 @@ public class TrafficManager {
 				.edit();
 		UseEditor.putLong(uidstrup, 0);
 		UseEditor.putLong(uidstrdown, 0);
-		showLog(uid + "clear");
-		showLog(uid + "clear");
+		// showLog(uid + "clear");
+		// showLog(uid + "clear");
 		UseEditor.commit();
 	}
 
@@ -82,8 +82,8 @@ public class TrafficManager {
 				.edit();
 		UseEditor.putLong(uidstrup, upload);
 		UseEditor.putLong(uidstrdown, download);
-		showLog(uid + "的上传流量" + upload);
-		showLog(uid + "的下载流量" + download);
+		// showLog(uid + "的上传流量" + upload);
+		// showLog(uid + "的下载流量" + download);
 		UseEditor.commit();
 	}
 
@@ -110,8 +110,8 @@ public class TrafficManager {
 		long olddown = prefs.getLong(uidstrdown, 0);
 		UseEditor.putLong(uidstrup, oldup + upload);
 		UseEditor.putLong(uidstrdown, olddown + download);
-		showLog(uid + "的新增上传流量" + upload);
-		showLog(uid + "的新增下载流量" + download);
+		// showLog(uid + "的新增上传流量" + upload);
+		// showLog(uid + "的新增下载流量" + download);
 		UseEditor.commit();
 	}
 
@@ -132,8 +132,8 @@ public class TrafficManager {
 		uidTraff[1] = prefs.getLong(uidstrup, 0);
 		uidTraff[2] = prefs.getLong(uidstrdown, 0);
 		uidTraff[0] = uidTraff[1] + uidTraff[2];
-		showLog(uid + "的上传流量" + uidTraff[1]);
-		showLog(uid + "的下载流量" + uidTraff[2]);
+		// showLog(uid + "的上传流量" + uidTraff[1]);
+		// showLog(uid + "的下载流量" + uidTraff[2]);
 		return uidTraff;
 
 	}
@@ -173,7 +173,7 @@ public class TrafficManager {
 			uidstrdown = UID_START_STR_DOWN + i;
 			UseEditor.putLong(uidstrup, 0);
 			UseEditor.putLong(uidstrdown, 0);
-			// showLog("UID=" + i + "已重置");
+			showLog("UID=" + i + "已重置");
 		}
 		UseEditor.commit();
 	}

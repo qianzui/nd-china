@@ -6,25 +6,24 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 
+import com.hiapk.bean.DatauidHash;
 import com.hiapk.logs.Logs;
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.util.SQLStatic;
+import com.hiapk.util.SharedPrefrenceData;
 
 public class SQLHelperFireWall {
 	long time;
 	private static boolean isReseting = false;
 	private String TAG = "SQLFireWall";
-
-	/**
-	 * Small structure to hold an application info
-	 */
-	public static class Data {
-		public long upload;
-		public long download;
-
-	}
+	private int fireWallType = 0;
 
 	public void resetMP(Context context) {
+		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		fireWallType = sharedData.getFireWallType();
+		if (fireWallType > 2)
+			fireWallType = 2;
+
 		time = System.currentTimeMillis();
 		// AlarmSet alset = new AlarmSet();
 		// alset.StartAlarm(context);
@@ -38,9 +37,10 @@ public class SQLHelperFireWall {
 	}
 
 	private class AsyncTaskonResume extends
-			AsyncTask<Context, Integer, HashMap<Integer, Data>> {
+			AsyncTask<Context, Integer, HashMap<Integer, DatauidHash>> {
 		@Override
-		protected HashMap<Integer, Data> doInBackground(Context... params) {
+		protected HashMap<Integer, DatauidHash> doInBackground(
+				Context... params) {
 			int[] numbers = null;
 			while (SQLStatic.uidnumbers == null) {
 				SQLStatic.getuidsAndpacname(params[0]);
@@ -53,9 +53,9 @@ public class SQLHelperFireWall {
 			}
 			Logs.iop(TAG, "getuids" + (System.currentTimeMillis() - time));
 			numbers = SQLStatic.uidnumbers;
-			SQLHelperUidRecordFire sqlhelperUidRecordall = new SQLHelperUidRecordFire(
+			SQLHelperUidSelectDataFire sqlhelperUidRecordall = new SQLHelperUidSelectDataFire(
 					params[0]);
-			HashMap<Integer, Data> mp = null;
+			HashMap<Integer, DatauidHash> mp = null;
 			while (!SQLStatic.setSQLUidOnUsed(true)) {
 				try {
 					Thread.sleep(50);
@@ -70,7 +70,8 @@ public class SQLHelperFireWall {
 			try {
 
 				// 获取uid的总流量数据
-				mp = sqlhelperUidRecordall.getSQLUidtraff(sqlDataBase, numbers);
+				mp = sqlhelperUidRecordall.getSQLUidtraffMonth(sqlDataBase,
+						numbers, fireWallType);
 
 				sqlDataBase.setTransactionSuccessful();
 			} catch (Exception e) {
@@ -87,9 +88,21 @@ public class SQLHelperFireWall {
 		}
 
 		@Override
-		protected void onPostExecute(HashMap<Integer, Data> result) {
+		protected void onPostExecute(HashMap<Integer, DatauidHash> result) {
 			Logs.iop(TAG, "Recordover" + (System.currentTimeMillis() - time));
-			SQLStatic.uiddata = result;
+			Logs.iop(TAG, "result.size()=" + result.size());
+			switch (fireWallType) {
+			case 1:
+				SQLStatic.uiddataWeek = result;
+				break;
+			case 2:
+				SQLStatic.uiddataMonth = result;
+				break;
+			default:
+				SQLStatic.uiddataToday = result;
+				break;
+			}
+
 			isReseting = false;
 		}
 	}
