@@ -14,7 +14,7 @@ public class SpearheadApplication extends Application {
 	private List<Activity> activityList = new LinkedList<Activity>();
 	private static SpearheadApplication instance = null;
 	private Resources res = null;
-	private SharedPrefrenceData sharedDate = new SharedPrefrenceData(this);
+	private SharedPrefrenceData sharedDate;
 
 	/**
 	 * 初始化全局环境
@@ -28,6 +28,7 @@ public class SpearheadApplication extends Application {
 		super.onCreate();
 		CustomException customException = CustomException.getInstance();
 		customException.init(getApplicationContext());
+		sharedDate = new SharedPrefrenceData(this);
 	}
 
 	// 单例模式中获取唯一的MyApplication实例
