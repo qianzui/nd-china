@@ -60,7 +60,7 @@ public class SpearheadActivity extends TabActivity {
 		SpearheadApplication.getInstance().addActivity(this);
 		firehelp = (ImageView) findViewById(R.id.help_image);
 		initScene();
-//		switchScene();
+		switchScene();
 	}
 
 	/**
@@ -88,9 +88,9 @@ public class SpearheadActivity extends TabActivity {
 					break;
 				case R.id.radio_button1:
 					showHelp();
-					NotificationInfo.callbyonFirstBacktoFire=true;
+					NotificationInfo.callbyonFirstBacktoFire = true;
 					tabHost.setCurrentTabByTag(TAB_FIREWALL);
-//					FireWallMainScene.switScene(0);
+					// FireWallMainScene.switScene(0);
 					break;
 				case R.id.radio_button2:
 					hideHelp();
@@ -240,7 +240,8 @@ public class SpearheadActivity extends TabActivity {
 	protected void onResume() {
 		super.onResume();
 		// 清楚通知栏信息
-		NotificationWarningControl notifyctrl = new NotificationWarningControl();
+		NotificationWarningControl notifyctrl = new NotificationWarningControl(
+				context);
 		notifyctrl.cancelAlertNotify(context);
 		isExit = false;
 		// MobclickAgent.onResume(this);

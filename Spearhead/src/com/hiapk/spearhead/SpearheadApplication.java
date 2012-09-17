@@ -12,7 +12,7 @@ import com.hiapk.exception.CustomException;
 public class SpearheadApplication extends Application {
 	private List<Activity> activityList = new LinkedList<Activity>();
 	private static SpearheadApplication instance = null;
-	private static Resources res = null;
+	private Resources res = null;
 
 	/**
 	 * 初始化全局环境

@@ -64,7 +64,6 @@ public class OnUninstallitself {
 				try {
 					Thread.sleep(500);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				if (timetap > 10) {
@@ -77,7 +76,6 @@ public class OnUninstallitself {
 
 		@Override
 		protected void onPostExecute(Long result) {
-			// TODO Auto-generated method stub
 			if (isFloatOpen) {
 				context.startService(new Intent("com.hiapk.server"));
 			} else {
@@ -91,7 +89,6 @@ public class OnUninstallitself {
 		}
 	}
 	// private void showLog(String string) {
-	// // TODO Auto-generated method stub
 	// // Log.d("Onreinstall", string);
 	// }
 }
