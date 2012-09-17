@@ -98,7 +98,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		// "day"
 		// + trafficalert.isTrafficOverDaySet(context));
 
-		TrafficAlert trafficalert = new TrafficAlert();
+		TrafficAlert trafficalert = new TrafficAlert(context);
 		if (!monthHasWarning) {
 			// 月度
 			if (trafficalert.isTrafficOverMonthSet(context)) {
@@ -217,7 +217,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	 * 初始化系统时间
 	 */
 	private void initTime() {
-		// Time t = new Time("GMT+8");
 		Time t = new Time();
 		t.setToNow(); // 取得系统时间。
 		// 取得系统时间。

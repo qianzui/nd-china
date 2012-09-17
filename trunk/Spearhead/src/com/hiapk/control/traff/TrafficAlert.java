@@ -2,32 +2,45 @@ package com.hiapk.control.traff;
 
 import com.hiapk.control.widget.MobileDataSwitch;
 import com.hiapk.control.widget.NotificationWarningControl;
-import com.hiapk.util.SQLStatic;
-
+import com.hiapk.logs.Logs;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.preference.PreferenceManager;
 import android.text.format.Time;
-import android.util.Log;
 
 public class TrafficAlert {
 	// 操作sharedprefrence
-	String PREFS_NAME = "allprefs";
-	// 系统设置
-	String SYS_PRE_NOTIFY = "notifyCtrl";
-	String SYS_PRE_FLOAT_CTRL = "floatCtrl";
-	String SYS_PRE_REFRESH_FRZ = "refreshfrz";
-	String SYS_PRE_CLEAR_DATA = "cleardata";
+	private String PREFS_NAME = "allprefs";
+	// // 系统设置
+	// private String SYS_PRE_NOTIFY = "notifyCtrl";
+	// private String SYS_PRE_FLOAT_CTRL = "floatCtrl";
+	// private String SYS_PRE_REFRESH_FRZ = "refreshfrz";
+	// private String SYS_PRE_CLEAR_DATA = "cleardata";
 	// 流量预警
-	String MOBILE_WARNING_MONTH = "mobilemonthwarning";
-	String MOBILE_WARNING_DAY = "mobiledaywarning";
+	private String MOBILE_WARNING_MONTH = "mobilemonthwarning";
+	private String MOBILE_WARNING_DAY = "mobiledaywarning";
 	// 预警动作
-	String WARNING_ACTION = "warningaction";
+	private String WARNING_ACTION = "warningaction";
 	// 流量预警标识
-	String MOBILE_HAS_WARNING_MONTH = "mobilemonthhaswarning";
-	String MOBILE_HAS_WARNING_DAY = "mobiledayhaswarning";
+	private String MOBILE_HAS_WARNING_MONTH = "mobilemonthhaswarning";
+	private String MOBILE_HAS_WARNING_DAY = "mobiledayhaswarning";
+
 	// 系统设置
+	private SharedPreferences prefs;
+	private Editor UseEditor;
+	private MobileDataSwitch mbDatactrl;
+	private NotificationWarningControl actNotify;
+	private String TAG = "TrafficAlert";
+
+	/**
+	 * 初始化
+	 */
+	public TrafficAlert(Context context) {
+		prefs = context.getSharedPreferences(PREFS_NAME, 0);
+		UseEditor = context.getSharedPreferences(PREFS_NAME, 0).edit();
+		mbDatactrl = new MobileDataSwitch();
+		actNotify = new NotificationWarningControl(context);
+	}
 
 	long[] monthTraffic = new long[64];
 
@@ -38,7 +51,6 @@ public class TrafficAlert {
 	 * @return
 	 */
 	public boolean isTrafficOverMonthSet(Context context) {
-		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
 		long monthWarning = prefs.getLong(MOBILE_WARNING_MONTH,
 				45 * 1024 * 1024);
 		// if ((monthTraffic[0] + monthTraffic[63]) == 0) {
@@ -66,8 +78,6 @@ public class TrafficAlert {
 				&& TrafficManager.mobile_month_data[63] == 0) {
 			return false;
 		} else {
-			SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME,
-					0);
 			long warningDayset = prefs.getLong(MOBILE_WARNING_DAY,
 					5 * 1024 * 1024);
 			if ((TrafficManager.mobile_month_data[getDay()] + TrafficManager.mobile_month_data[getDay() + 31]) > warningDayset) {
@@ -85,10 +95,7 @@ public class TrafficAlert {
 	 * @param context
 	 */
 	public void exeWarningActionDay(Context context) {
-		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-		Editor UseEditor = context.getSharedPreferences(PREFS_NAME, 0).edit();
 		int WarningAction = prefs.getInt(WARNING_ACTION, 0);
-		MobileDataSwitch mbDatactrl = new MobileDataSwitch();
 		switch (WarningAction) {
 		case 0:
 			startDayNotify(context, false);
@@ -125,10 +132,7 @@ public class TrafficAlert {
 	 * @param context
 	 */
 	public void exeWarningActionMonth(Context context) {
-		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-		Editor UseEditor = context.getSharedPreferences(PREFS_NAME, 0).edit();
 		int WarningAction = prefs.getInt(WARNING_ACTION, 0);
-		MobileDataSwitch mbDatactrl = new MobileDataSwitch();
 		switch (WarningAction) {
 		case 0:
 			startMonthNotify(context, false);
@@ -187,30 +191,14 @@ public class TrafficAlert {
 	}
 
 	private void startMonthNotify(Context context, boolean vibrate) {
-		// SharedPreferences prefs_setting = PreferenceManager
-		// .getDefaultSharedPreferences(context);
-		// boolean allowNotify = prefs_setting.getBoolean(SYS_PRE_NOTIFY, true);
-		// showLog(allowNotify + "");
-		// if (allowNotify) {
-		NotificationWarningControl actNotify = new NotificationWarningControl();
 		actNotify.startNotifyMonth(context, vibrate);
-		// }
 	}
 
 	private void startDayNotify(Context context, boolean vibrate) {
-		SharedPreferences prefs_setting = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		boolean allowNotify = prefs_setting.getBoolean(SYS_PRE_NOTIFY, true);
-		// showLog(allowNotify + "");
-		if (allowNotify) {
-			NotificationWarningControl actNotify = new NotificationWarningControl();
-			actNotify.startNotifyDay(context, vibrate);
-		}
+		actNotify.startNotifyDay(context, vibrate);
 	}
 
 	private void showLog(String string) {
-		if (SQLStatic.isshowLog) {
-			Log.d("TrafficAlert", string);
-		}
+		Logs.d(TAG, string);
 	}
 }

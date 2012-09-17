@@ -13,12 +13,14 @@ import android.os.Bundle;
 public class NotificationWarningControl {
 	private static final int MONTH_WARNING_ID = 2;
 	private static final int DAY_WARNING_ID = 3;
+	private NotificationManager mNotificationManager;
 
-	public void startNotifyDay(Context context, boolean vibrate) {
-		NotificationManager mNotificationManager;
+	public NotificationWarningControl(Context context) {
 		mNotificationManager = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
+	}
 
+	public void startNotifyDay(Context context, boolean vibrate) {
 		int icon = R.drawable.icon_3_n; // 通知图标
 
 		CharSequence tickerText = context.getString(R.string.reach_day_alert); // 状态栏(Status
@@ -46,9 +48,6 @@ public class NotificationWarningControl {
 	}
 
 	public void startNotifyMonth(Context context, boolean vibrate) {
-		NotificationManager mNotificationManager = (NotificationManager) context
-				.getSystemService(Context.NOTIFICATION_SERVICE);
-
 		int icon = R.drawable.icon_3_n; // 通知图标
 
 		CharSequence tickerText = context.getString(R.string.reach_month_alert); // 状态栏(Status
@@ -76,8 +75,6 @@ public class NotificationWarningControl {
 	}
 
 	public void cancelAlertNotify(Context context) {
-		NotificationManager mNotificationManager = (NotificationManager) context
-				.getSystemService(Context.NOTIFICATION_SERVICE);
 		mNotificationManager.cancel(3);
 		mNotificationManager.cancel(2);
 	}
