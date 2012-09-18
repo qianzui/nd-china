@@ -35,7 +35,6 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import com.hiapk.ui.custom.CustomDialogOtherBeen;
-import com.hiapk.ui.custom.CustomSPBeen;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -50,7 +49,6 @@ import android.content.pm.PackageInfo;
  */
 public class Block {
 
-	private static final String VERSION = "1.5.1c";
 	/** special application UID used to indicate "any application" */
 	private static final int SPECIAL_UID_ANY = -10;
 	/** special application UID used to indicate the Linux Kernel */
@@ -142,7 +140,8 @@ public class Block {
 	 *            indicates if errors should be alerted
 	 */
 	private static boolean applyIptablesRulesImpl(Context ctx,
-			List<Integer> uidsWifi, List<Integer> uids3g, boolean showErrors) {
+			List<Integer> uidsWifi, List<Integer> uids3g, boolean showErrors,
+			boolean showDialog) {
 		if (ctx == null) {
 			return false;
 		}
@@ -201,24 +200,24 @@ public class Block {
 					: "droidwall-reject");
 			final boolean any_3g = uids3g.indexOf(SPECIAL_UID_ANY) >= 0;
 			final boolean any_wifi = uidsWifi.indexOf(SPECIAL_UID_ANY) >= 0;
-			if (whitelist && !any_wifi) {
-				// When "white listing" wifi, we need to ensure that the dhcp
-				// and wifi users are allowed
-				int uid = android.os.Process.getUidForName("dhcp");
-				if (uid != -1) {
-					script.append("# dhcp user\n");
-					script.append(
-							"$IPTABLES -A droidwall-wifi -m owner --uid-owner ")
-							.append(uid).append(" -j RETURN || exit\n");
-				}
-				uid = android.os.Process.getUidForName("wifi");
-				if (uid != -1) {
-					script.append("# wifi user\n");
-					script.append(
-							"$IPTABLES -A droidwall-wifi -m owner --uid-owner ")
-							.append(uid).append(" -j RETURN || exit\n");
-				}
-			}
+//			if (whitelist && !any_wifi) {
+//				// When "white listing" wifi, we need to ensure that the dhcp
+//				// and wifi users are allowed
+//				int uid = android.os.Process.getUidForName("dhcp");
+//				if (uid != -1) {
+//					script.append("# dhcp user\n");
+//					script.append(
+//							"$IPTABLES -A droidwall-wifi -m owner --uid-owner ")
+//							.append(uid).append(" -j RETURN || exit\n");
+//				}
+//				uid = android.os.Process.getUidForName("wifi");
+//				if (uid != -1) {
+//					script.append("# wifi user\n");
+//					script.append(
+//							"$IPTABLES -A droidwall-wifi -m owner --uid-owner ")
+//							.append(uid).append(" -j RETURN || exit\n");
+//				}
+//			}
 			if (any_3g) {
 				if (blacklist) {
 					/* block any application on this interface */
@@ -295,10 +294,11 @@ public class Block {
 				// alert(ctx, "Ó¦ÓÃ·À»ðÇ½³ö´í: " + code + "\n\n"
 				// + msg.trim()
 				// );
-				CustomDialogOtherBeen customdialog = new CustomDialogOtherBeen(
-						ctx);
-				customdialog.dialogOpenFireWallFail();
-
+				if (showDialog) {
+					CustomDialogOtherBeen customdialog = new CustomDialogOtherBeen(
+							ctx);
+					customdialog.dialogOpenFireWallFail();
+				}
 			} else {
 				return true;
 			}
@@ -321,7 +321,8 @@ public class Block {
 	 * @param showErrors
 	 *            indicates if errors should be alerted
 	 */
-	public static boolean applyIptablesRules(Context ctx, boolean showErrors) {
+	public static boolean applyIptablesRules(Context ctx, boolean showErrors,
+			boolean showDialog) {
 		if (ctx == null) {
 			return false;
 		}
@@ -357,7 +358,8 @@ public class Block {
 				}
 			}
 		}
-		return applyIptablesRulesImpl(ctx, uids_wifi, uids_3g, showErrors);
+		return applyIptablesRulesImpl(ctx, uids_wifi, uids_3g, showErrors,
+				showDialog);
 	}
 
 	/**

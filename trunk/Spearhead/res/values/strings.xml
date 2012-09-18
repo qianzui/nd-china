@@ -45,9 +45,11 @@
     <string name="mobile_notsupport">您的手机或者Android系统版本不支持操作移动数据开关</string>
     <string name="mobile_on">移动网络正在开启</string>
     <string name="mobile_off">移动网络正在关闭</string>
+    <string name="fire_wall_open_fail_sysboot">防火墙启动失败，请点击重试。</string>
     <string name="reach_day_alert">已达日流量预警值</string>
     <string name="reach_month_alert">已达月流量预警值</string>
     <string name="spearheadnotify">先锋流量监控提示</string>
+    <string name="fire_wall_open_fail_sysboot_set">防火墙应用失败</string>
     <string name="day_traff_over_set">日流量已超标</string>
     <string name="month_traff_over_set">月流量已超标</string>
     <string name="prefrence_setting_listbox_fresh">刷新状态栏和小部件的频率</string>
