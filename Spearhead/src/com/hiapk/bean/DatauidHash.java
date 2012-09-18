@@ -10,6 +10,34 @@ public class DatauidHash {
 	private long downloadmobile;
 
 	/**
+	 * 获取下载流量（部分wifi与mobile）
+	 * 
+	 * @return
+	 */
+	public long getAllDownload() {
+		return downloadwifi + downloadmobile;
+	}
+
+	/**
+	 * 获取上传流量（部分wifi与mobile）
+	 * 
+	 * @return
+	 */
+	public long getAllUpload() {
+		return uploadwifi + uploadmobile;
+	}
+
+	/**
+	 * 获取总流量
+	 * 
+	 * @return
+	 */
+	public long getTotalTraff() {
+
+		return uploadwifi + downloadwifi + uploadmobile + downloadmobile;
+	}
+
+	/**
 	 * 获取wifi上传流量
 	 * 
 	 * @return
