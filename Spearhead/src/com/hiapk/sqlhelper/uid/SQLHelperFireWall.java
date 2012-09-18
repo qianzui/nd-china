@@ -93,6 +93,7 @@ public class SQLHelperFireWall {
 			switch (fireWallType) {
 			case 1:
 				SQLStatic.uiddataWeek = result;
+
 				break;
 			case 2:
 				SQLStatic.uiddataMonth = result;

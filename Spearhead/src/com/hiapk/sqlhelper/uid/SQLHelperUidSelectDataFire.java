@@ -94,7 +94,7 @@ public class SQLHelperUidSelectDataFire {
 					weekDay);
 			if (SQLStatic.uiddataWeek != null) {
 				mp = SelectUiddownloadAnduploadPart(sqlDataBase, uidnumbers,
-						flagFire);
+						flagFire, SQLStatic.uiddataWeek);
 			} else {
 				mp = SelectUiddownloadAnduploadAll(sqlDataBase, uidnumbers,
 						flagFire);
@@ -103,7 +103,7 @@ public class SQLHelperUidSelectDataFire {
 		case 2:
 			if (SQLStatic.uiddataMonth != null) {
 				mp = SelectUiddownloadAnduploadPart(sqlDataBase, uidnumbers,
-						flagFire);
+						flagFire, SQLStatic.uiddataMonth);
 			} else {
 				mp = SelectUiddownloadAnduploadAll(sqlDataBase, uidnumbers,
 						flagFire);
@@ -112,7 +112,7 @@ public class SQLHelperUidSelectDataFire {
 		default:
 			if (SQLStatic.uiddataToday != null) {
 				mp = SelectUiddownloadAnduploadPart(sqlDataBase, uidnumbers,
-						flagFire);
+						flagFire, SQLStatic.uiddataToday);
 			} else {
 				mp = SelectUiddownloadAnduploadAll(sqlDataBase, uidnumbers,
 						flagFire);
@@ -123,8 +123,8 @@ public class SQLHelperUidSelectDataFire {
 	}
 
 	private HashMap<Integer, DatauidHash> SelectUiddownloadAnduploadPart(
-			SQLiteDatabase sqlDataBase, int[] uidnumbers, int flagFire) {
-		HashMap<Integer, DatauidHash> mp = new HashMap<Integer, DatauidHash>();
+			SQLiteDatabase sqlDataBase, int[] uidnumbers, int flagFire,
+			HashMap<Integer, DatauidHash> mp) {
 		List<ActivityManager.RunningAppProcessInfo> appProcessList = mActivityManager
 				.getRunningAppProcesses();
 		for (ActivityManager.RunningAppProcessInfo appProcessInfo : appProcessList) {
