@@ -154,4 +154,11 @@
 <color name="red_wifi_chart">#7c1624</color>
 <color name="gray_main_background">#efefef</color>
 <color name="yellow_main_chart_pressed">#ffffa9</color><!--淡黄色 --> 
+<color name="translucent">#e0000000</color>
+<color name="one">#f58220</color>
+<color name="two">#8552a1</color>
+<color name="three">#7fb80e</color>
+<color name="four">#f15b6c</color>
+<color name="five">#1a2933</color>
+<color name="zero">#2a5caa</color>
 </resources> 

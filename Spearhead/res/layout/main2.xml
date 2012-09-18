@@ -17,13 +17,21 @@
         android:paddingRight="10dip" >
 
         <TextView
-            android:id="@+id/main2Title"
+            android:id="@+id/firewall_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/main_2"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dip"
             android:textColor="@color/white"
             android:textSize="23sp" />
+        <Button
+            android:id="@+id/setting_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="设置"
+            />
     </RelativeLayout>
     <!-- 标题栏结束 -->
 
@@ -40,7 +48,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:text="  所有应用程序占用的流量排行"
             android:textColor="@color/darkgray2"
             android:textSize="14sp" />
 
@@ -50,6 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:visibility="invisible"
             android:text="WIFI  "
             android:textColor="@color/darkgray2"
             android:textSize="14sp" />
@@ -60,6 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/wifi_icon"
+            android:visibility="invisible"
             android:text="2G/3G    "
             android:textColor="@color/darkgray2"
             android:textSize="14sp" />
@@ -82,7 +91,6 @@
             android:cacheColorHint="#00000000"
             android:divider="@drawable/divider"
             android:dividerHeight="0.5dip" />
-
         <LinearLayout
             android:id="@+id/loading_content"
             android:layout_width="fill_parent"
@@ -104,5 +112,49 @@
                 android:textSize="18sp" />
         </LinearLayout>
     </FrameLayout>
+    <LinearLayout
+        android:id="@+id/setting_menu"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/maintab_title_bg0"
+        android:orientation="horizontal"
+        android:paddingRight="10dip" >
+       <Button
+           android:layout_width="fill_parent"
+           android:layout_height="0dip"
+           android:layout_weight="1"
+           android:text="测试1" />
+
+       <Button
+           android:layout_width="fill_parent"
+           android:layout_height="0dip"
+           android:layout_weight="1"
+           android:text="测试2" />
+
+       <Button
+           android:layout_width="fill_parent"
+           android:layout_height="0dip"
+           android:layout_weight="1"
+           android:text="测试3" />
+
+       <Button
+           android:layout_width="fill_parent"
+           android:layout_height="0dip"
+           android:layout_weight="1"
+           android:text="测试4" />
+
+       <Button
+           android:layout_width="fill_parent"
+           android:layout_height="0dip"
+           android:layout_weight="1"
+           android:text="测试5" />
+
+       <Button
+           android:layout_width="fill_parent"
+           android:layout_height="0dip"
+           android:layout_weight="1"
+           android:text="测试6" />
+
+    </LinearLayout>
 
 </LinearLayout>

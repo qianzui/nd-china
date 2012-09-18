@@ -4,11 +4,14 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.hiapk.bean.DatauidHash;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.traff.TrafficManager;
+import com.hiapk.logs.Logs;
 import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.R;
 import com.hiapk.util.SQLStatic;
+import com.hiapk.util.SharedPrefrenceData;
 import com.hiapk.util.UnitHandler;
 
 import android.app.AlertDialog;
@@ -38,22 +41,24 @@ public class AppListAdapter extends BaseAdapter {
 	private ArrayList<PackageInfo> myAppList;
 	private LayoutInflater inflater;
 	private Context mContext;
-	HashMap map;
+	public  HashMap map;
 	public static SyncImageLoader syncImageLoader = new SyncImageLoader();
-	public static ListView mListView;
+	public SharedPrefrenceData sharedpref;
 	ArrayList<Integer> uidList;
 	HashMap<Integer, PackageInfo> appList;
 	HashMap<Integer, String> appname;
+	HashMap<Integer, DatauidHash> uiddata;
 	int uid;
 
-	public AppListAdapter(Context context, ArrayList<PackageInfo> myAppList,
-			ListView mListView, HashMap<Integer, String> appname,
-			HashMap<Integer, PackageInfo> appList, ArrayList<Integer> uidList) {
+	public AppListAdapter(Context context , ArrayList<PackageInfo> myAppList 
+			,HashMap<Integer,String> appname,HashMap<Integer, DatauidHash> uiddata      
+			,HashMap<Integer,PackageInfo> appList, ArrayList<Integer> uidList) {
 		inflater = LayoutInflater.from(context);
 		this.mContext = context;
+		sharedpref = new SharedPrefrenceData(mContext);
 		this.map = Block.getMap(context, myAppList);
-		this.mListView = mListView;
 		this.appname = appname;
+		this.uiddata = uiddata;
 		this.appList = appList;
 		this.uidList = uidList;
 	}
@@ -85,14 +90,11 @@ public class AppListAdapter extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.app_list_item, null);
 			holder.icon = (ImageView) convertView.findViewById(R.id.icon);
 			holder.appname = (TextView) convertView.findViewById(R.id.app_name);
-			holder.trafficup = (TextView) convertView
-					.findViewById(R.id.trafficup);
-			holder.e_toggle = (CheckBox) convertView
-					.findViewById(R.id.e_toggle);
-			holder.wifi_toggle = (CheckBox) convertView
-					.findViewById(R.id.wifi_toggle);
-			holder.ll = (LinearLayout) convertView
-					.findViewById(R.id.detail_menu);
+			holder.trafficup = (TextView) convertView.findViewById(R.id.trafficup);
+			holder.traffic_title = (TextView) convertView.findViewById(R.id.traffic_title);
+			holder.e_toggle = (CheckBox) convertView.findViewById(R.id.e_toggle);
+			holder.wifi_toggle = (CheckBox) convertView.findViewById(R.id.wifi_toggle);
+			holder.ll = (LinearLayout)convertView.findViewById(R.id.detail_menu);
 			convertView.setTag(R.id.tag_holder, holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag(R.id.tag_holder);
@@ -100,7 +102,6 @@ public class AppListAdapter extends BaseAdapter {
 
 		int uid = uidList.get(position);
 		PackageInfo pkgInfo = appList.get(uid);
-		long traffic[] = TrafficManager.getUidtraff(mContext, uid);
 
 		if (appname.containsKey(uid)) {
 			holder.appname.setText(appname.get(uid));
@@ -112,7 +113,76 @@ public class AppListAdapter extends BaseAdapter {
 				R.drawable.ic_launcher));
 
 		holder.icon.setTag(position);
-		holder.trafficup.setText(UnitHandler.unitHandlerAccurate(traffic[0]));
+		switch (sharedpref.getFireWallType()) {
+		case 0:
+			holder.traffic_title.setText("今日流量：");
+			if (uiddata.containsKey(uid)) {
+				holder.trafficup.setText(UnitHandler
+						.unitHandlerAccurate(uiddata.get(uid).getTotalTraff()));
+			} else {
+				holder.trafficup.setText("1:" + uid);
+			}
+			break;
+		case 1:
+			holder.traffic_title.setText("本周流量：");
+			if (uiddata.containsKey(uid)) {
+				holder.trafficup.setText(UnitHandler
+						.unitHandlerAccurate(uiddata.get(uid).getTotalTraff()));
+			} else {
+				holder.trafficup.setText("0");
+			}
+			break;
+		case 2:
+			holder.traffic_title.setText("本月流量：");
+			if (uiddata.containsKey(uid)) {
+				holder.trafficup.setText(UnitHandler
+						.unitHandlerAccurate(uiddata.get(uid).getTotalTraff()));
+			} else {
+				holder.trafficup.setText("0");
+			}
+			break;
+		case 3:
+			holder.traffic_title.setText("移动流量：");
+			if (uiddata.containsKey(uid)) {
+				holder.trafficup.setText(UnitHandler
+						.unitHandlerAccurate(uiddata.get(uid)
+								.getDownloadmobile()
+								+ uiddata.get(uid).getUploadmobile()));
+			} else {
+				holder.trafficup.setText("0");
+			}
+			break;
+		case 4:
+			holder.traffic_title.setText("WIFI流量：");
+			if (uiddata.containsKey(uid)) {
+				holder.trafficup.setText(UnitHandler
+						.unitHandlerAccurate(uiddata.get(uid).getDownloadwifi()
+								+ uiddata.get(uid).getUploadwifi()));
+			} else {
+				holder.trafficup.setText("0");
+			}
+
+			break;
+		case 5:
+			holder.traffic_title.setText("通知栏流量：");
+			if (uiddata.containsKey(uid)) {
+				holder.trafficup.setText(UnitHandler
+						.unitHandlerAccurate(uiddata.get(uid).getTotalTraff()));
+			} else {
+				holder.trafficup.setText("0");
+			}
+			break;
+		default:
+			holder.traffic_title.setText("今日流量：");
+			if (uiddata.containsKey(uid)) {
+				holder.trafficup.setText(UnitHandler
+						.unitHandlerAccurate(uiddata.get(uid).getTotalTraff()));
+			} else {
+				holder.trafficup.setText("0");
+			}
+			break;
+		}
+		
 		syncImageLoader.loadImage(position, pkgInfo, mContext,
 				imageLoadListener, holder.icon, uid);
 		holder.e_toggle.setChecked(ic.selected_3g);
@@ -124,22 +194,20 @@ public class AppListAdapter extends BaseAdapter {
 		convertView.setTag(R.id.tag_pkginfo, pkgInfo);
 		return convertView;
 	}
-
-	SyncImageLoader.OnImageLoadListener imageLoadListener = new SyncImageLoader.OnImageLoadListener() {
-		@Override
-		public void onImageLoad(Integer t, Drawable drawable, ImageView view,
-				int uid) {
-			ImageView icon = (ImageView) mListView.findViewWithTag(t);
-			if (icon != null) {
-				icon.setImageDrawable(drawable);
-			}
-		}
-
-		@Override
-		public void onError(Integer t) {
-
-		}
-	};
+	
+	SyncImageLoader.OnImageLoadListener imageLoadListener = new SyncImageLoader.OnImageLoadListener(){  
+	    @Override  
+	    public void onImageLoad(Integer t, Drawable drawable, ImageView view,int uid) { 
+	    	ImageView icon = (ImageView)FireWallActivity.appListView.findViewWithTag(t);
+	    	if(icon != null){
+	    		icon.setImageDrawable(drawable); 
+	    	}
+	    }  
+	    @Override  
+	    public void onError(Integer t) {  
+	    	
+	    }
+	};  
 
 	public long judge(long tff) {
 		if (tff == -1)
@@ -150,6 +218,7 @@ public class AppListAdapter extends BaseAdapter {
 	class ViewHolder {
 		ImageView icon;
 		TextView appname;
+		TextView traffic_title;
 		TextView trafficup;
 		CheckBox e_toggle;
 		CheckBox wifi_toggle;
