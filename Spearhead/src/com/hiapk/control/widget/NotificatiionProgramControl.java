@@ -10,6 +10,7 @@ import android.widget.RemoteViews;
 
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.Splash;
+import com.hiapk.spearhead.WindowNotifyDialog;
 
 /**
  * 程序的通知栏

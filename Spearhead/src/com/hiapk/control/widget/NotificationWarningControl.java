@@ -75,7 +75,7 @@ public class NotificationWarningControl {
 	}
 
 	public void cancelAlertNotify(Context context) {
-		mNotificationManager.cancel(3);
-		mNotificationManager.cancel(2);
+		mNotificationManager.cancel(DAY_WARNING_ID);
+		mNotificationManager.cancel(MONTH_WARNING_ID);
 	}
 }

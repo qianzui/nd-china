@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.traff.TrafficManager;
+import com.hiapk.control.widget.NotificationFireFailOnsysBoot;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.firewall.Block;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
@@ -56,8 +57,14 @@ public class Onsysreboot {
 			showLog("xitongqidong");
 		}
 		// 开启防火墙
+		boolean isOpenSucess = false;
 		if (!iptableEmpty(context)) {
-			Block.applyIptablesRules(context, false);
+			isOpenSucess = Block.applyIptablesRules(context, true, false);
+			if (!isOpenSucess) {
+				NotificationFireFailOnsysBoot openFireFail = new NotificationFireFailOnsysBoot(
+						context);
+				openFireFail.startNotifyDay(context, false);
+			}
 		}
 		// 发送零点重置广播
 		context.sendBroadcast(new Intent(ACTION_TIME_CHANGED));

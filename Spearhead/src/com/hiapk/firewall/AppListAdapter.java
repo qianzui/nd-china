@@ -42,13 +42,13 @@ public class AppListAdapter extends BaseAdapter {
 	public static SyncImageLoader syncImageLoader = new SyncImageLoader();
 	public static ListView mListView;
 	ArrayList<Integer> uidList;
-	HashMap<Integer,PackageInfo> appList;
-	HashMap<Integer,String> appname;
+	HashMap<Integer, PackageInfo> appList;
+	HashMap<Integer, String> appname;
 	int uid;
 
-	public AppListAdapter(Context context , ArrayList<PackageInfo> myAppList,ListView mListView 
-			,HashMap<Integer,String> appname      
-			,HashMap<Integer,PackageInfo> appList, ArrayList<Integer> uidList) {
+	public AppListAdapter(Context context, ArrayList<PackageInfo> myAppList,
+			ListView mListView, HashMap<Integer, String> appname,
+			HashMap<Integer, PackageInfo> appList, ArrayList<Integer> uidList) {
 		inflater = LayoutInflater.from(context);
 		this.mContext = context;
 		this.map = Block.getMap(context, myAppList);
@@ -57,6 +57,7 @@ public class AppListAdapter extends BaseAdapter {
 		this.appList = appList;
 		this.uidList = uidList;
 	}
+
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
@@ -74,6 +75,7 @@ public class AppListAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
@@ -83,52 +85,61 @@ public class AppListAdapter extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.app_list_item, null);
 			holder.icon = (ImageView) convertView.findViewById(R.id.icon);
 			holder.appname = (TextView) convertView.findViewById(R.id.app_name);
-			holder.trafficup = (TextView) convertView.findViewById(R.id.trafficup);
-			holder.e_toggle = (CheckBox) convertView.findViewById(R.id.e_toggle);
-			holder.wifi_toggle = (CheckBox) convertView.findViewById(R.id.wifi_toggle);
-			holder.ll = (LinearLayout)convertView.findViewById(R.id.detail_menu);
+			holder.trafficup = (TextView) convertView
+					.findViewById(R.id.trafficup);
+			holder.e_toggle = (CheckBox) convertView
+					.findViewById(R.id.e_toggle);
+			holder.wifi_toggle = (CheckBox) convertView
+					.findViewById(R.id.wifi_toggle);
+			holder.ll = (LinearLayout) convertView
+					.findViewById(R.id.detail_menu);
 			convertView.setTag(R.id.tag_holder, holder);
 		} else {
-			holder = (ViewHolder)convertView.getTag(R.id.tag_holder);
+			holder = (ViewHolder) convertView.getTag(R.id.tag_holder);
 		}
-		
+
 		int uid = uidList.get(position);
 		PackageInfo pkgInfo = appList.get(uid);
 		long traffic[] = TrafficManager.getUidtraff(mContext, uid);
-		
-		if(appname.containsKey(uid)){
+
+		if (appname.containsKey(uid)) {
 			holder.appname.setText(appname.get(uid));
-		}else{
+		} else {
 			holder.appname.setText("ªÒ»°÷–...");
 		}
 		IsChecked ic = (IsChecked) map.get(uid);
-		holder.icon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_launcher));
-		
+		holder.icon.setImageDrawable(mContext.getResources().getDrawable(
+				R.drawable.ic_launcher));
+
 		holder.icon.setTag(position);
 		holder.trafficup.setText(UnitHandler.unitHandlerAccurate(traffic[0]));
-		syncImageLoader.loadImage(position,pkgInfo,mContext,imageLoadListener ,holder.icon,uid);
+		syncImageLoader.loadImage(position, pkgInfo, mContext,
+				imageLoadListener, holder.icon, uid);
 		holder.e_toggle.setChecked(ic.selected_3g);
 		holder.wifi_toggle.setChecked(ic.selected_wifi);
 		holder.e_toggle.setOnClickListener(new EListener(holder.e_toggle, ic));
-		holder.wifi_toggle.setOnClickListener(new WifiListener(holder.wifi_toggle, ic));
+		holder.wifi_toggle.setOnClickListener(new WifiListener(
+				holder.wifi_toggle, ic));
 		holder.ll.setVisibility(View.GONE);
 		convertView.setTag(R.id.tag_pkginfo, pkgInfo);
 		return convertView;
 	}
-	
-	SyncImageLoader.OnImageLoadListener imageLoadListener = new SyncImageLoader.OnImageLoadListener(){  
-	    @Override  
-	    public void onImageLoad(Integer t, Drawable drawable, ImageView view,int uid) { 
-	    	ImageView icon = (ImageView)mListView.findViewWithTag(t);
-	    	if(icon != null){
-	    		icon.setImageDrawable(drawable); 
-	    	}
-	    }  
-	    @Override  
-	    public void onError(Integer t) {  
-	    	
-	    }
-	};  
+
+	SyncImageLoader.OnImageLoadListener imageLoadListener = new SyncImageLoader.OnImageLoadListener() {
+		@Override
+		public void onImageLoad(Integer t, Drawable drawable, ImageView view,
+				int uid) {
+			ImageView icon = (ImageView) mListView.findViewWithTag(t);
+			if (icon != null) {
+				icon.setImageDrawable(drawable);
+			}
+		}
+
+		@Override
+		public void onError(Integer t) {
+
+		}
+	};
 
 	public long judge(long tff) {
 		if (tff == -1)
@@ -196,7 +207,8 @@ public class AppListAdapter extends BaseAdapter {
 							if (GetRoot.assertBinaries(mContext, true)) {
 								ic.selected_3g = cb.isChecked();
 								Block.saveRules(mContext, map);
-								if (Block.applyIptablesRules(mContext, true)) {
+								if (Block.applyIptablesRules(mContext, true,
+										true)) {
 									Toast.makeText(mContext,
 											R.string.fire_applyed,
 											Toast.LENGTH_SHORT).show();
@@ -227,7 +239,7 @@ public class AppListAdapter extends BaseAdapter {
 					if (GetRoot.assertBinaries(mContext, true)) {
 						ic.selected_3g = cb.isChecked();
 						Block.saveRules(mContext, map);
-						if (Block.applyIptablesRules(mContext, true)) {
+						if (Block.applyIptablesRules(mContext, true, true)) {
 							Toast.makeText(mContext, R.string.fire_applyed,
 									Toast.LENGTH_SHORT).show();
 						} else {
@@ -326,7 +338,8 @@ public class AppListAdapter extends BaseAdapter {
 								Block.isShowTipSet(mContext, false);
 								ic.selected_wifi = cb.isChecked();
 								Block.saveRules(mContext, map);
-								if (Block.applyIptablesRules(mContext, true)) {
+								if (Block.applyIptablesRules(mContext, true,
+										true)) {
 									Toast.makeText(mContext,
 											R.string.fire_applyed,
 											Toast.LENGTH_SHORT).show();
@@ -356,7 +369,7 @@ public class AppListAdapter extends BaseAdapter {
 					if (GetRoot.assertBinaries(mContext, true)) {
 						ic.selected_wifi = cb.isChecked();
 						Block.saveRules(mContext, map);
-						if (Block.applyIptablesRules(mContext, true)) {
+						if (Block.applyIptablesRules(mContext, true, true)) {
 							Toast.makeText(mContext, R.string.fire_applyed,
 									Toast.LENGTH_SHORT).show();
 						} else {
