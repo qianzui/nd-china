@@ -45,6 +45,10 @@ public class SQLStatic {
 	// 在SQLuidother里面也有更新
 	public static String packagename_ALL = null;
 	/**
+	 * 防火墙使用的uid数据
+	 */
+	public static HashMap<Integer, DatauidHash> uiddata = null;
+	/**
 	 * 今日uid数据
 	 */
 	public static HashMap<Integer, DatauidHash> uiddataToday = null;

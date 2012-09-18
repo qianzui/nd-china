@@ -23,7 +23,7 @@ public class SQLHelperFireWall {
 		fireWallType = sharedData.getFireWallType();
 		if (fireWallType > 2)
 			fireWallType = 2;
-
+		setCacheuiddata(fireWallType);
 		time = System.currentTimeMillis();
 		// AlarmSet alset = new AlarmSet();
 		// alset.StartAlarm(context);
@@ -80,10 +80,8 @@ public class SQLHelperFireWall {
 			} finally {
 				sqlDataBase.endTransaction();
 			}
-
 			SQLHelperCreateClose.closeSQL(sqlDataBase);
 			SQLStatic.setSQLUidOnUsed(false);
-			// SQLStatic.uiddata = mp;
 
 			return mp;
 		}
@@ -103,9 +101,29 @@ public class SQLHelperFireWall {
 				SQLStatic.uiddataToday = result;
 				break;
 			}
-
+			SQLStatic.uiddata = result;
 			isReseting = false;
 		}
 	}
 
+	private void setCacheuiddata(int fireWallType) {
+		switch (fireWallType) {
+		case 1:
+			if (SQLStatic.uiddataWeek != null) {
+				SQLStatic.uiddata = SQLStatic.uiddataWeek;
+			}
+			break;
+		case 2:
+			if (SQLStatic.uiddataMonth != null) {
+				SQLStatic.uiddata = SQLStatic.uiddataMonth;
+			}
+			break;
+		default:
+			if (SQLStatic.uiddataToday != null) {
+				SQLStatic.uiddata = SQLStatic.uiddataToday;
+			}
+			break;
+		}
+
+	}
 }
