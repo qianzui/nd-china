@@ -63,7 +63,7 @@ public class Block {
 	public static final String PREF_HELP = "isShwoHelp";
 	public static final String PREF_TIP = "FireTip";
 	// Preferences
-	private static final String PREFS_NAME = "DroidWallPrefs";
+	public static final String PREFS_NAME = "DroidWallPrefs";
 	public static boolean isChanged = false;
 	public static HashMap<Integer, String> appnamemap = new HashMap<Integer, String>();
 	public static HashMap<Integer, PackageInfo> appList = new HashMap<Integer, PackageInfo>();

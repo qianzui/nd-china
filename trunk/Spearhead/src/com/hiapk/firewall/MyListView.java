@@ -2,6 +2,7 @@ package com.hiapk.firewall;
 
 import java.util.Date;
 
+import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.R;
 
 import android.content.Context;
@@ -128,10 +129,10 @@ public class MyListView extends ListView implements OnScrollListener {
 	}
 
 	public static void loadImage() {
-		int start = AppListAdapter.mListView.getFirstVisiblePosition() - 1;
-		int end = AppListAdapter.mListView.getLastVisiblePosition();
-		if (end >= AppListAdapter.mListView.getCount()) {
-			end = AppListAdapter.mListView.getCount() - 1;
+		int start =FireWallActivity.appListView.getFirstVisiblePosition() - 1;
+		int end = FireWallActivity.appListView.getLastVisiblePosition();
+		if (end >= FireWallActivity.appListView.getCount()) {
+			end = FireWallActivity.appListView.getCount() - 1;
 		}
 		AppListAdapter.syncImageLoader.setLoadLimit(start, end);
 		AppListAdapter.syncImageLoader.unlock();
