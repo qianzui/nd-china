@@ -438,7 +438,7 @@ public class FireWallActivity extends Activity {
 						initData();
 						Log.i("test","uiddata:" + SQLStatic.uiddata.size());
 						return null;
-					}
+					} 
 
 					@Override
 					protected void onPostExecute(Void result) {
