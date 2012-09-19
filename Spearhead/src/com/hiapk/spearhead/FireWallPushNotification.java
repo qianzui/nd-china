@@ -202,17 +202,17 @@ public class FireWallPushNotification extends Activity {
 	@Override
 	protected void onResume() {
 		showLog("onResume");
-		showLog("callbyonResume=" + NotificationInfo.callbyonResume);
+		showLog("callbyonResume=" + NotificationInfo.callbyonCancel);
 		super.onResume();
 		if (callbyonCreate)
 			return;
-		if (NotificationInfo.callbyonResume)
+		if (NotificationInfo.callbyonCancel)
 			return;
 		if (NotificationInfo.callbyonFirstBacktoFire)
 			return;
 
 		showLoadingView();
-		NotificationInfo.callbyonResume = true;
+		NotificationInfo.callbyonCancel = true;
 		if (NotificationInfo.notificationRes.length() == 0) {
 			new AsyncTaskGetAdbArrayListonResume().execute(context);
 		}
@@ -296,7 +296,7 @@ public class FireWallPushNotification extends Activity {
 			if (String.valueOf(NotificationInfo.notificationRes).contains(
 					"Notification")) {
 				showNotificationView();
-				NotificationInfo.callbyonResume = false;
+				NotificationInfo.callbyonCancel = false;
 			} else {
 				// if
 				// (NotificationInfo.notificationRes.indexOf("Permission denied")

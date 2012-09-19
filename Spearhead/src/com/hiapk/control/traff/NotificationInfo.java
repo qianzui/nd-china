@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
-import com.hiapk.logs.Logs;
 import com.hiapk.util.SQLStatic;
 
 import android.content.Context;
@@ -15,7 +14,9 @@ import android.util.Log;
 public class NotificationInfo {
 	private final static String SCRIPT_FILE = "spearedhead.sh";
 	public static StringBuilder notificationRes = new StringBuilder();
-	public static boolean callbyonResume = false;
+	public static boolean callbyonCancel = false;
+	public static boolean isgettingdata = false;
+	public static boolean hasdata = false;
 	/**
 	 * 每次跳转先跳到防火墙
 	 */
