@@ -116,6 +116,9 @@ public class MyListView extends ListView implements OnScrollListener {
 		switch (scrollState) {
 		case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
 			AppListAdapter.syncImageLoader.lock();
+			if(FireWallActivity.mPop.isShowing()){
+				FireWallActivity.mPop.dismiss();
+			}
 			break;
 		case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
 			loadImage();
