@@ -11,8 +11,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 public class NotificationWarningControl {
-	private static final int MONTH_WARNING_ID = 2;
-	private static final int DAY_WARNING_ID = 3;
+	private int MONTH_WARNING_ID = 2;
+	private int DAY_WARNING_ID = 3;
 	private NotificationManager mNotificationManager;
 
 	public NotificationWarningControl(Context context) {

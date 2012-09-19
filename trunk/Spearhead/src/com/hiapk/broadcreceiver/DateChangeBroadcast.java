@@ -2,7 +2,7 @@ package com.hiapk.broadcreceiver;
 
 import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.SetText;
-import com.hiapk.exception.WriteLog;
+import com.hiapk.logs.WriteLog;
 import com.hiapk.ui.scene.PrefrenceStaticOperator;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceData;

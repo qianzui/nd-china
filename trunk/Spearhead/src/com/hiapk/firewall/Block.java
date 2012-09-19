@@ -200,24 +200,24 @@ public class Block {
 					: "droidwall-reject");
 			final boolean any_3g = uids3g.indexOf(SPECIAL_UID_ANY) >= 0;
 			final boolean any_wifi = uidsWifi.indexOf(SPECIAL_UID_ANY) >= 0;
-//			if (whitelist && !any_wifi) {
-//				// When "white listing" wifi, we need to ensure that the dhcp
-//				// and wifi users are allowed
-//				int uid = android.os.Process.getUidForName("dhcp");
-//				if (uid != -1) {
-//					script.append("# dhcp user\n");
-//					script.append(
-//							"$IPTABLES -A droidwall-wifi -m owner --uid-owner ")
-//							.append(uid).append(" -j RETURN || exit\n");
-//				}
-//				uid = android.os.Process.getUidForName("wifi");
-//				if (uid != -1) {
-//					script.append("# wifi user\n");
-//					script.append(
-//							"$IPTABLES -A droidwall-wifi -m owner --uid-owner ")
-//							.append(uid).append(" -j RETURN || exit\n");
-//				}
-//			}
+			// if (whitelist && !any_wifi) {
+			// // When "white listing" wifi, we need to ensure that the dhcp
+			// // and wifi users are allowed
+			// int uid = android.os.Process.getUidForName("dhcp");
+			// if (uid != -1) {
+			// script.append("# dhcp user\n");
+			// script.append(
+			// "$IPTABLES -A droidwall-wifi -m owner --uid-owner ")
+			// .append(uid).append(" -j RETURN || exit\n");
+			// }
+			// uid = android.os.Process.getUidForName("wifi");
+			// if (uid != -1) {
+			// script.append("# wifi user\n");
+			// script.append(
+			// "$IPTABLES -A droidwall-wifi -m owner --uid-owner ")
+			// .append(uid).append(" -j RETURN || exit\n");
+			// }
+			// }
 			if (any_3g) {
 				if (blacklist) {
 					/* block any application on this interface */
@@ -631,6 +631,31 @@ public class Block {
 		edit.putString(PREF_3G_UIDS, newuids_3g.toString());
 		edit.putString(PREF_ALL_UIDS, newuids_all.toString());
 		edit.putBoolean(PREF_S, true);
+		edit.commit();
+	}
+
+	/**
+	 * 检查，是否防火墙规则为空
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static boolean iptableEmpty(Context context) {
+		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+		String savedUids_wifi = prefs.getString(PREF_WIFI_UIDS, "");
+		String savedUids_3g = prefs.getString(PREF_3G_UIDS, "");
+		if ((savedUids_wifi == "") && savedUids_3g == "") {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static void clearRules(Context context) {
+		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+		Editor edit = prefs.edit();
+		edit.putString(PREF_WIFI_UIDS, "");
+		edit.putString(PREF_3G_UIDS, "");
 		edit.commit();
 	}
 

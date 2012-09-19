@@ -48,7 +48,6 @@ public class Regulate extends Activity {
 		smsNum = (TextView) findViewById(R.id.smsNum);
 
 		// …Ë÷√∆§∑Ù
-		smsSend.setBackgroundResource(SkinCustomMains.buttonBackgroundLight());
 		// city = sharedData.getCity();
 		// brand = sharedData.getBrand();
 		//
@@ -158,12 +157,14 @@ public class Regulate extends Activity {
 		// umeng
 		// MobclickAgent.onResume(this);
 	}
+
 	/**
 	 * ∆§∑Ù
 	 */
 	public void initScene() {
 		FrameLayout title = (FrameLayout) findViewById(R.id.regulateTitleBackground);
 		title.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
+		smsSend.setBackgroundResource(SkinCustomMains.buttonBackgroundLight());
 	}
 
 }

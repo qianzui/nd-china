@@ -47,8 +47,6 @@ public class PhoneSet extends Activity {
 		});
 
 		next = (Button) findViewById(R.id.next);
-		// …Ë÷√∆§∑Ù
-		next.setBackgroundResource(SkinCustomMains.buttonBackgroundLight());
 		next.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -190,13 +188,17 @@ public class PhoneSet extends Activity {
 		// umeng
 		// MobclickAgent.onResume(this);
 	}
+
 	/**
 	 * ∆§∑Ù
 	 */
 	public void initScene() {
 		FrameLayout title = (FrameLayout) findViewById(R.id.phonesetTitleBackground);
 		title.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
+		// …Ë÷√∆§∑Ù
+		next.setBackgroundResource(SkinCustomMains.buttonBackgroundLight());
 	}
+
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();

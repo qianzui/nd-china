@@ -40,6 +40,8 @@ public class SharedPrefrenceData {
 	private String FireWallType = "firewalltype";
 	// 是否允许流量预警
 	private String IsAllowAlert = "isallowalert";
+	// 防火墙是否成功应用
+	private String IsFireWallOpen = "isfirewallopen";
 
 	public SharedPrefrenceData(Context context) {
 		prefs = context.getSharedPreferences(PREFS_NAME, 0);
@@ -233,6 +235,16 @@ public class SharedPrefrenceData {
 
 	public void setIsAllowAlert(boolean blean) {
 		UseEditor.putBoolean(IsAllowAlert, blean);
+		UseEditor.commit();
+	}
+
+	public boolean IsFireWallOpenFail() {
+		boolean blean = prefs.getBoolean(IsFireWallOpen, true);
+		return blean;
+	}
+
+	public void setIsFireWallOpenFail(boolean blean) {
+		UseEditor.putBoolean(IsFireWallOpen, blean);
 		UseEditor.commit();
 	}
 

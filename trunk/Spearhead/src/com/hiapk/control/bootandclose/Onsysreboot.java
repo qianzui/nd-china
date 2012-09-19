@@ -9,6 +9,7 @@ import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.NotificationFireFailOnsysBoot;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.firewall.Block;
+import com.hiapk.spearhead.SpearheadApplication;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceDataWidget;
@@ -58,9 +59,11 @@ public class Onsysreboot {
 		}
 		// ¿ªÆô·À»ðÇ½
 		boolean isOpenSucess = false;
-		if (!iptableEmpty(context)) {
+		if (!Block.iptableEmpty(context)) {
 			isOpenSucess = Block.applyIptablesRules(context, true, false);
 			if (!isOpenSucess) {
+				SpearheadApplication.getInstance().getsharedData()
+						.setIsFireWallOpenFail(true);
 				NotificationFireFailOnsysBoot openFireFail = new NotificationFireFailOnsysBoot(
 						context);
 				openFireFail.startNotifyDay(context, false);
@@ -105,21 +108,6 @@ public class Onsysreboot {
 			} else {
 				alset.StopWidgetAlarm(context);
 			}
-		}
-	}
-
-	private boolean iptableEmpty(Context context) {
-		String PREFS_NAME = "DroidWallPrefs";
-		String PREF_3G_UIDS = "AllowedUids3G";
-		String PREF_WIFI_UIDS = "AllowedUidsWifi";
-		final SharedPreferences prefs = context.getSharedPreferences(
-				PREFS_NAME, 0);
-		final String savedUids_wifi = prefs.getString(PREF_WIFI_UIDS, "");
-		final String savedUids_3g = prefs.getString(PREF_3G_UIDS, "");
-		if ((savedUids_wifi == "") && savedUids_3g == "") {
-			return true;
-		} else {
-			return false;
 		}
 	}
 
