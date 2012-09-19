@@ -194,6 +194,7 @@ public class SQLHelperUidSelectDataFire {
 			string = string.append(SelectTable).append("uid").append(uidnumber)
 					.append(Where).append("type=").append(4).append(strDate);
 		}
+		// Logs.d(TAG, string.toString());
 		try {
 			cur = mySQL.rawQuery(string.toString(), null);
 		} catch (Exception e) {
@@ -209,9 +210,12 @@ public class SQLHelperUidSelectDataFire {
 				int mindown = cur.getColumnIndex("download");
 				// showLog(cur.getColumnIndex("minute") + "");
 				if (cur.moveToFirst()) {
-					// 获得之前的上传下载值
 					a[1] = cur.getLong(minup);
 					a[2] = cur.getLong(mindown);
+				}
+				while (cur.moveToNext()) {
+					a[1] += cur.getLong(minup);
+					a[2] += cur.getLong(mindown);
 				}
 			} catch (Exception e) {
 				Logs.d(TAG, "cur-searchfail" + e);
@@ -226,6 +230,11 @@ public class SQLHelperUidSelectDataFire {
 
 	private String getDateString(SQLiteDatabase mySQL, int flagFire) {
 		StringBuilder strDate = new StringBuilder();
+		// 格式化日期
+		String month2 = month + "";
+		if (month < 10)
+			month2 = "0" + month2;
+		// 字段开头
 		strDate.append(AND_A).append("date");
 		switch (flagFire) {
 		case 1:
@@ -233,7 +242,7 @@ public class SQLHelperUidSelectDataFire {
 					.append(date).append("'").toString();
 		case 2:
 			return strDate.append(Between).append(year).append("-")
-					.append(month).append("-").append(0).append(AND_B)
+					.append(month2).append("-").append(00).append(AND_B)
 					.append(date).append("'").toString();
 		default:
 			return strDate.append("='").append(date).append("'").toString();
