@@ -93,7 +93,7 @@ public class FireWallActivity extends Activity {
 	private Context mContext = this;
 	public ProgressDialog mydialog;
 	public ProgressDialog pro;
-	public static ArrayList<Integer> uidList;
+	public static ArrayList<Integer> uidList = new ArrayList<Integer>();;
 	long time = 0;
 	Handler handler = new Handler();
 	Handler handler2 = new Handler();
@@ -390,31 +390,31 @@ public class FireWallActivity extends Activity {
 			@Override
 			public void run() {
 				getList(mContext);
-				if (Block.appList.size() == Block.appnamemap.size()) {
-					int i = 0;
-					do {
-						try {
-							i++;
-							Thread.sleep(300);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-						if (Block.appList.size() == Block.appnamemap.size()) {
-							break;
-						}
-						if (i >= 30) {
-							break;
-						}
-					} while (Block.appList.size() != Block.appnamemap.size());
-				} else {
-					getList(mContext);
-					Splash.getList(mContext);
-				}
-				do{
-					if (SQLStatic.uiddata != null) {
+				Splash.getList(mContext);
+				int i = 0;
+				Logs.i("test", "begin");
+				do {
+					try {
+						i++;
+						Thread.sleep(300);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					if (Block.appList.size() == Block.appnamemap.size()) {
+						Logs.i("test", "end1");
 						break;
 					}
-				}while (SQLStatic.uiddata == null);
+					if (i >= 30) {
+						Logs.i("test", "end1.1");
+						break;
+					}
+				} while (Block.appList.size() != Block.appnamemap.size());
+				do {
+					if (SQLStatic.uiddata != null) {
+						Logs.i("test", "end2");
+						break;
+					}
+				} while (SQLStatic.uiddata == null);
 				uidList = comp(Block.appList);
 				handler2.sendEmptyMessage(0);
 			}
