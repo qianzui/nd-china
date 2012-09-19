@@ -1,15 +1,18 @@
-package com.hiapk.exception;
+package com.hiapk.logs;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Date;
+
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
 public class WriteLog {
-	private static final String TAG = "LogWrite";
+	private String TAG = "LogWrite";
 	private String LOG_PATH_MEMORY_DIR; // 日志文件在内存中的路径(日志文件在安装目录中的路径)
 	private String LOG_PATH_SDCARD_DIR; // 日志文件在sdcard中的路径
 	private final int SDCARD_TYPE = 0; // 当前的日志记录类型为存储在SD卡下面
@@ -134,16 +137,25 @@ public class WriteLog {
 	 */
 	private String getLogPath() {
 		createLogDir();
+		String logDate = getLogDate();
 		String logFileName = "log.txt";// 日志文件名称
 		if (CURR_LOG_TYPE == MEMORY_TYPE) {
-			Log.d(TAG, "Log stored in memory, the path is:"
-					+ LOG_PATH_MEMORY_DIR + File.separator + logFileName);
-			return LOG_PATH_MEMORY_DIR + File.separator + logFileName;
+			Logs.d(TAG, "Log stored in memory, the path is:"
+					+ LOG_PATH_MEMORY_DIR + File.separator + logDate
+					+ logFileName);
+			return LOG_PATH_MEMORY_DIR + File.separator + logDate + logFileName;
 		} else {
-			Log.d(TAG, "Log stored in SDcard, the path is:"
-					+ LOG_PATH_SDCARD_DIR + File.separator + logFileName);
-			return LOG_PATH_SDCARD_DIR + File.separator + logFileName;
+			Logs.d(TAG, "Log stored in SDcard, the path is:"
+					+ LOG_PATH_SDCARD_DIR + File.separator + logDate
+					+ logFileName);
+			return LOG_PATH_SDCARD_DIR + File.separator + logDate + logFileName;
 		}
+	}
+
+	private String getLogDate() {
+		Date date = new Date();
+		DateFormat datef = DateFormat.getDateInstance();
+		return datef.format(date);
 	}
 
 	/**

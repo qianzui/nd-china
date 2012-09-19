@@ -1,4 +1,4 @@
-package com.hiapk.exception;
+package com.hiapk.logs;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -7,6 +7,7 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.lang.reflect.Field;
 import java.util.Calendar;
 import java.util.Date;
+
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
