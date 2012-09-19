@@ -89,7 +89,7 @@
         android:orientation="horizontal"
         android:paddingTop="8dip"
         android:paddingBottom="2dip"
-        android:background="@drawable/action_view_down_bg">
+        android:background="@drawable/bground_dark">
         <Button
             android:id="@+id/bt_manage"
             android:text="应用管理"

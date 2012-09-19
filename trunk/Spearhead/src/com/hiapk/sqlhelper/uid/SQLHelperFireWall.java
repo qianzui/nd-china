@@ -93,7 +93,6 @@ public class SQLHelperFireWall {
 		protected void onPostExecute(HashMap<Integer, DatauidHash> result) {
 			Logs.iop(TAG, "Recordover" + (System.currentTimeMillis() - time));
 			Logs.iop(TAG, "result.size()=" + result.size());
-			
 			Set<Integer> key = result.keySet();
 			for(Iterator it = key.iterator();it.hasNext();){
 				Integer dh = (Integer)it.next();

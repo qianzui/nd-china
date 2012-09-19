@@ -51,6 +51,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.Window;
@@ -74,23 +75,24 @@ public class FireWallActivity extends Activity {
 	protected SharedPrefrenceData sharedpref;
 	public static AppListAdapter appListAdapter;
 	public static MyListView appListView;
+	public static PopupWindow mPop;
 	public LinearLayout loading_content;
 	public ArrayList<PackageInfo> myAppList;
 	public ArrayList<PackageInfo> myAppList2;
 	private Button setting_button;
 	public TextView firewall_details;
+	public RelativeLayout title_normal;
+	public TextView title_notif;
 	public TextView firewall_title;
-	public TextView wifi_icon, e_icon;
 	public RelativeLayout main2TitleBackground;
 	public Dialog bubbleDialog;
 	public Animation showAction;
 	public View bubbleView;
-	public PopupWindow mPop;
 	public String savedUids_wifi = "";
 	public String savedUids_3g = "";
 	private Context mContext = this;
-	ProgressDialog mydialog;
-	ProgressDialog pro;
+	public ProgressDialog mydialog;
+	public ProgressDialog pro;
 	public static ArrayList<Integer> uidList;
 	long time = 0;
 	Handler handler = new Handler();
@@ -103,7 +105,7 @@ public class FireWallActivity extends Activity {
 		// MobclickAgent.onError(this);
 		setContentView(R.layout.main2);
 		init();
-		initData();
+		initUidData();
 		handler.post(new Runnable() {
 			@Override
 			public void run() {
@@ -137,10 +139,9 @@ public class FireWallActivity extends Activity {
 				}
 			}
 		};
-		setting();
 	}
 
-	private void initData() {
+	private void initUidData() {
 		SQLStatic.uiddata = null;
 		SQLHelperFireWall sql = new SQLHelperFireWall();
 		sql.resetMP(mContext);
@@ -152,54 +153,49 @@ public class FireWallActivity extends Activity {
 		appListView = (MyListView) findViewById(R.id.app_list);
 		firewall_details = (TextView) findViewById(R.id.firewall);
 		firewall_title = (TextView) findViewById(R.id.firewall_title);
-		wifi_icon = (TextView) findViewById(R.id.wifi_icon);
-		e_icon = (TextView) findViewById(R.id.e_icon);
+		setting_button = (Button) findViewById(R.id.setting_button);
 		main2TitleBackground = (RelativeLayout)findViewById(R.id.main2TitleBackground);
+		title_normal = (RelativeLayout)findViewById(R.id.title_normal);
+		title_notif  = (TextView) findViewById(R.id.title_notif);
 		main2TitleBackground.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
 		loading_content.setVisibility(View.VISIBLE);
 		// 为了退出。
 		SpearheadApplication.getInstance().addActivity(this);
 		switch (sharedpref.getFireWallType()) {
 		case 0:
-			wifi_icon.setVisibility(View.VISIBLE);
-			e_icon.setVisibility(View.VISIBLE);
+			title_normal.setVisibility(View.VISIBLE);
 			firewall_title.setText("今日流量排行");
 			break;
 		case 1:
-			wifi_icon.setVisibility(View.VISIBLE);
-			e_icon.setVisibility(View.VISIBLE);
+			title_normal.setVisibility(View.VISIBLE);
 			firewall_title.setText("本周流量排行");
 			break;
 		case 2:
-			wifi_icon.setVisibility(View.VISIBLE);
-			e_icon.setVisibility(View.VISIBLE);
+			title_normal.setVisibility(View.VISIBLE);
 			firewall_title.setText("本月流量排行");
 			break;
 		case 3:
-			wifi_icon.setVisibility(View.VISIBLE);
-			e_icon.setVisibility(View.VISIBLE);
+			title_normal.setVisibility(View.VISIBLE);
 			firewall_title.setText("移动流量排行");
 			break;
 		case 4:
-			wifi_icon.setVisibility(View.VISIBLE);
-			e_icon.setVisibility(View.VISIBLE);
+			title_normal.setVisibility(View.VISIBLE);
 			firewall_title.setText("WIFI流量排行");
 			break;
 		case 5:
-			wifi_icon.setVisibility(View.INVISIBLE);
-			e_icon.setVisibility(View.INVISIBLE);
+			title_normal.setVisibility(View.INVISIBLE);
+			title_notif.setVisibility(View.VISIBLE);
 			firewall_title.setText("通知栏流量排行");
 			break;
 		default:
-			wifi_icon.setVisibility(View.VISIBLE);
-			e_icon.setVisibility(View.VISIBLE);
+			title_normal.setVisibility(View.VISIBLE);
 			firewall_title.setText("今日流量排行");
 			break;
 		}
+		settingShowList();;
 	}
 
-	public void setting() {
-		setting_button = (Button) findViewById(R.id.setting_button);
+	public void settingShowList() {
 		bubbleView = getLayoutInflater().inflate(R.layout.fire_setting, null);
 		Button bt_today = (Button) bubbleView.findViewById(R.id.bt_today);
 		Button bt_week = (Button) bubbleView.findViewById(R.id.bt_week);
@@ -223,107 +219,120 @@ public class FireWallActivity extends Activity {
 		bt_today.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mPop.dismiss();
-				sharedpref.setFireWallType(0);
-				firewall_title.setText("今日流量排行");
-				main2TitleBackground.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
-				getList(mContext);
-				Splash.getList(mContext);
-				uidList = comp(Block.appList);
-				setAdapter();
-				appListView.onRefreshComplete();
+				switchList(0);
 
 			}
 		});
 		bt_week.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mPop.dismiss();
-				sharedpref.setFireWallType(1);
-				firewall_title.setText("本周流量排行");
-				main2TitleBackground.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
-				getList(mContext);
-				Splash.getList(mContext);
-				uidList = comp(Block.appList);
-				setAdapter();
-				appListView.onRefreshComplete();
+				switchList(1);
 
 			}
 		});
 		bt_month.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mPop.dismiss();
-				sharedpref.setFireWallType(2);
-				firewall_title.setText("本月流量排行");
-				main2TitleBackground.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
-				getList(mContext);
-				Splash.getList(mContext);
-				uidList = comp(Block.appList);
-				setAdapter();
-				appListView.onRefreshComplete();
-
+				switchList(2);
 			}
 		});
 		bt_mobile.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				mPop.dismiss();
-				sharedpref.setFireWallType(3);
-				firewall_title.setText("移动流量排行");
-				main2TitleBackground.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
-				getList(mContext);
-				Splash.getList(mContext);
-				uidList = comp(Block.appList);
-				setAdapter();
-				appListView.onRefreshComplete();
-
+				switchList(3);
 			}
 		});
 		bt_wifi.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mPop.dismiss();
-				sharedpref.setFireWallType(4);
-				firewall_title.setText("WIFI流量排行");
-				main2TitleBackground.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
-				getList(mContext);
-				Splash.getList(mContext);
-				uidList = comp(Block.appList);
-				setAdapter();
-				appListView.onRefreshComplete();
-
+				switchList(4);
 			}
 		});
 		bt_notif.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mPop.dismiss();
-				sharedpref.setFireWallType(5);
-				firewall_title.setText("通知栏流量排行");
-				main2TitleBackground.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
-				if (NotificationInfo.notificationRes.length() == 0) {
-					appListView.setVisibility(View.INVISIBLE);
-					loading_content.setVisibility(View.VISIBLE);
-					new AsyncTaskGetAdbArrayListonResume().execute(mContext);
-				} else {
-					setAdapterNotif();
-				}
+				switchList(5);
 			}
 		});
 	}
 
+	public void switchList(int i){
+		mPop.dismiss();
+		sharedpref.setFireWallType(i);
+		main2TitleBackground.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
+		switch(i){
+		case 0:
+			appListView.setVisibility(View.INVISIBLE);
+			loading_content.setVisibility(View.VISIBLE);
+			firewall_title.setText("今日流量排行");
+			setNewDataForList();
+			break;
+		case 1:
+			appListView.setVisibility(View.INVISIBLE);
+			loading_content.setVisibility(View.VISIBLE);
+			firewall_title.setText("本周流量排行");
+			setNewDataForList();
+			break;
+		case 2:
+			appListView.setVisibility(View.INVISIBLE);
+			loading_content.setVisibility(View.VISIBLE);
+			firewall_title.setText("本月流量排行");
+			setNewDataForList();
+			break;
+		case 3:
+			appListView.setVisibility(View.INVISIBLE);
+			loading_content.setVisibility(View.VISIBLE);
+			firewall_title.setText("移动流量排行");
+			setNewDataForList();
+			break;
+		case 4:
+			appListView.setVisibility(View.INVISIBLE);
+			loading_content.setVisibility(View.VISIBLE);
+			firewall_title.setText("WIFI流量排行");
+			setNewDataForList();
+			break;
+		case 5:
+			appListView.setVisibility(View.INVISIBLE);
+			loading_content.setVisibility(View.VISIBLE);
+			firewall_title.setText("通知栏流量排行");
+			if (NotificationInfo.notificationRes.length() == 0) {
+				new AsyncTaskGetAdbArrayListonResume().execute(mContext);
+			} else {
+				setAdapterNotif();
+			}
+			break;
+			
+		}
+	}
+	public void setNewDataForList(){
+		new AsyncTask<Void, Void, Void>() {
+			@Override
+			protected Void doInBackground(Void... params) {
+				getList(mContext);
+				Splash.getList(mContext);
+				initUidData();
+				while (SQLStatic.uiddata == null){
+					if (SQLStatic.uiddata != null) {
+						break;
+					}
+				};
+				uidList = comp(Block.appList);
+				return null;
+			}
+			@Override
+			protected void onPostExecute(Void result) {
+				loading_content.setVisibility(View.INVISIBLE);
+				appListView.setVisibility(View.VISIBLE);
+				setAdapter();
+			}
+		}.execute();
+	}
 	public void setAdapterNotif() {
-		wifi_icon.setVisibility(View.INVISIBLE);
-		e_icon.setVisibility(View.INVISIBLE);
-		firewall_details.setText("查找推送广告的应用");
+		title_normal.setVisibility(View.INVISIBLE);
+		title_notif.setVisibility(View.VISIBLE);
 		appListView.setVisibility(View.VISIBLE);
+		loading_content.setVisibility(View.INVISIBLE);
 		notificationInfos = NotificationInfo
 				.getNotificationApp(NotificationInfo.notificationRes);
 		MyCompNotifName comp = new MyCompNotifName();
@@ -349,7 +358,7 @@ public class FireWallActivity extends Activity {
 					protected Void doInBackground(Void... params) {
 						getList(mContext);
 						Splash.getList(mContext);
-						initData();
+						initUidData();
 						while (SQLStatic.uiddata == null){
 							if (SQLStatic.uiddata != null) {
 								break;
@@ -413,10 +422,11 @@ public class FireWallActivity extends Activity {
 	}
 
 	public void setAdapter() {
-		wifi_icon.setVisibility(View.VISIBLE);
-		e_icon.setVisibility(View.VISIBLE);
-		firewall_details.setText("  共" + getAppNum(0) + "款软件占用流量");
+		title_notif.setVisibility(View.INVISIBLE);
+		title_normal.setVisibility(View.VISIBLE);
+		firewall_details.setText(" " + getAppNum(0) + " ");
 		appListView.setVisibility(View.VISIBLE);
+		loading_content.setVisibility(View.INVISIBLE);
 		Context context = FireWallActivity.this.getParent();
 		appListAdapter = new AppListAdapter(context, myAppList,
 				Block.appnamemap,SQLStatic.uiddata, Block.appList, uidList);
@@ -438,13 +448,13 @@ public class FireWallActivity extends Activity {
 					protected Void doInBackground(Void... params) {
 						getList(mContext);
 						Splash.getList(mContext);
-						uidList = comp(Block.appList);
-						initData();
+						initUidData();
 						while(SQLStatic.uiddata == null){
 							if(SQLStatic.uiddata != null){
 								break;
 							}
 						}
+						uidList = comp(Block.appList);
 						return null;
 					} 
 
@@ -562,12 +572,6 @@ public class FireWallActivity extends Activity {
 				.getTag(R.id.tag_notif_pkgInfo);
 		final int uid = pkgInfo.applicationInfo.uid;
 		final String pkgname = pkgInfo.applicationInfo.packageName;
-		final String appname = pkgInfo.applicationInfo.loadLabel(
-				getPackageManager()).toString();
-		final long traffic[] = TrafficManager.getUidtraff(mContext, uid);
-		final String trafficup = UnitHandler.unitHandlerAccurate(traffic[1]);
-		final String trafficdown = UnitHandler.unitHandlerAccurate(traffic[2]);
-
 		final LinearLayout ll = (LinearLayout) arg1
 				.findViewById(R.id.notif_menu);
 		if (menuList.size() == 0) {
@@ -670,9 +674,6 @@ public class FireWallActivity extends Activity {
 		final String pkname = pkgInfo.applicationInfo.packageName;
 		final String appname = pkgInfo.applicationInfo.loadLabel(
 				getPackageManager()).toString();
-		final long traffic[] = TrafficManager.getUidtraff(mContext, uid);
-		final String trafficup = UnitHandler.unitHandlerAccurate(traffic[1]);
-		final String trafficdown = UnitHandler.unitHandlerAccurate(traffic[2]);
 		final LinearLayout ll = (LinearLayout) arg1
 				.findViewById(R.id.detail_menu);
 		if (menuList.size() == 0) {
@@ -736,8 +737,17 @@ public class FireWallActivity extends Activity {
 				final Button detail_history = (Button) mDetailView
 						.findViewById(R.id.detail_history);
 
-				traffic_up.setText("上传： " + trafficup);
-				traffic_down.setText("下载： " + trafficdown);
+				if (SQLStatic.uiddata != null) {
+					traffic_up.setText("上传： "
+							+ UnitHandler.unitHandlerAccurate(SQLStatic.uiddata
+									.get(uid).getAllUpload()));
+					traffic_down.setText("下载： "
+							+ UnitHandler.unitHandlerAccurate(SQLStatic.uiddata
+									.get(uid).getAllDownload()));
+				} else {
+					traffic_up.setText("上传： " + "0 KB");
+					traffic_down.setText("下载： " + "0 KB");
+				}
 
 				detail_ok.setOnClickListener(new Button.OnClickListener() {
 					@Override
@@ -778,11 +788,6 @@ public class FireWallActivity extends Activity {
 
 	}
 
-	public long judge(long tff) {
-		if (tff == -1)
-			tff = 0;
-		return tff;
-	}
 
 	public static void showInstalledAppDetails(Context context,
 			String packageName) {
@@ -813,17 +818,9 @@ public class FireWallActivity extends Activity {
 		}
 		// 每次点击防火墙，跳转到第一个页面
 		NotificationInfo.callbyonFirstBacktoFire = false;
-		initScene();
 		// MobclickAgent.onResume(this);
 	}
 
-	/**
-	 * 用于设置皮肤
-	 */
-	private void initScene() {
-		RelativeLayout title = (RelativeLayout) findViewById(R.id.main2TitleBackground);
-		title.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
-	}
 
 	protected void onPause() {
 		// TODO Auto-generated method stub
@@ -855,6 +852,7 @@ public class FireWallActivity extends Activity {
 		return true;
 	}
 
+	
 	private class AsyncTaskGetAdbArrayListonResume extends
 			AsyncTask<Context, Long, Boolean> {
 		@Override

@@ -12,7 +12,7 @@
         android:layout_marginBottom="2dip"
         android:layout_marginLeft="1dip"
         android:layout_marginRight="1dip"
-        android:background="@color/zero"
+        android:background="@drawable/maintab_title_bg0"
         android:textColor="@color/white"
         android:text="今日流量"
         />
@@ -23,7 +23,7 @@
         android:layout_marginBottom="2dip"
         android:layout_marginLeft="1dip"
         android:layout_marginRight="1dip"
-        android:background="@color/one"
+        android:background="@drawable/maintab_title_bg1"
         android:textColor="@color/white"
         android:text="本周流量"
         />
@@ -34,7 +34,7 @@
         android:layout_marginBottom="2dip"
         android:layout_marginLeft="1dip"
         android:layout_marginRight="1dip"
-        android:background="@color/two"
+        android:background="@drawable/maintab_title_bg2"
         android:textColor="@color/white"
         android:text="本月流量"
         />
@@ -45,7 +45,7 @@
         android:layout_marginBottom="2dip"
         android:layout_marginLeft="1dip"
         android:layout_marginRight="1dip"
-        android:background="@color/three"
+        android:background="@drawable/maintab_title_bg3"
         android:textColor="@color/white"
         android:text="移动流量"
         />
@@ -56,7 +56,7 @@
         android:layout_marginBottom="2dip"
         android:layout_marginLeft="1dip"
         android:layout_marginRight="1dip"
-        android:background="@color/four"
+        android:background="@drawable/maintab_title_bg4"
         android:textColor="@color/white"
         android:text="WIFI流量"
         />
@@ -67,7 +67,7 @@
         android:layout_marginBottom="2dip"
         android:layout_marginLeft="1dip"
         android:layout_marginRight="1dip"
-        android:background="@color/five"
+        android:background="@drawable/maintab_title_bg5"
         android:textColor="@color/white"
         android:text="通知栏流量"
         />
