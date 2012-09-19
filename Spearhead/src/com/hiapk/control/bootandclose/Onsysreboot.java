@@ -1,7 +1,5 @@
 package com.hiapk.control.bootandclose;
 
-import javax.xml.datatype.Duration;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -68,10 +66,6 @@ public class Onsysreboot {
 		// 发送零点重置广播
 		context.sendBroadcast(new Intent(ACTION_TIME_CHANGED));
 		// 开启防火墙
-		boolean isOpenSucess = false;
-		Toast.makeText(
-				SpearheadApplication.getInstance().getApplicationContext(),
-				"starttestFIre", Toast.LENGTH_SHORT).show();
 		// if (!Block.iptableEmpty(SpearheadApplication.getInstance()
 		// .getApplicationContext())) {
 		// isOpenSucess = Block.applyIptablesRules(SpearheadApplication
