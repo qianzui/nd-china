@@ -5,31 +5,33 @@
     android:background="@drawable/bground_dark"
     android:orientation="vertical" >
 
-<FrameLayout
-    android:id="@+id/regulateTitleBackground"
+    <FrameLayout
+        android:id="@+id/regulateTitleBackground"
         android:layout_width="fill_parent"
         android:layout_height="48dip"
         android:background="@drawable/maintab_title_bg0"
         android:paddingLeft="10dip"
         android:paddingRight="10dip" >
+
         <LinearLayout
-             android:layout_width="fill_parent"
-             android:layout_height="fill_parent"
-             android:orientation="horizontal">
-         <ImageView
-            android:id="@+id/regulate_back"
-            android:layout_gravity="center"
-            android:layout_width="35dip"
-            android:layout_height="35dip"
-            android:background="@drawable/back_btn"
-            />
-         <ImageView
-             android:layout_width="0.5dip"
-             android:layout_height="40dip"
-             android:layout_gravity="center_vertical"
-             android:background="@drawable/divider"
-             />
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/regulate_back"
+                android:layout_width="35dip"
+                android:layout_height="35dip"
+                android:layout_gravity="center"
+                android:background="@drawable/back_btn" />
+
+            <ImageView
+                android:layout_width="0.5dip"
+                android:layout_height="40dip"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/divider" />
         </LinearLayout>
+
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -37,18 +39,19 @@
             android:text="校准运营商流量"
             android:textColor="@color/whitesmoke"
             android:textSize="23sp" />
-    </FrameLayout> 
-    
-    
+    </FrameLayout>
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
         android:orientation="vertical"
         android:padding="5dip" >
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:text="地区品牌"
             android:textColor="@color/darkgray2"
             android:textSize="19dip" />
@@ -56,16 +59,19 @@
         <Button
             android:id="@+id/choose"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginBottom="10dip"
+            android:layout_weight="2"
             android:background="@drawable/send_message_bg1"
+            android:gravity="center_vertical"
             android:text="进入地区选择页"
             android:textColor="@color/blueflock"
             android:textSize="19dip" />
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:text="查询内容"
             android:textColor="@color/darkgray2"
             android:textSize="19dip" />
@@ -73,16 +79,19 @@
         <Button
             android:id="@+id/smsResult"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginBottom="10dip"
+            android:layout_weight="2"
             android:background="@drawable/send_message_bg0"
+            android:gravity="center_vertical"
             android:text="流量剩余量"
             android:textColor="@color/darkgray2"
             android:textSize="19dip" />
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:text="发送内容"
             android:textColor="@color/darkgray2"
             android:textSize="19dip" />
@@ -90,16 +99,19 @@
         <Button
             android:id="@+id/smsText"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginBottom="10dip"
+            android:layout_weight="2"
             android:background="@drawable/send_message_bg0"
+            android:gravity="center_vertical"
             android:text="CXLL"
             android:textColor="@color/darkgray2"
             android:textSize="19dip" />
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:text="发送号码"
             android:textColor="@color/darkgray2"
             android:textSize="19dip" />
@@ -107,19 +119,30 @@
         <Button
             android:id="@+id/smsNum"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginBottom="20dip"
+            android:layout_weight="2"
             android:background="@drawable/send_message_bg0"
+            android:gravity="center_vertical"
             android:text="10086"
             android:textColor="@color/darkgray2"
             android:textSize="19dip" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="5dip" >
 
         <Button
             android:id="@+id/smsSend"
             android:layout_width="150dip"
             android:layout_height="60dip"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
             android:background="@drawable/btnselector_light0"
+            android:gravity="center"
             android:text="发送短信"
             android:textColor="@color/darkgray2"
             android:textSize="20sp" />
