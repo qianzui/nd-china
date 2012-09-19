@@ -81,6 +81,7 @@ public class FireWallActivity extends Activity {
 	public TextView firewall_details;
 	public TextView firewall_title;
 	public TextView wifi_icon, e_icon;
+	public RelativeLayout main2TitleBackground;
 	public Dialog bubbleDialog;
 	public Animation showAction;
 	public View bubbleView;
@@ -88,7 +89,6 @@ public class FireWallActivity extends Activity {
 	public String savedUids_wifi = "";
 	public String savedUids_3g = "";
 	private Context mContext = this;
-	public HashMap<Integer, DatauidHash> uiddata = new HashMap<Integer, DatauidHash>();
 	ProgressDialog mydialog;
 	ProgressDialog pro;
 	public static ArrayList<Integer> uidList;
@@ -154,6 +154,8 @@ public class FireWallActivity extends Activity {
 		firewall_title = (TextView) findViewById(R.id.firewall_title);
 		wifi_icon = (TextView) findViewById(R.id.wifi_icon);
 		e_icon = (TextView) findViewById(R.id.e_icon);
+		main2TitleBackground = (RelativeLayout)findViewById(R.id.main2TitleBackground);
+		main2TitleBackground.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
 		loading_content.setVisibility(View.VISIBLE);
 		// 为了退出。
 		SpearheadApplication.getInstance().addActivity(this);
@@ -225,6 +227,7 @@ public class FireWallActivity extends Activity {
 				mPop.dismiss();
 				sharedpref.setFireWallType(0);
 				firewall_title.setText("今日流量排行");
+				main2TitleBackground.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
 				getList(mContext);
 				Splash.getList(mContext);
 				uidList = comp(Block.appList);
@@ -240,6 +243,7 @@ public class FireWallActivity extends Activity {
 				mPop.dismiss();
 				sharedpref.setFireWallType(1);
 				firewall_title.setText("本周流量排行");
+				main2TitleBackground.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
 				getList(mContext);
 				Splash.getList(mContext);
 				uidList = comp(Block.appList);
@@ -255,6 +259,7 @@ public class FireWallActivity extends Activity {
 				mPop.dismiss();
 				sharedpref.setFireWallType(2);
 				firewall_title.setText("本月流量排行");
+				main2TitleBackground.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
 				getList(mContext);
 				Splash.getList(mContext);
 				uidList = comp(Block.appList);
@@ -270,6 +275,7 @@ public class FireWallActivity extends Activity {
 				mPop.dismiss();
 				sharedpref.setFireWallType(3);
 				firewall_title.setText("移动流量排行");
+				main2TitleBackground.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
 				getList(mContext);
 				Splash.getList(mContext);
 				uidList = comp(Block.appList);
@@ -285,6 +291,7 @@ public class FireWallActivity extends Activity {
 				mPop.dismiss();
 				sharedpref.setFireWallType(4);
 				firewall_title.setText("WIFI流量排行");
+				main2TitleBackground.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
 				getList(mContext);
 				Splash.getList(mContext);
 				uidList = comp(Block.appList);
@@ -300,6 +307,7 @@ public class FireWallActivity extends Activity {
 				mPop.dismiss();
 				sharedpref.setFireWallType(5);
 				firewall_title.setText("通知栏流量排行");
+				main2TitleBackground.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
 				if (NotificationInfo.notificationRes.length() == 0) {
 					appListView.setVisibility(View.INVISIBLE);
 					loading_content.setVisibility(View.VISIBLE);
@@ -342,12 +350,11 @@ public class FireWallActivity extends Activity {
 						getList(mContext);
 						Splash.getList(mContext);
 						initData();
-						do {
+						while (SQLStatic.uiddata == null){
 							if (SQLStatic.uiddata != null) {
-								uiddata = SQLStatic.uiddata;
 								break;
 							}
-						} while (SQLStatic.uiddata == null);
+						};
 						uidList = comp(Block.appList);
 						return null;
 					}
@@ -396,9 +403,6 @@ public class FireWallActivity extends Activity {
 				}
 				do{
 					if (SQLStatic.uiddata != null) {
-						Log.i("test","SQLStatic.uiddata:" + SQLStatic.uiddata.size());
-						uiddata = SQLStatic.uiddata;
-						Log.i("test","uiddata:" + uiddata.size());
 						break;
 					}
 				}while (SQLStatic.uiddata == null);
@@ -436,7 +440,11 @@ public class FireWallActivity extends Activity {
 						Splash.getList(mContext);
 						uidList = comp(Block.appList);
 						initData();
-						Log.i("test","uiddata:" + SQLStatic.uiddata.size());
+						while(SQLStatic.uiddata == null){
+							if(SQLStatic.uiddata != null){
+								break;
+							}
+						}
 						return null;
 					} 
 

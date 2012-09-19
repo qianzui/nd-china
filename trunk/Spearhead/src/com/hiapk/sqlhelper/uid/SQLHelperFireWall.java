@@ -1,10 +1,13 @@
 package com.hiapk.sqlhelper.uid;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.hiapk.bean.DatauidHash;
 import com.hiapk.logs.Logs;
@@ -90,6 +93,13 @@ public class SQLHelperFireWall {
 		protected void onPostExecute(HashMap<Integer, DatauidHash> result) {
 			Logs.iop(TAG, "Recordover" + (System.currentTimeMillis() - time));
 			Logs.iop(TAG, "result.size()=" + result.size());
+			
+			Set<Integer> key = result.keySet();
+			for(Iterator it = key.iterator();it.hasNext();){
+				Integer dh = (Integer)it.next();
+				Log.i("test","traffic:" + result.get(dh).getTotalTraff());
+			}
+			
 			switch (fireWallType) {
 			case 1:
 				SQLStatic.uiddataWeek = result;
