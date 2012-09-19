@@ -1,9 +1,12 @@
 package com.hiapk.control.bootandclose;
 
+import javax.xml.datatype.Duration;
+
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.widget.Toast;
+
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.NotificationFireFailOnsysBoot;
@@ -21,14 +24,19 @@ public class Onsysreboot {
 	private static final String ACTION_TIME_CHANGED = Intent.ACTION_TIME_CHANGED;
 	Context context;
 	AlarmSet alset = new AlarmSet();
+	private static boolean isbooting = false;
 
 	public void onsysreboot(Context context) {
+		if (isbooting) {
+			return;
+		}
+		Toast.makeText(context, "startingboot", Toast.LENGTH_SHORT).show();
+		isbooting = true;
 		this.context = context;
 		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
 				context);
 		// 初始化网络信号
 		SQLStatic.initTablemobileAndwifi(context);
-
 		alset.StartAlarm(context);
 		// 查看数据库是否已初始化
 		if (SQLStatic.getIsInit(context)) {
@@ -41,7 +49,7 @@ public class Onsysreboot {
 				if (SQLStatic.TableWiFiOrG23 == "") {
 					SQLHelperDataexe.initShowDataOnBroadCast(context);
 				} else
-					new AsyncTaskonBoot().execute(context);
+					new AsyncTaskonBootStartWidget().execute(context);
 			} else {
 				if (isFloatOpen) {
 					context.startService(new Intent("com.hiapk.server"));
@@ -57,24 +65,37 @@ public class Onsysreboot {
 			// Toast.makeText(context, "qidong", Toast.LENGTH_SHORT);
 			showLog("xitongqidong");
 		}
-		// 开启防火墙
-		boolean isOpenSucess = false;
-		if (!Block.iptableEmpty(context)) {
-			isOpenSucess = Block.applyIptablesRules(context, true, false);
-			if (!isOpenSucess) {
-				SpearheadApplication.getInstance().getsharedData()
-						.setIsFireWallOpenFail(true);
-				NotificationFireFailOnsysBoot openFireFail = new NotificationFireFailOnsysBoot(
-						context);
-				openFireFail.startNotifyDay(context, false);
-			}
-		}
 		// 发送零点重置广播
 		context.sendBroadcast(new Intent(ACTION_TIME_CHANGED));
+		// 开启防火墙
+		boolean isOpenSucess = false;
+		Toast.makeText(
+				SpearheadApplication.getInstance().getApplicationContext(),
+				"starttestFIre", Toast.LENGTH_SHORT).show();
+		// if (!Block.iptableEmpty(SpearheadApplication.getInstance()
+		// .getApplicationContext())) {
+		// isOpenSucess = Block.applyIptablesRules(SpearheadApplication
+		// .getInstance().getApplicationContext(), true, false);
+		// if (!isOpenSucess) {
+		// SpearheadApplication.getInstance().getsharedData()
+		// .setIsFireWallOpenFail(true);
+		// }
+		// NotificationFireFailOnsysBoot openFireFail = new
+		// NotificationFireFailOnsysBoot(
+		// SpearheadApplication.getInstance().getApplicationContext());
+		// openFireFail.startNotifyDay(SpearheadApplication.getInstance()
+		// .getApplicationContext(), false);
+		//
+		// }
+		if (!Block.iptableEmpty(SpearheadApplication.getInstance()
+				.getApplicationContext())) {
+			new AsyncTaskonBootGetRoot().execute(context);
+		}
 
 	}
 
-	private class AsyncTaskonBoot extends AsyncTask<Context, Long, Long> {
+	private class AsyncTaskonBootStartWidget extends
+			AsyncTask<Context, Long, Long> {
 
 		@Override
 		protected Long doInBackground(Context... params) {
@@ -84,7 +105,6 @@ public class Onsysreboot {
 				try {
 					Thread.sleep(500);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				if (timetap > 10) {
@@ -97,7 +117,6 @@ public class Onsysreboot {
 
 		@Override
 		protected void onPostExecute(Long result) {
-			// TODO Auto-generated method stub
 			if (isFloatOpen) {
 				context.startService(new Intent("com.hiapk.server"));
 			} else {
@@ -108,11 +127,36 @@ public class Onsysreboot {
 			} else {
 				alset.StopWidgetAlarm(context);
 			}
+			isbooting = false;
+		}
+	}
+
+	private class AsyncTaskonBootGetRoot extends
+			AsyncTask<Context, Long, Boolean> {
+
+		@Override
+		protected Boolean doInBackground(Context... params) {
+			boolean isOpenSucess = false;
+			isOpenSucess = Block.applyIptablesRules(SpearheadApplication
+					.getInstance().getApplicationContext(), true, false);
+			return isOpenSucess;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			boolean isOpenSucess = result;
+			if (!isOpenSucess) {
+				SpearheadApplication.getInstance().getsharedData()
+						.setIsFireWallOpenFail(true);
+			}
+			NotificationFireFailOnsysBoot openFireFail = new NotificationFireFailOnsysBoot(
+					SpearheadApplication.getInstance().getApplicationContext());
+			openFireFail.startNotifyDay(SpearheadApplication.getInstance()
+					.getApplicationContext(), false);
 		}
 	}
 
 	private void showLog(String string) {
-		// TODO Auto-generated method stub
 		// Log.d("Onsysreboot", string);
 	}
 }
