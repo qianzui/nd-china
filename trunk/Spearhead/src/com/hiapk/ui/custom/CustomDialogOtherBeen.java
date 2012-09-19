@@ -15,7 +15,7 @@ import com.hiapk.control.traff.NotificationInfo;
 import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.spearhead.R;
-import com.hiapk.spearhead.FireWallMainScene;
+import com.hiapk.spearhead.SpearheadActivity;
 import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
 import com.hiapk.ui.scene.PrefrenceStaticOperator;
 import com.hiapk.util.SQLStatic;
@@ -75,9 +75,12 @@ public class CustomDialogOtherBeen {
 		btn_ok.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				// NotificationInfo.callbyonResume = false;
+				NotificationInfo.isgettingdata = false;
 				NotificationInfo.notificationRes = new StringBuilder();
-				NotificationInfo.callbyonResume = false;
-				FireWallMainScene.switScene(1);
+				NotificationInfo.hasdata = false;
+				SpearheadActivity.switchScene(0);
+				SpearheadActivity.switchScene(1);
 				scanNotificationRootFail.dismiss();
 			}
 		});
@@ -87,9 +90,11 @@ public class CustomDialogOtherBeen {
 
 			@Override
 			public void onClick(View v) {
+				sharedData.setFireWallType(0);
+				NotificationInfo.callbyonCancel = true;
 				NotificationInfo.notificationRes = new StringBuilder();
-				FireWallMainScene.switScene(0);
-				NotificationInfo.callbyonResume = false;
+				SpearheadActivity.switchScene(0);
+				SpearheadActivity.switchScene(1);
 				scanNotificationRootFail.dismiss();
 			}
 		});
@@ -97,9 +102,12 @@ public class CustomDialogOtherBeen {
 
 			@Override
 			public void onCancel(DialogInterface dialog) {
+				sharedData.setFireWallType(0);
 				NotificationInfo.notificationRes = new StringBuilder();
-				FireWallMainScene.switScene(0);
-				NotificationInfo.callbyonResume = false;
+
+				NotificationInfo.callbyonCancel = true;
+				SpearheadActivity.switchScene(0);
+				SpearheadActivity.switchScene(1);
 				scanNotificationRootFail.dismiss();
 			}
 		});

@@ -60,7 +60,7 @@ public class SpearheadActivity extends TabActivity {
 		SpearheadApplication.getInstance().addActivity(this);
 		firehelp = (ImageView) findViewById(R.id.help_image);
 		initScene();
-		switchScene();
+		switchSceneOninit();
 	}
 
 	/**
@@ -131,9 +131,35 @@ public class SpearheadActivity extends TabActivity {
 	}
 
 	/**
-	 * 初始显示第几个页面
+	 * 显示第几个页面0/1/2
+	 * 
+	 * @param tab
 	 */
-	private void switchScene() {
+	public static void switchScene(int tab) {
+		switch (tab) {
+		case 1:
+			group.clearCheck();
+			group.check(R.id.radio_button1);
+			tabHost.setCurrentTabByTag(TAB_FIREWALL);
+			break;
+		case 2:
+			group.clearCheck();
+			group.check(R.id.radio_button2);
+			tabHost.setCurrentTabByTag(TAB_WARNING);
+			break;
+
+		default:
+			group.clearCheck();
+			group.check(R.id.radio_button0);
+			tabHost.setCurrentTabByTag(TAB_MONITOR);
+			break;
+		}
+	}
+
+	/**
+	 * 初始显示第几个页面1/2/3
+	 */
+	private void switchSceneOninit() {
 		// 选择界面
 		Bundle choose = this.getIntent().getExtras();
 		int tab = choose.getInt("TAB");

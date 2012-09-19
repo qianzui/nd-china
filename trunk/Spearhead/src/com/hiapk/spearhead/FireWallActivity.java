@@ -65,6 +65,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class FireWallActivity extends Activity {
+	private String TAG = "firewallActivity";
 	private static final String APP_PKG_NAME_21 = "com.android.settings.ApplicationPkgName";
 	private static final String APP_PKG_NAME_22 = "pkg";
 	private static final String APP_DETAILS_PACKAGE_NAME = "com.android.settings";
@@ -117,8 +118,10 @@ public class FireWallActivity extends Activity {
 				try {
 					if (sharedpref.getFireWallType() == 5) {
 						if (NotificationInfo.notificationRes.length() == 0) {
-							new AsyncTaskGetAdbArrayListonResume()
-									.execute(mContext);
+							if (NotificationInfo.isgettingdata == false) {
+								new AsyncTaskGetAdbArrayListonResume()
+										.execute(mContext);
+							}
 						} else {
 							setAdapterNotif();
 						}
@@ -154,10 +157,11 @@ public class FireWallActivity extends Activity {
 		firewall_details = (TextView) findViewById(R.id.firewall);
 		firewall_title = (TextView) findViewById(R.id.firewall_title);
 		setting_button = (Button) findViewById(R.id.setting_button);
-		main2TitleBackground = (RelativeLayout)findViewById(R.id.main2TitleBackground);
-		title_normal = (RelativeLayout)findViewById(R.id.title_normal);
-		title_notif  = (TextView) findViewById(R.id.title_notif);
-		main2TitleBackground.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
+		main2TitleBackground = (RelativeLayout) findViewById(R.id.main2TitleBackground);
+		title_normal = (RelativeLayout) findViewById(R.id.title_normal);
+		title_notif = (TextView) findViewById(R.id.title_notif);
+		main2TitleBackground.setBackgroundResource(SkinCustomMains
+				.buttonTitleBackground());
 		loading_content.setVisibility(View.VISIBLE);
 		// 为了退出。
 		SpearheadApplication.getInstance().addActivity(this);
@@ -192,7 +196,8 @@ public class FireWallActivity extends Activity {
 			firewall_title.setText("今日流量排行");
 			break;
 		}
-		settingShowList();;
+		settingShowList();
+		;
 	}
 
 	public void settingShowList() {
@@ -257,11 +262,12 @@ public class FireWallActivity extends Activity {
 		});
 	}
 
-	public void switchList(int i){
+	public void switchList(int i) {
 		mPop.dismiss();
 		sharedpref.setFireWallType(i);
-		main2TitleBackground.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
-		switch(i){
+		main2TitleBackground.setBackgroundResource(SkinCustomMains
+				.buttonTitleBackground());
+		switch (i) {
 		case 0:
 			appListView.setVisibility(View.INVISIBLE);
 			loading_content.setVisibility(View.VISIBLE);
@@ -293,33 +299,36 @@ public class FireWallActivity extends Activity {
 			setNewDataForList();
 			break;
 		case 5:
-			appListView.setVisibility(View.INVISIBLE);
-			loading_content.setVisibility(View.VISIBLE);
 			firewall_title.setText("通知栏流量排行");
 			if (NotificationInfo.notificationRes.length() == 0) {
-				new AsyncTaskGetAdbArrayListonResume().execute(mContext);
+				if (NotificationInfo.isgettingdata == false) {
+					new AsyncTaskGetAdbArrayListonResume().execute(mContext);
+				}
 			} else {
 				setAdapterNotif();
 			}
 			break;
-			
+
 		}
 	}
-	public void setNewDataForList(){
+
+	public void setNewDataForList() {
 		new AsyncTask<Void, Void, Void>() {
 			@Override
 			protected Void doInBackground(Void... params) {
 				getList(mContext);
 				Splash.getList(mContext);
 				initUidData();
-				while (SQLStatic.uiddata == null){
+				while (SQLStatic.uiddata == null) {
 					if (SQLStatic.uiddata != null) {
 						break;
 					}
-				};
+				}
+				;
 				uidList = comp(Block.appList);
 				return null;
 			}
+
 			@Override
 			protected void onPostExecute(Void result) {
 				loading_content.setVisibility(View.INVISIBLE);
@@ -328,6 +337,7 @@ public class FireWallActivity extends Activity {
 			}
 		}.execute();
 	}
+
 	public void setAdapterNotif() {
 		title_normal.setVisibility(View.INVISIBLE);
 		title_notif.setVisibility(View.VISIBLE);
@@ -359,11 +369,12 @@ public class FireWallActivity extends Activity {
 						getList(mContext);
 						Splash.getList(mContext);
 						initUidData();
-						while (SQLStatic.uiddata == null){
+						while (SQLStatic.uiddata == null) {
 							if (SQLStatic.uiddata != null) {
 								break;
 							}
-						};
+						}
+						;
 						uidList = comp(Block.appList);
 						return null;
 					}
@@ -371,8 +382,10 @@ public class FireWallActivity extends Activity {
 					@Override
 					protected void onPostExecute(Void result) {
 						if (NotificationInfo.notificationRes.length() == 0) {
-							new AsyncTaskGetAdbArrayListonResume()
-									.execute(mContext);
+							if (NotificationInfo.isgettingdata == false) {
+								new AsyncTaskGetAdbArrayListonResume()
+										.execute(mContext);
+							}
 						} else {
 							setAdapterNotif();
 						}
@@ -429,7 +442,7 @@ public class FireWallActivity extends Activity {
 		loading_content.setVisibility(View.INVISIBLE);
 		Context context = FireWallActivity.this.getParent();
 		appListAdapter = new AppListAdapter(context, myAppList,
-				Block.appnamemap,SQLStatic.uiddata, Block.appList, uidList);
+				Block.appnamemap, SQLStatic.uiddata, Block.appList, uidList);
 		appListView.setAdapter(appListAdapter);
 		appListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -449,22 +462,24 @@ public class FireWallActivity extends Activity {
 						getList(mContext);
 						Splash.getList(mContext);
 						initUidData();
-						while(SQLStatic.uiddata == null){
-							if(SQLStatic.uiddata != null){
+						while (SQLStatic.uiddata == null) {
+							if (SQLStatic.uiddata != null) {
 								break;
 							}
 						}
 						uidList = comp(Block.appList);
 						return null;
-					} 
+					}
 
 					@Override
 					protected void onPostExecute(Void result) {
 						MyListView.loadImage();
 						if (sharedpref.getFireWallType() == 5) {
 							if (NotificationInfo.notificationRes.length() == 0) {
-								new AsyncTaskGetAdbArrayListonResume()
-										.execute(mContext);
+								if (NotificationInfo.isgettingdata == false) {
+									new AsyncTaskGetAdbArrayListonResume()
+											.execute(mContext);
+								}
 							} else {
 								setAdapterNotif();
 							}
@@ -528,7 +543,7 @@ public class FireWallActivity extends Activity {
 		Collections.sort(uidList, mn);
 
 		MyCompTraffic mt = new MyCompTraffic();
-		mt.init(mContext,SQLStatic.uiddata);
+		mt.init(mContext, SQLStatic.uiddata);
 		Collections.sort(uidList, mt);
 
 		return uidList;
@@ -538,32 +553,36 @@ public class FireWallActivity extends Activity {
 		int j = 0;
 		int m = 0;
 		int w = 0;
-		if(sharedpref.getFireWallType() == 3){
+		if (sharedpref.getFireWallType() == 3) {
 			for (int i = 0; i < uidList.size(); i++) {
-				if(SQLStatic.uiddata.containsKey(uidList.get(i))){
-				if ((SQLStatic.uiddata.get(uidList.get(i)).getUploadmobile() +  
-						SQLStatic.uiddata.get(uidList.get(i)).getDownloadmobile())  > 0 ){
-					m++;
-				}}
+				if (SQLStatic.uiddata.containsKey(uidList.get(i))) {
+					if ((SQLStatic.uiddata.get(uidList.get(i))
+							.getUploadmobile() + SQLStatic.uiddata.get(
+							uidList.get(i)).getDownloadmobile()) > 0) {
+						m++;
+					}
+				}
 			}
-			return m; 
-		}else if(sharedpref.getFireWallType() == 4){
+			return m;
+		} else if (sharedpref.getFireWallType() == 4) {
 			for (int i = 0; i < uidList.size(); i++) {
-				if(SQLStatic.uiddata.containsKey(uidList.get(i))){
-				if ((SQLStatic.uiddata.get(uidList.get(i)).getUploadwifi() +  
-						SQLStatic.uiddata.get(uidList.get(i)).getDownloadwifi())  > 0 ){
-					w++;
-				}}
+				if (SQLStatic.uiddata.containsKey(uidList.get(i))) {
+					if ((SQLStatic.uiddata.get(uidList.get(i)).getUploadwifi() + SQLStatic.uiddata
+							.get(uidList.get(i)).getDownloadwifi()) > 0) {
+						w++;
+					}
+				}
 			}
 			return w;
-		}else{
-		for (int i = 0; i < uidList.size(); i++) {
-			if(SQLStatic.uiddata.containsKey(uidList.get(i))){
-			if (SQLStatic.uiddata.get(uidList.get(i)).getTotalTraff() > 0 ){
-				j++;
-			}}
-		}
-		return j;
+		} else {
+			for (int i = 0; i < uidList.size(); i++) {
+				if (SQLStatic.uiddata.containsKey(uidList.get(i))) {
+					if (SQLStatic.uiddata.get(uidList.get(i)).getTotalTraff() > 0) {
+						j++;
+					}
+				}
+			}
+			return j;
 		}
 	}
 
@@ -637,7 +656,7 @@ public class FireWallActivity extends Activity {
 						edit.putString(Block.PREF_3G_UIDS, savedUids_3g);
 						edit.putBoolean(Block.PREF_S, true);
 						edit.commit();
-						if (Block.applyIptablesRules(mContext, true,true)) {
+						if (Block.applyIptablesRules(mContext, true, true)) {
 							Toast.makeText(mContext, R.string.fire_applyed,
 									Toast.LENGTH_SHORT).show();
 						} else {
@@ -788,7 +807,6 @@ public class FireWallActivity extends Activity {
 
 	}
 
-
 	public static void showInstalledAppDetails(Context context,
 			String packageName) {
 		Intent intent = new Intent();
@@ -811,16 +829,32 @@ public class FireWallActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		Logs.d(TAG, "startonResume");
 		if (SQLStatic.TableWiFiOrG23 != "") {
 			AlarmSet alset = new AlarmSet();
 			alset.StartAlarmUid(mContext);
-		} else {
 		}
-		// 每次点击防火墙，跳转到第一个页面
-		NotificationInfo.callbyonFirstBacktoFire = false;
+		if (sharedpref.getFireWallType() == 5) {
+			if (NotificationInfo.isgettingdata == false) {
+				if (NotificationInfo.notificationRes.length() == 0) {
+					if (NotificationInfo.hasdata == false) {
+						Logs.d(TAG, "start-AsyncTaskGetAdbArrayListonResume");
+						new AsyncTaskGetAdbArrayListonResume()
+								.execute(mContext);
+					}
+				}
+			}
+		}
+		if (sharedpref.getFireWallType() == 0) {
+			if (NotificationInfo.callbyonCancel == true) {
+				Logs.d(TAG, "start-callbyonResume");
+				NotificationInfo.callbyonCancel = false;
+				switchList(0);
+			}
+
+		}
 		// MobclickAgent.onResume(this);
 	}
-
 
 	protected void onPause() {
 		// TODO Auto-generated method stub
@@ -841,7 +875,6 @@ public class FireWallActivity extends Activity {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		// TODO Auto-generated method stub
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			if (mPop.isShowing()) {
@@ -852,12 +885,14 @@ public class FireWallActivity extends Activity {
 		return true;
 	}
 
-	
 	private class AsyncTaskGetAdbArrayListonResume extends
 			AsyncTask<Context, Long, Boolean> {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
+			NotificationInfo.isgettingdata = true;
+			appListView.setVisibility(View.INVISIBLE);
+			loading_content.setVisibility(View.VISIBLE);
 			NotificationInfo.startRootcomand(mContext);
 		}
 
@@ -878,14 +913,14 @@ public class FireWallActivity extends Activity {
 			if (String.valueOf(NotificationInfo.notificationRes).contains(
 					"Notification")) {
 				loading_content.setVisibility(View.INVISIBLE);
+				NotificationInfo.hasdata = true;
 				setAdapterNotif();
-				NotificationInfo.callbyonResume = false;
 			} else {
 				CustomDialogOtherBeen customDialog = new CustomDialogOtherBeen(
 						FireWallActivity.this.getParent());
 				customDialog.dialogNotificationRootFail();
 			}
-
+			NotificationInfo.isgettingdata = false;
 		}
 	}
 }
