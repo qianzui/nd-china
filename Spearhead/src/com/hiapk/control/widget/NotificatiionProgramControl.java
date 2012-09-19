@@ -10,7 +10,6 @@ import android.widget.RemoteViews;
 
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.Splash;
-import com.hiapk.spearhead.WindowNotifyDialog;
 
 /**
  * 程序的通知栏
@@ -19,15 +18,8 @@ import com.hiapk.spearhead.WindowNotifyDialog;
  * 
  */
 public class NotificatiionProgramControl {
-	// 系统设置
-	String SYS_PRE_NOTIFY = "notifyCtrl";
-	String SYS_PRE_FLOAT_CTRL = "floatCtrl";
-	String SYS_PRE_REFRESH_FRZ = "refreshfrz";
-	String SYS_PRE_CLEAR_DATA = "cleardata";
-	String textUp = "11";
-	String textDown = "22";
 	// Notification标示ID
-	private static final int ID = 5;
+	private int ID = 5;
 
 	public void showNotice(Context context, int percent) {
 
@@ -53,7 +45,7 @@ public class NotificatiionProgramControl {
 		contentView.setTextViewText(R.id.textUp, SetText.textUp);
 		contentView.setTextViewText(R.id.textDown, SetText.textDown);
 		// 进度条设置
-		//		ProgressBar aa=new ProgressBar(context);
+		// ProgressBar aa=new ProgressBar(context);
 		if (SetText.HasSetMonthUsed == false) {
 			contentView.setInt(R.id.probar_down, "setProgress", 0);
 			contentView.setInt(R.id.probar_down, "setSecondaryProgress", 0);

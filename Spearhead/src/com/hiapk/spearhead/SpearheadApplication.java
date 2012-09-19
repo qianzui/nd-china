@@ -7,7 +7,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.res.Resources;
 
-import com.hiapk.exception.CustomException;
+import com.hiapk.logs.CustomException;
 import com.hiapk.util.SharedPrefrenceData;
 
 public class SpearheadApplication extends Application {
@@ -44,6 +44,10 @@ public class SpearheadApplication extends Application {
 			res = getApplicationContext().getResources();
 		}
 		return res;
+	}
+
+	public SharedPrefrenceData getsharedData() {
+		return sharedDate;
 	}
 
 	public int getSkinType() {

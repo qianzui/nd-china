@@ -1,7 +1,6 @@
 package com.hiapk.control.widget;
 
 import com.hiapk.spearhead.R;
-import com.hiapk.spearhead.Splash;
 import com.hiapk.spearhead.WindowNotifyDialog;
 
 import android.app.Notification;
@@ -12,7 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 public class NotificationFireFailOnsysBoot {
-	private static final int FIREWALL_OPEN_FAIL_ID = 5;
+	private static final int FIREWALL_OPEN_FAIL_ID = 10;
 	private NotificationManager mNotificationManager;
 
 	public NotificationFireFailOnsysBoot(Context context) {
