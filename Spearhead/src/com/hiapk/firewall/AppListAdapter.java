@@ -10,6 +10,7 @@ import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.logs.Logs;
 import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.R;
+import com.hiapk.ui.skin.SkinCustomDialog;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceData;
 import com.hiapk.util.UnitHandler;
@@ -41,7 +42,7 @@ public class AppListAdapter extends BaseAdapter {
 	private ArrayList<PackageInfo> myAppList;
 	private LayoutInflater inflater;
 	private Context mContext;
-	public  HashMap map;
+	public HashMap map;
 	public static SyncImageLoader syncImageLoader = new SyncImageLoader();
 	public SharedPrefrenceData sharedpref;
 	ArrayList<Integer> uidList;
@@ -50,9 +51,10 @@ public class AppListAdapter extends BaseAdapter {
 	HashMap<Integer, DatauidHash> uiddata;
 	int uid;
 
-	public AppListAdapter(Context context , ArrayList<PackageInfo> myAppList 
-			,HashMap<Integer,String> appname,HashMap<Integer, DatauidHash> uiddata      
-			,HashMap<Integer,PackageInfo> appList, ArrayList<Integer> uidList) {
+	public AppListAdapter(Context context, ArrayList<PackageInfo> myAppList,
+			HashMap<Integer, String> appname,
+			HashMap<Integer, DatauidHash> uiddata,
+			HashMap<Integer, PackageInfo> appList, ArrayList<Integer> uidList) {
 		inflater = LayoutInflater.from(context);
 		this.mContext = context;
 		sharedpref = new SharedPrefrenceData(mContext);
@@ -90,12 +92,20 @@ public class AppListAdapter extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.app_list_item, null);
 			holder.icon = (ImageView) convertView.findViewById(R.id.icon);
 			holder.appname = (TextView) convertView.findViewById(R.id.app_name);
-			holder.trafficup = (TextView) convertView.findViewById(R.id.trafficup);
-			holder.traffic_title = (TextView) convertView.findViewById(R.id.traffic_title);
-			holder.e_toggle = (CheckBox) convertView.findViewById(R.id.e_toggle);
-			holder.wifi_toggle = (CheckBox) convertView.findViewById(R.id.wifi_toggle);
-			holder.ll = (LinearLayout)convertView.findViewById(R.id.detail_menu);
+			holder.trafficup = (TextView) convertView
+					.findViewById(R.id.trafficup);
+			holder.traffic_title = (TextView) convertView
+					.findViewById(R.id.traffic_title);
+			holder.e_toggle = (CheckBox) convertView
+					.findViewById(R.id.e_toggle);
+			holder.wifi_toggle = (CheckBox) convertView
+					.findViewById(R.id.wifi_toggle);
+			holder.ll = (LinearLayout) convertView
+					.findViewById(R.id.detail_menu);
 			convertView.setTag(R.id.tag_holder, holder);
+			// …Ë÷√∆§∑Ù
+			convertView.setBackgroundResource(SkinCustomDialog
+					.spinnerBackground());
 		} else {
 			holder = (ViewHolder) convertView.getTag(R.id.tag_holder);
 		}
@@ -182,7 +192,7 @@ public class AppListAdapter extends BaseAdapter {
 			}
 			break;
 		}
-		
+
 		syncImageLoader.loadImage(position, pkgInfo, mContext,
 				imageLoadListener, holder.icon, uid);
 		holder.e_toggle.setChecked(ic.selected_3g);
@@ -194,20 +204,23 @@ public class AppListAdapter extends BaseAdapter {
 		convertView.setTag(R.id.tag_pkginfo, pkgInfo);
 		return convertView;
 	}
-	
-	SyncImageLoader.OnImageLoadListener imageLoadListener = new SyncImageLoader.OnImageLoadListener(){  
-	    @Override  
-	    public void onImageLoad(Integer t, Drawable drawable, ImageView view,int uid) { 
-	    	ImageView icon = (ImageView)FireWallActivity.appListView.findViewWithTag(t);
-	    	if(icon != null){
-	    		icon.setImageDrawable(drawable); 
-	    	}
-	    }  
-	    @Override  
-	    public void onError(Integer t) {  
-	    	
-	    }
-	};  
+
+	SyncImageLoader.OnImageLoadListener imageLoadListener = new SyncImageLoader.OnImageLoadListener() {
+		@Override
+		public void onImageLoad(Integer t, Drawable drawable, ImageView view,
+				int uid) {
+			ImageView icon = (ImageView) FireWallActivity.appListView
+					.findViewWithTag(t);
+			if (icon != null) {
+				icon.setImageDrawable(drawable);
+			}
+		}
+
+		@Override
+		public void onError(Integer t) {
+
+		}
+	};
 
 	public long judge(long tff) {
 		if (tff == -1)
