@@ -13,6 +13,7 @@ import com.hiapk.firewall.Block;
 import com.hiapk.spearhead.R;
 import com.hiapk.ui.custom.CustomDialogOtherBeen;
 import com.hiapk.ui.custom.CustomSPBeen;
+import com.hiapk.ui.skin.SkinCustomMains;
 import com.hiapk.util.SharedPrefrenceDataWidget;
 
 public class PrefrenceBeen {
@@ -25,14 +26,7 @@ public class PrefrenceBeen {
 	}
 
 	public void initListBoxFresh(LinearLayout layout_freshplv) {
-		LayoutInflater factory = LayoutInflater.from(context);
-		final View listView = factory.inflate(R.layout.settings_listbox, null);
-		final Button showText = (Button) listView
-				.findViewById(R.id.setting_tv_box);
-		showText.setText(R.string.prefrence_setting_listbox_fresh);
-		layout_freshplv.removeAllViews();
-		layout_freshplv.addView(listView);
-		showText.setOnClickListener(new OnClickListener() {
+		layout_freshplv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				CustomSPBeen customSpbenn = new CustomSPBeen(context);
@@ -43,15 +37,7 @@ public class PrefrenceBeen {
 	}
 
 	public void initClickBoxDataClear(LinearLayout layout_cleardata) {
-		LayoutInflater factory = LayoutInflater.from(context);
-		final View clickView = factory
-				.inflate(R.layout.settings_clickbox, null);
-		final Button showText = (Button) clickView
-				.findViewById(R.id.setting_tv_box);
-		showText.setText(R.string.prefrence_setting_clickbox_dataclear);
-		layout_cleardata.removeAllViews();
-		layout_cleardata.addView(clickView);
-		showText.setOnClickListener(new OnClickListener() {
+		layout_cleardata.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				CustomDialogOtherBeen customOther = new CustomDialogOtherBeen(
@@ -67,6 +53,7 @@ public class PrefrenceBeen {
 		final Button showText = (Button) boxView
 				.findViewById(R.id.setting_tv_box);
 		showText.setText(R.string.prefrence_setting_checkbox_notify);
+		initScene(showText);
 		boolean isopen = sharedDatawidget.isNotifyOpen();
 		if (isopen) {
 			checkBoxRightDrawinit(showText, isopen);
@@ -100,6 +87,7 @@ public class PrefrenceBeen {
 		final Button showText = (Button) boxView
 				.findViewById(R.id.setting_tv_box);
 		showText.setText(R.string.prefrence_setting_clickbox_floatwindow);
+		initScene(showText);
 		boolean isopen = sharedDatawidget.isFloatOpen();
 		if (isopen) {
 			checkBoxRightDrawinit(showText, isopen);
@@ -137,6 +125,7 @@ public class PrefrenceBeen {
 		final Button showText = (Button) boxView
 				.findViewById(R.id.setting_tv_box);
 		showText.setText(R.string.prefrence_setting_clickbox_help);
+		initScene(showText);
 		boolean isopen = Block.fireTip(context);
 		if (isopen) {
 			checkBoxRightDrawinit(showText, isopen);
@@ -180,4 +169,12 @@ public class PrefrenceBeen {
 		}
 	}
 
+	/**
+	 * …Ë÷√∆§∑Ù
+	 * 
+	 * @param btn
+	 */
+	private void initScene(Button btn) {
+		btn.setBackgroundResource(SkinCustomMains.barsBackground());
+	}
 }

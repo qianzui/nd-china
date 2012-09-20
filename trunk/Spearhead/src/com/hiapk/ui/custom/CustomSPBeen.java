@@ -90,7 +90,6 @@ public class CustomSPBeen {
 		CustomSPAdapter adapter = new CustomSPAdapter(context, action,
 				beforeFresh);
 		lv_fresh.setAdapter(adapter);
-		lv_fresh.setDividerHeight(0);
 		lv_fresh.setSelection(beforeFresh);
 
 		final CustomDialog freshtime;
@@ -152,7 +151,6 @@ public class CustomSPBeen {
 		CustomSPAdapter adapter = new CustomSPAdapter(context, action,
 				beforeAction);
 		lv_action.setAdapter(adapter);
-		lv_action.setDividerHeight(0);
 		lv_action.setSelection(beforeAction);
 
 		final CustomDialog notifySet;
@@ -217,7 +215,6 @@ public class CustomSPBeen {
 		String[] city = res.getStringArray(R.array.day);
 		CustomSPAdapter adapter = new CustomSPAdapter(context, city, beforeDay);
 		lv_day.setAdapter(adapter);
-		lv_day.setDividerHeight(0);
 		lv_day.setSelection(beforeDay);
 		// TextView appupload = (TextView) textEntryView
 		// .findViewById(R.id.listview_btn);
