@@ -82,7 +82,7 @@ public class CustomSPBeen {
 		// 初始化窗体
 		LayoutInflater factory = LayoutInflater.from(context);
 		final View textEntryView = factory.inflate(
-				R.layout.listview_custom_spinner, null);
+				R.layout.custom_listview_spinner, null);
 		ListView lv_fresh = (ListView) textEntryView
 				.findViewById(R.id.lv_custom_spinner);
 		Resources res = context.getResources();
@@ -144,7 +144,7 @@ public class CustomSPBeen {
 		// 初始化窗体
 		LayoutInflater factory = LayoutInflater.from(context);
 		final View textEntryView = factory.inflate(
-				R.layout.listview_custom_spinner, null);
+				R.layout.custom_listview_spinner, null);
 		ListView lv_action = (ListView) textEntryView
 				.findViewById(R.id.lv_custom_spinner);
 		Resources res = context.getResources();
@@ -210,7 +210,7 @@ public class CustomSPBeen {
 		// 初始化窗体
 		LayoutInflater factory = LayoutInflater.from(context);
 		final View textEntryView = factory.inflate(
-				R.layout.listview_custom_spinner, null);
+				R.layout.custom_listview_spinner, null);
 		ListView lv_day = (ListView) textEntryView
 				.findViewById(R.id.lv_custom_spinner);
 		Resources res = context.getResources();

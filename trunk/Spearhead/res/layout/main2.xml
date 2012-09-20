@@ -24,14 +24,15 @@
             android:layout_marginLeft="5dip"
             android:textColor="@color/white"
             android:textSize="23sp" />
+
         <Button
             android:id="@+id/setting_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/firewall_sort"
-            />
+            android:background="@drawable/firewall_sort" />
+
     </RelativeLayout>
     <!-- 标题栏结束 -->
 

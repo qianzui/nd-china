@@ -17,7 +17,8 @@ public class SkinCustomMains {
 		if (res == null) {
 			res = SpearheadApplication.getInstance().getRes();
 		}
-		int btn_light_Id = res.getIdentifier("btnselector_light0", "drawable",
+		int btn_light_Id = res.getIdentifier("btnselector_light"
+				+ SpearheadApplication.getInstance().getSkinType(), "drawable",
 				"com.hiapk.spearhead");
 
 		return btn_light_Id;
@@ -32,7 +33,8 @@ public class SkinCustomMains {
 		if (res == null) {
 			res = SpearheadApplication.getInstance().getRes();
 		}
-		int btn_dark_Id = res.getIdentifier("btnselector_dark0", "drawable",
+		int btn_dark_Id = res.getIdentifier("btnselector_dark"
+				+ SpearheadApplication.getInstance().getSkinType(), "drawable",
 				"com.hiapk.spearhead");
 
 		return btn_dark_Id;

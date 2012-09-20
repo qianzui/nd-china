@@ -5,7 +5,7 @@ import com.hiapk.spearhead.SpearheadApplication;
 import android.content.res.Resources;
 
 public class SkinCustomDialog {
-//	private static String TAG = "SkinCustomDialog";
+	// private static String TAG = "SkinCustomDialog";
 	static Resources res;
 
 	/**
@@ -17,8 +17,9 @@ public class SkinCustomDialog {
 		if (res == null) {
 			res = SpearheadApplication.getInstance().getRes();
 		}
-		int drawableId = res.getIdentifier("custom_dialog_title_background0",
-				"drawable", "com.hiapk.spearhead");
+		int drawableId = res.getIdentifier("custom_dialog_title_background"
+				+ SpearheadApplication.getInstance().getSkinType(), "drawable",
+				"com.hiapk.spearhead");
 
 		return drawableId;
 	}
@@ -32,9 +33,25 @@ public class SkinCustomDialog {
 		if (res == null) {
 			res = SpearheadApplication.getInstance().getRes();
 		}
-		int drawableId = res.getIdentifier("btnselector_dark0", "drawable",
+		int drawableId = res.getIdentifier("btnselector_dark"
+				+ SpearheadApplication.getInstance().getSkinType(), "drawable",
 				"com.hiapk.spearhead");
 
 		return drawableId;
+	}
+
+	/**
+	 * ÉèÖÃspinnerµÄ±³¾°É«
+	 * 
+	 * @return
+	 */
+	public static int spinnerBackground() {
+		if (res == null) {
+			res = SpearheadApplication.getInstance().getRes();
+		}
+		int title_bg_Id = res.getIdentifier("linear_selector0", "drawable",
+				"com.hiapk.spearhead");
+
+		return title_bg_Id;
 	}
 }

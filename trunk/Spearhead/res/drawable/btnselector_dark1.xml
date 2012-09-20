@@ -2,7 +2,7 @@
 <!-- 定义按钮按下时的图片 -->  
 <item  
 android:state_pressed = "true"  
-android:drawable = "@drawable/btn_clicked0"
+android:drawable = "@drawable/btn_clicked1"
 />  
 <!-- 定义按钮默认的图片 -->  
 <item android:drawable = "@drawable/btn_unclick" />  

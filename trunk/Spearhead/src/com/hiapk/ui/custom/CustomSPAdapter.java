@@ -3,6 +3,7 @@ package com.hiapk.ui.custom;
 import java.util.ArrayList;
 
 import com.hiapk.spearhead.R;
+import com.hiapk.ui.skin.SkinCustomDialog;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -52,7 +53,9 @@ public class CustomSPAdapter extends BaseAdapter {
 			// v = factory.inflate(R.layout.listview_custom_spinner, null);
 			LayoutInflater vi = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			v = vi.inflate(R.layout.listview_custom_spinner_text, null);
+			v = vi.inflate(R.layout.custom_spinner_listview_text, null);
+			// …Ë÷√∆§∑Ù
+			v.setBackgroundResource(SkinCustomDialog.spinnerBackground());
 			// v.setClickable(true);
 		}
 		TextView appupload = (TextView) v.findViewById(R.id.listview_btn);
