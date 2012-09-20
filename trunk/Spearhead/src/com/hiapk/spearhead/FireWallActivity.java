@@ -757,12 +757,29 @@ public class FireWallActivity extends Activity {
 						.findViewById(R.id.detail_history);
 
 				if (SQLStatic.uiddata != null) {
+					if(sharedpref.getFireWallType() == 3){
+						traffic_up.setText("上传： "
+								+ UnitHandler.unitHandlerAccurate(SQLStatic.uiddata
+										.get(uid).getUploadmobile()));
+						traffic_down.setText("下载： "
+								+ UnitHandler.unitHandlerAccurate(SQLStatic.uiddata
+										.get(uid).getDownloadmobile()));
+						
+					}else if(sharedpref.getFireWallType() == 4){
+						traffic_up.setText("上传： "
+								+ UnitHandler.unitHandlerAccurate(SQLStatic.uiddata
+										.get(uid).getUploadwifi()));
+						traffic_down.setText("下载： "
+								+ UnitHandler.unitHandlerAccurate(SQLStatic.uiddata
+										.get(uid).getDownloadwifi()));
+					}else{
 					traffic_up.setText("上传： "
 							+ UnitHandler.unitHandlerAccurate(SQLStatic.uiddata
 									.get(uid).getAllUpload()));
 					traffic_down.setText("下载： "
 							+ UnitHandler.unitHandlerAccurate(SQLStatic.uiddata
 									.get(uid).getAllDownload()));
+					}
 				} else {
 					traffic_up.setText("上传： " + "0 KB");
 					traffic_down.setText("下载： " + "0 KB");
