@@ -191,13 +191,15 @@ public class SQLHelperUidSelectDataFire {
 			// select oldest upload and download 之前记录的数据的查询操作
 			string = string.append(SelectTable).append("uid").append(uidnumber)
 					.append(Where).append("other='").append(NETWORK_FLAG)
-					.append("'type=").append(2).append(strDate);
+					.append("'").append(AND_A).append(" type=").append(2)
+					.append(strDate);
 		} else {
 			string = string.append(SelectTable).append("uid").append(uidnumber)
 					.append(Where).append("other='").append(WIFI_FLAG)
-					.append("'type=").append(2).append(strDate);
+					.append("'").append(AND_A).append(" type=").append(2)
+					.append(strDate);
 		}
-		Logs.d(TAG, string.toString());
+//		Logs.d(TAG, string.toString());
 		try {
 			cur = mySQL.rawQuery(string.toString(), null);
 		} catch (Exception e) {
