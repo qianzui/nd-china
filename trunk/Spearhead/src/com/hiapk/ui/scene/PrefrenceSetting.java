@@ -36,24 +36,30 @@ public class PrefrenceSetting extends Activity {
 
 	SharedPrefrenceData sharedData;
 	ProgressDialog mydialog;
+	// 几个大选项
+	LinearLayout layout_notyfy;
+	LinearLayout layout_float;
+	LinearLayout layout_help_info;
+	LinearLayout layout_freshplv;
+	LinearLayout layout_cleardata;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.settings);
-		LinearLayout layout_notyfy = (LinearLayout) findViewById(R.id.setting_notify);
-		LinearLayout layout_float = (LinearLayout) findViewById(R.id.setting_float);
-		LinearLayout layout_help_info = (LinearLayout) findViewById(R.id.setting_help_message);
-		LinearLayout layout_freshplv = (LinearLayout) findViewById(R.id.setting_freshplv);
-		LinearLayout layout_cleardata = (LinearLayout) findViewById(R.id.setting_cleardata);
+		layout_notyfy = (LinearLayout) findViewById(R.id.setting_notify);
+		layout_float = (LinearLayout) findViewById(R.id.setting_float);
+		layout_help_info = (LinearLayout) findViewById(R.id.setting_help_message);
+		layout_freshplv = (LinearLayout) findViewById(R.id.setting_freshplv);
+		layout_cleardata = (LinearLayout) findViewById(R.id.setting_cleardata);
 		PrefrenceBeen prefBeen = new PrefrenceBeen(context);
 		prefBeen.initCheckBoxNotyfy(layout_notyfy);
 		prefBeen.initCheckBoxFloat(layout_float);
 		prefBeen.initCheckBoxHelpMessage(layout_help_info);
 		prefBeen.initListBoxFresh(layout_freshplv);
 		prefBeen.initClickBoxDataClear(layout_cleardata);
-
+		// 皮肤设置
 		final ImageView back = (ImageView) findViewById(R.id.setting_back);
 		back.setOnClickListener(new OnClickListener() {
 			@Override
@@ -89,6 +95,13 @@ public class PrefrenceSetting extends Activity {
 	private void initScene() {
 		FrameLayout title = (FrameLayout) findViewById(R.id.settingTitleBackground);
 		title.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
+		layout_notyfy.setBackgroundResource(SkinCustomMains.barsBackground());
+		layout_float.setBackgroundResource(SkinCustomMains.barsBackground());
+		layout_help_info
+				.setBackgroundResource(SkinCustomMains.barsBackground());
+		layout_freshplv.setBackgroundResource(SkinCustomMains.barsBackground());
+		layout_cleardata
+				.setBackgroundResource(SkinCustomMains.barsBackground());
 	}
 
 	@Override
