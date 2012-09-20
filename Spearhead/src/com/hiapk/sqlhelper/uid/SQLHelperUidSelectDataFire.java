@@ -39,6 +39,7 @@ public class SQLHelperUidSelectDataFire {
 	private Cursor cur;
 	// flag-network-onuidtraff
 	private String NETWORK_FLAG = "mobile";
+	private String WIFI_FLAG = "wifi";
 
 	// /**
 	// * 对数据库uid数据进行批量更新，
@@ -189,19 +190,20 @@ public class SQLHelperUidSelectDataFire {
 		if (network == NETWORK_FLAG) {
 			// select oldest upload and download 之前记录的数据的查询操作
 			string = string.append(SelectTable).append("uid").append(uidnumber)
-					.append(Where).append("type=").append(3).append(strDate);
+					.append(Where).append("other='").append(NETWORK_FLAG)
+					.append("'type=").append(2).append(strDate);
 		} else {
 			string = string.append(SelectTable).append("uid").append(uidnumber)
-					.append(Where).append("type=").append(4).append(strDate);
+					.append(Where).append("other='").append(WIFI_FLAG)
+					.append("'type=").append(2).append(strDate);
 		}
-		// Logs.d(TAG, string.toString());
+		Logs.d(TAG, string.toString());
 		try {
 			cur = mySQL.rawQuery(string.toString(), null);
 		} catch (Exception e) {
 			Logs.d(TAG, "error+CreateTable" + string);
-			// TODO
-			// SQLHelperUidSelectFail selectFail = new SQLHelperUidSelectFail();
-			// selectFail.selectfails(mySQL, "uid" + uidnumber, uidnumber);
+			SQLHelperUidSelectFail selectFail = new SQLHelperUidSelectFail();
+			selectFail.selectfails(mySQL, "uid" + uidnumber, uidnumber);
 		}
 		long[] a = new long[3];
 		if (cur != null) {
