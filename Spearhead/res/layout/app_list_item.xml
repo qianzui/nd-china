@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/list_item_selector"
+    android:background="@drawable/linear_selector0"
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical" >
 

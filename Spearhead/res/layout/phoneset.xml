@@ -150,8 +150,9 @@
             android:layout_gravity="center"
             android:background="@drawable/btnselector_light0"
             android:gravity="center"
+            android:padding="2dp"
             android:text="下一步"
-            android:textColor="@color/darkgray2"
+            android:textColor="@color/button_color_light"
             android:textSize="20sp" />
     </LinearLayout>
 

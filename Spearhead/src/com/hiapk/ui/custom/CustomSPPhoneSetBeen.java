@@ -48,7 +48,7 @@ public class CustomSPPhoneSetBeen {
 		// 初始化窗体
 		LayoutInflater factory = LayoutInflater.from(context);
 		final View textEntryView = factory.inflate(
-				R.layout.listview_custom_spinner, null);
+				R.layout.custom_listview_spinner, null);
 		ListView lv_fresh = (ListView) textEntryView
 				.findViewById(R.id.lv_custom_spinner);
 		CustomSPAdapter adapter = new CustomSPAdapter(context, content,
@@ -116,7 +116,7 @@ public class CustomSPPhoneSetBeen {
 		// 初始化窗体
 		LayoutInflater factory = LayoutInflater.from(context);
 		final View textEntryView = factory.inflate(
-				R.layout.listview_custom_spinner, null);
+				R.layout.custom_listview_spinner, null);
 		ListView lv_fresh = (ListView) textEntryView
 				.findViewById(R.id.lv_custom_spinner);
 		CustomSPAdapter adapter = new CustomSPAdapter(context, content,

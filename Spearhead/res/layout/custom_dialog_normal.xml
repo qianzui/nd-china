@@ -38,7 +38,6 @@
 
         <TextView
             android:id="@+id/message"
-            android:paddingRight="10dp"
             style="@style/CustomDialogText"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -46,7 +45,8 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="5dp"
             android:gravity="left|center_vertical"
-            android:padding="5dip" />
+            android:padding="5dip"
+            android:paddingRight="10dp" />
     </LinearLayout>
     <!-- 按钮 -->
 
@@ -73,8 +73,8 @@
         android:layout_height="50dp"
         android:layout_gravity="center|bottom"
         android:orientation="horizontal"
-        android:paddingBottom="5dp"
-        android:paddingTop="2dp" >
+        android:paddingBottom="8dp"
+        android:paddingTop="5dp" >
 
         <Button
             android:id="@+id/otherButton"
@@ -84,7 +84,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1.2"
-            android:background="@drawable/btnselector_dark0" />
+            android:background="@drawable/btnselector_dark0"
+            android:padding="2dp" />
 
         <Button
             android:id="@+id/positiveButton"
@@ -94,7 +95,8 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="@drawable/btnselector_dark0" />
+            android:background="@drawable/btnselector_dark0"
+            android:padding="2dp" />
 
         <Button
             android:id="@+id/negativeButton"
@@ -104,7 +106,8 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="@drawable/btnselector_dark0" />
+            android:background="@drawable/btnselector_dark0"
+            android:padding="2dp" />
     </LinearLayout>
 
 </FrameLayout>

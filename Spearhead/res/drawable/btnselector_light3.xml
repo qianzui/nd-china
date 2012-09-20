@@ -1,7 +1,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:drawable="@drawable/btn_unclick" android:state_pressed="true"/>
-    <item android:drawable="@drawable/btn_clicked0"/>
+    <item android:drawable="@drawable/btn_clicked3"/>
     <!--
      定义按钮按下时的图片 
     <item android:drawable="@drawable/btn_main_chart_button_default" android:state_pressed="true"/>
