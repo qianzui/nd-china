@@ -72,7 +72,6 @@ public class FireWallPushNotification extends Activity {
 		notifListView = new ListView(context);
 		notifListView.setDivider(context.getResources().getDrawable(
 				R.drawable.divider));
-		notifListView.setDividerHeight(2);
 		notificationLayout.addView(notifListView, LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT);
 		setAdapter();

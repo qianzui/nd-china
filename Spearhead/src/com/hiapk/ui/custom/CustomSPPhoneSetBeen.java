@@ -54,7 +54,6 @@ public class CustomSPPhoneSetBeen {
 		CustomSPAdapter adapter = new CustomSPAdapter(context, content,
 				beforepos);
 		lv_fresh.setAdapter(adapter);
-		lv_fresh.setDividerHeight(0);
 		lv_fresh.setSelection(beforepos);
 
 		final CustomDialog phoneset;
@@ -122,7 +121,6 @@ public class CustomSPPhoneSetBeen {
 		CustomSPAdapter adapter = new CustomSPAdapter(context, content,
 				beforepos);
 		lv_fresh.setAdapter(adapter);
-		lv_fresh.setDividerHeight(0);
 		lv_fresh.setSelection(beforepos);
 
 		final CustomDialog phoneset;
