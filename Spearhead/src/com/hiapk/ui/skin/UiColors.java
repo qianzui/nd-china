@@ -34,6 +34,10 @@ public class UiColors {
 	 * darkgray2的颜色
 	 */
 	public static int colorDarkGray2 = Color.rgb(80, 80, 80);
+	/**
+	 * 主界面北京的淡灰色
+	 */
+	public static int colorMainWhiteDark = Color.rgb(243, 243, 243);
 	// public static int[] chartbarcolor;
 	// chartbarcolor=new int[] { Color.BLUE, Color.GREEN };
 }
