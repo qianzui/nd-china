@@ -27,13 +27,10 @@
     <color name="nova_space_blue_gradient_end">#ff54528a</color>
     <color name="nova_space_blue_gradient_btn_center">#ff7e7da7</color>
     <color name="nova_space_orange_gradient_btn_center">#ffebb562</color>
-    
-     <color name="nova_space_green_gradient_btn_center">#ff73c797</color>
-      <color name="nova_space_purple_gradient_btn_center">#ffae65af</color>
-       <color name="nova_space_pink_gradient_btn_center">#fff88795</color>
-        <color name="nova_space_grey_gradient_btn_center">#ff7f807f</color>
-    
-    
+    <color name="nova_space_green_gradient_btn_center">#ff73c797</color>
+    <color name="nova_space_purple_gradient_btn_center">#ffae65af</color>
+    <color name="nova_space_pink_gradient_btn_center">#fff88795</color>
+    <color name="nova_space_grey_gradient_btn_center">#ff7f807f</color>
     <color name="nova_space_purple_gradient_end">#ff813381</color>
     <color name="nova_space_pink_gradient_end">#ffe86778</color>
     <color name="nova_space_grey_gradient_end">#ff525252</color>
@@ -369,5 +366,6 @@
     <color name="four">#f15b6c</color>
     <color name="five">#1a2933</color>
     <color name="zero">#2a5caa</color>
+    <color name="main_background_color">#f3f3f3</color>
 
 </resources>

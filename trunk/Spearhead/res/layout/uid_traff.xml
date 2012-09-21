@@ -53,7 +53,7 @@
             android:id="@+id/new_chart_tv"
             android:layout_width="fill_parent"
             android:layout_height="20dp"
-            android:background="@color/white"
+            android:background="@color/main_background_color"
             android:gravity="right|center_vertical"
             android:orientation="vertical"
             android:paddingRight="25dp"
@@ -64,7 +64,7 @@
             android:id="@+id/new_series"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@color/main_background_color"
             android:orientation="vertical"
             android:paddingRight="3dp" >
         </LinearLayout>
@@ -82,7 +82,7 @@
             android:layout_width="0dip"
             android:layout_height="fill_parent"
             android:layout_weight="1.0"
-            android:background="@color/white"
+            android:background="@color/main_background_color"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -102,7 +102,7 @@
                         android:id="@+id/new_budget_tv"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:background="@color/white"
+                        android:background="@color/main_background_color"
                         android:gravity="left|center_horizontal"
                         android:paddingLeft="14dp"
                         android:textColor="@color/darkgray2"
@@ -201,7 +201,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
-            android:background="@color/white"
+            android:background="@color/main_background_color"
             android:orientation="vertical" >
         </LinearLayout>
     </LinearLayout>

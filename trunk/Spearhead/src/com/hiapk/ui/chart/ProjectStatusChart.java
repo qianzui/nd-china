@@ -71,6 +71,7 @@ public class ProjectStatusChart extends ViewBase {
 	String XaxisText = "日期";
 	// 标题
 	String mainTitle = "日流量统计";
+	int backgroundColor = UiColors.colorMainWhiteDark;
 
 	/**
 	 * 主标题
@@ -226,8 +227,8 @@ public class ProjectStatusChart extends ViewBase {
 				PointStyle.DIAMOND };
 		XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
 		// 设置背景色
-		renderer.setMarginsColor(Color.WHITE);
-		renderer.setBackgroundColor(Color.WHITE);
+		renderer.setMarginsColor(backgroundColor);
+		renderer.setBackgroundColor(backgroundColor);
 		renderer.setApplyBackgroundColor(true);
 		// X轴
 		renderer.setYLabelsAlign(Align.LEFT);
@@ -305,8 +306,8 @@ public class ProjectStatusChart extends ViewBase {
 		// }
 		//
 		// 设置背景色
-		renderer.setMarginsColor(Color.WHITE);
-		renderer.setBackgroundColor(Color.WHITE);
+		renderer.setMarginsColor(backgroundColor);
+		renderer.setBackgroundColor(backgroundColor);
 		renderer.setApplyBackgroundColor(true);
 		// X轴
 		// renderer.setYLabelsAlign(Align.LEFT);

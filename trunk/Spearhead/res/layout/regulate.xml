@@ -43,8 +43,7 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="5dip" >
 
@@ -63,7 +62,7 @@
             android:layout_marginBottom="10dip"
             android:layout_weight="2"
             android:background="@drawable/send_message_bg1"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:text="进入地区选择页"
             android:textColor="@color/blueflock"
             android:textSize="19dip" />
@@ -83,7 +82,7 @@
             android:layout_marginBottom="10dip"
             android:layout_weight="2"
             android:background="@drawable/send_message_bg0"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:text="流量剩余量"
             android:textColor="@color/darkgray2"
             android:textSize="19dip" />
@@ -103,7 +102,7 @@
             android:layout_marginBottom="10dip"
             android:layout_weight="2"
             android:background="@drawable/send_message_bg0"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:text="CXLL"
             android:textColor="@color/darkgray2"
             android:textSize="19dip" />
@@ -120,10 +119,9 @@
             android:id="@+id/smsNum"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="20dip"
             android:layout_weight="2"
             android:background="@drawable/send_message_bg0"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:text="10086"
             android:textColor="@color/darkgray2"
             android:textSize="19dip" />
@@ -131,10 +129,10 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical"
-        android:padding="5dip" >
+        android:paddingBottom="15dp" >
 
         <Button
             android:id="@+id/smsSend"

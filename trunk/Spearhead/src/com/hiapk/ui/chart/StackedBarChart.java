@@ -74,7 +74,7 @@ public class StackedBarChart extends ViewBase {
 	// 数轴标识颜色
 	int lableColor = Color.rgb(80, 80, 80);
 	// 背景颜色
-	int backgroundcolor = Color.WHITE;
+	int backgroundcolor = UiColors.colorMainWhiteDark;
 
 	// 本月的天数
 	double showDay = 62;
@@ -329,8 +329,8 @@ public class StackedBarChart extends ViewBase {
 			renderer.addSeriesRenderer(r);
 		}
 		renderer.setMargins(new int[] { 30, 35, 17, 25 }); // 设置4边留白
-		renderer.setMarginsColor(Color.WHITE);
-		renderer.setBackgroundColor(Color.WHITE);
+		renderer.setMarginsColor(backgroundcolor);
+		renderer.setBackgroundColor(backgroundcolor);
 		renderer.setApplyBackgroundColor(true);
 		return renderer;
 	}
