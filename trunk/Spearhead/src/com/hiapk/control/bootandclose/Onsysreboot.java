@@ -142,11 +142,12 @@ public class Onsysreboot {
 			if (!isOpenSucess) {
 				SpearheadApplication.getInstance().getsharedData()
 						.setIsFireWallOpenFail(true);
+				NotificationFireFailOnsysBoot openFireFail = new NotificationFireFailOnsysBoot(
+						SpearheadApplication.getInstance()
+								.getApplicationContext());
+				openFireFail.startNotifyDay(SpearheadApplication.getInstance()
+						.getApplicationContext(), false);
 			}
-			NotificationFireFailOnsysBoot openFireFail = new NotificationFireFailOnsysBoot(
-					SpearheadApplication.getInstance().getApplicationContext());
-			openFireFail.startNotifyDay(SpearheadApplication.getInstance()
-					.getApplicationContext(), false);
 		}
 	}
 
