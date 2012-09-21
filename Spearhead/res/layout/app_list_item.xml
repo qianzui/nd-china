@@ -93,7 +93,6 @@
         android:paddingBottom="2dip"
         android:paddingTop="8dip"
         android:visibility="gone" >
-
         <Button
             android:id="@+id/bt_manage"
             android:layout_width="0dip"

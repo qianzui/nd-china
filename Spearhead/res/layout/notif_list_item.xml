@@ -90,7 +90,7 @@
         android:orientation="horizontal"
         android:paddingTop="8dip"
         android:paddingBottom="2dip"
-        android:background="@drawable/action_view_down_bg">
+        android:background="@drawable/fire_menu_bg">
         <Button
             android:id="@+id/notif_manage"
             android:text="应用管理"

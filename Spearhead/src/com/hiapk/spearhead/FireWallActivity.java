@@ -184,7 +184,7 @@ public class FireWallActivity extends Activity {
 			break;
 		case 4:
 			title_normal.setVisibility(View.VISIBLE);
-			firewall_title.setText("WIFI流量排行");
+			firewall_title.setText("WiFi流量排行");
 			break;
 		case 5:
 			title_normal.setVisibility(View.INVISIBLE);
@@ -295,7 +295,7 @@ public class FireWallActivity extends Activity {
 		case 4:
 			appListView.setVisibility(View.INVISIBLE);
 			loading_content.setVisibility(View.VISIBLE);
-			firewall_title.setText("WIFI流量排行");
+			firewall_title.setText("WiFi流量排行");
 			setNewDataForList();
 			break;
 		case 5:
