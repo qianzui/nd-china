@@ -239,7 +239,7 @@ public class SharedPrefrenceData {
 	}
 
 	public boolean IsFireWallOpenFail() {
-		boolean blean = prefs.getBoolean(IsFireWallOpen, true);
+		boolean blean = prefs.getBoolean(IsFireWallOpen, false);
 		return blean;
 	}
 
