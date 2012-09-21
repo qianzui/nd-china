@@ -19,6 +19,8 @@ import com.hiapk.firewall.NotifListAdapter;
 import com.hiapk.firewall.MyListView.OnRefreshListener;
 import com.hiapk.logs.Logs;
 import com.hiapk.sqlhelper.uid.SQLHelperFireWall;
+import com.hiapk.ui.custom.CustomDialog;
+import com.hiapk.ui.custom.CustomDialogMain2Been;
 import com.hiapk.ui.custom.CustomDialogOtherBeen;
 import com.hiapk.ui.scene.UidMonthTraff;
 import com.hiapk.ui.skin.SkinCustomMains;
@@ -107,12 +109,17 @@ public class FireWallActivity extends Activity {
 		setContentView(R.layout.main2);
 		init();
 		initUidData();
-		handler.post(new Runnable() {
-			@Override
-			public void run() {
-				initList();
-			}
-		});
+		
+		if(sharedpref.IsFireWallOpenFail() && !Block.isShowHelp(mContext)){
+			dialogFireWallOpenFail();
+		}else{
+			handler.post(new Runnable() {
+				@Override
+				public void run() {
+					initList();
+				}
+			});
+		}
 		handler2 = new Handler() {
 			public void handleMessage(Message msg) {
 				try {
@@ -939,5 +946,66 @@ public class FireWallActivity extends Activity {
 			}
 			NotificationInfo.isgettingdata = false;
 		}
+	}
+	public void dialogFireWallOpenFail() {
+		final CustomDialog alertDialog = new CustomDialog.Builder(mContext)
+				.setTitle("注意").setMessage("防火墙应用规则失败，需要申请Root权限，请点击重试！")
+				.setPositiveButton("重试", null).setNegativeButton("取消", null)
+				.create();
+		alertDialog.show();
+
+		Button btn_ok = (Button) alertDialog.findViewById(R.id.positiveButton);
+		btn_ok.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				boolean isOpenSucess = false;
+				isOpenSucess = Block.applyIptablesRules(mContext, true, false);
+				if (!isOpenSucess) {
+					Block.clearRules(mContext);
+					Toast.makeText(mContext, "防火墙启动失败。", Toast.LENGTH_SHORT)
+							.show();
+					handler.post(new Runnable() {
+						@Override
+						public void run() {
+							initList();
+						}
+					});
+					
+				} else {
+					SpearheadApplication.getInstance().getsharedData()
+							.setIsFireWallOpenFail(false);
+					handler.post(new Runnable() {
+						@Override
+						public void run() {
+							initList();
+						}
+					});
+				}
+				alertDialog.dismiss();
+				// TODO 开始初始化防火墙代码
+
+			}
+		});
+		Button btn_cancel = (Button) alertDialog
+				.findViewById(R.id.negativeButton);
+		btn_cancel.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Block.clearRules(mContext);
+				SpearheadApplication.getInstance().getsharedData()
+				.setIsFireWallOpenFail(false);
+				handler.post(new Runnable() {
+					@Override
+					public void run() {
+						initList();
+					}
+				});
+				alertDialog.dismiss();
+				// TODO 开始初始化防火墙代码
+
+			}
+		});
 	}
 }
