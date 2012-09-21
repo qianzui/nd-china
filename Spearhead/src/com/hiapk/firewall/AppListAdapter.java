@@ -104,8 +104,9 @@ public class AppListAdapter extends BaseAdapter {
 					.findViewById(R.id.detail_menu);
 			convertView.setTag(R.id.tag_holder, holder);
 			// …Ë÷√∆§∑Ù
-			convertView.setBackgroundResource(SkinCustomDialog
-					.spinnerBackground());
+			LinearLayout layout = (LinearLayout) convertView
+					.findViewById(R.id.list_backgroundlayout);
+			layout.setBackgroundResource(SkinCustomDialog.spinnerBackground());
 		} else {
 			holder = (ViewHolder) convertView.getTag(R.id.tag_holder);
 		}
