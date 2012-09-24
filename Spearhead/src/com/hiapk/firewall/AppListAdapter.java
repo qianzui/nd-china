@@ -100,8 +100,6 @@ public class AppListAdapter extends BaseAdapter {
 					.findViewById(R.id.e_toggle);
 			holder.wifi_toggle = (CheckBox) convertView
 					.findViewById(R.id.wifi_toggle);
-			holder.ll = (LinearLayout) convertView
-					.findViewById(R.id.detail_menu);
 			convertView.setTag(R.id.tag_holder, holder);
 			// …Ë÷√∆§∑Ù
 			LinearLayout layout = (LinearLayout) convertView
@@ -201,7 +199,6 @@ public class AppListAdapter extends BaseAdapter {
 		holder.e_toggle.setOnClickListener(new EListener(holder.e_toggle, ic));
 		holder.wifi_toggle.setOnClickListener(new WifiListener(
 				holder.wifi_toggle, ic));
-		holder.ll.setVisibility(View.GONE);
 		convertView.setTag(R.id.tag_pkginfo, pkgInfo);
 		return convertView;
 	}
@@ -236,7 +233,6 @@ public class AppListAdapter extends BaseAdapter {
 		TextView trafficup;
 		CheckBox e_toggle;
 		CheckBox wifi_toggle;
-		LinearLayout ll;
 	}
 
 	class EListener implements OnClickListener {
