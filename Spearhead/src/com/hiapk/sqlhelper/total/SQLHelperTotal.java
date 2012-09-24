@@ -311,6 +311,10 @@ public class SQLHelperTotal {
 							}
 							beforemobile = beforemobile + oldup0 + olddown0;
 							sharedData.setMonthHasUsedStack(beforemobile);
+							long beforeToday = sharedData
+									.getTodayMobileDataLong();
+							beforeToday = beforeToday + oldup0 + olddown0;
+							sharedData.setTodayMobileDataLong(beforeToday);
 						}
 
 					}
@@ -334,6 +338,9 @@ public class SQLHelperTotal {
 						}
 						beforemobile = beforemobile + oldup0 + olddown0;
 						sharedData.setMonthHasUsedStack(beforemobile);
+						long beforeToday = sharedData.getTodayMobileDataLong();
+						beforeToday = beforeToday + oldup0 + olddown0;
+						sharedData.setTodayMobileDataLong(beforeToday);
 					}
 				}
 				if (cur != null) {
