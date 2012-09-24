@@ -8,6 +8,7 @@ import android.app.Application;
 import android.content.res.Resources;
 
 import com.hiapk.logs.CustomException;
+import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceData;
 
 public class SpearheadApplication extends Application {
@@ -64,7 +65,9 @@ public class SpearheadApplication extends Application {
 		for (Activity activity : activityList) {
 			activity.finish();
 		}
-		System.exit(0);
+		if (SQLStatic.getIsInit(getApplicationContext()) == true) {
+			System.exit(0);
+		}
 		// if (sharedWidget.isNotifyOpen() || sharedWidget.isWidGet14Open()) {
 		// SetText.resetWidgetAndNotify(context);
 		// }

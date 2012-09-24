@@ -2,6 +2,7 @@ package com.hiapk.broadcreceiver;
 
 import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.SetText;
+import com.hiapk.logs.Logs;
 import com.hiapk.logs.WriteLog;
 import com.hiapk.ui.scene.PrefrenceStaticOperator;
 import com.hiapk.util.SQLStatic;
@@ -12,33 +13,50 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.text.format.Time;
-import android.util.Log;
 
 public class DateChangeBroadcast extends BroadcastReceiver {
 	private int monthDay;
 	private Context context;
 	private AlarmSet alset = new AlarmSet();
+	private String TAG = "DateChangeBr";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		this.context = context;
-		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		initTime();
-		alset.StartAlarm(context);
-		int countday = sharedData.getCountDay() + 1;
-		if (monthDay == countday) {
-			sharedData.setMonthHasUsedStack(0);
-			PrefrenceStaticOperator.resetHasWarningMonth(context);
-			TrafficManager.clearUidtraffMonthly(context);
-			WriteLog writelog = new WriteLog(context);
-			writelog.clearmonthLog();
-		}
-		sharedData.setTodayMobileDataLong(0);
-		SetText.resetWidgetAndNotify(context);
-		PrefrenceStaticOperator.resetHasWarningDay(context);
-		showLog("todya is " + monthDay);
+		new AsyncTaskonResetmonthAndtodayData().execute(context);
 		if (SQLStatic.ConnectSleepWaiting == false) {
 			new AsyncTaskonWaitingDayChange().execute(context);
+		}
+	}
+
+	/**
+	 * 延时统计数据后重置本月与本日数据
+	 * 
+	 * @author Administrator
+	 * 
+	 */
+	private class AsyncTaskonResetmonthAndtodayData extends
+			AsyncTask<Context, Long, Long> {
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			alset.StartAlarm(context);
+		}
+
+		@Override
+		protected Long doInBackground(Context... params) {
+			try {
+				Thread.sleep(1500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Long result) {
+			resetRecordData(context);
 		}
 	}
 
@@ -59,7 +77,7 @@ public class DateChangeBroadcast extends BroadcastReceiver {
 		@Override
 		protected Long doInBackground(Context... params) {
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(2500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -80,6 +98,35 @@ public class DateChangeBroadcast extends BroadcastReceiver {
 	}
 
 	/**
+	 * 清零月与日流量统计数据
+	 * 
+	 * @param context
+	 */
+	private void resetRecordData(Context context) {
+		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		int countday = sharedData.getCountDay() + 1;
+		if (monthDay == countday) {
+			sharedData.setMonthHasUsedStack(0);
+			PrefrenceStaticOperator.resetHasWarningMonth(context);
+			TrafficManager.clearUidtraffMonthly(context);
+			WriteLog writelog = new WriteLog(context);
+			writelog.clearmonthLog();
+		}
+		sharedData.setTodayMobileDataLong(0);
+		//
+		// SharedPrefrenceDataWidget sharedDatawidget = new
+		// SharedPrefrenceDataWidget(
+		// context);
+		// boolean isNotifyOpen = sharedDatawidget.isNotifyOpen();
+		// Logs.d(TAG, "isNotifyOpen=" + isNotifyOpen);
+		// Logs.d(TAG, "SetText.textUpbef=" + SetText.textUp);
+		SetText.resetWidgetAndNotify(context);
+		PrefrenceStaticOperator.resetHasWarningDay(context);
+		Logs.d(TAG, "dayRest=" + monthDay);
+		// Logs.d(TAG, "SetText.textUpaf=" + SetText.textUp);
+	}
+
+	/**
 	 * 初始化系统时间
 	 */
 	private void initTime() {
@@ -89,9 +136,4 @@ public class DateChangeBroadcast extends BroadcastReceiver {
 		monthDay = t.monthDay;
 	}
 
-	private void showLog(String string) {
-		if (SQLStatic.isshowLog) {
-			Log.d("DataChangeBroad", string);
-		}
-	}
 }

@@ -7,7 +7,6 @@ import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 import com.hiapk.sqlhelper.total.SQLHelperTotal;
 import com.hiapk.util.SQLStatic;
-import com.hiapk.util.SharedPrefrenceDataWidget;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -32,7 +31,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	// date
 	private int year;
 	private int month;
-	private int monthDay;
 	private String network;
 
 	// fortest
@@ -162,10 +160,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 			TrafficManager.wifi_month_data_before = wifi_month_data_before;
 			TrafficManager.mobile_month_use = mobile_month_use_afterSet;
 			// 数据存入xml
-			SharedPrefrenceDataWidget sharedData = new SharedPrefrenceDataWidget(
-					context);
-			sharedData.setTodayMobileDataLong(mobile_month_data[monthDay]
-					+ mobile_month_data[monthDay + 31]);
 			// showLog("wifitotal=" + wifi_month_data[0] + "");
 		} catch (Exception e) {
 			showLog("数据记录失败");
@@ -222,7 +216,6 @@ public class RecordDataReceiver extends BroadcastReceiver {
 		// 取得系统时间。
 		year = t.year;
 		month = t.month + 1;
-		monthDay = t.monthDay;
 
 	}
 

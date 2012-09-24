@@ -7,8 +7,6 @@ import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.sqlhelper.total.SQLHelperTotal;
 import com.hiapk.util.SQLStatic;
-import com.hiapk.util.SharedPrefrenceDataWidget;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.TrafficStats;
@@ -25,7 +23,6 @@ public class SQLHelperDataexe {
 	private static int year;
 	private static int month;
 	private static String network;
-	private static int monthDay;
 	public static boolean isiniting = false;
 
 	/**
@@ -216,10 +213,6 @@ public class SQLHelperDataexe {
 			TrafficManager.mobile_month_data_before = mobile_month_data_before;
 			TrafficManager.wifi_month_data_before = wifi_month_data_before;
 			TrafficManager.mobile_month_use = mobile_month_use_afterSet;
-			SharedPrefrenceDataWidget sharedData = new SharedPrefrenceDataWidget(
-					context);
-			sharedData.setTodayMobileDataLong(mobile_month_data[monthDay]
-					+ mobile_month_data[monthDay + 31]);
 			// showLog("wifitotal=" + wifi_month_data[0] + "");
 		} catch (Exception e) {
 		} finally {
@@ -238,7 +231,6 @@ public class SQLHelperDataexe {
 		// 取得系统时间。
 		year = t.year;
 		month = t.month + 1;
-		monthDay = t.monthDay;
 
 	}
 }

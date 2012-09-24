@@ -12,18 +12,22 @@ public class UpdateWidget extends BroadcastReceiver {
 	String BROADCAST_TRAFF = "com.hiapk.traffwidget";
 	String BROADCAST_WIFI = "com.hiapk.wifiwidget";
 	String BROADCAST_GPRS = "com.hiapk.prgswidget";
+	String TAG = "ReceiverWidget";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
 				context);
-		boolean isopen = sharedDatawidget.isFloatOpen();
+		// Logs.d(TAG, "onReceiveWidget");
 		if (SQLStatic.getIsInit(context)) {
 			if (SQLStatic.TableWiFiOrG23 != "") {
 				SetText.resetWidgetAndNotify(context);
+				// Logs.d(TAG, "sendnotification");
 			}
+			boolean isopen = sharedDatawidget.isFloatOpen();
 			if (isopen) {
 				context.startService(new Intent("com.hiapk.server"));
+				// Logs.d(TAG, "sendfloat");
 			} else {
 				context.stopService(new Intent("com.hiapk.server"));
 			}

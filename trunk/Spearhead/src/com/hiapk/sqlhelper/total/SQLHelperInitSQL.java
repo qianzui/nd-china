@@ -62,6 +62,8 @@ public class SQLHelperInitSQL {
 	private String[] packagename_init;
 	private long timemillion = 0;
 
+	private boolean isiniting = false;
+
 	/**
 	 * 对数据库进行wifi，mobile数据的写入新数据操作的操作
 	 * 
@@ -327,6 +329,10 @@ public class SQLHelperInitSQL {
 	 *            uid对应的包名
 	 */
 	public void initSQL(Context context, int[] uidnumbers, String[] packagename) {
+		if (isiniting) {
+			return;
+		}
+		isiniting = true;
 		// 初始化网络状态
 		timemillion = System.currentTimeMillis();
 		// SQLStatic.initTablemobileAndwifi(context);
@@ -397,6 +403,8 @@ public class SQLHelperInitSQL {
 				// 开启计时
 				AlarmSet alset = new AlarmSet();
 				alset.StartAlarm(context);
+				alset.StartWidgetAlarm(context);
+				isiniting = false;
 			}
 		}
 	}
@@ -439,6 +447,8 @@ public class SQLHelperInitSQL {
 				// 开启计时
 				AlarmSet alset = new AlarmSet();
 				alset.StartAlarm(context);
+				alset.StartWidgetAlarm(context);
+				isiniting = false;
 			}
 		}
 	}
@@ -514,6 +524,8 @@ public class SQLHelperInitSQL {
 				// 开启计时
 				AlarmSet alset = new AlarmSet();
 				alset.StartAlarm(context);
+				alset.StartWidgetAlarm(context);
+				isiniting = false;
 			}
 		}
 	}

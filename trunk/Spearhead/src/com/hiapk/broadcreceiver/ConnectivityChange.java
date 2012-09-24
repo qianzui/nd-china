@@ -105,13 +105,15 @@ public class ConnectivityChange extends BroadcastReceiver {
 		@Override
 		protected void onPostExecute(Long result) {
 			SQLStatic.initTablemobileAndwifi(context);
-			SetText.resetWidgetAndNotify(context);
 			if (SQLStatic.TableWiFiOrG23 == "") {
 				SQLStatic.TableWiFiOrG23Before = "";
 				alset.StopAlarm(context);
 				SQLStatic.isTotalAlarmRecording = false;
 				SQLStatic.isUidAlarmRecording = false;
+				SetText.resetWidgetAndNotify(context);
 				android.os.Process.killProcess(android.os.Process.myPid());
+			} else {
+				SetText.resetWidgetAndNotify(context);
 			}
 			SQLStatic.ConnectSleepWaiting = false;
 		}

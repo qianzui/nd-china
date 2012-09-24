@@ -154,9 +154,6 @@ public class Splash extends Activity {
 
 		@Override
 		protected Integer doInBackground(Context... params) {
-			if (SQLStatic.TableWiFiOrG23 == "") {
-				SQLStatic.initTablemobileAndwifi(context);
-			}
 			showLog("alarmover" + (System.currentTimeMillis() - time));
 			SQLStatic.initTablemobileAndwifi(context);
 			// MobclickAgent.onError(this);
