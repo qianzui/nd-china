@@ -109,10 +109,10 @@ public class FireWallActivity extends Activity {
 		setContentView(R.layout.main2);
 		init();
 		initUidData();
-		
-		if(sharedpref.IsFireWallOpenFail() && !Block.isShowHelp(mContext)){
+
+		if (sharedpref.IsFireWallOpenFail() && !Block.isShowHelp(mContext)) {
 			dialogFireWallOpenFail();
-		}else{
+		} else {
 			handler.post(new Runnable() {
 				@Override
 				public void run() {
@@ -126,8 +126,10 @@ public class FireWallActivity extends Activity {
 					if (sharedpref.getFireWallType() == 5) {
 						if (NotificationInfo.notificationRes.length() == 0) {
 							if (NotificationInfo.isgettingdata == false) {
-								new AsyncTaskGetAdbArrayListonResume()
-										.execute(mContext);
+								if (NotificationInfo.hasdata == false) {
+									new AsyncTaskGetAdbArrayListonResume()
+											.execute(mContext);
+								}
 							}
 						} else {
 							setAdapterNotif();
@@ -309,7 +311,10 @@ public class FireWallActivity extends Activity {
 			firewall_title.setText("通知栏流量排行");
 			if (NotificationInfo.notificationRes.length() == 0) {
 				if (NotificationInfo.isgettingdata == false) {
-					new AsyncTaskGetAdbArrayListonResume().execute(mContext);
+					if (NotificationInfo.hasdata == false) {
+						new AsyncTaskGetAdbArrayListonResume()
+								.execute(mContext);
+					}
 				}
 			} else {
 				setAdapterNotif();
@@ -390,8 +395,10 @@ public class FireWallActivity extends Activity {
 					protected void onPostExecute(Void result) {
 						if (NotificationInfo.notificationRes.length() == 0) {
 							if (NotificationInfo.isgettingdata == false) {
-								new AsyncTaskGetAdbArrayListonResume()
-										.execute(mContext);
+								if (NotificationInfo.hasdata == false) {
+									new AsyncTaskGetAdbArrayListonResume()
+											.execute(mContext);
+								}
 							}
 						} else {
 							setAdapterNotif();
@@ -484,8 +491,10 @@ public class FireWallActivity extends Activity {
 						if (sharedpref.getFireWallType() == 5) {
 							if (NotificationInfo.notificationRes.length() == 0) {
 								if (NotificationInfo.isgettingdata == false) {
-									new AsyncTaskGetAdbArrayListonResume()
-											.execute(mContext);
+									if (NotificationInfo.hasdata == false) {
+										new AsyncTaskGetAdbArrayListonResume()
+												.execute(mContext);
+									}
 								}
 							} else {
 								setAdapterNotif();
@@ -764,28 +773,34 @@ public class FireWallActivity extends Activity {
 						.findViewById(R.id.detail_history);
 
 				if (SQLStatic.uiddata != null) {
-					if(sharedpref.getFireWallType() == 3){
+					if (sharedpref.getFireWallType() == 3) {
 						traffic_up.setText("上传： "
-								+ UnitHandler.unitHandlerAccurate(SQLStatic.uiddata
-										.get(uid).getUploadmobile()));
+								+ UnitHandler
+										.unitHandlerAccurate(SQLStatic.uiddata
+												.get(uid).getUploadmobile()));
 						traffic_down.setText("下载： "
-								+ UnitHandler.unitHandlerAccurate(SQLStatic.uiddata
-										.get(uid).getDownloadmobile()));
-						
-					}else if(sharedpref.getFireWallType() == 4){
+								+ UnitHandler
+										.unitHandlerAccurate(SQLStatic.uiddata
+												.get(uid).getDownloadmobile()));
+
+					} else if (sharedpref.getFireWallType() == 4) {
 						traffic_up.setText("上传： "
-								+ UnitHandler.unitHandlerAccurate(SQLStatic.uiddata
-										.get(uid).getUploadwifi()));
+								+ UnitHandler
+										.unitHandlerAccurate(SQLStatic.uiddata
+												.get(uid).getUploadwifi()));
 						traffic_down.setText("下载： "
-								+ UnitHandler.unitHandlerAccurate(SQLStatic.uiddata
-										.get(uid).getDownloadwifi()));
-					}else{
-					traffic_up.setText("上传： "
-							+ UnitHandler.unitHandlerAccurate(SQLStatic.uiddata
-									.get(uid).getAllUpload()));
-					traffic_down.setText("下载： "
-							+ UnitHandler.unitHandlerAccurate(SQLStatic.uiddata
-									.get(uid).getAllDownload()));
+								+ UnitHandler
+										.unitHandlerAccurate(SQLStatic.uiddata
+												.get(uid).getDownloadwifi()));
+					} else {
+						traffic_up.setText("上传： "
+								+ UnitHandler
+										.unitHandlerAccurate(SQLStatic.uiddata
+												.get(uid).getAllUpload()));
+						traffic_down.setText("下载： "
+								+ UnitHandler
+										.unitHandlerAccurate(SQLStatic.uiddata
+												.get(uid).getAllDownload()));
 					}
 				} else {
 					traffic_up.setText("上传： " + "0 KB");
@@ -947,6 +962,7 @@ public class FireWallActivity extends Activity {
 			NotificationInfo.isgettingdata = false;
 		}
 	}
+
 	public void dialogFireWallOpenFail() {
 		final CustomDialog alertDialog = new CustomDialog.Builder(mContext)
 				.setTitle("注意").setMessage("防火墙应用规则失败，需要申请Root权限，请点击重试！")
@@ -971,7 +987,7 @@ public class FireWallActivity extends Activity {
 							initList();
 						}
 					});
-					
+
 				} else {
 					SpearheadApplication.getInstance().getsharedData()
 							.setIsFireWallOpenFail(false);
@@ -995,7 +1011,7 @@ public class FireWallActivity extends Activity {
 			public void onClick(View v) {
 				Block.clearRules(mContext);
 				SpearheadApplication.getInstance().getsharedData()
-				.setIsFireWallOpenFail(false);
+						.setIsFireWallOpenFail(false);
 				handler.post(new Runnable() {
 					@Override
 					public void run() {
