@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fire_menu"
+    android:layout_width="fill_parent"
+    android:layout_height="80dip"
+    android:orientation="horizontal"
+    android:paddingBottom="6dip"
+    android:paddingTop="6dip" >
+
+    <Button
+        android:id="@+id/fire_item_manage"
+        android:layout_width="0dip"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="10dip"
+        android:layout_weight="1"
+        android:background="@drawable/btnselector_dark0"
+        android:text="应用管理" />
+
+    <Button
+        android:id="@+id/fire_item_detail"
+        android:layout_width="0dip"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:layout_weight="1"
+        android:background="@drawable/btnselector_dark0"
+        android:text="流量详情" />
+
+    <Button
+        android:id="@+id/fire_item_uninstalled"
+        android:layout_width="0dip"
+        android:layout_height="fill_parent"
+        android:layout_marginRight="10dip"
+        android:layout_weight="1"
+        android:background="@drawable/btnselector_dark0"
+        android:text="卸载" />
+
+</LinearLayout>

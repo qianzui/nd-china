@@ -84,42 +84,4 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/detail_menu"
-        android:layout_width="fill_parent"
-        android:layout_height="50dip"
-        android:background="@drawable/bground_dark"
-        android:orientation="horizontal"
-        android:paddingBottom="2dip"
-        android:paddingTop="8dip"
-        android:visibility="gone" >
-        <Button
-            android:id="@+id/bt_manage"
-            android:layout_width="0dip"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="10dip"
-            android:layout_weight="1"
-            android:background="@drawable/btnselector_dark0"
-            android:text="应用管理" />
-
-        <Button
-            android:id="@+id/bt_detail"
-            android:layout_width="0dip"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:layout_weight="1"
-            android:background="@drawable/btnselector_dark0"
-            android:text="流量详情" />
-
-        <Button
-            android:id="@+id/bt_uninstalled"
-            android:layout_width="0dip"
-            android:layout_height="fill_parent"
-            android:layout_marginRight="10dip"
-            android:layout_weight="1"
-            android:background="@drawable/btnselector_dark0"
-            android:text="卸载" />
-    </LinearLayout>
-
 </LinearLayout>

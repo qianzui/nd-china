@@ -11,6 +11,7 @@ import com.hiapk.control.traff.NotificationInfo;
 import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.firewall.AppListAdapter;
 import com.hiapk.firewall.Block;
+import com.hiapk.firewall.FireWallItemMenu;
 import com.hiapk.firewall.MyCompName;
 import com.hiapk.firewall.MyCompNotifName;
 import com.hiapk.firewall.MyCompTraffic;
@@ -22,6 +23,7 @@ import com.hiapk.sqlhelper.uid.SQLHelperFireWall;
 import com.hiapk.ui.custom.CustomDialog;
 import com.hiapk.ui.custom.CustomDialogMain2Been;
 import com.hiapk.ui.custom.CustomDialogOtherBeen;
+import com.hiapk.ui.custom.CustomPopupWindow;
 import com.hiapk.ui.scene.UidMonthTraff;
 import com.hiapk.ui.skin.SkinCustomMains;
 import com.hiapk.util.SQLStatic;
@@ -47,13 +49,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.Window;
@@ -73,7 +73,6 @@ public class FireWallActivity extends Activity {
 	private static final String APP_DETAILS_PACKAGE_NAME = "com.android.settings";
 	private static final String APP_DETAILS_CLASS_NAME = "com.android.settings.InstalledAppDetails";
 	private List<PackageInfo> packageInfo;
-	protected ArrayList<LinearLayout> menuList = new ArrayList<LinearLayout>();
 	protected ArrayList<String[]> notificationInfos = new ArrayList<String[]>();
 	protected SharedPrefrenceData sharedpref;
 	public static AppListAdapter appListAdapter;
@@ -449,6 +448,7 @@ public class FireWallActivity extends Activity {
 	}
 
 	public void setAdapter() {
+		bubbleView = getLayoutInflater().inflate(R.layout.fire_setting, null);
 		title_notif.setVisibility(View.INVISIBLE);
 		title_normal.setVisibility(View.VISIBLE);
 		firewall_details.setText(" " + getAppNum(0) + " ");
@@ -607,100 +607,81 @@ public class FireWallActivity extends Activity {
 				.getTag(R.id.tag_notif_pkgInfo);
 		final int uid = pkgInfo.applicationInfo.uid;
 		final String pkgname = pkgInfo.applicationInfo.packageName;
-		final LinearLayout ll = (LinearLayout) arg1
-				.findViewById(R.id.notif_menu);
-		if (menuList.size() == 0) {
-			if (ll.isShown()) {
-				ll.setVisibility(View.GONE);
-				menuList.clear();
-			} else {
-				ll.setVisibility(View.VISIBLE);
-				menuList.add(ll);
-			}
-		} else {
-			if (ll.isShown()) {
-				ll.setVisibility(View.GONE);
-				menuList.clear();
-			} else {
-				for (int i = 0; i < menuList.size(); i++) {
-					menuList.get(i).setVisibility(View.GONE);
+		
+		final FireWallItemMenu menu = new FireWallItemMenu(arg1);
+		menu.show();
+		View menuView = menu.getView();
+		if(menuView != null ){
+			Button bt_manager = (Button) menuView.findViewById(R.id.fire_item_manage);
+			Button bt_detail = (Button) menuView.findViewById(R.id.fire_item_detail);
+			Button bt_uninstall = (Button) menuView.findViewById(R.id.fire_item_uninstalled);
+			bt_manager.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					menu.dismiss();
+					showInstalledAppDetails(FireWallActivity.this, pkgname);
 				}
-				ll.setVisibility(View.VISIBLE);
-				menuList.add(ll);
-			}
-		}
-
-		Button bt_manager = (Button) arg1.findViewById(R.id.notif_manage);
-		Button bt_detail = (Button) arg1.findViewById(R.id.notif_detail);
-		Button bt_uninstall = (Button) arg1
-				.findViewById(R.id.notif_uninstalled);
-
-		bt_manager.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				showInstalledAppDetails(FireWallActivity.this, pkgname);
-				ll.setVisibility(View.GONE);
-			}
-		});
-
-		if (FireWallActivity.uidList.contains(uid)
-				&& (PackageManager.PERMISSION_GRANTED == getPackageManager()
-						.checkPermission(Manifest.permission.INTERNET, pkgname))
-				&& SQLStatic.packagename_ALL.contains(pkgname)
-				&& !Block.filter.contains(pkgname)) {
-			final SharedPreferences prefs = mContext.getSharedPreferences(
-					Block.PREFS_NAME, 0);
-			final String uids_wifi = prefs.getString(Block.PREF_WIFI_UIDS, "");
-			final String uids_3g = prefs.getString(Block.PREF_3G_UIDS, "");
-			if (uids_3g.contains(uid + "") && uids_wifi.contains(uid + "")) {
-				bt_detail.setTextColor(Color.GRAY);
+			});
+			
+			bt_detail.setText("禁止联网");
+			if (FireWallActivity.uidList.contains(uid)
+					&& (PackageManager.PERMISSION_GRANTED == getPackageManager()
+							.checkPermission(Manifest.permission.INTERNET, pkgname))
+					&& SQLStatic.packagename_ALL.contains(pkgname)
+					&& !Block.filter.contains(pkgname)) {
+				final SharedPreferences prefs = mContext.getSharedPreferences(
+						Block.PREFS_NAME, 0);
+				final String uids_wifi = prefs.getString(Block.PREF_WIFI_UIDS, "");
+				final String uids_3g = prefs.getString(Block.PREF_3G_UIDS, "");
+				if (uids_3g.contains(uid + "") && uids_wifi.contains(uid + "")) {
+					bt_detail.setTextColor(Color.GRAY);
+				} else {
+					bt_detail.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							menu.dismiss();
+							if (uids_wifi.contains(uid + "")) {
+							} else {
+								savedUids_wifi = uids_wifi + "|" + uid;
+							}
+							if (uids_3g.contains(uid + "")) {
+							} else {
+								savedUids_3g = uids_3g + "|" + uid;
+							}
+							final Editor edit = prefs.edit();
+							edit.putString(Block.PREF_WIFI_UIDS, savedUids_wifi);
+							edit.putString(Block.PREF_3G_UIDS, savedUids_3g);
+							edit.putBoolean(Block.PREF_S, true);
+							edit.commit();
+							if (Block.applyIptablesRules(mContext, true, true)) {
+								Toast.makeText(mContext, R.string.fire_applyed,
+										Toast.LENGTH_SHORT).show();
+							} else {
+								final Editor edit2 = prefs.edit();
+								edit2.putString(Block.PREF_WIFI_UIDS, uids_wifi);
+								edit2.putString(Block.PREF_3G_UIDS, uids_3g);
+								edit2.putBoolean(Block.PREF_S, true);
+								edit2.commit();
+							}
+						}
+					});
+				}
 			} else {
-				bt_detail.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						if (uids_wifi.contains(uid + "")) {
-						} else {
-							savedUids_wifi = uids_wifi + "|" + uid;
-						}
-						if (uids_3g.contains(uid + "")) {
-						} else {
-							savedUids_3g = uids_3g + "|" + uid;
-						}
-						final Editor edit = prefs.edit();
-						edit.putString(Block.PREF_WIFI_UIDS, savedUids_wifi);
-						edit.putString(Block.PREF_3G_UIDS, savedUids_3g);
-						edit.putBoolean(Block.PREF_S, true);
-						edit.commit();
-						if (Block.applyIptablesRules(mContext, true, true)) {
-							Toast.makeText(mContext, R.string.fire_applyed,
-									Toast.LENGTH_SHORT).show();
-						} else {
-							final Editor edit2 = prefs.edit();
-							edit2.putString(Block.PREF_WIFI_UIDS, uids_wifi);
-							edit2.putString(Block.PREF_3G_UIDS, uids_3g);
-							edit2.putBoolean(Block.PREF_S, true);
-							edit2.commit();
-						}
-						ll.setVisibility(View.GONE);
-					}
-				});
+				bt_detail.setTextColor(Color.GRAY);
 			}
-		} else {
-			bt_detail.setTextColor(Color.GRAY);
+
+			bt_uninstall.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					menu.dismiss();
+					Uri uri = Uri.fromParts("package", pkgname, null);
+					Intent intent = new Intent(Intent.ACTION_DELETE, uri);
+					startActivity(intent);
+				}
+			});
 		}
-
-		bt_uninstall.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Uri uri = Uri.fromParts("package", pkgname, null);
-				Intent intent = new Intent(Intent.ACTION_DELETE, uri);
-				startActivity(intent);
-				ll.setVisibility(View.GONE);
-			}
-		});
-
 	}
 
 	public void menuDialog(View arg1) {
@@ -709,141 +690,118 @@ public class FireWallActivity extends Activity {
 		final String pkname = pkgInfo.applicationInfo.packageName;
 		final String appname = pkgInfo.applicationInfo.loadLabel(
 				getPackageManager()).toString();
-		final LinearLayout ll = (LinearLayout) arg1
-				.findViewById(R.id.detail_menu);
-		if (menuList.size() == 0) {
-			if (ll.isShown()) {
-				ll.setVisibility(View.GONE);
-				menuList.clear();
-			} else {
-				ll.setVisibility(View.VISIBLE);
-				menuList.add(ll);
-			}
-		} else {
-			if (ll.isShown()) {
-				ll.setVisibility(View.GONE);
-				menuList.clear();
-			} else {
-				for (int i = 0; i < menuList.size(); i++) {
-					menuList.get(i).setVisibility(View.GONE);
+		
+		
+		final FireWallItemMenu menu = new FireWallItemMenu(arg1);
+		menu.show();
+		View menuView = menu.getView();
+		if(menuView != null ){
+			Button bt_manager = (Button) menuView.findViewById(R.id.fire_item_manage);
+			Button bt_detail = (Button) menuView.findViewById(R.id.fire_item_detail);
+			Button bt_uninstall = (Button) menuView.findViewById(R.id.fire_item_uninstalled);
+			bt_manager.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					menu.dismiss();
+					showInstalledAppDetails(FireWallActivity.this, pkname);
 				}
-				ll.setVisibility(View.VISIBLE);
-				menuList.add(ll);
-			}
+			});
+
+			bt_detail.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					menu.dismiss();
+					LayoutInflater infalter = LayoutInflater.from(mContext);
+					final View mDetailView = infalter.inflate(R.layout.fire_detail,
+							null);
+					final AlertDialog detailDialog = new AlertDialog.Builder(
+							FireWallActivity.this.getParent()).create();
+					detailDialog.show();
+					Window wd = detailDialog.getWindow();
+					wd.setContentView(mDetailView, new LayoutParams(
+							LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+					final int width = wd.getWindowManager().getDefaultDisplay()
+							.getWidth();
+					wd.setLayout((int) (width * 0.8), LayoutParams.WRAP_CONTENT);
+
+					final TextView traffic_up = (TextView) mDetailView
+							.findViewById(R.id.fire_traffic_up);
+					final TextView traffic_down = (TextView) mDetailView
+							.findViewById(R.id.fire_traffic_down);
+					final Button detail_ok = (Button) mDetailView
+							.findViewById(R.id.detail_ok);
+					final Button detail_history = (Button) mDetailView
+							.findViewById(R.id.detail_history);
+
+					if (SQLStatic.uiddata != null) {
+						if (sharedpref.getFireWallType() == 3) {
+							traffic_up.setText("上传： "
+									+ UnitHandler
+											.unitHandlerAccurate(SQLStatic.uiddata
+													.get(uid).getUploadmobile()));
+							traffic_down.setText("下载： "
+									+ UnitHandler.unitHandlerAccurate(SQLStatic.uiddata
+											.get(uid).getDownloadmobile()));
+							} else if (sharedpref.getFireWallType() == 4) {
+							traffic_up.setText("上传： "
+									+ UnitHandler
+											.unitHandlerAccurate(SQLStatic.uiddata
+													.get(uid).getUploadwifi()));
+							traffic_down.setText("下载： "
+									+ UnitHandler
+											.unitHandlerAccurate(SQLStatic.uiddata
+													.get(uid).getDownloadwifi()));
+						} else {
+							traffic_up.setText("上传： "
+									+ UnitHandler
+											.unitHandlerAccurate(SQLStatic.uiddata
+													.get(uid).getAllUpload()));
+							traffic_down.setText("下载： "
+									+ UnitHandler
+											.unitHandlerAccurate(SQLStatic.uiddata
+													.get(uid).getAllDownload()));
+						}
+					}
+
+					detail_ok.setOnClickListener(new Button.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							detailDialog.cancel();
+						}
+					});
+					detail_history.setOnClickListener(new Button.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							Intent intent = new Intent();
+							intent.setClass(mContext, UidMonthTraff.class);
+							Bundle bData = new Bundle();
+							bData.putInt("uid", uid);
+							bData.putString("appname", appname);
+							bData.putString("pkname", pkname);
+							intent.putExtras(bData);
+							mContext.startActivity(intent);
+							detailDialog.cancel();
+						}
+					});
+				}
+			});
+
+			
+			bt_uninstall.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					menu.dismiss();
+					Uri uri = Uri.fromParts("package", pkname, null);
+					Intent intent = new Intent(Intent.ACTION_DELETE, uri);
+					startActivity(intent);
+				}
+			});
 		}
-
-		Button bt_manager = (Button) arg1.findViewById(R.id.bt_manage);
-		Button bt_detail = (Button) arg1.findViewById(R.id.bt_detail);
-		Button bt_uninstall = (Button) arg1.findViewById(R.id.bt_uninstalled);
-
-		bt_manager.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				showInstalledAppDetails(FireWallActivity.this, pkname);
-				ll.setVisibility(View.GONE);
-			}
-		});
-
-		bt_detail.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-
-				LayoutInflater infalter = LayoutInflater.from(mContext);
-				final View mDetailView = infalter.inflate(R.layout.fire_detail,
-						null);
-				final AlertDialog detailDialog = new AlertDialog.Builder(
-						FireWallActivity.this.getParent()).create();
-				detailDialog.show();
-				Window wd = detailDialog.getWindow();
-				wd.setContentView(mDetailView, new LayoutParams(
-						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-				final int width = wd.getWindowManager().getDefaultDisplay()
-						.getWidth();
-				wd.setLayout((int) (width * 0.8), LayoutParams.WRAP_CONTENT);
-
-				final TextView traffic_up = (TextView) mDetailView
-						.findViewById(R.id.fire_traffic_up);
-				final TextView traffic_down = (TextView) mDetailView
-						.findViewById(R.id.fire_traffic_down);
-				final Button detail_ok = (Button) mDetailView
-						.findViewById(R.id.detail_ok);
-				final Button detail_history = (Button) mDetailView
-						.findViewById(R.id.detail_history);
-
-				if (SQLStatic.uiddata != null) {
-					if (sharedpref.getFireWallType() == 3) {
-						traffic_up.setText("上传： "
-								+ UnitHandler
-										.unitHandlerAccurate(SQLStatic.uiddata
-												.get(uid).getUploadmobile()));
-						traffic_down.setText("下载： "
-								+ UnitHandler
-										.unitHandlerAccurate(SQLStatic.uiddata
-												.get(uid).getDownloadmobile()));
-
-					} else if (sharedpref.getFireWallType() == 4) {
-						traffic_up.setText("上传： "
-								+ UnitHandler
-										.unitHandlerAccurate(SQLStatic.uiddata
-												.get(uid).getUploadwifi()));
-						traffic_down.setText("下载： "
-								+ UnitHandler
-										.unitHandlerAccurate(SQLStatic.uiddata
-												.get(uid).getDownloadwifi()));
-					} else {
-						traffic_up.setText("上传： "
-								+ UnitHandler
-										.unitHandlerAccurate(SQLStatic.uiddata
-												.get(uid).getAllUpload()));
-						traffic_down.setText("下载： "
-								+ UnitHandler
-										.unitHandlerAccurate(SQLStatic.uiddata
-												.get(uid).getAllDownload()));
-					}
-				} else {
-					traffic_up.setText("上传： " + "0 KB");
-					traffic_down.setText("下载： " + "0 KB");
-				}
-
-				detail_ok.setOnClickListener(new Button.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						detailDialog.cancel();
-					}
-				});
-				detail_history.setOnClickListener(new Button.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						Intent intent = new Intent();
-						intent.setClass(mContext, UidMonthTraff.class);
-						Bundle bData = new Bundle();
-						bData.putInt("uid", uid);
-						bData.putString("appname", appname);
-						bData.putString("pkname", pkname);
-						intent.putExtras(bData);
-						mContext.startActivity(intent);
-						detailDialog.cancel();
-					}
-				});
-				ll.setVisibility(View.GONE);
-			}
-		});
-
-		bt_uninstall.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Uri uri = Uri.fromParts("package", pkname, null);
-				Intent intent = new Intent(Intent.ACTION_DELETE, uri);
-				startActivity(intent);
-				ll.setVisibility(View.GONE);
-			}
-		});
-
 	}
 
 	public static void showInstalledAppDetails(Context context,

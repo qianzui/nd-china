@@ -82,43 +82,6 @@
             android:src="@drawable/arrow_enabled"/>
     </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/notif_menu"
-        android:visibility="gone"
-        android:layout_width="fill_parent"
-        android:layout_height="50dip"
-        android:orientation="horizontal"
-        android:paddingTop="8dip"
-        android:paddingBottom="2dip"
-        android:background="@drawable/fire_menu_bg">
-        <Button
-            android:id="@+id/notif_manage"
-            android:text="应用管理"
-            android:layout_width="0dip"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:layout_marginLeft="10dip"
-            android:background="@drawable/btnselector_dark0"
-            />
-        <Button
-            android:id="@+id/notif_detail"
-            android:text="禁止联网"
-            android:layout_width="0dip"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:background="@drawable/btnselector_dark0"
-            />
-        <Button
-            android:id="@+id/notif_uninstalled"
-            android:text="卸载"
-            android:layout_width="0dip"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:layout_marginRight="10dip"
-            android:background="@drawable/btnselector_dark0"
-            />
-    </LinearLayout>
+    
    
 </LinearLayout>
