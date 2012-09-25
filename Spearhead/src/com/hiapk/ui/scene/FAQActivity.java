@@ -1,5 +1,8 @@
-package com.hiapk.spearhead;
+package com.hiapk.ui.scene;
 
+import com.hiapk.spearhead.R;
+import com.hiapk.spearhead.R.id;
+import com.hiapk.spearhead.R.layout;
 import com.hiapk.ui.skin.SkinCustomMains;
 
 import android.app.Activity;
