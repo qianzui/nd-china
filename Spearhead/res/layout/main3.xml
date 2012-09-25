@@ -38,37 +38,33 @@
         android:background="@drawable/bg_about"
         android:orientation="vertical" >
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/isalert_notify"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1.0"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="20dip" >
 
-            <RelativeLayout
-                android:layout_width="fill_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:gravity="center_vertical" >
+                android:gravity="center_vertical"
+                android:text="预警提示"
+                android:textColor="@color/darkgray2"
+                android:textSize="18dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:gravity="center_vertical"
-                    android:text="预警提示"
-                    android:textColor="@color/darkgray2"
-                    android:textSize="18dp" />
-
-                <ImageView
-                    android:id="@+id/isalert_notify_img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/check_open"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/darkgray2" />
-            </RelativeLayout>
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/isalert_notify_img"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_open"
+                android:textColor="@color/darkgray2" />
+        </RelativeLayout>
 
         <ImageView
             android:layout_width="fill_parent"
@@ -378,6 +374,7 @@
                         android:layout_width="0dip"
                         android:layout_height="0dip"
                         android:layout_alignParentRight="true"
+                        android:gravity="center_vertical"
                         android:textColor="@color/darkgray2"
                         android:textSize="20dp" />
 
@@ -386,7 +383,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="45dp"
                         android:layout_toLeftOf="@+id/monthSet"
-                        android:gravity="center"
+                        android:gravity="center_vertical"
                         android:paddingRight="20dp"
                         android:text="1 日"
                         android:textColor="@color/darkgray2" />

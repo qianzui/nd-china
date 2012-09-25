@@ -29,7 +29,7 @@ public class Main3 extends Activity {
 	/**
 	 * 是否执行预警动作
 	 */
-	private LinearLayout line_isdoAlert;
+	private RelativeLayout relative_isdoAlert;
 	private ImageView isalow_img;
 	/**
 	 * 查询流量套餐按钮
@@ -113,7 +113,7 @@ public class Main3 extends Activity {
 		btn_monthSet = (LinearLayout) findViewById(R.id.btn_monthSet_Unit);
 		monthSet_Unit_tv = (TextView) findViewById(R.id.monthSet_Unit_tv);
 		// allow预警
-		line_isdoAlert = (LinearLayout) findViewById(R.id.isalert_notify);
+		relative_isdoAlert = (RelativeLayout) findViewById(R.id.isalert_notify);
 		isalow_img = (ImageView) findViewById(R.id.isalert_notify_img);
 	}
 
@@ -192,7 +192,7 @@ public class Main3 extends Activity {
 		ImageView changearrow2 = (ImageView) findViewById(R.id.main3_arrow2);
 		ImageView changearrow3 = (ImageView) findViewById(R.id.main3_arrow3);
 		if (isAllowAlert) {
-			isalow_img.setBackgroundResource(R.drawable.check_open);
+			isalow_img.setImageResource(R.drawable.check_open);
 			changearrow1.setImageResource(R.drawable.arrow_enabled);
 			changearrow2.setImageResource(R.drawable.arrow_enabled);
 			changearrow3.setImageResource(R.drawable.arrow_enabled);
@@ -206,7 +206,7 @@ public class Main3 extends Activity {
 			monthWarning_tv1.setTextColor(UiColors.colorDarkGray2);
 			monthWarning_tv2.setTextColor(UiColors.colorDarkGray2);
 		} else {
-			isalow_img.setBackgroundResource(R.drawable.check_close);
+			isalow_img.setImageResource(R.drawable.check_close);
 			changearrow1.setImageResource(R.drawable.arrow_unabled);
 			changearrow2.setImageResource(R.drawable.arrow_unabled);
 			changearrow3.setImageResource(R.drawable.arrow_unabled);
@@ -249,7 +249,8 @@ public class Main3 extends Activity {
 	 * 初始化按钮皮肤
 	 */
 	private void init_skin() {
-		line_isdoAlert.setBackgroundResource(SkinCustomMains.barsBackground());
+		relative_isdoAlert.setBackgroundResource(SkinCustomMains
+				.barsBackground());
 		line_findtaocan.setBackgroundResource(SkinCustomMains.barsBackground());
 		warningAlertActionButton.setBackgroundResource(SkinCustomMains
 				.barsBackground());
@@ -318,16 +319,16 @@ public class Main3 extends Activity {
 						monthWarning_tv2, monthSet_Unit_tv);
 			}
 		});
-		line_isdoAlert.setOnClickListener(new OnClickListener() {
+		relative_isdoAlert.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				boolean isAllowAlert = sharedData.IsAllowAlert();
 				if (isAllowAlert) {
-					isalow_img.setBackgroundResource(R.drawable.check_close);
+					isalow_img.setImageResource(R.drawable.check_close);
 					sharedData.setIsAllowAlert(false);
 					init_isAllow_ALert();
 				} else {
-					isalow_img.setBackgroundResource(R.drawable.check_open);
+					isalow_img.setImageResource(R.drawable.check_open);
 					sharedData.setIsAllowAlert(true);
 					init_isAllow_ALert();
 				}
