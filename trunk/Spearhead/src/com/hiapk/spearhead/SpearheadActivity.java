@@ -8,6 +8,7 @@ import com.hiapk.control.traff.NotificationInfo;
 import com.hiapk.control.widget.NotificationWarningControl;
 import com.hiapk.firewall.Block;
 import com.hiapk.ui.custom.CustomDialogFAQBeen;
+import com.hiapk.ui.scene.FAQActivity;
 import com.hiapk.ui.scene.PrefrenceSetting;
 
 import android.app.AlertDialog;

@@ -39,7 +39,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="30dip"
-        android:background="@drawable/bground_dark"
+        android:background="@color/main2_subtitle_color"
         android:orientation="horizontal"
         android:paddingRight="5dip" >
 
