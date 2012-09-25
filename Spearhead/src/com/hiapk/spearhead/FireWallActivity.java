@@ -14,6 +14,7 @@ import com.hiapk.firewall.Block;
 import com.hiapk.firewall.FireWallItemMenu;
 import com.hiapk.firewall.MyCompName;
 import com.hiapk.firewall.MyCompNotifName;
+import com.hiapk.firewall.MyCompNotifTraffic;
 import com.hiapk.firewall.MyCompTraffic;
 import com.hiapk.firewall.MyListView;
 import com.hiapk.firewall.NotifListAdapter;
@@ -359,6 +360,12 @@ public class FireWallActivity extends Activity {
 		MyCompNotifName comp = new MyCompNotifName();
 		comp.init(mContext);
 		Collections.sort(notificationInfos, comp);
+
+
+		MyCompNotifTraffic compTraffic = new MyCompNotifTraffic();
+		compTraffic.init(mContext);
+		Collections.sort(notificationInfos, compTraffic);
+		
 		final NotifListAdapter notifAdapter = new NotifListAdapter(mContext,
 				notificationInfos);
 		appListView.setAdapter(notifAdapter);
