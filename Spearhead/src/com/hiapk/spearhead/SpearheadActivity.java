@@ -206,9 +206,12 @@ public class SpearheadActivity extends TabActivity {
 			startActivity(intentPref);
 			break;
 		case 2:
+			Intent faqIntent = new Intent();
+			faqIntent.setClass(context, FAQActivity.class);
+			startActivity(faqIntent);
 			// showFaqPopUp("file:///android_asset/faq/faq.html");
-			CustomDialogFAQBeen customFAQ = new CustomDialogFAQBeen(context);
-			customFAQ.dialogFAQ();
+//			CustomDialogFAQBeen customFAQ = new CustomDialogFAQBeen(context);
+//			customFAQ.dialogFAQ();
 			break;
 		case 3:
 			// showAboutPopUp("file:///android_asset/about/about.html");
