@@ -310,10 +310,10 @@ public class FireWallActivity extends Activity {
 			firewall_title.setText("通知栏流量排行");
 			if (NotificationInfo.notificationRes.length() == 0) {
 				if (NotificationInfo.isgettingdata == false) {
-					if (NotificationInfo.hasdata == false) {
 						new AsyncTaskGetAdbArrayListonResume()
 								.execute(mContext);
-					}
+				}else{
+					Logs.i("test", "notificationInfo.isgettingdata is true");
 				}
 			} else {
 				setAdapterNotif();
@@ -615,6 +615,8 @@ public class FireWallActivity extends Activity {
 			Button bt_manager = (Button) menuView.findViewById(R.id.fire_item_manage);
 			Button bt_detail = (Button) menuView.findViewById(R.id.fire_item_detail);
 			Button bt_uninstall = (Button) menuView.findViewById(R.id.fire_item_uninstalled);
+			bt_manager.setBackgroundResource(SkinCustomMains
+					.buttonBackgroundDark());
 			bt_manager.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -625,6 +627,8 @@ public class FireWallActivity extends Activity {
 			});
 			
 			bt_detail.setText("禁止联网");
+			bt_detail.setBackgroundResource(SkinCustomMains
+					.buttonBackgroundDark());
 			if (FireWallActivity.uidList.contains(uid)
 					&& (PackageManager.PERMISSION_GRANTED == getPackageManager()
 							.checkPermission(Manifest.permission.INTERNET, pkgname))
@@ -671,6 +675,8 @@ public class FireWallActivity extends Activity {
 				bt_detail.setTextColor(Color.GRAY);
 			}
 
+			bt_uninstall.setBackgroundResource(SkinCustomMains
+					.buttonBackgroundDark());
 			bt_uninstall.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -699,6 +705,8 @@ public class FireWallActivity extends Activity {
 			Button bt_manager = (Button) menuView.findViewById(R.id.fire_item_manage);
 			Button bt_detail = (Button) menuView.findViewById(R.id.fire_item_detail);
 			Button bt_uninstall = (Button) menuView.findViewById(R.id.fire_item_uninstalled);
+			bt_manager.setBackgroundResource(SkinCustomMains
+					.buttonBackgroundDark());
 			bt_manager.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -707,7 +715,8 @@ public class FireWallActivity extends Activity {
 					showInstalledAppDetails(FireWallActivity.this, pkname);
 				}
 			});
-
+			bt_detail.setBackgroundResource(SkinCustomMains
+					.buttonBackgroundDark());
 			bt_detail.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -790,7 +799,8 @@ public class FireWallActivity extends Activity {
 				}
 			});
 
-			
+			bt_uninstall.setBackgroundResource(SkinCustomMains
+					.buttonBackgroundDark());
 			bt_uninstall.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
