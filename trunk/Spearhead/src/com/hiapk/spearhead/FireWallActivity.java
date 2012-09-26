@@ -229,11 +229,11 @@ public class FireWallActivity extends Activity {
 				if (mPop.isShowing()) {
 					mPop.dismiss();
 				} else {
+					setButtonColor(button);
 					mPop.showAsDropDown(v);
 				}
 			}
 		});
-		setButtonColor(button);
 		bt_today.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -310,7 +310,9 @@ public class FireWallActivity extends Activity {
 		for (int j = 0; j < button.length; j++) {
 			button[j].setTextColor(whiteColor);
 		}
+		if(isloading){
 		button[i].setTextColor(Color.BLACK);
+		}else{}
 	}
 
 	public void switchList(int i) {
