@@ -62,7 +62,7 @@ public class CustomPopupWindow {
 		}
 		onShow();
 		window.setWidth(WindowManager.LayoutParams.FILL_PARENT);
-		window.setHeight(70);
+		window.setHeight(80);
 		window.setTouchable(true);
 		window.setFocusable(true);
 		window.setOutsideTouchable(true);

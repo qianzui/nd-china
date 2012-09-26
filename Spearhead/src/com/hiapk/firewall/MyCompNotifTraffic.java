@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import com.hiapk.bean.DatauidHash;
 import com.hiapk.control.traff.TrafficManager;
+import com.hiapk.logs.Logs;
 import com.hiapk.util.SQLStatic;
 
 import android.content.Context;
@@ -44,10 +45,11 @@ public class MyCompNotifTraffic implements Comparator {
 				int uid = pkgInfo2.applicationInfo.uid;
 				long traffic[] = TrafficManager.getUidtraff(mContext, uid);
 				traffic1 = traffic[0];
+				traffic1 = 1;
 			}
-			if(traffic1 < traffic2){
+			if(traffic1 > traffic2){
 				return -1;
-			}else if(traffic1 > traffic2){
+			}else if(traffic1 < traffic2){
 				return 1;
 			}else{
 				return 0;
