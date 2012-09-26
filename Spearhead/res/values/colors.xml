@@ -137,7 +137,7 @@
     <!-- 幽灵白 -->
     <color name="mintcream">#F5FFFA</color>
     <!-- 薄荷色 -->
-    <color name="whitesmoke">#F5F5F5</color>
+    <color name="whitesmoke">#ffF5F5F5</color>
     <!-- 烟白色 -->
     <color name="beige">#F5F5DC</color>
     <!-- 米色 -->
@@ -352,7 +352,7 @@
     <color name="black">#000000</color>
     <!-- 黑色 -->
     <color name="transparent">#00000000</color>
-    <color name="darkgray2">#505050</color>
+    <color name="darkgray2">#ff505050</color>
     <color name="blue2">#97FFFF</color>
     <color name="blue_mobile_chart">#046b9a</color>
     <color name="red_wifi_chart">#7c1624</color>
