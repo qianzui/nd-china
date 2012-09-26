@@ -4,10 +4,12 @@
     android:layout_height="match_parent"
     android:background="@color/transparent"
     android:orientation="vertical" >
+
     <RelativeLayout
         android:layout_width="150dip"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -16,77 +18,84 @@
             android:background="@drawable/setting_arrow" />
     </RelativeLayout>
 
-  <LinearLayout
-    android:layout_width="150dip"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical" >
-    <Button
-        android:id="@+id/bt_today"
+    <LinearLayout
         android:layout_width="150dip"
-        android:layout_height="40dip"
-        android:layout_marginBottom="2dip"
-        android:layout_marginLeft="2dip"
-        android:layout_marginRight="1dip"
-        android:layout_marginTop="2dip"
-        android:background="@drawable/maintab_title_bg0"
-        android:textColor="@color/button_color_light"
-        android:text="今日流量"
-        />
-    <Button
-        android:id="@+id/bt_week"
-        android:layout_width="150dip"
-        android:layout_height="40dip"
-        android:layout_marginBottom="2dip"
-        android:layout_marginLeft="2dip"
-        android:layout_marginRight="1dip"
-        android:background="@drawable/maintab_title_bg1"
-        android:textColor="@color/button_color_light"
-        android:text="本周流量"
-        />
-    <Button
-        android:id="@+id/bt_month"
-        android:layout_width="150dip"
-        android:layout_height="40dip"
-        android:layout_marginBottom="2dip"
-        android:layout_marginLeft="2dip"
-        android:layout_marginRight="1dip"
-        android:background="@drawable/maintab_title_bg2"
-        android:textColor="@color/button_color_light"
-        android:text="本月流量"
-        />
-    <Button
-        android:id="@+id/bt_mobile"
-        android:layout_width="150dip"
-        android:layout_height="40dip"
-        android:layout_marginBottom="2dip"
-        android:layout_marginLeft="2dip"
-        android:layout_marginRight="1dip"
-        android:background="@drawable/maintab_title_bg3"
-        android:textColor="@color/button_color_light"
-        android:text="移动流量"
-        />
-    <Button
-        android:id="@+id/bt_wifi"
-        android:layout_width="150dip"
-        android:layout_height="40dip"
-        android:layout_marginBottom="2dip"
-        android:layout_marginLeft="2dip"
-        android:layout_marginRight="1dip"
-        android:background="@drawable/maintab_title_bg4"
-        android:textColor="@color/button_color_light"
-        android:text="WiFi流量"
-        />
-    <Button
-        android:id="@+id/bt_notif"
-        android:layout_width="150dip"
-        android:layout_height="40dip"
-        android:layout_marginBottom="2dip"
-        android:layout_marginLeft="2dip"
-        android:layout_marginRight="1dip"
-        android:background="@drawable/maintab_title_bg5"
-        android:textColor="@color/button_color_light"
-        android:text="通知栏流量"
-        />
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/bt_today"
+            android:layout_width="150dip"
+            android:layout_height="40dip"
+            android:layout_marginBottom="2dip"
+            android:layout_marginLeft="2dip"
+            android:layout_marginRight="1dip"
+            android:layout_marginTop="2dip"
+            android:background="@drawable/maintab_title_bg0"
+            android:text="今日流量"
+            android:textColor="@color/button_color_light"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/bt_week"
+            android:layout_width="150dip"
+            android:layout_height="40dip"
+            android:layout_marginBottom="2dip"
+            android:layout_marginLeft="2dip"
+            android:layout_marginRight="1dip"
+            android:background="@drawable/maintab_title_bg1"
+            android:text="本周流量"
+            android:textColor="@color/button_color_light"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/bt_month"
+            android:layout_width="150dip"
+            android:layout_height="40dip"
+            android:layout_marginBottom="2dip"
+            android:layout_marginLeft="2dip"
+            android:layout_marginRight="1dip"
+            android:background="@drawable/maintab_title_bg2"
+            android:text="本月流量"
+            android:textColor="@color/button_color_light"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/bt_mobile"
+            android:layout_width="150dip"
+            android:layout_height="40dip"
+            android:layout_marginBottom="2dip"
+            android:layout_marginLeft="2dip"
+            android:layout_marginRight="1dip"
+            android:background="@drawable/maintab_title_bg3"
+            android:text="移动流量"
+            android:textColor="@color/button_color_light"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/bt_wifi"
+            android:layout_width="150dip"
+            android:layout_height="40dip"
+            android:layout_marginBottom="2dip"
+            android:layout_marginLeft="2dip"
+            android:layout_marginRight="1dip"
+            android:background="@drawable/maintab_title_bg4"
+            android:text="WiFi流量"
+            android:textColor="@color/button_color_light"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/bt_notif"
+            android:layout_width="150dip"
+            android:layout_height="40dip"
+            android:layout_marginBottom="2dip"
+            android:layout_marginLeft="2dip"
+            android:layout_marginRight="1dip"
+            android:background="@drawable/maintab_title_bg5"
+            android:text="通知栏流量"
+            android:textColor="@color/button_color_light"
+            android:textSize="16sp" />
+    </LinearLayout>
+
 </LinearLayout>
