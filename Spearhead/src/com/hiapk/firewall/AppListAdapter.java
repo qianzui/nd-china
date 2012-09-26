@@ -48,7 +48,7 @@ public class AppListAdapter extends BaseAdapter {
 	ArrayList<Integer> uidList;
 	HashMap<Integer, PackageInfo> appList;
 	HashMap<Integer, String> appname;
-	HashMap<Integer, DatauidHash> uiddata;
+	HashMap<Integer, DatauidHash> uiddata = new HashMap<Integer, DatauidHash>();
 	int uid;
 
 	public AppListAdapter(Context context, ArrayList<PackageInfo> myAppList,

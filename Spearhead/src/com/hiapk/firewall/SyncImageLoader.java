@@ -108,20 +108,25 @@ public class SyncImageLoader {
 		                return;    
 		            }   
 	        }else{
-	        	if(pkgInfo.applicationInfo.uid == uid){
-		        final Drawable d = pkgInfo.applicationInfo.loadIcon(mContext.getPackageManager()); 
-		        imageCache2.put(uid, d);
-		        if (d != null) {    
-	                handler.post(new Runnable() {  
-	                    @Override  
-	                    public void run() {  
-	                        if(mAllowLoad){  
-	                            mListener.onImageLoad(mPosition, d ,view,uid);  
-	                        }  
-	                    }  
-	                });  
-	                return;    
-	            }}else{} 
+	        	if(pkgInfo != null){
+	        		if(pkgInfo.applicationInfo.uid == uid){
+				        final Drawable d = pkgInfo.applicationInfo.loadIcon(mContext.getPackageManager()); 
+				        imageCache2.put(uid, d);
+				        if (d != null) {    
+			                handler.post(new Runnable() {  
+			                    @Override  
+			                    public void run() {  
+			                        if(mAllowLoad){  
+			                            mListener.onImageLoad(mPosition, d ,view,uid);  
+			                        }  
+			                    }  
+			                });  
+			                return;    
+			            }}else{} 
+	        	}else{
+	        		
+	        	}
+	        	
 		        }
 	    }  
 

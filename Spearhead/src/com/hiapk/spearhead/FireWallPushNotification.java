@@ -164,7 +164,6 @@ public class FireWallPushNotification extends Activity {
 				public void onClick(View v) {
 					for (int i = 0; i < FireWallActivity.uidList.size(); i++) {
 						if (FireWallActivity.uidList.get(i) == uid) {
-							FireWallActivity.banPosition = i + 1;
 						}
 					}
 					FireWallMainScene.switScene(0);

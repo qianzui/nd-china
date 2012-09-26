@@ -20,6 +20,7 @@ import com.hiapk.firewall.MyListView;
 import com.hiapk.firewall.NotifListAdapter;
 import com.hiapk.firewall.MyListView.OnRefreshListener;
 import com.hiapk.logs.Logs;
+import com.hiapk.spearhead.R.color;
 import com.hiapk.sqlhelper.uid.SQLHelperFireWall;
 import com.hiapk.ui.custom.CustomDialog;
 import com.hiapk.ui.custom.CustomDialogMain2Been;
@@ -42,6 +43,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -97,10 +99,9 @@ public class FireWallActivity extends Activity {
 	public ProgressDialog mydialog;
 	public ProgressDialog pro;
 	public static ArrayList<Integer> uidList = new ArrayList<Integer>();;
-	long time = 0;
 	Handler handler = new Handler();
 	Handler handler2 = new Handler();
-	public static int banPosition = 0;
+	public boolean isloading = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -211,14 +212,15 @@ public class FireWallActivity extends Activity {
 
 	public void settingShowList() {
 		bubbleView = getLayoutInflater().inflate(R.layout.fire_setting, null);
-		Button bt_today = (Button) bubbleView.findViewById(R.id.bt_today);
-		Button bt_week = (Button) bubbleView.findViewById(R.id.bt_week);
-		Button bt_month = (Button) bubbleView.findViewById(R.id.bt_month);
-		Button bt_mobile = (Button) bubbleView.findViewById(R.id.bt_mobile);
-		Button bt_wifi = (Button) bubbleView.findViewById(R.id.bt_wifi);
-		Button bt_notif = (Button) bubbleView.findViewById(R.id.bt_notif);
+		final Button bt_today = (Button) bubbleView.findViewById(R.id.bt_today);
+		final Button bt_week = (Button) bubbleView.findViewById(R.id.bt_week);
+		final Button bt_month = (Button) bubbleView.findViewById(R.id.bt_month);
+		final Button bt_mobile = (Button) bubbleView.findViewById(R.id.bt_mobile);
+		final Button bt_wifi = (Button) bubbleView.findViewById(R.id.bt_wifi);
+		final Button bt_notif = (Button) bubbleView.findViewById(R.id.bt_notif);
 		mPop = new PopupWindow(bubbleView, LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT);
+		final Button[] button = {bt_today,bt_week,bt_month,bt_mobile,bt_wifi,bt_notif};
 		setting_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -230,49 +232,87 @@ public class FireWallActivity extends Activity {
 				}
 			}
 		});
+		setButtonColor( button);
 		bt_today.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				switchList(0);
+				mPop.dismiss();
+				if (isloading || sharedpref.getFireWallType() == 0) {
+				} else {
+					switchList(0);
+					setButtonColor(button);
+				}
 
 			}
 		});
 		bt_week.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				switchList(1);
-
+				mPop.dismiss();
+				if (isloading || sharedpref.getFireWallType() == 1) {
+				} else {
+				    switchList(1);
+				    setButtonColor(button);
+				}
 			}
 		});
 		bt_month.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				mPop.dismiss();
+				if (isloading || sharedpref.getFireWallType() == 2) {
+				} else {
 				switchList(2);
+				setButtonColor(button);
+				}
 			}
 		});
 		bt_mobile.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				mPop.dismiss();
+				if (isloading || sharedpref.getFireWallType() == 3) {
+				} else {
 				switchList(3);
+				setButtonColor(button);
+				}
 			}
 		});
 		bt_wifi.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				mPop.dismiss();
+				if (isloading || sharedpref.getFireWallType() == 4) {
+				} else {
 				switchList(4);
+				setButtonColor(button);
+				}
 			}
 		});
 		bt_notif.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				mPop.dismiss();
+				if (isloading || sharedpref.getFireWallType() == 5) {
+				} else {
 				switchList(5);
+				setButtonColor(button);
+				}
 			}
 		});
 	}
 
+	public void setButtonColor(Button[] button){
+		ColorStateList whiteColor = getResources().getColorStateList(
+				R.color.button_color_light);
+		int i = sharedpref.getFireWallType();
+		for (int j = 0; j < button.length; j++) {
+			button[j].setTextColor(whiteColor);
+		}
+		button[i].setTextColor(Color.BLACK);
+	}
 	public void switchList(int i) {
-		mPop.dismiss();
+		isloading = true;
 		sharedpref.setFireWallType(i);
 		main2TitleBackground.setBackgroundResource(SkinCustomMains
 				.buttonTitleBackground());
@@ -369,6 +409,7 @@ public class FireWallActivity extends Activity {
 		final NotifListAdapter notifAdapter = new NotifListAdapter(mContext,
 				notificationInfos);
 		appListView.setAdapter(notifAdapter);
+		isloading = false;
 		appListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -419,6 +460,7 @@ public class FireWallActivity extends Activity {
 	}
 
 	public void initList() {
+		isloading = true;
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -465,6 +507,7 @@ public class FireWallActivity extends Activity {
 		appListAdapter = new AppListAdapter(context, myAppList,
 				Block.appnamemap, SQLStatic.uiddata, Block.appList, uidList);
 		appListView.setAdapter(appListAdapter);
+		isloading = false;
 		appListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -576,6 +619,7 @@ public class FireWallActivity extends Activity {
 		int j = 0;
 		int m = 0;
 		int w = 0;
+		if(SQLStatic.uiddata != null){
 		if (sharedpref.getFireWallType() == 3) {
 			for (int i = 0; i < uidList.size(); i++) {
 				if (SQLStatic.uiddata.containsKey(uidList.get(i))) {
@@ -606,6 +650,9 @@ public class FireWallActivity extends Activity {
 				}
 			}
 			return j;
+		}
+		}else{
+			return 0;
 		}
 	}
 
