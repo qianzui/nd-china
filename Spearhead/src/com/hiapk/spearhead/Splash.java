@@ -6,6 +6,7 @@ import java.util.List;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.firewall.Block;
+import com.hiapk.logs.Logs;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
 import com.hiapk.util.SQLStatic;
@@ -21,7 +22,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 
 public class Splash extends Activity {
@@ -29,6 +29,7 @@ public class Splash extends Activity {
 	private AlarmSet alset = new AlarmSet();
 	long time;
 	private boolean isinited;
+	private String TAG = "Splash";
 	private static PackageManager pm;
 	private static Editor UseEditor;
 	private static final String ACTION_TIME_CHANGED = Intent.ACTION_TIME_CHANGED;
@@ -204,6 +205,6 @@ public class Splash extends Activity {
 	}
 
 	private void showLog(String string) {
-		Log.d("Splash", string);
+		Logs.d(TAG, string);
 	}
 }

@@ -54,7 +54,8 @@
         <WebView
             android:id="@+id/FAQ_webView"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
+            android:layout_height="fill_parent"
+             android:background="@color/main_background_color" />
 
         <TextView
             android:id="@+id/tv_webView"
