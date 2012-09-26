@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical" >
-     <RelativeLayout
+
+    <RelativeLayout
         android:id="@+id/faq_title"
         android:layout_width="fill_parent"
         android:layout_height="48dip"
@@ -11,6 +12,7 @@
         android:orientation="horizontal"
         android:paddingLeft="5dip"
         android:paddingRight="10dip" >
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -21,26 +23,46 @@
                 android:layout_width="35dip"
                 android:layout_height="35dip"
                 android:layout_gravity="center"
-                android:background="@drawable/back_btn" />
+                android:background="@drawable/back_btn"
+                android:contentDescription="@string/img_content_backbtn" />
 
             <ImageView
                 android:layout_width="0.5dip"
                 android:layout_height="40dip"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/divider" />
+                android:background="@drawable/divider"
+                android:contentDescription="@string/img_content_backbtn_line" />
         </LinearLayout>
+
         <TextView
             android:id="@+id/faq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="先锋流量监控 FAQ"
+            android:text="@string/main_FAQ"
             android:textColor="@color/white"
             android:textSize="23sp" />
     </RelativeLayout>
-    <WebView 
-    	android:id="@+id/faq_webview" 
-    	android:layout_width="wrap_content" 
-    	android:layout_height="wrap_content" 
-    	 />
+
+    <FrameLayout
+        android:id="@+id/FAQ_loading_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/main_background_color"
+        android:orientation="vertical" >
+
+        <WebView
+            android:id="@+id/FAQ_webView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <TextView
+            android:id="@+id/tv_webView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/darkgray2"
+            android:textSize="23sp" />
+    </FrameLayout>
+
 </LinearLayout>

@@ -11,7 +11,6 @@ import com.hiapk.ui.custom.CustomDialogFAQBeen;
 import com.hiapk.ui.scene.FAQActivity;
 import com.hiapk.ui.scene.PrefrenceSetting;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.TabActivity;
 import android.content.Context;
@@ -19,7 +18,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -211,8 +209,8 @@ public class SpearheadActivity extends TabActivity {
 			faqIntent.setClass(context, FAQActivity.class);
 			startActivity(faqIntent);
 			// showFaqPopUp("file:///android_asset/faq/faq.html");
-//			CustomDialogFAQBeen customFAQ = new CustomDialogFAQBeen(context);
-//			customFAQ.dialogFAQ();
+			// CustomDialogFAQBeen customFAQ = new CustomDialogFAQBeen(context);
+			// customFAQ.dialogFAQ();
 			break;
 		case 3:
 			// showAboutPopUp("file:///android_asset/about/about.html");
@@ -228,42 +226,6 @@ public class SpearheadActivity extends TabActivity {
 			break;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	public void showFaqPopUp(String url) {
-		try {
-			AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View vi = inflater.inflate(R.layout.faq, null);
-			dialog.setView(vi);
-			dialog.setTitle("先锋流量监控  FAQ :");
-			dialog.setCancelable(true);
-			dialog.setNegativeButton("确定", null);
-			WebView wb = (WebView) vi.findViewById(R.id.webview);
-			wb.loadUrl(url);
-			dialog.show();
-		} catch (Exception e) {
-			System.out.println("Exception while showing PopUp : "
-					+ e.getMessage());
-		}
-	}
-
-	public void showAboutPopUp(String url) {
-		try {
-			AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View vi = inflater.inflate(R.layout.faq, null);
-			dialog.setView(vi);
-			dialog.setTitle("关于先锋流量监控");
-			dialog.setCancelable(true);
-			dialog.setNegativeButton("确定", null);
-			WebView wb = (WebView) vi.findViewById(R.id.webview);
-			wb.loadUrl(url);
-			dialog.show();
-		} catch (Exception e) {
-			System.out.println("Exception while showing PopUp : "
-					+ e.getMessage());
-		}
 	}
 
 	@Override
