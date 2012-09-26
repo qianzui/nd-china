@@ -215,12 +215,14 @@ public class FireWallActivity extends Activity {
 		final Button bt_today = (Button) bubbleView.findViewById(R.id.bt_today);
 		final Button bt_week = (Button) bubbleView.findViewById(R.id.bt_week);
 		final Button bt_month = (Button) bubbleView.findViewById(R.id.bt_month);
-		final Button bt_mobile = (Button) bubbleView.findViewById(R.id.bt_mobile);
+		final Button bt_mobile = (Button) bubbleView
+				.findViewById(R.id.bt_mobile);
 		final Button bt_wifi = (Button) bubbleView.findViewById(R.id.bt_wifi);
 		final Button bt_notif = (Button) bubbleView.findViewById(R.id.bt_notif);
 		mPop = new PopupWindow(bubbleView, LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT);
-		final Button[] button = {bt_today,bt_week,bt_month,bt_mobile,bt_wifi,bt_notif};
+		final Button[] button = { bt_today, bt_week, bt_month, bt_mobile,
+				bt_wifi, bt_notif };
 		setting_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -232,7 +234,7 @@ public class FireWallActivity extends Activity {
 				}
 			}
 		});
-		setButtonColor( button);
+		setButtonColor(button);
 		bt_today.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -251,8 +253,8 @@ public class FireWallActivity extends Activity {
 				mPop.dismiss();
 				if (isloading || sharedpref.getFireWallType() == 1) {
 				} else {
-				    switchList(1);
-				    setButtonColor(button);
+					switchList(1);
+					setButtonColor(button);
 				}
 			}
 		});
@@ -262,8 +264,8 @@ public class FireWallActivity extends Activity {
 				mPop.dismiss();
 				if (isloading || sharedpref.getFireWallType() == 2) {
 				} else {
-				switchList(2);
-				setButtonColor(button);
+					switchList(2);
+					setButtonColor(button);
 				}
 			}
 		});
@@ -273,8 +275,8 @@ public class FireWallActivity extends Activity {
 				mPop.dismiss();
 				if (isloading || sharedpref.getFireWallType() == 3) {
 				} else {
-				switchList(3);
-				setButtonColor(button);
+					switchList(3);
+					setButtonColor(button);
 				}
 			}
 		});
@@ -284,8 +286,8 @@ public class FireWallActivity extends Activity {
 				mPop.dismiss();
 				if (isloading || sharedpref.getFireWallType() == 4) {
 				} else {
-				switchList(4);
-				setButtonColor(button);
+					switchList(4);
+					setButtonColor(button);
 				}
 			}
 		});
@@ -295,14 +297,14 @@ public class FireWallActivity extends Activity {
 				mPop.dismiss();
 				if (isloading || sharedpref.getFireWallType() == 5) {
 				} else {
-				switchList(5);
-				setButtonColor(button);
+					switchList(5);
+					setButtonColor(button);
 				}
 			}
 		});
 	}
 
-	public void setButtonColor(Button[] button){
+	public void setButtonColor(Button[] button) {
 		ColorStateList whiteColor = getResources().getColorStateList(
 				R.color.button_color_light);
 		int i = sharedpref.getFireWallType();
@@ -311,6 +313,7 @@ public class FireWallActivity extends Activity {
 		}
 		button[i].setTextColor(Color.BLACK);
 	}
+
 	public void switchList(int i) {
 		isloading = true;
 		sharedpref.setFireWallType(i);
@@ -440,10 +443,8 @@ public class FireWallActivity extends Activity {
 					protected void onPostExecute(Void result) {
 						if (NotificationInfo.notificationRes.length() == 0) {
 							if (NotificationInfo.isgettingdata == false) {
-								if (NotificationInfo.hasdata == false) {
-									new AsyncTaskGetAdbArrayListonResume()
-											.execute(mContext);
-								}
+								new AsyncTaskGetAdbArrayListonResume()
+										.execute(mContext);
 							}
 						} else {
 							setAdapterNotif();
@@ -617,39 +618,41 @@ public class FireWallActivity extends Activity {
 		int j = 0;
 		int m = 0;
 		int w = 0;
-		if(SQLStatic.uiddata != null){
-		if (sharedpref.getFireWallType() == 3) {
-			for (int i = 0; i < uidList.size(); i++) {
-				if (SQLStatic.uiddata.containsKey(uidList.get(i))) {
-					if ((SQLStatic.uiddata.get(uidList.get(i))
-							.getUploadmobile() + SQLStatic.uiddata.get(
-							uidList.get(i)).getDownloadmobile()) > 0) {
-						m++;
+		if (SQLStatic.uiddata != null) {
+			if (sharedpref.getFireWallType() == 3) {
+				for (int i = 0; i < uidList.size(); i++) {
+					if (SQLStatic.uiddata.containsKey(uidList.get(i))) {
+						if ((SQLStatic.uiddata.get(uidList.get(i))
+								.getUploadmobile() + SQLStatic.uiddata.get(
+								uidList.get(i)).getDownloadmobile()) > 0) {
+							m++;
+						}
 					}
 				}
-			}
-			return m;
-		} else if (sharedpref.getFireWallType() == 4) {
-			for (int i = 0; i < uidList.size(); i++) {
-				if (SQLStatic.uiddata.containsKey(uidList.get(i))) {
-					if ((SQLStatic.uiddata.get(uidList.get(i)).getUploadwifi() + SQLStatic.uiddata
-							.get(uidList.get(i)).getDownloadwifi()) > 0) {
-						w++;
+				return m;
+			} else if (sharedpref.getFireWallType() == 4) {
+				for (int i = 0; i < uidList.size(); i++) {
+					if (SQLStatic.uiddata.containsKey(uidList.get(i))) {
+						if ((SQLStatic.uiddata.get(uidList.get(i))
+								.getUploadwifi() + SQLStatic.uiddata.get(
+								uidList.get(i)).getDownloadwifi()) > 0) {
+							w++;
+						}
 					}
 				}
+				return w;
+			} else {
+				for (int i = 0; i < uidList.size(); i++) {
+					if (SQLStatic.uiddata.containsKey(uidList.get(i))) {
+						if (SQLStatic.uiddata.get(uidList.get(i))
+								.getTotalTraff() > 0) {
+							j++;
+						}
+					}
+				}
+				return j;
 			}
-			return w;
 		} else {
-			for (int i = 0; i < uidList.size(); i++) {
-				if (SQLStatic.uiddata.containsKey(uidList.get(i))) {
-					if (SQLStatic.uiddata.get(uidList.get(i)).getTotalTraff() > 0) {
-						j++;
-					}
-				}
-			}
-			return j;
-		}
-		}else{
 			return 0;
 		}
 	}
