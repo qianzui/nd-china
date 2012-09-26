@@ -1,5 +1,6 @@
 package com.hiapk.broadcreceiver;
 
+import com.hiapk.logs.Logs;
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.uid.SQLHelperUidRecord;
 import com.hiapk.util.SQLStatic;
@@ -10,13 +11,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.util.Log;
 
 public class RecordUidDataReceiver extends BroadcastReceiver {
 	public static final int MODE_PRIVATE = 0;
 	// use database
 	long time;
 	private String network;
+	private String TAG = "ReceiverUid";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -152,9 +153,7 @@ public class RecordUidDataReceiver extends BroadcastReceiver {
 	}
 
 	private void showLog(String string) {
-		if (SQLStatic.isshowLog) {
-			Log.d("ReceiverUid", string);
-		}
+		Logs.d(TAG, string);
 	}
 
 }

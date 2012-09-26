@@ -10,10 +10,10 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
 
 import com.hiapk.bean.DatauidHash;
 import com.hiapk.firewall.Block;
+import com.hiapk.logs.Logs;
 
 /**
  * 用于存储在程序运行过程中使用的某些静态变量
@@ -23,7 +23,7 @@ import com.hiapk.firewall.Block;
  */
 
 public class SQLStatic {
-
+	private static String TAG = "SQLStatic";
 	// pre
 	private final static String PREFS_NAME = "allprefs";
 	private final static String PREF_INITSQL = "isSQLINIT";
@@ -260,8 +260,6 @@ public class SQLStatic {
 	 * @param string
 	 */
 	private static void showLog(String string) {
-		if (SQLStatic.isshowLog) {
-			Log.d("SQLStatic", string);
-		}
+		Logs.d(TAG, string);
 	}
 }

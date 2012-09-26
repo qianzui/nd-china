@@ -3,6 +3,7 @@ package com.hiapk.broadcreceiver;
 import com.hiapk.control.traff.MonthlyUseData;
 import com.hiapk.control.traff.TrafficAlert;
 import com.hiapk.control.traff.TrafficManager;
+import com.hiapk.logs.Logs;
 import com.hiapk.sqlhelper.pub.SQLHelperCreateClose;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 import com.hiapk.sqlhelper.total.SQLHelperTotal;
@@ -16,7 +17,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.TrafficStats;
 import android.os.AsyncTask;
 import android.text.format.Time;
-import android.util.Log;
 
 public class RecordDataReceiver extends BroadcastReceiver {
 	//
@@ -32,6 +32,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	private int year;
 	private int month;
 	private String network;
+	private String TAG = "ReceiverTotal";
 
 	// fortest
 	// long time;
@@ -220,9 +221,7 @@ public class RecordDataReceiver extends BroadcastReceiver {
 	}
 
 	private void showLog(String string) {
-		if (SQLStatic.isshowLog) {
-			Log.d("ReceiverTotal", string);
-		}
+		Logs.d(TAG, string);
 	}
 
 }
