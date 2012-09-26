@@ -351,9 +351,8 @@ public class FireWallActivity extends Activity {
 			firewall_title.setText("通知栏流量排行");
 			if (NotificationInfo.notificationRes.length() == 0) {
 				if (NotificationInfo.isgettingdata == false) {
-						new AsyncTaskGetAdbArrayListonResume()
-								.execute(mContext);
-				}else{
+					new AsyncTaskGetAdbArrayListonResume().execute(mContext);
+				} else {
 					Logs.i("test", "notificationInfo.isgettingdata is true");
 				}
 			} else {
@@ -401,11 +400,10 @@ public class FireWallActivity extends Activity {
 		comp.init(mContext);
 		Collections.sort(notificationInfos, comp);
 
-
 		MyCompNotifTraffic compTraffic = new MyCompNotifTraffic();
 		compTraffic.init(mContext);
 		Collections.sort(notificationInfos, compTraffic);
-		
+
 		final NotifListAdapter notifAdapter = new NotifListAdapter(mContext,
 				notificationInfos);
 		appListView.setAdapter(notifAdapter);
@@ -661,14 +659,17 @@ public class FireWallActivity extends Activity {
 				.getTag(R.id.tag_notif_pkgInfo);
 		final int uid = pkgInfo.applicationInfo.uid;
 		final String pkgname = pkgInfo.applicationInfo.packageName;
-		
+
 		final FireWallItemMenu menu = new FireWallItemMenu(arg1);
 		menu.show();
 		View menuView = menu.getView();
-		if(menuView != null ){
-			Button bt_manager = (Button) menuView.findViewById(R.id.fire_item_manage);
-			Button bt_detail = (Button) menuView.findViewById(R.id.fire_item_detail);
-			Button bt_uninstall = (Button) menuView.findViewById(R.id.fire_item_uninstalled);
+		if (menuView != null) {
+			Button bt_manager = (Button) menuView
+					.findViewById(R.id.fire_item_manage);
+			Button bt_detail = (Button) menuView
+					.findViewById(R.id.fire_item_detail);
+			Button bt_uninstall = (Button) menuView
+					.findViewById(R.id.fire_item_uninstalled);
 			bt_manager.setBackgroundResource(SkinCustomMains
 					.buttonBackgroundDark());
 			bt_manager.setOnClickListener(new OnClickListener() {
@@ -679,18 +680,20 @@ public class FireWallActivity extends Activity {
 					showInstalledAppDetails(FireWallActivity.this, pkgname);
 				}
 			});
-			
+
 			bt_detail.setText("禁止联网");
 			bt_detail.setBackgroundResource(SkinCustomMains
 					.buttonBackgroundDark());
 			if (FireWallActivity.uidList.contains(uid)
 					&& (PackageManager.PERMISSION_GRANTED == getPackageManager()
-							.checkPermission(Manifest.permission.INTERNET, pkgname))
+							.checkPermission(Manifest.permission.INTERNET,
+									pkgname))
 					&& SQLStatic.packagename_ALL.contains(pkgname)
 					&& !Block.filter.contains(pkgname)) {
 				final SharedPreferences prefs = mContext.getSharedPreferences(
 						Block.PREFS_NAME, 0);
-				final String uids_wifi = prefs.getString(Block.PREF_WIFI_UIDS, "");
+				final String uids_wifi = prefs.getString(Block.PREF_WIFI_UIDS,
+						"");
 				final String uids_3g = prefs.getString(Block.PREF_3G_UIDS, "");
 				if (uids_3g.contains(uid + "") && uids_wifi.contains(uid + "")) {
 					bt_detail.setTextColor(Color.GRAY);
@@ -750,21 +753,22 @@ public class FireWallActivity extends Activity {
 		final String pkname = pkgInfo.applicationInfo.packageName;
 		final String appname = pkgInfo.applicationInfo.loadLabel(
 				getPackageManager()).toString();
-		
-		
+
 		final FireWallItemMenu menu = new FireWallItemMenu(arg1);
 		menu.show();
 		View menuView = menu.getView();
-		if(menuView != null ){
-			Button bt_manager = (Button) menuView.findViewById(R.id.fire_item_manage);
-			Button bt_detail = (Button) menuView.findViewById(R.id.fire_item_detail);
-			Button bt_uninstall = (Button) menuView.findViewById(R.id.fire_item_uninstalled);
+		if (menuView != null) {
+			Button bt_manager = (Button) menuView
+					.findViewById(R.id.fire_item_manage);
+			Button bt_detail = (Button) menuView
+					.findViewById(R.id.fire_item_detail);
+			Button bt_uninstall = (Button) menuView
+					.findViewById(R.id.fire_item_uninstalled);
 			bt_manager.setBackgroundResource(SkinCustomMains
 					.buttonBackgroundDark());
 			bt_manager.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					menu.dismiss();
 					showInstalledAppDetails(FireWallActivity.this, pkname);
 				}
@@ -774,29 +778,24 @@ public class FireWallActivity extends Activity {
 			bt_detail.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					menu.dismiss();
 					LayoutInflater infalter = LayoutInflater.from(mContext);
-					final View mDetailView = infalter.inflate(R.layout.fire_detail,
-							null);
-					final AlertDialog detailDialog = new AlertDialog.Builder(
-							FireWallActivity.this.getParent()).create();
+					final View mDetailView = infalter.inflate(
+							R.layout.fire_detail, null);
+					final CustomDialog detailDialog = new CustomDialog.Builder(
+							FireWallActivity.this.getParent())
+							.setContentView(mDetailView).setTitle("流量详情")
+							.setPositiveButton("确定", null)
+							.setNegativeButton("历史记录", null).create();
 					detailDialog.show();
-					Window wd = detailDialog.getWindow();
-					wd.setContentView(mDetailView, new LayoutParams(
-							LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-					final int width = wd.getWindowManager().getDefaultDisplay()
-							.getWidth();
-					wd.setLayout((int) (width * 0.8), LayoutParams.WRAP_CONTENT);
-
 					final TextView traffic_up = (TextView) mDetailView
 							.findViewById(R.id.fire_traffic_up);
 					final TextView traffic_down = (TextView) mDetailView
 							.findViewById(R.id.fire_traffic_down);
-					final Button detail_ok = (Button) mDetailView
-							.findViewById(R.id.detail_ok);
-					final Button detail_history = (Button) mDetailView
-							.findViewById(R.id.detail_history);
+					final Button detail_ok = (Button) detailDialog
+							.findViewById(R.id.positiveButton);
+					final Button detail_history = (Button) detailDialog
+							.findViewById(R.id.negativeButton);
 
 					if (SQLStatic.uiddata != null) {
 						if (sharedpref.getFireWallType() == 3) {
@@ -805,9 +804,11 @@ public class FireWallActivity extends Activity {
 											.unitHandlerAccurate(SQLStatic.uiddata
 													.get(uid).getUploadmobile()));
 							traffic_down.setText("下载： "
-									+ UnitHandler.unitHandlerAccurate(SQLStatic.uiddata
-											.get(uid).getDownloadmobile()));
-							} else if (sharedpref.getFireWallType() == 4) {
+									+ UnitHandler
+											.unitHandlerAccurate(SQLStatic.uiddata
+													.get(uid)
+													.getDownloadmobile()));
+						} else if (sharedpref.getFireWallType() == 4) {
 							traffic_up.setText("上传： "
 									+ UnitHandler
 											.unitHandlerAccurate(SQLStatic.uiddata
@@ -831,25 +832,25 @@ public class FireWallActivity extends Activity {
 					detail_ok.setOnClickListener(new Button.OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							// TODO Auto-generated method stub
 							detailDialog.cancel();
 						}
 					});
-					detail_history.setOnClickListener(new Button.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							// TODO Auto-generated method stub
-							Intent intent = new Intent();
-							intent.setClass(mContext, UidMonthTraff.class);
-							Bundle bData = new Bundle();
-							bData.putInt("uid", uid);
-							bData.putString("appname", appname);
-							bData.putString("pkname", pkname);
-							intent.putExtras(bData);
-							mContext.startActivity(intent);
-							detailDialog.cancel();
-						}
-					});
+					detail_history
+							.setOnClickListener(new Button.OnClickListener() {
+								@Override
+								public void onClick(View v) {
+									Intent intent = new Intent();
+									intent.setClass(mContext,
+											UidMonthTraff.class);
+									Bundle bData = new Bundle();
+									bData.putInt("uid", uid);
+									bData.putString("appname", appname);
+									bData.putString("pkname", pkname);
+									intent.putExtras(bData);
+									mContext.startActivity(intent);
+									detailDialog.cancel();
+								}
+							});
 				}
 			});
 
@@ -858,7 +859,6 @@ public class FireWallActivity extends Activity {
 			bt_uninstall.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					menu.dismiss();
 					Uri uri = Uri.fromParts("package", pkname, null);
 					Intent intent = new Intent(Intent.ACTION_DELETE, uri);
