@@ -3,6 +3,7 @@ package com.hiapk.broadcreceiver;
 import java.util.Calendar;
 
 import com.hiapk.control.widget.NotificatiionProgramControl;
+import com.hiapk.logs.Logs;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceDataWidget;
 
@@ -12,7 +13,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.util.Log;
 
 public class AlarmSet {
 	private int totalrefreshtime = 30;
@@ -21,6 +21,7 @@ public class AlarmSet {
 	private final String PREFS_NAME = "allprefs";
 	private final String TOTAL_REFLASH = "totalrefreshtime";
 	private final String UID_REFLASH = "uidrefreshtime";
+	private String TAG = "AlarmSet";
 
 	/**
 	 * 依据预设值启用计时器，默认总流量统计间隔30秒，uid统计间隔240分钟
@@ -270,10 +271,7 @@ public class AlarmSet {
 	}
 
 	private void showLog(String string) {
-		if (SQLStatic.isshowLog) {
-			Log.d("AlarmSet", string);
-		}
-
+		Logs.d(TAG, string);
 	}
 
 }

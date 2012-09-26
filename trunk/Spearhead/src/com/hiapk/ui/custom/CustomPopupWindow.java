@@ -1,7 +1,5 @@
 package com.hiapk.ui.custom;
 
-import com.hiapk.spearhead.R;
-
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
@@ -21,14 +19,13 @@ public class CustomPopupWindow {
 	private View root;
 	private Drawable background = null;
 	protected final WindowManager windowManager;
-	
+
 	public CustomPopupWindow(View anchor) {
 		this.anchor = anchor;
 		this.window = new PopupWindow(anchor.getContext());
 		window.setTouchInterceptor(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
 				if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
 					CustomPopupWindow.this.window.dismiss();
 					return true;
@@ -36,24 +33,28 @@ public class CustomPopupWindow {
 				return false;
 			}
 		});
-		windowManager = (WindowManager) anchor.getContext().getSystemService(Context.WINDOW_SERVICE);
+		windowManager = (WindowManager) anchor.getContext().getSystemService(
+				Context.WINDOW_SERVICE);
 		onCreate();
 	}
 
 	/**
-	 * Anything you want to have happen when created. Probably should create a view and setup the event listeners on
-	 * child views.
+	 * Anything you want to have happen when created. Probably should create a
+	 * view and setup the event listeners on child views.
 	 */
-	protected void onCreate() {}
+	protected void onCreate() {
+	}
 
 	/**
 	 * In case there is stuff to do right before displaying.
 	 */
-	protected void onShow() {}
+	protected void onShow() {
+	}
 
 	protected void preShow() {
 		if (root == null) {
-			throw new IllegalStateException("setContentView was not called with a view to display.");
+			throw new IllegalStateException(
+					"setContentView was not called with a view to display.");
 		}
 		if (background == null) {
 			window.setBackgroundDrawable(new BitmapDrawable());
@@ -68,7 +69,6 @@ public class CustomPopupWindow {
 		window.setOutsideTouchable(true);
 		window.setContentView(root);
 	}
-
 
 	/**
 	 * Sets the content view. Probably should be called from {@link onCreate}
@@ -87,9 +87,9 @@ public class CustomPopupWindow {
 	 * @param layoutResID
 	 */
 	public void setContentView(int layoutResID) {
-		LayoutInflater inflator =
-				(LayoutInflater) anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		
+		LayoutInflater inflator = (LayoutInflater) anchor.getContext()
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
 		setContentView(inflator.inflate(layoutResID, null));
 	}
 
@@ -99,7 +99,7 @@ public class CustomPopupWindow {
 	 * @param listener
 	 */
 	public void setOnDismissListener(PopupWindow.OnDismissListener listener) {
-		window.setOnDismissListener(listener); 
+		window.setOnDismissListener(listener);
 	}
 
 	/**
@@ -141,24 +141,24 @@ public class CustomPopupWindow {
 		preShow();
 		int[] location = new int[2];
 		anchor.getLocationOnScreen(location);
-		Rect anchorRect =
-				new Rect(location[0], location[1], location[0] + anchor.getWidth(), location[1]
-					+ anchor.getHeight());
+		Rect anchorRect = new Rect(location[0], location[1], location[0]
+				+ anchor.getWidth(), location[1] + anchor.getHeight());
 
-		root.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		root.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT));
 		root.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		
-		int rootWidth 		= root.getMeasuredWidth();
-		int rootHeight 		= root.getMeasuredHeight();
-		int screenWidth 	= windowManager.getDefaultDisplay().getWidth();
-		int xPos 			= ((screenWidth - rootWidth) / 2) + xOffset;
-		int yPos	 		= anchorRect.top - rootHeight + yOffset;
+
+		int rootWidth = root.getMeasuredWidth();
+		int rootHeight = root.getMeasuredHeight();
+		int screenWidth = windowManager.getDefaultDisplay().getWidth();
+		int xPos = ((screenWidth - rootWidth) / 2) + xOffset;
+		int yPos = anchorRect.top - rootHeight + yOffset;
 		if (rootHeight > anchor.getTop()) {
 			yPos = anchorRect.bottom + yOffset;
 		}
 		window.showAtLocation(anchor, Gravity.NO_GRAVITY, xPos, yPos);
 	}
-	
+
 	public void dismiss() {
 		window.dismiss();
 	}

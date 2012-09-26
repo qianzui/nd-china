@@ -226,7 +226,6 @@ public class FireWallActivity extends Activity {
 		setting_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				if (mPop.isShowing()) {
 					mPop.dismiss();
 				} else {
@@ -565,7 +564,6 @@ public class FireWallActivity extends Activity {
 		SpearheadActivity.firehelp.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				SpearheadActivity.firehelp.setVisibility(View.INVISIBLE);
 				Block.isShowHelpSet(mContext, false);
 			}
@@ -678,7 +676,6 @@ public class FireWallActivity extends Activity {
 			bt_manager.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					menu.dismiss();
 					showInstalledAppDetails(FireWallActivity.this, pkgname);
 				}
@@ -740,7 +737,6 @@ public class FireWallActivity extends Activity {
 			bt_uninstall.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					menu.dismiss();
 					Uri uri = Uri.fromParts("package", pkgname, null);
 					Intent intent = new Intent(Intent.ACTION_DELETE, uri);
@@ -921,7 +917,6 @@ public class FireWallActivity extends Activity {
 	}
 
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		if (mPop.isShowing()) {
 			mPop.dismiss();
 		}
@@ -930,7 +925,6 @@ public class FireWallActivity extends Activity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
 			return false;
 		}
@@ -990,7 +984,8 @@ public class FireWallActivity extends Activity {
 
 	public void dialogFireWallOpenFail() {
 		final CustomDialog alertDialog = new CustomDialog.Builder(mContext)
-				.setTitle("注意").setMessage("防火墙应用规则失败，需要申请Root权限，请点击重试！")
+				.setTitle(R.string.caution)
+				.setMessage("防火墙应用规则失败，需要申请Root权限，请点击重试！")
 				.setPositiveButton("重试", null).setNegativeButton("取消", null)
 				.create();
 		alertDialog.show();
@@ -1024,7 +1019,6 @@ public class FireWallActivity extends Activity {
 					});
 				}
 				alertDialog.dismiss();
-				// TODO 开始初始化防火墙代码
 
 			}
 		});
@@ -1044,7 +1038,6 @@ public class FireWallActivity extends Activity {
 					}
 				});
 				alertDialog.dismiss();
-				// TODO 开始初始化防火墙代码
 
 			}
 		});
