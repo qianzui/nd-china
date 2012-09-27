@@ -103,7 +103,6 @@ public class CustomSPBeen {
 		btn_cancel.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				// 0-30代表1-31
 				freshtime.dismiss();
 			}
@@ -115,7 +114,6 @@ public class CustomSPBeen {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				// TODO Auto-generated method stub
 				sharedDatawidget.setWidgetFresh(arg2);
 				AlarmSet alset = new AlarmSet();
 				alset.StartAlarm(context);
@@ -164,7 +162,6 @@ public class CustomSPBeen {
 		btn_cancel.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				// 0-30代表1-31
 				notifySet.dismiss();
 			}
@@ -176,7 +173,6 @@ public class CustomSPBeen {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				// TODO Auto-generated method stub
 				operatorOnAlertClick();
 				sharedData.setAlertAction(arg2);
 				warning_tv.setText((CharSequence) arg0.getItemAtPosition(arg2));
@@ -187,7 +183,6 @@ public class CustomSPBeen {
 	}
 
 	private void operatorOnAlertClick() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -236,7 +231,6 @@ public class CustomSPBeen {
 		btn_cancel.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				// 0-30代表1-31
 				// showlog(sharedData.getCountDay() + "");
 				dateSet.dismiss();
@@ -248,7 +242,6 @@ public class CustomSPBeen {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				// TODO Auto-generated method stub
 				if (arg2 != beforeDay) {
 					operatorOnClick(btn_HasUsed);
 					// 结算日期变化时做日期变化并重置本月已用数值
@@ -286,7 +279,6 @@ public class CustomSPBeen {
 		btn_ok.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				dialogMonthHasUsed();
 				dayWarning.dismiss();
 			}
@@ -296,7 +288,6 @@ public class CustomSPBeen {
 		btn_cancel.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				dayWarning.dismiss();
 			}
 		});
@@ -314,7 +305,6 @@ public class CustomSPBeen {
 	 * @return 返回对话框
 	 */
 	private void dialogMonthHasUsed() {
-		// TODO Auto-generated method stub
 		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		final DecimalFormat format = new DecimalFormat("0.##");
 		int mobileUseUnit = sharedData.getMonthHasUsedUnit();
@@ -366,7 +356,6 @@ public class CustomSPBeen {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				monthHasUsedAlert.dismiss();
 				Intent intent = new Intent(context, Regulate.class);
 				context.startActivity(intent);
@@ -379,13 +368,11 @@ public class CustomSPBeen {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				// 输入的数值
 				float i = 0;
 				try {
 					i = Float.valueOf(et_month.getText().toString());
 				} catch (NumberFormatException e) {
-					// TODO: handle exception
 					showlog(i + "shuziError" + et_month.getText().toString());
 				}
 
@@ -431,7 +418,6 @@ public class CustomSPBeen {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				monthHasUsedAlert.dismiss();
 			}
 		});
