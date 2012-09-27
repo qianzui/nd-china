@@ -10,7 +10,7 @@
         android:layout_width="fill_parent"
         android:layout_height="48dip"
         android:background="@drawable/maintab_title_bg0"
-        android:paddingLeft="10dip"
+        android:paddingLeft="13dip"
         android:paddingRight="10dip" >
 
         <LinearLayout
