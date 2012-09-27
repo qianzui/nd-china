@@ -381,7 +381,7 @@
                     <TextView
                         android:id="@+id/countDaySpButton_tv"
                         android:layout_width="wrap_content"
-                        android:layout_height="45dp"
+                        android:layout_height="fill_parent"
                         android:layout_toLeftOf="@+id/monthSet"
                         android:gravity="center_vertical"
                         android:paddingRight="20dp"
