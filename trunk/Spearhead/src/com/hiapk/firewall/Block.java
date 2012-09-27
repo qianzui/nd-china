@@ -722,14 +722,14 @@ public class Block {
 			int uid = pi.applicationInfo.uid;
 			IsChecked ic = new IsChecked();
 			if (cache) {
-				if (uids_all.contains(uid)) {
+//				if (uids_all.contains(uid)) {
 					if (uids_3g.contains(uid)) {
 						ic.selected_3g = true;
 					}
 					if (uids_wifi.contains(uid)) {
 						ic.selected_wifi = true;
 					}
-				}
+//				} 
 			}
 			map.put(uid, ic);
 		}

@@ -112,8 +112,7 @@ public class FireWallActivity extends Activity {
 		setContentView(R.layout.main2);
 		init();
 		initUidData();
-//		sharedpref.IsFireWallOpenFail() && !Block.isShowHelp(mContext)
-		if (false) {
+		if (sharedpref.IsFireWallOpenFail() && !Block.isShowHelp(mContext)) {
 			dialogFireWallOpenFail();
 		} else {
 			handler.post(new Runnable() {
@@ -714,9 +713,13 @@ public class FireWallActivity extends Activity {
 						@Override
 						public void onClick(View v) {
 							menu.dismiss();
+							Log.i("test","uid:" + uid);
+//							savedUids_all = uids_all + "|" + uid;  
 							if (uids_all.contains(uid + "")) {
+								Log.i("test","uid is added fail" );
 							} else {
 								savedUids_all = uids_all + "|" + uid;  
+								Log.i("test","uid is added" );
 							}
 							if (uids_wifi.contains(uid + "")) {
 							} else {
@@ -732,6 +735,10 @@ public class FireWallActivity extends Activity {
 							edit.putString(Block.PREF_ALL_UIDS, savedUids_all);
 							edit.putBoolean(Block.PREF_S, true);
 							edit.commit();
+							Log.i("test","wifi:" +savedUids_wifi);
+							Log.i("test","3g:" + savedUids_3g);
+							Log.i("test","all:" + uids_all.length() +"-"+ uids_all);
+							Log.i("test","savedUids_wifi:" + savedUids_wifi.length() + "uids_wifi:" + uids_wifi.length());
 							if (Block.applyIptablesRules(mContext, true, true)) {
 								Toast.makeText(mContext, R.string.fire_applyed,
 										Toast.LENGTH_SHORT).show();
@@ -739,8 +746,10 @@ public class FireWallActivity extends Activity {
 								final Editor edit2 = prefs.edit();
 								edit2.putString(Block.PREF_WIFI_UIDS, uids_wifi);
 								edit2.putString(Block.PREF_3G_UIDS, uids_3g);
+								edit2.putString(Block.PREF_ALL_UIDS, uids_all);
 								edit2.putBoolean(Block.PREF_S, true);
 								edit2.commit();
+								
 							}
 						}
 					});
@@ -761,6 +770,7 @@ public class FireWallActivity extends Activity {
 				}
 			});
 		}
+		
 	}
 
 	public void menuDialog(View arg1) {
