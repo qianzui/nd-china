@@ -311,9 +311,10 @@ public class FireWallActivity extends Activity {
 		for (int j = 0; j < button.length; j++) {
 			button[j].setTextColor(whiteColor);
 		}
-		if(isloading){
-		button[i].setTextColor(Color.BLACK);
-		}else{}
+		if (isloading) {
+			button[i].setTextColor(Color.BLACK);
+		} else {
+		}
 	}
 
 	public void switchList(int i) {
@@ -483,7 +484,7 @@ public class FireWallActivity extends Activity {
 						break;
 					}
 				} while (Block.appList.size() != Block.appnamemap.size());
-				 while (SQLStatic.uiddata == null){
+				while (SQLStatic.uiddata == null) {
 					try {
 						j++;
 						Thread.sleep(500);
@@ -493,7 +494,7 @@ public class FireWallActivity extends Activity {
 					if (SQLStatic.uiddata != null) {
 						break;
 					}
-					if(j >= 10){
+					if (j >= 10) {
 						initUidData();
 						j = 0;
 					}
@@ -704,7 +705,8 @@ public class FireWallActivity extends Activity {
 						Block.PREFS_NAME, 0);
 				final String uids_wifi = prefs.getString(Block.PREF_WIFI_UIDS,
 						"");
-				final String uids_all = prefs.getString(Block.PREF_ALL_UIDS, "");
+				final String uids_all = prefs
+						.getString(Block.PREF_ALL_UIDS, "");
 				final String uids_3g = prefs.getString(Block.PREF_3G_UIDS, "");
 				if (uids_3g.contains(uid + "") && uids_wifi.contains(uid + "")) {
 					bt_detail.setTextColor(Color.GRAY);
@@ -713,13 +715,13 @@ public class FireWallActivity extends Activity {
 						@Override
 						public void onClick(View v) {
 							menu.dismiss();
-							Log.i("test","uid:" + uid);
-//							savedUids_all = uids_all + "|" + uid;  
+							Log.i("test", "uid:" + uid);
+							// savedUids_all = uids_all + "|" + uid;
 							if (uids_all.contains(uid + "")) {
-								Log.i("test","uid is added fail" );
+								Log.i("test", "uid is added fail");
 							} else {
-								savedUids_all = uids_all + "|" + uid;  
-								Log.i("test","uid is added" );
+								savedUids_all = uids_all + "|" + uid;
+								Log.i("test", "uid is added");
 							}
 							if (uids_wifi.contains(uid + "")) {
 							} else {
@@ -735,10 +737,13 @@ public class FireWallActivity extends Activity {
 							edit.putString(Block.PREF_ALL_UIDS, savedUids_all);
 							edit.putBoolean(Block.PREF_S, true);
 							edit.commit();
-							Log.i("test","wifi:" +savedUids_wifi);
-							Log.i("test","3g:" + savedUids_3g);
-							Log.i("test","all:" + uids_all.length() +"-"+ uids_all);
-							Log.i("test","savedUids_wifi:" + savedUids_wifi.length() + "uids_wifi:" + uids_wifi.length());
+							Log.i("test", "wifi:" + savedUids_wifi);
+							Log.i("test", "3g:" + savedUids_3g);
+							Log.i("test", "all:" + uids_all.length() + "-"
+									+ uids_all);
+							Log.i("test",
+									"savedUids_wifi:" + savedUids_wifi.length()
+											+ "uids_wifi:" + uids_wifi.length());
 							if (Block.applyIptablesRules(mContext, true, true)) {
 								Toast.makeText(mContext, R.string.fire_applyed,
 										Toast.LENGTH_SHORT).show();
@@ -749,7 +754,7 @@ public class FireWallActivity extends Activity {
 								edit2.putString(Block.PREF_ALL_UIDS, uids_all);
 								edit2.putBoolean(Block.PREF_S, true);
 								edit2.commit();
-								
+
 							}
 						}
 					});
@@ -770,7 +775,7 @@ public class FireWallActivity extends Activity {
 				}
 			});
 		}
-		
+
 	}
 
 	public void menuDialog(View arg1) {
@@ -983,24 +988,31 @@ public class FireWallActivity extends Activity {
 
 		@Override
 		protected Boolean doInBackground(Context... params) {
+			int timetap = 0;
 			while (NotificationInfo.notificationRes.length() == 0) {
+				timetap++;
 				try {
 					Thread.sleep(500);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+				if (timetap > 10) {
+					return false;
+				}
 			}
-			return null;
+			return true;
 		}
 
 		@Override
 		protected void onPostExecute(Boolean result) {
 			if (String.valueOf(NotificationInfo.notificationRes).contains(
-					"Notification")) {
+					"Notification")
+					&& result) {
 				loading_content.setVisibility(View.INVISIBLE);
 				NotificationInfo.hasdata = true;
 				setAdapterNotif();
 			} else {
+				NotificationInfo.notificationRes.append("result-fail");
 				CustomDialogOtherBeen customDialog = new CustomDialogOtherBeen(
 						FireWallActivity.this.getParent());
 				customDialog.dialogNotificationRootFail();
