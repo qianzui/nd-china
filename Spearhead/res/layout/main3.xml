@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/bground_dark"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
 
     <!-- 标题栏开始 -->
 
@@ -104,6 +104,7 @@
                     android:paddingRight="20dp"
                     android:text="点击设置"
                     android:textColor="@color/darkgray2"
+                    android:textSize="17dp"
                     android:textStyle="bold" />
 
                 <ImageButton
@@ -156,6 +157,7 @@
                     android:paddingRight="20dp"
                     android:text="点击设置"
                     android:textColor="@color/darkgray2"
+                    android:textSize="17dp"
                     android:textStyle="bold" />
 
                 <ImageButton
@@ -208,6 +210,7 @@
                     android:paddingRight="20dp"
                     android:text="点击设置"
                     android:textColor="@color/darkgray2"
+                    android:textSize="17dp"
                     android:textStyle="bold" />
 
                 <ImageButton
@@ -282,6 +285,7 @@
                         android:paddingRight="20dp"
                         android:text="1024.4MB"
                         android:textColor="@color/darkgray2"
+                        android:textSize="17dp"
                         android:textStyle="bold" />
 
                     <ImageButton
@@ -386,7 +390,8 @@
                         android:gravity="center_vertical"
                         android:paddingRight="20dp"
                         android:text="1 日"
-                        android:textColor="@color/darkgray2" />
+                        android:textColor="@color/darkgray2"
+                        android:textSize="17dp" />
 
                     <ImageButton
                         android:layout_width="30dp"
@@ -435,6 +440,7 @@
                         android:paddingRight="20dp"
                         android:text="查询流量套餐"
                         android:textColor="@color/darkgray2"
+                        android:textSize="17dp"
                         android:textStyle="bold" />
 
                     <ImageButton

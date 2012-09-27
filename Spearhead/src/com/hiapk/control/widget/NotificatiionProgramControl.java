@@ -56,6 +56,7 @@ public class NotificatiionProgramControl {
 						percent);
 			} else {
 				contentView.setInt(R.id.probar_down, "setProgress", percent);
+				contentView.setInt(R.id.probar_down, "setSecondaryProgress", 0);
 			}
 		}
 		// aa.setSecondaryProgress(10);
