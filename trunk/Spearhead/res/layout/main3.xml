@@ -230,7 +230,7 @@
         android:paddingLeft="15.0dip"
         android:text="流量设置"
         android:textColor="@color/darkgrey"
-        android:textSize="15sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <!-- 第一个框框开始 -->

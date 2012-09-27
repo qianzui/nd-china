@@ -102,9 +102,7 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name="com.hiapk.ui.widget.FloatService"
-            android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
+        <service android:name="com.hiapk.ui.widget.FloatService" >
             <intent-filter>
                 <action android:name="com.hiapk.server" />
             </intent-filter>

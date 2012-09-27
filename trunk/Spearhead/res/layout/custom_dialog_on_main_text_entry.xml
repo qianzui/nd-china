@@ -6,7 +6,7 @@
     android:orientation="horizontal"
     android:paddingLeft="25dp"
     android:paddingRight="30dp"
-    android:paddingTop="5dp" >
+    android:paddingTop="10dp" >
 
     <EditText
         android:id="@+id/ev_alert"
@@ -30,7 +30,7 @@
     <Spinner
         android:id="@+id/sp_unit"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="0.5"
         android:background="@drawable/btnselector_dark0"

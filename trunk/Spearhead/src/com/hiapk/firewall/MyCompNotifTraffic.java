@@ -40,9 +40,9 @@ public class MyCompNotifTraffic implements Comparator {
 				traffic2 = traffic[0];
 			}
 			if(traffic1 < traffic2){
-				return -1;
-			}else if(traffic1 > traffic2){
 				return 1;
+			}else if(traffic1 > traffic2){
+				return -1;
 			}else{
 				return 0;
 			}
