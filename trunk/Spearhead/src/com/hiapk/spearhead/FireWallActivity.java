@@ -52,6 +52,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -95,6 +96,7 @@ public class FireWallActivity extends Activity {
 	public View bubbleView;
 	public String savedUids_wifi = "";
 	public String savedUids_3g = "";
+	public String savedUids_all = "";
 	private Context mContext = this;
 	public ProgressDialog mydialog;
 	public ProgressDialog pro;
@@ -110,8 +112,8 @@ public class FireWallActivity extends Activity {
 		setContentView(R.layout.main2);
 		init();
 		initUidData();
-
-		if (sharedpref.IsFireWallOpenFail() && !Block.isShowHelp(mContext)) {
+//		sharedpref.IsFireWallOpenFail() && !Block.isShowHelp(mContext)
+		if (false) {
 			dialogFireWallOpenFail();
 		} else {
 			handler.post(new Runnable() {
@@ -467,7 +469,7 @@ public class FireWallActivity extends Activity {
 				getList(mContext);
 				Splash.getList(mContext);
 				int i = 0;
-				Logs.i("test", "begin");
+				int j = 0;
 				do {
 					try {
 						i++;
@@ -476,20 +478,27 @@ public class FireWallActivity extends Activity {
 						e.printStackTrace();
 					}
 					if (Block.appList.size() == Block.appnamemap.size()) {
-						Logs.i("test", "end1");
 						break;
 					}
 					if (i >= 30) {
-						Logs.i("test", "end1.1");
 						break;
 					}
 				} while (Block.appList.size() != Block.appnamemap.size());
-				do {
+				 while (SQLStatic.uiddata == null){
+					try {
+						j++;
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 					if (SQLStatic.uiddata != null) {
-						Logs.i("test", "end2");
 						break;
 					}
-				} while (SQLStatic.uiddata == null);
+					if(j >= 10){
+						initUidData();
+						j = 0;
+					}
+				}
 				uidList = comp(Block.appList);
 				handler2.sendEmptyMessage(0);
 			}
@@ -696,6 +705,7 @@ public class FireWallActivity extends Activity {
 						Block.PREFS_NAME, 0);
 				final String uids_wifi = prefs.getString(Block.PREF_WIFI_UIDS,
 						"");
+				final String uids_all = prefs.getString(Block.PREF_ALL_UIDS, "");
 				final String uids_3g = prefs.getString(Block.PREF_3G_UIDS, "");
 				if (uids_3g.contains(uid + "") && uids_wifi.contains(uid + "")) {
 					bt_detail.setTextColor(Color.GRAY);
@@ -704,6 +714,10 @@ public class FireWallActivity extends Activity {
 						@Override
 						public void onClick(View v) {
 							menu.dismiss();
+							if (uids_all.contains(uid + "")) {
+							} else {
+								savedUids_all = uids_all + "|" + uid;  
+							}
 							if (uids_wifi.contains(uid + "")) {
 							} else {
 								savedUids_wifi = uids_wifi + "|" + uid;
@@ -715,6 +729,7 @@ public class FireWallActivity extends Activity {
 							final Editor edit = prefs.edit();
 							edit.putString(Block.PREF_WIFI_UIDS, savedUids_wifi);
 							edit.putString(Block.PREF_3G_UIDS, savedUids_3g);
+							edit.putString(Block.PREF_ALL_UIDS, savedUids_all);
 							edit.putBoolean(Block.PREF_S, true);
 							edit.commit();
 							if (Block.applyIptablesRules(mContext, true, true)) {
