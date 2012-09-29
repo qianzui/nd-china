@@ -102,14 +102,14 @@
             </intent-filter>
         </activity>
 
-        <service android:name="com.hiapk.ui.widget.FloatService" >
+        <service android:name="com.hiapk.widget.FloatService" >
             <intent-filter>
                 <action android:name="com.hiapk.server" />
             </intent-filter>
         </service>
 
         <receiver
-            android:name="com.hiapk.ui.widget.Appwidget"
+            android:name="com.hiapk.widget.Appwidget"
             android:icon="@drawable/ic_launcher"
             android:label="先锋流量监控(4X1)" >
             <intent-filter>
