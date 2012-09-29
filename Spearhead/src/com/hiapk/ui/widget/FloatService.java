@@ -1,11 +1,11 @@
 package com.hiapk.ui.widget;
 
 import com.hiapk.bean.FloatWindowStr;
-import com.hiapk.control.widget.FloatWindowTextSet;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.spearhead.R;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceDataWidget;
+import com.hiapk.widget.FloatWindowTextSet;
 
 import android.app.Service;
 import android.content.Context;
