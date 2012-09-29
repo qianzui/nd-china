@@ -1,4 +1,4 @@
-package com.hiapk.widget;
+package com.hiapk.control.widget;
 
 import com.hiapk.bean.FloatWindowStr;
 import com.hiapk.util.UnitHandler;

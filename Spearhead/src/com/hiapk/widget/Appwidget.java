@@ -1,4 +1,4 @@
-package com.hiapk.ui.widget;
+package com.hiapk.widget;
 
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.widget.MobileDataSwitch;
