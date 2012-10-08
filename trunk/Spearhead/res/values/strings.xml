@@ -14,8 +14,8 @@
     <string name="rate">0</string>
     <string name="weekUsed">剩余流量:\u0020</string>
     <string name="monthTotal">本月统计:\u0020</string>
-    <string name="tip">    此功能(切换联网状态)需要Root权限!请确定您的机器已经破解并获得Root权限</string>
-    <string name="tip_content">    此功能(切换联网状态)需要Root权限! 您确定要继续吗?</string>
+    <string name="tip">    此功能(切换联网状态)需要Root权限!\n请确定您的机器已经破解并获得Root权限.</string>
+    <string name="tip_content">    此功能(切换联网状态)需要Root权限! \n您确定要继续吗?</string>
     <string name="tip_content_isroot">\n 是否获取？</string>
     <string name="caution">注意</string>
     <string name="ok">确定</string>
