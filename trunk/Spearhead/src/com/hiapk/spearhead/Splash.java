@@ -38,8 +38,8 @@ public class Splash extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
-		SQLStatic.isAppOpened = true;
 		context.sendBroadcast(new Intent(ACTION_TIME_CHANGED));
+		SQLStatic.isAppOpened = true;
 		time = System.currentTimeMillis();
 		// MobclickAgent.onError(this);
 		isinited = SQLStatic.getIsInit(context);
