@@ -23,7 +23,6 @@ public class DateChangeBroadcast extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		this.context = context;
-		initTime();
 		new AsyncTaskonResetmonthAndtodayData().execute(context);
 		if (SQLStatic.ConnectSleepWaiting == false) {
 			new AsyncTaskonWaitingDayChange().execute(context);
@@ -47,7 +46,7 @@ public class DateChangeBroadcast extends BroadcastReceiver {
 		@Override
 		protected Long doInBackground(Context... params) {
 			try {
-				Thread.sleep(1500);
+				Thread.sleep(1800);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -103,6 +102,7 @@ public class DateChangeBroadcast extends BroadcastReceiver {
 	 * @param context
 	 */
 	private void resetRecordData(Context context) {
+		initTime();
 		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		int countday = sharedData.getCountDay() + 1;
 		if (monthDay == countday) {

@@ -208,13 +208,8 @@ public class Appwidget extends AppWidgetProvider {
 		RemoteViews views = new RemoteViews(context.getPackageName(),
 				R.layout.appwidget_layout);
 		long monthSet = 0;
-		try {
-			SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
-			monthSet = sharedData.getMonthMobileSetOfLong();
-		} catch (Exception e) {
-			monthSet = 0;
-		}
-
+		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+		monthSet = sharedData.getMonthMobileSetOfLong();
 		if (monthSet == 0) {
 			views = new RemoteViews(context.getPackageName(),
 					R.layout.appwidget_layout_not_set);

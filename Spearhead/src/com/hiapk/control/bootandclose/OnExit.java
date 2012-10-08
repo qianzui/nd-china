@@ -9,11 +9,13 @@ import android.content.Intent;
 import com.hiapk.broadcreceiver.ExitAppBroadcast;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.spearhead.SpearheadApplication;
+import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceDataWidget;
 
 public class OnExit {
 
 	public void onExit(Context context) {
+		SQLStatic.isAppOpened = false;
 		SharedPrefrenceDataWidget sharedWidget = new SharedPrefrenceDataWidget(
 				context);
 		if (sharedWidget.isFloatOpen()) {
