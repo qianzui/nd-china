@@ -83,11 +83,17 @@ public class ConnectivityChange extends BroadcastReceiver {
 		@Override
 		protected Long doInBackground(Context... params) {
 			try {
-				Thread.sleep(5000);
+				Thread.sleep(3000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			publishProgress((long) 0);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			publishProgress((long) 1);
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -99,21 +105,29 @@ public class ConnectivityChange extends BroadcastReceiver {
 		@Override
 		protected void onProgressUpdate(Long... values) {
 			super.onProgressUpdate(values);
-			alset.StartAlarm(context);
+			if (values[0] == 0) {
+				alset.StartAlarm(context);
+			}
+			if (values[0] == 1) {
+				SQLStatic.initTablemobileAndwifi(context);
+				if (SQLStatic.TableWiFiOrG23 == "") {
+					SQLStatic.TableWiFiOrG23Before = "";
+					alset.StopAlarm(context);
+					SQLStatic.isTotalAlarmRecording = false;
+					SQLStatic.isUidAlarmRecording = false;
+					SetText.resetWidgetAndNotify(context);
+				} else {
+					SetText.resetWidgetAndNotify(context);
+				}
+			}
 		}
 
 		@Override
 		protected void onPostExecute(Long result) {
-			SQLStatic.initTablemobileAndwifi(context);
 			if (SQLStatic.TableWiFiOrG23 == "") {
-				SQLStatic.TableWiFiOrG23Before = "";
-				alset.StopAlarm(context);
-				SQLStatic.isTotalAlarmRecording = false;
-				SQLStatic.isUidAlarmRecording = false;
-				SetText.resetWidgetAndNotify(context);
-				android.os.Process.killProcess(android.os.Process.myPid());
-			} else {
-				SetText.resetWidgetAndNotify(context);
+				if (!SQLStatic.isAppOpened) {
+					android.os.Process.killProcess(android.os.Process.myPid());
+				}
 			}
 			SQLStatic.ConnectSleepWaiting = false;
 		}
