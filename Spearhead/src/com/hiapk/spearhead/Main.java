@@ -3,6 +3,7 @@ package com.hiapk.spearhead;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.SetText;
+import com.hiapk.logs.Logs;
 import com.hiapk.ui.chart.StackedBarChart;
 import com.hiapk.ui.custom.CustomDialogMainBeen;
 import com.hiapk.ui.skin.ColorChangeMainBeen;
@@ -50,6 +51,7 @@ public class Main extends Activity {
 	 * 图表种类，0代表移动，1代表wifi
 	 */
 	private int chartType = 0;
+	private String TAG = "Main";
 
 	// fortest
 
@@ -271,6 +273,7 @@ public class Main extends Activity {
 	 * onResume时初始化chart
 	 */
 	private void initChartBar() {
+		Logs.d(TAG, "month=" + month);
 		switch (chartType) {
 		case 0:
 			initMobileBar();

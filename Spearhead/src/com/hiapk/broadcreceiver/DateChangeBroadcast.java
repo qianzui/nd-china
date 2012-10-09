@@ -4,6 +4,7 @@ import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.logs.Logs;
 import com.hiapk.logs.WriteLog;
+import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 import com.hiapk.ui.scene.PrefrenceStaticOperator;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceData;
@@ -111,6 +112,10 @@ public class DateChangeBroadcast extends BroadcastReceiver {
 			TrafficManager.clearUidtraffMonthly(context);
 			WriteLog writelog = new WriteLog(context);
 			writelog.clearmonthLog();
+			// 防止月初数据错误
+			TrafficManager.mobile_month_use = 1;
+//			// 开始新的一月初始化数据
+//			SQLHelperDataexe.initShowDataOnSplash(context);
 		}
 		sharedData.setTodayMobileDataLong(0);
 		//
