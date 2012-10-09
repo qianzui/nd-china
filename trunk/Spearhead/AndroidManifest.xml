@@ -152,7 +152,9 @@
         </receiver>
         <receiver android:name="com.hiapk.broadcreceiver.RecordDataReceiver" >
         </receiver>
-        <receiver android:name="com.hiapk.broadcreceiver.DateChangeBroadcast" >
+        <receiver android:name="com.hiapk.broadcreceiver.DateChangeBroadcastBefore" >
+        </receiver>
+        <receiver android:name="com.hiapk.broadcreceiver.DateChangeBroadcastAfter" >
         </receiver>
         <receiver android:name="com.hiapk.broadcreceiver.ExitAppBroadcast" >
         </receiver>

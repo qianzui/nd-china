@@ -28,12 +28,21 @@ public class TimeChangeToStartDateChange extends BroadcastReceiver {
 			long triggerTime = c.getTimeInMillis();
 			AlarmManager alarmManager = (AlarmManager) context
 					.getSystemService(Context.ALARM_SERVICE);
-			Intent updateTimeIntent = new Intent(context,
-					DateChangeBroadcast.class);
-			PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-					0, updateTimeIntent, 0);
+			// before
+			Intent beforeIntent = new Intent(context,
+					DateChangeBroadcastBefore.class);
+			PendingIntent beforependingIntent = PendingIntent.getBroadcast(
+					context, 0, beforeIntent, 0);
 			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, triggerTime,
-					1000 * 60 * 60 * 24, pendingIntent);
+					1000 * 60 * 60 * 24, beforependingIntent);
+			// after
+			Intent afterIntent = new Intent(context,
+					DateChangeBroadcastAfter.class);
+			PendingIntent afterpendingIntent = PendingIntent.getBroadcast(
+					context, 0, afterIntent, 0);
+			alarmManager
+					.setRepeating(AlarmManager.RTC_WAKEUP, triggerTime + 1800,
+							1000 * 60 * 60 * 24, afterpendingIntent);
 		}
 	}
 
