@@ -9,9 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 
 public class UpdateWidget extends BroadcastReceiver {
-	String BROADCAST_TRAFF = "com.hiapk.traffwidget";
-	String BROADCAST_WIFI = "com.hiapk.wifiwidget";
-	String BROADCAST_GPRS = "com.hiapk.prgswidget";
 	String TAG = "ReceiverWidget";
 
 	@Override

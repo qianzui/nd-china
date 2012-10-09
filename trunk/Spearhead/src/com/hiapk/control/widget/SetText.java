@@ -52,7 +52,10 @@ public class SetText {
 		String todayUsedStr = UnitHandler.unitHandlerAccurate(todayUsedLong);
 		String date = getdate(context, year, month, monthDay).toString();
 		String day = getday(context, year, month, monthDay);
-		ProgressBarPercent = (int) (((double) monthUsedLong / monthSetLong) * 100);
+		if (monthUsedLong < 200000 && monthSetLong > 20000000) {
+
+		} else
+			ProgressBarPercent = (int) (((double) monthUsedLong / monthSetLong) * 100);
 		if (monthSetLong != 0) {
 			HasSetMonthUsed = true;
 		}
@@ -82,6 +85,15 @@ public class SetText {
 		text3 = style;
 
 		// showLog(textUp);
+	}
+
+	/**
+	 * 初始化小部件及通知栏数据（widget用）
+	 * 
+	 * @param context
+	 */
+	public static void initText(Context context) {
+		setText(context);
 	}
 
 	/**

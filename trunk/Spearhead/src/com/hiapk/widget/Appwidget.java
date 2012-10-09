@@ -119,6 +119,10 @@ public class Appwidget extends AppWidgetProvider {
 				views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout3,
 						pendingIntenttraff);
 				initWidget(context, views);
+				// 无值，则初始化数值
+				if (SetText.text1 == "今日已用: ...") {
+					SetText.initText(context);
+				}
 				// 设置文本状态
 				if (SetText.text1 != "今日已用: ...") {
 					views.setCharSequence(R.id.widgetTextview1, "setText",
@@ -309,6 +313,10 @@ public class Appwidget extends AppWidgetProvider {
 					pendingIntentgprs);
 			views.setOnClickPendingIntent(R.id.widget1X4LinnerLayout3,
 					pendingIntenttraff);
+			// 无值，则初始化数值
+			if (SetText.text1 == "今日已用: ...") {
+				SetText.initText(context);
+			}
 			if (SetText.text1 != "今日已用: ...") {
 				views.setCharSequence(R.id.widgetTextview1, "setText",
 						SetText.text1);
