@@ -5,6 +5,7 @@ import com.hiapk.bean.UidTraffs;
 import com.hiapk.control.traff.MonthlyUseData;
 import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.SetText;
+import com.hiapk.logs.Logs;
 import com.hiapk.sqlhelper.total.SQLHelperTotal;
 import com.hiapk.util.SQLStatic;
 import android.content.Context;
@@ -24,6 +25,7 @@ public class SQLHelperDataexe {
 	private static int month;
 	private static String network;
 	public static boolean isiniting = false;
+	private static String TAG = "SQLDataexe";
 
 	/**
 	 * 初始化流量数据
@@ -179,15 +181,16 @@ public class SQLHelperDataexe {
 		long[] mobile_month_data_before = new long[64];
 		MonthlyUseData monthlyUseData = new MonthlyUseData();
 		SQLHelperTotal sqlhelperTotal = new SQLHelperTotal();
+		initTime();
 		SQLiteDatabase sqlDataBase = SQLHelperCreateClose
 				.creatSQLTotal(context);
+		Logs.d(TAG, "month=" + month);
 		sqlDataBase.beginTransaction();
 		try {
 			// 断网后的最后一次记录
 			sqlhelperTotal.RecordTotalwritestats(context, sqlDataBase, false,
 					network);
 			// 生成基本常用数据
-			initTime();
 			mobile_month_use_afterSet = monthlyUseData.getMonthUseData(context,
 					sqlDataBase);
 			wifi_month_data = sqlhelperTotal.SelectWifiData(sqlDataBase, year,
