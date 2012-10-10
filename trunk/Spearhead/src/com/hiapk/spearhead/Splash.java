@@ -53,6 +53,7 @@ public class Splash extends Activity {
 			SharedPrefrenceDataOnUpdate sharedUpdate = new SharedPrefrenceDataOnUpdate(
 					context);
 			sharedUpdate.setUidRecordUpdated(true);
+			sharedUpdate.setTotal121updated(true);
 			new AsyncTaskinitDatabase().execute(context);
 		}
 
