@@ -7,7 +7,10 @@ import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.logs.Logs;
 import com.hiapk.sqlhelper.total.SQLHelperTotal;
+import com.hiapk.util.Fixs;
 import com.hiapk.util.SQLStatic;
+import com.hiapk.util.SharedPrefrenceDataOnUpdate;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.TrafficStats;
@@ -217,6 +220,12 @@ public class SQLHelperDataexe {
 			TrafficManager.wifi_month_data_before = wifi_month_data_before;
 			TrafficManager.mobile_month_use = mobile_month_use_afterSet;
 			// showLog("wifitotal=" + wifi_month_data[0] + "");
+			// 1.2.1数据更新。
+			Logs.d(TAG, "121start");
+			if (year == 2012 && month == 10) {
+				Fixs fix = new Fixs();
+				fix.update121(context, mobile_month_data);
+			}
 		} catch (Exception e) {
 		} finally {
 			sqlDataBase.endTransaction();
