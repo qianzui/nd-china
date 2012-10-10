@@ -9,7 +9,6 @@ import com.hiapk.logs.Logs;
 import com.hiapk.sqlhelper.total.SQLHelperTotal;
 import com.hiapk.util.Fixs;
 import com.hiapk.util.SQLStatic;
-import com.hiapk.util.SharedPrefrenceDataOnUpdate;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
