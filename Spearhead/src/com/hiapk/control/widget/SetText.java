@@ -52,10 +52,11 @@ public class SetText {
 		String todayUsedStr = UnitHandler.unitHandlerAccurate(todayUsedLong);
 		String date = getdate(context, year, month, monthDay).toString();
 		String day = getday(context, year, month, monthDay);
-		if (monthUsedLong < 200000 && monthSetLong > 20000000) {
+		ProgressBarPercent = (int) (((double) monthUsedLong / monthSetLong) * 100);
+		if (ProgressBarPercent == 0 && monthUsedLong > 50000) {
+			ProgressBarPercent = 1;
+		}
 
-		} else
-			ProgressBarPercent = (int) (((double) monthUsedLong / monthSetLong) * 100);
 		if (monthSetLong != 0) {
 			HasSetMonthUsed = true;
 		}
