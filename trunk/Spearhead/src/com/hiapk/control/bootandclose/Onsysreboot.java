@@ -28,7 +28,7 @@ public class Onsysreboot {
 		if (isbooting) {
 			return;
 		}
-		Toast.makeText(context, "startingboot", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(context, "startingboot", Toast.LENGTH_SHORT).show();
 		isbooting = true;
 		this.context = context;
 		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(

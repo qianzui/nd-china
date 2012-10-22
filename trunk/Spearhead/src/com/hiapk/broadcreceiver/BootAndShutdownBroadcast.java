@@ -18,12 +18,12 @@ public class BootAndShutdownBroadcast extends BroadcastReceiver {
 			// showLog("getbootaction");
 		}
 		// 强化开机信号
-		if (intent.getAction()
-				.equals("android.intent.action.SIM_STATE_CHANGED")) {
-			Onsysreboot sysreboot = new Onsysreboot();
-			sysreboot.onsysreboot(context);
-			// showLog("getbootaction");
-		}
+//		if (intent.getAction()
+//				.equals("android.intent.action.SIM_STATE_CHANGED")) {
+//			Onsysreboot sysreboot = new Onsysreboot();
+//			sysreboot.onsysreboot(context);
+//			// showLog("getbootaction");
+//		}
 		// 识别到关机信号
 		if (intent.getAction().equals(Intent.ACTION_SHUTDOWN)) {
 			Onshutdown sysshutdown = new Onshutdown();
