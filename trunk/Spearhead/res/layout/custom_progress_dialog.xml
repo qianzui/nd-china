@@ -29,7 +29,7 @@
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:paddingLeft="15dp"
-            android:text="清除中，请稍候。。。" />
+            android:text="@string/custom_window_clearing_data" />
     </LinearLayout>
 
 </LinearLayout>

@@ -28,7 +28,7 @@
     <item name="tag_notif_holder" type="id"></item>
     <item name="tag_notif_pkgInfo" type="id"></item>
     <item name="tag_notif_id" type="id"></item>
-
+	
     <string name="img_content_backbtn">返回按钮</string>
     <string name="img_content_backbtn_line">返回按钮的分割线</string>
     <string name="img_content_divide_line">分割线</string>
@@ -70,5 +70,11 @@
     <string name="menupop_show_text_shareto">分享到新浪微博</string>
     <string name="menupop_show_text_updatemess">更新日志</string>
     <string name="menupop_show_text_about">关于</string>
-
+	
+     <string name="custom_window_normal_input_unit">         单位:</string>
+     <string name="custom_window_input_hint">请输入数值</string>
+    <string name="custom_window_spin_input_unit"> 单位:</string>
+    <string name="custom_window_clearing_data">清除中，请稍候。。。</string>
+    
+    
 </resources>
