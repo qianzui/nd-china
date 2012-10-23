@@ -7,8 +7,11 @@ import com.hiapk.control.bootandclose.OnExit;
 import com.hiapk.control.traff.NotificationInfo;
 import com.hiapk.control.widget.NotificationWarningControl;
 import com.hiapk.firewall.Block;
+import com.hiapk.logs.Logs;
 import com.hiapk.ui.custom.CustomDialogFAQBeen;
-import com.hiapk.ui.scene.FAQActivity;
+import com.hiapk.ui.custom.CustomMenuMain;
+import com.hiapk.ui.custom.CustomMenuSub;
+import com.hiapk.ui.scene.MenuSceneActivity;
 import com.hiapk.ui.scene.PrefrenceSetting;
 
 import android.app.ProgressDialog;
@@ -17,9 +20,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.WebView;
@@ -37,6 +42,7 @@ public class SpearheadActivity extends TabActivity {
 	public static final String TAB_FIREWALL = "tabFireWall";
 	public static final String TAB_WARNING = "tabWarning";
 	Context context = this;
+	private String TAG = "SpearheadActivity";
 	// 按两次退出
 	public static Boolean isExit = false;
 	public ProgressDialog pro;
@@ -49,6 +55,10 @@ public class SpearheadActivity extends TabActivity {
 			isExit = false;
 		}
 	};
+
+	// 自定义的弹出框类
+	CustomMenuMain menuWindowMain;
+	CustomMenuSub menuWindowSub;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -189,44 +199,98 @@ public class SpearheadActivity extends TabActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, 1, 1, "设置");
-		menu.add(0, 2, 2, "FAQ");
-		menu.add(0, 3, 3, "关于");
-		menu.add(0, 4, 4, "退出");
-		return super.onCreateOptionsMenu(menu);
+		Logs.d(TAG, "onCreateOptionsMenu");
+		showMenuMain();
+		return false;
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case 1:
-			Intent intentPref = new Intent();
-			intentPref.setClass(context, PrefrenceSetting.class);
-			startActivity(intentPref);
-			break;
-		case 2:
-			Intent faqIntent = new Intent();
-			faqIntent.setClass(context, FAQActivity.class);
-			startActivity(faqIntent);
-			// showFaqPopUp("file:///android_asset/faq/faq.html");
-			// CustomDialogFAQBeen customFAQ = new CustomDialogFAQBeen(context);
-			// customFAQ.dialogFAQ();
-			break;
-		case 3:
-			// showAboutPopUp("file:///android_asset/about/about.html");
-			CustomDialogFAQBeen customAbout = new CustomDialogFAQBeen(context);
-			customAbout.dialogAbout();
-			break;
-		case 4:
-			OnExit exit = new OnExit();
-			exit.onExit(context);
-			break;
-
-		default:
-			break;
+	private void showMenuMain() {
+		if (menuWindowMain == null) {
+			// 实例化SelectPicPopupWindow
+			menuWindowMain = new CustomMenuMain(SpearheadActivity.this,
+					menuItemsOnClick);
 		}
-		return super.onOptionsItemSelected(item);
+		// 显示窗口
+		menuWindowMain.showAtLocation(
+				SpearheadActivity.this.findViewById(R.id.main_radio),
+				Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 	}
+
+	// 为弹出窗口实现监听类
+	private OnClickListener menuItemsOnClick = new OnClickListener() {
+
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.menubtn_setting:
+				Intent intentPref = new Intent();
+				intentPref.setClass(context, PrefrenceSetting.class);
+				startActivity(intentPref);
+				menuWindowMain.dismiss();
+				break;
+			case R.id.menubtn_faq:
+				Intent faqIntent = new Intent();
+				Bundle bundlefaq = new Bundle();
+				bundlefaq
+						.putString("url", "file:///android_asset/faq/faq.html");
+				bundlefaq.putString("title", "先锋流量监控FAQ");
+				// "file:///android_asset/faq/faq.html"
+				// faqIntent.putExtras(bundle)
+				faqIntent.putExtra("infos", bundlefaq);
+				faqIntent.setClass(context, MenuSceneActivity.class);
+				startActivity(faqIntent);
+				// showFaqPopUp("file:///android_asset/faq/faq.html");
+				// CustomDialogFAQBeen customFAQ = new
+				// CustomDialogFAQBeen(context);
+				// customFAQ.dialogFAQ();menuWindowMain.dismiss();
+				menuWindowMain.dismiss();
+				break;
+			case R.id.menubtn_more:
+				menuWindowMain.dismiss();
+				if (menuWindowSub == null) {
+					// 实例化SelectPicPopupWindow
+					menuWindowSub = new CustomMenuSub(SpearheadActivity.this,
+							menuItemsOnClick);
+				}
+				// 显示窗口
+				menuWindowSub.showAtLocation(
+						SpearheadActivity.this.findViewById(R.id.main_radio),
+						Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+				break;
+			case R.id.menubtn_exit:
+				OnExit exit = new OnExit();
+				exit.onExit(context);
+				menuWindowMain.dismiss();
+				break;
+			case R.id.menubtn_share:
+				menuWindowSub.dismiss();
+				break;
+			case R.id.menubtn_updatemess:
+				Intent updateinfoIntent = new Intent();
+				Bundle bundleupdateinfo = new Bundle();
+				bundleupdateinfo.putString("url",
+						"file:///android_asset/about/updateinfo.html");
+				bundleupdateinfo.putString("title", "更新日志");
+				// "file:///android_asset/faq/faq.html"
+				// faqIntent.putExtras(bundle)
+				updateinfoIntent.putExtra("infos", bundleupdateinfo);
+				updateinfoIntent.setClass(context, MenuSceneActivity.class);
+				startActivity(updateinfoIntent);
+				menuWindowSub.dismiss();
+				break;
+			case R.id.menubtn_about:
+				// showAboutPopUp("file:///android_asset/about/about.html");
+				CustomDialogFAQBeen customAbout = new CustomDialogFAQBeen(
+						context);
+				customAbout.dialogAbout();
+				menuWindowSub.dismiss();
+				break;
+			default:
+				break;
+			}
+
+		}
+
+	};
 
 	@Override
 	protected void onResume() {
@@ -247,6 +311,7 @@ public class SpearheadActivity extends TabActivity {
 	}
 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		Logs.d(TAG, "onKeyDown");
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if (isExit == false) {
 				isExit = true;

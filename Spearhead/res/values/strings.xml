@@ -62,5 +62,13 @@
     <string name="prefrence_setting_checkbox_notify">通知栏提示</string>
     <string name="prefrence_setting_clickbox_floatwindow">流量指示悬浮窗</string>
     <string name="prefrence_setting_clickbox_help">显示帮助信息</string>
+    
+    <string name="menupop_show_text_setting">设置</string>
+    <string name="menupop_show_text_faq">FAQ</string>
+    <string name="menupop_show_text_more">更多</string>
+    <string name="menupop_show_text_exit">退出</string>
+    <string name="menupop_show_text_shareto">分享到新浪微博</string>
+    <string name="menupop_show_text_updatemess">更新日志</string>
+    <string name="menupop_show_text_about">关于</string>
 
 </resources>
