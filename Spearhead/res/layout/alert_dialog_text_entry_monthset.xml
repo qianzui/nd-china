@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:hint="@string/custom_window_input_hint"
         android:layout_weight="1.2"
         android:background="@drawable/content"
         android:digits="1234567890"
@@ -23,7 +24,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.3"
         android:paddingTop="7sp"
-        android:text="         单位:"
+        android:text="@string/custom_window_normal_input_unit"
         android:textSize="15dp" />
 
     <Spinner
