@@ -59,7 +59,7 @@
         <activity android:name=".FireWallActivity" >
         </activity>
         <activity
-            android:name="com.hiapk.ui.scene.FAQActivity"
+            android:name="com.hiapk.ui.scene.MenuSceneActivity"
             android:screenOrientation="portrait"
             android:theme="@style/noTitle" >
         </activity>
