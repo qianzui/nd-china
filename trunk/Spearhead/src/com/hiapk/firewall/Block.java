@@ -34,6 +34,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import com.hiapk.logs.Logs;
+import com.hiapk.logs.SaveRule;
 import com.hiapk.ui.custom.CustomDialogOtherBeen;
 
 import android.app.AlertDialog;
@@ -62,6 +64,7 @@ public class Block {
 	public static final String PREF_SHOW = "IsShowTip";
 	public static final String PREF_HELP = "isShwoHelp";
 	public static final String PREF_TIP = "FireTip";
+	public static final String PREF_LOAD="FirstStart";
 	// Preferences
 	public static final String PREFS_NAME = "DroidWallPrefs";
 	public static boolean isChanged = false;
@@ -632,6 +635,13 @@ public class Block {
 		edit.putString(PREF_ALL_UIDS, newuids_all.toString());
 		edit.putBoolean(PREF_S, true);
 		edit.commit();
+		try {
+			SaveRule sr = new SaveRule(context);
+			sr.saveToSD();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -664,7 +674,19 @@ public class Block {
 
 		final SharedPreferences prefs = context.getSharedPreferences(
 				PREFS_NAME, 0);
-		final String savedUids_wifi = prefs.getString(PREF_WIFI_UIDS, "");
+		if(Block.isLoadingFromSD(context)){
+			SaveRule sr = new SaveRule(context);
+			String wifiRules = sr.getWifiRules();
+			String mobileRules = sr.getMobileRules();
+			final Editor edit = prefs.edit();
+			edit.putString(PREF_WIFI_UIDS, wifiRules);
+			edit.putString(PREF_3G_UIDS, mobileRules);
+			edit.putBoolean(PREF_S, true);
+			edit.commit();
+			Block.applyIptablesRules(context, true,true);
+			Block.isLoadingSet(context, false);
+		}
+		final String savedUids_wifi = prefs.getString(PREF_WIFI_UIDS, "");;
 		final String savedUids_3g = prefs.getString(PREF_3G_UIDS, "");
 		final String savedUids_all = prefs.getString(PREF_ALL_UIDS, "");
 		boolean cache = prefs.getBoolean(PREF_S, false);
@@ -778,6 +800,20 @@ public class Block {
 				PREFS_NAME, 0);
 		final Editor edit = prefs.edit();
 		edit.putBoolean(PREF_TIP, isShow);
+		edit.commit();
+	}
+	public static boolean isLoadingFromSD(Context context) {
+		final SharedPreferences prefs = context.getSharedPreferences(
+				PREFS_NAME, 0);
+		boolean isLoad = prefs.getBoolean(PREF_LOAD, true);
+		return isLoad;
+	}
+
+	public static void isLoadingSet(Context context, boolean isLoad) {
+		final SharedPreferences prefs = context.getSharedPreferences(
+				PREFS_NAME, 0);
+		final Editor edit = prefs.edit();
+		edit.putBoolean(PREF_LOAD, isLoad);
 		edit.commit();
 	}
 
