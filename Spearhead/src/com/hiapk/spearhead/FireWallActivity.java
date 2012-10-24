@@ -1,9 +1,17 @@
 package com.hiapk.spearhead;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.SAXException;
 
 import com.hiapk.bean.DatauidHash;
 import com.hiapk.broadcreceiver.AlarmSet;
@@ -20,6 +28,7 @@ import com.hiapk.firewall.MyListView;
 import com.hiapk.firewall.NotifListAdapter;
 import com.hiapk.firewall.MyListView.OnRefreshListener;
 import com.hiapk.logs.Logs;
+import com.hiapk.logs.SaveRule;
 import com.hiapk.spearhead.R.color;
 import com.hiapk.sqlhelper.uid.SQLHelperFireWall;
 import com.hiapk.ui.custom.CustomDialog;
