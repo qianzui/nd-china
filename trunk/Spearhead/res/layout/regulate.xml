@@ -23,13 +23,15 @@
                 android:layout_width="35dip"
                 android:layout_height="35dip"
                 android:layout_gravity="center"
-                android:background="@drawable/back_btn" />
+                android:background="@drawable/back_btn"
+                android:contentDescription="@string/img_content_backbtn" />
 
             <ImageView
                 android:layout_width="0.5dip"
                 android:layout_height="40dip"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/divider" />
+                android:background="@drawable/divider"
+                android:contentDescription="@string/img_content_backbtn_line" />
         </LinearLayout>
 
         <TextView
