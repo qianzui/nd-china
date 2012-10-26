@@ -16,24 +16,55 @@ public class WeiboSinaMethod {
 	/**
 	 * SsoHandler 仅当sdk支持sso时有效，
 	 */
-//	public SsoHandler mSsoHandler;
+	private SsoHandler mSsoHandler;
+
+	private final String CONSUMER_KEY = "2169350509";// 替换为开发??1??7??的appkey，例妄1??7"1646212860";
+	private final String REDIRECT_URL = "http://www.baidu.com/";
 
 	private final String TAG = "weiboSinaM";
 	private Weibo mWeibo;
-
 	private Context context;
 
 	public WeiboSinaMethod(Context context) {
 		this.context = context;
+		mWeibo = Weibo.getInstance(CONSUMER_KEY, REDIRECT_URL);
 	}
 
-//	public Weibo getmWeibo() {
-//		return mWeibo;
-//	}
-//
-//	public void setmWeibo(Weibo mWeibo) {
-//		this.mWeibo = mWeibo;
-//	}
+	/**
+	 * 获取SSohandler
+	 * 
+	 * @return
+	 */
+	public SsoHandler getmSsoHandler() {
+		return mSsoHandler;
+	}
+
+	/**
+	 * 设置SSohandler
+	 * 
+	 * @return
+	 */
+	public void setmSsoHandler(SsoHandler mSsoHandler) {
+		this.mSsoHandler = mSsoHandler;
+	}
+
+	/**
+	 * 获取Weibo
+	 * 
+	 * @return
+	 */
+	public Weibo getmWeibo() {
+		return mWeibo;
+	}
+
+	/**
+	 * 设置weibo
+	 * 
+	 * @param mWeibo
+	 */
+	public void setmWeibo(Weibo mWeibo) {
+		this.mWeibo = mWeibo;
+	}
 
 	/**
 	 * 测试是否已经获取认证
@@ -41,7 +72,7 @@ public class WeiboSinaMethod {
 	 * @param context
 	 * @return
 	 */
-	public boolean hasAccessToken(Context context) {
+	public boolean hasAccessToken() {
 		if (accessToken == null || accessToken.equals("")) {
 			accessToken = AccessTokenKeeper.readAccessToken(context);
 		}
@@ -60,7 +91,7 @@ public class WeiboSinaMethod {
 	 * @param context
 	 * @return
 	 */
-	public boolean isUseSSO(Context context) {
+	public boolean isUseSSO() {
 		String packageName = "com.sina.weibo";
 		try {
 			PackageInfo pacInfo = context.getPackageManager().getPackageInfo(

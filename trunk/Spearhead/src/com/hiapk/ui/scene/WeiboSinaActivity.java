@@ -10,13 +10,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -31,12 +27,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hiapk.contral.weibo.AccessTokenKeeper;
-import com.hiapk.contral.weibo.ScreenShot;
 import com.hiapk.contral.weibo.WeiboSinaMethod;
 import com.hiapk.logs.Logs;
 import com.hiapk.spearhead.R;
 import com.weibo.sdk.android.Oauth2AccessToken;
-import com.weibo.sdk.android.Weibo;
 import com.weibo.sdk.android.WeiboAuthListener;
 import com.weibo.sdk.android.WeiboDialogError;
 import com.weibo.sdk.android.WeiboException;
@@ -64,30 +58,16 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 	private EditText mEdit;
 	private FrameLayout mPiclayout;
 	private ImageView mImage;
-	private String mPicPath = "";
-	private String mContent = "6548645348945348971634875641837218675187381768541738473";
+	private String mContent = "哇塞！这个先锋流量监控太好用了，完全免费无广告，体积小巧，监控流量数据准确，还有丰富的图表显示流量排行。。推荐你们试试看呗！下载地址：http://t.cn/zl3fnku";
 	private String TAG = "weiboActivity";
 	private WeiboSinaMethod weiboMethod;
-	private final String CONSUMER_KEY = "2169350509";// 替换为开发??1??7??的appkey，例妄1??7"1646212860";
-	private final String REDIRECT_URL = "http://www.baidu.com/";
-	private Weibo mWeibo;
-	SsoHandler mSsoHandler;
 
-	private static final String EXTRA_WEIBO_CONTENT = "com.weibo.android.content";
-	private static final String EXTRA_PIC_URI = "com.weibo.android.pic.uri";
-	private static final String EXTRA_ACCESS_TOKEN = "com.weibo.android.accesstoken";
-	private static final String EXTRA_EXPIRES_IN = "com.weibo.android.token.expires";
 	public static final int WEIBO_MAX_LENGTH = 140;
 	private String screenShootPath;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.weibosdk_share_mblog_view);
-		// Intent in = this.getIntent();
-		// mAccessToken = in.getStringExtra(EXTRA_ACCESS_TOKEN);
-		// mAccessToken = "234534";
-		// mAccessToken
-		mWeibo = Weibo.getInstance(CONSUMER_KEY, REDIRECT_URL);
 		weiboMethod = new WeiboSinaMethod(context);
 		Intent intent = getIntent();
 		screenShootPath = intent.getExtras().getString("path");
@@ -95,14 +75,15 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 		Button close = (Button) this.findViewById(R.id.weibosdk_btnClose);
 		close.setOnClickListener(this);
 		mSend = (Button) this.findViewById(R.id.weibosdk_btnSend);
-		Logs.d(TAG, "AccessToken=" + isAccessTokened());
-		if (isAccessTokened()) {
+		Logs.d(TAG, "AccessToken=" + weiboMethod.hasAccessToken());
+		if (weiboMethod.hasAccessToken()) {
 			mSend.setText(getResources().getString(R.string.weibosdk_send_send));
 		} else {
 			mSend.setText(getResources()
 					.getString(R.string.weibosdk_send_login));
 		}
 		mSend.setOnClickListener(this);
+
 		LinearLayout total = (LinearLayout) this
 				.findViewById(R.id.weibosdk_ll_text_limit_unit);
 		total.setOnClickListener(this);
@@ -155,19 +136,6 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 			File file = new File(screenShootPath);
 			mImage.setImageURI(Uri.fromFile(file));
 
-			// if (TextUtils.isEmpty(this.mPicPath)) {
-			// mPiclayout.setVisibility(View.GONE);
-			// } else {
-			//
-			// File file = new File(mPicPath);
-			// if (file.exists()) {
-			// Bitmap pic = BitmapFactory.decodeFile(this.mPicPath);
-			//
-			// mImage.setImageBitmap(pic);
-			// } else {
-			// mPiclayout.setVisibility(View.GONE);
-			// }
-			// }
 		}
 	}
 
@@ -190,6 +158,7 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 				context,
 				String.format(context.getString(R.string.weibosdk_send_failed)
 						+ ":%s", e.getMessage()), Toast.LENGTH_LONG).show();
+		mSend.setEnabled(true);
 	}
 
 	@Override
@@ -216,9 +185,9 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 		if (viewId == R.id.weibosdk_btnClose) {
 			finish();
 		} else if (viewId == R.id.weibosdk_btnSend) {
-			StatusesAPI api = new StatusesAPI(
-					AccessTokenKeeper.readAccessToken(context));
-			if (isAccessTokened()) {
+			if (weiboMethod.hasAccessToken()) {
+				StatusesAPI api = new StatusesAPI(
+						AccessTokenKeeper.readAccessToken(context));
 				this.mContent = mEdit.getText().toString();
 				if (TextUtils.isEmpty(mContent)) {
 					Toast.makeText(this, "请输入内容!", Toast.LENGTH_LONG).show();
@@ -264,7 +233,7 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 								public void onClick(DialogInterface dialog,
 										int which) {
 									mPiclayout.setVisibility(View.GONE);
-									screenShootPath = "";
+									deleteScreenShootPNG();
 								}
 							})
 					.setNegativeButton(R.string.weibosdk_cancel, null).create();
@@ -287,8 +256,34 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 	// }
 	@Override
 	public void finish() {
-		if (screenShootPath == null || screenShootPath == "") {
+		deleteScreenShootPNG();
+		super.finish();
+	}
 
+	/**
+	 * 依据手机状态判断采用哪种方式获取授权
+	 * 
+	 * @param activity
+	 */
+	public void getOAUTH2(Activity activity) {
+		// weiboMethod.setmWeibo(Weibo.getInstance(CONSUMER_KEY, REDIRECT_URL));
+		Logs.d(TAG, "isUseSSO=" + weiboMethod.isUseSSO());
+		if (weiboMethod.isUseSSO()) {
+			weiboMethod.setmSsoHandler(new SsoHandler(activity, weiboMethod
+					.getmWeibo()));
+			weiboMethod.getmSsoHandler().authorize(new AuthDialogListener());
+		} else {
+			weiboMethod.getmWeibo().authorize(activity,
+					new AuthDialogListener());
+		}
+	}
+
+	/**
+	 * 删除保存的png文件释放空间
+	 */
+	private void deleteScreenShootPNG() {
+		if (screenShootPath == null || screenShootPath == "") {
+			return;
 		} else {
 			File file = new File(screenShootPath);
 			try {
@@ -302,58 +297,19 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 			} catch (Exception e) {
 				Logs.d(TAG, "发生异常，删除文件失败！");
 			}
+			screenShootPath = "";
 		}
-
-		super.finish();
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		// Bitmap photo = null;
-		// if (data != null) {
-		// Uri uri = data.getData();
-		// if (uri != null) {
-		// photo = BitmapFactory.decodeFile(uri.getPath());
-		// System.out.println(mPicPath);
-		// }
-		// if (photo == null) {
-		// Bundle bundle = data.getExtras();
-		// if (bundle != null) {
-		// photo = (Bitmap) bundle.get("data");
-		// mImage.setImageBitmap(photo);
-		// } else {
-		// return;
-		// }
-		// }
-		// } else {
-		// Uri selectedImage = imageUri;
-		// mPicPath = selectedImage.getPath();
-		// BitmapFactory.Options options = new BitmapFactory.Options();
-		// options.inSampleSize = 2;
-		// options.inDither = true;
-		// photo = BitmapFactory.decodeFile(this.mPicPath, options);
-		// mPiclayout.setVisibility(View.VISIBLE);
-		// mImage = (ImageView) this.findViewById(R.id.weibosdk_ivImage);
-		// mImage.setImageBitmap(photo);
-		// // Util.showToast(this, mPicPath);
-		// }
 		/**
 		 * 下面两个注释掉的代码，仅当sdk支持sso时有效，
 		 */
-		if (mSsoHandler != null) {
-			mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
-		}
-	}
-
-	public void getOAUTH2(Activity activity) {
-		// weiboMethod.setmWeibo(Weibo.getInstance(CONSUMER_KEY, REDIRECT_URL));
-		Logs.d(TAG, "isUseSSO=" + weiboMethod.isUseSSO(context));
-		if (weiboMethod.isUseSSO(context)) {
-			mSsoHandler = new SsoHandler(activity, mWeibo);
-			mSsoHandler.authorize(new AuthDialogListener());
-		} else {
-			mWeibo.authorize(activity, new AuthDialogListener());
+		if (weiboMethod.getmSsoHandler() != null) {
+			weiboMethod.getmSsoHandler().authorizeCallBack(requestCode,
+					resultCode, data);
 		}
 	}
 
@@ -371,24 +327,19 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 						R.string.weibosdk_send_send));
 				String date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
 						.format(new java.util.Date(oauth2Token.getExpiresTime()));
-				// mText.setText("认证成功: \r\n access_token: " + token + "\r\n"
-				// + "expires_in: " + expires_in + "\r\n有效期：" + date);
 				Logs.d(TAG, "认证成功: \r\n access_token: " + token + "\r\n"
 						+ "expires_in: " + expires_in + "\r\n有效期：" + date);
-				try {
-					Class sso = Class
-							.forName("com.weibo.sdk.android.api.WeiboAPI");// 如果支持weiboapi的话，显示api功能演示入口按钮
-					// apiBtn.setVisibility(View.VISIBLE);
-					// mSend.setText("发布");
-					Logs.d(TAG, "AuthDialogListener=" + "send");
-				} catch (ClassNotFoundException e) {
-					// e.printStackTrace();
-					Logs.i(TAG, "com.weibo.sdk.android.api.WeiboAPI not found");
-
-				}
-				// cancelBtn.setVisibility(View.VISIBLE);
+				// try {
+				// Class sso = Class
+				// .forName("com.weibo.sdk.android.api.WeiboAPI");//
+				// 如果支持weiboapi的话，显示api功能演示入口按钮
+				// Logs.d(TAG, "AuthDialogListener=" + "send");
+				// } catch (ClassNotFoundException e) {
+				// // e.printStackTrace();
+				// Logs.i(TAG, "com.weibo.sdk.android.api.WeiboAPI not found");
+				//
+				// }
 				Logs.d(TAG, "AuthDialogListener=" + "login");
-				// mSend.setText("登录");
 				AccessTokenKeeper.keepAccessToken(context, oauth2Token);
 				Toast.makeText(context, "认证成功", Toast.LENGTH_SHORT).show();
 			} else
@@ -412,15 +363,6 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 					Toast.LENGTH_LONG).show();
 		}
 
-	}
-
-	/**
-	 * 是否已经获取认证
-	 * 
-	 * @return
-	 */
-	protected boolean isAccessTokened() {
-		return weiboMethod.hasAccessToken(context);
 	}
 
 }

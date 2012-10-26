@@ -1,6 +1,5 @@
 package com.hiapk.spearhead;
 
-import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -23,7 +22,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -303,14 +301,15 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 	 * @return ÍêÕûÂ·¾¶
 	 */
 	private String getScreenShoot() {
+		ScreenShot screenshoot = new ScreenShot(SpearheadActivity.this);
 		int currtab = tabHost.getCurrentTab();
 		String fullPath = "";
 		if (currtab != 0) {
 			switchScene(0);
-			fullPath = ScreenShot.shoot(SpearheadActivity.this);
+			fullPath = screenshoot.shoot();
 			switchScene(currtab);
 		} else
-			fullPath = ScreenShot.shoot(SpearheadActivity.this);
+			fullPath = screenshoot.shoot();
 		return fullPath;
 	}
 
