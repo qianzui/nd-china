@@ -8,23 +8,26 @@ import java.io.IOException;
 import com.hiapk.logs.Logs;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Environment;
 import android.os.StatFs;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 public class ScreenShot {
-	private static String PIC_PATH_MEMORY_DIR;
-	private static String PIC_PATH_SDCARD_DIR;
-	private static String USEING_PATH_DIR;
-	private static String TAG = "ScreenShot";
+	private String PIC_PATH_MEMORY_DIR;
+	private String PIC_PATH_SDCARD_DIR;
+	private String USEING_PATH_DIR = "";
+	private String TAG = "ScreenShot";
+	private Activity activity;
+
+	public ScreenShot(Activity activity) {
+		this.activity = activity;
+	}
 
 	// 获取指定Activity的截屏，保存到png文件
-	private static Bitmap takeScreenShot(Activity activity) {
+	private Bitmap takeScreenShot(Activity activity) {
 
 		// View是你需要截图的View
 		View view = activity.getWindow().getDecorView();
@@ -40,19 +43,12 @@ public class ScreenShot {
 
 		// 获取屏幕长和高
 		int width = activity.getWindowManager().getDefaultDisplay().getWidth();
-		int height = activity.getWindowManager().getDefaultDisplay()
-				.getHeight();
 
 		// 去掉标题栏
 		// Bitmap b = Bitmap.createBitmap(b1, 0, 25, 320, 455);
 		if (b1 == null) {
 			Logs.d(TAG, "b1=null");
 		}
-		Logs.d(TAG, "statusBarHeight=" + statusBarHeight);
-		Logs.d(TAG, "width=" + width);
-		Logs.d(TAG, "height=" + height);
-		Logs.d(TAG, "b1width=" + b1.getWidth());
-		Logs.d(TAG, "b1height=" + b1.getHeight());
 		Bitmap b = Bitmap.createBitmap(b1, 0, statusBarHeight, width,
 				b1.getHeight() - statusBarHeight);
 		view.destroyDrawingCache();
@@ -60,7 +56,7 @@ public class ScreenShot {
 	}
 
 	// 保存到sdcard
-	private static void savePic(Bitmap b, String strFileName) {
+	private void savePic(Bitmap b, String strFileName) {
 		FileOutputStream fos = null;
 		try {
 			fos = new FileOutputStream(strFileName);
@@ -81,21 +77,23 @@ public class ScreenShot {
 	}
 
 	// 程序入口
-	public static String shoot(Activity a) {
-		PIC_PATH_MEMORY_DIR = a.getFilesDir().getAbsolutePath()
+	public String shoot() {
+		PIC_PATH_MEMORY_DIR = activity.getFilesDir().getAbsolutePath()
 				+ File.separator + "ScreenShoot";
 		PIC_PATH_SDCARD_DIR = Environment.getExternalStorageDirectory()
 				.getAbsolutePath() + File.separator + "SpearheadLog";
 		createShootDir();
-		ScreenShot.savePic(ScreenShot.takeScreenShot(a), USEING_PATH_DIR
-				+ "/shoot.png");
+		if (USEING_PATH_DIR == "") {
+			return "";
+		}
+		savePic(takeScreenShot(activity), USEING_PATH_DIR + "/shoot.png");
 		return USEING_PATH_DIR + "/shoot.png";
 	}
 
 	/**
 	 * 创建截图目录
 	 */
-	private static void createShootDir() {
+	private void createShootDir() {
 		File file = new File(PIC_PATH_MEMORY_DIR);
 		boolean mkOk;
 		if (!file.isDirectory()) {
@@ -115,21 +113,29 @@ public class ScreenShot {
 					return;
 				}
 			}
-			USEING_PATH_DIR = PIC_PATH_SDCARD_DIR;
+			if (hasenoughSpace()) {
+				USEING_PATH_DIR = PIC_PATH_SDCARD_DIR;
+			}
+
 		}
 	}
 
-	private static boolean isenoughspace(Context context) {
+	/**
+	 * 是否有足够的sd卡空间
+	 * 
+	 * @return
+	 */
+	private boolean hasenoughSpace() {
 		File path = Environment.getExternalStorageDirectory();
 		StatFs stat = new StatFs(path.getPath());
 		long blockSize = stat.getBlockSize();
 		long availableBlocks = stat.getAvailableBlocks();
 		long sdCardSize = (availableBlocks * blockSize) / 1024;// KB值
-		if (sdCardSize > 1000) {
-			System.out.println("SDcardSize:::" + 500 + "KB");
+		if (sdCardSize > 300) {
+			Logs.d(TAG, "SDcardSize:::" + sdCardSize + "KB");
 			return true;
 		} else {
-			Toast.makeText(context, "SD卡空间不足", Toast.LENGTH_SHORT).show();
+			Logs.d(TAG, "SD卡空间不足无法获取屏幕截图");
 			return false;
 		}
 	}
