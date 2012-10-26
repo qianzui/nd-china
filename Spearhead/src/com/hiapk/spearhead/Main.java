@@ -1,6 +1,7 @@
 package com.hiapk.spearhead;
 
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.contral.weibo.ScreenShot;
 import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.logs.Logs;
