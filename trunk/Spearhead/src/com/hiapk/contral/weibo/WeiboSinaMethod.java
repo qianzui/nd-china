@@ -73,9 +73,7 @@ public class WeiboSinaMethod {
 	 * @return
 	 */
 	public boolean hasAccessToken() {
-		if (accessToken == null || accessToken.equals("")) {
-			accessToken = AccessTokenKeeper.readAccessToken(context);
-		}
+		accessToken = AccessTokenKeeper.readAccessToken(context);
 		Logs.d(TAG, "getToken=" + accessToken.getToken() + "getExpiresTime="
 				+ accessToken.getExpiresTime());
 		if (accessToken.isSessionValid()) {

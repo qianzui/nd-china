@@ -14,15 +14,18 @@ import com.hiapk.spearhead.R;
 import com.hiapk.ui.custom.CustomDialogOtherBeen;
 import com.hiapk.ui.custom.CustomSPBeen;
 import com.hiapk.ui.skin.SkinCustomMains;
+import com.hiapk.util.SharedPrefrenceData;
 import com.hiapk.util.SharedPrefrenceDataWidget;
 
 public class PrefrenceBeen {
 	Context context;
 	SharedPrefrenceDataWidget sharedDatawidget;
+	SharedPrefrenceData sharedDate;
 
 	public PrefrenceBeen(Context context) {
 		this.context = context;
 		sharedDatawidget = new SharedPrefrenceDataWidget(context);
+		sharedDate = new SharedPrefrenceData(context);
 	}
 
 	public void initListBoxFresh(LinearLayout layout_freshplv) {
@@ -143,6 +146,37 @@ public class PrefrenceBeen {
 					checkBoxRightDrawChange(showText, isopen);
 				} else {
 					Block.fireTipSet(context, true);
+					checkBoxRightDrawChange(showText, isopen);
+				}
+			}
+		});
+	}
+
+	public void initCheckBoxAutoSaveFireWall(
+			LinearLayout layout_auto_save_firewall) {
+		LayoutInflater factory = LayoutInflater.from(context);
+		final View boxView = factory.inflate(R.layout.settings_checkbox, null);
+		final Button showText = (Button) boxView
+				.findViewById(R.id.setting_tv_box);
+		showText.setText(R.string.prefrence_setting_auto_save_firewall);
+		initScene(showText);
+		boolean isopen = sharedDate.isAutoSaveFireWallRule();
+		if (isopen) {
+			checkBoxRightDrawinit(showText, isopen);
+		} else {
+			checkBoxRightDrawinit(showText, isopen);
+		}
+		layout_auto_save_firewall.removeAllViews();
+		layout_auto_save_firewall.addView(boxView);
+		showText.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				boolean isopen = sharedDate.isAutoSaveFireWallRule();
+				if (isopen) {
+					sharedDate.setisAutoSaveFireWallRule(false);
+					checkBoxRightDrawChange(showText, isopen);
+				} else {
+					sharedDate.setisAutoSaveFireWallRule(true);
 					checkBoxRightDrawChange(showText, isopen);
 				}
 			}
