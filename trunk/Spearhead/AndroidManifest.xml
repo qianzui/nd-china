@@ -27,6 +27,11 @@
     <uses-permission android:name="android.permission.INTERNAL_SYSTEM_WINDOW" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_APN_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -88,6 +93,16 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/noTitle" >
+        </activity>
+        <activity
+            android:name="com.hiapk.ui.scene.WeiboSinaActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/noTitle"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            >
+            <data
+                android:host="Weibo_androidActivity"
+                android:scheme="weibo4andriod" />
         </activity>
         <activity
             android:name=".SpearheadActivity"

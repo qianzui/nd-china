@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+	
+    <color name="weibo_textnumber_color">#333</color>
     <!-- 条条颜色 -->
     <color name="nova_space_orange">#ffe7a846</color>
     <color name="nova_space_green">#ff5fbf88</color>
