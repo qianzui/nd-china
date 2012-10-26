@@ -120,7 +120,8 @@ public class CustomDialogOtherBeen {
 	 */
 	public void dialogHasUsedLongTooMuch() {
 		final CustomDialog dayWarning = new CustomDialog.Builder(context)
-				.setTitle("注意！").setMessage("您设置的本月已用流量超过包月流量！")
+				.setTitle(R.string.weibosdk_attention)
+				.setMessage("您设置的本月已用流量超过包月流量！")
 				// .setView(textEntryView)
 				.setPositiveButton("确定", null).create();
 		dayWarning.show();
@@ -159,7 +160,8 @@ public class CustomDialogOtherBeen {
 	public void dialogConfirmClearData() {
 
 		final CustomDialog monthSetAlert = new CustomDialog.Builder(context)
-				.setTitle("注意！").setMessage("该操作将清除所有历史数据，您确定要继续吗？")
+				.setTitle(R.string.weibosdk_attention)
+				.setMessage("该操作将清除所有历史数据，您确定要继续吗？")
 				.setPositiveButton("确定", null).setNegativeButton("取消", null)
 				.create();
 		monthSetAlert.show();

@@ -5,10 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -18,6 +15,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -30,6 +28,7 @@ import com.hiapk.contral.weibo.AccessTokenKeeper;
 import com.hiapk.contral.weibo.WeiboSinaMethod;
 import com.hiapk.logs.Logs;
 import com.hiapk.spearhead.R;
+import com.hiapk.ui.custom.CustomDialog;
 import com.weibo.sdk.android.Oauth2AccessToken;
 import com.weibo.sdk.android.WeiboAuthListener;
 import com.weibo.sdk.android.WeiboDialogError;
@@ -58,7 +57,7 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 	private EditText mEdit;
 	private FrameLayout mPiclayout;
 	private ImageView mImage;
-	private String mContent = "哇塞！这个先锋流量监控太好用了，完全免费无广告，体积小巧，监控流量数据准确，还有丰富的图表显示流量排行。。推荐你们试试看呗！下载地址：http://t.cn/zl3fnku";
+	private String mContent = "哇塞！这个#先锋流量监控#太好用了，完全免费无广告，体积小巧，监控流量数据准确，还有丰富的图表显示流量排行。。推荐你们试试看呗！下载地址：http://t.cn/zl3fnku";
 	private String TAG = "weiboActivity";
 	private WeiboSinaMethod weiboMethod;
 
@@ -121,9 +120,17 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 			}
 		});
 		mEdit.setText(mContent);
+		mEdit.setSelection(String.valueOf(mContent).length());
 		// 图片部分
 		mPiclayout = (FrameLayout) WeiboSinaActivity.this
 				.findViewById(R.id.weibosdk_flPic);
+		// 设置图片的大小
+		int width = this.getWindowManager().getDefaultDisplay().getWidth();
+		int height = this.getWindowManager().getDefaultDisplay().getHeight();
+		ViewGroup.LayoutParams param = mPiclayout.getLayoutParams();
+		param.height = (int) (height / 2.5);
+		param.width = (int) (width / 2);
+		mPiclayout.setLayoutParams(param);
 		if (screenShootPath == null || screenShootPath == "") {
 			mPiclayout.setVisibility(View.GONE);
 		} else {
@@ -138,6 +145,28 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 
 		}
 	}
+
+	// /**
+	// * 获取缩略图
+	// *
+	// * @param options
+	// * @return
+	// */
+	// private Bitmap loadImageBitmap() {
+	// File file = new File(screenShootPath);
+	// BitmapFactory.Options options = new BitmapFactory.Options();
+	// BufferedInputStream buf;
+	// Bitmap bitmap = null;
+	// options.inSampleSize = 2;
+	// options.inJustDecodeBounds = false;
+	// try {
+	// buf = new BufferedInputStream();
+	// bitmap = BitmapFactory.decodeStream(buf, null, options);
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// return bitmap;
+	// }
 
 	@Override
 	public void onComplete(String response) {
@@ -159,6 +188,11 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 				String.format(context.getString(R.string.weibosdk_send_failed)
 						+ ":%s", e.getMessage()), Toast.LENGTH_LONG).show();
 		mSend.setEnabled(true);
+		Logs.d(TAG,
+				"onIOException"
+						+ String.format(
+								context.getString(R.string.weibosdk_send_failed)
+										+ ":%s", e.getMessage()));
 	}
 
 	@Override
@@ -174,6 +208,12 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 								context.getString(R.string.weibosdk_send_failed)
 										+ ":%s", e.getMessage()),
 						Toast.LENGTH_LONG).show();
+				mSend.setEnabled(true);
+				Logs.d(TAG,
+						"onError"
+								+ String.format(
+										context.getString(R.string.weibosdk_send_failed)
+												+ ":%s", e.getMessage()));
 			}
 		});
 	}
@@ -194,12 +234,22 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 					return;
 				}
 				if (screenShootPath == null || screenShootPath == "") {
+
 					// Just update a text weibo!
-					Toast.makeText(this, "开始发送无图片微博", Toast.LENGTH_SHORT)
-							.show();
+					Toast.makeText(
+							this,
+							getResources().getString(
+									R.string.weibosdk_send_sending),
+							Toast.LENGTH_SHORT).show();
+					Logs.d(TAG, "开始发送无图片微博");
 					api.update(this.mContent, null, null, this);
 				} else {
-					Toast.makeText(this, "开始发送图片微博", Toast.LENGTH_SHORT).show();
+					Toast.makeText(
+							this,
+							getResources().getString(
+									R.string.weibosdk_send_sending),
+							Toast.LENGTH_SHORT).show();
+					Logs.d(TAG, "开始发送图片微博");
 					api.upload(this.mContent, screenShootPath, null, null, this);
 					// finish();
 				}
@@ -211,33 +261,55 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 				// mSsoHandler.authorize(new AuthDialogListener());
 			}
 		} else if (viewId == R.id.weibosdk_ll_text_limit_unit) {
-
-			Dialog dialog = new AlertDialog.Builder(this)
+			final CustomDialog clearEdittext = new CustomDialog.Builder(context)
 					.setTitle(R.string.weibosdk_attention)
 					.setMessage(R.string.weibosdk_delete_all)
-					.setPositiveButton(R.string.weibosdk_ok,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int which) {
-									mEdit.setText("");
-								}
-							})
+					.setPositiveButton(R.string.weibosdk_ok, null)
 					.setNegativeButton(R.string.weibosdk_cancel, null).create();
-			dialog.show();
+			clearEdittext.show();
+			Button btn_yes = (Button) clearEdittext
+					.findViewById(R.id.positiveButton);
+			btn_yes.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					mEdit.setText("");
+					clearEdittext.dismiss();
+				}
+			});
+			Button btn_no = (Button) clearEdittext
+					.findViewById(R.id.negativeButton);
+			btn_no.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					clearEdittext.dismiss();
+				}
+			});
+
 		} else if (viewId == R.id.weibosdk_ivDelPic) {
-			Dialog dialog = new AlertDialog.Builder(this)
+			final CustomDialog deletePNG = new CustomDialog.Builder(context)
 					.setTitle(R.string.weibosdk_attention)
 					.setMessage(R.string.weibosdk_del_pic)
-					.setPositiveButton(R.string.weibosdk_ok,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int which) {
-									mPiclayout.setVisibility(View.GONE);
-									deleteScreenShootPNG();
-								}
-							})
+					.setPositiveButton(R.string.weibosdk_ok, null)
 					.setNegativeButton(R.string.weibosdk_cancel, null).create();
-			dialog.show();
+			deletePNG.show();
+			Button btn_yes = (Button) deletePNG
+					.findViewById(R.id.positiveButton);
+			btn_yes.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					mPiclayout.setVisibility(View.GONE);
+					deleteScreenShootPNG();
+					deletePNG.dismiss();
+				}
+			});
+			Button btn_no = (Button) deletePNG
+					.findViewById(R.id.negativeButton);
+			btn_no.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					deletePNG.dismiss();
+				}
+			});
 		}
 	}
 
