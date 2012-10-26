@@ -14,6 +14,7 @@ import com.hiapk.firewall.Block;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 public class SaveRule {
 
@@ -22,14 +23,17 @@ public class SaveRule {
 	public String state = android.os.Environment.getExternalStorageState();
 	public String wifiFile = "";
 	public String mobileFile = "";
+	public String directory = "";
 	
 	public SaveRule(Context context){
 		this.mContext = context;
 		String path = context.getFilesDir().getAbsolutePath()+ File.separator;
+		File sdcarddir = android.os.Environment.getExternalStorageDirectory();
+        this.directory = sdcarddir.getPath() + "/SpearheadLog/";
 		this.wifiFile = path + "/wifi.txt";
 		this.mobileFile = path + "/mobile.txt";
 	}
-	public void saveToSD() throws IOException{
+	public void saveToMem() throws IOException{
 		final  SharedPreferences prefs = mContext.getSharedPreferences(
 				Block.PREFS_NAME, 0);
 		final String savedUids_wifi = prefs.getString(Block.PREF_WIFI_UIDS, "");
@@ -62,9 +66,64 @@ public class SaveRule {
 		}
 	}
 	
+	public void copyToSD(){
+		File file1 = new File(wifiFile);
+		File file2 = new File(mobileFile);
+		File filePath = new File(directory);
+		String state = android.os.Environment.getExternalStorageState();
+		if (android.os.Environment.MEDIA_MOUNTED.equals(state)) {
+			if(file1.exists()){
+				if(filePath.isDirectory()){
+					copy(file1,new File(directory + "/wifi.txt"));
+				}
+			}
+			if(file2.exists()){
+				if(filePath.isDirectory()){
+					copy(file2,new File(directory + "/mobile.txt"));
+				}
+			}
+		}
+	}
+	
+	private boolean copy(File source, File target) {
+		FileInputStream in = null;
+		FileOutputStream out = null;
+		try {
+			if (!target.exists()) {
+				boolean createSucc = target.createNewFile();
+				if (!createSucc) {
+					return false;
+				}
+			}
+			in = new FileInputStream(source);
+			out = new FileOutputStream(target, false);
+			byte[] buffer = new byte[8 * 1024];
+			int count;
+			while ((count = in.read(buffer)) != -1) {
+				out.write(buffer, 0, count);
+			}
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			try {
+				if (in != null) {
+					in.close();
+				}
+				if (out != null) {
+					out.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+
+	}
 	public String getWifiRules(){
 		String wifiRule="";
-			File f = new File(wifiFile);
+			File f = new File(directory + "/wifi.txt");
 			if(f.exists()){
 				try {
 					InputStream in = new  BufferedInputStream(new FileInputStream(f));
@@ -77,12 +136,12 @@ public class SaveRule {
 					e.printStackTrace();
 				} 
 			}
+		f.delete();
 		return wifiRule;
 	}
 	public String getMobileRules(){
 		String mobileRule="";
-
-		File f = new File(mobileFile);
+		File f = new File(directory + "/mobile.txt");
 		if(f.exists()){
 			try {
 				InputStream in = new  BufferedInputStream(new FileInputStream(f));
@@ -95,7 +154,7 @@ public class SaveRule {
 				e.printStackTrace();
 			} 
 		}
-	
+		f.delete();
 		return mobileRule;
 	}
 
