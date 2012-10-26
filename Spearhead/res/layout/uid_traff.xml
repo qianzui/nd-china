@@ -6,7 +6,7 @@
     android:orientation="vertical" >
 
     <FrameLayout
-         android:id="@+id/uid_traffTitleBackground"
+        android:id="@+id/uid_traffTitleBackground"
         android:layout_width="fill_parent"
         android:layout_height="48dip"
         android:background="@drawable/maintab_title_bg0"
@@ -23,20 +23,22 @@
                 android:layout_width="35dip"
                 android:layout_height="35dip"
                 android:layout_gravity="center"
-                android:background="@drawable/back_btn" />
+                android:background="@drawable/back_btn"
+                android:contentDescription="@string/img_content_backbtn" />
 
             <ImageView
                 android:layout_width="0.5dip"
                 android:layout_height="40dip"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/divider" />
+                android:background="@drawable/divider"
+                android:contentDescription="@string/img_content_backbtn_line" />
         </LinearLayout>
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:gravity="center"
-            android:text="历史详情"
+            android:text="@string/title_history"
             android:textColor="@color/whitesmoke"
             android:textSize="23sp" />
     </FrameLayout>
@@ -76,6 +78,7 @@
         android:layout_margin="5dip"
         android:layout_weight="1.0"
         android:background="@drawable/bg_about"
+        android:baselineAligned="false"
         android:orientation="horizontal" >
 
         <LinearLayout
@@ -87,111 +90,100 @@
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="25dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="1dp"
+                android:gravity="top|center_horizontal"
                 android:orientation="vertical" >
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="25dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="1dp"
-                    android:gravity="top|center_horizontal"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:id="@+id/new_budget_tv"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:background="@color/main_background_color"
-                        android:gravity="center"
-                        android:textColor="@color/darkgray2"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
+                <TextView
+                    android:id="@+id/new_budget_tv"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
+                    android:background="@color/main_background_color"
                     android:gravity="center"
-                    android:orientation="vertical" >
+                    android:textColor="@color/darkgray2"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/img_icon"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_launcher" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                android:orientation="vertical" >
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="     "
-                        android:textColor="@color/darkgray2"
-                        android:textSize="3sp" />
+                <ImageView
+                    android:id="@+id/img_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/history_scene_icon_show"
+                    android:src="@drawable/ic_launcher" />
 
-                    <TextView
-                        android:id="@+id/tv_appname"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="TextView"
-                        android:textColor="@color/darkgray2"
-                        android:textSize="15sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:textColor="@color/darkgray2"
+                    android:textSize="3sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="     "
-                        android:textColor="@color/darkgray2"
-                        android:textSize="3sp" />
+                <TextView
+                    android:id="@+id/tv_appname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/darkgray2"
+                    android:textSize="15sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:paddingLeft="14dp"
-                        android:text="移动数据流量:"
-                        android:textColor="@color/darkgray2"
-                        android:textSize="12sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:textColor="@color/darkgray2"
+                    android:textSize="3sp" />
 
-                    <TextView
-                        android:id="@+id/tv_mobile"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:paddingLeft="14dp"
-                        android:text="TextView"
-                        android:textColor="@color/darkgray2"
-                        android:textSize="12sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:paddingLeft="14dp"
+                    android:text="@string/history_scene_mobiletraff"
+                    android:textColor="@color/darkgray2"
+                    android:textSize="12sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="     "
-                        android:textColor="@color/darkgray2"
-                        android:textSize="3sp" />
+                <TextView
+                    android:id="@+id/tv_mobile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:paddingLeft="14dp"
+                    android:textColor="@color/darkgray2"
+                    android:textSize="12sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:paddingLeft="14dp"
-                        android:text="WIFI数据流量:"
-                        android:textColor="@color/darkgray2"
-                        android:textSize="12sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:textColor="@color/darkgray2"
+                    android:textSize="3sp" />
 
-                    <TextView
-                        android:id="@+id/tv_wifi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:paddingLeft="14dp"
-                        android:text="TextView"
-                        android:textColor="@color/darkgray2"
-                        android:textSize="12sp" />
-                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:paddingLeft="14dp"
+                    android:text="@string/history_scene_wifitraff"
+                    android:textColor="@color/darkgray2"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_wifi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:paddingLeft="14dp"
+                    android:textColor="@color/darkgray2"
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
 
