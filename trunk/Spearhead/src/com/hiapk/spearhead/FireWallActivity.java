@@ -956,10 +956,15 @@ public class FireWallActivity extends Activity {
 		}
 		// MobclickAgent.onResume(this);
 	}
-
+	@Override
 	protected void onPause() {
 		if (mPop.isShowing()) {
 			mPop.dismiss();
+		}
+		if(Block.isChange){
+			SaveRule sr = new SaveRule(mContext);
+			sr.copyToSD();
+			Block.isChange = false;
 		}
 		super.onPause();
 	}
