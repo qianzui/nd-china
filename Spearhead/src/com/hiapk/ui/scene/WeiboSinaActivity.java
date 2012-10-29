@@ -26,7 +26,9 @@ import android.widget.Toast;
 
 import com.hiapk.contral.weibo.AccessTokenKeeper;
 import com.hiapk.contral.weibo.WeiboSinaMethod;
+import com.hiapk.control.widget.DetectNetwork;
 import com.hiapk.logs.Logs;
+import com.hiapk.logs.WriteLog;
 import com.hiapk.spearhead.R;
 import com.hiapk.ui.custom.CustomDialog;
 import com.weibo.sdk.android.Oauth2AccessToken;
@@ -60,7 +62,7 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 	private String mContent = "哇塞！这个#先锋流量监控#太好用了，完全免费无广告，体积小巧，监控流量数据准确，还有丰富的图表显示流量排行。。推荐你们试试看呗！下载地址：http://t.cn/zl3fnku";
 	private String TAG = "weiboActivity";
 	private WeiboSinaMethod weiboMethod;
-
+	private WriteLog writelog;
 	public static final int WEIBO_MAX_LENGTH = 140;
 	private String screenShootPath;
 
@@ -68,9 +70,16 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.weibosdk_share_mblog_view);
 		weiboMethod = new WeiboSinaMethod(context);
+		writelog = new WriteLog(context);
 		Intent intent = getIntent();
 		screenShootPath = intent.getExtras().getString("path");
+		initbtns();
+		initEdit();
+		initPic();
 
+	}
+
+	private void initbtns() {
 		Button close = (Button) this.findViewById(R.id.weibosdk_btnClose);
 		close.setOnClickListener(this);
 		mSend = (Button) this.findViewById(R.id.weibosdk_btnSend);
@@ -82,12 +91,13 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 					.getString(R.string.weibosdk_send_login));
 		}
 		mSend.setOnClickListener(this);
+	}
 
+	private void initEdit() {
 		LinearLayout total = (LinearLayout) this
 				.findViewById(R.id.weibosdk_ll_text_limit_unit);
 		total.setOnClickListener(this);
 		mTextNum = (TextView) this.findViewById(R.id.weibosdk_tv_text_limit);
-
 		mEdit = (EditText) this.findViewById(R.id.weibosdk_etEdit);
 		mEdit.setSingleLine(false);
 		mEdit.setHorizontallyScrolling(false);
@@ -121,6 +131,10 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 		});
 		mEdit.setText(mContent);
 		mEdit.setSelection(String.valueOf(mContent).length());
+
+	}
+
+	private void initPic() {
 		// 图片部分
 		mPiclayout = (FrameLayout) WeiboSinaActivity.this
 				.findViewById(R.id.weibosdk_flPic);
@@ -144,6 +158,7 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 			mImage.setImageURI(Uri.fromFile(file));
 
 		}
+
 	}
 
 	// /**
@@ -183,11 +198,10 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 
 	@Override
 	public void onIOException(IOException e) {
-		Toast.makeText(
-				context,
-				String.format(context.getString(R.string.weibosdk_send_failed)
-						+ ":%s", e.getMessage()), Toast.LENGTH_LONG).show();
+		Toast.makeText(context, R.string.weibosdk_send_failed,
+				Toast.LENGTH_LONG).show();
 		mSend.setEnabled(true);
+		writelog.writeLog(e);
 		Logs.d(TAG,
 				"onIOException"
 						+ String.format(
@@ -202,13 +216,10 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 
 			@Override
 			public void run() {
-				Toast.makeText(
-						context,
-						String.format(
-								context.getString(R.string.weibosdk_send_failed)
-										+ ":%s", e.getMessage()),
+				Toast.makeText(context, R.string.weibosdk_send_failed,
 						Toast.LENGTH_LONG).show();
 				mSend.setEnabled(true);
+				writelog.writeLog(e);
 				Logs.d(TAG,
 						"onError"
 								+ String.format(
@@ -221,95 +232,20 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 	@Override
 	public void onClick(View v) {
 		int viewId = v.getId();
-
 		if (viewId == R.id.weibosdk_btnClose) {
 			finish();
 		} else if (viewId == R.id.weibosdk_btnSend) {
-			if (weiboMethod.hasAccessToken()) {
-				StatusesAPI api = new StatusesAPI(
-						AccessTokenKeeper.readAccessToken(context));
-				this.mContent = mEdit.getText().toString();
-				if (TextUtils.isEmpty(mContent)) {
-					Toast.makeText(this, "请输入内容!", Toast.LENGTH_LONG).show();
-					return;
-				}
-				if (screenShootPath == null || screenShootPath == "") {
-
-					// Just update a text weibo!
-					Toast.makeText(
-							this,
-							getResources().getString(
-									R.string.weibosdk_send_sending),
-							Toast.LENGTH_SHORT).show();
-					Logs.d(TAG, "开始发送无图片微博");
-					api.update(this.mContent, null, null, this);
-				} else {
-					Toast.makeText(
-							this,
-							getResources().getString(
-									R.string.weibosdk_send_sending),
-							Toast.LENGTH_SHORT).show();
-					Logs.d(TAG, "开始发送图片微博");
-					api.upload(this.mContent, screenShootPath, null, null, this);
-					// finish();
-				}
-				mSend.setEnabled(false);
+			if (DetectNetwork.isNetworkAvailable(context)) {
+				btnSendOnPressed();
 			} else {
-				Logs.d(TAG, "进入验证页面");
-				getOAUTH2(WeiboSinaActivity.this);
-				// mSsoHandler = new SsoHandler(WeiboSinaActivity.this, mWeibo);
-				// mSsoHandler.authorize(new AuthDialogListener());
+				Toast.makeText(context, R.string.weibosdk_no_network,
+						Toast.LENGTH_SHORT);
 			}
 		} else if (viewId == R.id.weibosdk_ll_text_limit_unit) {
-			final CustomDialog clearEdittext = new CustomDialog.Builder(context)
-					.setTitle(R.string.weibosdk_attention)
-					.setMessage(R.string.weibosdk_delete_all)
-					.setPositiveButton(R.string.weibosdk_ok, null)
-					.setNegativeButton(R.string.weibosdk_cancel, null).create();
-			clearEdittext.show();
-			Button btn_yes = (Button) clearEdittext
-					.findViewById(R.id.positiveButton);
-			btn_yes.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					mEdit.setText("");
-					clearEdittext.dismiss();
-				}
-			});
-			Button btn_no = (Button) clearEdittext
-					.findViewById(R.id.negativeButton);
-			btn_no.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					clearEdittext.dismiss();
-				}
-			});
+			customDialogClearEdittext();
 
 		} else if (viewId == R.id.weibosdk_ivDelPic) {
-			final CustomDialog deletePNG = new CustomDialog.Builder(context)
-					.setTitle(R.string.weibosdk_attention)
-					.setMessage(R.string.weibosdk_del_pic)
-					.setPositiveButton(R.string.weibosdk_ok, null)
-					.setNegativeButton(R.string.weibosdk_cancel, null).create();
-			deletePNG.show();
-			Button btn_yes = (Button) deletePNG
-					.findViewById(R.id.positiveButton);
-			btn_yes.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					mPiclayout.setVisibility(View.GONE);
-					deleteScreenShootPNG();
-					deletePNG.dismiss();
-				}
-			});
-			Button btn_no = (Button) deletePNG
-					.findViewById(R.id.negativeButton);
-			btn_no.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					deletePNG.dismiss();
-				}
-			});
+			customDialogDeletePic();
 		}
 	}
 
@@ -333,11 +269,53 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 	}
 
 	/**
+	 * 点击btnSend进行的微博发送，认证等操作
+	 */
+	private void btnSendOnPressed() {
+		if (weiboMethod.hasAccessToken()) {
+			StatusesAPI api = new StatusesAPI(
+					AccessTokenKeeper.readAccessToken(context));
+			this.mContent = mEdit.getText().toString();
+			if (TextUtils.isEmpty(mContent)) {
+				Toast.makeText(this, R.string.weibosdk_send_sending_enmpty,
+						Toast.LENGTH_LONG).show();
+				return;
+			}
+			if (screenShootPath == null || screenShootPath == "") {
+				// Just update a text weibo!
+				Toast.makeText(
+						this,
+						getResources()
+								.getString(R.string.weibosdk_send_sending),
+						Toast.LENGTH_SHORT).show();
+				Logs.d(TAG, "开始发送无图片微博");
+				api.update(this.mContent, null, null, this);
+			} else {
+				Toast.makeText(
+						this,
+						getResources()
+								.getString(R.string.weibosdk_send_sending),
+						Toast.LENGTH_SHORT).show();
+				Logs.d(TAG, "开始发送图片微博");
+				api.upload(this.mContent, screenShootPath, null, null, this);
+				// finish();
+			}
+			mSend.setEnabled(false);
+		} else {
+			Logs.d(TAG, "进入验证页面");
+			getOAUTH2(WeiboSinaActivity.this);
+			// mSsoHandler = new SsoHandler(WeiboSinaActivity.this, mWeibo);
+			// mSsoHandler.authorize(new AuthDialogListener());
+		}
+
+	}
+
+	/**
 	 * 依据手机状态判断采用哪种方式获取授权
 	 * 
 	 * @param activity
 	 */
-	public void getOAUTH2(Activity activity) {
+	private void getOAUTH2(Activity activity) {
 		// weiboMethod.setmWeibo(Weibo.getInstance(CONSUMER_KEY, REDIRECT_URL));
 		Logs.d(TAG, "isUseSSO=" + weiboMethod.isUseSSO());
 		if (weiboMethod.isUseSSO()) {
@@ -348,6 +326,66 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 			weiboMethod.getmWeibo().authorize(activity,
 					new AuthDialogListener());
 		}
+	}
+
+	/**
+	 * 弹出自定义对话框删除整条微博
+	 */
+	private void customDialogClearEdittext() {
+		final CustomDialog clearEdittext = new CustomDialog.Builder(context)
+				.setTitle(R.string.weibosdk_attention)
+				.setMessage(R.string.weibosdk_delete_all)
+				.setPositiveButton(R.string.weibosdk_ok, null)
+				.setNegativeButton(R.string.weibosdk_cancel, null).create();
+		clearEdittext.show();
+		Button btn_yes = (Button) clearEdittext
+				.findViewById(R.id.positiveButton);
+		btn_yes.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mEdit.setText("");
+				clearEdittext.dismiss();
+			}
+		});
+		Button btn_no = (Button) clearEdittext
+				.findViewById(R.id.negativeButton);
+		btn_no.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				clearEdittext.dismiss();
+			}
+		});
+
+	}
+
+	/**
+	 * 弹出自定义对话框删除图片
+	 */
+	private void customDialogDeletePic() {
+
+		final CustomDialog deletePNG = new CustomDialog.Builder(context)
+				.setTitle(R.string.weibosdk_attention)
+				.setMessage(R.string.weibosdk_del_pic)
+				.setPositiveButton(R.string.weibosdk_ok, null)
+				.setNegativeButton(R.string.weibosdk_cancel, null).create();
+		deletePNG.show();
+		Button btn_yes = (Button) deletePNG.findViewById(R.id.positiveButton);
+		btn_yes.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mPiclayout.setVisibility(View.GONE);
+				deleteScreenShootPNG();
+				deletePNG.dismiss();
+			}
+		});
+		Button btn_no = (Button) deletePNG.findViewById(R.id.negativeButton);
+		btn_no.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				deletePNG.dismiss();
+			}
+		});
+
 	}
 
 	/**
@@ -413,26 +451,34 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 				// }
 				Logs.d(TAG, "AuthDialogListener=" + "login");
 				AccessTokenKeeper.keepAccessToken(context, oauth2Token);
-				Toast.makeText(context, "认证成功", Toast.LENGTH_SHORT).show();
-			} else
-				Toast.makeText(context, "认证失败", Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, R.string.weibosdk_Auth_success,
+						Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(context, R.string.weibosdk_Auth_fail,
+						Toast.LENGTH_SHORT).show();
+				writelog.writeLog(getResources().getString(
+						R.string.weibosdk_Auth_SessionValidFail));
+			}
 		}
 
 		@Override
 		public void onError(WeiboDialogError e) {
-			Toast.makeText(context, "Auth error : " + e.getMessage(),
+			Toast.makeText(context, R.string.weibosdk_Auth_error,
 					Toast.LENGTH_LONG).show();
+			writelog.writeLog(e);
 		}
 
 		@Override
 		public void onCancel() {
-			Toast.makeText(context, "Auth cancel", Toast.LENGTH_LONG).show();
+			Toast.makeText(context, R.string.weibosdk_Auth_cancel,
+					Toast.LENGTH_LONG).show();
 		}
 
 		@Override
 		public void onWeiboException(WeiboException e) {
-			Toast.makeText(context, "Auth exception : " + e.getMessage(),
+			Toast.makeText(context, R.string.weibosdk_Auth_exception,
 					Toast.LENGTH_LONG).show();
+			writelog.writeLog(e);
 		}
 
 	}

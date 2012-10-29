@@ -95,9 +95,19 @@
     <string name="weibosdk_share_dialog_title">新浪微博</string>
     <string name="weibosdk_please_login">请登录！</string>
     <string name="weibosdk_send_sending">开始发送微博</string>
+    <string name="weibosdk_send_sending_enmpty">请输入内容!</string>
     <string name="weibosdk_send_sucess">分享成功！</string>
-    <string name="weibosdk_send_failed">分享失败！</string>
+    <string name="weibosdk_send_failed">分享失败,请稍候重试。</string>
     <string name="weibosdk_del_pic">是否删除图片？</string>
+    <string name="weibosdk_no_network">无法连接到网络,请检查网络配置</string>
+    
+    <string name="weibosdk_Auth_success">认证成功</string>
+    <string name="weibosdk_Auth_fail">认证失败</string>
+    <string name="weibosdk_Auth_error">认证错误</string>
+    <string name="weibosdk_Auth_cancel">认证已取消</string>
+    <string name="weibosdk_Auth_exception">认证微博错误</string>
+    <string name="weibosdk_Auth_SessionValidFail">认证文件无效</string>
+    
     
     <string name="weibosdk_comment">评论</string>
     <string name="weibosdk_forward">转发</string>
