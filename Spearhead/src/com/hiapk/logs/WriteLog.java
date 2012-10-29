@@ -276,6 +276,7 @@ public class WriteLog {
 			while ((count = in.read(buffer)) != -1) {
 				out.write(buffer, 0, count);
 			}
+			out.flush();
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

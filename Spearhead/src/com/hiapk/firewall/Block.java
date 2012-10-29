@@ -644,7 +644,6 @@ public class Block {
     			SaveRule sr = new SaveRule(context);
     			sr.saveToMem();
     		} catch (IOException e) {
-    			// TODO Auto-generated catch block
     			e.printStackTrace();
     		}
         }
