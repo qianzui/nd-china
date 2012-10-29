@@ -4,17 +4,25 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.lang.reflect.Field;
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 
 public class WriteLog {
 	private String TAG = "LogWrite";
-	private String LOG_PATH_MEMORY_DIR; // 日志文件在内存中的路径(日志文件在安装目录中的路径)
-	private String LOG_PATH_SDCARD_DIR; // 日志文件在sdcard中的路径
+	private String LOG_PATH_MEMORY_DIR; // 日志文件在内存中的路径(日志文件在安装目录中的路径)，用init初始化
+	private String LOG_PATH_SDCARD_DIR; // 日志文件在sdcard中的路径，用init初始化
 	private final int SDCARD_TYPE = 0; // 当前的日志记录类型为存储在SD卡下面
 	private final int MEMORY_TYPE = 1; // 当前的日志记录类型为存储在内存中
 	private int CURR_LOG_TYPE = SDCARD_TYPE; // 当前的日志记录类型
@@ -26,16 +34,102 @@ public class WriteLog {
 	}
 
 	/**
-	 * 处理日志文件 1.如果日志文件存储位置切换到内存中，删除除了正在写的日志文件 并且部署日志大小监控任务，控制日志大小不超过规定值
+	 * 处理日志文件String 1.如果日志文件存储位置切换到内存中，删除除了正在写的日志文件 并且部署日志大小监控任务，控制日志大小不超过规定值
 	 * 2.如果日志文件存储位置切换到SDCard中，删除7天之前的日志，移 动所有存储在内存中的日志到SDCard中，并将之前部署的日志大小 监控取消
 	 */
 	public void writeLog(String info) {
+		info = getPreMessage() + info + "\n" + "\n";
 		if (CURR_LOG_TYPE == MEMORY_TYPE) {
 			writeInfo(info);
 		} else {
 			moveLogfile();
 			writeInfo(info);
 		}
+	}
+
+	/**
+	 * 处理日志文件exception 1.如果日志文件存储位置切换到内存中，删除除了正在写的日志文件 并且部署日志大小监控任务，控制日志大小不超过规定值
+	 * 2.如果日志文件存储位置切换到SDCard中，删除7天之前的日志，移 动所有存储在内存中的日志到SDCard中，并将之前部署的日志大小 监控取消
+	 */
+	public void writeLog(Throwable exception) {
+		String info = getErrorInfo(exception);
+		writeLog(info);
+	}
+
+	/**
+	 * 获取日志的前置信息
+	 * 
+	 * @return
+	 */
+	private String getPreMessage() {
+		// 1.获取当前程序的版本号. 版本的id
+		String versioninfo = getVersionInfo();
+		// 2.获取手机的硬件信息.
+		// String mobileInfo = getMobileInfo();
+		// Logs.d("versioninfo", versioninfo);
+		// Logs.d("mobileInfo", mobileInfo);
+		Calendar calendar = Calendar.getInstance();
+		Date expiredDate = calendar.getTime();
+		expiredDate.toLocaleString();
+		return expiredDate.toString() + "\n" + versioninfo + "\n";
+	}
+
+	/**
+	 * 获取手机的版本信息
+	 * 
+	 * @return
+	 */
+	private String getVersionInfo() {
+		try {
+			PackageManager pm = context.getPackageManager();
+			PackageInfo info = pm.getPackageInfo(context.getPackageName(), 0);
+			return info.versionName;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "版本号未知";
+		}
+	}
+
+	/**
+	 * 获取手机的硬件信息
+	 * 
+	 * @return
+	 */
+	@SuppressWarnings("unused")
+	private String getMobileInfo() {
+		StringBuffer sb = new StringBuffer();
+		// 通过反射获取系统的硬件信息
+		try {
+			Field[] fields = Build.class.getDeclaredFields();
+			for (Field field : fields) {
+				// 暴力反射 ,获取私有的信息
+				field.setAccessible(true);
+				String name = field.getName();
+				String value = field.get(null).toString();
+				sb.append(name + "=" + value);
+				sb.append("\n");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * 将错误信息转化成分行的String
+	 * 
+	 * @param arg1
+	 * @return
+	 */
+	private String getErrorInfo(Throwable arg1) {
+		Writer writer = new StringWriter();
+		PrintWriter pw = new PrintWriter(writer);
+		arg1.printStackTrace(pw);
+		pw.close();
+		String error = writer.toString();
+		// 3.把错误的堆栈信息 获取出来
+		// Logs.d("errorinfo", errorinfo);
+		return error;
 	}
 
 	/**
@@ -204,6 +298,9 @@ public class WriteLog {
 
 	}
 
+	/**
+	 * 初始化路径
+	 */
 	private void init() {
 		LOG_PATH_MEMORY_DIR = context.getFilesDir().getAbsolutePath()
 				+ File.separator + "log";
