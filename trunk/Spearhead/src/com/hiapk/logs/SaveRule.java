@@ -24,6 +24,9 @@ public class SaveRule {
 	public String wifiFile = "";
 	public String mobileFile = "";
 	public String directory = "";
+	public String wifi_uninstalled = "";
+	public String mobile_uninstalled="";
+	public String uninstalledpath = "";
 
 	public SaveRule(Context context) {
 		this.mContext = context;
@@ -32,20 +35,24 @@ public class SaveRule {
 		this.directory = sdcarddir.getPath() + "/SpearheadLog/";
 		this.wifiFile = path + "/wifi.txt";
 		this.mobileFile = path + "/mobile.txt";
+		this.wifi_uninstalled = path  + "uninstalledoPkg/wifi.txt";
+		this.mobile_uninstalled = path + "uninstalledoPkg/mobile.txt";
+		this.uninstalledpath = path  + "uninstalledoPkg/";
 	}
 
 	public void saveToMem() throws IOException {
 		final SharedPreferences prefs = mContext.getSharedPreferences(
 				Block.PREFS_NAME, 0);
-		final String savedUids_wifi = prefs.getString(Block.PREF_WIFI_UIDS, "");
-		final String savedUids_3g = prefs.getString(Block.PREF_3G_UIDS, "");
+		final String savedPkgname_wifi = prefs.getString(Block.PREF_WIFI_PKGNAME, "");
+		final String savedPkgname_3g = prefs.getString(Block.PREF_3G_PKGNAME, "");
+		
 		File file = new File(wifiFile);
 		if (!file.exists()) {
 			file.createNewFile();
 		}
 		try {
 			FileOutputStream outWifi = new FileOutputStream(file, false);
-			outWifi.write(savedUids_wifi.getBytes());
+			outWifi.write(savedPkgname_wifi.getBytes());
 			outWifi.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -56,7 +63,7 @@ public class SaveRule {
 		}
 		try {
 			FileOutputStream outMobile = new FileOutputStream(file2, false);
-			outMobile.write(savedUids_3g.getBytes());
+			outMobile.write(savedPkgname_3g.getBytes());
 			outMobile.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -83,14 +90,14 @@ public class SaveRule {
 			if (file1.exists()) {
 				if (filePath.isDirectory()) {
 					if (copy(file1, new File(directory + "/wifi.txt"))) {
-						file1.delete();
+//						file1.delete();
 					}
 				}
 			}
 			if (file2.exists()) {
 				if (filePath.isDirectory()) {
 					if (copy(file2, new File(directory + "/mobile.txt"))) {
-						file2.delete();
+//						file2.delete();
 					}
 				}
 			}
@@ -152,7 +159,6 @@ public class SaveRule {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				f.delete();
 			}
 		}
 		return wifiRule;
@@ -175,10 +181,95 @@ public class SaveRule {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				f.delete();
 			}
 		}
 		return mobileRule;
 	}
 
+	public void saveUninstalledPkgname3g(String pkgname,Boolean isAppend){
+		createDirectory();
+		File file = new File(mobile_uninstalled);
+		if (!file.exists()) {
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		try {
+			FileOutputStream outWifi = new FileOutputStream(file, isAppend);
+			outWifi.write(pkgname.getBytes());
+			outWifi.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Logs.i("test", "save to 3gpkgname:" + pkgname);
+	}
+
+	public void saveUninstalledPkgnameWifi(String pkgname,Boolean isAppend){
+		createDirectory();
+		File file = new File(wifi_uninstalled);
+		if (!file.exists()) {
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		try {
+			FileOutputStream outWifi = new FileOutputStream(file, isAppend);
+			outWifi.write(pkgname.getBytes());
+			outWifi.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Logs.i("test", "path:" + wifi_uninstalled);
+		Logs.i("test", "save to wifipkgname:" + pkgname);
+	}
+	
+	public String getSavedUnintalledPkanameMobile() {
+		String mobilePkgname = "";
+		File f = new File(mobile_uninstalled);
+		if (f.exists()) {
+			try {
+				InputStream in = new BufferedInputStream(
+						new FileInputStream(f));
+				BufferedReader br = new BufferedReader(
+						new InputStreamReader(in, "gb2312"));
+				mobilePkgname = br.readLine();
+				br.close();
+				in.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	return mobilePkgname;
+	}
+	public String getSavedUnintalledPkanameWifi() {
+		String wifiPkgname = "";
+			File f = new File(wifi_uninstalled);
+			if (f.exists()) {
+				try {
+					InputStream in = new BufferedInputStream(
+							new FileInputStream(f));
+					BufferedReader br = new BufferedReader(
+							new InputStreamReader(in, "gb2312"));
+					wifiPkgname = br.readLine();
+					br.close();
+					in.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		return wifiPkgname;
+	}
+	public void createDirectory(){
+		File f = new File(uninstalledpath);
+		if(f.exists()){
+		}else{
+			f.mkdirs();
+		}
+	}
 }
