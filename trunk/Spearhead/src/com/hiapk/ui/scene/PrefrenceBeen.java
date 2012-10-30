@@ -171,16 +171,23 @@ public class PrefrenceBeen {
 		showText.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				boolean isopen = sharedDate.isAutoSaveFireWallRule();
-				if (isopen) {
-					sharedDate.setisAutoSaveFireWallRule(false);
-					checkBoxRightDrawChange(showText, isopen);
+				if (sharedDate.isHasknowFireWallSave()) {
+					boolean isopen = sharedDate.isAutoSaveFireWallRule();
+					if (isopen) {
+						sharedDate.setisAutoSaveFireWallRule(false);
+						checkBoxRightDrawChange(showText, isopen);
+					} else {
+						sharedDate.setisAutoSaveFireWallRule(true);
+						checkBoxRightDrawChange(showText, isopen);
+					}
 				} else {
-					sharedDate.setisAutoSaveFireWallRule(true);
-					checkBoxRightDrawChange(showText, isopen);
+					CustomDialogOtherBeen customdia = new CustomDialogOtherBeen(
+							context);
+					customdia.dialogisHasknowFirewallRuleSave();
 				}
 			}
 		});
+
 	}
 
 	private void checkBoxRightDrawinit(Button btn, boolean on_off) {

@@ -202,6 +202,24 @@ public class CustomDialogOtherBeen {
 		});
 	}
 
+	public void dialogisHasknowFirewallRuleSave() {
+
+		final CustomDialog monthSetAlert = new CustomDialog.Builder(context)
+				.setTitle(R.string.caution)
+				.setMessage(R.string.tip_has_know_firewall_rule_save)
+				.setPositiveButton(R.string.has_know, null).create();
+		monthSetAlert.show();
+		Button btn_ok = (Button) monthSetAlert
+				.findViewById(R.id.positiveButton);
+		btn_ok.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				monthSetAlert.dismiss();
+				sharedData.setisHasknowFireWallSave(true);
+			}
+		});
+	}
+
 	CustomDialog customProgressDialog;
 
 	private class AsyncTaskonClearSQL extends

@@ -44,6 +44,8 @@ public class SharedPrefrenceData {
 	private String IsFireWallOpen = "isfirewallopen";
 	// 是否开启防火墙自动记忆功能
 	private String isAutoSaveFireWallRule = "isOpenFireWallautosave";
+	// 防火墙记忆功能已经知道了
+	private String isHasKnowFireWallSave = "ishasknowfirewallsave";
 
 	public SharedPrefrenceData(Context context) {
 		prefs = context.getSharedPreferences(PREFS_NAME, 0);
@@ -251,12 +253,22 @@ public class SharedPrefrenceData {
 	}
 
 	public boolean isAutoSaveFireWallRule() {
-		boolean blean = prefs.getBoolean(isAutoSaveFireWallRule, false);
+		boolean blean = prefs.getBoolean(isAutoSaveFireWallRule, true);
 		return blean;
 	}
 
 	public void setisAutoSaveFireWallRule(boolean blean) {
 		UseEditor.putBoolean(isAutoSaveFireWallRule, blean);
+		UseEditor.commit();
+	}
+
+	public boolean isHasknowFireWallSave() {
+		boolean blean = prefs.getBoolean(isHasKnowFireWallSave, false);
+		return blean;
+	}
+
+	public void setisHasknowFireWallSave(boolean blean) {
+		UseEditor.putBoolean(isHasKnowFireWallSave, blean);
 		UseEditor.commit();
 	}
 

@@ -62,7 +62,7 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 	private EditText mEdit;
 	private FrameLayout mPiclayout;
 	private ImageView mImage;
-	private String mContent = "哇塞！这个#先锋流量监控#太好用了，完全免费无广告，体积小巧，监控流量数据准确，还有丰富的图表显示流量排行。。推荐你们试试看呗！安卓市场下载地址：http://t.cn/zl3fnku";
+	private String mContent = "我正在使用#先锋流量监控#，它完全免费无广告，体积小巧，监控流量准确，还有丰富的图表显示。推荐你们试试，安卓市场下载地址：http://t.cn/zl3fnku";
 	private String TAG = "weiboActivity";
 	private WeiboSinaMethod weiboMethod;
 	private WriteLog writelog;
