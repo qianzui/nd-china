@@ -227,8 +227,14 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 
 			@Override
 			public void run() {
-				Toast.makeText(context, R.string.weibosdk_send_failed,
-						Toast.LENGTH_LONG).show();
+				if (e.getMessage().contains(":20019,")) {
+					Toast.makeText(context,
+							R.string.weibosdk_send_failed_sendsame,
+							Toast.LENGTH_LONG).show();
+				} else {
+					Toast.makeText(context, R.string.weibosdk_send_failed,
+							Toast.LENGTH_LONG).show();
+				}
 				mSend.setEnabled(true);
 				writelog.writeLog(e);
 				Logs.d(TAG,
