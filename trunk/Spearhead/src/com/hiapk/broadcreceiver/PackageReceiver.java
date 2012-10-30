@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.hiapk.control.bootandclose.OnUninstallitself;
+import com.hiapk.control.bootandclose.OnUninstallother;
 import com.hiapk.sqlhelper.uid.SQLHelperUidother;
 import com.hiapk.sqlhelper.uid.SQLHelperUidTotal;
 import com.hiapk.util.SQLStatic;
@@ -35,6 +36,9 @@ public class PackageReceiver extends BroadcastReceiver {
 					// new AsyTaskOnUninstall().execute(context);
 					SQLStatic.getuidsAndpacname(context);
 					showLog("∆‰À˚–∂‘ÿ" + SQLStatic.packageName[1]);
+					OnUninstallother unInstallother = new OnUninstallother(
+							context, SQLStatic.packageName[1]);
+					unInstallother.operetor();
 				}
 
 			}
