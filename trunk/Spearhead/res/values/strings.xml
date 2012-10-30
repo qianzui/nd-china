@@ -98,6 +98,7 @@
     <string name="weibosdk_send_sending_enmpty">请输入内容!</string>
     <string name="weibosdk_send_sucess">分享成功！</string>
     <string name="weibosdk_send_failed">分享失败,请稍候重试。</string>
+    <string name="weibosdk_send_failed_sendsame">短时间内不能发表重复的微博。</string>
     <string name="weibosdk_del_pic">是否删除图片？</string>
     <string name="weibosdk_no_network">无法连接到网络,请检查网络配置</string>
     
