@@ -181,7 +181,7 @@ public class FireWallActivity extends Activity {
 		title_normal = (RelativeLayout) findViewById(R.id.title_normal);
 		title_notif = (TextView) findViewById(R.id.title_notif);
 		main2TitleBackground.setBackgroundResource(SkinCustomMains
-				.buttonTitleBackground());
+				.titleBackground());
 		loading_content.setVisibility(View.VISIBLE);
 		// ÎªÁËÍË³ö¡£
 		SpearheadApplication.getInstance().addActivity(this);
@@ -330,7 +330,7 @@ public class FireWallActivity extends Activity {
 		isloading = true;
 		sharedpref.setFireWallType(i);
 		main2TitleBackground.setBackgroundResource(SkinCustomMains
-				.buttonTitleBackground());
+				.titleBackground());
 		switch (i) {
 		case 0:
 			appListView.setVisibility(View.INVISIBLE);

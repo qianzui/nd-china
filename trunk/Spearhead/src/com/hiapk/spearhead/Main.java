@@ -92,7 +92,7 @@ public class Main extends Activity {
 		// 设置皮肤
 		btn_toThree.setBackgroundResource(SkinCustomMains
 				.buttonBackgroundLight());
-		title.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
+		title.setBackgroundResource(SkinCustomMains.titleBackground());
 		if (hasTraffSet) {
 			btn_toThree.setText("  校准流量  ");
 		} else {

@@ -194,7 +194,7 @@ public class PhoneSet extends Activity {
 	 */
 	public void initScene() {
 		FrameLayout title = (FrameLayout) findViewById(R.id.phonesetTitleBackground);
-		title.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
+		title.setBackgroundResource(SkinCustomMains.titleBackground());
 		// …Ë÷√∆§∑Ù
 		next.setBackgroundResource(SkinCustomMains.buttonBackgroundLight());
 	}

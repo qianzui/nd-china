@@ -51,7 +51,7 @@ public class MenuSceneActivity extends Activity {
 		tv_title.setText(title);
 		faq_title = (RelativeLayout) findViewById(R.id.faq_title);
 		faq_title
-				.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
+				.setBackgroundResource(SkinCustomMains.titleBackground());
 		faq_back = (ImageView) findViewById(R.id.faq_back);
 		faq_back.setOnClickListener(new OnClickListener() {
 			@Override

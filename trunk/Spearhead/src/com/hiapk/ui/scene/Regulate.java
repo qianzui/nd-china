@@ -163,7 +163,7 @@ public class Regulate extends Activity {
 	 */
 	public void initScene() {
 		FrameLayout title = (FrameLayout) findViewById(R.id.regulateTitleBackground);
-		title.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
+		title.setBackgroundResource(SkinCustomMains.titleBackground());
 		smsSend.setBackgroundResource(SkinCustomMains.buttonBackgroundLight());
 	}
 

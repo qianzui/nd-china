@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ import com.hiapk.logs.Logs;
 import com.hiapk.logs.WriteLog;
 import com.hiapk.spearhead.R;
 import com.hiapk.ui.custom.CustomDialog;
+import com.hiapk.ui.skin.SkinCustomMains;
 import com.weibo.sdk.android.Oauth2AccessToken;
 import com.weibo.sdk.android.WeiboAuthListener;
 import com.weibo.sdk.android.WeiboDialogError;
@@ -56,10 +58,11 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 	private Context context = this;
 	private TextView mTextNum;
 	private Button mSend;
+	private Button close;
 	private EditText mEdit;
 	private FrameLayout mPiclayout;
 	private ImageView mImage;
-	private String mContent = "哇塞！这个#先锋流量监控#太好用了，完全免费无广告，体积小巧，监控流量数据准确，还有丰富的图表显示流量排行。。推荐你们试试看呗！下载地址：http://t.cn/zl3fnku";
+	private String mContent = "哇塞！这个#先锋流量监控#太好用了，完全免费无广告，体积小巧，监控流量数据准确，还有丰富的图表显示流量排行。。推荐你们试试看呗！安卓市场下载地址：http://t.cn/zl3fnku";
 	private String TAG = "weiboActivity";
 	private WeiboSinaMethod weiboMethod;
 	private WriteLog writelog;
@@ -73,16 +76,26 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 		writelog = new WriteLog(context);
 		Intent intent = getIntent();
 		screenShootPath = intent.getExtras().getString("path");
+		initScene();
 		initbtns();
 		initEdit();
 		initPic();
 
 	}
 
-	private void initbtns() {
-		Button close = (Button) this.findViewById(R.id.weibosdk_btnClose);
-		close.setOnClickListener(this);
+	private void initScene() {
+		close = (Button) this.findViewById(R.id.weibosdk_btnClose);
 		mSend = (Button) this.findViewById(R.id.weibosdk_btnSend);
+		mTextNum = (TextView) this.findViewById(R.id.weibosdk_tv_text_limit);
+		mEdit = (EditText) this.findViewById(R.id.weibosdk_etEdit);
+		RelativeLayout title = (RelativeLayout) findViewById(R.id.weibosdk_rlTitle);
+		title.setBackgroundResource(SkinCustomMains.titleBackground());
+		close.setBackgroundResource(SkinCustomMains.buttonBackgroundLight());
+		mSend.setBackgroundResource(SkinCustomMains.buttonBackgroundLight());
+	}
+
+	private void initbtns() {
+		close.setOnClickListener(this);
 		Logs.d(TAG, "AccessToken=" + weiboMethod.hasAccessToken());
 		if (weiboMethod.hasAccessToken()) {
 			mSend.setText(getResources().getString(R.string.weibosdk_send_send));
@@ -94,11 +107,9 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 	}
 
 	private void initEdit() {
-		LinearLayout total = (LinearLayout) this
+		LinearLayout text_limit_unit_layout = (LinearLayout) this
 				.findViewById(R.id.weibosdk_ll_text_limit_unit);
-		total.setOnClickListener(this);
-		mTextNum = (TextView) this.findViewById(R.id.weibosdk_tv_text_limit);
-		mEdit = (EditText) this.findViewById(R.id.weibosdk_etEdit);
+		text_limit_unit_layout.setOnClickListener(this);
 		mEdit.setSingleLine(false);
 		mEdit.setHorizontallyScrolling(false);
 		mEdit.addTextChangedListener(new TextWatcher() {

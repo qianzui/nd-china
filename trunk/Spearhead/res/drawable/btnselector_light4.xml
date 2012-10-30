@@ -1,12 +1,14 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:drawable="@drawable/btn_unclick" android:state_pressed="true"/>
+ <!-- 被禁用时的图片 -->
+    <item android:drawable="@drawable/btn_unenable" android:state_enabled="false"/>
     <item android:drawable="@drawable/btn_clicked4"/>
     <!--
      定义按钮按下时的图片 
     <item android:drawable="@drawable/btn_main_chart_button_default" android:state_pressed="true"/>
      定义按钮默认的图片
-    <item android:drawable="@drawable/btn_main_button_set_traff"/>
+    <item android:drawable="@drawable/btn_main_button_set_traff"/>
     -->
 
 </selector>

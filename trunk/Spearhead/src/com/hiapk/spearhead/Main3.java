@@ -262,7 +262,7 @@ public class Main3 extends Activity {
 				.setBackgroundResource(SkinCustomMains.barsBackground());
 		btn_monthSet.setBackgroundResource(SkinCustomMains.barsBackground());
 		RelativeLayout title = (RelativeLayout) findViewById(R.id.main3TitleBackground);
-		title.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
+		title.setBackgroundResource(SkinCustomMains.titleBackground());
 	}
 
 	private void onclickListeners() {
