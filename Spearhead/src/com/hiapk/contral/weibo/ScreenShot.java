@@ -135,7 +135,7 @@ public class ScreenShot {
 			Logs.d(TAG, "SDcardSize:::" + sdCardSize + "KB");
 			return true;
 		} else {
-			Logs.d(TAG, "SD卡空间不足无法获取屏幕截图");
+			Logs.d(TAG, "SD卡空间不足无法获取屏幕截图" + "SDcardSize:::" + sdCardSize + "KB");
 			return false;
 		}
 	}
