@@ -691,6 +691,7 @@ public class Block {
 
 	public static HashMap<Integer, IsChecked> getMap(Context context,
 			ArrayList<PackageInfo> myAppList) {
+		boolean isApplyIptables = false;
 		final SharedPreferences prefs = context.getSharedPreferences(
 				PREFS_NAME, 0);
 		final String savedUid_wifi = prefs.getString(PREF_WIFI_UIDS, "");
@@ -746,6 +747,7 @@ public class Block {
 				}
 				if (savedUninstalledPkgnameWifi.length() > 0) {
 					if (savedUninstalledPkgnameWifi.contains(pkgname)) {
+						isApplyIptables = true;
 						ic.selected_wifi = true;
 						String newString = savedUninstalledPkgnameWifi.replace(
 								pkgname, "");
@@ -755,6 +757,7 @@ public class Block {
 				}
 				if (savedUninstalledPkgname3g.length() > 0) {
 					if (savedUninstalledPkgname3g.contains(pkgname)) {
+						isApplyIptables = true;
 						ic.selected_3g = true;
 						String newString = savedUninstalledPkgname3g.replace(
 								pkgname, "");
@@ -773,6 +776,9 @@ public class Block {
 			edit.putString(PREF_WIFI_PKGNAME, savedPkgname_wifi);
 			edit.putString(PREF_3G_PKGNAME, savedPkgname_3g);
 			edit.commit();
+		}
+		if(isApplyIptables){
+			applyIptablesRules(context, true, true);
 		}
 		return map;
 	}
