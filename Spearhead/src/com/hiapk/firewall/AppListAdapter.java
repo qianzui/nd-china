@@ -251,7 +251,7 @@ public class AppListAdapter extends BaseAdapter {
 							Block.isShowTipSet(mContext, false);
 							if (GetRoot.assertBinaries(mContext, true)) {
 								ic.selected_3g = cb.isChecked();
-								Block.saveRules(mContext, map);
+								Block.saveRules(mContext, map,appList);
 								if (Block.applyIptablesRules(mContext, true,
 										true)) {
 									Toast.makeText(mContext,
@@ -260,7 +260,7 @@ public class AppListAdapter extends BaseAdapter {
 								} else {
 									cb.setChecked(!cb.isChecked());
 									ic.selected_3g = cb.isChecked();
-									Block.saveRules(mContext, map);
+									Block.saveRules(mContext, map,appList);
 								}
 							} else {
 								Block.isShowTipSet(mContext, true);
@@ -282,14 +282,14 @@ public class AppListAdapter extends BaseAdapter {
 				} else {
 					if (GetRoot.assertBinaries(mContext, true)) {
 						ic.selected_3g = cb.isChecked();
-						Block.saveRules(mContext, map);
+						Block.saveRules(mContext, map,appList);
 						if (Block.applyIptablesRules(mContext, true, true)) {
 							Toast.makeText(mContext, R.string.fire_applyed,
 									Toast.LENGTH_SHORT).show();
 						} else {
 							cb.setChecked(!cb.isChecked());
 							ic.selected_3g = cb.isChecked();
-							Block.saveRules(mContext, map);
+							Block.saveRules(mContext, map,appList);
 						}
 					} else {
 						cb.setChecked(ic.selected_3g);
@@ -345,7 +345,7 @@ public class AppListAdapter extends BaseAdapter {
 							if (GetRoot.hasRootAccess(mContext, true)) {
 								Block.isShowTipSet(mContext, false);
 								ic.selected_wifi = cb.isChecked();
-								Block.saveRules(mContext, map);
+								Block.saveRules(mContext, map,appList);
 								if (Block.applyIptablesRules(mContext, true,
 										true)) {
 									Toast.makeText(mContext,
@@ -354,7 +354,7 @@ public class AppListAdapter extends BaseAdapter {
 								} else {
 									cb.setChecked(!cb.isChecked());
 									ic.selected_wifi = cb.isChecked();
-									Block.saveRules(mContext, map);
+									Block.saveRules(mContext, map,appList);
 								}
 							} else {
 								Block.isShowTipSet(mContext, true);
@@ -375,14 +375,14 @@ public class AppListAdapter extends BaseAdapter {
 				} else {
 					if (GetRoot.assertBinaries(mContext, true)) {
 						ic.selected_wifi = cb.isChecked();
-						Block.saveRules(mContext, map);
+						Block.saveRules(mContext, map,appList);
 						if (Block.applyIptablesRules(mContext, true, true)) {
 							Toast.makeText(mContext, R.string.fire_applyed,
 									Toast.LENGTH_SHORT).show();
 						} else {
 							cb.setChecked(!cb.isChecked());
 							ic.selected_wifi = cb.isChecked();
-							Block.saveRules(mContext, map);
+							Block.saveRules(mContext, map,appList);
 						}
 					} else {
 						cb.setChecked(ic.selected_wifi);

@@ -105,7 +105,6 @@ public class FireWallActivity extends Activity {
 	public View bubbleView;
 	public String savedUids_wifi = "";
 	public String savedUids_3g = "";
-	public String savedUids_all = "";
 	private Context mContext = this;
 	public ProgressDialog mydialog;
 	public ProgressDialog pro;
@@ -535,7 +534,7 @@ public class FireWallActivity extends Activity {
 				}
 				menuDialog(arg1);
 			}
-		});
+		}); 
 		appListView.setonRefreshListener(new OnRefreshListener() {
 			public void onRefresh() {
 				new AsyncTask<Void, Void, Void>() {
@@ -676,8 +675,7 @@ public class FireWallActivity extends Activity {
 	}
 
 	public void notifMenuDialog(View arg1) {
-		final PackageInfo pkgInfo = (PackageInfo) arg1
-				.getTag(R.id.tag_notif_pkgInfo);
+		final PackageInfo pkgInfo = (PackageInfo) arg1.getTag(R.id.tag_notif_pkgInfo);
 		final int uid = pkgInfo.applicationInfo.uid;
 		final String pkgname = pkgInfo.applicationInfo.packageName;
 
@@ -712,55 +710,38 @@ public class FireWallActivity extends Activity {
 					&& !Block.filter.contains(pkgname)) {
 				final SharedPreferences prefs = mContext.getSharedPreferences(
 						Block.PREFS_NAME, 0);
-				final String uids_wifi = prefs.getString(Block.PREF_WIFI_UIDS,
-						"");
-				final String uids_all = prefs
-						.getString(Block.PREF_ALL_UIDS, "");
-				final String uids_3g = prefs.getString(Block.PREF_3G_UIDS, "");
-				if (uids_3g.contains(uid + "") && uids_wifi.contains(uid + "")) {
+				
+				final String savedPkgname_wifi = prefs.getString(Block.PREF_WIFI_PKGNAME, "");
+				final String savedPkgname_3g = prefs.getString(Block.PREF_3G_PKGNAME, "");
+				if (savedPkgname_wifi.contains(pkgname) && savedPkgname_3g.contains(pkgname)) {
 					bt_detail.setTextColor(Color.GRAY);
 				} else {
 					bt_detail.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
 							menu.dismiss();
-							Log.i("test", "uid:" + uid);
-							// savedUids_all = uids_all + "|" + uid;
-							if (uids_all.contains(uid + "")) {
-								Log.i("test", "uid is added fail");
+							if (savedPkgname_wifi.contains(pkgname)) {
 							} else {
-								savedUids_all = uids_all + "|" + uid;
-								Log.i("test", "uid is added");
+								savedUids_wifi = savedPkgname_wifi + "|" + uid;
 							}
-							if (uids_wifi.contains(uid + "")) {
+							if (savedPkgname_3g.contains(pkgname)) {
 							} else {
-								savedUids_wifi = uids_wifi + "|" + uid;
-							}
-							if (uids_3g.contains(uid + "")) {
-							} else {
-								savedUids_3g = uids_3g + "|" + uid;
+								savedUids_3g = savedPkgname_3g + "|" + uid;
 							}
 							final Editor edit = prefs.edit();
-							edit.putString(Block.PREF_WIFI_UIDS, savedUids_wifi);
-							edit.putString(Block.PREF_3G_UIDS, savedUids_3g);
-							edit.putString(Block.PREF_ALL_UIDS, savedUids_all);
+							edit.putString(Block.PREF_WIFI_PKGNAME,
+									savedUids_wifi);
+							edit.putString(Block.PREF_3G_PKGNAME, savedUids_3g);
 							edit.putBoolean(Block.PREF_S, true);
 							edit.commit();
-							Log.i("test", "wifi:" + savedUids_wifi);
-							Log.i("test", "3g:" + savedUids_3g);
-							Log.i("test", "all:" + uids_all.length() + "-"
-									+ uids_all);
-							Log.i("test",
-									"savedUids_wifi:" + savedUids_wifi.length()
-											+ "uids_wifi:" + uids_wifi.length());
 							if (Block.applyIptablesRules(mContext, true, true)) {
 								Toast.makeText(mContext, R.string.fire_applyed,
 										Toast.LENGTH_SHORT).show();
 							} else {
 								final Editor edit2 = prefs.edit();
-								edit2.putString(Block.PREF_WIFI_UIDS, uids_wifi);
-								edit2.putString(Block.PREF_3G_UIDS, uids_3g);
-								edit2.putString(Block.PREF_ALL_UIDS, uids_all);
+								edit2.putString(Block.PREF_WIFI_PKGNAME,
+										savedPkgname_wifi);
+								edit2.putString(Block.PREF_3G_PKGNAME, savedPkgname_3g);
 								edit2.putBoolean(Block.PREF_S, true);
 								edit2.commit();
 
@@ -1095,4 +1076,16 @@ public class FireWallActivity extends Activity {
 			}
 		});
 	}
+
+	@Override
+	public void finish() {
+		// TODO Auto-generated method stub
+		if(Block.isChange){
+			SaveRule sr = new SaveRule(mContext);
+			sr.copyToSD();
+			Block.isChange = false;
+		}
+		super.finish();
+	}
+	
 }
