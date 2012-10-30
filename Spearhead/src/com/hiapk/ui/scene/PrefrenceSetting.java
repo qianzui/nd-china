@@ -97,7 +97,7 @@ public class PrefrenceSetting extends Activity {
 
 	private void initScene() {
 		FrameLayout title = (FrameLayout) findViewById(R.id.settingTitleBackground);
-		title.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
+		title.setBackgroundResource(SkinCustomMains.titleBackground());
 		layout_notyfy.setBackgroundResource(SkinCustomMains.barsBackground());
 		layout_float.setBackgroundResource(SkinCustomMains.barsBackground());
 		layout_help_info

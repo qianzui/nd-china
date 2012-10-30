@@ -26,45 +26,46 @@
     <RelativeLayout
         android:id="@+id/weibosdk_rlTitle"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/weibosdk_bg_title" >
+        android:layout_height="48dip"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:background="@drawable/maintab_title_bg0"
+        android:gravity="center_vertical" >
 
         <Button
             android:id="@+id/weibosdk_btnClose"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="fill_parent"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="6dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/weibosdk_bg_btn"
-            android:paddingBottom="2dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/btnselector_light1"
+            android:gravity="center"
             android:text="@string/weibosdk_close"
-            android:textColor="@color/weibo_tv_color"
+            android:textColor="@color/button_color_light"
             android:textSize="12sp" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:layout_centerHorizontal="false"
             android:layout_centerVertical="false"
             android:layout_marginLeft="6dp"
-            android:layout_marginTop="8dp"
-            android:layout_toRightOf="@id/weibosdk_btnClose"
+            android:gravity="center"
             android:text="@string/weibosdk_share_dialog_title"
-            android:textColor="#000"
+            android:textColor="@color/white"
+            android:textSize="23sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/weibosdk_btnSend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="fill_parent"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="6dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/weibosdk_bg_btn"
-            android:paddingBottom="2dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/btnselector_light1"
+            android:gravity="center"
             android:text="@string/weibosdk_send_login"
-            android:textColor="@color/weibo_tv_color"
+            android:textColor="@color/button_color_light"
             android:textSize="12sp" />
     </RelativeLayout>
 
@@ -132,8 +133,8 @@
 
                 <ImageView
                     android:id="@+id/weibosdk_ivDelPic"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_gravity="right"
                     android:src="@drawable/weibosdk_del_pic" />
             </FrameLayout>

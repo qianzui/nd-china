@@ -45,7 +45,7 @@ public class SkinCustomMains {
 	 * 
 	 * @return
 	 */
-	public static int buttonTitleBackground() {
+	public static int titleBackground() {
 		if (res == null) {
 			res = SpearheadApplication.getInstance().getRes();
 		}

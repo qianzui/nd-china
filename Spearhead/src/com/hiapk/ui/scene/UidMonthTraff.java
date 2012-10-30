@@ -62,7 +62,7 @@ public class UidMonthTraff extends Activity {
 	 */
 	public void initScene() {
 		FrameLayout title = (FrameLayout) findViewById(R.id.uid_traffTitleBackground);
-		title.setBackgroundResource(SkinCustomMains.buttonTitleBackground());
+		title.setBackgroundResource(SkinCustomMains.titleBackground());
 	}
 
 	@Override
