@@ -1,10 +1,15 @@
 package com.hiapk.ui.custom;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import com.hiapk.spearhead.R;
 
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +26,7 @@ public class CustomMenuMain extends PopupWindow {
 	@SuppressWarnings("unused")
 	private String TAG = "MenuMain";
 	public static boolean isMenuMainShow = false;
+	public static int DELAYTIME = 200;
 
 	public CustomMenuMain(Activity context, OnClickListener itemsOnClick) {
 		super(context);
@@ -69,6 +75,28 @@ public class CustomMenuMain extends PopupWindow {
 				return false;
 			}
 		});
+	}
+
+	public void dismissPop() {
+
+		final Handler handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				dismiss();
+				super.handleMessage(msg);
+			}
+		};
+		new Thread(new Runnable() {
+			public void run() {
+				try {
+					Thread.sleep(DELAYTIME);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				handler.sendEmptyMessage(0);
+			}
+		}).start();
+
 	}
 
 	@Override

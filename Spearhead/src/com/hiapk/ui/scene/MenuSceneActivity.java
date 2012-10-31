@@ -1,9 +1,7 @@
 package com.hiapk.ui.scene;
 
+import com.hiapk.frame.UiActivity;
 import com.hiapk.spearhead.R;
-import com.hiapk.ui.skin.SkinCustomMains;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class MenuSceneActivity extends Activity {
+public class MenuSceneActivity extends UiActivity {
 	private ImageView faq_back;
 	private RelativeLayout faq_title;
 	private TextView tv_title;
@@ -50,8 +48,7 @@ public class MenuSceneActivity extends Activity {
 		tv_title = (TextView) findViewById(R.id.faqLayout_title_tv);
 		tv_title.setText(title);
 		faq_title = (RelativeLayout) findViewById(R.id.faq_title);
-		faq_title
-				.setBackgroundResource(SkinCustomMains.titleBackground());
+		faq_title.setBackgroundResource(titleBackground());
 		faq_back = (ImageView) findViewById(R.id.faq_back);
 		faq_back.setOnClickListener(new OnClickListener() {
 			@Override
