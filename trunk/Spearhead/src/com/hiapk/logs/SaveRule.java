@@ -104,6 +104,21 @@ public class SaveRule {
 		}
 	}
 
+	/**
+	 * 关闭记忆功能时删除sd卡中文件
+	 */
+	public void deleteRecord(){
+		File f1 = new File(directory + "/wifi.txt");
+		File f2 = new File(directory + "/mobile.txt");
+		if (android.os.Environment.MEDIA_MOUNTED.equals(state)) {
+			if(f1.exists()){
+				f1.delete();
+			}
+			if(f2.exists()){
+				f2.delete();
+			}
+		}
+	}
 	private boolean copy(File source, File target) {
 		FileInputStream in = null;
 		FileOutputStream out = null;
