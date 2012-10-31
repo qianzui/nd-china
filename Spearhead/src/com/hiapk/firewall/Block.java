@@ -692,6 +692,7 @@ public class Block {
 	public static HashMap<Integer, IsChecked> getMap(Context context,
 			ArrayList<PackageInfo> myAppList) {
 		boolean isApplyIptables = false;
+		SharedPrefrenceData sharedDate= new SharedPrefrenceData(context);
 		final SharedPreferences prefs = context.getSharedPreferences(
 				PREFS_NAME, 0);
 		final String savedUid_wifi = prefs.getString(PREF_WIFI_UIDS, "");
@@ -743,24 +744,27 @@ public class Block {
 						savedPkgname_3g = savedPkgname_3g + "|" + pkgname;
 					}
 				}
-				if (savedUninstalledPkgnameWifi.length() > 0) {
-					if (savedUninstalledPkgnameWifi.contains(pkgname)) {
-						isApplyIptables = true;
-						ic.selected_wifi = true;
-						String newString = savedUninstalledPkgnameWifi.replace(
-								pkgname, "");
-						sr.saveUninstalledPkgnameWifi(newString, false);
-						savedPkgname_wifi = savedPkgname_wifi + "|" + pkgname;
+				if (sharedDate.isAutoSaveFireWallRule()) {
+					if (savedUninstalledPkgnameWifi.length() > 0) {
+						if (savedUninstalledPkgnameWifi.contains(pkgname)) {
+							isApplyIptables = true;
+							ic.selected_wifi = true;
+							String newString = savedUninstalledPkgnameWifi
+									.replace(pkgname, "");
+							sr.saveUninstalledPkgnameWifi(newString, false);
+							savedPkgname_wifi = savedPkgname_wifi + "|"
+									+ pkgname;
+						}
 					}
-				}
-				if (savedUninstalledPkgname3g.length() > 0) {
-					if (savedUninstalledPkgname3g.contains(pkgname)) {
-						isApplyIptables = true;
-						ic.selected_3g = true;
-						String newString = savedUninstalledPkgname3g.replace(
-								pkgname, "");
-						sr.saveUninstalledPkgname3g(newString, false);
-						savedPkgname_3g = savedPkgname_3g + "|" + pkgname;
+					if (savedUninstalledPkgname3g.length() > 0) {
+						if (savedUninstalledPkgname3g.contains(pkgname)) {
+							isApplyIptables = true;
+							ic.selected_3g = true;
+							String newString = savedUninstalledPkgname3g
+									.replace(pkgname, "");
+							sr.saveUninstalledPkgname3g(newString, false);
+							savedPkgname_3g = savedPkgname_3g + "|" + pkgname;
+						}
 					}
 				}
 			}

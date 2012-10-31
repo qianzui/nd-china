@@ -944,9 +944,12 @@ public class FireWallActivity extends Activity {
 			mPop.dismiss();
 		}
 		if(Block.isChange){
-			SaveRule sr = new SaveRule(mContext);
-			sr.copyToSD();
 			Block.isChange = false;
+			SharedPrefrenceData sharedDate= new SharedPrefrenceData(mContext);
+			if(sharedDate.isAutoSaveFireWallRule()){
+				SaveRule sr = new SaveRule(mContext);
+				sr.copyToSD();
+			}
 		}
 		super.onPause();
 	}
