@@ -1,9 +1,6 @@
 package com.hiapk.control.bootandclose;
 
-import java.io.IOException;
-
 import com.hiapk.firewall.Block;
-import com.hiapk.logs.Logs;
 import com.hiapk.logs.SaveRule;
 
 import android.content.Context;
