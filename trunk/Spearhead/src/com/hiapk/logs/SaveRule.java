@@ -110,12 +110,20 @@ public class SaveRule {
 	public void deleteRecord(){
 		File f1 = new File(directory + "/wifi.txt");
 		File f2 = new File(directory + "/mobile.txt");
+		File f3 = new File(mobile_uninstalled);
+		File f4 = new File(uninstalledpath);
 		if (android.os.Environment.MEDIA_MOUNTED.equals(state)) {
 			if(f1.exists()){
 				f1.delete();
 			}
 			if(f2.exists()){
 				f2.delete();
+			}
+			if(f3.exists()){
+				f3.delete();
+			}
+			if(f4.exists()){
+				f4.delete();
 			}
 		}
 	}
