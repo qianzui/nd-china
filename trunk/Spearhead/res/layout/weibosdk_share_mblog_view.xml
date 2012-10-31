@@ -34,15 +34,15 @@
 
         <Button
             android:id="@+id/weibosdk_btnClose"
-            android:layout_width="48dp"
+            android:layout_width="54dp"
             android:layout_height="fill_parent"
             android:layout_alignParentLeft="true"
-            android:layout_margin="10dp"
+            android:layout_margin="8dp"
             android:background="@drawable/btnselector_light1"
             android:gravity="center"
             android:text="@string/weibosdk_close"
             android:textColor="@color/button_color_light"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:layout_width="fill_parent"
@@ -58,15 +58,15 @@
 
         <Button
             android:id="@+id/weibosdk_btnSend"
-            android:layout_width="48dp"
+            android:layout_width="54dp"
             android:layout_height="fill_parent"
             android:layout_alignParentRight="true"
-            android:layout_margin="10dp"
+            android:layout_margin="8dp"
             android:background="@drawable/btnselector_light1"
             android:gravity="center"
             android:text="@string/weibosdk_send_login"
             android:textColor="@color/button_color_light"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <RelativeLayout

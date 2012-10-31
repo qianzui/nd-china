@@ -6,7 +6,7 @@
         android:angle="-90.0"
         android:endColor="#c38e3b"
          android:centerColor="#fcaf17"
-        android:startColor="@color/whitesmoke" />
+        android:startColor="#f8d899" />
     <!-- 设置按钮的四个角为弧形 -->
     <!-- android:radius 弧形的半径 -->
     <corners android:radius="5dip" />

@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.firewall.Block;
+import com.hiapk.logs.SaveRule;
 import com.hiapk.spearhead.R;
 import com.hiapk.ui.custom.CustomDialogOtherBeen;
 import com.hiapk.ui.custom.CustomSPBeen;
@@ -176,6 +177,8 @@ public class PrefrenceBeen {
 					if (isopen) {
 						sharedDate.setisAutoSaveFireWallRule(false);
 						checkBoxRightDrawChange(showText, isopen);
+						SaveRule sr = new SaveRule(context);
+						sr.deleteRecord();
 					} else {
 						sharedDate.setisAutoSaveFireWallRule(true);
 						checkBoxRightDrawChange(showText, isopen);

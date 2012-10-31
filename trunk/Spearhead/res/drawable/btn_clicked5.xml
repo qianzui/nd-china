@@ -6,7 +6,7 @@
         android:angle="-90.0"
         android:centerColor="@color/nova_space_grey_gradient_btn_center"
         android:endColor="@color/nova_space_grey_gradient_end"
-        android:startColor="@color/white" />
+        android:startColor="#b8b3b3" />
     <!-- 设置按钮的四个角为弧形 -->
     <!-- android:radius 弧形的半径 -->
     <corners android:radius="5dip" />

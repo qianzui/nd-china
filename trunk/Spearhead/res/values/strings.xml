@@ -19,7 +19,7 @@
     <string name="tip">    此功能(切换联网状态)需要Root权限!\n请确定您的机器已经破解并获得Root权限.</string>
     <string name="tip_content">    此功能(切换联网状态)需要Root权限! \n您确定要继续吗?</string>
     <string name="tip_content_isroot">\n 是否获取？</string>
-    <string name="tip_has_know_firewall_rule_save">    开启记忆防火墙规则后(默认开启)，先锋流量监控会自动保存所有软件的联网规则，当您卸载并重新安装先锋流量监控后，软件会自动加载之前保存的联网规则。</string>
+    <string name="tip_has_know_firewall_rule_save">    开启记忆防火墙规则后(默认开启)，先锋流量监控会自动保存所有软件的联网规则，当您将软件卸载并重新安装后，我们会自动加载之前保存的联网规则。</string>
     <string name="caution">注意</string>
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
