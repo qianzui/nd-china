@@ -696,11 +696,10 @@ public class Block {
 				PREFS_NAME, 0);
 		final String savedUid_wifi = prefs.getString(PREF_WIFI_UIDS, "");
 		final String savedUid_3g = prefs.getString(PREF_3G_UIDS, "");
-		
 		SaveRule sr = new SaveRule(context);
 		if(Block.isLoadingFromSD(context)){
-			String wifiRules = sr.getWifiRules();
-			String mobileRules = sr.getMobileRules();
+			String wifiRules = sr.getWifiRules() + "";
+			String mobileRules = sr.getMobileRules() + "";
 			if(wifiRules.equals("") && mobileRules.equals("")){
 				Block.isLoadingSet(context, false);
 			}else{
@@ -713,7 +712,6 @@ public class Block {
 				Block.isLoadingSet(context, false);
 			}
 		}
-
 	    String savedPkgname_wifi = prefs.getString(PREF_WIFI_PKGNAME, "");
 	    String savedPkgname_3g= prefs.getString(PREF_3G_PKGNAME, "");
 	    
