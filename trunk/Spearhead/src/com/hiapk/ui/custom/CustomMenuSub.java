@@ -5,6 +5,8 @@ import com.hiapk.spearhead.R;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
+import android.os.Message;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -69,9 +71,47 @@ public class CustomMenuSub extends PopupWindow {
 		});
 	}
 
-	@Override
-	public void dismiss() {
-		super.dismiss();
+	public void showAtLocation2(final View parent, final int gravity,
+			final int x, final int y) {
+		final Handler handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				showAtLocation(parent, gravity, x, y);
+				super.handleMessage(msg);
+			}
+		};
+		new Thread(new Runnable() {
+			public void run() {
+				try {
+					Thread.sleep(CustomMenuMain.DELAYTIME);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				handler.sendEmptyMessage(0);
+			}
+		}).start();
+	}
+
+	public void dismissPop() {
+
+		final Handler handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				dismiss();
+				super.handleMessage(msg);
+			}
+		};
+		new Thread(new Runnable() {
+			public void run() {
+				try {
+					Thread.sleep(CustomMenuMain.DELAYTIME);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				handler.sendEmptyMessage(0);
+			}
+		}).start();
+
 	}
 
 }

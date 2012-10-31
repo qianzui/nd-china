@@ -223,7 +223,7 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 			Intent intentPref = new Intent();
 			intentPref.setClass(context, PrefrenceSetting.class);
 			startActivity(intentPref);
-			menuWindowMain.dismiss();
+			menuWindowMain.dismissPop();
 			break;
 		case R.id.menubtn_faq:
 			Intent faqIntent = new Intent();
@@ -239,16 +239,16 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 			// CustomDialogFAQBeen customFAQ = new
 			// CustomDialogFAQBeen(context);
 			// customFAQ.dialogFAQ();menuWindowMain.dismiss();
-			menuWindowMain.dismiss();
+			menuWindowMain.dismissPop();
 			break;
 		case R.id.menubtn_more:
-			menuWindowMain.dismiss();
+			menuWindowMain.dismissPop();
 			if (menuWindowSub == null) {
 				// 实例化SelectPicPopupWindow
 				menuWindowSub = new CustomMenuSub(SpearheadActivity.this, this);
 			}
 			// 显示窗口
-			menuWindowSub.showAtLocation(
+			menuWindowSub.showAtLocation2(
 					SpearheadActivity.this.findViewById(R.id.main_radio),
 					Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 			break;
@@ -265,7 +265,7 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 			sharetoSina.putExtras(shareBundle);
 			sharetoSina.setClass(context, WeiboSinaActivity.class);
 			startActivity(sharetoSina);
-			menuWindowSub.dismiss();
+			menuWindowSub.dismissPop();
 			break;
 		case R.id.menubtn_updatemess:
 			Intent updateinfoIntent = new Intent();
@@ -278,13 +278,13 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 			updateinfoIntent.putExtra("infos", bundleupdateinfo);
 			updateinfoIntent.setClass(context, MenuSceneActivity.class);
 			startActivity(updateinfoIntent);
-			menuWindowSub.dismiss();
+			menuWindowSub.dismissPop();
 			break;
 		case R.id.menubtn_about:
 			// showAboutPopUp("file:///android_asset/about/about.html");
 			CustomDialogFAQBeen customAbout = new CustomDialogFAQBeen(context);
 			customAbout.dialogAbout();
-			menuWindowSub.dismiss();
+			menuWindowSub.dismissPop();
 			break;
 		default:
 			break;
