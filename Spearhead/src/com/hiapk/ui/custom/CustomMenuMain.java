@@ -1,8 +1,5 @@
 package com.hiapk.ui.custom;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import com.hiapk.spearhead.R;
 
 import android.app.Activity;
