@@ -130,6 +130,10 @@ public class FireWallActivity extends Activity {
 				}
 			});
 		}
+	  setData();
+	}
+
+	public void setData(){
 		handler2 = new Handler() {
 			public void handleMessage(Message msg) {
 				try {
@@ -162,7 +166,6 @@ public class FireWallActivity extends Activity {
 			}
 		};
 	}
-
 	private void initUidData() {
 		SQLStatic.uiddata = null;
 		SQLHelperFireWall sql = new SQLHelperFireWall();
@@ -393,7 +396,6 @@ public class FireWallActivity extends Activity {
 				uidList = comp(Block.appList);
 				return null;
 			}
-
 			@Override
 			protected void onPostExecute(Void result) {
 				loading_content.setVisibility(View.INVISIBLE);
@@ -551,7 +553,6 @@ public class FireWallActivity extends Activity {
 						uidList = comp(Block.appList);
 						return null;
 					}
-
 					@Override
 					protected void onPostExecute(Void result) {
 						MyListView.loadImage();
@@ -883,7 +884,7 @@ public class FireWallActivity extends Activity {
 					menu.dismiss();
 					Uri uri = Uri.fromParts("package", pkname, null);
 					Intent intent = new Intent(Intent.ACTION_DELETE, uri);
-					startActivity(intent);
+					startActivityForResult(intent, 1);
 				}
 			});
 		}
@@ -968,6 +969,13 @@ public class FireWallActivity extends Activity {
 			break;
 		}
 		return true;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+			setNewDataForList();
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	private class AsyncTaskGetAdbArrayListonResume extends
