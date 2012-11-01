@@ -46,8 +46,8 @@ public class FireWallItemMenu extends CustomPopupWindow {
 		anchor.getLocationOnScreen(location);
 		Rect anchorRect 	= new Rect(location[0], location[1], location[0] + anchor.getWidth(), location[1] 
 		                	+ anchor.getHeight());
-		root.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-		root.measure(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+		root.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+		root.measure(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 		int rootWidth 		= root.getMeasuredWidth();
 //		int rootHeight 		= root.getMeasuredHeight();
 		int screenWidth 	= windowManager.getDefaultDisplay().getWidth();
