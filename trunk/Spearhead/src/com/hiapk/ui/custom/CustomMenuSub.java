@@ -71,6 +71,14 @@ public class CustomMenuSub extends PopupWindow {
 		});
 	}
 
+	/**
+	 * 对应的submenu的延时显示
+	 * 
+	 * @param parent
+	 * @param gravity
+	 * @param x
+	 * @param y
+	 */
 	public void showAtLocation2(final View parent, final int gravity,
 			final int x, final int y) {
 		final Handler handler = new Handler() {
@@ -92,6 +100,9 @@ public class CustomMenuSub extends PopupWindow {
 		}).start();
 	}
 
+	/**
+	 * 延时清除弹出的窗口
+	 */
 	public void dismissPop() {
 
 		final Handler handler = new Handler() {

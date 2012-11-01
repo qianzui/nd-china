@@ -23,6 +23,9 @@ public class CustomMenuMain extends PopupWindow {
 	@SuppressWarnings("unused")
 	private String TAG = "MenuMain";
 	public static boolean isMenuMainShow = false;
+	/**
+	 * menu对话框的操作延时
+	 */
 	public static int DELAYTIME = 200;
 
 	public CustomMenuMain(Activity context, OnClickListener itemsOnClick) {
@@ -74,6 +77,9 @@ public class CustomMenuMain extends PopupWindow {
 		});
 	}
 
+	/**
+	 * 延时清除弹出的窗口
+	 */
 	public void dismissPop() {
 
 		final Handler handler = new Handler() {
