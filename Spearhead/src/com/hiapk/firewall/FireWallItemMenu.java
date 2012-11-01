@@ -53,7 +53,7 @@ public class FireWallItemMenu extends CustomPopupWindow {
 		int screenWidth 	= windowManager.getDefaultDisplay().getWidth();
 		int screenHeight 	= windowManager.getDefaultDisplay().getHeight();
 		int xPos 			= (screenWidth - rootWidth) / 2;
-		int yPos	 		= anchorRect.top - 70;
+		int yPos	 		= anchorRect.top - 80;
 		boolean onTop		= true;
 		if ( screenHeight/2 > anchor.getBottom()) {
 			yPos 	= anchorRect.bottom;
