@@ -5,12 +5,14 @@ import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.logs.Logs;
 import com.hiapk.ui.chart.StackedBarChart;
+import com.hiapk.ui.custom.CustomDialogFAQBeen;
 import com.hiapk.ui.custom.CustomDialogMainBeen;
 import com.hiapk.ui.skin.ColorChangeMainBeen;
 import com.hiapk.ui.skin.SkinCustomMains;
 import com.hiapk.ui.skin.UiColors;
 import com.hiapk.util.MonthDay;
 import com.hiapk.util.SharedPrefrenceData;
+import com.hiapk.util.SharedPrefrenceDataOnUpdate;
 import com.hiapk.util.UnitHandler;
 
 import android.app.Activity;
@@ -45,7 +47,10 @@ public class Main extends Activity {
 	private SharedPrefrenceData sharedData;
 	// Alarm
 	private AlarmSet alset = new AlarmSet();
-
+	/**
+	 * 图表页面初始化时显示的数据数
+	 */
+	private int showNumber = 5;
 	LinearLayout layout_mobile;
 	/**
 	 * 图表种类，0代表移动，1代表wifi
@@ -71,6 +76,7 @@ public class Main extends Activity {
 		// 获取固定存放数据
 		sharedData = new SharedPrefrenceData(context);
 
+		versionUpdateWindiw();
 		// if (SQLStatic.getIsInit(context) == false) {
 		// if (SQLStatic.uids == null) {
 		// SQLStatic.uids=SQLStatic.selectUidnumbers(context);
@@ -79,6 +85,17 @@ public class Main extends Activity {
 		// ------------
 		setonclicklistens();
 		// setontvclicklisten();
+	}
+
+	private void versionUpdateWindiw() {
+		SharedPrefrenceDataOnUpdate sharedupdate = new SharedPrefrenceDataOnUpdate(
+				context);
+		if (sharedupdate.isVersion122updated() == false) {
+			CustomDialogFAQBeen dialogupdate = new CustomDialogFAQBeen(context);
+			dialogupdate.dialogUpdateInfoOnFirst();
+			sharedupdate.setVersion122updated(true);
+		}
+
 	}
 
 	/**
@@ -398,7 +415,7 @@ public class Main extends Activity {
 			chartbar.setMaxTraffic((double) (long) maxTraffic / 1048576 * 1.2);
 			chartbar.setyMaxvalue((double) (long) maxTraffic / 1048576 * 1.2);
 		}
-		chartbar.setxMinvalue(monthbeforetotalDay + monthDay - 5.5);
+		chartbar.setxMinvalue(monthbeforetotalDay + monthDay - showNumber + 0.5);
 		chartbar.setxMaxvalue(monthbeforetotalDay + monthDay + 0.5);
 		// 设置显示的日期
 		String[] xaxles = new String[monthDay + monthbeforetotalDay];
@@ -512,7 +529,7 @@ public class Main extends Activity {
 			chartbar.setMaxTraffic((double) (long) maxTraffic / 1048576 * 1.2);
 			chartbar.setyMaxvalue((double) (long) maxTraffic / 1048576 * 1.2);
 		}
-		chartbar.setxMinvalue(monthbeforetotalDay + monthDay - 5.5);
+		chartbar.setxMinvalue(monthbeforetotalDay + monthDay - showNumber + 0.5);
 		chartbar.setxMaxvalue(monthbeforetotalDay + monthDay + 0.5);
 		// 设置显示的日期
 		String[] xaxles = new String[monthDay + monthbeforetotalDay];

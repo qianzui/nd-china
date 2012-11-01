@@ -74,6 +74,11 @@ public class ProjectStatusChart extends ViewBase {
 	int backgroundColor = UiColors.colorMainWhiteDark;
 
 	/**
+	 * 页面初始化时显示的数据数
+	 */
+	private int showNumber = 5;
+
+	/**
 	 * 主标题
 	 * 
 	 * @param mainTitle
@@ -330,7 +335,8 @@ public class ProjectStatusChart extends ViewBase {
 		setChartSettings(renderer, "", "",
 				new String[] { "        流量(MB)", "         " },
 				// new String[] { "        ", "        " },
-				new double[] { showDay - 5.5, showDay - 5.5 }, new double[] {
+				new double[] { showDay - showNumber + 0.5,
+						showDay - showNumber + 0.5 }, new double[] {
 						showDay + 0.5, showDay + 0.5 }, new double[] {
 						-MaxTrafficMobile / 20, -MaxTrafficWifi / 6 },
 				new double[] { MaxTrafficMobile, MaxTrafficWifi * 0.85 },
