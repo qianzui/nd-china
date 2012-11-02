@@ -62,7 +62,7 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 	private EditText mEdit;
 	private FrameLayout mPiclayout;
 	private ImageView mImage;
-	private String mContent = "我正在使用#先锋流量监控#，它完全免费无广告，体积小巧，监控流量准确，还有丰富的图表显示。推荐你们试试，安卓市场下载地址：http://t.cn/zl3fnku";
+	private String mContent;
 	private String TAG = "weiboActivity";
 	private WeiboSinaMethod weiboMethod;
 	private WriteLog writelog;
@@ -107,6 +107,7 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 	}
 
 	private void initEdit() {
+		mContent=getResources().getString(R.string.weibosdk_edittext_content);
 		LinearLayout text_limit_unit_layout = (LinearLayout) this
 				.findViewById(R.id.weibosdk_ll_text_limit_unit);
 		text_limit_unit_layout.setOnClickListener(this);

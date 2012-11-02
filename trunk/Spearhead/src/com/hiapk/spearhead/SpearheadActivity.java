@@ -1,9 +1,11 @@
 package com.hiapk.spearhead;
 
+import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import com.hiapk.contral.weibo.ScreenShot;
+import com.hiapk.contral.weibo.WeiboSinaMethod;
 import com.hiapk.control.bootandclose.OnExit;
 import com.hiapk.control.traff.NotificationInfo;
 import com.hiapk.control.widget.NotificationWarningControl;
@@ -21,6 +23,7 @@ import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -242,6 +245,7 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 			menuWindowMain.dismissPop();
 			break;
 		case R.id.menubtn_more:
+			// ---------------
 			menuWindowMain.dismissPop();
 			if (menuWindowSub == null) {
 				// 实例化SelectPicPopupWindow
@@ -251,6 +255,8 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 			menuWindowSub.showAtLocation2(
 					SpearheadActivity.this.findViewById(R.id.main_radio),
 					Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+			// ---------------
+			// startActivity(getIntentSharePhotoAndText(""));
 			break;
 		case R.id.menubtn_exit:
 			OnExit exit = new OnExit();
@@ -259,12 +265,17 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 			break;
 		case R.id.menubtn_share:
 			String path = getScreenShoot();
-			Bundle shareBundle = new Bundle();
-			shareBundle.putString("path", path);
-			Intent sharetoSina = new Intent();
-			sharetoSina.putExtras(shareBundle);
-			sharetoSina.setClass(context, WeiboSinaActivity.class);
-			startActivity(sharetoSina);
+			WeiboSinaMethod weiboMethod = new WeiboSinaMethod(context);
+			if (weiboMethod.isSinaInstalled()) {
+				startActivity(getIntentSharePhotoAndText(path));
+			} else {
+				Bundle shareBundle = new Bundle();
+				shareBundle.putString("path", path);
+				Intent sharetoSina = new Intent();
+				sharetoSina.putExtras(shareBundle);
+				sharetoSina.setClass(context, WeiboSinaActivity.class);
+				startActivity(sharetoSina);
+			}
 			menuWindowSub.dismissPop();
 			break;
 		case R.id.menubtn_updatemess:
@@ -311,6 +322,26 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 		} else
 			fullPath = screenshoot.shoot();
 		return fullPath;
+	}
+
+	/**
+	 * 分享文字与图片到新浪微博客户端
+	 * 
+	 * @param photoPath
+	 *            图片的地址
+	 * @return 要使用的intent
+	 */
+	private Intent getIntentSharePhotoAndText(String photoPath) {
+		Intent shareIntent = new Intent(Intent.ACTION_SEND);
+		if (photoPath != "" || photoPath != null) {
+			File file = new File(photoPath);
+			shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+		}
+		shareIntent.setPackage("com.sina.weibo");
+		shareIntent.putExtra(Intent.EXTRA_TEXT,
+				getResources().getString(R.string.weibosdk_edittext_content));
+		shareIntent.setType("image/png");
+		return shareIntent;
 	}
 
 	@Override

@@ -84,6 +84,25 @@ public class WeiboSinaMethod {
 	}
 
 	/**
+	 * 检测是否已安装sina微博//com.sina.weibo
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public boolean isSinaInstalled() {
+		String packageName = "com.sina.weibo";
+		try {
+			@SuppressWarnings("unused")
+			PackageInfo pacInfo = context.getPackageManager().getPackageInfo(
+					packageName, PackageManager.GET_UNINSTALLED_PACKAGES);
+			return true;
+
+		} catch (NameNotFoundException e) {
+			return false;
+		}
+	}
+
+	/**
 	 * 检测是否可以使用SSO方式获取sina授权//com.sina.weibo
 	 * 
 	 * @param context
