@@ -62,15 +62,17 @@ public class NotifListAdapter extends BaseAdapter {
 		if (pkgInfo == null) {
 			holder.appname.setText("获取失败");
 			holder.icon.setImageResource(R.drawable.ic_launcher);
+			holder.traffic.setText("总流量: "+ UnitHandler.unitHandlerAccurate(0));
 		} else {
+			int uid = pkgInfo.applicationInfo.uid;
+			long traffic[] = TrafficManager.getUidtraff(mContext, uid);
+			holder.traffic.setText("总流量: "
+					+ UnitHandler.unitHandlerAccurate(traffic[0]));
 			holder.appname.setText(pkgInfo.applicationInfo.loadLabel(pm)
 					.toString());
 			holder.icon.setImageDrawable(pkgInfo.applicationInfo.loadIcon(pm));
 		}
-		int uid = pkgInfo.applicationInfo.uid;
-		long traffic[] = TrafficManager.getUidtraff(mContext, uid);
-		holder.traffic.setText("总流量: "
-				+ UnitHandler.unitHandlerAccurate(traffic[0]));
+		
 		holder.content.setText(notifRecord[2]);
 		convertView.setTag(R.id.tag_notif_pkgInfo, pkgInfo);
 		convertView.setTag(R.id.tag_notif_id, notifRecord[1]);
