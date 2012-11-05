@@ -682,7 +682,7 @@ public class FireWallActivity extends Activity {
 
 		final FireWallItemMenu menu = new FireWallItemMenu(arg1);
 		menu.show();
-		View menuView = menu.getView();
+		final View menuView = menu.getView();
 		if (menuView != null) {
 			Button bt_manager = (Button) menuView
 					.findViewById(R.id.fire_item_manage);
