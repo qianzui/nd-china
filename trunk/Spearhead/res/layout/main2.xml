@@ -137,6 +137,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:gravity="center"
+            android:background="@drawable/bground_dark"
             android:orientation="vertical" >
 
             <ProgressBar
@@ -153,49 +154,6 @@
                 android:textSize="18sp" />
         </LinearLayout>
     </FrameLayout>
-    <LinearLayout
-        android:id="@+id/setting_menu"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/maintab_title_bg0"
-        android:orientation="horizontal"
-        android:paddingRight="10dip" >
-       <Button
-           android:layout_width="fill_parent"
-           android:layout_height="0dip"
-           android:layout_weight="1"
-           android:text="测试1" />
-
-       <Button
-           android:layout_width="fill_parent"
-           android:layout_height="0dip"
-           android:layout_weight="1"
-           android:text="测试2" />
-
-       <Button
-           android:layout_width="fill_parent"
-           android:layout_height="0dip"
-           android:layout_weight="1"
-           android:text="测试3" />
-
-       <Button
-           android:layout_width="fill_parent"
-           android:layout_height="0dip"
-           android:layout_weight="1"
-           android:text="测试4" />
-
-       <Button
-           android:layout_width="fill_parent"
-           android:layout_height="0dip"
-           android:layout_weight="1"
-           android:text="测试5" />
-
-       <Button
-           android:layout_width="fill_parent"
-           android:layout_height="0dip"
-           android:layout_weight="1"
-           android:text="测试6" />
-
-    </LinearLayout>
+    
 
 </LinearLayout>

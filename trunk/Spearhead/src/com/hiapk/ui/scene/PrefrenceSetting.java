@@ -42,6 +42,7 @@ public class PrefrenceSetting extends Activity {
 	LinearLayout layout_help_info;
 	LinearLayout layout_freshplv;
 	LinearLayout layout_autosave_firewall;
+	LinearLayout layout_shake_switch;
 	LinearLayout layout_cleardata;
 
 	@Override
@@ -54,6 +55,7 @@ public class PrefrenceSetting extends Activity {
 		layout_help_info = (LinearLayout) findViewById(R.id.setting_help_message);
 		layout_freshplv = (LinearLayout) findViewById(R.id.setting_freshplv);
 		layout_autosave_firewall = (LinearLayout) findViewById(R.id.setting_auto_saveFirewalldata);
+		layout_shake_switch = (LinearLayout) findViewById(R.id.setting_shake_switch);
 		layout_cleardata = (LinearLayout) findViewById(R.id.setting_cleardata);
 		PrefrenceBeen prefBeen = new PrefrenceBeen(context);
 		prefBeen.initCheckBoxNotyfy(layout_notyfy);
@@ -61,6 +63,7 @@ public class PrefrenceSetting extends Activity {
 		prefBeen.initCheckBoxHelpMessage(layout_help_info);
 		prefBeen.initListBoxFresh(layout_freshplv);
 		prefBeen.initCheckBoxAutoSaveFireWall(layout_autosave_firewall);
+		prefBeen.initCheckBoxShakeToSwitch(layout_shake_switch);
 		prefBeen.initClickBoxDataClear(layout_cleardata);
 		// ∆§∑Ù…Ë÷√
 		final ImageView back = (ImageView) findViewById(R.id.setting_back);
@@ -104,6 +107,7 @@ public class PrefrenceSetting extends Activity {
 				.setBackgroundResource(SkinCustomMains.barsBackground());
 		layout_freshplv.setBackgroundResource(SkinCustomMains.barsBackground());
 		layout_autosave_firewall.setBackgroundResource(SkinCustomMains.barsBackground());
+		layout_shake_switch.setBackgroundResource(SkinCustomMains.barsBackground());
 		layout_cleardata
 				.setBackgroundResource(SkinCustomMains.barsBackground());
 	}

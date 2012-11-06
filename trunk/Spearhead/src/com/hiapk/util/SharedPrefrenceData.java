@@ -46,6 +46,8 @@ public class SharedPrefrenceData {
 	private String isAutoSaveFireWallRule = "isOpenFireWallautosave";
 	// 防火墙记忆功能已经知道了
 	private String isHasKnowFireWallSave = "ishasknowfirewallsave";
+	private String isShakeToSwitch = "isShakeToSwitchFireList";
+	private String isKnowShakeToSwitch = "isKnowShakeToSwitchFireList";
 
 	public SharedPrefrenceData(Context context) {
 		prefs = context.getSharedPreferences(PREFS_NAME, 0);
@@ -269,6 +271,25 @@ public class SharedPrefrenceData {
 
 	public void setisHasknowFireWallSave(boolean blean) {
 		UseEditor.putBoolean(isHasKnowFireWallSave, blean);
+		UseEditor.commit();
+	}
+	
+	public boolean isShakeToSwitch(){
+		Boolean isShake = prefs.getBoolean(isShakeToSwitch, true);
+		return isShake;
+	}
+	public void setIsShakeToSwitch(boolean isShake) {
+		UseEditor.putBoolean(isShakeToSwitch, isShake);
+		UseEditor.commit();
+	}
+	
+	public boolean isKnowShakeToSwitch() {
+		boolean blean = prefs.getBoolean(isKnowShakeToSwitch, false);
+		return blean;
+	}
+
+	public void setIsKnowShakeToSwitch(boolean isKnow) {
+		UseEditor.putBoolean(isKnowShakeToSwitch, isKnow);
 		UseEditor.commit();
 	}
 

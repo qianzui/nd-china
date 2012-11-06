@@ -219,6 +219,24 @@ public class CustomDialogOtherBeen {
 			}
 		});
 	}
+	
+	public void dialogisKnowShakeToSwitch() {
+		String tip = "    " + context.getResources().getString(R.string.tip_know_shake_to_switch);
+		final CustomDialog monthSetAlert = new CustomDialog.Builder(context)
+				.setTitle(R.string.caution)
+				.setMessage(tip)
+				.setPositiveButton(R.string.has_know, null).create();
+		monthSetAlert.show();
+		Button btn_ok = (Button) monthSetAlert
+				.findViewById(R.id.positiveButton);
+		btn_ok.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				monthSetAlert.dismiss();
+				sharedData.setIsKnowShakeToSwitch(true);
+			}
+		});
+	}
 
 	CustomDialog customProgressDialog;
 
