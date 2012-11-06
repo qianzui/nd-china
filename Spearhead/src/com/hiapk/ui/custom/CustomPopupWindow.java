@@ -20,7 +20,7 @@ public class CustomPopupWindow {
 	private Drawable background = null;
 	protected final WindowManager windowManager;
 
-	public CustomPopupWindow(View anchor) {
+	public CustomPopupWindow(Context mContext,View anchor,int menu_type) {
 		this.anchor = anchor;
 		this.window = new PopupWindow(anchor.getContext());
 		window.setTouchInterceptor(new OnTouchListener() {
@@ -122,42 +122,7 @@ public class CustomPopupWindow {
 		window.showAsDropDown(anchor, xOffset, yOffset);
 	}
 
-	/**
-	 * Displays like a QuickAction from the anchor view.
-	 */
-	public void showLikeQuickAction() {
-		showLikeQuickAction(0, 0);
-	}
-
-	/**
-	 * Displays like a QuickAction from the anchor view.
-	 * 
-	 * @param xOffset
-	 *            offset in the X direction
-	 * @param yOffset
-	 *            offset in the Y direction
-	 */
-	public void showLikeQuickAction(int xOffset, int yOffset) {
-		preShow();
-		int[] location = new int[2];
-		anchor.getLocationOnScreen(location);
-		Rect anchorRect = new Rect(location[0], location[1], location[0]
-				+ anchor.getWidth(), location[1] + anchor.getHeight());
-
-		root.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT));
-		root.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-
-		int rootWidth = root.getMeasuredWidth();
-		int rootHeight = root.getMeasuredHeight();
-		int screenWidth = windowManager.getDefaultDisplay().getWidth();
-		int xPos = ((screenWidth - rootWidth) / 2) + xOffset;
-		int yPos = anchorRect.top - rootHeight + yOffset;
-		if (rootHeight > anchor.getTop()) {
-			yPos = anchorRect.bottom + yOffset;
-		}
-		window.showAtLocation(anchor, Gravity.NO_GRAVITY, xPos, yPos);
-	}
+	
 
 	public void dismiss() {
 		window.dismiss();

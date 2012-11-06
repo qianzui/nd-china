@@ -20,6 +20,7 @@
     <string name="tip_content">    此功能(切换联网状态)需要Root权限! \n您确定要继续吗?</string>
     <string name="tip_content_isroot">\n 是否获取？</string>
     <string name="tip_has_know_firewall_rule_save">    开启记忆防火墙规则后(默认开启)，先锋流量监控会自动保存所有软件的联网规则，当您将软件卸载并重新安装后，我们会自动加载之前保存的联网规则。</string>
+    <string name="tip_know_shake_to_switch">    此设置开启时，只要在防火墙界面摇晃手机，即可实现自动切换排序规则。</string>
     <string name="caution">注意</string>
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
@@ -67,6 +68,7 @@
     <string name="prefrence_setting_clickbox_floatwindow">流量指示悬浮窗</string>
     <string name="prefrence_setting_clickbox_help">显示帮助信息</string>
     <string name="prefrence_setting_auto_save_firewall">自动记忆防火墙规则</string>
+    <string name="prefrence_setting_shake_to_switch">摇一摇</string>
     <string name="history_scene_mobiletraff">移动数据流量:</string>
     <string name="history_scene_wifitraff">WIFI数据流量:</string>
     <string name="history_scene_icon_show">显示的应用图标</string>

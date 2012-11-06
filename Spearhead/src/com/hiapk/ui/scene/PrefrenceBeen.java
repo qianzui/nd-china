@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.firewall.Block;
+import com.hiapk.logs.Logs;
 import com.hiapk.logs.SaveRule;
 import com.hiapk.spearhead.R;
 import com.hiapk.ui.custom.CustomDialogOtherBeen;
@@ -191,6 +193,42 @@ public class PrefrenceBeen {
 			}
 		});
 
+	}
+	
+	public void initCheckBoxShakeToSwitch(LinearLayout layout_shake_switch) {
+		LayoutInflater factory = LayoutInflater.from(context);
+		final View boxView = factory.inflate(R.layout.settings_checkbox, null);
+		final Button showText = (Button) boxView.findViewById(R.id.setting_tv_box);
+		showText.setText(R.string.prefrence_setting_shake_to_switch);
+		initScene(showText);
+	    boolean isShake = sharedDate.isShakeToSwitch();
+		if (isShake) {
+			checkBoxRightDrawinit(showText, isShake);
+		} else {
+			checkBoxRightDrawinit(showText, isShake);
+		}
+		layout_shake_switch.removeAllViews();
+		layout_shake_switch.addView(boxView, new LayoutParams(
+				LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		showText.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(!sharedDate.isKnowShakeToSwitch()){
+					CustomDialogOtherBeen customdia = new CustomDialogOtherBeen(
+							context);
+					customdia.dialogisKnowShakeToSwitch();
+				}else{
+					boolean isShake = sharedDate.isShakeToSwitch();
+					if (isShake) {
+						sharedDate.setIsShakeToSwitch(false);
+						checkBoxRightDrawChange(showText, isShake);
+					} else {
+						sharedDate.setIsShakeToSwitch(true); 
+						checkBoxRightDrawChange(showText, isShake);
+					}
+				}
+			}
+		});
 	}
 
 	private void checkBoxRightDrawinit(Button btn, boolean on_off) {

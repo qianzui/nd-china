@@ -1,4 +1,4 @@
-package com.hiapk.firewall;
+package com.hiapk.comparator;
 
 import java.text.Collator;
 import java.util.Comparator;

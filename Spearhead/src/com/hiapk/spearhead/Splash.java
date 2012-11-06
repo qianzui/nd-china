@@ -98,10 +98,6 @@ public class Splash extends Activity {
 						UseEditor.putString(pkgName, appname);
 						Block.appnamemap.put(uid, appname);
 					}
-					// String appname = pkgInfo.applicationInfo.loadLabel(pm)
-					// .toString();
-					// Block.appnamemap.put(uid, appname);
-					// appList.add(pkgInfo);
 				}
 			}
 		}

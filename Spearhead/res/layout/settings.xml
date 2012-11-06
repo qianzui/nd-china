@@ -165,6 +165,28 @@
             android:src="@drawable/divider" />
 
         <LinearLayout
+            android:id="@+id/setting_shake_switch"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textColor="@color/darkgray2"
+                android:text="@string/prefrence_setting_shake_to_switch"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/img_content_divide_line"
+            android:src="@drawable/divider" />
+
+        <LinearLayout
             android:id="@+id/setting_cleardata"
             android:layout_width="fill_parent"
             android:layout_height="55dp"
