@@ -94,7 +94,7 @@ public class WeiboSinaMethod {
 		try {
 			PackageInfo pacInfo = context.getPackageManager().getPackageInfo(
 					packageName, PackageManager.GET_UNINSTALLED_PACKAGES);
-			if (pacInfo.versionCode > 185) {
+			if (pacInfo.versionCode > 100) {
 				return true;
 			}
 

@@ -257,7 +257,7 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 				btnSendOnPressed();
 			} else {
 				Toast.makeText(context, R.string.weibosdk_no_network,
-						Toast.LENGTH_SHORT);
+						Toast.LENGTH_SHORT).show();
 			}
 		} else if (viewId == R.id.weibosdk_ll_text_limit_unit) {
 			customDialogClearEdittext();
