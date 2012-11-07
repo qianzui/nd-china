@@ -112,7 +112,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 
 	public void init() {
-		Logs.i("test", " firewall init()");
 		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		sensorManager.registerListener(mSensorEventListener,
 				sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
@@ -186,22 +185,46 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		}
 		switch (v.getId()) {
 		case R.id.bt_today:
-			switchListAnimation(0);
+			if(sharedpref.isShakeToSwitch()){
+				switchListAnimation(0);
+			}else{
+				switchList(0);
+			}
 			break;
 		case R.id.bt_week:
-			switchListAnimation(1);
+			if(sharedpref.isShakeToSwitch()){
+				switchListAnimation(1);
+			}else{
+				switchList(1);
+			}
 			break;
 		case R.id.bt_month:
-			switchListAnimation(2);
+			if(sharedpref.isShakeToSwitch()){
+				switchListAnimation(2);
+			}else{
+				switchList(2);
+			}
 			break;
 		case R.id.bt_mobile:
-			switchListAnimation(3);
+			if(sharedpref.isShakeToSwitch()){
+				switchListAnimation(3);
+			}else{
+				switchList(3);
+			}
 			break;
 		case R.id.bt_wifi:
-			switchListAnimation(4);
+			if(sharedpref.isShakeToSwitch()){
+				switchListAnimation(4);
+			}else{
+				switchList(4);
+			}
 			break;
 		case R.id.bt_notif:
-			switchListAnimation(5);
+			if(sharedpref.isShakeToSwitch()){
+				switchListAnimation(5);
+			}else{
+				switchList(5);
+			}
 			break;
 		}
 	}
