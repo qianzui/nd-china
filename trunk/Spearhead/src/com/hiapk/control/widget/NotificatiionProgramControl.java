@@ -50,7 +50,7 @@ public class NotificatiionProgramControl {
 			contentView.setInt(R.id.probar_down, "setProgress", 0);
 			contentView.setInt(R.id.probar_down, "setSecondaryProgress", 0);
 		} else {
-			if (percent > 90) {
+			if (percent > 89) {
 				contentView.setInt(R.id.probar_down, "setProgress", 0);
 				contentView.setInt(R.id.probar_down, "setSecondaryProgress",
 						percent);
