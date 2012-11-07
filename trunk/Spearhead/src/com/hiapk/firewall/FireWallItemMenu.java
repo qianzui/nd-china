@@ -172,7 +172,11 @@ public class FireWallItemMenu extends CustomPopupWindow implements OnClickListen
 			break;
 		}
 	}
-	
+	public void ifShowingAndClose(){
+		if(root.isShown()){
+			this.dismiss();
+		}
+	}
 	public void showTraffDetail() {
 		this.dismiss();
 		LayoutInflater infalter = LayoutInflater.from(context);

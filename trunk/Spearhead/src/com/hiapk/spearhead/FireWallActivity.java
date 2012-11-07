@@ -91,6 +91,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	private Context mContext = this;
 	public ProgressDialog mydialog;
 	public ProgressDialog pro;
+	public  FireWallItemMenu menu = null;
 	public static ArrayList<Integer> uidList = new ArrayList<Integer>();
 	Handler handler;
 	public static boolean isloading = false;
@@ -143,9 +144,10 @@ public class FireWallActivity extends Activity implements OnClickListener {
 				if (sharedpref.getFireWallType() == 5) {
 					type = 2;
 				}
-				final FireWallItemMenu menu = new FireWallItemMenu(mContext,
+				menu = new FireWallItemMenu(mContext,
 						arg1, type);
 				menu.show();
+				
 			}
 		});
 
@@ -185,46 +187,22 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		}
 		switch (v.getId()) {
 		case R.id.bt_today:
-			if(sharedpref.isShakeToSwitch()){
-				switchListAnimation(0);
-			}else{
 				switchList(0);
-			}
 			break;
 		case R.id.bt_week:
-			if(sharedpref.isShakeToSwitch()){
-				switchListAnimation(1);
-			}else{
 				switchList(1);
-			}
 			break;
 		case R.id.bt_month:
-			if(sharedpref.isShakeToSwitch()){
-				switchListAnimation(2);
-			}else{
 				switchList(2);
-			}
 			break;
 		case R.id.bt_mobile:
-			if(sharedpref.isShakeToSwitch()){
-				switchListAnimation(3);
-			}else{
 				switchList(3);
-			}
 			break;
 		case R.id.bt_wifi:
-			if(sharedpref.isShakeToSwitch()){
-				switchListAnimation(4);
-			}else{
 				switchList(4);
-			}
 			break;
 		case R.id.bt_notif:
-			if(sharedpref.isShakeToSwitch()){
-				switchListAnimation(5);
-			}else{
 				switchList(5);
-			}
 			break;
 		}
 	}
@@ -363,6 +341,9 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public void shakeAndSwitch() {
 		if (mPop.isShowing()) {
 			mPop.dismiss();
+		}
+		if(menu != null){
+			menu.ifShowingAndClose();
 		}
 		if (sharedpref.isShakeToSwitch()) {
 			if (isloading) {
