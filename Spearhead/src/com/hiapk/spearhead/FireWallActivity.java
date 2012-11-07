@@ -109,6 +109,8 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		handerControl();
 	}
 
+
+
 	public void init() {
 		Logs.i("test", " firewall init()");
 		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -154,6 +156,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		settingShowList();
 		initUidData();
 	}
+
 	
 	public void handerControl() {
 		handler = new Handler() {
@@ -173,7 +176,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		};
 	}
 
-
+	
 	
 	@Override
 	public void onClick(View v) {
@@ -669,7 +672,14 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		if (sharedpref.getFireWallType() == 5) {
-			switchList(5);
+			if (NotificationInfo.notificationRes.length() == 0) {
+				if (NotificationInfo.isgettingdata == false) {
+					new AsyncTaskGetAdbArrayListonResume()
+							.execute(mContext);
+				}
+			} else {
+				setAdapterNotif();
+			}
 		} else {
 			setNewDataForList();
 		}
