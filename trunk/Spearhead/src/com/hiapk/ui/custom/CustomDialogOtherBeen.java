@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.hiapk.control.traff.NotificationInfo;
 import com.hiapk.control.traff.TrafficManager;
@@ -358,6 +359,7 @@ public class CustomDialogOtherBeen {
 				SQLStatic.setSQLUidTotalOnUsed(false);
 				sharedDatawidget.setSQLinited(true);
 				customProgressDialog.dismiss();
+				Toast.makeText(context, "Çå³ý³É¹¦£¡", Toast.LENGTH_SHORT).show();
 			}
 
 		}
