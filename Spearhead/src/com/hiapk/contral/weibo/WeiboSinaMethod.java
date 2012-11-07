@@ -92,14 +92,16 @@ public class WeiboSinaMethod {
 	public boolean isSinaInstalled() {
 		String packageName = "com.sina.weibo";
 		try {
-			@SuppressWarnings("unused")
 			PackageInfo pacInfo = context.getPackageManager().getPackageInfo(
 					packageName, PackageManager.GET_UNINSTALLED_PACKAGES);
-			return true;
+			if (pacInfo.versionCode > 185) {
+				return true;
+			}
 
 		} catch (NameNotFoundException e) {
 			return false;
 		}
+		return false;
 	}
 
 	/**

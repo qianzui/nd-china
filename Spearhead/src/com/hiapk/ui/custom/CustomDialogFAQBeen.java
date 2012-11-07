@@ -23,7 +23,6 @@ public class CustomDialogFAQBeen {
 	 * @return ·µ»Ø¶Ô»°¿ò
 	 */
 	public void dialogAbout() {
-		// TODO Auto-generated method stub
 		LayoutInflater factory = LayoutInflater.from(context);
 		final View textEntryView = factory.inflate(R.layout.faq, null);
 		final CustomDialog monthHasUsedAlert = new CustomDialog.Builder(context)
@@ -38,15 +37,12 @@ public class CustomDialogFAQBeen {
 					+ e.getMessage());
 		}
 		monthHasUsedAlert.show();
-
 		Button btn_ok = (Button) monthHasUsedAlert
 				.findViewById(R.id.positiveButton);
 		btn_ok.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				monthHasUsedAlert.dismiss();
-
 			}
 		});
 
