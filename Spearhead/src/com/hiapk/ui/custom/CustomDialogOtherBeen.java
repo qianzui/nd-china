@@ -222,7 +222,7 @@ public class CustomDialogOtherBeen {
 	}
 	
 	public void dialogisKnowShakeToSwitch() {
-		String tip = "    " + context.getResources().getString(R.string.tip_know_shake_to_switch);
+		String tip = context.getResources().getString(R.string.tip_know_shake_to_switch);
 		final CustomDialog monthSetAlert = new CustomDialog.Builder(context)
 				.setTitle(R.string.caution)
 				.setMessage(tip)
