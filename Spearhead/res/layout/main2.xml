@@ -121,6 +121,7 @@
         android:src="@drawable/divider" />
 
     <FrameLayout
+        android:id="@+id/container"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="horizontal" >
@@ -137,7 +138,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:gravity="center"
-            android:background="@drawable/bground_dark"
+            android:background="@drawable/linear_selector0"
             android:orientation="vertical" >
 
             <ProgressBar
