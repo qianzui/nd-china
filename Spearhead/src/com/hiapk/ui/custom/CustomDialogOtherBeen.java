@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.hiapk.control.traff.NotificationInfo;
 import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.SetText;
+import com.hiapk.logs.Logs;
+import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.SpearheadActivity;
 import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
@@ -71,11 +73,15 @@ public class CustomDialogOtherBeen {
 				.setPositiveButton("重试", null).setNegativeButton("取消", null)
 				.create();
 		scanNotificationRootFail.show();
+		FireWallActivity.isInScene = false;
+//		FireWallActivity.isNotifFail = true;
 		Button btn_ok = (Button) scanNotificationRootFail
 				.findViewById(R.id.positiveButton);
 		btn_ok.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				FireWallActivity.isInScene = false;
+//				FireWallActivity.isNotifFail = false;
 				// NotificationInfo.callbyonResume = false;
 				NotificationInfo.isgettingdata = false;
 				NotificationInfo.notificationRes = new StringBuilder();
@@ -91,6 +97,8 @@ public class CustomDialogOtherBeen {
 
 			@Override
 			public void onClick(View v) {
+				FireWallActivity.isInScene = true;
+//				FireWallActivity.isNotifFail = false;
 				sharedData.setFireWallType(0);
 				NotificationInfo.callbyonCancel = true;
 				NotificationInfo.notificationRes = new StringBuilder();
@@ -103,9 +111,9 @@ public class CustomDialogOtherBeen {
 
 			@Override
 			public void onCancel(DialogInterface dialog) {
+				FireWallActivity.isInScene = true;
 				sharedData.setFireWallType(0);
 				NotificationInfo.notificationRes = new StringBuilder();
-
 				NotificationInfo.callbyonCancel = true;
 				SpearheadActivity.switchScene(0);
 				SpearheadActivity.switchScene(1);
@@ -147,12 +155,22 @@ public class CustomDialogOtherBeen {
 				.setMessage(
 						"由于安卓系统的限制,只有获得最高权限(称为\"Root\")的机器才能使用防火墙功能。\n当前操作失败,可能原因有:\n\n1.您拒绝了Root权限 \n2.系统原因,防火墙应用失败 \n3.部分机型不支持防火墙操作")
 				.setPositiveButton("确定", null).create();
+		FireWallActivity.isRootFail = true;
 		monthSetAlert.show();
 		Button btn_ok = (Button) monthSetAlert
 				.findViewById(R.id.positiveButton);
 		btn_ok.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				FireWallActivity.isRootFail = false;
+				monthSetAlert.dismiss();
+			}
+		});
+		monthSetAlert.setOnCancelListener(new OnCancelListener() {
+
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				FireWallActivity.isRootFail = false;
 				monthSetAlert.dismiss();
 			}
 		});
@@ -184,6 +202,7 @@ public class CustomDialogOtherBeen {
 				monthSetAlert.dismiss();
 			}
 		});
+		
 	}
 
 	public void dialogClearDataFail() {
