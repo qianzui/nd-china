@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.hiapk.firewall.Block;
+import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.SpearheadApplication;
 
@@ -29,6 +30,7 @@ public class CustomDialogMain2Been {
 				.setTitle("注意").setMessage("防火墙应用规则失败，需要申请Root权限，请点击重试！")
 				.setPositiveButton("重试", null).setNegativeButton("取消", null)
 				.create();
+		FireWallActivity.isInScene = false;
 		alertDialog.show();
 
 		Button btn_ok = (Button) alertDialog.findViewById(R.id.positiveButton);
@@ -36,6 +38,7 @@ public class CustomDialogMain2Been {
 
 			@Override
 			public void onClick(View v) {
+				FireWallActivity.isInScene = true;
 				boolean isOpenSucess = false;
 				isOpenSucess = Block.applyIptablesRules(context, true, false);
 				if (!isOpenSucess) {
@@ -57,6 +60,7 @@ public class CustomDialogMain2Been {
 
 			@Override
 			public void onClick(View v) {
+				FireWallActivity.isInScene = true;
 				Block.clearRules(context);
 				alertDialog.dismiss();
 				// TODO 开始初始化防火墙代码

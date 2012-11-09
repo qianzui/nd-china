@@ -239,6 +239,7 @@ public class AppListAdapter extends BaseAdapter {
 							.setMessage(R.string.tip_content)
 							.setPositiveButton(R.string.ok, null)
 							.setNegativeButton(R.string.cancel, null).create();
+					FireWallActivity.isInScene = false;
 					mDialog.show();
 					final Button fire_ok = (Button) mDialog
 							.findViewById(R.id.positiveButton);
@@ -247,6 +248,7 @@ public class AppListAdapter extends BaseAdapter {
 					fire_ok.setOnClickListener(new Button.OnClickListener() {
 						@Override
 						public void onClick(View v) {
+							FireWallActivity.isInScene = true;
 							mDialog.cancel();
 							Block.isShowTipSet(mContext, false);
 							if (GetRoot.assertBinaries(mContext, true)) {
@@ -274,6 +276,7 @@ public class AppListAdapter extends BaseAdapter {
 							.setOnClickListener(new Button.OnClickListener() {
 								@Override
 								public void onClick(View v) {
+									FireWallActivity.isInScene = true;
 									cb.setChecked(ic.selected_3g);
 									mDialog.cancel();
 								}
@@ -333,6 +336,7 @@ public class AppListAdapter extends BaseAdapter {
 							.setMessage(R.string.tip_content)
 							.setPositiveButton(R.string.ok, null)
 							.setNegativeButton(R.string.cancel, null).create();
+					FireWallActivity.isInScene = false;
 					mDialog.show();
 					final Button fire_ok = (Button) mDialog
 							.findViewById(R.id.positiveButton);
@@ -341,6 +345,7 @@ public class AppListAdapter extends BaseAdapter {
 					fire_ok.setOnClickListener(new Button.OnClickListener() {
 						@Override
 						public void onClick(View v) {
+							FireWallActivity.isInScene = true;
 							mDialog.cancel();
 							if (GetRoot.hasRootAccess(mContext, true)) {
 								Block.isShowTipSet(mContext, false);
@@ -368,6 +373,7 @@ public class AppListAdapter extends BaseAdapter {
 							.setOnClickListener(new Button.OnClickListener() {
 								@Override
 								public void onClick(View v) {
+									FireWallActivity.isInScene = true;
 									cb.setChecked(ic.selected_wifi);
 									mDialog.cancel();
 								}

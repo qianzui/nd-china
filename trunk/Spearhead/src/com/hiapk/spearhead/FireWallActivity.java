@@ -95,11 +95,14 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public static ArrayList<Integer> uidList = new ArrayList<Integer>();
 	Handler handler;
 	public static boolean isloading = false;
+	public static boolean isInScene = false;
+	public static boolean isRootFail = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// MobclickAgent.onError(this);
+		isInScene = true;
 		setContentView(R.layout.main2);
 		init();
 		if (sharedpref.IsFireWallOpenFail() && !Block.isShowHelp(mContext)) {
@@ -119,7 +122,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 				sensorManager.SENSOR_DELAY_NORMAL);
 
 		sharedpref = new SharedPrefrenceData(mContext);
-
 		container = (ViewGroup)findViewById(R.id.container);
 		loading_content = (LinearLayout) findViewById(R.id.loading_content);
 		appListView = (MyListView) findViewById(R.id.app_list);
@@ -167,7 +169,11 @@ public class FireWallActivity extends Activity implements OnClickListener {
 					firstSetAdapter();
 					break;
 				case SENSOR_SHAKE:
-					shakeAndSwitch();
+					if(isInScene){
+						if(!isRootFail){
+						shakeAndSwitch();
+						}
+					}
 					break;
 				}
 				if(msg.what >= 0 && msg.what <= 5){
@@ -603,6 +609,8 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		Logs.i("test", "onResume");
+		isInScene = true;
 		Logs.d(TAG, "startonResume");
 		if (SQLStatic.TableWiFiOrG23 != "") {
 			AlarmSet alset = new AlarmSet();
@@ -638,6 +646,8 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 	@Override
 	protected void onPause() {
+		Logs.i("test","onPause");
+		isInScene = false;
 		if (mPop.isShowing()) {
 			mPop.dismiss();
 		}
