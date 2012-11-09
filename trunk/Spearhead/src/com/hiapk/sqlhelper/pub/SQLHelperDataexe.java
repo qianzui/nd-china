@@ -155,7 +155,7 @@ public class SQLHelperDataexe {
 		@Override
 		protected Integer doInBackground(Context... params) {
 			context = params[0];
-			while (SQLStatic.setSQLTotalOnUsed(true)) {
+			while (!SQLStatic.setSQLTotalOnUsed(true)) {
 				try {
 					Thread.sleep(80);
 				} catch (InterruptedException e) {
