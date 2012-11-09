@@ -32,12 +32,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.StringTokenizer;
 
-import com.hiapk.logs.Logs;
 import com.hiapk.logs.SaveRule;
-import com.hiapk.ui.custom.CustomDialogOtherBeen;
+import com.hiapk.ui.custom.CustomDialogMain2Been;
 import com.hiapk.util.SharedPrefrenceData;
 
 import android.app.AlertDialog;
@@ -46,7 +44,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 
 /**
  * 
@@ -304,7 +301,7 @@ public class Block {
 				// + msg.trim()
 				// );
 				if (showDialog) {
-					CustomDialogOtherBeen customdialog = new CustomDialogOtherBeen(
+					CustomDialogMain2Been customdialog = new CustomDialogMain2Been(
 							ctx);
 					customdialog.dialogOpenFireWallFail();
 				}
@@ -315,7 +312,7 @@ public class Block {
 			if (showErrors) {
 
 			}
-			CustomDialogOtherBeen customdialog = new CustomDialogOtherBeen(ctx);
+			CustomDialogMain2Been customdialog = new CustomDialogMain2Been(ctx);
 			customdialog.dialogOpenFireWallFail();
 			// alert(ctx, "Ó¦ÓÃ·À»ðÇ½³ö´í" + e);
 		}

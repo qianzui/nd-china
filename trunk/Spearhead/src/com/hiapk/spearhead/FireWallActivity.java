@@ -17,6 +17,7 @@ import com.hiapk.logs.Logs;
 import com.hiapk.logs.SaveRule;
 import com.hiapk.sqlhelper.uid.SQLHelperFireWall;
 import com.hiapk.ui.custom.CustomDialog;
+import com.hiapk.ui.custom.CustomDialogMain2Been;
 import com.hiapk.ui.custom.CustomDialogOtherBeen;
 import com.hiapk.ui.skin.SkinCustomMains;
 import com.hiapk.util.Extra;
@@ -821,7 +822,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			} else {
 				isloading = false;
 				NotificationInfo.notificationRes.append("result-fail");
-				CustomDialogOtherBeen customDialog = new CustomDialogOtherBeen(
+				CustomDialogMain2Been customDialog = new CustomDialogMain2Been(
 						FireWallActivity.this.getParent());
 				customDialog.dialogNotificationRootFail();
 			}
