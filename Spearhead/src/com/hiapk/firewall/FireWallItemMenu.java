@@ -18,6 +18,8 @@ import com.hiapk.util.UnitHandler;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -185,6 +187,7 @@ public class FireWallItemMenu extends CustomPopupWindow implements OnClickListen
 				.setContentView(mDetailView).setTitle("流量详情")
 				.setPositiveButton("确定", null)
 				.setNegativeButton("历史记录", null).create();
+		FireWallActivity.isInScene = false;
 		detailDialog.show();
 		final TextView traffic_up = (TextView) mDetailView
 				.findViewById(R.id.fire_traffic_up);
@@ -230,6 +233,7 @@ public class FireWallItemMenu extends CustomPopupWindow implements OnClickListen
 		detail_ok.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				FireWallActivity.isInScene = true;
 				detailDialog.cancel();
 			}
 		});
@@ -248,6 +252,13 @@ public class FireWallItemMenu extends CustomPopupWindow implements OnClickListen
 						detailDialog.cancel();
 					}
 				});
+		detailDialog.setOnCancelListener(new OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				// TODO Auto-generated method stub
+				FireWallActivity.isInScene = true;
+			}
+		});
 	
 
 	}
