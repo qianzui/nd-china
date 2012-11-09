@@ -1,7 +1,6 @@
 package com.hiapk.control.bootandclose;
 
 import com.hiapk.firewall.Block;
-import com.hiapk.logs.Logs;
 import com.hiapk.logs.SaveRule;
 import com.hiapk.util.SharedPrefrenceData;
 

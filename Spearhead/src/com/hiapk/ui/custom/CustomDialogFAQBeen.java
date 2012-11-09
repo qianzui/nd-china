@@ -1,11 +1,15 @@
 package com.hiapk.ui.custom;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.WebView;
 import android.widget.Button;
+
+import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.R;
 
 public class CustomDialogFAQBeen {
@@ -28,6 +32,7 @@ public class CustomDialogFAQBeen {
 		final CustomDialog monthHasUsedAlert = new CustomDialog.Builder(context)
 				.setTitle("关于先锋流量监控").setContentView(textEntryView)
 				.setPositiveButton("确定", null).create();
+		FireWallActivity.isInScene = false;
 		try {
 			WebView wb = (WebView) textEntryView.findViewById(R.id.webview);
 			String url = "file:///android_asset/about/about.html";
@@ -42,10 +47,17 @@ public class CustomDialogFAQBeen {
 		btn_ok.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				FireWallActivity.isInScene = true;
 				monthHasUsedAlert.dismiss();
 			}
 		});
+		monthHasUsedAlert.setOnCancelListener(new OnCancelListener() {
 
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				FireWallActivity.isInScene = true;
+			}
+		});
 	}
 
 	/**
