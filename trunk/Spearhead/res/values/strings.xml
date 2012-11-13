@@ -86,6 +86,8 @@
     <string name="menupop_show_text_shareto">分享到微博</string>
     <string name="menupop_show_text_updatemess">更新日志</string>
     <string name="menupop_show_text_about">关于</string>
+    <string name="menupop_show_text_weibosina">新浪微博</string>
+    <string name="menupop_show_text_weibotencent">腾讯微博</string>
 	
      <string name="custom_window_normal_input_unit">         单位:</string>
      <string name="custom_window_input_hint">请输入数值</string>
@@ -102,6 +104,7 @@
     <string name="weibosdk_photo">拍照</string>
     <string name="weibosdk_close">关闭</string>
     <string name="weibosdk_share_dialog_title">新浪微博</string>
+    <string name="weibosdk_share_dialog_title2">腾讯微博</string>
     <string name="weibosdk_please_login">请登录！</string>
     <string name="weibosdk_send_sending">开始发送微博</string>
     <string name="weibosdk_send_sending_enmpty">请输入内容!</string>
@@ -118,6 +121,7 @@
     <string name="weibosdk_Auth_exception">认证微博错误</string>
     <string name="weibosdk_Auth_SessionValidFail">认证文件无效</string>
     
+    <string name="weibosdk_tencent_response_fail">微博认证失败</string>
     
     <string name="weibosdk_comment">评论</string>
     <string name="weibosdk_forward">转发</string>

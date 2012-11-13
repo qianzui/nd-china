@@ -162,6 +162,10 @@
         <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
     </style>
 
+    <style name="AnimMiddle" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/push_middle_in</item>
+        <item name="android:windowExitAnimation">@anim/push_middle_out</item>
+    </style>
     <style name="MenuBtnStyle">
         <item name="android:textColor">@color/whitesmoke</item>
         <item name="android:background">@drawable/menu_btn</item>

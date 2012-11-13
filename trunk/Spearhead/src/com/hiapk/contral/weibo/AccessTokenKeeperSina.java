@@ -10,7 +10,7 @@ import android.content.SharedPreferences.Editor;
  * @author xiaowei6@staff.sina.com.cn
  *
  */
-public class AccessTokenKeeper {
+public class AccessTokenKeeperSina {
 	private static final String PREFERENCES_NAME = "com_weibo_sdk_android";
 	/**
 	 * 保存accesstoken到SharedPreferences
