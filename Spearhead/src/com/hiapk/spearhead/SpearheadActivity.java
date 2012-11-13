@@ -6,17 +6,23 @@ import java.util.TimerTask;
 
 import com.hiapk.contral.weibo.ScreenShot;
 import com.hiapk.contral.weibo.WeiboSinaMethod;
+import com.hiapk.contral.weibo.WeiboTecentMethod;
 import com.hiapk.control.bootandclose.OnExit;
 import com.hiapk.control.traff.NotificationInfo;
+import com.hiapk.control.widget.DetectNetwork;
 import com.hiapk.control.widget.NotificationWarningControl;
 import com.hiapk.firewall.Block;
 import com.hiapk.logs.Logs;
 import com.hiapk.ui.custom.CustomDialogFAQBeen;
 import com.hiapk.ui.custom.CustomMenuMain;
 import com.hiapk.ui.custom.CustomMenuSub;
+import com.hiapk.ui.custom.CustomMenuWeibo;
 import com.hiapk.ui.scene.MenuSceneActivity;
 import com.hiapk.ui.scene.PrefrenceSetting;
 import com.hiapk.ui.scene.WeiboSinaActivity;
+import com.hiapk.ui.scene.weibo.tencent.OAuthV1;
+import com.hiapk.ui.scene.weibo.tencent.OAuthV1Client;
+import com.hiapk.ui.scene.weibo.tencent.WeiboTencentActivity;
 
 import android.app.ProgressDialog;
 import android.app.TabActivity;
@@ -58,10 +64,16 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 			isExit = false;
 		}
 	};
-
+	/**
+	 * 存储第一个页面截图的路径
+	 */
+	private String picPath = "";
+	private String pacName_tencent = "com.tencent.WBlog";
+	private String pacName_sina = "com.sina.weibo";
 	// 自定义的弹出框类
 	CustomMenuMain menuWindowMain;
 	CustomMenuSub menuWindowSub;
+	CustomMenuWeibo menuWindowWeibo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -264,19 +276,73 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 			menuWindowMain.dismiss();
 			break;
 		case R.id.menubtn_share:
-			String path = getScreenShoot();
-			WeiboSinaMethod weiboMethod = new WeiboSinaMethod(context);
-			if (weiboMethod.isSinaInstalled()) {
-				startActivity(getIntentSharePhotoAndText(path));
+			menuWindowSub.dismissPop();
+			if (menuWindowWeibo == null) {
+				// 实例化SelectPicPopupWindow
+				menuWindowWeibo = new CustomMenuWeibo(SpearheadActivity.this,
+						this);
+			}
+			// 显示窗口
+			menuWindowWeibo.showAtLocation2(
+					SpearheadActivity.this.findViewById(R.id.main_radio),
+					Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
+			break;
+		case R.id.menubtn_sina:
+			picPath = getScreenShoot();
+			WeiboSinaMethod weiboSinaM = new WeiboSinaMethod(context);
+			if (weiboSinaM.isSinaInstalled()) {
+				startActivity(getIntentSharePhotoAndText(picPath, pacName_sina));
 			} else {
 				Bundle shareBundle = new Bundle();
-				shareBundle.putString("path", path);
+				shareBundle.putString("path", picPath);
 				Intent sharetoSina = new Intent();
 				sharetoSina.putExtras(shareBundle);
 				sharetoSina.setClass(context, WeiboSinaActivity.class);
 				startActivity(sharetoSina);
 			}
-			menuWindowSub.dismissPop();
+			menuWindowWeibo.dismissPop();
+			break;
+		case R.id.menubtn_tencent:
+			picPath = getScreenShoot();
+			WeiboTecentMethod weiboMethod = new WeiboTecentMethod(context);
+			if (weiboMethod.isTecentInstalled()) {
+				startActivity(getIntentSharePhotoAndText(picPath,
+						pacName_tencent));
+			} else {
+				if (DetectNetwork.isNetworkAvailable(context)) {
+					OAuthV1 oAuth = new OAuthV1("null");
+					oAuth.setOauthConsumerKey(weiboMethod.getOauthConsumeKey());
+					oAuth.setOauthConsumerSecret(weiboMethod
+							.getOauthConsumerSecret());
+					try {
+						// 向腾讯微博开放平台请求获得未授权的Request_Token
+						oAuth = OAuthV1Client.requestToken(oAuth);
+					} catch (Exception e) {
+						e.printStackTrace();
+						Toast.makeText(context,
+								R.string.weibosdk_tencent_response_fail,
+								Toast.LENGTH_SHORT).show();
+						break;
+					}
+					if (oAuth.getStatus() == 1) {
+						Toast.makeText(context,
+								R.string.weibosdk_tencent_response_fail,
+								Toast.LENGTH_SHORT).show();
+						break;
+					}
+					Bundle shareBundle = new Bundle();
+					shareBundle.putString("path", picPath);
+					Intent sharetoSina = new Intent();
+					sharetoSina.putExtra("oauth", oAuth);
+					sharetoSina.putExtras(shareBundle);
+					sharetoSina.setClass(context, WeiboTencentActivity.class);
+					startActivity(sharetoSina);
+				} else {
+					Toast.makeText(context, R.string.weibosdk_no_network,
+							Toast.LENGTH_SHORT).show();
+				}
+			}
+			menuWindowWeibo.dismissPop();
 			break;
 		case R.id.menubtn_updatemess:
 			Intent updateinfoIntent = new Intent();
@@ -331,13 +397,13 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 	 *            图片的地址
 	 * @return 要使用的intent
 	 */
-	private Intent getIntentSharePhotoAndText(String photoPath) {
+	private Intent getIntentSharePhotoAndText(String photoPath, String pacname) {
 		Intent shareIntent = new Intent(Intent.ACTION_SEND);
 		if (photoPath != "" || photoPath != null) {
 			File file = new File(photoPath);
 			shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
 		}
-		shareIntent.setPackage("com.sina.weibo");
+		shareIntent.setPackage(pacname);
 		shareIntent.putExtra(Intent.EXTRA_TEXT,
 				getResources().getString(R.string.weibosdk_edittext_content));
 		shareIntent.setType("image/png");

@@ -1,7 +1,6 @@
-package com.hiapk.ui.scene;
+package com.hiapk.ui.scene.weibo.tencent;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 import android.app.Activity;
@@ -26,7 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hiapk.contral.weibo.AccessTokenKeeperSina;
-import com.hiapk.contral.weibo.WeiboSinaMethod;
+import com.hiapk.contral.weibo.AccessTokenKeeperTencent;
+import com.hiapk.contral.weibo.WeiboTecentMethod;
 import com.hiapk.control.widget.DetectNetwork;
 import com.hiapk.logs.Logs;
 import com.hiapk.logs.WriteLog;
@@ -37,9 +37,6 @@ import com.weibo.sdk.android.Oauth2AccessToken;
 import com.weibo.sdk.android.WeiboAuthListener;
 import com.weibo.sdk.android.WeiboDialogError;
 import com.weibo.sdk.android.WeiboException;
-import com.weibo.sdk.android.api.StatusesAPI;
-import com.weibo.sdk.android.net.RequestListener;
-import com.weibo.sdk.android.sso.SsoHandler;
 
 /**
  * A dialog activity for sharing any text or image message to weibo. Three
@@ -53,8 +50,7 @@ import com.weibo.sdk.android.sso.SsoHandler;
  *         http://weibo.com/u/2791136085)
  */
 
-public class WeiboSinaActivity extends Activity implements OnClickListener,
-		RequestListener {
+public class WeiboTencentActivity extends Activity implements OnClickListener {
 	private Context context = this;
 	private TextView mTextNum;
 	private Button mSend;
@@ -63,19 +59,24 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 	private FrameLayout mPiclayout;
 	private ImageView mImage;
 	private String mContent;
-	private String TAG = "weiboActivity";
-	private WeiboSinaMethod weiboMethod;
+	private String TAG = "weibotencentActivity";
+	private WeiboTecentMethod weiboTencentM;
 	private WriteLog writelog;
 	public static final int WEIBO_MAX_LENGTH = 140;
 	private String screenShootPath;
+	private OAuthV1 oAuth;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.weibosdk_share_mblog_view_sina);
-		weiboMethod = new WeiboSinaMethod(context);
+		this.setContentView(R.layout.weibosdk_share_mblog_view_tencent);
+		weiboTencentM = new WeiboTecentMethod(context);
 		writelog = new WriteLog(context);
 		Intent intent = getIntent();
 		screenShootPath = intent.getExtras().getString("path");
+		oAuth = (OAuthV1) intent.getExtras().getSerializable("oauth");
+		Logs.d(TAG, oAuth.getOauthConsumerKey());
+		Logs.d(TAG, oAuth.getOauthConsumerSecret());
+		Logs.d(TAG, screenShootPath);
 		initScene();
 		initbtns();
 		initEdit();
@@ -96,8 +97,8 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 
 	private void initbtns() {
 		close.setOnClickListener(this);
-		Logs.d(TAG, "AccessToken=" + weiboMethod.hasAccessToken());
-		if (weiboMethod.hasAccessToken()) {
+		Logs.d(TAG, "AccessToken=" + weiboTencentM.hasAccessToken());
+		if (weiboTencentM.hasAccessToken()) {
 			mSend.setText(getResources().getString(R.string.weibosdk_send_send));
 		} else {
 			mSend.setText(getResources()
@@ -107,7 +108,7 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 	}
 
 	private void initEdit() {
-		mContent=getResources().getString(R.string.weibosdk_edittext_content);
+		mContent = getResources().getString(R.string.weibosdk_edittext_content);
 		LinearLayout text_limit_unit_layout = (LinearLayout) this
 				.findViewById(R.id.weibosdk_ll_text_limit_unit);
 		text_limit_unit_layout.setOnClickListener(this);
@@ -148,7 +149,7 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 
 	private void initPic() {
 		// 图片部分
-		mPiclayout = (FrameLayout) WeiboSinaActivity.this
+		mPiclayout = (FrameLayout) WeiboTencentActivity.this
 				.findViewById(R.id.weibosdk_flPic);
 		// 设置图片的大小
 		int width = this.getWindowManager().getDefaultDisplay().getWidth();
@@ -195,57 +196,57 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 	// return bitmap;
 	// }
 
-	@Override
-	public void onComplete(String response) {
-		runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				Toast.makeText(context, R.string.weibosdk_send_sucess,
-						Toast.LENGTH_LONG).show();
-			}
-		});
-		this.finish();
-	}
-
-	@Override
-	public void onIOException(IOException e) {
-		Toast.makeText(context, R.string.weibosdk_send_failed,
-				Toast.LENGTH_LONG).show();
-		mSend.setEnabled(true);
-		writelog.writeLog(e);
-		Logs.d(TAG,
-				"onIOException"
-						+ String.format(
-								context.getString(R.string.weibosdk_send_failed)
-										+ ":%s", e.getMessage()));
-	}
-
-	@Override
-	public void onError(final WeiboException e) {
-		System.out.println(e);
-		runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				if (e.getMessage().contains(":20019,")) {
-					Toast.makeText(context,
-							R.string.weibosdk_send_failed_sendsame,
-							Toast.LENGTH_LONG).show();
-				} else {
-					Toast.makeText(context, R.string.weibosdk_send_failed,
-							Toast.LENGTH_LONG).show();
-				}
-				mSend.setEnabled(true);
-				writelog.writeLog(e);
-				Logs.d(TAG,
-						"onError"
-								+ String.format(
-										context.getString(R.string.weibosdk_send_failed)
-												+ ":%s", e.getMessage()));
-			}
-		});
-	}
+	// @Override
+	// public void onComplete(String response) {
+	// runOnUiThread(new Runnable() {
+	//
+	// @Override
+	// public void run() {
+	// Toast.makeText(context, R.string.weibosdk_send_sucess,
+	// Toast.LENGTH_LONG).show();
+	// }
+	// });
+	// this.finish();
+	// }
+	//
+	// @Override
+	// public void onIOException(IOException e) {
+	// Toast.makeText(context, R.string.weibosdk_send_failed,
+	// Toast.LENGTH_LONG).show();
+	// mSend.setEnabled(true);
+	// writelog.writeLog(e);
+	// Logs.d(TAG,
+	// "onIOException"
+	// + String.format(
+	// context.getString(R.string.weibosdk_send_failed)
+	// + ":%s", e.getMessage()));
+	// }
+	//
+	// @Override
+	// public void onError(final WeiboException e) {
+	// System.out.println(e);
+	// runOnUiThread(new Runnable() {
+	//
+	// @Override
+	// public void run() {
+	// if (e.getMessage().contains(":20019,")) {
+	// Toast.makeText(context,
+	// R.string.weibosdk_send_failed_sendsame,
+	// Toast.LENGTH_LONG).show();
+	// } else {
+	// Toast.makeText(context, R.string.weibosdk_send_failed,
+	// Toast.LENGTH_LONG).show();
+	// }
+	// mSend.setEnabled(true);
+	// writelog.writeLog(e);
+	// Logs.d(TAG,
+	// "onError"
+	// + String.format(
+	// context.getString(R.string.weibosdk_send_failed)
+	// + ":%s", e.getMessage()));
+	// }
+	// });
+	// }
 
 	@Override
 	public void onClick(View v) {
@@ -290,60 +291,80 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 	 * 点击btnSend进行的微博发送，认证等操作
 	 */
 	private void btnSendOnPressed() {
-		if (weiboMethod.hasAccessToken()) {
-			StatusesAPI api = new StatusesAPI(
-					AccessTokenKeeperSina.readAccessToken(context));
+		if (weiboTencentM.hasAccessToken()) {
 			this.mContent = mEdit.getText().toString();
 			if (TextUtils.isEmpty(mContent)) {
 				Toast.makeText(this, R.string.weibosdk_send_sending_enmpty,
 						Toast.LENGTH_LONG).show();
 				return;
 			}
-			if (screenShootPath == null || screenShootPath == "") {
-				// Just update a text weibo!
-				Toast.makeText(
-						this,
-						getResources()
-								.getString(R.string.weibosdk_send_sending),
-						Toast.LENGTH_SHORT).show();
-				Logs.d(TAG, "开始发送无图片微博");
-				api.update(this.mContent, null, null, this);
-			} else {
-				Toast.makeText(
-						this,
-						getResources()
-								.getString(R.string.weibosdk_send_sending),
-						Toast.LENGTH_SHORT).show();
-				Logs.d(TAG, "开始发送图片微博");
-				api.upload(this.mContent, screenShootPath, null, null, this);
-				// finish();
-			}
+			oAuth = AccessTokenKeeperTencent.readAccessToken(context);
+			String response = "";
 			mSend.setEnabled(false);
+			if (screenShootPath == null || screenShootPath == "") {
+				response = sendnoPicweibo(oAuth);
+				// Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
+			} else {
+				response = sendPicweibo(oAuth, screenShootPath);
+				// Toast.makeText(this, response, Toast.LENGTH_LONG).show();
+			}
+			Logs.d(TAG, response);
+			if (response.indexOf("errcode\":0,") != -1) {
+				Toast.makeText(this, R.string.weibosdk_send_sucess,
+						Toast.LENGTH_LONG).show();
+				finish();
+			} else {
+				Toast.makeText(this, R.string.weibosdk_send_failed,
+						Toast.LENGTH_LONG).show();
+				mSend.setEnabled(true);
+			}
 		} else {
 			Logs.d(TAG, "进入验证页面");
-			getOAUTH2(WeiboSinaActivity.this);
+			Intent intent = new Intent(WeiboTencentActivity.this,
+					OAuthV1AuthorizeWebView.class);// 创建Intent，使用WebView让用户授权
+			intent.putExtra("oauth", oAuth);
+			startActivityForResult(intent, 1);
+			// getOAUTH2(WeiboTencentActivity.this);
 			// mSsoHandler = new SsoHandler(WeiboSinaActivity.this, mWeibo);
 			// mSsoHandler.authorize(new AuthDialogListener());
 		}
 
 	}
 
-	/**
-	 * 依据手机状态判断采用哪种方式获取授权
-	 * 
-	 * @param activity
-	 */
-	private void getOAUTH2(Activity activity) {
-		// weiboMethod.setmWeibo(Weibo.getInstance(CONSUMER_KEY, REDIRECT_URL));
-		Logs.d(TAG, "isUseSSO=" + weiboMethod.isUseSSO());
-		if (weiboMethod.isUseSSO()) {
-			weiboMethod.setmSsoHandler(new SsoHandler(activity, weiboMethod
-					.getmWeibo()));
-			weiboMethod.getmSsoHandler().authorize(new AuthDialogListener());
-		} else {
-			weiboMethod.getmWeibo().authorize(activity,
-					new AuthDialogListener());
+	private String sendnoPicweibo(OAuthV1 oAuth) {
+		TAPI tAPI;
+		String response = "";
+		Toast.makeText(this,
+				getResources().getString(R.string.weibosdk_send_sending),
+				Toast.LENGTH_SHORT).show();
+		Logs.d(TAG, "开始发送无图片微博");
+		tAPI = new TAPI(OAuthConstants.OAUTH_VERSION_1);
+		try {
+			response = tAPI.add(oAuth, "json", "Android客户端文字微博1", "127.0.0.1");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		tAPI.shutdownConnection();
+		return response;
+	}
+
+	private String sendPicweibo(OAuthV1 oAuth, String picpath) {
+		TAPI tAPI;
+		String response = "";
+		Toast.makeText(this,
+				getResources().getString(R.string.weibosdk_send_sending),
+				Toast.LENGTH_SHORT).show();
+		Logs.d(TAG, "开始发送图片微博");
+		tAPI = new TAPI(OAuthConstants.OAUTH_VERSION_1);
+		try {
+			response = tAPI.addPic(oAuth, "json", "Android客户端带图的文字微博1",
+					"127.0.0.1", picpath);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		tAPI.shutdownConnection();
+
+		return response;
 	}
 
 	/**
@@ -431,14 +452,35 @@ public class WeiboSinaActivity extends Activity implements OnClickListener,
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		/**
-		 * 下面两个注释掉的代码，仅当sdk支持sso时有效，
-		 */
-		if (weiboMethod.getmSsoHandler() != null) {
-			weiboMethod.getmSsoHandler().authorizeCallBack(requestCode,
-					resultCode, data);
+		Logs.d(TAG, "onActivityResult");
+		if (requestCode == 1) {
+			if (resultCode == OAuthV1AuthorizeWebView.RESULT_CODE) {
+				// 从返回的Intent中获取验证码
+				oAuth = (OAuthV1) data.getExtras().getSerializable("oauth");
+				Toast.makeText(context,
+						"nverifier=" + oAuth.getOauthVerifier(),
+						Toast.LENGTH_SHORT).show();
+				try {
+					oAuth = OAuthV1Client.accessToken(oAuth);
+					/*
+					 * 注意：此时oauth中的Oauth_token和Oauth_token_secret将发生变化，用新获取到的
+					 * 已授权的access_token和access_token_secret替换之前存储的未授权的request_token
+					 * 和request_token_secret.
+					 */
+					AccessTokenKeeperTencent.keepAccessToken(context, oAuth);
+					mSend.setText(R.string.weibosdk_send_send);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				Toast.makeText(
+						context,
+						"\naccess_token:\n" + oAuth.getOauthToken()
+								+ "\naccess_token_secret:\n"
+								+ oAuth.getOauthTokenSecret(),
+						Toast.LENGTH_SHORT).show();
+			}
 		}
+
 	}
 
 	class AuthDialogListener implements WeiboAuthListener {
