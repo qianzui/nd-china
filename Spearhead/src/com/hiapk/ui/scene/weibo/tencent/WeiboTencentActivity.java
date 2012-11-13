@@ -354,7 +354,7 @@ public class WeiboTencentActivity extends Activity implements OnClickListener {
 		Logs.d(TAG, "开始发送无图片微博");
 		tAPI = new TAPI(OAuthConstants.OAUTH_VERSION_1);
 		try {
-			response = tAPI.add(oAuth, "json", "Android客户端文字微博1", "127.0.0.1");
+			response = tAPI.add(oAuth, "json", getResources().getString(R.string.weibosdk_edittext_content), "127.0.0.1");
 		} catch (Exception e) {
 			e.printStackTrace();
 			writelog.writeLog(e);
@@ -372,7 +372,7 @@ public class WeiboTencentActivity extends Activity implements OnClickListener {
 		Logs.d(TAG, "开始发送图片微博");
 		tAPI = new TAPI(OAuthConstants.OAUTH_VERSION_1);
 		try {
-			response = tAPI.addPic(oAuth, "json", "Android客户端带图的文字微博1",
+			response = tAPI.addPic(oAuth, "json", getResources().getString(R.string.weibosdk_edittext_content),
 					"127.0.0.1", picpath);
 		} catch (Exception e) {
 			e.printStackTrace();
