@@ -2,12 +2,19 @@ package com.hiapk.ui.scene;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.firewall.Block;
@@ -195,22 +202,10 @@ public class PrefrenceBeen {
 
 	}
 	
-	public void initCheckBoxShakeToSwitch(LinearLayout layout_shake_switch) {
+	public void initCheckBoxShakeToSwitch(RelativeLayout layout_shake_switch) {
 		LayoutInflater factory = LayoutInflater.from(context);
-		final View boxView = factory.inflate(R.layout.settings_checkbox, null);
-		final Button showText = (Button) boxView.findViewById(R.id.setting_tv_box);
-		showText.setText(R.string.prefrence_setting_shake_to_switch);
-		initScene(showText);
 	    boolean isShake = sharedDate.isShakeToSwitch();
-		if (isShake) {
-			checkBoxRightDrawinit(showText, isShake);
-		} else {
-			checkBoxRightDrawinit(showText, isShake);
-		}
-		layout_shake_switch.removeAllViews();
-		layout_shake_switch.addView(boxView, new LayoutParams(
-				LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-		showText.setOnClickListener(new OnClickListener() {
+		layout_shake_switch.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if(!sharedDate.isKnowShakeToSwitch()){
@@ -218,19 +213,72 @@ public class PrefrenceBeen {
 							context);
 					customdia.dialogisKnowShakeToSwitch();
 				}else{
-					boolean isShake = sharedDate.isShakeToSwitch();
-					if (isShake) {
-						sharedDate.setIsShakeToSwitch(false);
-						checkBoxRightDrawChange(showText, isShake);
-					} else {
-						sharedDate.setIsShakeToSwitch(true); 
-						checkBoxRightDrawChange(showText, isShake);
-					}
+					Intent intent = new Intent();
+					intent.setClass(context, ShakePreferenceSetting.class);
+					context.startActivity(intent);
+				}
+			}
+		});
+	}
+	
+	public void initCheckBoxAutoShakeEnableButton(LinearLayout layout_shake_button,
+			final ImageView setting_sensor_image,
+			final TextView setting_sensor_text) {
+		LayoutInflater factory = LayoutInflater.from(context);
+		final View boxView = factory.inflate(R.layout.settings_checkbox, null);
+		final Button showText = (Button) boxView.findViewById(R.id.setting_tv_box);
+		showText.setText(R.string.prefrence_setting_enable_switch);
+		initScene(showText);
+		boolean isShake = sharedDate.isShakeToSwitch();
+		if (isShake) {
+			sensorColorchange(setting_sensor_image,setting_sensor_text,true);
+			checkBoxRightDrawinit(showText, isShake);
+		} else {
+			sensorColorchange(setting_sensor_image,setting_sensor_text,false);
+			checkBoxRightDrawinit(showText, isShake);
+		}
+		layout_shake_button.removeAllViews();
+		layout_shake_button.addView(boxView, new LayoutParams(
+				LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		showText.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				boolean isShake = sharedDate.isShakeToSwitch();
+				if (isShake) {
+					sharedDate.setIsShakeToSwitch(false);
+					sensorColorchange(setting_sensor_image,setting_sensor_text,false);
+					checkBoxRightDrawChange(showText, isShake);
+				} else {
+					sharedDate.setIsShakeToSwitch(true);
+					sensorColorchange(setting_sensor_image,setting_sensor_text,true);
+					checkBoxRightDrawChange(showText, isShake);
 				}
 			}
 		});
 	}
 
+	public void initShakeSensorSetting(RelativeLayout layout_shake_sensor) {
+		layout_shake_sensor.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (sharedDate.isShakeToSwitch()) {
+					Intent intent = new Intent();
+					intent.setClass(context, ShakeSensorSetting.class);
+					context.startActivity(intent);
+				} else {
+				}
+			}
+		});
+	}
+
+	private void sensorColorchange(final ImageView setting_sensor_image,
+			final TextView setting_sensor_text, boolean isEnable) {
+		setting_sensor_image
+				.setBackgroundResource(isEnable ? R.drawable.arrow_setting
+						: R.drawable.arrow_setting_gray);
+		setting_sensor_text.setTextColor(isEnable ? context.getResources()
+				.getColor(R.color.darkgray2) : Color.GRAY);
+	}
 	private void checkBoxRightDrawinit(Button btn, boolean on_off) {
 		if (!on_off) {
 			btn.setCompoundDrawablesWithIntrinsicBounds(0, 0,

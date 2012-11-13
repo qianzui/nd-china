@@ -9,6 +9,8 @@
     <string name="main_FAQ">先锋流量监控 FAQ</string>
     <string name="title_history">历史详情</string>
     <string name="title_systemsetting">系统设置</string>
+    <string name="title_shakesetting">设定</string>
+    <string name="title_shake_sensor_setting">设置灵敏度</string>
     <string name="main_edit">编写</string>
     <string name="twoGthreeG">\u0020\u0020 2G/3G</string>
     <string name="wifi">\u0020\u0020 总流量</string>
@@ -21,6 +23,7 @@
     <string name="tip_content_isroot">\n 是否获取？</string>
     <string name="tip_has_know_firewall_rule_save">    开启记忆防火墙规则后(默认开启)，先锋流量监控会自动保存所有软件的联网规则，当您将软件卸载并重新安装后，我们会自动加载之前保存的联网规则。</string>
     <string name="tip_know_shake_to_switch">    此设置开启时，只要在防火墙界面摇晃手机，即可实现自动切换排序规则。</string>
+    <string name="tip_shake_sensor_setting">    滑动滑块调整摇晃灵敏度，数值越高灵敏度越高，调整后您可以摇晃手机进行测试!</string>
     <string name="caution">注意</string>
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
@@ -69,6 +72,8 @@
     <string name="prefrence_setting_clickbox_help">显示帮助信息</string>
     <string name="prefrence_setting_auto_save_firewall">自动记忆防火墙规则</string>
     <string name="prefrence_setting_shake_to_switch">防火墙  \'摇一摇\'</string>
+    <string name="prefrence_setting_enable_switch">开启   \'摇一摇\'</string>
+    <string name="prefrence_setting_switch_sensor">设置灵敏度</string>
     <string name="history_scene_mobiletraff">移动数据流量:</string>
     <string name="history_scene_wifitraff">WIFI数据流量:</string>
     <string name="history_scene_icon_show">显示的应用图标</string>

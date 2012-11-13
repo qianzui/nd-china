@@ -92,13 +92,12 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	private Context mContext = this;
 	public ProgressDialog mydialog;
 	public ProgressDialog pro;
-	public  FireWallItemMenu menu = null;
+	public FireWallItemMenu menu = null;
 	public static ArrayList<Integer> uidList = new ArrayList<Integer>();
 	Handler handler;
 	public static boolean isloading = false;
 	public static boolean isInScene = false;
 	public static boolean isRootFail = false;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -719,11 +718,11 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	private SensorEventListener mSensorEventListener = new SensorEventListener() {
 		@Override
 		public void onSensorChanged(SensorEvent event) {
+			int medumValue = sharedpref.getMedianValues();
 			float[] values = event.values;
 			float x = values[0];
 			float y = values[1];
 			float z = values[2];
-			int medumValue = 12;
 			if (x > medumValue || x < -medumValue || y > medumValue
 					|| y < -medumValue || z > medumValue || z < -medumValue) {
 				Message msg = new Message();

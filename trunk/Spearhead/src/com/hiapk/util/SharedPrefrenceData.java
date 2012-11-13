@@ -48,6 +48,8 @@ public class SharedPrefrenceData {
 	private String isHasKnowFireWallSave = "ishasknowfirewallsave";
 	private String isShakeToSwitch = "isShakeToSwitchFireList";
 	private String isKnowShakeToSwitch = "isKnowShakeToSwitchFireList";
+	//“°“ª“°√Ù∏–∂»
+	private String shakeMedianValue = "shakeMedianValue";
 
 	public SharedPrefrenceData(Context context) {
 		prefs = context.getSharedPreferences(PREFS_NAME, 0);
@@ -290,6 +292,16 @@ public class SharedPrefrenceData {
 
 	public void setIsKnowShakeToSwitch(boolean isKnow) {
 		UseEditor.putBoolean(isKnowShakeToSwitch, isKnow);
+		UseEditor.commit();
+	}
+
+	public int getMedianValues() {
+		int values = prefs.getInt(shakeMedianValue, 12);
+		return values;
+	}
+
+	public void setMedianValues(int values) {
+		UseEditor.putInt(shakeMedianValue, values);
 		UseEditor.commit();
 	}
 
