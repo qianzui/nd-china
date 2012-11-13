@@ -16,6 +16,7 @@ import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 public class PrefrenceSetting extends Activity {
 	// ²Ù×÷sharedprefrence
@@ -42,7 +43,7 @@ public class PrefrenceSetting extends Activity {
 	LinearLayout layout_help_info;
 	LinearLayout layout_freshplv;
 	LinearLayout layout_autosave_firewall;
-	LinearLayout layout_shake_switch;
+	RelativeLayout layout_shake_switch;
 	LinearLayout layout_cleardata;
 
 	@Override
@@ -55,7 +56,7 @@ public class PrefrenceSetting extends Activity {
 		layout_help_info = (LinearLayout) findViewById(R.id.setting_help_message);
 		layout_freshplv = (LinearLayout) findViewById(R.id.setting_freshplv);
 		layout_autosave_firewall = (LinearLayout) findViewById(R.id.setting_auto_saveFirewalldata);
-		layout_shake_switch = (LinearLayout) findViewById(R.id.setting_shake_switch);
+		layout_shake_switch = (RelativeLayout) findViewById(R.id.setting_shake_switch);
 		layout_cleardata = (LinearLayout) findViewById(R.id.setting_cleardata);
 		PrefrenceBeen prefBeen = new PrefrenceBeen(context);
 		prefBeen.initCheckBoxNotyfy(layout_notyfy);
@@ -364,5 +365,6 @@ public class PrefrenceSetting extends Activity {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
 	}
+	
 
 }

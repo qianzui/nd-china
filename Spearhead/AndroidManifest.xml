@@ -58,6 +58,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/noTitle" >
         </activity>
+        <activity
+            android:name="com.hiapk.ui.scene.ShakePreferenceSetting"
+            android:screenOrientation="portrait"
+            android:theme="@style/noTitle" >
+        </activity>
+         <activity
+            android:name="com.hiapk.ui.scene.ShakeSensorSetting"
+            android:screenOrientation="portrait"
+            android:theme="@style/noTitle" >
+        </activity>
         <activity android:name=".FireWallActivity" >
         </activity>
         <activity
