@@ -9,10 +9,10 @@ import android.content.pm.PackageManager.NameNotFoundException;
 
 public class WeiboTecentMethod {
 
-	private final String TAG = "weiboTecentM";
+//	private final String TAG = "weiboTecentM";
 	private Context context;
 	// !!!请根据您的实际情况修改!!! 认证成功后浏览器会被重定向到这个url中 本例子中不需改动
-	private String oauthCallback = "null";
+//	private String oauthCallback = "null";
 	// !!!请根据您的实际情况修改!!! 换为您为自己的应用申请到的APP KEY
 	private String oauthConsumeKey = "801268730";
 

@@ -9,7 +9,6 @@ import com.hiapk.contral.weibo.WeiboSinaMethod;
 import com.hiapk.contral.weibo.WeiboTecentMethod;
 import com.hiapk.control.bootandclose.OnExit;
 import com.hiapk.control.traff.NotificationInfo;
-import com.hiapk.control.widget.DetectNetwork;
 import com.hiapk.control.widget.NotificationWarningControl;
 import com.hiapk.firewall.Block;
 import com.hiapk.logs.Logs;
@@ -20,8 +19,6 @@ import com.hiapk.ui.custom.CustomMenuWeibo;
 import com.hiapk.ui.scene.MenuSceneActivity;
 import com.hiapk.ui.scene.PrefrenceSetting;
 import com.hiapk.ui.scene.WeiboSinaActivity;
-import com.hiapk.ui.scene.weibo.tencent.OAuthV1;
-import com.hiapk.ui.scene.weibo.tencent.OAuthV1Client;
 import com.hiapk.ui.scene.weibo.tencent.WeiboTencentActivity;
 
 import android.app.ProgressDialog;
@@ -309,38 +306,12 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 				startActivity(getIntentSharePhotoAndText(picPath,
 						pacName_tencent));
 			} else {
-				if (DetectNetwork.isNetworkAvailable(context)) {
-					OAuthV1 oAuth = new OAuthV1("null");
-					oAuth.setOauthConsumerKey(weiboMethod.getOauthConsumeKey());
-					oAuth.setOauthConsumerSecret(weiboMethod
-							.getOauthConsumerSecret());
-					try {
-						// 向腾讯微博开放平台请求获得未授权的Request_Token
-						oAuth = OAuthV1Client.requestToken(oAuth);
-					} catch (Exception e) {
-						e.printStackTrace();
-						Toast.makeText(context,
-								R.string.weibosdk_tencent_response_fail,
-								Toast.LENGTH_SHORT).show();
-						break;
-					}
-					if (oAuth.getStatus() == 1) {
-						Toast.makeText(context,
-								R.string.weibosdk_tencent_response_fail,
-								Toast.LENGTH_SHORT).show();
-						break;
-					}
-					Bundle shareBundle = new Bundle();
-					shareBundle.putString("path", picPath);
-					Intent sharetoSina = new Intent();
-					sharetoSina.putExtra("oauth", oAuth);
-					sharetoSina.putExtras(shareBundle);
-					sharetoSina.setClass(context, WeiboTencentActivity.class);
-					startActivity(sharetoSina);
-				} else {
-					Toast.makeText(context, R.string.weibosdk_no_network,
-							Toast.LENGTH_SHORT).show();
-				}
+				Bundle shareBundle = new Bundle();
+				shareBundle.putString("path", picPath);
+				Intent sharetoSina = new Intent();
+				sharetoSina.putExtras(shareBundle);
+				sharetoSina.setClass(context, WeiboTencentActivity.class);
+				startActivity(sharetoSina);
 			}
 			menuWindowWeibo.dismissPop();
 			break;

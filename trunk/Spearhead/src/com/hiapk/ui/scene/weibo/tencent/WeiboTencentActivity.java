@@ -73,9 +73,9 @@ public class WeiboTencentActivity extends Activity implements OnClickListener {
 		writelog = new WriteLog(context);
 		Intent intent = getIntent();
 		screenShootPath = intent.getExtras().getString("path");
-		oAuth = (OAuthV1) intent.getExtras().getSerializable("oauth");
-		Logs.d(TAG, oAuth.getOauthConsumerKey());
-		Logs.d(TAG, oAuth.getOauthConsumerSecret());
+		// oAuth = (OAuthV1) intent.getExtras().getSerializable("oauth");
+		// Logs.d(TAG, oAuth.getOauthConsumerKey());
+		// Logs.d(TAG, oAuth.getOauthConsumerSecret());
 		Logs.d(TAG, screenShootPath);
 		initScene();
 		initbtns();
@@ -319,6 +319,25 @@ public class WeiboTencentActivity extends Activity implements OnClickListener {
 				mSend.setEnabled(true);
 			}
 		} else {
+			oAuth = new OAuthV1("null");
+			oAuth.setOauthConsumerKey(weiboTencentM.getOauthConsumeKey());
+			oAuth.setOauthConsumerSecret(weiboTencentM.getOauthConsumerSecret());
+			try {
+				// 向腾讯微博开放平台请求获得未授权的Request_Token
+				oAuth = OAuthV1Client.requestToken(oAuth);
+			} catch (Exception e) {
+				e.printStackTrace();
+				Toast.makeText(context,
+						R.string.weibosdk_tencent_response_fail,
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
+			if (oAuth.getStatus() == 1) {
+				Toast.makeText(context,
+						R.string.weibosdk_tencent_response_fail,
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
 			Logs.d(TAG, "进入验证页面");
 			Intent intent = new Intent(WeiboTencentActivity.this,
 					OAuthV1AuthorizeWebView.class);// 创建Intent，使用WebView让用户授权
