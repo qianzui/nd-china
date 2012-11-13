@@ -1,8 +1,6 @@
 package com.hiapk.ui.scene.weibo.tencent;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -24,7 +22,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hiapk.contral.weibo.AccessTokenKeeperSina;
 import com.hiapk.contral.weibo.AccessTokenKeeperTencent;
 import com.hiapk.contral.weibo.WeiboTecentMethod;
 import com.hiapk.control.widget.DetectNetwork;
@@ -33,10 +30,6 @@ import com.hiapk.logs.WriteLog;
 import com.hiapk.spearhead.R;
 import com.hiapk.ui.custom.CustomDialog;
 import com.hiapk.ui.skin.SkinCustomMains;
-import com.weibo.sdk.android.Oauth2AccessToken;
-import com.weibo.sdk.android.WeiboAuthListener;
-import com.weibo.sdk.android.WeiboDialogError;
-import com.weibo.sdk.android.WeiboException;
 
 /**
  * A dialog activity for sharing any text or image message to weibo. Three
@@ -314,6 +307,7 @@ public class WeiboTencentActivity extends Activity implements OnClickListener {
 						Toast.LENGTH_LONG).show();
 				finish();
 			} else {
+				writelog.writeLog(response);
 				Toast.makeText(this, R.string.weibosdk_send_failed,
 						Toast.LENGTH_LONG).show();
 				mSend.setEnabled(true);
@@ -327,6 +321,7 @@ public class WeiboTencentActivity extends Activity implements OnClickListener {
 				oAuth = OAuthV1Client.requestToken(oAuth);
 			} catch (Exception e) {
 				e.printStackTrace();
+				writelog.writeLog(e);
 				Toast.makeText(context,
 						R.string.weibosdk_tencent_response_fail,
 						Toast.LENGTH_SHORT).show();
@@ -362,6 +357,7 @@ public class WeiboTencentActivity extends Activity implements OnClickListener {
 			response = tAPI.add(oAuth, "json", "Android客户端文字微博1", "127.0.0.1");
 		} catch (Exception e) {
 			e.printStackTrace();
+			writelog.writeLog(e);
 		}
 		tAPI.shutdownConnection();
 		return response;
@@ -380,6 +376,7 @@ public class WeiboTencentActivity extends Activity implements OnClickListener {
 					"127.0.0.1", picpath);
 		} catch (Exception e) {
 			e.printStackTrace();
+			writelog.writeLog(e);
 		}
 		tAPI.shutdownConnection();
 
@@ -476,9 +473,9 @@ public class WeiboTencentActivity extends Activity implements OnClickListener {
 			if (resultCode == OAuthV1AuthorizeWebView.RESULT_CODE) {
 				// 从返回的Intent中获取验证码
 				oAuth = (OAuthV1) data.getExtras().getSerializable("oauth");
-				Toast.makeText(context,
-						"nverifier=" + oAuth.getOauthVerifier(),
-						Toast.LENGTH_SHORT).show();
+				// Toast.makeText(context,
+				// "nverifier=" + oAuth.getOauthVerifier(),
+				// Toast.LENGTH_SHORT).show();
 				try {
 					oAuth = OAuthV1Client.accessToken(oAuth);
 					/*
@@ -491,73 +488,13 @@ public class WeiboTencentActivity extends Activity implements OnClickListener {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				Toast.makeText(
-						context,
-						"\naccess_token:\n" + oAuth.getOauthToken()
-								+ "\naccess_token_secret:\n"
-								+ oAuth.getOauthTokenSecret(),
-						Toast.LENGTH_SHORT).show();
+				// Toast.makeText(
+				// context,
+				// "\naccess_token:\n" + oAuth.getOauthToken()
+				// + "\naccess_token_secret:\n"
+				// + oAuth.getOauthTokenSecret(),
+				// Toast.LENGTH_SHORT).show();
 			}
-		}
-
-	}
-
-	class AuthDialogListener implements WeiboAuthListener {
-
-		@Override
-		public void onComplete(Bundle values) {
-			Logs.d(TAG, "认证成功完成");
-			String token = values.getString("access_token");
-			String expires_in = values.getString("expires_in");
-			Oauth2AccessToken oauth2Token = new Oauth2AccessToken(token,
-					expires_in);
-			if (oauth2Token.isSessionValid()) {
-				mSend.setText(getResources().getString(
-						R.string.weibosdk_send_send));
-				String date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-						.format(new java.util.Date(oauth2Token.getExpiresTime()));
-				Logs.d(TAG, "认证成功: \r\n access_token: " + token + "\r\n"
-						+ "expires_in: " + expires_in + "\r\n有效期：" + date);
-				// try {
-				// Class sso = Class
-				// .forName("com.weibo.sdk.android.api.WeiboAPI");//
-				// 如果支持weiboapi的话，显示api功能演示入口按钮
-				// Logs.d(TAG, "AuthDialogListener=" + "send");
-				// } catch (ClassNotFoundException e) {
-				// // e.printStackTrace();
-				// Logs.i(TAG, "com.weibo.sdk.android.api.WeiboAPI not found");
-				//
-				// }
-				Logs.d(TAG, "AuthDialogListener=" + "login");
-				AccessTokenKeeperSina.keepAccessToken(context, oauth2Token);
-				Toast.makeText(context, R.string.weibosdk_Auth_success,
-						Toast.LENGTH_SHORT).show();
-			} else {
-				Toast.makeText(context, R.string.weibosdk_Auth_fail,
-						Toast.LENGTH_SHORT).show();
-				writelog.writeLog(getResources().getString(
-						R.string.weibosdk_Auth_SessionValidFail));
-			}
-		}
-
-		@Override
-		public void onError(WeiboDialogError e) {
-			Toast.makeText(context, R.string.weibosdk_Auth_error,
-					Toast.LENGTH_LONG).show();
-			writelog.writeLog(e);
-		}
-
-		@Override
-		public void onCancel() {
-			Toast.makeText(context, R.string.weibosdk_Auth_cancel,
-					Toast.LENGTH_LONG).show();
-		}
-
-		@Override
-		public void onWeiboException(WeiboException e) {
-			Toast.makeText(context, R.string.weibosdk_Auth_exception,
-					Toast.LENGTH_LONG).show();
-			writelog.writeLog(e);
 		}
 
 	}
