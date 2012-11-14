@@ -1,9 +1,7 @@
 package com.hiapk.ui.scene;
 
 import com.hiapk.logs.Logs;
-import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.R;
-import com.hiapk.spearhead.SpearheadApplication;
 import com.hiapk.ui.skin.SkinCustomMains;
 import com.hiapk.util.SharedPrefrenceData;
 
@@ -21,10 +19,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
-import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class ShakeSensorSetting extends Activity {
@@ -45,7 +40,6 @@ public class ShakeSensorSetting extends Activity {
     Handler handler;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.settings_sensor);
 		sharedpref = new SharedPrefrenceData(context);
@@ -58,14 +52,13 @@ public class ShakeSensorSetting extends Activity {
 		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		sensorManager.registerListener(mSensorEventListener,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                sensorManager.SENSOR_DELAY_NORMAL);
+                SensorManager.SENSOR_DELAY_NORMAL);
 		
 		initScene();
 		shakeTest();
 		
 	}
 	private void shakeTest() {
-		// TODO Auto-generated method stub
 		handler = new Handler(){
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
@@ -103,7 +96,6 @@ public class ShakeSensorSetting extends Activity {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
-				// TODO Auto-generated method stub
 			}
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
@@ -112,7 +104,6 @@ public class ShakeSensorSetting extends Activity {
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
 				float x = (float)seekBar.getProgress()/10;
 				if((x * 100) >=50){
 					float temp = 10 - 4*(x - 1);
@@ -129,7 +120,6 @@ public class ShakeSensorSetting extends Activity {
 		shake_reset_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				medumValue = 12;
 				seekBar.setProgress((20 - medumValue)*10/16);
 				sharedpref.setMedianValues(12);
@@ -140,7 +130,6 @@ public class ShakeSensorSetting extends Activity {
 		sensor_setting_back.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				onBackPressed();
 				sensor_setting_back.setImageResource(R.drawable.back_black);
 			}
@@ -149,24 +138,21 @@ public class ShakeSensorSetting extends Activity {
 	
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
 		initScene();
+		super.onResume();
 	}
 	
 	@Override
 	public void onBackPressed() {
-		// TODO Auto-generated method stub
 		super.onBackPressed();
 	}
 	
 
 	@Override
 	public void finish() {
-		// TODO Auto-generated method stub
-		super.finish();
 		sensorManager.unregisterListener(mSensorEventListener);
-        sensorManager = null;
+		sensorManager = null;
+		super.finish();
 	}
 
 
