@@ -1,22 +1,11 @@
 package com.hiapk.firewall;
 
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.ref.SoftReference;
-import java.net.URL;
 import java.util.HashMap;
-import android.R.integer;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.graphics.drawable.Drawable;
-import android.os.Environment;
 import android.os.Handler;
-import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 
 public class SyncImageLoader {
@@ -74,7 +63,6 @@ public class SyncImageLoader {
                         try {  
                             lock.wait();  
                         } catch (InterruptedException e) {  
-                            // TODO Auto-generated catch block  
                             e.printStackTrace();  
                         }  
                     }  
