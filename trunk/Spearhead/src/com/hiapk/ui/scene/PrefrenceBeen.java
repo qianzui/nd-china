@@ -2,7 +2,6 @@ package com.hiapk.ui.scene;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +12,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.firewall.Block;
-import com.hiapk.logs.Logs;
 import com.hiapk.logs.SaveRule;
 import com.hiapk.spearhead.R;
 import com.hiapk.ui.custom.CustomDialogOtherBeen;
@@ -203,8 +199,6 @@ public class PrefrenceBeen {
 	}
 	
 	public void initCheckBoxShakeToSwitch(RelativeLayout layout_shake_switch) {
-		LayoutInflater factory = LayoutInflater.from(context);
-	    boolean isShake = sharedDate.isShakeToSwitch();
 		layout_shake_switch.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
