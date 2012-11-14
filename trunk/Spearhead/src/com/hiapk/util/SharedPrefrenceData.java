@@ -295,13 +295,13 @@ public class SharedPrefrenceData {
 		UseEditor.commit();
 	}
 
-	public int getMedianValues() {
-		int values = prefs.getInt(shakeMedianValue, 12);
+	public float getMedianValues() {
+		float values = prefs.getFloat(shakeMedianValue, 12);
 		return values;
 	}
 
-	public void setMedianValues(int values) {
-		UseEditor.putInt(shakeMedianValue, values);
+	public void setMedianValues(float values) {
+		UseEditor.putFloat(shakeMedianValue, values);
 		UseEditor.commit();
 	}
 

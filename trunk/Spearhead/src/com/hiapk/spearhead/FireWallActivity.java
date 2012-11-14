@@ -18,7 +18,6 @@ import com.hiapk.logs.SaveRule;
 import com.hiapk.sqlhelper.uid.SQLHelperFireWall;
 import com.hiapk.ui.custom.CustomDialog;
 import com.hiapk.ui.custom.CustomDialogMain2Been;
-import com.hiapk.ui.custom.CustomDialogOtherBeen;
 import com.hiapk.ui.skin.SkinCustomMains;
 import com.hiapk.util.Extra;
 import com.hiapk.util.SQLStatic;
@@ -27,7 +26,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -43,7 +41,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Vibrator;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -119,7 +116,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		sensorManager.registerListener(mSensorEventListener,
 				sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-				sensorManager.SENSOR_DELAY_NORMAL);
+				SensorManager.SENSOR_DELAY_NORMAL);
 
 		sharedpref = new SharedPrefrenceData(mContext);
 		container = (ViewGroup)findViewById(R.id.container);
@@ -187,7 +184,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		if (mPop.isShowing()) {
 			mPop.dismiss();
 		}
@@ -684,7 +680,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
 		if (sharedpref.getFireWallType() == 5) {
 			if (NotificationInfo.notificationRes.length() == 0) {
 				if (NotificationInfo.isgettingdata == false) {
@@ -702,7 +697,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void finish() {
-		// TODO Auto-generated method stub
 		if (Block.isChange) {
 			SaveRule sr = new SaveRule(mContext);
 			sr.copyToSD();
@@ -718,7 +712,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	private SensorEventListener mSensorEventListener = new SensorEventListener() {
 		@Override
 		public void onSensorChanged(SensorEvent event) {
-			int medumValue = sharedpref.getMedianValues();
+			float medumValue = sharedpref.getMedianValues();
 			float[] values = event.values;
 			float x = values[0];
 			float y = values[1];
@@ -849,17 +843,14 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		}
 		@Override
 		public void onAnimationStart(Animation animation) {
-			// TODO Auto-generated method stub
 			
 		}
 		@Override
 		public void onAnimationEnd(Animation animation) {
-			// TODO Auto-generated method stub
 			container.post(new SwapViews(position));
 		}
 		@Override
 		public void onAnimationRepeat(Animation animation) {
-			// TODO Auto-generated method stub
 			
 		}
 	}
