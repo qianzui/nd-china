@@ -292,10 +292,10 @@ public class Main extends Activity {
 	private void initChartBar() {
 		Logs.d(TAG, "month=" + month);
 		switch (chartType) {
-		case 0:
+		case 1:
 			initMobileBar();
 			break;
-		case 1:
+		case 0:
 			initWifiBar();
 			break;
 		default:
@@ -562,10 +562,20 @@ public class Main extends Activity {
 			AsyncTask<Context, Long, Long> {
 		@Override
 		protected Long doInBackground(Context... params) {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			int tip = 0;
+			while ((TrafficManager.mobile_month_data[0]
+					+ TrafficManager.mobile_month_data[63] == 0)
+					&& (TrafficManager.wifi_month_data[0]
+							+ TrafficManager.wifi_month_data[63] == 0)) {
+				try {
+					if (tip > 12) {
+						break;
+					}
+					Thread.sleep(100);
+					tip++;
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 			return null;
 		}
