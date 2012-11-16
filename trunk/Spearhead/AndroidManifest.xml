@@ -39,10 +39,11 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <activity
-            android:name=".Splash"
+            android:name=".SpearheadActivity"
             android:label="@string/app_name"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            android:theme="@style/noTitle" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -125,13 +126,6 @@
         <activity
             android:name="com.hiapk.ui.scene.weibo.tencent.OAuthV1AuthorizeWebView"
             android:label="@string/app_name"
-            android:theme="@style/noTitle" >
-        </activity>
-        <activity
-            android:name=".SpearheadActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
             android:theme="@style/noTitle" >
         </activity>
         <activity
