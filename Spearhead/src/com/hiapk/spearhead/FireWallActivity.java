@@ -16,6 +16,7 @@ import com.hiapk.firewall.Rotate3dAnimation;
 import com.hiapk.logs.Logs;
 import com.hiapk.logs.SaveRule;
 import com.hiapk.sqlhelper.uid.SQLHelperFireWall;
+import com.hiapk.ui.SplashLayout;
 import com.hiapk.ui.custom.CustomDialog;
 import com.hiapk.ui.custom.CustomDialogMain2Been;
 import com.hiapk.ui.skin.SkinCustomMains;
@@ -436,7 +437,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 					@Override
 					protected Void doInBackground(Void... params) {
 						getList(mContext);
-						Splash.getList(mContext);
+						SplashLayout.getList(mContext);
 						initUidData();
 						while (SQLStatic.uiddata == null) {
 							if (SQLStatic.uiddata != null) {
@@ -505,7 +506,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			@Override
 			public void run() {
 				getList(mContext);
-				Splash.getList(mContext);
+				SplashLayout.getList(mContext);
 				int i = 0;
 				int j = 0;
 				do {
@@ -549,7 +550,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			@Override
 			protected Void doInBackground(Void... params) {
 				getList(mContext);
-				Splash.getList(mContext);
+				SplashLayout.getList(mContext);
 				initUidData();
 				while (SQLStatic.uiddata == null) {
 					if (SQLStatic.uiddata != null) {

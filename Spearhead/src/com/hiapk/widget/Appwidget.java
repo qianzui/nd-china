@@ -4,7 +4,7 @@ import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.widget.MobileDataSwitch;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.spearhead.R;
-import com.hiapk.spearhead.Splash;
+import com.hiapk.spearhead.SpearheadActivity;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceData;
 import com.hiapk.util.SharedPrefrenceDataWidget;
@@ -84,7 +84,7 @@ public class Appwidget extends AppWidgetProvider {
 			intentgpprs.setAction(BROADCAST_GPRS);
 			PendingIntent pendingIntentgprs = PendingIntent.getBroadcast(
 					context, 0, intentgpprs, PendingIntent.FLAG_UPDATE_CURRENT);
-			Intent intenttraff = new Intent(context, Splash.class);
+			Intent intenttraff = new Intent(context, SpearheadActivity.class);
 			Bundle choosetab = new Bundle();
 			choosetab.putInt("TAB", 1);
 			intenttraff.putExtras(choosetab);
@@ -281,7 +281,7 @@ public class Appwidget extends AppWidgetProvider {
 		intentgpprs.setAction(BROADCAST_GPRS);
 		PendingIntent pendingIntentgprs = PendingIntent.getBroadcast(context,
 				0, intentgpprs, PendingIntent.FLAG_UPDATE_CURRENT);
-		Intent intenttraff = new Intent(context, Splash.class);
+		Intent intenttraff = new Intent(context, SpearheadActivity.class);
 		Bundle choosetab = new Bundle();
 		choosetab.putInt("TAB", 1);
 		intenttraff.putExtras(choosetab);

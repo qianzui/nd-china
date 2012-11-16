@@ -1,4 +1,4 @@
-package com.hiapk.spearhead;
+package com.hiapk.ui;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,13 +7,13 @@ import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.firewall.Block;
 import com.hiapk.logs.Logs;
+import com.hiapk.spearhead.R;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceDataOnUpdate;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,11 +21,13 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.widget.LinearLayout;
 
-public class Splash extends Activity {
-	private Context context = this;
+public class SplashLayout extends LinearLayout {
+
+	private Context context;
 	private AlarmSet alset = new AlarmSet();
 	long time;
 	private boolean isinited;
@@ -34,10 +36,19 @@ public class Splash extends Activity {
 	private static Editor UseEditor;
 	private static final String ACTION_TIME_CHANGED = Intent.ACTION_TIME_CHANGED;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.splash);
+	public SplashLayout(Context context) {
+		super(context);
+		this.context = context;
+		onCreateView();
+	}
+
+	private void onCreateView() {
+		LayoutInflater.from(getContext()).inflate(R.layout.splash, this);
+	}
+
+	public void onCreateOperator() {
+		// setContentView(R.layout.splash);
+
 		context.sendBroadcast(new Intent(ACTION_TIME_CHANGED));
 		SQLStatic.isAppOpened = true;
 		time = System.currentTimeMillis();
@@ -137,13 +148,7 @@ public class Splash extends Activity {
 		@Override
 		protected void onPostExecute(Integer result) {
 			showLog("startingMain" + (System.currentTimeMillis() - time));
-			Intent mainIntent = new Intent(Splash.this, SpearheadActivity.class);
-			Bundle choosetab = new Bundle();
-			choosetab.putInt("TAB", 1);
-			mainIntent.putExtras(choosetab);
-			Splash.this.startActivity(mainIntent);
-			showLog("this.finish" + (System.currentTimeMillis() - time));
-			Splash.this.finish();
+			removeAllViews();
 		}
 	}
 
@@ -169,13 +174,7 @@ public class Splash extends Activity {
 		@Override
 		protected void onPostExecute(Integer result) {
 			showLog("startingMain" + (System.currentTimeMillis() - time));
-			Intent mainIntent = new Intent(Splash.this, SpearheadActivity.class);
-			Bundle choosetab = new Bundle();
-			choosetab.putInt("TAB", 1);
-			mainIntent.putExtras(choosetab);
-			Splash.this.startActivity(mainIntent);
-			showLog("this.finish" + (System.currentTimeMillis() - time));
-			Splash.this.finish();
+			removeAllViews();
 		}
 	}
 

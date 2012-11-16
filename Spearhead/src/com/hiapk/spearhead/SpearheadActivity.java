@@ -12,6 +12,7 @@ import com.hiapk.control.traff.NotificationInfo;
 import com.hiapk.control.widget.NotificationWarningControl;
 import com.hiapk.firewall.Block;
 import com.hiapk.logs.Logs;
+import com.hiapk.ui.SplashLayout;
 import com.hiapk.ui.custom.CustomDialogFAQBeen;
 import com.hiapk.ui.custom.CustomMenuMain;
 import com.hiapk.ui.custom.CustomMenuSub;
@@ -35,6 +36,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -53,6 +55,7 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 	public static Boolean isExit = false;
 	public ProgressDialog pro;
 	public static ImageView firehelp;
+	public LinearLayout splashLayout;
 	private Timer tExit = new Timer();
 	public static boolean isHide = false;
 	private TimerTask task = new TimerTask() {
@@ -79,7 +82,12 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 		setContentView(R.layout.maintabs);
 		// 为了退出。
 		SpearheadApplication.getInstance().addActivity(this);
-		firehelp = (ImageView) findViewById(R.id.help_image);
+		firehelp = new ImageView(context);
+		splashLayout = (LinearLayout) findViewById(R.id.help_layout);
+		splashLayout.removeAllViews();
+		SplashLayout splashView = new SplashLayout(context);
+		splashLayout.addView(splashView);
+		splashView.onCreateOperator();
 		initScene();
 		switchSceneOninit();
 	}
@@ -123,6 +131,8 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 				}
 			}
 		});
+		// 显示防火墙的帮助页面
+		splashLayout.addView(firehelp);
 	}
 
 	public void showHelp(Context mContext) {
@@ -183,7 +193,12 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 	private void switchSceneOninit() {
 		// 选择界面
 		Bundle choose = this.getIntent().getExtras();
-		int tab = choose.getInt("TAB");
+		int tab = 1;
+		try {
+			tab = choose.getInt("TAB");
+		} catch (Exception e) {
+
+		}
 		// Log.d("spearhead", tab + "");
 		switch (tab) {
 		case 3:
