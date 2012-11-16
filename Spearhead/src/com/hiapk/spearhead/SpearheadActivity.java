@@ -82,14 +82,20 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 		setContentView(R.layout.maintabs);
 		// 为了退出。
 		SpearheadApplication.getInstance().addActivity(this);
-		firehelp = new ImageView(context);
+		initApp();
+		initScene();
+		switchSceneOninit();
+	}
+
+	/**
+	 * 程序初始化时的操作
+	 */
+	private void initApp() {
 		splashLayout = (LinearLayout) findViewById(R.id.help_layout);
 		splashLayout.removeAllViews();
 		SplashLayout splashView = new SplashLayout(context);
 		splashLayout.addView(splashView);
 		splashView.onCreateOperator();
-		initScene();
-		switchSceneOninit();
 	}
 
 	/**
@@ -132,6 +138,7 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 			}
 		});
 		// 显示防火墙的帮助页面
+		firehelp = new ImageView(context);
 		splashLayout.addView(firehelp);
 	}
 
