@@ -9,7 +9,7 @@ public class SharedPrefrenceDataOnUpdate {
 	private String PREFS_NAME = "updateprefs";
 	private String UID_RECORD_UPDATED = "isuidrecoredtypeupdated";
 	private String Total_RECORD_UPDATED121 = "totalrecordupdtate121";
-	private String UPDATED_NOTICE122 = "updatenotice122";
+	private String UPDATED_NOTICE123 = "updatenotice123";
 	private SharedPreferences prefs;
 	private Editor UseEditor;
 
@@ -38,13 +38,13 @@ public class SharedPrefrenceDataOnUpdate {
 		UseEditor.commit();
 	}
 
-	public boolean isVersion122updated() {
-		boolean blean = prefs.getBoolean(UPDATED_NOTICE122, false);
+	public boolean isVersionupdated() {
+		boolean blean = prefs.getBoolean(UPDATED_NOTICE123, false);
 		return blean;
 	}
-
-	public void setVersion122updated(boolean blean) {
-		UseEditor.putBoolean(UPDATED_NOTICE122, blean);
+	
+	public void setVersionupdated(boolean blean) {
+		UseEditor.putBoolean(UPDATED_NOTICE123, blean);
 		UseEditor.commit();
 	}
 

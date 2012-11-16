@@ -90,10 +90,10 @@ public class Main extends Activity {
 	private void versionUpdateWindiw() {
 		SharedPrefrenceDataOnUpdate sharedupdate = new SharedPrefrenceDataOnUpdate(
 				context);
-		if (sharedupdate.isVersion122updated() == false) {
+		if (sharedupdate.isVersionupdated() == false) {
 			CustomDialogFAQBeen dialogupdate = new CustomDialogFAQBeen(context);
 			dialogupdate.dialogUpdateInfoOnFirst();
-			sharedupdate.setVersion122updated(true);
+			sharedupdate.setVersionupdated(true);
 		}
 
 	}
