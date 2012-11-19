@@ -11,6 +11,7 @@ public class SharedPrefrenceDataWidget {
 	private String SYS_PRE_NOTIFY = "notifyCtrl";
 	private String SYS_PRE_FLOAT_CTRL = "floatCtrl";
 	private String SYS_PRE_REFRESH_FRZ = "refreshfrz";
+	private String SYS_PRE_FLOAT_UNTOUCHable = "floatontouch";
 	private SharedPreferences prefs;
 	// SharedPreferences prefs_sys;
 	private Editor UseEditor;
@@ -97,6 +98,16 @@ public class SharedPrefrenceDataWidget {
 
 	public void setNotifyOpen(boolean isNotifyOpen) {
 		UseEditor.putBoolean(SYS_PRE_NOTIFY, isNotifyOpen);
+		UseEditor.commit();
+	}
+
+	public boolean isFloatUnTouchable() {
+		boolean isNotifyOpen = prefs.getBoolean(SYS_PRE_FLOAT_UNTOUCHable, false);
+		return isNotifyOpen;
+	}
+
+	public void setFloatUnTouchable(boolean isFloatOnTouch) {
+		UseEditor.putBoolean(SYS_PRE_FLOAT_UNTOUCHable, isFloatOnTouch);
 		UseEditor.commit();
 	}
 
