@@ -109,7 +109,7 @@ public class FloatService extends Service {
 	};
 
 	public void resetTouchListener() {
-		if (sharedataWidget.isFloatUnTouchable()) {
+		if (!sharedataWidget.isFloatUnTouchable()) {
 			view.setOnTouchListener(touchLis);
 			iv.setOnClickListener(clickLis);
 		} else {
