@@ -71,6 +71,7 @@
     <string name="prefrence_setting_clickbox_floatwindow">流量指示悬浮窗</string>
     <string name="prefrence_setting_clickbox_help">显示帮助信息</string>
     <string name="prefrence_setting_auto_save_firewall">自动记忆防火墙规则</string>
+    <string name="prefrence_setting_is_float_untouchable">固定悬浮窗</string>
     <string name="prefrence_setting_shake_to_switch">防火墙  \'摇一摇\'</string>
     <string name="prefrence_setting_enable_switch">开启   \'摇一摇\'</string>
     <string name="prefrence_setting_switch_sensor">设置灵敏度</string>

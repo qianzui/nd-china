@@ -12,9 +12,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.firewall.Block;
+import com.hiapk.logs.Logs;
 import com.hiapk.logs.SaveRule;
 import com.hiapk.spearhead.R;
 import com.hiapk.ui.custom.CustomDialogOtherBeen;
@@ -24,9 +26,10 @@ import com.hiapk.util.SharedPrefrenceData;
 import com.hiapk.util.SharedPrefrenceDataWidget;
 
 public class PrefrenceBeen {
-	Context context;
-	SharedPrefrenceDataWidget sharedDatawidget;
-	SharedPrefrenceData sharedDate;
+	private Context context;
+	private SharedPrefrenceDataWidget sharedDatawidget;
+	private SharedPrefrenceData sharedDate;
+	private String TAG = "PrefrenceBeen";
 
 	public PrefrenceBeen(Context context) {
 		this.context = context;
@@ -197,16 +200,54 @@ public class PrefrenceBeen {
 		});
 
 	}
-	
+
+	public void initCheckBoxIsFloatTouchable(
+			LinearLayout layout_is_float_touchable) {
+		LayoutInflater factory = LayoutInflater.from(context);
+		final View boxView = factory.inflate(R.layout.settings_checkbox, null);
+		final Button showText = (Button) boxView
+				.findViewById(R.id.setting_tv_box);
+		showText.setText(R.string.prefrence_setting_is_float_untouchable);
+		initScene(showText);
+		boolean isopen = sharedDatawidget.isFloatUnTouchable();
+		if (isopen) {
+			checkBoxRightDrawinit(showText, isopen);
+		} else {
+			checkBoxRightDrawinit(showText, isopen);
+		}
+		layout_is_float_touchable.removeAllViews();
+		layout_is_float_touchable.addView(boxView);
+		showText.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				boolean isopen = sharedDatawidget.isFloatOpen();
+				boolean isFloat = sharedDatawidget.isFloatUnTouchable();
+				if (isFloat) {
+					sharedDatawidget.setFloatUnTouchable(false);
+					checkBoxRightDrawChange(showText, isFloat);
+				} else {
+					sharedDatawidget.setFloatUnTouchable(true);
+					checkBoxRightDrawChange(showText, isFloat);
+				}
+				if (isopen) {
+					Intent intent = new Intent("com.hiapk.server");
+					context.startService(intent);
+					Logs.d(TAG, "intent=com.hiapk.server");
+				}
+			}
+		});
+
+	}
+
 	public void initCheckBoxShakeToSwitch(RelativeLayout layout_shake_switch) {
 		layout_shake_switch.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(!sharedDate.isKnowShakeToSwitch()){
+				if (!sharedDate.isKnowShakeToSwitch()) {
 					CustomDialogOtherBeen customdia = new CustomDialogOtherBeen(
 							context);
 					customdia.dialogisKnowShakeToSwitch();
-				}else{
+				} else {
 					Intent intent = new Intent();
 					intent.setClass(context, ShakePreferenceSetting.class);
 					context.startActivity(intent);
@@ -214,21 +255,23 @@ public class PrefrenceBeen {
 			}
 		});
 	}
-	
-	public void initCheckBoxAutoShakeEnableButton(LinearLayout layout_shake_button,
+
+	public void initCheckBoxAutoShakeEnableButton(
+			LinearLayout layout_shake_button,
 			final ImageView setting_sensor_image,
 			final TextView setting_sensor_text) {
 		LayoutInflater factory = LayoutInflater.from(context);
 		final View boxView = factory.inflate(R.layout.settings_checkbox, null);
-		final Button showText = (Button) boxView.findViewById(R.id.setting_tv_box);
+		final Button showText = (Button) boxView
+				.findViewById(R.id.setting_tv_box);
 		showText.setText(R.string.prefrence_setting_enable_switch);
 		initScene(showText);
 		boolean isShake = sharedDate.isShakeToSwitch();
 		if (isShake) {
-			sensorColorchange(setting_sensor_image,setting_sensor_text,true);
+			sensorColorchange(setting_sensor_image, setting_sensor_text, true);
 			checkBoxRightDrawinit(showText, isShake);
 		} else {
-			sensorColorchange(setting_sensor_image,setting_sensor_text,false);
+			sensorColorchange(setting_sensor_image, setting_sensor_text, false);
 			checkBoxRightDrawinit(showText, isShake);
 		}
 		layout_shake_button.removeAllViews();
@@ -240,11 +283,13 @@ public class PrefrenceBeen {
 				boolean isShake = sharedDate.isShakeToSwitch();
 				if (isShake) {
 					sharedDate.setIsShakeToSwitch(false);
-					sensorColorchange(setting_sensor_image,setting_sensor_text,false);
+					sensorColorchange(setting_sensor_image,
+							setting_sensor_text, false);
 					checkBoxRightDrawChange(showText, isShake);
 				} else {
 					sharedDate.setIsShakeToSwitch(true);
-					sensorColorchange(setting_sensor_image,setting_sensor_text,true);
+					sensorColorchange(setting_sensor_image,
+							setting_sensor_text, true);
 					checkBoxRightDrawChange(showText, isShake);
 				}
 			}
@@ -273,6 +318,7 @@ public class PrefrenceBeen {
 		setting_sensor_text.setTextColor(isEnable ? context.getResources()
 				.getColor(R.color.darkgray2) : Color.GRAY);
 	}
+
 	private void checkBoxRightDrawinit(Button btn, boolean on_off) {
 		if (!on_off) {
 			btn.setCompoundDrawablesWithIntrinsicBounds(0, 0,

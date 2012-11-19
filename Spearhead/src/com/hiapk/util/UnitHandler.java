@@ -152,4 +152,37 @@ public class UnitHandler {
 		return value;
 	}
 
+	/**
+	 * 单位标准化，mb，gb等专用于悬浮窗的位数缩减换算
+	 * 
+	 * @param count
+	 *            输入的long型数
+	 * @param unit
+	 *            数值后面要显示的textview
+	 * @return 返回String型值
+	 */
+	public static String unitHandlerFloat(long count) {
+		String value = null;
+		float temp = count;
+		float floatnum = count;
+		float floatGB = count;
+		float floatTB = count;
+		if ((temp = temp / 1024) < 1) {
+			DecimalFormat format = new DecimalFormat("0.#");
+			value = format.format(temp) + " K";
+		} else if ((floatnum = (float) temp / 1024) < 1) {
+			DecimalFormat format = new DecimalFormat("0.#");
+			value = format.format(temp) + " K";
+		} else if ((floatGB = floatnum / 1024) < 1) {
+			DecimalFormat format = new DecimalFormat("0.##");
+			value = format.format(floatnum) + " M";
+		} else if ((floatTB = floatGB / 1024) < 1) {
+			DecimalFormat format = new DecimalFormat("0.##");
+			value = format.format(floatGB) + " G";
+		} else {
+			DecimalFormat format = new DecimalFormat("0.##");
+			value = format.format(floatTB) + " T";
+		}
+		return value;
+	}
 }

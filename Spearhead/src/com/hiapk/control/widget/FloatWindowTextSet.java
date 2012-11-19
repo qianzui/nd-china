@@ -15,8 +15,8 @@ public class FloatWindowTextSet {
 			traff = TrafficStats.getTotalRxBytes()
 					+ TrafficStats.getTotalTxBytes();
 
-			showStr.setFloatString(" " + UnitHandler.unitHandlerAccurate(0)
-					+ "/s ");
+			showStr.setFloatString(UnitHandler.unitHandlerFloat(0)
+					+ "/s");
 			return showStr;
 		} else {
 			long old = traff;
@@ -24,12 +24,11 @@ public class FloatWindowTextSet {
 					+ TrafficStats.getTotalTxBytes();
 			long returnTraff = traff - old;
 			if (returnTraff < 0) {
-				showStr.setFloatString(" " + UnitHandler.unitHandlerAccurate(0)
-						+ "/s ");
+				showStr.setFloatString(UnitHandler.unitHandlerFloat(0)
+						+ "/s");
 				return showStr;
 			} else {
-				showStr.setFloatString(" "
-						+ UnitHandler.unitHandlerAccurate(returnTraff) + "/s ");
+				showStr.setFloatString(UnitHandler.unitHandlerFloat(returnTraff) + "/s");
 				return showStr;
 			}
 
