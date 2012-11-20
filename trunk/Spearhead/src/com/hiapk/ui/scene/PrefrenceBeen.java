@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.control.widget.FloatWindowOperator;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.firewall.Block;
 import com.hiapk.logs.Logs;
@@ -113,12 +114,7 @@ public class PrefrenceBeen {
 			public void onClick(View v) {
 				boolean isopen = sharedDatawidget.isFloatOpen();
 				if (isopen) {
-					if (SetText.FloatIntX != 50) {
-						sharedDatawidget.setIntX(SetText.FloatIntX);
-					}
-					if (SetText.FloatIntY != 50) {
-						sharedDatawidget.setIntY(SetText.FloatIntY);
-					}
+					FloatWindowOperator.saveXYvalue(context);
 					context.stopService(new Intent("com.hiapk.server"));
 					checkBoxRightDrawChange(showText, isopen);
 					sharedDatawidget.setFloatOpen(false);
