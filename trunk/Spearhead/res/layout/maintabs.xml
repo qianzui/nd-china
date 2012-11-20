@@ -7,7 +7,8 @@
   <FrameLayout
          android:orientation="vertical"
          android:layout_width="fill_parent"
-         android:layout_height="fill_parent" >
+         android:layout_height="fill_parent"
+         android:background="@drawable/bground_dark" >
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -18,7 +19,7 @@
             android:layout_width="fill_parent"
             android:layout_height="0.0dip"
             android:layout_weight="1.0"  
-            android:background="@color/black" />
+            android:background="@drawable/bground_dark" />
  
         <TabWidget
             android:id="@android:id/tabs"
@@ -66,11 +67,6 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         >
-      <ImageView
-            android:id="@+id/help_image"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            />   
      </LinearLayout>
      </FrameLayout>
 </TabHost>

@@ -39,6 +39,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/bground_dark"
         android:orientation="vertical" >
 
         <!-- 第一行开始 -->
@@ -272,7 +273,6 @@
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
             android:layout_weight="1"
-            android:background="@drawable/bg_about"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -280,7 +280,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_gravity="center"
-                android:background="@color/main_background_color"
+                android:background="@drawable/bg_about"
                 android:orientation="vertical"
                 android:paddingBottom="-5dp"
                 android:paddingTop="5dp" >
