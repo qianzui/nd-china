@@ -14,6 +14,7 @@ import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceDataOnUpdate;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,11 +24,13 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Window;
 import android.widget.LinearLayout;
 
 public class SplashLayout extends LinearLayout {
 
 	private Context context;
+	private Activity activity;
 	private AlarmSet alset = new AlarmSet();
 	long time;
 	private boolean isinited;
@@ -36,14 +39,19 @@ public class SplashLayout extends LinearLayout {
 	private static Editor UseEditor;
 	private static final String ACTION_TIME_CHANGED = Intent.ACTION_TIME_CHANGED;
 
-	public SplashLayout(Context context) {
+	public SplashLayout(Activity activity, Context context) {
 		super(context);
 		this.context = context;
+		this.activity = activity;
 		onCreateView();
 	}
 
 	private void onCreateView() {
-		LayoutInflater.from(getContext()).inflate(R.layout.splash, this);
+		LayoutInflater.from(context).inflate(R.layout.splash, this);
+		Window window = activity.getWindow();
+		int heigh = window.getWindowManager().getDefaultDisplay().getHeight();
+		int width = window.getWindowManager().getDefaultDisplay().getWidth();
+		this.setLayoutParams(new LayoutParams(width, heigh));
 	}
 
 	public void onCreateOperator() {
