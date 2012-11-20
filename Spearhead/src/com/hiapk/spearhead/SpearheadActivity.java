@@ -93,7 +93,8 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 	private void initApp() {
 		splashLayout = (LinearLayout) findViewById(R.id.help_layout);
 		splashLayout.removeAllViews();
-		SplashLayout splashView = new SplashLayout(context);
+		SplashLayout splashView = new SplashLayout(SpearheadActivity.this,
+				context);
 		splashLayout.addView(splashView);
 		splashView.onCreateOperator();
 	}
