@@ -292,10 +292,10 @@ public class Main extends Activity {
 	private void initChartBar() {
 		Logs.d(TAG, "month=" + month);
 		switch (chartType) {
-		case 1:
+		case 0:
 			initMobileBar();
 			break;
-		case 0:
+		case 1:
 			initWifiBar();
 			break;
 		default:

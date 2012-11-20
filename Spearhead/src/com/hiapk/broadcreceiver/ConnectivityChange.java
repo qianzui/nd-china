@@ -1,5 +1,6 @@
 package com.hiapk.broadcreceiver;
 
+import com.hiapk.control.widget.FloatWindowOperator;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceDataWidget;
@@ -126,6 +127,7 @@ public class ConnectivityChange extends BroadcastReceiver {
 		protected void onPostExecute(Long result) {
 			if (SQLStatic.TableWiFiOrG23 == "") {
 				if (!SQLStatic.isAppOpened) {
+					FloatWindowOperator.saveXYvalue(context);
 					android.os.Process.killProcess(android.os.Process.myPid());
 				}
 			}

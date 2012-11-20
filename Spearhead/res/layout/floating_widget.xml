@@ -15,7 +15,7 @@
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@color/gray"
+            android:background="#330a0a0a"
             android:gravity="center"
             android:singleLine="true"
             android:text=" 0 K/s "

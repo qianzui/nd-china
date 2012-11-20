@@ -1,7 +1,7 @@
 package com.hiapk.widget;
 
 import com.hiapk.bean.FloatWindowStr;
-import com.hiapk.control.widget.FloatWindowTextSet;
+import com.hiapk.control.widget.FloatWindowOperator;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.logs.Logs;
 import com.hiapk.spearhead.R;
@@ -52,7 +52,7 @@ public class FloatService extends Service {
 		tx = (TextView) view.findViewById(R.id.textUp);
 		// tx1 = (TextView) view.findViewById(R.id.textDown);
 		// 获取数值
-		FloatWindowStr floatStr = FloatWindowTextSet.getspeed();
+		FloatWindowStr floatStr = FloatWindowOperator.getspeed();
 		tx.setText(floatStr.getFloatString());
 		// tx1.setText("" + TrafficInfomation.getspeed(this) + "KB");
 		iv = (ImageView) view.findViewById(R.id.image);
@@ -166,7 +166,7 @@ public class FloatService extends Service {
 	public void dataRefresh() {
 		if (SQLStatic.TableWiFiOrG23 != "") {
 			// 获取数值
-			FloatWindowStr floatStr = FloatWindowTextSet.getspeed();
+			FloatWindowStr floatStr = FloatWindowOperator.getspeed();
 			tx.setText(floatStr.getFloatString());
 		} else {
 			tx.setText(" " + "0 K" + "/s ");

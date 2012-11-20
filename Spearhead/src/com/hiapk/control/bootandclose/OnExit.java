@@ -7,26 +7,15 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import com.hiapk.broadcreceiver.ExitAppBroadcast;
-import com.hiapk.control.widget.SetText;
+import com.hiapk.control.widget.FloatWindowOperator;
 import com.hiapk.spearhead.SpearheadApplication;
 import com.hiapk.util.SQLStatic;
-import com.hiapk.util.SharedPrefrenceDataWidget;
 
 public class OnExit {
 
 	public void onExit(Context context) {
 		SQLStatic.isAppOpened = false;
-		SharedPrefrenceDataWidget sharedWidget = new SharedPrefrenceDataWidget(
-				context);
-		if (sharedWidget.isFloatOpen()) {
-			if (SetText.FloatIntX != 50) {
-				sharedWidget.setIntX(SetText.FloatIntX);
-			}
-			if (SetText.FloatIntY != 50) {
-				sharedWidget.setIntY(SetText.FloatIntY);
-			}
-
-		}
+		FloatWindowOperator.saveXYvalue(context);
 		Intent intent = new Intent(context, ExitAppBroadcast.class);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
 				intent, 0);
