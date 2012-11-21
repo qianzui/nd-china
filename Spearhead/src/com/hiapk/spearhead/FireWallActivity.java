@@ -277,7 +277,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			loading_content.setVisibility(View.GONE);
 			if (Block.isShowHelp(mContext)) {
 				showHelp(mContext);
-				SpearheadActivity.isHide = true;
+				Splash.isHide = true;
 			} else {
 				if (Block.fireTip(mContext)) {
 					Toast.makeText(mContext, "下拉列表可以进行刷新!", Toast.LENGTH_SHORT)
@@ -571,11 +571,11 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 	public void showHelp(final Context mContext) {
 		Drawable d = mContext.getResources().getDrawable(R.drawable.fire_help);
-		SpearheadActivity.firehelp.setBackgroundDrawable(d);
-		SpearheadActivity.firehelp.setOnClickListener(new OnClickListener() {
+		Splash.firehelp.setBackgroundDrawable(d);
+		Splash.firehelp.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				SpearheadActivity.firehelp.setVisibility(View.INVISIBLE);
+				Splash.firehelp.setVisibility(View.INVISIBLE);
 				Block.isShowHelpSet(mContext, false);
 			}
 		});
