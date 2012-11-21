@@ -12,7 +12,7 @@ import com.hiapk.control.traff.NotificationInfo;
 import com.hiapk.firewall.Block;
 import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.R;
-import com.hiapk.spearhead.Splash;
+import com.hiapk.spearhead.SpearheadActivity;
 import com.hiapk.spearhead.SpearheadApplication;
 import com.hiapk.util.SharedPrefrenceData;
 
@@ -126,8 +126,8 @@ public class CustomDialogMain2Been {
 				NotificationInfo.isgettingdata = false;
 				NotificationInfo.notificationRes = new StringBuilder();
 				NotificationInfo.hasdata = false;
-				Splash.switchScene(0);
-				Splash.switchScene(1);
+				SpearheadActivity.switchScene(0);
+				SpearheadActivity.switchScene(1);
 				scanNotificationRootFail.dismiss();
 			}
 		});
@@ -142,8 +142,8 @@ public class CustomDialogMain2Been {
 				sharedData.setFireWallType(0);
 				NotificationInfo.callbyonCancel = true;
 				NotificationInfo.notificationRes = new StringBuilder();
-				Splash.switchScene(0);
-				Splash.switchScene(1);
+				SpearheadActivity.switchScene(0);
+				SpearheadActivity.switchScene(1);
 				scanNotificationRootFail.dismiss();
 			}
 		});
@@ -155,8 +155,8 @@ public class CustomDialogMain2Been {
 				sharedData.setFireWallType(0);
 				NotificationInfo.notificationRes = new StringBuilder();
 				NotificationInfo.callbyonCancel = true;
-				Splash.switchScene(0);
-				Splash.switchScene(1);
+				SpearheadActivity.switchScene(0);
+				SpearheadActivity.switchScene(1);
 				scanNotificationRootFail.dismiss();
 			}
 		});

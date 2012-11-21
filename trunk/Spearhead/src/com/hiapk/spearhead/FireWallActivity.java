@@ -16,7 +16,6 @@ import com.hiapk.firewall.Rotate3dAnimation;
 import com.hiapk.logs.Logs;
 import com.hiapk.logs.SaveRule;
 import com.hiapk.sqlhelper.uid.SQLHelperFireWall;
-import com.hiapk.ui.SplashLayout;
 import com.hiapk.ui.custom.CustomDialog;
 import com.hiapk.ui.custom.CustomDialogMain2Been;
 import com.hiapk.ui.skin.SkinCustomMains;
@@ -277,7 +276,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			loading_content.setVisibility(View.GONE);
 			if (Block.isShowHelp(mContext)) {
 				showHelp(mContext);
-				Splash.isHide = true;
+				SpearheadActivity.isHide = true;
 			} else {
 				if (Block.fireTip(mContext)) {
 					Toast.makeText(mContext, "下拉列表可以进行刷新!", Toast.LENGTH_SHORT)
@@ -437,7 +436,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 					@Override
 					protected Void doInBackground(Void... params) {
 						getList(mContext);
-						SplashLayout.getList(mContext);
+						Splash.getList(mContext);
 						initUidData();
 						while (SQLStatic.uiddata == null) {
 							if (SQLStatic.uiddata != null) {
@@ -506,7 +505,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			@Override
 			public void run() {
 				getList(mContext);
-				SplashLayout.getList(mContext);
+				Splash.getList(mContext);
 				int i = 0;
 				int j = 0;
 				do {
@@ -550,7 +549,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			@Override
 			protected Void doInBackground(Void... params) {
 				getList(mContext);
-				SplashLayout.getList(mContext);
+				Splash.getList(mContext);
 				initUidData();
 				while (SQLStatic.uiddata == null) {
 					if (SQLStatic.uiddata != null) {
@@ -571,11 +570,11 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 	public void showHelp(final Context mContext) {
 		Drawable d = mContext.getResources().getDrawable(R.drawable.fire_help);
-		Splash.firehelp.setBackgroundDrawable(d);
-		Splash.firehelp.setOnClickListener(new OnClickListener() {
+		SpearheadActivity.firehelp.setBackgroundDrawable(d);
+		SpearheadActivity.firehelp.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Splash.firehelp.setVisibility(View.INVISIBLE);
+				SpearheadActivity.firehelp.setVisibility(View.INVISIBLE);
 				Block.isShowHelpSet(mContext, false);
 			}
 		});

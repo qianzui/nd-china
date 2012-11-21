@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 
 import com.hiapk.spearhead.R;
-import com.hiapk.spearhead.Splash;
+import com.hiapk.spearhead.SpearheadActivity;
 
 /**
  * 程序的通知栏
@@ -64,7 +64,7 @@ public class NotificatiionProgramControl {
 		notification.flags = Notification.FLAG_ONGOING_EVENT;
 
 		// 实例化Intent
-		Intent intent = new Intent(context, Splash.class);
+		Intent intent = new Intent(context, SpearheadActivity.class);
 		Bundle choosetab = new Bundle();
 		choosetab.putInt("TAB", 1);
 		intent.putExtras(choosetab);
