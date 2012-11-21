@@ -34,6 +34,8 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -92,10 +94,13 @@ public class Splash extends TabActivity implements OnClickListener {
 	 */
 	private void initApp() {
 		splashLayout = (LinearLayout) findViewById(R.id.help_layout);
-		splashLayout.removeAllViews();
-		SplashLayout splashView = new SplashLayout(Splash.this,
+		// splashLayout.removeAllViews();
+		// 显示防火墙的帮助页面
+		firehelp = new ImageView(context);
+		// splashLayout.addView(firehelp);
+		SplashLayout splashView = new SplashLayout(splashLayout, firehelp,
 				context);
-		splashLayout.addView(splashView);
+		// splashLayout.addView(splashView);
 		splashView.onCreateOperator();
 	}
 
@@ -138,14 +143,14 @@ public class Splash extends TabActivity implements OnClickListener {
 				}
 			}
 		});
-		// 显示防火墙的帮助页面
-		firehelp = new ImageView(context);
-		splashLayout.addView(firehelp);
 	}
 
 	public void showHelp(Context mContext) {
-		Drawable d = mContext.getResources().getDrawable(R.drawable.fire_help);
-		firehelp.setBackgroundDrawable(d);
+		LayoutParams param = firehelp.getLayoutParams();
+		param.width = LayoutParams.FILL_PARENT;
+		param.height = LayoutParams.FILL_PARENT;
+		firehelp.setLayoutParams(param);
+		firehelp.setBackgroundResource(R.drawable.fire_help);
 		firehelp.setVisibility(View.VISIBLE);
 		firehelp.setOnClickListener(new OnClickListener() {
 			@Override
@@ -162,10 +167,17 @@ public class Splash extends TabActivity implements OnClickListener {
 
 	public void showHelp() {
 		if (Block.isShowHelp(context)) {
+			LayoutParams param = firehelp.getLayoutParams();
+			param.width = LayoutParams.FILL_PARENT;
+			param.height = LayoutParams.FILL_PARENT;
+			firehelp.setLayoutParams(param);
+			firehelp.setBackgroundResource(R.drawable.fire_help);
 			firehelp.setVisibility(View.VISIBLE);
+			Logs.d(TAG, "show1");
 		}
 		if (Block.isShowHelp(context) && isHide) {
 			showHelp(context);
+			Logs.d(TAG, "show2");
 		}
 	}
 
@@ -246,8 +258,8 @@ public class Splash extends TabActivity implements OnClickListener {
 		}
 		// 显示窗口
 		menuWindowMain.showAtLocation(
-				Splash.this.findViewById(R.id.main_radio),
-				Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+				Splash.this.findViewById(R.id.main_radio), Gravity.BOTTOM
+						| Gravity.CENTER_HORIZONTAL, 0, 0);
 	}
 
 	@Override
@@ -285,8 +297,8 @@ public class Splash extends TabActivity implements OnClickListener {
 			}
 			// 显示窗口
 			menuWindowSub.showAtLocation2(
-					Splash.this.findViewById(R.id.main_radio),
-					Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+					Splash.this.findViewById(R.id.main_radio), Gravity.BOTTOM
+							| Gravity.CENTER_HORIZONTAL, 0, 0);
 			// ---------------
 			// startActivity(getIntentSharePhotoAndText(""));
 			break;
@@ -299,8 +311,7 @@ public class Splash extends TabActivity implements OnClickListener {
 			menuWindowSub.dismissPop();
 			if (menuWindowWeibo == null) {
 				// 实例化SelectPicPopupWindow
-				menuWindowWeibo = new CustomMenuWeibo(Splash.this,
-						this);
+				menuWindowWeibo = new CustomMenuWeibo(Splash.this, this);
 			}
 			// 显示窗口
 			menuWindowWeibo.showAtLocation2(

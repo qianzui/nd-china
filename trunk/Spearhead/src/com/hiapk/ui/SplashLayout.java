@@ -7,14 +7,13 @@ import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.firewall.Block;
 import com.hiapk.logs.Logs;
-import com.hiapk.spearhead.R;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
+import com.hiapk.ui.custom.CustomDialogFAQBeen;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceDataOnUpdate;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,36 +21,94 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.Window;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 public class SplashLayout extends LinearLayout {
 
 	private Context context;
-	private Activity activity;
+	private LinearLayout layout;
+	private ImageView firehelp;
 	private AlarmSet alset = new AlarmSet();
 	long time;
 	private boolean isinited;
-	private String TAG = "Splash";
+	private String TAG = "SplashLayout";
 	private static PackageManager pm;
 	private static Editor UseEditor;
 	private static final String ACTION_TIME_CHANGED = Intent.ACTION_TIME_CHANGED;
+	private Handler handle;
+	private long sysTimeStart = 0;
+	private Runnable delayShow = new Runnable() {
 
-	public SplashLayout(Activity activity, Context context) {
+		@Override
+		public void run() {
+			long sysTimeNow = System.currentTimeMillis();
+			Logs.d(TAG, "sysTimeStart=" + sysTimeStart);
+			Logs.d(TAG, "sysTimeNow=" + sysTimeNow);
+			Logs.d(TAG, "diff=" + (sysTimeNow - sysTimeStart));
+			if (sysTimeNow - sysTimeStart > 1000) {
+				try {
+					Thread.sleep(800);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				handle.handleMessage(null);
+			} else {
+				try {
+					Thread.sleep(1800);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				handle.handleMessage(null);
+			}
+
+		}
+	};
+
+	public SplashLayout(LinearLayout layout, ImageView firehelp,
+			Context context) {
 		super(context);
 		this.context = context;
-		this.activity = activity;
+		this.layout = layout;
+		this.firehelp = firehelp;
 		onCreateView();
+		handleMessage();
+	}
+
+	private void handleMessage() {
+		handle = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				layout.removeAllViews();
+				layout.addView(firehelp);
+				versionUpdateWindiw();
+				super.handleMessage(msg);
+			}
+		};
 	}
 
 	private void onCreateView() {
-		LayoutInflater.from(context).inflate(R.layout.splash, this);
-		Window window = activity.getWindow();
-		int heigh = window.getWindowManager().getDefaultDisplay().getHeight();
-		int width = window.getWindowManager().getDefaultDisplay().getWidth();
-		this.setLayoutParams(new LayoutParams(width, heigh));
+		sysTimeStart = System.currentTimeMillis();
+		// LayoutInflater.from(context).inflate(R.layout.splash, this);
+		// Window window = activity.getWindow();
+		// int heigh =
+		// window.getWindowManager().getDefaultDisplay().getHeight();
+		// int width = window.getWindowManager().getDefaultDisplay().getWidth();
+		// this.setLayoutParams(new LayoutParams(width, heigh));
+	}
+
+	private void versionUpdateWindiw() {
+		SharedPrefrenceDataOnUpdate sharedupdate = new SharedPrefrenceDataOnUpdate(
+				context);
+		if (sharedupdate.isVersionupdated() == false) {
+			CustomDialogFAQBeen dialogupdate = new CustomDialogFAQBeen(context);
+			dialogupdate.dialogUpdateInfoOnFirst();
+			sharedupdate.setVersionupdated(true);
+		}
+
 	}
 
 	public void onCreateOperator() {
@@ -156,7 +213,7 @@ public class SplashLayout extends LinearLayout {
 		@Override
 		protected void onPostExecute(Integer result) {
 			showLog("startingMain" + (System.currentTimeMillis() - time));
-			removeAllViews();
+			delayShow.run();
 		}
 	}
 
@@ -182,7 +239,7 @@ public class SplashLayout extends LinearLayout {
 		@Override
 		protected void onPostExecute(Integer result) {
 			showLog("startingMain" + (System.currentTimeMillis() - time));
-			removeAllViews();
+			delayShow.run();
 		}
 	}
 
