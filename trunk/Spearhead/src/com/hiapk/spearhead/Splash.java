@@ -26,7 +26,6 @@ import android.app.ProgressDialog;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -35,7 +34,6 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -85,8 +83,6 @@ public class Splash extends TabActivity implements OnClickListener {
 		// ÎªÁËÍË³ö¡£
 		SpearheadApplication.getInstance().addActivity(this);
 		initApp();
-		initScene();
-		switchSceneOninit();
 	}
 
 	/**
@@ -423,6 +419,8 @@ public class Splash extends TabActivity implements OnClickListener {
 				context);
 		notifyctrl.cancelAlertNotify(context);
 		isExit = false;
+		initScene();
+		switchSceneOninit();
 		// MobclickAgent.onResume(this);
 	}
 
