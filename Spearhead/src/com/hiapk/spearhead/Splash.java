@@ -1,461 +1,207 @@
 package com.hiapk.spearhead;
 
-import java.io.File;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.HashMap;
+import java.util.List;
 
-import com.hiapk.contral.weibo.ScreenShot;
-import com.hiapk.contral.weibo.WeiboSinaMethod;
-import com.hiapk.contral.weibo.WeiboTecentMethod;
-import com.hiapk.control.bootandclose.OnExit;
-import com.hiapk.control.traff.NotificationInfo;
-import com.hiapk.control.widget.NotificationWarningControl;
+import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.firewall.Block;
 import com.hiapk.logs.Logs;
-import com.hiapk.ui.SplashLayout;
-import com.hiapk.ui.custom.CustomDialogFAQBeen;
-import com.hiapk.ui.custom.CustomMenuMain;
-import com.hiapk.ui.custom.CustomMenuSub;
-import com.hiapk.ui.custom.CustomMenuWeibo;
-import com.hiapk.ui.scene.MenuSceneActivity;
-import com.hiapk.ui.scene.PrefrenceSetting;
-import com.hiapk.ui.scene.WeiboSinaActivity;
-import com.hiapk.ui.scene.weibo.tencent.WeiboTencentActivity;
+import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
+import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
+import com.hiapk.util.SQLStatic;
+import com.hiapk.util.SharedPrefrenceDataOnUpdate;
 
-import android.app.ProgressDialog;
-import android.app.TabActivity;
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
-import android.webkit.WebView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RadioGroup;
-import android.widget.TabHost;
-import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.widget.Toast;
 
-public class Splash extends TabActivity implements OnClickListener {
-	WebView webView;
-	private static RadioGroup group;
-	public static TabHost tabHost;
-	public static final String TAB_MONITOR = "tabMonitor";
-	public static final String TAB_FIREWALL = "tabFireWall";
-	public static final String TAB_WARNING = "tabWarning";
-	Context context = this;
-	private String TAG = "SpearheadActivity";
-	// 按两次退出
-	public static Boolean isExit = false;
-	public ProgressDialog pro;
-	public static ImageView firehelp;
-	public LinearLayout splashLayout;
-	private Timer tExit = new Timer();
-	public static boolean isHide = false;
-	private TimerTask task = new TimerTask() {
-		@Override
-		public void run() {
-			isExit = false;
-		}
-	};
-	/**
-	 * 存储第一个页面截图的路径
-	 */
-	private String picPath = "";
-	private String pacName_tencent = "com.tencent.WBlog";
-	private String pacName_sina = "com.sina.weibo";
-	// 自定义的弹出框类
-	CustomMenuMain menuWindowMain;
-	CustomMenuSub menuWindowSub;
-	CustomMenuWeibo menuWindowWeibo;
+public class Splash extends Activity {
+	private Context context = this;
+	private AlarmSet alset = new AlarmSet();
+	long time;
+	private boolean isinited;
+	private String TAG = "Splash";
+	private static PackageManager pm;
+	private static Editor UseEditor;
+	private static final String ACTION_TIME_CHANGED = Intent.ACTION_TIME_CHANGED;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.splash);
+		context.sendBroadcast(new Intent(ACTION_TIME_CHANGED));
+		SQLStatic.isAppOpened = true;
+		time = System.currentTimeMillis();
 		// MobclickAgent.onError(this);
-		setContentView(R.layout.maintabs);
-		// 为了退出。
-		SpearheadApplication.getInstance().addActivity(this);
-		initApp();
+		isinited = SQLStatic.getIsInit(context);
+		showLog("isinited=" + isinited);
+		if (isinited) {
+			alset.StartAlarm(context);
+			alset.StartWidgetAlarm(context);
+			new AsyncTaskonResume().execute(context);
+		} else {
+			// 数据库未初始化则不需要进行版本更新时的特殊操作
+			SharedPrefrenceDataOnUpdate sharedUpdate = new SharedPrefrenceDataOnUpdate(
+					context);
+			sharedUpdate.setUidRecordUpdated(true);
+			sharedUpdate.setTotal121updated(true);
+			new AsyncTaskinitDatabase().execute(context);
+		}
+
+		showLog("startinitfire" + (System.currentTimeMillis() - time));
+		new AsyncTask<Void, Void, Void>() {
+			@Override
+			protected Void doInBackground(Void... params) {
+				getList(context);
+
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(Void result) {
+				showLog("initfireover" + (System.currentTimeMillis() - time));
+			}
+		}.execute();
+
 	}
 
-	/**
-	 * 程序初始化时的操作
-	 */
-	private void initApp() {
-		splashLayout = (LinearLayout) findViewById(R.id.help_layout);
-		// splashLayout.removeAllViews();
-		// 显示防火墙的帮助页面
-		firehelp = new ImageView(context);
-		// splashLayout.addView(firehelp);
-		SplashLayout splashView = new SplashLayout(splashLayout, firehelp,
-				context);
-		// splashLayout.addView(splashView);
-		splashView.onCreateOperator();
-	}
-
-	/**
-	 * 初始化
-	 */
-	private void initScene() {
-		group = (RadioGroup) findViewById(R.id.main_radio);
-		tabHost = getTabHost();
-		tabHost.addTab(tabHost.newTabSpec(TAB_MONITOR)
-				.setIndicator(TAB_MONITOR)
-				.setContent(new Intent(context, Main.class)));
-		tabHost.addTab(tabHost.newTabSpec(TAB_FIREWALL)
-				.setIndicator(TAB_FIREWALL)
-				.setContent(new Intent(context, FireWallActivity.class)));
-		tabHost.addTab(tabHost.newTabSpec(TAB_WARNING)
-				.setIndicator(TAB_WARNING)
-				.setContent(new Intent(this, Main3.class)));
-		group.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				switch (checkedId) {
-				case R.id.radio_button0:
-					hideHelp();
-					isHide = false;
-					tabHost.setCurrentTabByTag(TAB_MONITOR);
-					break;
-				case R.id.radio_button1:
-					showHelp();
-					NotificationInfo.callbyonFirstBacktoFire = true;
-					tabHost.setCurrentTabByTag(TAB_FIREWALL);
-					// FireWallMainScene.switScene(0);
-					break;
-				case R.id.radio_button2:
-					hideHelp();
-					isHide = false;
-					tabHost.setCurrentTabByTag(TAB_WARNING);
-					break;
-				default:
-					break;
+	public static void getList(Context context) {
+		pm = context.getPackageManager();
+		List<ApplicationInfo> appInfos = pm.getInstalledApplications(0);
+		Block.appnamemap = new HashMap<Integer, String>();
+		SharedPreferences prefs = context.getSharedPreferences("firewall", 0);
+		UseEditor = context.getSharedPreferences("firewall", 0).edit();
+		String appname;
+		for (int i = 0; i < appInfos.size(); i++) {
+			final ApplicationInfo appInfo = appInfos.get(i);
+			final int uid = appInfo.uid;
+			final String pkgName = appInfo.packageName;
+			if (PackageManager.PERMISSION_GRANTED == pm.checkPermission(
+					Manifest.permission.INTERNET, pkgName)) {
+				if (Block.filter.contains(pkgName)) {
+				} else {
+					appname = prefs.getString(pkgName, "");
+					if (appname != "") {
+						Block.appnamemap.put(uid, appname);
+					} else {
+						// new AsyncTaskSetappName().execute(pkgInfo);
+						appname = appInfo.loadLabel(pm).toString();
+						UseEditor.putString(pkgName, appname);
+						Block.appnamemap.put(uid, appname);
+					}
 				}
 			}
-		});
-	}
-
-	public void showHelp(Context mContext) {
-		LayoutParams param = firehelp.getLayoutParams();
-		param.width = LayoutParams.FILL_PARENT;
-		param.height = LayoutParams.FILL_PARENT;
-		firehelp.setLayoutParams(param);
-		firehelp.setBackgroundResource(R.drawable.fire_help);
-		firehelp.setVisibility(View.VISIBLE);
-		firehelp.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				firehelp.setVisibility(View.INVISIBLE);
-				Block.isShowHelpSet(context, false);
-			}
-		});
-	}
-
-	public void hideHelp() {
-		firehelp.setVisibility(View.INVISIBLE);
-	}
-
-	public void showHelp() {
-		if (Block.isShowHelp(context)) {
-			LayoutParams param = firehelp.getLayoutParams();
-			param.width = LayoutParams.FILL_PARENT;
-			param.height = LayoutParams.FILL_PARENT;
-			firehelp.setLayoutParams(param);
-			firehelp.setBackgroundResource(R.drawable.fire_help);
-			firehelp.setVisibility(View.VISIBLE);
-			Logs.d(TAG, "show1");
 		}
-		if (Block.isShowHelp(context) && isHide) {
-			showHelp(context);
-			Logs.d(TAG, "show2");
+		UseEditor.commit();
+	}
+
+	private class AsyncTaskonResume extends
+			AsyncTask<Context, Integer, Integer> {
+
+		@Override
+		protected Integer doInBackground(Context... params) {
+			showLog("alarmover" + (System.currentTimeMillis() - time));
+			// MobclickAgent.onError(this);
+			showLog("uidinitbeforeover" + (System.currentTimeMillis() - time));
+			if (SQLStatic.packagenames == null) {
+				SQLStatic.getuidsAndpacname(context);
+			}
+			showLog("uidinitover" + (System.currentTimeMillis() - time));
+			showLog("SQLStatic.pac.size=" + SQLStatic.packagenames.length);
+			// 说明已经初始化
+			if (TrafficManager.mobile_month_use != 1)
+				return 0;
+			// 开始初始化数据
+			SQLHelperDataexe.initShowDataOnSplash(params[0]);
+			showLog("overinitMaindata" + (System.currentTimeMillis() - time));
+			// 初始化中等待初始化完成
+			while (SQLHelperDataexe.isiniting == true) {
+				try {
+					Thread.sleep(80);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			return 3;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			showLog("startingMain" + (System.currentTimeMillis() - time));
+			Intent mainIntent = new Intent(Splash.this, SpearheadActivity.class);
+			Bundle choosetab = new Bundle();
+			choosetab.putInt("TAB", 1);
+			mainIntent.putExtras(choosetab);
+			Splash.this.startActivity(mainIntent);
+			showLog("this.finish" + (System.currentTimeMillis() - time));
+			Splash.this.finish();
+		}
+	}
+
+	private class AsyncTaskinitDatabase extends
+			AsyncTask<Context, Integer, Integer> {
+
+		@Override
+		protected Integer doInBackground(Context... params) {
+			showLog("alarmover" + (System.currentTimeMillis() - time));
+			SQLStatic.initTablemobileAndwifi(context);
+			// MobclickAgent.onError(this);
+			showLog("uidinitbeforeover" + (System.currentTimeMillis() - time));
+			SQLStatic.getuidsAndpacname(context);
+			showLog("uidinitover" + (System.currentTimeMillis() - time));
+
+			showLog("startinitSQL" + (System.currentTimeMillis() - time));
+			initSQLdatabase(params[0], SQLStatic.uidnumbers,
+					SQLStatic.packagenames);
+			showLog("overinitSQL" + (System.currentTimeMillis() - time));
+			return 3;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			showLog("startingMain" + (System.currentTimeMillis() - time));
+			Intent mainIntent = new Intent(Splash.this, SpearheadActivity.class);
+			Bundle choosetab = new Bundle();
+			choosetab.putInt("TAB", 1);
+			mainIntent.putExtras(choosetab);
+			Splash.this.startActivity(mainIntent);
+			showLog("this.finish" + (System.currentTimeMillis() - time));
+			Splash.this.finish();
 		}
 	}
 
 	/**
-	 * 显示第几个页面0/1/2
+	 * 初始化数据库
 	 * 
-	 * @param tab
+	 * @param uids
+	 *            uid数组
+	 * @param packagename
+	 *            uid对应的包名组
 	 */
-	public static void switchScene(int tab) {
-		switch (tab) {
-		case 1:
-			group.clearCheck();
-			group.check(R.id.radio_button1);
-			tabHost.setCurrentTabByTag(TAB_FIREWALL);
-			break;
-		case 2:
-			group.clearCheck();
-			group.check(R.id.radio_button2);
-			tabHost.setCurrentTabByTag(TAB_WARNING);
-			break;
-
-		default:
-			group.clearCheck();
-			group.check(R.id.radio_button0);
-			tabHost.setCurrentTabByTag(TAB_MONITOR);
-			break;
-		}
-	}
-
-	/**
-	 * 初始显示第几个页面1/2/3
-	 */
-	private void switchSceneOninit() {
-		// 选择界面
-		Bundle choose = this.getIntent().getExtras();
-		int tab = 1;
-		try {
-			tab = choose.getInt("TAB");
-		} catch (Exception e) {
-
-		}
-		// Log.d("spearhead", tab + "");
-		switch (tab) {
-		case 3:
-			group.clearCheck();
-			group.check(R.id.radio_button2);
-			tabHost.setCurrentTabByTag(TAB_WARNING);
-			break;
-
-		default:
-			group.clearCheck();
-			group.check(R.id.radio_button0);
-			tabHost.setCurrentTabByTag(TAB_MONITOR);
-			break;
-		}
-	}
-
-	/**
-	 * 第一个页面切换到第三个页面的按钮
-	 */
-	public void tabThree() {
-		group.clearCheck();
-		group.check(R.id.radio_button2);
-		tabHost.setCurrentTabByTag(TAB_WARNING);
+	private void initSQLdatabase(Context context, int[] uids,
+			String[] packagename) {
+		SQLHelperInitSQL sqlhelperInit = new SQLHelperInitSQL(context);
+		sqlhelperInit.initSQL(context, uids, packagename);
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		Logs.d(TAG, "onCreateOptionsMenu");
-		showMenuMain();
-		return false;
-	}
-
-	private void showMenuMain() {
-		if (menuWindowMain == null) {
-			// 实例化SelectPicPopupWindow
-			menuWindowMain = new CustomMenuMain(Splash.this, this);
-		}
-		// 显示窗口
-		menuWindowMain.showAtLocation(
-				Splash.this.findViewById(R.id.main_radio), Gravity.BOTTOM
-						| Gravity.CENTER_HORIZONTAL, 0, 0);
-	}
-
-	@Override
-	public void onClick(View v) {
-
-		switch (v.getId()) {
-		case R.id.menubtn_setting:
-			Intent intentPref = new Intent();
-			intentPref.setClass(context, PrefrenceSetting.class);
-			startActivity(intentPref);
-			menuWindowMain.dismissPop();
-			break;
-		case R.id.menubtn_faq:
-			Intent faqIntent = new Intent();
-			Bundle bundlefaq = new Bundle();
-			bundlefaq.putString("url", "file:///android_asset/faq/faq.html");
-			bundlefaq.putString("title", "先锋流量监控FAQ");
-			// "file:///android_asset/faq/faq.html"
-			// faqIntent.putExtras(bundle)
-			faqIntent.putExtra("infos", bundlefaq);
-			faqIntent.setClass(context, MenuSceneActivity.class);
-			startActivity(faqIntent);
-			// showFaqPopUp("file:///android_asset/faq/faq.html");
-			// CustomDialogFAQBeen customFAQ = new
-			// CustomDialogFAQBeen(context);
-			// customFAQ.dialogFAQ();menuWindowMain.dismiss();
-			menuWindowMain.dismissPop();
-			break;
-		case R.id.menubtn_more:
-			// ---------------
-			menuWindowMain.dismissPop();
-			if (menuWindowSub == null) {
-				// 实例化SelectPicPopupWindow
-				menuWindowSub = new CustomMenuSub(Splash.this, this);
-			}
-			// 显示窗口
-			menuWindowSub.showAtLocation2(
-					Splash.this.findViewById(R.id.main_radio), Gravity.BOTTOM
-							| Gravity.CENTER_HORIZONTAL, 0, 0);
-			// ---------------
-			// startActivity(getIntentSharePhotoAndText(""));
-			break;
-		case R.id.menubtn_exit:
-			OnExit exit = new OnExit();
-			exit.onExit(context);
-			menuWindowMain.dismiss();
-			break;
-		case R.id.menubtn_share:
-			menuWindowSub.dismissPop();
-			if (menuWindowWeibo == null) {
-				// 实例化SelectPicPopupWindow
-				menuWindowWeibo = new CustomMenuWeibo(Splash.this, this);
-			}
-			// 显示窗口
-			menuWindowWeibo.showAtLocation2(
-					Splash.this.findViewById(R.id.main_radio),
-					Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
-			break;
-		case R.id.menubtn_sina:
-			picPath = getScreenShoot();
-			WeiboSinaMethod weiboSinaM = new WeiboSinaMethod(context);
-			if (weiboSinaM.isSinaInstalled()) {
-				startActivity(getIntentSharePhotoAndText(picPath, pacName_sina));
-			} else {
-				Bundle shareBundle = new Bundle();
-				shareBundle.putString("path", picPath);
-				Intent sharetoSina = new Intent();
-				sharetoSina.putExtras(shareBundle);
-				sharetoSina.setClass(context, WeiboSinaActivity.class);
-				startActivity(sharetoSina);
-			}
-			menuWindowWeibo.dismissPop();
-			break;
-		case R.id.menubtn_tencent:
-			picPath = getScreenShoot();
-			WeiboTecentMethod weiboMethod = new WeiboTecentMethod(context);
-			if (weiboMethod.isTecentInstalled()) {
-				startActivity(getIntentSharePhotoAndText(picPath,
-						pacName_tencent));
-			} else {
-				Bundle shareBundle = new Bundle();
-				shareBundle.putString("path", picPath);
-				Intent sharetoSina = new Intent();
-				sharetoSina.putExtras(shareBundle);
-				sharetoSina.setClass(context, WeiboTencentActivity.class);
-				startActivity(sharetoSina);
-			}
-			menuWindowWeibo.dismissPop();
-			break;
-		case R.id.menubtn_updatemess:
-			Intent updateinfoIntent = new Intent();
-			Bundle bundleupdateinfo = new Bundle();
-			bundleupdateinfo.putString("url",
-					"file:///android_asset/about/updateinfo.html");
-			bundleupdateinfo.putString("title", "更新日志");
-			// "file:///android_asset/faq/faq.html"
-			// faqIntent.putExtras(bundle)
-			updateinfoIntent.putExtra("infos", bundleupdateinfo);
-			updateinfoIntent.setClass(context, MenuSceneActivity.class);
-			startActivity(updateinfoIntent);
-			menuWindowSub.dismissPop();
-			break;
-		case R.id.menubtn_about:
-			// showAboutPopUp("file:///android_asset/about/about.html");
-			CustomDialogFAQBeen customAbout = new CustomDialogFAQBeen(context);
-			customAbout.dialogAbout();
-			menuWindowSub.dismissPop();
-			break;
-		default:
-			break;
-		}
-
-	}
-
-	/**
-	 * 获取第一个页面的截图 内存位置：getFilesDir().getAbsolutePath()+ File.separator +
-	 * "ScreenShoot" +File.separator+shoot.png
-	 * SD卡位置：Environment.getExternalStorageDirectory() .getAbsolutePath() +
-	 * File.separator + "SpearheadLog"+File.separator+shoot.png
-	 * 
-	 * @return 完整路径
-	 */
-	private String getScreenShoot() {
-		ScreenShot screenshoot = new ScreenShot(Splash.this);
-		int currtab = tabHost.getCurrentTab();
-		String fullPath = "";
-		if (currtab != 0) {
-			switchScene(0);
-			fullPath = screenshoot.shoot();
-			switchScene(currtab);
-		} else
-			fullPath = screenshoot.shoot();
-		return fullPath;
-	}
-
-	/**
-	 * 分享文字与图片到新浪微博客户端
-	 * 
-	 * @param photoPath
-	 *            图片的地址
-	 * @return 要使用的intent
-	 */
-	private Intent getIntentSharePhotoAndText(String photoPath, String pacname) {
-		Intent shareIntent = new Intent(Intent.ACTION_SEND);
-		if (photoPath != "" || photoPath != null) {
-			File file = new File(photoPath);
-			shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-		}
-		shareIntent.setPackage(pacname);
-		shareIntent.putExtra(Intent.EXTRA_TEXT,
-				getResources().getString(R.string.weibosdk_edittext_content));
-		shareIntent.setType("image/png");
-		return shareIntent;
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		// 清楚通知栏信息
-		NotificationWarningControl notifyctrl = new NotificationWarningControl(
-				context);
-		notifyctrl.cancelAlertNotify(context);
-		isExit = false;
-		initScene();
-		switchSceneOninit();
-		// MobclickAgent.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		// umeng
-		// MobclickAgent.onPause(this);
-	}
-
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		Logs.d(TAG, "onKeyDown");
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			if (isExit == false) {
-				isExit = true;
-				Toast.makeText(context, "再按一次即退出监控", Toast.LENGTH_SHORT).show();
-				tExit.cancel();
-				task.cancel();
-				tExit = new Timer();
-				task = new TimerTask() {
-					@Override
-					public void run() {
-						isExit = false;
-					}
-				};
-				tExit.schedule(task, 8000);
-
-				return false;
-			}
-			OnExit exit = new OnExit();
-			exit.onExit(context);
-			tExit.cancel();
-			task.cancel();
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+			return false;
 		}
 		return super.onKeyDown(keyCode, event);
 	}
 
+	private void showLog(String string) {
+		Logs.d(TAG, string);
+	}
 }
