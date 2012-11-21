@@ -42,7 +42,7 @@ import android.widget.TabHost;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Toast;
 
-public class SpearheadActivity extends TabActivity implements OnClickListener {
+public class Splash extends TabActivity implements OnClickListener {
 	WebView webView;
 	private static RadioGroup group;
 	public static TabHost tabHost;
@@ -93,7 +93,7 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 	private void initApp() {
 		splashLayout = (LinearLayout) findViewById(R.id.help_layout);
 		splashLayout.removeAllViews();
-		SplashLayout splashView = new SplashLayout(SpearheadActivity.this,
+		SplashLayout splashView = new SplashLayout(Splash.this,
 				context);
 		splashLayout.addView(splashView);
 		splashView.onCreateOperator();
@@ -242,11 +242,11 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 	private void showMenuMain() {
 		if (menuWindowMain == null) {
 			// 实例化SelectPicPopupWindow
-			menuWindowMain = new CustomMenuMain(SpearheadActivity.this, this);
+			menuWindowMain = new CustomMenuMain(Splash.this, this);
 		}
 		// 显示窗口
 		menuWindowMain.showAtLocation(
-				SpearheadActivity.this.findViewById(R.id.main_radio),
+				Splash.this.findViewById(R.id.main_radio),
 				Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 	}
 
@@ -281,11 +281,11 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 			menuWindowMain.dismissPop();
 			if (menuWindowSub == null) {
 				// 实例化SelectPicPopupWindow
-				menuWindowSub = new CustomMenuSub(SpearheadActivity.this, this);
+				menuWindowSub = new CustomMenuSub(Splash.this, this);
 			}
 			// 显示窗口
 			menuWindowSub.showAtLocation2(
-					SpearheadActivity.this.findViewById(R.id.main_radio),
+					Splash.this.findViewById(R.id.main_radio),
 					Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 			// ---------------
 			// startActivity(getIntentSharePhotoAndText(""));
@@ -299,12 +299,12 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 			menuWindowSub.dismissPop();
 			if (menuWindowWeibo == null) {
 				// 实例化SelectPicPopupWindow
-				menuWindowWeibo = new CustomMenuWeibo(SpearheadActivity.this,
+				menuWindowWeibo = new CustomMenuWeibo(Splash.this,
 						this);
 			}
 			// 显示窗口
 			menuWindowWeibo.showAtLocation2(
-					SpearheadActivity.this.findViewById(R.id.main_radio),
+					Splash.this.findViewById(R.id.main_radio),
 					Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
 			break;
 		case R.id.menubtn_sina:
@@ -372,7 +372,7 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 	 * @return 完整路径
 	 */
 	private String getScreenShoot() {
-		ScreenShot screenshoot = new ScreenShot(SpearheadActivity.this);
+		ScreenShot screenshoot = new ScreenShot(Splash.this);
 		int currtab = tabHost.getCurrentTab();
 		String fullPath = "";
 		if (currtab != 0) {

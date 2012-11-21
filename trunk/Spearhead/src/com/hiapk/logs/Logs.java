@@ -11,7 +11,7 @@ import android.util.Log;
 public class Logs {
 
 	// debug
-	public static final boolean debug = true;
+	public static final boolean debug = false;
 
 	// debug operate
 	public static final boolean opDebug = false;
