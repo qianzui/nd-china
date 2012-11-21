@@ -5,14 +5,12 @@ import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.logs.Logs;
 import com.hiapk.ui.chart.StackedBarChart;
-import com.hiapk.ui.custom.CustomDialogFAQBeen;
 import com.hiapk.ui.custom.CustomDialogMainBeen;
 import com.hiapk.ui.skin.ColorChangeMainBeen;
 import com.hiapk.ui.skin.SkinCustomMains;
 import com.hiapk.ui.skin.UiColors;
 import com.hiapk.util.MonthDay;
 import com.hiapk.util.SharedPrefrenceData;
-import com.hiapk.util.SharedPrefrenceDataOnUpdate;
 import com.hiapk.util.UnitHandler;
 
 import android.app.Activity;
@@ -76,7 +74,6 @@ public class Main extends Activity {
 		// 获取固定存放数据
 		sharedData = new SharedPrefrenceData(context);
 
-		versionUpdateWindiw();
 		// if (SQLStatic.getIsInit(context) == false) {
 		// if (SQLStatic.uids == null) {
 		// SQLStatic.uids=SQLStatic.selectUidnumbers(context);
@@ -85,17 +82,6 @@ public class Main extends Activity {
 		// ------------
 		setonclicklistens();
 		// setontvclicklisten();
-	}
-
-	private void versionUpdateWindiw() {
-		SharedPrefrenceDataOnUpdate sharedupdate = new SharedPrefrenceDataOnUpdate(
-				context);
-		if (sharedupdate.isVersionupdated() == false) {
-			CustomDialogFAQBeen dialogupdate = new CustomDialogFAQBeen(context);
-			dialogupdate.dialogUpdateInfoOnFirst();
-			sharedupdate.setVersionupdated(true);
-		}
-
 	}
 
 	/**
