@@ -2,6 +2,7 @@ package com.hiapk.control.widget;
 
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.SpearheadActivity;
+import com.hiapk.spearhead.Splash;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -34,7 +35,7 @@ public class NotificationWarningControl {
 			notification.vibrate = tVibrate;
 		}
 		// 设置跳转界面
-		Intent intent = new Intent(context, SpearheadActivity.class);
+		Intent intent = new Intent(context, Splash.class);
 		Bundle choosetab = new Bundle();
 		choosetab.putInt("TAB", 3);
 		intent.putExtras(choosetab);
@@ -61,7 +62,7 @@ public class NotificationWarningControl {
 			notification.vibrate = tVibrate;
 		}
 		// 设置跳转界面
-		Intent intent = new Intent(context, SpearheadActivity.class);
+		Intent intent = new Intent(context, Splash.class);
 		Bundle choosetab = new Bundle();
 		choosetab.putInt("TAB", 3);
 		intent.putExtras(choosetab);
