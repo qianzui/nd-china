@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 
 import com.hiapk.spearhead.R;
-import com.hiapk.spearhead.SpearheadActivity;
 import com.hiapk.spearhead.Splash;
 
 /**
