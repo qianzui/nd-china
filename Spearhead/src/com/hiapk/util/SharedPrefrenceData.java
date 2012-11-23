@@ -9,7 +9,6 @@ public class SharedPrefrenceData {
 	private String PREFS_NAME = "allprefs";
 	// 月度流量设置
 	private String VALUE_MOBILE_SET = "mobilemonthuse";
-	private String VALUE_MOBILE_HASUSED_LONG = "mobileHasusedlong";
 
 	// 显示在预警页面的int
 	private String VALUE_MOBILE_SET_OF_FLOAT = "mobilemonthuseinint";
@@ -17,6 +16,8 @@ public class SharedPrefrenceData {
 	private String MOBILE_SET_UNIT = "mobileMonthUnit";
 	// 设置结算日期及结算日期的设施时间，日期等
 	private String MOBILE_COUNT_DAY = "mobileMonthCountDay";
+	private String MOBILE_COUNT_SET_YEAR = "mobileMonthSetCountYear";
+	private String MOBILE_COUNT_SET_DAY = "mobileMonthSetCountDay";
 	// 已使用总流量int
 	private String VALUE_MOBILE_HASUSED_OF_FLOAT = "mobileHasusedint";
 	private String MONTH_USED_DATA_TEMP = "monthtempuseddata";
@@ -48,7 +49,7 @@ public class SharedPrefrenceData {
 	private String isHasKnowFireWallSave = "ishasknowfirewallsave";
 	private String isShakeToSwitch = "isShakeToSwitchFireList";
 	private String isKnowShakeToSwitch = "isKnowShakeToSwitchFireList";
-	//摇一摇敏感度
+	// 摇一摇敏感度
 	private String shakeMedianValue = "shakeMedianValue";
 
 	public SharedPrefrenceData(Context context) {
@@ -106,14 +107,6 @@ public class SharedPrefrenceData {
 
 	}
 
-	int countDay = 0;
-	long alertWarningMonth = 0;
-	long alertWarningDay = 0;
-	int alertAction = 0;
-	int monthMobileSetUnit = 0;
-	int monthHasUsedUnit = 0;
-	long monthUseDataTemp;
-
 	public long getMonthUseDataTemp() {
 		long monthUseDataTemp = prefs.getLong(MONTH_USED_DATA_TEMP, 0);
 		return monthUseDataTemp;
@@ -140,7 +133,8 @@ public class SharedPrefrenceData {
 	}
 
 	public void setMonthMobileSetUnit(int monthMobileSetUnit) {
-		this.monthMobileSetUnit = monthMobileSetUnit;
+		UseEditor.putInt(MOBILE_SET_UNIT, monthMobileSetUnit);
+		UseEditor.commit();
 	}
 
 	public int getMonthHasUsedUnit() {
@@ -149,7 +143,8 @@ public class SharedPrefrenceData {
 	}
 
 	public void setMonthHasUsedUnit(int monthHasUsedUnit) {
-		this.monthHasUsedUnit = monthHasUsedUnit;
+		UseEditor.putInt(MOBILE_HASUSED_SET_UNIT, monthHasUsedUnit);
+		UseEditor.commit();
 	}
 
 	public long getMonthMobileSetOfLong() {
@@ -173,16 +168,6 @@ public class SharedPrefrenceData {
 		UseEditor.commit();
 	}
 
-	public long getMonthMobileHasUse() {
-		long monthMobileHasUse = prefs.getLong(VALUE_MOBILE_HASUSED_LONG, 0);
-		return monthMobileHasUse;
-	}
-
-	public void setMonthMobileHasUse(long monthMobileHasUse) {
-		UseEditor.putLong(VALUE_MOBILE_HASUSED_LONG, monthMobileHasUse);
-		UseEditor.commit();
-	}
-
 	/**
 	 * 获取结算日的数值，实际日期需要+1
 	 * 
@@ -198,13 +183,44 @@ public class SharedPrefrenceData {
 		UseEditor.commit();
 	}
 
+	/**
+	 * 获取结算日的设置，实际日期需要+1
+	 * 
+	 * @return
+	 */
+	public int getCountSetDay() {
+		int mobileSetCountDay = prefs.getInt(MOBILE_COUNT_SET_DAY, 0);
+		return mobileSetCountDay;
+	}
+
+	public void setCountSetDay(int countDay) {
+		UseEditor.putInt(MOBILE_COUNT_SET_DAY, countDay);
+		UseEditor.commit();
+	}
+
+	/**
+	 * 获取结算年的数值，默认1977
+	 * 
+	 * @return
+	 */
+	public int getCountSetYear() {
+		int mobileSetCountYear = prefs.getInt(MOBILE_COUNT_SET_YEAR, 1977);
+		return mobileSetCountYear;
+	}
+
+	public void setCountSetYear(int countYear) {
+		UseEditor.putInt(MOBILE_COUNT_SET_YEAR, countYear);
+		UseEditor.commit();
+	}
+
 	public long getAlertWarningMonth() {
 		long mobileWarning = prefs.getLong(MOBILE_WARNING_MONTH, 0);
 		return mobileWarning;
 	}
 
 	public void setAlertWarningMonth(long alertWarningMonth) {
-		this.alertWarningMonth = alertWarningMonth;
+		UseEditor.putLong(MOBILE_WARNING_MONTH, alertWarningMonth);
+		UseEditor.commit();
 	}
 
 	public long getAlertWarningDay() {
@@ -213,7 +229,8 @@ public class SharedPrefrenceData {
 	}
 
 	public void setAlertWarningDay(long alertWarningDay) {
-		this.alertWarningDay = alertWarningDay;
+		UseEditor.putLong(MOBILE_WARNING_DAY, alertWarningDay);
+		UseEditor.commit();
 	}
 
 	public int getAlertAction() {
@@ -275,16 +292,17 @@ public class SharedPrefrenceData {
 		UseEditor.putBoolean(isHasKnowFireWallSave, blean);
 		UseEditor.commit();
 	}
-	
-	public boolean isShakeToSwitch(){
+
+	public boolean isShakeToSwitch() {
 		Boolean isShake = prefs.getBoolean(isShakeToSwitch, true);
 		return isShake;
 	}
+
 	public void setIsShakeToSwitch(boolean isShake) {
 		UseEditor.putBoolean(isShakeToSwitch, isShake);
 		UseEditor.commit();
 	}
-	
+
 	public boolean isKnowShakeToSwitch() {
 		boolean blean = prefs.getBoolean(isKnowShakeToSwitch, false);
 		return blean;

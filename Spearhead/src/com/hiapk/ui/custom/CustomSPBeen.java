@@ -4,7 +4,6 @@ import java.text.DecimalFormat;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences.Editor;
 import android.content.res.Resources;
 import android.text.InputType;
 import android.util.Log;
@@ -32,37 +31,15 @@ import com.hiapk.util.SharedPrefrenceDataWidget;
 import com.hiapk.util.UnitHandler;
 
 public class CustomSPBeen {
-	// 操作sharedprefrence
-	String PREFS_NAME = "allprefs";
-	// 总流量long
-	String VALUE_MOBILE_SET = "mobilemonthuse";
-	// 显示在预警页面的int
-	String VALUE_MOBILE_SET_OF_INT = "mobilemonthuseinint";
-	// 设置单位（月度设置）
-	String MOBILE_SET_UNIT = "mobileMonthUnit";
-	// 设置结算日期及结算日期的设施时间，日期等
-	String MOBILE_COUNT_DAY = "mobileMonthCountDay";
-	String MOBILE_COUNT_SET_YEAR = "mobileMonthSetCountYear";
-	String MOBILE_COUNT_SET_MONTH = "mobileMonthSetCountMonth";
-	String MOBILE_COUNT_SET_DAY = "mobileMonthSetCountDay";
-	String MOBILE_COUNT_SET_TIME = "mobileMonthSetCountTime";
-	// 已使用总流量int
-	String VALUE_MOBILE_HASUSED_OF_FLOAT = "mobileHasusedint";
-	// 设置单位（已使用）
-	String MOBILE_HASUSED_SET_UNIT = "mobileHasusedUnit";
 	// 已使用总流量long
-	String VALUE_MOBILE_HASUSED_LONG = "mobileHasusedlong";
-	// 流量预警
-	String MOBILE_WARNING_MONTH = "mobilemonthwarning";
-	String MOBILE_WARNING_DAY = "mobiledaywarning";
-	// 预警动作
-	String WARNING_ACTION = "warningaction";
-	Context context;
-
-	int beforeDay = 0;
+	private Context context;
+	private SharedPrefrenceData sharedData;
+	private SharedPrefrenceDataWidget sharedDatawidget;
 
 	public CustomSPBeen(Context context) {
 		this.context = context;
+		sharedData = new SharedPrefrenceData(context);
+		sharedDatawidget = new SharedPrefrenceDataWidget(context);
 	}
 
 	/**
@@ -75,9 +52,6 @@ public class CustomSPBeen {
 	 * @return 返回对话框
 	 */
 	public void dialogSettingFreshplv() {
-		final SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
-				context);
-
 		final int beforeFresh = sharedDatawidget.getWidgetFresh();
 		// 初始化窗体
 		LayoutInflater factory = LayoutInflater.from(context);
@@ -198,7 +172,6 @@ public class CustomSPBeen {
 	public void dialogDaySet(final LinearLayout btn_date,
 			final Button btn_HasUsed, final TextView countDaySpButton_tv) {
 
-		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		final int beforeDay = sharedData.getCountDay();
 		// 初始化窗体
 		LayoutInflater factory = LayoutInflater.from(context);
@@ -245,15 +218,12 @@ public class CustomSPBeen {
 				if (arg2 != beforeDay) {
 					operatorOnClick(btn_HasUsed);
 					// 结算日期变化时做日期变化并重置本月已用数值
-					Editor passfileEditor = context.getSharedPreferences(
-							PREFS_NAME, 0).edit();
 					// Log.d("main3", i + "");
-					passfileEditor.putInt(MOBILE_COUNT_DAY, arg2);
+					sharedData.setCountSetDay(arg2);
+					sharedData.setCountSetYear(1977);
 					// Log.d("main3", i + "");
-					passfileEditor.putInt(MOBILE_COUNT_SET_YEAR, 1977);
-					passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG, 0);
-					passfileEditor.putFloat(VALUE_MOBILE_HASUSED_OF_FLOAT, 0);
-					passfileEditor.commit();// 委托，存入数据
+					sharedData.setMonthHasUsedStack(0);
+					sharedData.setMonthMobileHasUseOffloat(0);
 				}
 				sharedData.setCountDay(arg2);
 				countDaySpButton_tv.setText((CharSequence) arg0
@@ -305,7 +275,6 @@ public class CustomSPBeen {
 	 * @return 返回对话框
 	 */
 	private void dialogMonthHasUsed() {
-		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		final DecimalFormat format = new DecimalFormat("0.##");
 		int mobileUseUnit = sharedData.getMonthHasUsedUnit();
 		// float mobileUsefloat = sharedData.getMonthMobileHasUseOffloat();
@@ -378,30 +347,24 @@ public class CustomSPBeen {
 
 				// btn_Used.setText(format.format(i));
 				int mobileHasUsedUnit = spin_unit.getSelectedItemPosition();
-				Editor passfileEditor = context.getSharedPreferences(
-						PREFS_NAME, 0).edit();
 				// Log.d("main3", i + "");
 				//
 				//
 
 				if (mobileHasUsedUnit == 0) {
-					passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
-							(long) (i * 1048576));
+					sharedData.setMonthHasUsedStack((long) (i * 1048576));
 				} else {
-					passfileEditor.putLong(VALUE_MOBILE_HASUSED_LONG,
-							(long) (i * 1048576 * 1024));
+					sharedData
+							.setMonthHasUsedStack((long) (i * 1048576 * 1024));
 				}
-				passfileEditor.putFloat(VALUE_MOBILE_HASUSED_OF_FLOAT, i);
-
-				passfileEditor.putInt(MOBILE_HASUSED_SET_UNIT,
-						mobileHasUsedUnit);
-				passfileEditor.commit();// 委托，存入数据
+				sharedData.setMonthMobileHasUseOffloat(i);
+				sharedData.setMonthHasUsedUnit(mobileHasUsedUnit);
 				// commitUsedTrafficTime();
 				// init_btn_HasUsed();
 				/* User clicked OK so do some stuff */
-				long hasusedlong = sharedData.getMonthMobileHasUse();
-				long setlong = sharedData.getMonthMobileSetOfLong();
-				if (hasusedlong > setlong) {
+				long hasusedlong = sharedData.getMonthHasUsedStack();
+				long mobileSet = sharedData.getMonthMobileSetOfLong();
+				if (hasusedlong > mobileSet) {
 					CustomDialogOtherBeen customOther = new CustomDialogOtherBeen(
 							context);
 					customOther.dialogHasUsedLongTooMuch();
