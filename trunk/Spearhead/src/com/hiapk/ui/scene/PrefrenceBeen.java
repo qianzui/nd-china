@@ -20,6 +20,7 @@ import com.hiapk.firewall.Block;
 import com.hiapk.logs.Logs;
 import com.hiapk.logs.SaveRule;
 import com.hiapk.spearhead.R;
+import com.hiapk.spearhead.SpearheadApplication;
 import com.hiapk.ui.custom.CustomDialogOtherBeen;
 import com.hiapk.ui.custom.CustomSPBeen;
 import com.hiapk.ui.skin.SkinCustomMains;
@@ -35,7 +36,7 @@ public class PrefrenceBeen {
 	public PrefrenceBeen(Context context) {
 		this.context = context;
 		sharedDatawidget = new SharedPrefrenceDataWidget(context);
-		sharedDate = new SharedPrefrenceData(context);
+		sharedDate = SpearheadApplication.getInstance().getsharedData();
 	}
 
 	public void initListBoxFresh(LinearLayout layout_freshplv) {

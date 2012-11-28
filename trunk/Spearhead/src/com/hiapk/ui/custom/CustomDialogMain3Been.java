@@ -1,7 +1,6 @@
 package com.hiapk.ui.custom;
 
 import android.content.Context;
-import android.content.SharedPreferences.Editor;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,23 +17,17 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.hiapk.control.widget.SetText;
 import com.hiapk.spearhead.R;
+import com.hiapk.spearhead.SpearheadApplication;
 import com.hiapk.ui.scene.PrefrenceStaticOperator;
 import com.hiapk.util.SharedPrefrenceData;
 import com.hiapk.util.UnitHandler;
 
 public class CustomDialogMain3Been {
-	// 操作sharedprefrence
-	private String PREFS_NAME = "allprefs";
-	// 总流量long
-	private String VALUE_MOBILE_SET = "mobilemonthuse";
-	// 设置单位（月度设置）
-	private String MOBILE_SET_UNIT = "mobileMonthUnit";
-	// 流量预警
-	private String MOBILE_WARNING_MONTH = "mobilemonthwarning";
-	private String MOBILE_WARNING_DAY = "mobiledaywarning";
 	private Context context;
+	private SharedPrefrenceData sharedData;
 
 	public CustomDialogMain3Been(Context context) {
+		sharedData = SpearheadApplication.getInstance().getsharedData();
 		this.context = context;
 	}
 
@@ -46,8 +39,8 @@ public class CustomDialogMain3Been {
 	 * @return 返回对话框
 	 */
 	public void dialogMonthSet_Main3(final LinearLayout btn_month,
-			final TextView dayWarning_tv, final TextView monthWarning_tv,final TextView monthSet_Unit_tv) {
-		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+			final TextView dayWarning_tv, final TextView monthWarning_tv,
+			final TextView monthSet_Unit_tv) {
 		int mobileUnit = sharedData.getMonthMobileSetUnit();
 		float mobileSetFloat = sharedData.getMonthMobileSetOfFloat();
 		// 初始化窗体
@@ -97,21 +90,17 @@ public class CustomDialogMain3Been {
 				}
 				showlog(i + "");
 				int mobileUnit = spin_unit.getSelectedItemPosition();
-				Editor passfileEditor = context.getSharedPreferences(
-						PREFS_NAME, 0).edit();
 				// Log.d("main3", i + "");
 
 				if (mobileUnit == 0) {
 					long monthsetTraffMB = (long) (i * 1024 * 1024);
 					// showlog(monthsetTraffMB + "");
 					sharedData.setMonthMobileSetOfLong(monthsetTraffMB);
-					passfileEditor.putLong(VALUE_MOBILE_SET, monthsetTraffMB);
-					passfileEditor.putLong(MOBILE_WARNING_MONTH,
-							monthsetTraffMB * 9 / 10);
-					passfileEditor.putLong(MOBILE_WARNING_DAY,
-							monthsetTraffMB / 10);
+					sharedData.setAlertWarningMonth(monthsetTraffMB * 9 / 10);
+					sharedData.setAlertWarningDay(monthsetTraffMB / 10);
 					// 设置会改变的3个数值。++
-					monthSet_Unit_tv.setText(UnitHandler.unitHandler(monthsetTraffMB));
+					monthSet_Unit_tv.setText(UnitHandler
+							.unitHandler(monthsetTraffMB));
 					monthWarning_tv.setText(UnitHandler
 							.unitHandler(monthsetTraffMB * 9 / 10));
 					dayWarning_tv.setText(UnitHandler
@@ -119,26 +108,22 @@ public class CustomDialogMain3Been {
 				} else if (mobileUnit == 1) {
 					long monthsetTraffGB = (long) (i * 1024 * 1024 * 1024);
 					// showlog(monthsetTraffGB + "");
-					passfileEditor.putLong(VALUE_MOBILE_SET, monthsetTraffGB);
-					passfileEditor.putLong(MOBILE_WARNING_MONTH,
-							monthsetTraffGB * 9 / 10);
-					passfileEditor.putLong(MOBILE_WARNING_DAY,
-							monthsetTraffGB / 10);
+					sharedData.setMonthMobileSetOfLong(monthsetTraffGB);
+					sharedData.setAlertWarningMonth(monthsetTraffGB * 9 / 10);
+					sharedData.setAlertWarningDay(monthsetTraffGB / 10);
 					// 设置会改变的3个数值。++
-					monthSet_Unit_tv.setText(UnitHandler.unitHandler(monthsetTraffGB));
+					monthSet_Unit_tv.setText(UnitHandler
+							.unitHandler(monthsetTraffGB));
 					monthWarning_tv.setText(UnitHandler
 							.unitHandler(monthsetTraffGB * 9 / 10));
 					dayWarning_tv.setText(UnitHandler
 							.unitHandler(monthsetTraffGB / 10));
 				}
-				passfileEditor.putInt(MOBILE_SET_UNIT, mobileUnit);
+				sharedData.setMonthMobileSetUnit(mobileUnit);
 				sharedData.setMonthMobileSetOfFloat(i);
 				// passfileEditor.putFloat(VALUE_MOBILE_SET_OF_INT, i);
-				passfileEditor.commit();// 委托，存入数据
 				SetText.resetWidgetAndNotify(context);
 				// showlog(mobileSetLong + "");
-				SharedPrefrenceData sharedData = new SharedPrefrenceData(
-						context);
 				// long monthSetofLong = sharedData.getMonthMobileSetOfLong();
 				if (i == 0) {
 					sharedData.setMonthSetHasSet(false);
@@ -169,7 +154,6 @@ public class CustomDialogMain3Been {
 	 */
 	public void dialogMonthWarning(final LinearLayout button,
 			final TextView monthWarning_tv) {
-		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		LayoutInflater factory = LayoutInflater.from(context);
 		View textEntryView = factory.inflate(
 				R.layout.custom_warning_set_alert_dialog, null);
@@ -247,8 +231,6 @@ public class CustomDialogMain3Been {
 				@Override
 				public void onClick(View v) {
 					// 输入的数值
-					Editor UseEditor = context.getSharedPreferences(PREFS_NAME,
-							0).edit();
 					float i = 0;
 					try {
 						i = Float.valueOf(et_month_Traff.getText().toString());
@@ -284,8 +266,7 @@ public class CustomDialogMain3Been {
 						});
 					} else {
 						// 最小值1M
-						UseEditor.putLong(MOBILE_WARNING_MONTH, newmonthset);
-						UseEditor.commit();
+						sharedData.setAlertWarningMonth(newmonthset);
 						// 设置数值
 						long mobileWarning = sharedData.getAlertWarningMonth();
 						// float
@@ -336,7 +317,6 @@ public class CustomDialogMain3Been {
 	 */
 	public void dialogDayWarning(final LinearLayout button,
 			final TextView warning_tv) {
-		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 		LayoutInflater factory = LayoutInflater.from(context);
 		View textEntryView = factory.inflate(
 				R.layout.custom_warning_set_alert_dialog, null);
@@ -387,12 +367,10 @@ public class CustomDialogMain3Been {
 
 						@Override
 						public void onStopTrackingTouch(SeekBar seekBar) {
-							// TODO Auto-generated method stub
 						}
 
 						@Override
 						public void onStartTrackingTouch(SeekBar seekBar) {
-							// TODO Auto-generated method stub
 						}
 
 						@Override
@@ -417,13 +395,10 @@ public class CustomDialogMain3Been {
 				@Override
 				public void onClick(View v) {
 					// 输入的数值
-					Editor UseEditor = context.getSharedPreferences(PREFS_NAME,
-							0).edit();
 					float i = 0;
 					try {
 						i = Float.valueOf(et_month_Traff.getText().toString());
 					} catch (NumberFormatException e) {
-						// TODO: handle exception
 						i = 0;
 					}
 					long newdayset = 0;
@@ -454,8 +429,7 @@ public class CustomDialogMain3Been {
 							}
 						});
 					} else {
-						UseEditor.putLong(MOBILE_WARNING_DAY, newdayset);
-						UseEditor.commit();
+						sharedData.setAlertWarningDay(newdayset);
 						long mobileWarning = sharedData.getAlertWarningDay();
 						// float
 						// a=Float.valueOf(mobileWarning).floatValue();
@@ -476,7 +450,6 @@ public class CustomDialogMain3Been {
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					dayWarning.dismiss();
 				}
 			});
@@ -491,7 +464,6 @@ public class CustomDialogMain3Been {
 			btn_ok.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					monthWarning.dismiss();
 				}
 			});
@@ -502,7 +474,6 @@ public class CustomDialogMain3Been {
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					monthWarning.dismiss();
 				}
 			});
@@ -534,7 +505,6 @@ public class CustomDialogMain3Been {
 	// btn_cancel.setOnClickListener(new OnClickListener() {
 	// @Override
 	// public void onClick(View v) {
-	// // TODO Auto-generated method stub
 	// dayWarning.dismiss();
 	// }
 	// });

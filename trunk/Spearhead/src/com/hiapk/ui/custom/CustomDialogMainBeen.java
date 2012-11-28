@@ -18,6 +18,7 @@ import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.spearhead.R;
+import com.hiapk.spearhead.SpearheadApplication;
 import com.hiapk.ui.scene.PrefrenceStaticOperator;
 import com.hiapk.ui.scene.Regulate;
 import com.hiapk.ui.skin.ColorChangeMainBeen;
@@ -30,7 +31,7 @@ public class CustomDialogMainBeen {
 
 	public CustomDialogMainBeen(Context context) {
 		this.context = context;
-		sharedData = new SharedPrefrenceData(context);
+		sharedData = SpearheadApplication.getInstance().getsharedData();
 	}
 
 	/**

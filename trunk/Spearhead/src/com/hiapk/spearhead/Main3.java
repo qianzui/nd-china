@@ -79,7 +79,7 @@ public class Main3 extends Activity {
 		setContentView(R.layout.main3);
 		// ÎªÁËÍË³ö¡£
 		SpearheadApplication.getInstance().addActivity(this);
-		sharedData = new SharedPrefrenceData(context);
+		sharedData = SpearheadApplication.getInstance().getsharedData();
 		initAllView();
 		init_Spinner();
 		onclickListeners();
