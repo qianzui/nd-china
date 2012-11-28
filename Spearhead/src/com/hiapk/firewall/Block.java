@@ -64,7 +64,7 @@ public class Block {
 	public static final String PREF_SHOW = "IsShowTip";
 	public static final String PREF_HELP = "isShwoHelp";
 	public static final String PREF_TIP = "FireTip";
-	public static final String PREF_LOAD="FirstStart";
+	public static final String PREF_LOAD = "FirstStart";
 	public static final String PREF_3G_UIDS = "AllowedUids3G";
 	public static final String PREF_WIFI_UIDS = "AllowedUidsWifi";
 	public static final String PREF_WIFI_PKGNAME = "AllowedPkgnameWifi";
@@ -340,7 +340,8 @@ public class Block {
 		final String savedPkgname_wifi = prefs.getString(PREF_WIFI_PKGNAME, "");
 		final String savedPkgname_3g = prefs.getString(PREF_3G_PKGNAME, "");
 		if (savedPkgname_wifi.length() > 0) {
-			final StringTokenizer tok = new StringTokenizer(savedPkgname_wifi, "|");
+			final StringTokenizer tok = new StringTokenizer(savedPkgname_wifi,
+					"|");
 			while (tok.hasMoreTokens()) {
 				final String pkgname = tok.nextToken();
 				if (!pkgname.equals("")) {
@@ -355,9 +356,10 @@ public class Block {
 				}
 			}
 		}
-		
+
 		if (savedPkgname_3g.length() > 0) {
-			final StringTokenizer tok = new StringTokenizer(savedPkgname_3g, "|");
+			final StringTokenizer tok = new StringTokenizer(savedPkgname_3g,
+					"|");
 			while (tok.hasMoreTokens()) {
 				final String pkgname = tok.nextToken();
 				if (!pkgname.equals("")) {
@@ -612,30 +614,31 @@ public class Block {
 	}
 
 	public static void saveRules(Context context,
-			HashMap<Integer, IsChecked> map , HashMap<Integer, PackageInfo> appList) {
-		
+			HashMap<Integer, IsChecked> map,
+			HashMap<Integer, PackageInfo> appList) {
+
 		PackageManager pm = context.getPackageManager();
 		final SharedPreferences prefs = context.getSharedPreferences(
 				PREFS_NAME, 0);
 		final StringBuilder pkgname_wifi = new StringBuilder();
 		final StringBuilder pkgname_3g = new StringBuilder();
-		
+
 		Iterator it = map.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry entry = (Map.Entry) it.next();
 			IsChecked ic = (IsChecked) entry.getValue();
 			if (ic.selected_wifi) {
-				if(appList.containsKey(entry.getKey())){
+				if (appList.containsKey(entry.getKey())) {
 					String pkgname = appList.get(entry.getKey()).applicationInfo.packageName;
-					if(pkgname_wifi.length() != 0)
+					if (pkgname_wifi.length() != 0)
 						pkgname_wifi.append("|");
 					pkgname_wifi.append(pkgname);
 				}
 			}
 			if (ic.selected_3g) {
-				if(appList.containsKey(entry.getKey())){
+				if (appList.containsKey(entry.getKey())) {
 					String pkgname = appList.get(entry.getKey()).applicationInfo.packageName;
-					if(pkgname_3g.length() != 0)
+					if (pkgname_3g.length() != 0)
 						pkgname_3g.append("|");
 					pkgname_3g.append(pkgname);
 				}
@@ -647,17 +650,17 @@ public class Block {
 		edit.putString(PREF_WIFI_PKGNAME, pkgname_wifi.toString());
 		edit.putBoolean(PREF_S, true);
 		edit.commit();
-		
-		SharedPrefrenceData sharedDate= new SharedPrefrenceData(context);
-        if(sharedDate.isAutoSaveFireWallRule()){
-        	isChange = true;
-        	try {
-    			SaveRule sr = new SaveRule(context);
-    			sr.saveToMem();
-    		} catch (IOException e) {
-    			e.printStackTrace();
-    		}
-        }
+
+		SharedPrefrenceData sharedDate = new SharedPrefrenceData(context);
+		if (sharedDate.isAutoSaveFireWallRule()) {
+			isChange = true;
+			try {
+				SaveRule sr = new SaveRule(context);
+				sr.saveToMem();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**
@@ -668,10 +671,10 @@ public class Block {
 	 */
 	public static boolean iptableEmpty(Context context) {
 		SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-		
+
 		String savePkgname_wifi = prefs.getString(PREF_WIFI_PKGNAME, "");
 		String savePkgname_3g = prefs.getString(PREF_3G_PKGNAME, "");
-		if ((savePkgname_wifi == "") && (savePkgname_3g == "")) {
+		if ((savePkgname_wifi.contains(".")) && (savePkgname_3g.contains("."))) {
 			return true;
 		} else {
 			return false;
@@ -689,33 +692,35 @@ public class Block {
 	public static HashMap<Integer, IsChecked> getMap(Context context,
 			ArrayList<PackageInfo> myAppList) {
 		boolean isApplyIptables = false;
-		SharedPrefrenceData sharedDate= new SharedPrefrenceData(context);
+		SharedPrefrenceData sharedDate = new SharedPrefrenceData(context);
 		final SharedPreferences prefs = context.getSharedPreferences(
 				PREFS_NAME, 0);
 		final String savedUid_wifi = prefs.getString(PREF_WIFI_UIDS, "");
 		final String savedUid_3g = prefs.getString(PREF_3G_UIDS, "");
 		SaveRule sr = new SaveRule(context);
-		if(Block.isLoadingFromSD(context)){
+		if (Block.isLoadingFromSD(context)) {
 			String wifiRules = sr.getWifiRules() + "";
 			String mobileRules = sr.getMobileRules() + "";
-			if(wifiRules.equals("") && mobileRules.equals("")){
+			if (wifiRules.equals("") && mobileRules.equals("")) {
 				Block.isLoadingSet(context, false);
-			}else{
+			} else {
 				final Editor edit = prefs.edit();
 				edit.putString(PREF_WIFI_PKGNAME, wifiRules);
 				edit.putString(PREF_3G_PKGNAME, mobileRules);
 				edit.putBoolean(PREF_S, true);
 				edit.commit();
-				Block.applyIptablesRules(context, true,true);
+				Block.applyIptablesRules(context, true, true);
 				Block.isLoadingSet(context, false);
 			}
 		}
-	    String savedPkgname_wifi = prefs.getString(PREF_WIFI_PKGNAME, "");
-	    String savedPkgname_3g= prefs.getString(PREF_3G_PKGNAME, "");
-	    
-	    String savedUninstalledPkgnameWifi = sr.getSavedUnintalledPkanameWifi()+ "";
-	    String savedUninstalledPkgname3g = sr.getSavedUnintalledPkanameMobile() + "";
-	    
+		String savedPkgname_wifi = prefs.getString(PREF_WIFI_PKGNAME, "");
+		String savedPkgname_3g = prefs.getString(PREF_3G_PKGNAME, "");
+
+		String savedUninstalledPkgnameWifi = sr.getSavedUnintalledPkanameWifi()
+				+ "";
+		String savedUninstalledPkgname3g = sr.getSavedUnintalledPkanameMobile()
+				+ "";
+
 		boolean cache = prefs.getBoolean(PREF_S, false);
 		HashMap map = new HashMap<Integer, IsChecked>();
 		for (int i = 0; i < myAppList.size(); i++) {
@@ -767,8 +772,8 @@ public class Block {
 			}
 			map.put(uid, ic);
 		}
-		if (savedUid_wifi.equals("") && savedUid_3g.equals("")){
-		}else {
+		if (savedUid_wifi.equals("") && savedUid_3g.equals("")) {
+		} else {
 			final Editor edit = prefs.edit();
 			edit.putString(PREF_WIFI_UIDS, "");
 			edit.putString(PREF_3G_UIDS, "");
@@ -776,7 +781,7 @@ public class Block {
 			edit.putString(PREF_3G_PKGNAME, savedPkgname_3g);
 			edit.commit();
 		}
-		if(isApplyIptables){
+		if (isApplyIptables) {
 			applyIptablesRules(context, true, true);
 		}
 		return map;
@@ -826,6 +831,7 @@ public class Block {
 		edit.putBoolean(PREF_TIP, isShow);
 		edit.commit();
 	}
+
 	public static boolean isLoadingFromSD(Context context) {
 		final SharedPreferences prefs = context.getSharedPreferences(
 				PREFS_NAME, 0);

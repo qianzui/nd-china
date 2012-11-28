@@ -22,7 +22,7 @@ public class CustomDialogMain2Been {
 
 	public CustomDialogMain2Been(Context context) {
 		this.context = context;
-		sharedData = new SharedPrefrenceData(context);
+		sharedData = SpearheadApplication.getInstance().getsharedData();
 	}
 
 	/**

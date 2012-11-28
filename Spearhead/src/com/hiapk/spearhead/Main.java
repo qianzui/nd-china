@@ -74,7 +74,7 @@ public class Main extends Activity {
 		// umeng
 		// .. MobclickAgent.onError(this);
 		// 获取固定存放数据
-		sharedData = new SharedPrefrenceData(context);
+		sharedData = SpearheadApplication.getInstance().getsharedData();
 
 		versionUpdateWindiw();
 		// if (SQLStatic.getIsInit(context) == false) {

@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.spearhead.R;
+import com.hiapk.spearhead.SpearheadApplication;
 import com.hiapk.sqlhelper.total.SQLHelperInitSQL;
 import com.hiapk.ui.scene.PrefrenceStaticOperator;
 import com.hiapk.util.SQLStatic;
@@ -27,7 +28,7 @@ public class CustomDialogOtherBeen {
 	public CustomDialogOtherBeen(Context context) {
 		this.context = context;
 		sharedDatawidget = new SharedPrefrenceDataWidget(context);
-		sharedData = new SharedPrefrenceData(context);
+		sharedData = SpearheadApplication.getInstance().getsharedData();
 	}
 
 	/**

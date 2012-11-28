@@ -24,6 +24,7 @@ import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.spearhead.R;
+import com.hiapk.spearhead.SpearheadApplication;
 import com.hiapk.ui.scene.PrefrenceStaticOperator;
 import com.hiapk.ui.scene.Regulate;
 import com.hiapk.util.SharedPrefrenceData;
@@ -38,7 +39,7 @@ public class CustomSPBeen {
 
 	public CustomSPBeen(Context context) {
 		this.context = context;
-		sharedData = new SharedPrefrenceData(context);
+		sharedData = SpearheadApplication.getInstance().getsharedData();
 		sharedDatawidget = new SharedPrefrenceDataWidget(context);
 	}
 
@@ -108,8 +109,6 @@ public class CustomSPBeen {
 	 */
 	public void dialogAlertType(final LinearLayout btn_Alert,
 			final TextView warning_tv) {
-
-		final SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
 
 		final int beforeAction = sharedData.getAlertAction();
 		// ≥ı ºªØ¥∞ÃÂ
