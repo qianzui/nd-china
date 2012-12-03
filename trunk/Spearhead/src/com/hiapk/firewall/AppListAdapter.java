@@ -102,7 +102,12 @@ public class AppListAdapter extends BaseAdapter {
 		} else {
 			holder.appname.setText("获取中...");
 		}
-		IsChecked ic = (IsChecked) map.get(uid);
+		IsChecked ic = null;
+		if(map.containsKey(uid)){
+			ic = (IsChecked) map.get(uid);
+		}else{
+			ic = new IsChecked();
+		}
 		holder.icon.setImageDrawable(mContext.getResources().getDrawable(
 				R.drawable.ic_launcher));
 
@@ -166,21 +171,16 @@ public class AppListAdapter extends BaseAdapter {
 				holder.trafficup.setText("0");
 			}
 			break;
-		default:
-			holder.traffic_title.setText("今日流量：");
-			if (uiddata.containsKey(uid)) {
-				holder.trafficup.setText(UnitHandler
-						.unitHandlerAccurate(uiddata.get(uid).getTotalTraff()));
-			} else {
-				holder.trafficup.setText("0");
-			}
-			break;
 		}
-
 		syncImageLoader.loadImage(position, pkgInfo, mContext,
 				imageLoadListener, holder.icon, uid);
-		holder.e_toggle.setChecked(ic.selected_3g);
-		holder.wifi_toggle.setChecked(ic.selected_wifi);
+		if(ic != null){
+			holder.e_toggle.setChecked(ic.selected_3g);
+			holder.wifi_toggle.setChecked(ic.selected_wifi);
+		}else{
+			holder.e_toggle.setChecked(false);
+			holder.wifi_toggle.setChecked(false);
+		}
 		holder.e_toggle.setOnClickListener(new EListener(holder.e_toggle, ic));
 		holder.wifi_toggle.setOnClickListener(new WifiListener(
 				holder.wifi_toggle, ic));
@@ -205,11 +205,6 @@ public class AppListAdapter extends BaseAdapter {
 		}
 	};
 
-	public long judge(long tff) {
-		if (tff == -1)
-			tff = 0;
-		return tff;
-	}
 
 	class ViewHolder {
 		ImageView icon;
@@ -224,10 +219,13 @@ public class AppListAdapter extends BaseAdapter {
 		CheckBox cb;
 		IsChecked ic;
 
-		// final String cmd = "chmod 777 "+mContext.getPackageCodePath();
 		public EListener(CheckBox cb, IsChecked ic) {
 			this.cb = cb;
-			this.ic = ic;
+			if(ic != null){
+				this.ic = ic;
+			}else{
+				this.ic = new IsChecked();
+			}
 		}
 
 		@Override
@@ -256,9 +254,7 @@ public class AppListAdapter extends BaseAdapter {
 								Block.saveRules(mContext, map,appList);
 								if (Block.applyIptablesRules(mContext, true,
 										true)) {
-									Toast.makeText(mContext,
-											R.string.fire_applyed,
-											Toast.LENGTH_SHORT).show();
+									Toast.makeText(mContext,R.string.fire_applyed,Toast.LENGTH_SHORT).show();
 								} else {
 									cb.setChecked(!cb.isChecked());
 									ic.selected_3g = cb.isChecked();
@@ -324,7 +320,11 @@ public class AppListAdapter extends BaseAdapter {
 
 		public WifiListener(CheckBox cb, IsChecked ic) {
 			this.cb = cb;
-			this.ic = ic;
+			if(ic != null){
+				this.ic = ic;
+			}else{
+				this.ic = new IsChecked();
+			}
 		}
 
 		@Override

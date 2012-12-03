@@ -31,6 +31,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
@@ -257,7 +258,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 
 	public void firstSetAdapter() {
-		Logs.i("test", " firewall firstSetAdapter()");
 		try {
 			if (sharedpref.getFireWallType() == 5) {
 				if (NotificationInfo.notificationRes.length() == 0) {
@@ -681,19 +681,29 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (sharedpref.getFireWallType() == 5) {
-			if (NotificationInfo.notificationRes.length() == 0) {
-				if (NotificationInfo.isgettingdata == false) {
-					new AsyncTaskGetAdbArrayListonResume()
-							.execute(mContext);
-				}
-			} else {
-				setAdapterNotif();
-			}
+			refreshNotif();
 		} else {
 			setNewDataForList();
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		// TODO Auto-generated method stub
+		super.onConfigurationChanged(newConfig);
+		if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
+			if (sharedpref.getFireWallType() == 5) {
+				refreshNotif();
+			}
+		}
+		else if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
+			if (sharedpref.getFireWallType() == 5) {
+				refreshNotif();
+			}
+		}
+	}
+
 
 	@Override
 	public void finish() {
@@ -707,6 +717,17 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			sensorManager = null;
 		}
 		super.finish();
+	}
+	
+	public void refreshNotif(){
+		if (NotificationInfo.notificationRes.length() == 0) {
+			if (NotificationInfo.isgettingdata == false) {
+				new AsyncTaskGetAdbArrayListonResume()
+						.execute(mContext);
+			}
+		} else {
+			setAdapterNotif();
+		}
 	}
 
 	private SensorEventListener mSensorEventListener = new SensorEventListener() {
@@ -875,6 +896,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			container.startAnimation(rotation);
 		}
 	}
+	
 	
 
 }
