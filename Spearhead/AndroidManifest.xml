@@ -35,31 +35,31 @@
         android:targetSdkVersion="9" />
 
     <application
-        android:name=".SpearheadApplication"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="@string/app_name"
+        android:name=".SpearheadApplication" >
         <activity
-            android:name=".Splash"
             android:label="@string/app_name"
             android:launchMode="singleTask"
+            android:name=".Splash"
             android:screenOrientation="portrait"
             android:theme="@style/noTitle" >
-            <intent-filter>
+            <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".SpearheadActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
+            android:name=".SpearheadActivity"
             android:screenOrientation="portrait"
             android:theme="@style/noTitle" >
         </activity>
         <activity
-            android:name=".Main"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:name=".Main" >
         </activity>
         <activity
             android:name="com.hiapk.ui.scene.PrefrenceSetting"
@@ -71,12 +71,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/noTitle" >
         </activity>
-         <activity
+        <activity
             android:name="com.hiapk.ui.scene.ShakeSensorSetting"
             android:screenOrientation="portrait"
             android:theme="@style/noTitle" >
         </activity>
-        <activity android:name=".FireWallActivity" >
+        <activity
+            android:name=".FireWallActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.hiapk.ui.scene.MenuSceneActivity"
@@ -93,8 +96,8 @@
         <activity android:name="com.hiapk.viewflow.ViewFlowMainScene" >
         </activity>
         <activity
-            android:name="com.hiapk.ui.scene.Regulate"
             android:launchMode="singleTask"
+            android:name="com.hiapk.ui.scene.Regulate"
             android:screenOrientation="portrait"
             android:theme="@style/noTitle" >
         </activity>
@@ -104,14 +107,14 @@
             android:theme="@style/noTitle" >
         </activity>
         <activity
-            android:name="com.hiapk.ui.scene.PhoneSet"
             android:launchMode="singleTask"
+            android:name="com.hiapk.ui.scene.PhoneSet"
             android:screenOrientation="portrait"
             android:theme="@style/noTitle" >
         </activity>
         <activity
-            android:name="com.hiapk.ui.scene.WeiboSinaActivity"
             android:launchMode="singleTask"
+            android:name="com.hiapk.ui.scene.WeiboSinaActivity"
             android:screenOrientation="portrait"
             android:theme="@style/noTitle"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" >
@@ -120,8 +123,8 @@
                 android:scheme="weibo4andriod" />
         </activity>
         <activity
-            android:name="com.hiapk.ui.scene.weibo.tencent.WeiboTencentActivity"
             android:launchMode="singleTask"
+            android:name="com.hiapk.ui.scene.weibo.tencent.WeiboTencentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/noTitle"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" >
@@ -131,29 +134,29 @@
         </activity>
         <!-- OAuth Version 1.0 使用 WebView 辅助授权必须 -->
         <activity
-            android:name="com.hiapk.ui.scene.weibo.tencent.OAuthV1AuthorizeWebView"
             android:label="@string/app_name"
+            android:name="com.hiapk.ui.scene.weibo.tencent.OAuthV1AuthorizeWebView"
             android:theme="@style/noTitle" >
         </activity>
         <activity
             android:name=".WindowNotifyDialog"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Dialog" >
-            <intent-filter>
+            <intent-filter >
             </intent-filter>
         </activity>
 
         <service android:name="com.hiapk.widget.FloatService" >
-            <intent-filter>
+            <intent-filter >
                 <action android:name="com.hiapk.server" />
             </intent-filter>
         </service>
 
         <receiver
-            android:name="com.hiapk.widget.Appwidget"
             android:icon="@drawable/ic_launcher"
-            android:label="先锋流量监控(4X1)" >
-            <intent-filter>
+            android:label="先锋流量监控(4X1)"
+            android:name="com.hiapk.widget.Appwidget" >
+            <intent-filter >
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.hiapkAPPWIDGET_UPDATE" />
                 <action android:name="com.hiapk.wifiwidget" />
@@ -168,7 +171,7 @@
         <receiver
             android:name="com.hiapk.broadcreceiver.BootAndShutdownBroadcast"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
-            <intent-filter>
+            <intent-filter >
                 <action android:name="android.intent.action.BOOT_COMPLETED" >
                 </action>
                 <action android:name="android.intent.action.ACTION_SHUTDOWN" >
@@ -176,7 +179,7 @@
             </intent-filter>
         </receiver>
         <receiver android:name="com.hiapk.broadcreceiver.PackageReceiver" >
-            <intent-filter>
+            <intent-filter >
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
 
@@ -184,7 +187,7 @@
             </intent-filter>
         </receiver>
         <receiver android:name="com.hiapk.broadcreceiver.ConnectivityChange" >
-            <intent-filter>
+            <intent-filter >
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
@@ -198,7 +201,7 @@
         <receiver android:name="com.hiapk.broadcreceiver.ExitAppBroadcast" >
         </receiver>
         <receiver android:name="com.hiapk.broadcreceiver.TimeChangeToStartDateChange" >
-            <intent-filter>
+            <intent-filter >
                 <action android:name="android.intent.action.TIME_SET" />
             </intent-filter>
         </receiver>
@@ -209,7 +212,7 @@
         <receiver android:name="com.hiapk.broadcreceiver.UpdateWidget" >
         </receiver>
         <receiver android:name="com.hiapk.broadcreceiver.SMS_Received" >
-            <intent-filter>
+            <intent-filter >
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
