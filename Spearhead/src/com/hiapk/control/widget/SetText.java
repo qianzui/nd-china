@@ -149,7 +149,7 @@ public class SetText {
 		if (setDay > maxDay) {
 			setDay = maxDay;
 		}
-		if (setDay < monthDay) {
+		if (setDay <= monthDay) {
 			if (month == 12) {
 				year += 1;
 				return date.append(year).append(".").append(1).append(".")
@@ -160,10 +160,6 @@ public class SetText {
 						.append(setDay);
 			}
 
-		} else if (setDay == monthDay) {
-			month += 1;
-			return date.append(year).append(".").append(month).append(".")
-					.append(setDay);
 		} else {
 			return date.append(year).append(".").append(month).append(".")
 					.append(setDay);
