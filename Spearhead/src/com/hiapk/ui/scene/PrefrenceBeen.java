@@ -39,8 +39,8 @@ public class PrefrenceBeen {
 		sharedDate = SpearheadApplication.getInstance().getsharedData();
 	}
 
-	public void initListBoxFresh(LinearLayout layout_freshplv) {
-		layout_freshplv.setOnClickListener(new OnClickListener() {
+	public void initListBoxFresh(final TextView tv_freshplv) {
+		tv_freshplv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				CustomSPBeen customSpbenn = new CustomSPBeen(context);
@@ -50,8 +50,8 @@ public class PrefrenceBeen {
 
 	}
 
-	public void initClickBoxDataClear(LinearLayout layout_cleardata) {
-		layout_cleardata.setOnClickListener(new OnClickListener() {
+	public void initClickBoxDataClear(final TextView tv_cleardata) {
+		tv_cleardata.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				CustomDialogOtherBeen customOther = new CustomDialogOtherBeen(
@@ -61,22 +61,14 @@ public class PrefrenceBeen {
 		});
 	}
 
-	public void initCheckBoxNotyfy(LinearLayout layout_notyfy) {
-		LayoutInflater factory = LayoutInflater.from(context);
-		final View boxView = factory.inflate(R.layout.settings_checkbox, null);
-		final Button showText = (Button) boxView
-				.findViewById(R.id.setting_tv_box);
-		showText.setText(R.string.prefrence_setting_checkbox_notify);
-		initScene(showText);
+	public void initCheckBoxNotyfy(final TextView tv_notyfy) {
 		boolean isopen = sharedDatawidget.isNotifyOpen();
 		if (isopen) {
-			checkBoxRightDrawinit(showText, isopen);
+			checkBoxRightDrawinit(tv_notyfy, isopen);
 		} else {
-			checkBoxRightDrawinit(showText, isopen);
+			checkBoxRightDrawinit(tv_notyfy, isopen);
 		}
-		layout_notyfy.removeAllViews();
-		layout_notyfy.addView(boxView);
-		showText.setOnClickListener(new OnClickListener() {
+		tv_notyfy.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				boolean isopen = sharedDatawidget.isNotifyOpen();
@@ -84,109 +76,87 @@ public class PrefrenceBeen {
 				if (isopen) {
 					sharedDatawidget.setNotifyOpen(false);
 					alset.StopWidgetAlarm(context);
-					checkBoxRightDrawChange(showText, isopen);
+					checkBoxRightDrawChange(tv_notyfy, isopen);
 				} else {
 					sharedDatawidget.setNotifyOpen(true);
 					SetText.resetWidgetAndNotify(context);
 					alset.StartWidgetAlarm(context);
-					checkBoxRightDrawChange(showText, isopen);
+					checkBoxRightDrawChange(tv_notyfy, isopen);
 				}
 			}
 		});
 	}
 
-	public void initCheckBoxFloat(LinearLayout layout_float) {
-		LayoutInflater factory = LayoutInflater.from(context);
-		final View boxView = factory.inflate(R.layout.settings_checkbox, null);
-		final Button showText = (Button) boxView
-				.findViewById(R.id.setting_tv_box);
-		showText.setText(R.string.prefrence_setting_clickbox_floatwindow);
-		initScene(showText);
+	public void initCheckBoxFloat(final TextView tv_float) {
 		boolean isopen = sharedDatawidget.isFloatOpen();
 		if (isopen) {
-			checkBoxRightDrawinit(showText, isopen);
+			checkBoxRightDrawinit(tv_float, isopen);
 		} else {
-			checkBoxRightDrawinit(showText, isopen);
+			checkBoxRightDrawinit(tv_float, isopen);
 		}
-		layout_float.removeAllViews();
-		layout_float.addView(boxView);
-		showText.setOnClickListener(new OnClickListener() {
+		tv_float.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				boolean isopen = sharedDatawidget.isFloatOpen();
 				if (isopen) {
 					FloatWindowOperator.saveXYvalue(context);
 					context.stopService(new Intent("com.hiapk.server"));
-					checkBoxRightDrawChange(showText, isopen);
+					checkBoxRightDrawChange(tv_float, isopen);
 					sharedDatawidget.setFloatOpen(false);
 				} else {
 					context.startService(new Intent("com.hiapk.server"));
-					checkBoxRightDrawChange(showText, isopen);
+					checkBoxRightDrawChange(tv_float, isopen);
 					sharedDatawidget.setFloatOpen(true);
 				}
 			}
 		});
 	}
 
-	public void initCheckBoxHelpMessage(LinearLayout layout_help_info) {
-		LayoutInflater factory = LayoutInflater.from(context);
-		final View boxView = factory.inflate(R.layout.settings_checkbox, null);
-		final Button showText = (Button) boxView
-				.findViewById(R.id.setting_tv_box);
-		showText.setText(R.string.prefrence_setting_clickbox_help);
-		initScene(showText);
+	public void initCheckBoxHelpMessage(final TextView tv_help_info) {
 		boolean isopen = Block.fireTip(context);
 		if (isopen) {
-			checkBoxRightDrawinit(showText, isopen);
+			checkBoxRightDrawinit(tv_help_info, isopen);
 		} else {
-			checkBoxRightDrawinit(showText, isopen);
+			checkBoxRightDrawinit(tv_help_info, isopen);
 		}
-		layout_help_info.removeAllViews();
-		layout_help_info.addView(boxView);
-		showText.setOnClickListener(new OnClickListener() {
+		tv_help_info.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				boolean isopen = Block.fireTip(context);
 				if (isopen) {
 					Block.fireTipSet(context, false);
-					checkBoxRightDrawChange(showText, isopen);
+					checkBoxRightDrawChange(tv_help_info, isopen);
 				} else {
 					Block.fireTipSet(context, true);
-					checkBoxRightDrawChange(showText, isopen);
+					checkBoxRightDrawChange(tv_help_info, isopen);
 				}
 			}
 		});
 	}
 
 	public void initCheckBoxAutoSaveFireWall(
-			LinearLayout layout_auto_save_firewall) {
-		LayoutInflater factory = LayoutInflater.from(context);
-		final View boxView = factory.inflate(R.layout.settings_checkbox, null);
-		final Button showText = (Button) boxView
-				.findViewById(R.id.setting_tv_box);
-		showText.setText(R.string.prefrence_setting_auto_save_firewall);
-		initScene(showText);
+			final TextView tv_auto_save_firewall) {
 		boolean isopen = sharedDate.isAutoSaveFireWallRule();
 		if (isopen) {
-			checkBoxRightDrawinit(showText, isopen);
+			checkBoxRightDrawinit(tv_auto_save_firewall, isopen);
 		} else {
-			checkBoxRightDrawinit(showText, isopen);
+			checkBoxRightDrawinit(tv_auto_save_firewall, isopen);
 		}
-		layout_auto_save_firewall.removeAllViews();
-		layout_auto_save_firewall.addView(boxView);
-		showText.setOnClickListener(new OnClickListener() {
+		tv_auto_save_firewall.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (sharedDate.isHasknowFireWallSave()) {
 					boolean isopen = sharedDate.isAutoSaveFireWallRule();
 					if (isopen) {
 						sharedDate.setisAutoSaveFireWallRule(false);
-						checkBoxRightDrawChange(showText, isopen);
+						checkBoxRightDrawChange(tv_auto_save_firewall,
+								isopen);
 						SaveRule sr = new SaveRule(context);
 						sr.deleteRecord();
 					} else {
 						sharedDate.setisAutoSaveFireWallRule(true);
-						checkBoxRightDrawChange(showText, isopen);
+						checkBoxRightDrawChange(tv_auto_save_firewall,
+								isopen);
 					}
 				} else {
 					CustomDialogOtherBeen customdia = new CustomDialogOtherBeen(
@@ -199,32 +169,24 @@ public class PrefrenceBeen {
 	}
 
 	public void initCheckBoxIsFloatTouchable(
-			LinearLayout layout_is_float_touchable) {
-		LayoutInflater factory = LayoutInflater.from(context);
-		final View boxView = factory.inflate(R.layout.settings_checkbox, null);
-		final Button showText = (Button) boxView
-				.findViewById(R.id.setting_tv_box);
-		showText.setText(R.string.prefrence_setting_is_float_untouchable);
-		initScene(showText);
+			final TextView tv_is_float_touchable) {
 		boolean isopen = sharedDatawidget.isFloatUnTouchable();
 		if (isopen) {
-			checkBoxRightDrawinit(showText, isopen);
+			checkBoxRightDrawinit(tv_is_float_touchable, isopen);
 		} else {
-			checkBoxRightDrawinit(showText, isopen);
+			checkBoxRightDrawinit(tv_is_float_touchable, isopen);
 		}
-		layout_is_float_touchable.removeAllViews();
-		layout_is_float_touchable.addView(boxView);
-		showText.setOnClickListener(new OnClickListener() {
+		tv_is_float_touchable.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				boolean isopen = sharedDatawidget.isFloatOpen();
 				boolean isFloat = sharedDatawidget.isFloatUnTouchable();
 				if (isFloat) {
 					sharedDatawidget.setFloatUnTouchable(false);
-					checkBoxRightDrawChange(showText, isFloat);
+					checkBoxRightDrawChange(tv_is_float_touchable, isFloat);
 				} else {
 					sharedDatawidget.setFloatUnTouchable(true);
-					checkBoxRightDrawChange(showText, isFloat);
+					checkBoxRightDrawChange(tv_is_float_touchable, isFloat);
 				}
 				if (isopen) {
 					Intent intent = new Intent("com.hiapk.server");
@@ -236,8 +198,8 @@ public class PrefrenceBeen {
 
 	}
 
-	public void initCheckBoxShakeToSwitch(RelativeLayout layout_shake_switch) {
-		layout_shake_switch.setOnClickListener(new OnClickListener() {
+	public void initCheckBoxShakeToSwitch(final TextView tv_shake_switch) {
+		tv_shake_switch.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (!sharedDate.isKnowShakeToSwitch()) {
@@ -316,22 +278,22 @@ public class PrefrenceBeen {
 				.getColor(R.color.darkgray2) : Color.GRAY);
 	}
 
-	private void checkBoxRightDrawinit(Button btn, boolean on_off) {
+	private void checkBoxRightDrawinit(TextView tv, boolean on_off) {
 		if (!on_off) {
-			btn.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+			tv.setCompoundDrawablesWithIntrinsicBounds(0, 0,
 					R.drawable.check_close, 0);
 		} else {
-			btn.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+			tv.setCompoundDrawablesWithIntrinsicBounds(0, 0,
 					R.drawable.check_open, 0);
 		}
 	}
 
-	private void checkBoxRightDrawChange(Button btn, boolean on_off) {
+	private void checkBoxRightDrawChange(TextView tv, boolean on_off) {
 		if (on_off) {
-			btn.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+			tv.setCompoundDrawablesWithIntrinsicBounds(0, 0,
 					R.drawable.check_close, 0);
 		} else {
-			btn.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+			tv.setCompoundDrawablesWithIntrinsicBounds(0, 0,
 					R.drawable.check_open, 0);
 		}
 	}
