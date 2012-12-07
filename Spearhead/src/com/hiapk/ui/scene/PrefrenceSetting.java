@@ -21,12 +21,7 @@ public class PrefrenceSetting extends Activity {
 	// ²Ù×÷sharedprefrence
 	String PREFS_NAME = "allprefs";
 	//
-	CheckBoxPreference isNotifyOpen;
-	CheckBoxPreference isfloatIndicatorOpen;
-	CheckBoxPreference fireTip;
-	ListPreference refreshFres;
-	PreferenceScreen clearData;
-	Context context = this;
+	private Context context = this;
 
 	SharedPrefrenceData sharedData;
 	ProgressDialog mydialog;
