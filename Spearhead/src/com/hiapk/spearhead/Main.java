@@ -27,9 +27,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -38,6 +42,11 @@ public class Main extends Activity {
 	private Context context = this;
 	// wifi与mobile单月使用量
 	private long mobile_month_use = 0;
+	// 自定义progressbar
+	private LinearLayout layoutThumb;
+	private ProgressBar progressBar;
+	private int progress_bar_width = 0;
+	private int progress = 0;
 	// 获取的系统时间
 	private int year;
 	private int month;
@@ -85,6 +94,10 @@ public class Main extends Activity {
 		// ------------
 		setonclicklistens();
 		// setontvclicklisten();
+		// ---------------------------
+		progressBar = (ProgressBar) findViewById(R.id.main_progressbar);
+		layoutThumb = (LinearLayout) findViewById(R.id.main_progressbar_thumb_linearlayout);
+		getProgressBarViewWidth(progressBar);
 	}
 
 	private void versionUpdateWindiw() {
@@ -102,19 +115,9 @@ public class Main extends Activity {
 	 * 初始化界面
 	 */
 	private void initScene() {
-		// 设置按钮显示文字
-		boolean hasTraffSet = sharedData.isMonthSetHasSet();
-		Button btn_toThree = (Button) findViewById(R.id.setTaoCan);
 		RelativeLayout title = (RelativeLayout) findViewById(R.id.mainTitleBackground);
 		// 设置皮肤
-		btn_toThree.setBackgroundResource(SkinCustomMains
-				.buttonBackgroundLight());
 		title.setBackgroundResource(SkinCustomMains.titleBackground());
-		if (hasTraffSet) {
-			btn_toThree.setText("  校准流量  ");
-		} else {
-			btn_toThree.setText("  请设置流量套餐  ");
-		}
 
 	}
 
@@ -156,6 +159,53 @@ public class Main extends Activity {
 
 	}
 
+	private void initProgressbar() {
+		// -------------progressbar
+		TextView progressbarThumb = (TextView) findViewById(R.id.main_progressbar_thumb);
+		long mobileSet = sharedData.getMonthMobileSetOfLong();
+		try {
+			progress = (int) (100 * mobile_month_use / mobileSet);
+		} catch (Exception e) {
+			Logs.d(TAG, "mobileSet=0");
+			progress = 0;
+		}
+		if (progress > 100) {
+			progress = 100;
+		}
+		// 从右开始设置数值
+		progress = 100 - progress;
+		progressBar.setProgress(progress);
+		progress = 100 - progress;
+		if (progress == 100) {
+			progressbarThumb.setText("100");
+		} else
+			progressbarThumb.setText(progress + "%");
+		if (progress_bar_width != 0) {
+			setProgressbarThumb();
+		}
+		Logs.d(TAG, "progress=" + progress);
+	}
+
+	private void setProgressbarThumb() {
+		int padding = (progress_bar_width - 40) * progress / 100;
+		layoutThumb.setPadding(padding, 0, 0, 0);
+		Logs.d(TAG, "padding=" + padding);
+	}
+
+	private int getProgressBarViewWidth(final ProgressBar view) {
+		ViewTreeObserver vto2 = view.getViewTreeObserver();
+		vto2.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				progress_bar_width = progressBar.getWidth();
+				setProgressbarThumb();
+				Logs.d(TAG, "getWidth()=" + progressBar.getWidth() + "");
+			}
+		});
+		return progress_bar_width;
+	}
+
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -177,6 +227,7 @@ public class Main extends Activity {
 		monthDay = t.monthDay;
 		alset.StartAlarm(context);
 		initValues();
+		initProgressbar();
 		// initChartBar();
 		new AsyncTaskoninitChartBar().execute(context);
 		SetText.resetWidgetAndNotify(context);
@@ -225,8 +276,8 @@ public class Main extends Activity {
 		});
 
 		// 跳转到校正页
-		Button gotoThree = (Button) findViewById(R.id.setTaoCan);
-		gotoThree.setOnClickListener(new OnClickListener() {
+		FrameLayout fram_click = (FrameLayout) findViewById(R.id.main_framelayout_progress);
+		fram_click.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -235,16 +286,14 @@ public class Main extends Activity {
 						context);
 				boolean hasTraffSet = sharedData.isMonthSetHasSet();
 				if (!hasTraffSet) {
-					Button btn_toThree = (Button) findViewById(R.id.setTaoCan);
 					// 包月流量
 					TextView monthSet = (TextView) findViewById(R.id.monthSet);
 					TextView monthMobil = (TextView) findViewById(R.id.monthRate);
 					TextView monthMobilunit = (TextView) findViewById(R.id.unit3);
 					TextView monthRemain = (TextView) findViewById(R.id.monthRemain);
 					TextView monthRemainunit = (TextView) findViewById(R.id.unit4);
-					customDialog.dialogMonthSet_Main(btn_toThree, monthSet,
-							monthRemain, monthRemainunit, monthMobil,
-							monthMobilunit);
+					customDialog.dialogMonthSet_Main(monthSet, monthRemain,
+							monthRemainunit, monthMobil, monthMobilunit);
 				} else {
 					TextView monthMobil = (TextView) findViewById(R.id.monthRate);
 					TextView monthMobilunit = (TextView) findViewById(R.id.unit3);

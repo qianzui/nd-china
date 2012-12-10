@@ -3,6 +3,8 @@ package com.hiapk.ui.custom;
 import java.text.DecimalFormat;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.spearhead.R;
+import com.hiapk.spearhead.SpearheadActivity;
 import com.hiapk.spearhead.SpearheadApplication;
 import com.hiapk.ui.scene.PrefrenceStaticOperator;
 import com.hiapk.ui.scene.Regulate;
@@ -153,6 +156,7 @@ public class CustomDialogMainBeen {
 				AlarmSet alarm = new AlarmSet();
 				alarm.StartWidgetAlarm(context);
 				// 清除对话框
+				resumeMain();
 				monthHasUsedAlert.dismiss();
 			}
 		});
@@ -162,7 +166,15 @@ public class CustomDialogMainBeen {
 
 			@Override
 			public void onClick(View v) {
+				resumeMain();
 				monthHasUsedAlert.dismiss();
+			}
+		});
+		monthHasUsedAlert.setOnCancelListener(new OnCancelListener() {
+
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				resumeMain();
 			}
 		});
 
@@ -175,10 +187,9 @@ public class CustomDialogMainBeen {
 	 *            传入点击的TextView
 	 * @return 返回对话框
 	 */
-	public void dialogMonthSet_Main(final Button btn_toThree,
-			final TextView monthSet, final TextView monthRemain,
-			final TextView monthRemainunit, final TextView monthUse,
-			final TextView monthUseunit) {
+	public void dialogMonthSet_Main(final TextView monthSet,
+			final TextView monthRemain, final TextView monthRemainunit,
+			final TextView monthUse, final TextView monthUseunit) {
 
 		int mobileUnit = sharedData.getMonthMobileSetUnit();
 		float mobileSetFloat = sharedData.getMonthMobileSetOfFloat();
@@ -245,10 +256,8 @@ public class CustomDialogMainBeen {
 				// 判断是否未设置
 				if (i == 0) {
 					sharedData.setMonthSetHasSet(false);
-					btn_toThree.setText("  请设置流量套餐  ");
 				} else {
 					sharedData.setMonthSetHasSet(true);
-					btn_toThree.setText("  校准流量  ");
 				}
 				PrefrenceStaticOperator.resetHasWarning(context);
 				// 重设主界面数值包月流量
@@ -264,6 +273,7 @@ public class CustomDialogMainBeen {
 						mobile_month_use, monthUse);
 				monthRemain.setText(UnitHandler.unitHandler(monthLeft,
 						monthRemainunit));
+				resumeMain();
 				monthSetAlert.dismiss();
 				// Intent intent = new Intent(context, PhoneSet.class);
 				// context.startActivity(intent);
@@ -279,9 +289,22 @@ public class CustomDialogMainBeen {
 
 			@Override
 			public void onClick(View v) {
+				resumeMain();
 				monthSetAlert.dismiss();
 			}
 		});
+		monthSetAlert.setOnCancelListener(new OnCancelListener() {
+
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				resumeMain();
+			}
+		});
+	}
+
+	private void resumeMain() {
+		SpearheadActivity.switchScene(2);
+		SpearheadActivity.switchScene(0);
 	}
 
 	/**
