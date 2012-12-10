@@ -77,6 +77,8 @@ public class Main extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		progressBar = (ProgressBar) findViewById(R.id.main_progressbar);
+		layoutThumb = (LinearLayout) findViewById(R.id.main_progressbar_thumb_linearlayout);
 		onCreateWifiBar();
 		// 为了退出。
 		SpearheadApplication.getInstance().addActivity(this);
@@ -95,8 +97,6 @@ public class Main extends Activity {
 		setonclicklistens();
 		// setontvclicklisten();
 		// ---------------------------
-		progressBar = (ProgressBar) findViewById(R.id.main_progressbar);
-		layoutThumb = (LinearLayout) findViewById(R.id.main_progressbar_thumb_linearlayout);
 		getProgressBarViewWidth(progressBar);
 	}
 
@@ -286,21 +286,9 @@ public class Main extends Activity {
 						context);
 				boolean hasTraffSet = sharedData.isMonthSetHasSet();
 				if (!hasTraffSet) {
-					// 包月流量
-					TextView monthSet = (TextView) findViewById(R.id.monthSet);
-					TextView monthMobil = (TextView) findViewById(R.id.monthRate);
-					TextView monthMobilunit = (TextView) findViewById(R.id.unit3);
-					TextView monthRemain = (TextView) findViewById(R.id.monthRemain);
-					TextView monthRemainunit = (TextView) findViewById(R.id.unit4);
-					customDialog.dialogMonthSet_Main(monthSet, monthRemain,
-							monthRemainunit, monthMobil, monthMobilunit);
+					customDialog.dialogMonthSet_Main();
 				} else {
-					TextView monthMobil = (TextView) findViewById(R.id.monthRate);
-					TextView monthMobilunit = (TextView) findViewById(R.id.unit3);
-					TextView monthRemain = (TextView) findViewById(R.id.monthRemain);
-					TextView monthRemainunit = (TextView) findViewById(R.id.unit4);
-					customDialog.dialogMonthHasUsed(monthMobil, monthMobilunit,
-							monthRemain, monthRemainunit);
+					customDialog.dialogMonthHasUsed();
 				}
 
 			}

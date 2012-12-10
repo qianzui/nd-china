@@ -14,8 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
-
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.SetText;
@@ -24,9 +22,7 @@ import com.hiapk.spearhead.SpearheadActivity;
 import com.hiapk.spearhead.SpearheadApplication;
 import com.hiapk.ui.scene.PrefrenceStaticOperator;
 import com.hiapk.ui.scene.Regulate;
-import com.hiapk.ui.skin.ColorChangeMainBeen;
 import com.hiapk.util.SharedPrefrenceData;
-import com.hiapk.util.UnitHandler;
 
 public class CustomDialogMainBeen {
 	private Context context;
@@ -44,9 +40,7 @@ public class CustomDialogMainBeen {
 	 *            传入点击的TextView
 	 * @return 返回对话框
 	 */
-	public void dialogMonthHasUsed(final TextView monthMobil,
-			final TextView monthMobilunit, final TextView monthRemain,
-			final TextView monthRemainunit) {
+	public void dialogMonthHasUsed() {
 		final DecimalFormat format = new DecimalFormat("0.##");
 		int mobileUseUnit = sharedData.getMonthHasUsedUnit();
 		// float mobileUsefloat = sharedData.getMonthMobileHasUseOffloat();
@@ -143,15 +137,6 @@ public class CustomDialogMainBeen {
 				}
 				SetText.resetWidgetAndNotify(context);
 				PrefrenceStaticOperator.resetHasWarning(context);
-				// 月度流量设置
-				long monthLeft = 0;
-				monthLeft = ColorChangeMainBeen.setRemainTraff(mobileSet,
-						hasusedlong, monthMobil);
-				//
-				monthMobil.setText(UnitHandler.unitHandlerAcurrac(hasusedlong,
-						monthMobilunit));
-				monthRemain.setText(UnitHandler.unitHandler(monthLeft,
-						monthRemainunit));
 				// 启动计时
 				AlarmSet alarm = new AlarmSet();
 				alarm.StartWidgetAlarm(context);
@@ -187,9 +172,7 @@ public class CustomDialogMainBeen {
 	 *            传入点击的TextView
 	 * @return 返回对话框
 	 */
-	public void dialogMonthSet_Main(final TextView monthSet,
-			final TextView monthRemain, final TextView monthRemainunit,
-			final TextView monthUse, final TextView monthUseunit) {
+	public void dialogMonthSet_Main() {
 
 		int mobileUnit = sharedData.getMonthMobileSetUnit();
 		float mobileSetFloat = sharedData.getMonthMobileSetOfFloat();
@@ -260,19 +243,6 @@ public class CustomDialogMainBeen {
 					sharedData.setMonthSetHasSet(true);
 				}
 				PrefrenceStaticOperator.resetHasWarning(context);
-				// 重设主界面数值包月流量
-				long mobileSet = sharedData.getMonthMobileSetOfLong();
-				// 月度流量设置
-				long mobile_month_use = TrafficManager
-						.getMonthUseMobile(context);
-				long monthLeft = 0;
-				//
-				monthUse.setText(UnitHandler.unitHandlerAcurrac(
-						mobile_month_use, monthUseunit));
-				monthLeft = ColorChangeMainBeen.setRemainTraff(mobileSet,
-						mobile_month_use, monthUse);
-				monthRemain.setText(UnitHandler.unitHandler(monthLeft,
-						monthRemainunit));
 				resumeMain();
 				monthSetAlert.dismiss();
 				// Intent intent = new Intent(context, PhoneSet.class);
