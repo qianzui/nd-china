@@ -80,6 +80,15 @@
         <item name="android:minWidth">100dip</item>
         <item name="android:maxWidth">150dip</item>
     </style>
+    
+    <style name="myProgressBarStyleMainscene">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable"> @drawable/progressbar_main_scene</item>
+        <item name="android:minHeight">12dip</item>
+        <item name="android:maxHeight">12dip</item>
+        <item name="android:minWidth">100dip</item>
+        <item name="android:maxWidth">150dip</item>
+    </style>
 
     <style name="warningprogressbar">
         <item name="android:indeterminateOnly">false</item>
