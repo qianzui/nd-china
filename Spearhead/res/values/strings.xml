@@ -12,7 +12,7 @@
     <string name="title_shakesetting">设定</string>
     <string name="title_shake_sensor_setting">设置灵敏度</string>
     <string name="main_edit">编写</string>
-    <string name="twoGthreeG">\u0020\u0020 2G/3G</string>
+    <string name="twoGthreeG">2G/3G</string>
     <string name="wifi">\u0020\u0020 总流量</string>
     <string name="todayUsed">今日已用:\u0020</string>
     <string name="rate">0</string>

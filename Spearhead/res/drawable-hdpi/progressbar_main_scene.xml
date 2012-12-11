@@ -2,12 +2,6 @@
 
     <item android:id="@android:id/background">
         <shape>
-            <gradient
-                android:angle="0"
-                android:centerColor="#fed044"
-                android:centerX="0.7"
-                android:endColor="#e73932"
-                android:startColor="#34a6da" />
             <corners 
                 android:radius="3dp"
             />
