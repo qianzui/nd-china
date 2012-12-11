@@ -58,68 +58,76 @@
 
             <!-- 第一行的第一行标题开始 -->
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/mobile2"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dip"
-                android:text="@string/twoGthreeG"
-                android:textColor="@color/darkgray2"
-                android:textSize="25sp" />
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/divider" />
-
-            <!-- 第一行的第一行标题 结束 -->
-
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:baselineAligned="false"
-                android:orientation="horizontal"
-                android:paddingLeft="10dip"
-                android:paddingRight="5dip" >
+                android:layout_weight="1.2"
+                android:gravity="center_vertical" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/mobile2"
+                    android:gravity="center"
+                    android:paddingLeft="10dip"
+                    android:text="@string/twoGthreeG"
+                    android:textColor="@color/darkgray2"
+                    android:textSize="25sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:gravity="center_vertical"
+                    android:background="@drawable/shu"
                     android:orientation="horizontal" >
+                </LinearLayout>
+
+                <!-- 第一行的第一行标题 结束 -->
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:baselineAligned="false"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip" >
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
                         android:text="@string/todayUsed"
                         android:textColor="@color/darkgray2"
                         android:textSize="20sp" />
-                </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:gravity="center"
-                    android:orientation="horizontal" >
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal" >
 
-                    <TextView
-                        android:id="@+id/todayRate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/rate"
-                        android:textColor="@color/blueflock"
-                        android:textSize="20sp" />
+                        <TextView
+                            android:id="@+id/todayRate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_gravity="left"
+                            android:text="@string/rate"
+                            android:textColor="@color/blueflock"
+                            android:textSize="20sp" />
 
-                    <TextView
-                        android:id="@+id/unit1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="KB"
-                        android:textColor="@color/darkgray2"
-                        android:textSize="20sp" />
+                        <TextView
+                            android:id="@+id/unit1"
+                            android:layout_width="match_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            android:text="KB"
+                            android:textColor="@color/darkgray2"
+                            android:textSize="20sp" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
@@ -131,33 +139,33 @@
             <FrameLayout
                 android:id="@+id/main_framelayout_progress"
                 android:layout_width="fill_parent"
-                android:layout_height="45dp"
+                android:layout_height="55dp"
                 android:paddingTop="5dp" >
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/main_progress_bar_back"
+                    android:contentDescription=""
+                    android:gravity="bottom"
+                    android:textSize="13sp" />
 
                 <ProgressBar
                     android:id="@+id/main_progressbar"
                     android:layout_width="fill_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="bottom"
                     android:indeterminateOnly="false"
-                    android:paddingBottom="3dp"
+                    android:paddingBottom="8dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:paddingTop="3dp"
                     android:progress="50"
                     android:progressDrawable="@drawable/progressbar_main_scene"
                     android:secondaryProgress="0" />
-
-                <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="25dp"
-                    android:layout_gravity="bottom"
-                    android:contentDescription=""
-                    android:gravity="center"
-                    android:paddingLeft="6dp"
-                    android:paddingRight="6dp"
-                    android:src="@drawable/progressbar_padd_background"
-                    android:textSize="13sp" />
 
                 <LinearLayout
                     android:id="@+id/main_progressbar_thumb_linearlayout"
@@ -180,7 +188,7 @@
                 </LinearLayout>
             </FrameLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -188,13 +196,13 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="10dip"
-                android:paddingRight="5dip" >
+                android:paddingRight="10dip" >
 
                 <TextView
                     android:id="@+id/monthUsed"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
+                    android:layout_alignParentRight="true"
                     android:text="本月:"
                     android:textColor="@color/darkgray2"
                     android:textSize="20sp" />
@@ -203,6 +211,7 @@
                     android:id="@+id/monthRate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/unit3"
                     android:text="0"
                     android:textColor="@color/blueflock"
                     android:textSize="20sp" />
@@ -211,13 +220,16 @@
                     android:id="@+id/unit3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/main_seperate"
                     android:text="MB"
                     android:textColor="@color/darkgray2"
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/main_seperate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/monthRemain"
                     android:text="/"
                     android:textColor="@color/darkgray2"
                     android:textSize="20sp" />
@@ -226,6 +238,7 @@
                     android:id="@+id/monthRemain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/unit4"
                     android:text="0"
                     android:textColor="@color/blueflock"
                     android:textSize="20sp" />
@@ -234,10 +247,11 @@
                     android:id="@+id/unit4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
                     android:text="MB"
                     android:textColor="@color/darkgray2"
                     android:textSize="20sp" />
-            </LinearLayout>
+            </RelativeLayout>
             <!-- 第一行结束 -->
         </LinearLayout>
 
