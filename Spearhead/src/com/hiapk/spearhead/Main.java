@@ -187,7 +187,7 @@ public class Main extends Activity {
 	}
 
 	private void setProgressbarThumb() {
-		int padding = (progress_bar_width - 40) * progress / 100;
+		int padding = (progress_bar_width - 30) * progress / 100;
 		layoutThumb.setPadding(padding, 0, 0, 0);
 		Logs.d(TAG, "padding=" + padding);
 	}

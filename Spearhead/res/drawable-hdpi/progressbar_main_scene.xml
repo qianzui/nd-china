@@ -4,18 +4,19 @@
         <shape>
             <gradient
                 android:angle="0"
-                android:centerColor="#fef244"
-                android:centerX="0.75"
+                android:centerColor="#fed044"
+                android:centerX="0.7"
                 android:endColor="#e73932"
                 android:startColor="#34a6da" />
+            <corners 
+                android:radius="3dp"
+            />
         </shape>
     </item>
     <item android:id="@android:id/secondaryProgress">
-        [color=Red]
         <clip
             android:clipOrientation="horizontal"
             android:gravity="left" >
-        [/color]
             <shape>
                 <gradient
                     android:angle="0"
@@ -33,8 +34,18 @@
             <shape>
                 <gradient
                     android:angle="90"
-                    android:endColor="#ff747674"
-                    android:startColor="#ff5a5d5a" />
+                    android:endColor="#d7d7d7"
+                    android:startColor="#cbcbcb" />
+	<!--  
+                <stroke
+                    android:width="1dp"
+                    android:color="#999999" />-->
+                <corners 
+                android:topRightRadius="3dp"
+                android:bottomLeftRadius="0dp"
+                android:topLeftRadius="0dp"
+                android:bottomRightRadius="3dp"
+            />
             </shape>
         </clip>
     </item>
