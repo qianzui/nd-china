@@ -93,23 +93,23 @@ public class UnitHandler {
 		if ((temp = temp / 1024) < 1) {
 			DecimalFormat format = new DecimalFormat("0.##");
 			value = format.format(temp);
-			unit.setText(" KB");
+			unit.setText("KB");
 		} else if ((floatnum = (float) temp / 1024) < 1) {
 			DecimalFormat format = new DecimalFormat("0.##");
 			value = format.format(temp);
-			unit.setText(" KB");
+			unit.setText("KB");
 		} else if ((floatGB = floatnum / 1024) < 1) {
 			DecimalFormat format = new DecimalFormat("0.##");
 			value = format.format(floatnum) + "";
-			unit.setText(" MB");
+			unit.setText("MB");
 		} else if ((floatTB = floatGB / 1024) < 1) {
 			DecimalFormat format = new DecimalFormat("0.##");
 			value = format.format(floatGB) + "";
-			unit.setText(" GB");
+			unit.setText("GB");
 		} else {
 			DecimalFormat format = new DecimalFormat("0.##");
 			value = format.format(floatTB) + "";
-			unit.setText(" TB");
+			unit.setText("TB");
 		}
 		return value;
 	}
@@ -148,6 +148,44 @@ public class UnitHandler {
 			DecimalFormat format = new DecimalFormat("0.##");
 			value = format.format(floatTB) + "";
 			unit.setText(" TB");
+		}
+		return value;
+	}
+
+	/**
+	 * 单位标准化，mb，gb等
+	 * 
+	 * @param count
+	 *            输入的long型数
+	 * @param unit
+	 *            数值后面要显示的textview
+	 * @return 返回String型值
+	 */
+	public static String unitHandlerNoSpace(long count, TextView unit) {
+		String value = null;
+		float temp = count;
+		float floatnum = count;
+		float floatGB = count;
+		float floatTB = count;
+		if ((temp = temp / 1024) < 1) {
+			value = "0";
+			unit.setText("MB");
+		} else if ((floatnum = (float) temp / 1024) < 1) {
+			DecimalFormat format = new DecimalFormat("0.##");
+			value = format.format(floatnum);
+			unit.setText("MB");
+		} else if ((floatGB = floatnum / 1024) < 1) {
+			DecimalFormat format = new DecimalFormat("0.##");
+			value = format.format(floatnum) + "";
+			unit.setText("MB");
+		} else if ((floatTB = floatGB / 1024) < 1) {
+			DecimalFormat format = new DecimalFormat("0.##");
+			value = format.format(floatGB) + "";
+			unit.setText("GB");
+		} else {
+			DecimalFormat format = new DecimalFormat("0.##");
+			value = format.format(floatTB) + "";
+			unit.setText("TB");
 		}
 		return value;
 	}

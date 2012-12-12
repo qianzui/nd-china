@@ -354,6 +354,7 @@
     <!-- 黑色 -->
     <color name="transparent">#00000000</color>
     <color name="darkgray2">#ff505050</color>
+    <color name="darkgray3">#ff797979</color>
     <color name="blue2">#97FFFF</color>
     <color name="blue_mobile_chart">#046b9a</color>
     <color name="red_wifi_chart">#7c1624</color>

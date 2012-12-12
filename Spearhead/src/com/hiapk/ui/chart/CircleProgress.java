@@ -164,8 +164,18 @@ public class CircleProgress extends View {
 		canvas.drawArc(mCircleAttribute.mRoundOval, mCircleAttribute.mDrawPos,
 				sweep, mCircleAttribute.mBRoundPaintsFill,
 				mCircleAttribute.mMainPaints);
-		canvas.drawText(mMainCurProgress + "%", mWith / 2 - fontSize, mHeight
-				/ 2 + fontSize / 3, mCircleAttribute.mFrontPaint);
+		if (mMainCurProgress < 10) {
+			canvas.drawText(mMainCurProgress + "%", mWith / 2 - fontSize / 2,
+					mHeight / 2 + fontSize / 3, mCircleAttribute.mFrontPaint);
+		} else if (mMainCurProgress == 100) {
+			canvas.drawText(mMainCurProgress + "%",
+					mWith / 2 - fontSize * 1.2f, mHeight / 2 + fontSize / 3,
+					mCircleAttribute.mFrontPaint);
+		} else {
+			canvas.drawText(mMainCurProgress + "%",
+					mWith / 2 - fontSize * 0.8f, mHeight / 2 + fontSize / 3,
+					mCircleAttribute.mFrontPaint);
+		}
 
 	}
 
@@ -294,7 +304,7 @@ public class CircleProgress extends View {
 			// Color.rgb(203, 203, 203) }, null, Shader.TileMode.CLAMP);
 			// Shader mShaderMain = new SweepGradient(70, 70, new int[] {
 			// Color.BLUE, Color.YELLOW, Color.RED }, null);
-			Shader mShaderMain = new SweepGradient(mHeight / 2, mHeight / 2,
+			Shader mShaderMain = new SweepGradient(mWith / 2, mHeight / 2,
 					new int[] { Color.rgb(63, 172, 211),
 							Color.rgb(249, 238, 68), Color.rgb(249, 66, 50) },
 					null);
@@ -305,7 +315,7 @@ public class CircleProgress extends View {
 			// if (isBackgroundColorful) {
 			/* 设置渐变艄1�7 */
 			Shader mShader = new RadialGradient(
-					mHeight / 2,
+					mWith / 2,
 					mHeight / 2,
 					10,
 					new int[] { Color.rgb(223, 223, 223),

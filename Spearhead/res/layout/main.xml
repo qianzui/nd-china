@@ -63,18 +63,57 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:baselineAligned="false"
                 android:gravity="center_vertical" >
 
-                <TextView
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
                     android:layout_weight="1"
-                    android:drawableLeft="@drawable/mobile2"
-                    android:gravity="center"
-                    android:paddingLeft="10dip"
-                    android:text="@string/twoGthreeG"
-                    android:textColor="@color/darkgray2"
-                    android:textSize="25sp" />
+                    android:orientation="vertical"
+                    android:paddingTop="8dp" >
+
+                    <TextView
+                        android:id="@+id/todayRate"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/rate"
+                        android:textColor="@color/darkgray2"
+                        android:textSize="30sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingBottom="8dp" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/todayUsed"
+                            android:textColor="@color/darkgray2"
+                            android:textSize="19sp" />
+
+                        <TextView
+                            android:id="@+id/unit1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="KB"
+                            android:textColor="@color/darkgray2"
+                            android:textSize="19sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=")"
+                            android:textColor="@color/darkgray2"
+                            android:textSize="19sp" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -87,47 +126,51 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:baselineAligned="false"
                     android:orientation="vertical"
-                    android:paddingLeft="10dip"
-                    android:paddingRight="10dip" >
+                    android:paddingTop="8dp" >
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/monthRemain"
+                        android:layout_width="fill_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="@string/todayUsed"
-                        android:textColor="@color/darkgray2"
-                        android:textSize="20sp" />
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/blueflock"
+                        android:textSize="30sp" />
 
                     <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal" >
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingBottom="8dp" >
 
                         <TextView
-                            android:id="@+id/todayRate"
                             android:layout_width="wrap_content"
-                            android:layout_height="fill_parent"
-                            android:layout_gravity="left"
-                            android:text="@string/rate"
-                            android:textColor="@color/blueflock"
-                            android:textSize="20sp" />
+                            android:layout_height="wrap_content"
+                            android:text="@string/monthLeft"
+                            android:textColor="@color/darkgray2"
+                            android:textSize="19sp" />
 
                         <TextView
-                            android:id="@+id/unit1"
-                            android:layout_width="match_parent"
-                            android:layout_height="fill_parent"
-                            android:layout_gravity="right"
-                            android:gravity="right"
+                            android:id="@+id/unit4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="KB"
                             android:textColor="@color/darkgray2"
-                            android:textSize="20sp" />
+                            android:textSize="19sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=")"
+                            android:textColor="@color/darkgray2"
+                            android:textSize="19sp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -169,66 +212,73 @@
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:baselineAligned="false"
-                    android:orientation="vertical"
-                    android:paddingLeft="10dip"
-                    android:paddingRight="10dip" >
+                    android:gravity="center"
+                    android:orientation="vertical" >
 
                     <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:baselineAligned="false"
-                        android:gravity="center_horizontal|bottom"
-                        android:paddingBottom="2dp" >
+                        android:gravity="right"
+                        android:orientation="vertical" >
 
-                        <TextView
-                            android:id="@+id/monthRate"
+                        <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textColor="@color/blueflock"
-                            android:textSize="25sp" />
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:baselineAligned="false"
+                            android:gravity="bottom|right"
+                            android:paddingBottom="2dp" >
 
-                        <TextView
-                            android:id="@+id/unit3"
+                            <TextView
+                                android:id="@+id/monthRate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textColor="@color/blueflock"
+                                android:textSize="25sp" />
+
+                            <TextView
+                                android:id="@+id/unit3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="MB"
+                                android:textColor="@color/darkgray2"
+                                android:textSize="25sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="MB"
-                            android:textColor="@color/darkgray2"
-                            android:textSize="25sp" />
-                    </LinearLayout>
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:baselineAligned="false"
+                            android:gravity="top|right"
+                            android:paddingTop="2dp" >
 
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:baselineAligned="false"
-                        android:gravity="center_horizontal|top"
-                        android:paddingTop="2dp" >
+                            <TextView
+                                android:id="@+id/main_seperate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="/"
+                                android:textColor="@color/darkgray3"
+                                android:textSize="20sp" />
 
-                        <TextView
-                            android:id="@+id/main_seperate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="/"
-                            android:textColor="@color/darkgray2"
-                            android:textSize="20sp" />
+                            <TextView
+                                android:id="@+id/monthSet"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textColor="@color/darkgray3"
+                                android:textSize="20sp" />
 
-                        <TextView
-                            android:id="@+id/monthRemain"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textColor="@color/blueflock"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:id="@+id/unit4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="MB"
-                            android:textColor="@color/darkgray2"
-                            android:textSize="20sp" />
+                            <TextView
+                                android:id="@+id/unit5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="MB"
+                                android:textColor="@color/darkgray3"
+                                android:textSize="20sp" />
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
