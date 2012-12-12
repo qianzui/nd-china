@@ -137,6 +137,9 @@ public class Main extends Activity {
 		// 本月剩余
 		TextView monthRemain = (TextView) findViewById(R.id.monthRemain);
 		TextView monthRemainunit = (TextView) findViewById(R.id.unit4);
+		// 本月总计
+		TextView monthSet = (TextView) findViewById(R.id.monthSet);
+		TextView monthSetunit = (TextView) findViewById(R.id.unit5);
 		// 初始化流量获取函数
 		// 取得月度流量
 		// mobileTraffic = TrafficManager.mobile_month_data;
@@ -152,10 +155,11 @@ public class Main extends Activity {
 		monthLeft = ColorChangeMainBeen.setRemainTraff(mobileSet,
 				mobile_month_use, monthMobil);
 		//
-		monthMobil.setText(UnitHandler.unitHandlerAcurrac(mobile_month_use,
+		monthMobil.setText(UnitHandler.unitHandler(mobile_month_use,
 				monthMobilunit));
-		monthRemain
-				.setText(UnitHandler.unitHandler(monthLeft, monthRemainunit));
+		monthRemain.setText(UnitHandler.unitHandlerNoSpace(monthLeft,
+				monthRemainunit));
+		monthSet.setText(UnitHandler.unitHandler(mobileSet, monthSetunit));
 
 	}
 
