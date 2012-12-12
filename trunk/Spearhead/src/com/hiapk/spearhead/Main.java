@@ -4,6 +4,7 @@ import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.logs.Logs;
+import com.hiapk.ui.chart.CircleProgress;
 import com.hiapk.ui.chart.StackedBarChart;
 import com.hiapk.ui.custom.CustomDialogFAQBeen;
 import com.hiapk.ui.custom.CustomDialogMainBeen;
@@ -43,8 +44,7 @@ public class Main extends Activity {
 	// wifi与mobile单月使用量
 	private long mobile_month_use = 0;
 	// 自定义progressbar
-	private LinearLayout layoutThumb;
-	private ProgressBar progressBar;
+	private CircleProgress progressBar;
 	private int progress_bar_width = 0;
 	private int progress = 0;
 	// 获取的系统时间
@@ -77,8 +77,7 @@ public class Main extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		progressBar = (ProgressBar) findViewById(R.id.main_progressbar);
-		layoutThumb = (LinearLayout) findViewById(R.id.main_progressbar_thumb_linearlayout);
+		progressBar = (CircleProgress) findViewById(R.id.main_progressbar);
 		onCreateWifiBar();
 		// 为了退出。
 		SpearheadApplication.getInstance().addActivity(this);
@@ -98,6 +97,7 @@ public class Main extends Activity {
 		// setontvclicklisten();
 		// ---------------------------
 		getProgressBarViewWidth(progressBar);
+		// progressBar.setBackgroundColorful(true);
 	}
 
 	private void versionUpdateWindiw() {
@@ -161,7 +161,6 @@ public class Main extends Activity {
 
 	private void initProgressbar() {
 		// -------------progressbar
-		TextView progressbarThumb = (TextView) findViewById(R.id.main_progressbar_thumb);
 		long mobileSet = sharedData.getMonthMobileSetOfLong();
 		try {
 			progress = (int) (100 * mobile_month_use / mobileSet);
@@ -172,14 +171,10 @@ public class Main extends Activity {
 		if (progress > 100) {
 			progress = 100;
 		}
-		// 从右开始设置数值
-		progress = 100 - progress;
-		progressBar.setProgress(progress);
-		progress = 100 - progress;
-		if (progress == 100) {
-			progressbarThumb.setText("100");
-		} else
-			progressbarThumb.setText(progress + "%");
+		// // 从右开始设置数值
+		// progress = 100 - progress;
+		progressBar.setMainProgress(progress);
+		// progress = 100 - progress;
 		if (progress_bar_width != 0) {
 			setProgressbarThumb();
 		}
@@ -188,11 +183,10 @@ public class Main extends Activity {
 
 	private void setProgressbarThumb() {
 		int padding = (progress_bar_width - 30) * progress / 100;
-		layoutThumb.setPadding(padding, 0, 0, 0);
 		Logs.d(TAG, "padding=" + padding);
 	}
 
-	private int getProgressBarViewWidth(final ProgressBar view) {
+	private int getProgressBarViewWidth(final CircleProgress view) {
 		ViewTreeObserver vto2 = view.getViewTreeObserver();
 		vto2.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			@Override
@@ -276,7 +270,7 @@ public class Main extends Activity {
 		});
 
 		// 跳转到校正页
-		FrameLayout fram_click = (FrameLayout) findViewById(R.id.main_framelayout_progress);
+		LinearLayout fram_click = (LinearLayout) findViewById(R.id.main_framelayout_progress);
 		fram_click.setOnClickListener(new OnClickListener() {
 
 			@Override
