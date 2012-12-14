@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RadialGradient;
 import android.graphics.RectF;
@@ -308,6 +309,9 @@ public class CircleProgress extends View {
 					new int[] { Color.rgb(63, 172, 211),
 							Color.rgb(249, 238, 68), Color.rgb(249, 66, 50) },
 					null);
+//			Matrix aa=new Matrix();
+//			aa.setRotate(270);
+//			mShaderMain.setLocalMatrix(aa);
 			mMainPaints.setShader(mShaderMain);
 			// }else
 			// mMainPaints.setColor(color);
