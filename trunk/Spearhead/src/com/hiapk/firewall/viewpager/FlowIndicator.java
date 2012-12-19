@@ -15,13 +15,11 @@
  */
 package com.hiapk.firewall.viewpager;
 
-
 import com.hiapk.spearhead.R;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
@@ -38,7 +36,6 @@ import android.widget.TextView;
  */
 public class FlowIndicator extends TextView {
 
-	private static final int TITLE_PADDING = 10;
 	private static final int SELECTED_COLOR = 0xFFFFC445;
 	private static final int TEXT_COLOR = 0xFFAAAAAA;
 	private static final int TEXT_SIZE = 15;
@@ -48,7 +45,6 @@ public class FlowIndicator extends TextView {
 	private int currentScroll = 0;
 	private Paint paintSelected;
 	private int footerTriangleHeight;
-	private int titlePadding;
 	private int footerLineHeight;
 	private String TAG = "FlowIndicator";
 	private int size = 2;
@@ -94,8 +90,6 @@ public class FlowIndicator extends TextView {
 				TEXT_COLOR);
 		float textSize = a.getFloat(R.styleable.TitleFlowIndicator_textSize,
 				TEXT_SIZE);
-		titlePadding = a.getInt(R.styleable.TitleFlowIndicator_titlePadding,
-				TITLE_PADDING);
 		initDraw(textColor, textSize, selectedColor, footerLineHeight,
 				footerColor);
 	}
@@ -147,17 +141,16 @@ public class FlowIndicator extends TextView {
 		// Paint paint = paintText;
 		// Change the color is the title is closed to the center
 		// int middle = (bound.left + bound.right) / 2;
-		if (bound.left > getWidth() / 3 * 2) {
-			Paint paint = paintSelected;
-			canvas.drawRect(bound.left, bound.top, getWidth(), bound.bottom,
-					paint);
-			canvas.drawRect(0, bound.top, getWidth() / size - getWidth()
-					+ bound.left, bound.bottom, paint);
-		} else {
-			Paint paint = paintSelected;
-			canvas.drawRect(bound.left, bound.top, bound.right, bound.bottom,
-					paint);
-		}
+		// if (bound.left > getWidth() / 3 * 2) {
+		// Paint paint = paintSelected;
+		// canvas.drawRect(bound.left, bound.top, getWidth(), bound.bottom,
+		// paint);
+		// canvas.drawRect(0, bound.top, getWidth() / size - getWidth()
+		// + bound.left, bound.bottom, paint);
+		// } else {
+		Paint paint = paintSelected;
+		canvas.drawRect(bound.left, bound.top, bound.right, bound.bottom, paint);
+		// }
 
 	}
 
