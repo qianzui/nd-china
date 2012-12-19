@@ -137,10 +137,8 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public void FirstLoadData() {
 		if (sharedpref.IsFireWallOpenFail() && !Block.isShowHelp(mContext)) {
 			dialogFireWallOpenFail();
-		} else if (sharedpref.getFireWallType() == 5) {
-			vPager.setCurrentItem(5);
 		} else {
-			initList();
+			vPager.setCurrentItem(sharedpref.getFireWallType());
 		}
 	}
 
@@ -748,9 +746,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 		@Override
 		public void run() {
-			Message msg = new Message();
-			msg.what = SHAKE_AND_SWITCH;
-			handler.sendMessage(msg);
 			final float centerX = vPager.getWidth() / 2.0f;
 			final float centerY = vPager.getHeight() / 2.0f;
 			Rotate3dAnimation rotation;
@@ -760,6 +755,9 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			rotation.setFillAfter(true);
 			rotation.setInterpolator(new DecelerateInterpolator());
 			vPager.startAnimation(rotation);
+			Message msg = new Message();
+			msg.what = SHAKE_AND_SWITCH;
+			handler.sendMessage(msg);
 		}
 	}
 
