@@ -137,6 +137,8 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public void FirstLoadData() {
 		if (sharedpref.IsFireWallOpenFail() && !Block.isShowHelp(mContext)) {
 			dialogFireWallOpenFail();
+		} else if (sharedpref.getFireWallType() == 0) {
+			initList();
 		} else {
 			vPager.setCurrentItem(sharedpref.getFireWallType());
 		}
@@ -542,7 +544,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		}
 		if (sharedpref.getFireWallType() == 0) {
 			if (NotificationInfo.callbyonCancel == true) {
-				Logs.d(TAG, "start-callbyonResume");
+				Logs.d("test", "start-callbyonResume");
 				NotificationInfo.callbyonCancel = false;
 				main2TitleBackground.setBackgroundResource(SkinCustomMains
 						.titleBackground());
