@@ -13,6 +13,14 @@ import com.hiapk.firewall.MyListView;
 import com.hiapk.firewall.NotifListAdapter;
 import com.hiapk.firewall.MyListView.OnRefreshListener;
 import com.hiapk.firewall.Rotate3dAnimation;
+import com.hiapk.firewall.viewpager.FlowIndicator;
+import com.hiapk.firewall.viewpager.MyPagerAdapter;
+import com.hiapk.firewall.viewpager.SetListView;
+import com.hiapk.firewall.viewpager.SetNotifListView;
+import com.hiapk.firewall.viewpager.ViewPager;
+import com.hiapk.firewall.viewpager.SetListView.OnDragRefreshListener;
+import com.hiapk.firewall.viewpager.SetNotifListView.OnDragNotifRefreshListener;
+import com.hiapk.firewall.viewpager.ViewPager.OnPageChangeListener;
 import com.hiapk.logs.Logs;
 import com.hiapk.logs.SaveRule;
 import com.hiapk.sqlhelper.uid.SQLHelperFireWall;
@@ -43,6 +51,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -51,17 +60,19 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class FireWallActivity extends Activity implements OnClickListener {
 	private static final int SENSOR_SHAKE = 10;
+	private static final int SHAKE_AND_SWITCH = 11;
 	private static final int DATA_READY = 9;
 	private static final int ANIMOTION_MID = 8;
 	private SensorManager sensorManager;
@@ -70,9 +81,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	protected ArrayList<String[]> notificationInfos = new ArrayList<String[]>();
 	protected SharedPrefrenceData sharedpref;
 	public static AppListAdapter appListAdapter;
-	public static MyListView appListView;
 	public static PopupWindow mPop;
-	public LinearLayout loading_content;
 	public ArrayList<PackageInfo> myAppList;
 	public ArrayList<PackageInfo> myAppList2;
 	private Button setting_button;
@@ -81,8 +90,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public TextView title_notif;
 	public TextView firewall_title;
 	public RelativeLayout main2TitleBackground;
-	public ViewGroup container;
-	public Dialog bubbleDialog;
 	public Animation showAction;
 	public View bubbleView;
 	public String savedUids_wifi = "";
@@ -90,12 +97,28 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	private Context mContext = this;
 	public ProgressDialog mydialog;
 	public ProgressDialog pro;
-	public FireWallItemMenu menu = null;
+	// public FireWallItemMenu menu = null;
 	public static ArrayList<Integer> uidList = new ArrayList<Integer>();
 	Handler handler;
+	public ViewPager vPager;
 	public static boolean isloading = false;
 	public static boolean isInScene = false;
 	public static boolean isRootFail = false;
+
+	public View todayView;
+	public View weekView;
+	public View monthView;
+	public View mobileView;
+	public View wifiView;
+	public View notifView;
+	public SetListView today;
+	public SetListView week;
+	public SetListView month;
+	public SetListView mobile;
+	public SetListView wifi;
+	public SetNotifListView notif;
+	private ArrayList<SetListView> myViewControl;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -103,86 +126,113 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		isInScene = true;
 		setContentView(R.layout.main2);
 		init();
+		initVPager();
+		FirstLoadData();
+		handerControl();
+		if (Block.fireTip(mContext)) {
+			Toast.makeText(mContext, "下拉列表可以进行刷新!", Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	public void FirstLoadData() {
 		if (sharedpref.IsFireWallOpenFail() && !Block.isShowHelp(mContext)) {
 			dialogFireWallOpenFail();
+		} else if (sharedpref.getFireWallType() == 5) {
+			vPager.setCurrentItem(5);
 		} else {
 			initList();
 		}
-		handerControl();
 	}
-
-
 
 	public void init() {
 		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		sensorManager.registerListener(mSensorEventListener,
 				sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 				SensorManager.SENSOR_DELAY_NORMAL);
-
 		sharedpref = new SharedPrefrenceData(mContext);
-		container = (ViewGroup)findViewById(R.id.container);
-		loading_content = (LinearLayout) findViewById(R.id.loading_content);
-		appListView = (MyListView) findViewById(R.id.app_list);
+
+		LayoutInflater mInflater = getLayoutInflater();
+		todayView = mInflater.inflate(R.layout.firewall_list, null);
+		weekView = mInflater.inflate(R.layout.firewall_list, null);
+		monthView = mInflater.inflate(R.layout.firewall_list, null);
+		mobileView = mInflater.inflate(R.layout.firewall_list, null);
+		wifiView = mInflater.inflate(R.layout.firewall_list, null);
+		notifView = mInflater.inflate(R.layout.firewall_list, null);
+
 		firewall_details = (TextView) findViewById(R.id.firewall);
 		firewall_title = (TextView) findViewById(R.id.firewall_title);
 		setting_button = (Button) findViewById(R.id.setting_button);
 		main2TitleBackground = (RelativeLayout) findViewById(R.id.main2TitleBackground);
 		title_normal = (RelativeLayout) findViewById(R.id.title_normal);
 		title_notif = (TextView) findViewById(R.id.title_notif);
-		loading_content.setVisibility(View.VISIBLE);
-
-		container.setPersistentDrawingCache(ViewGroup.PERSISTENT_ANIMATION_CACHE);
-		
-		appListView.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				if (mPop.isShowing()) {
-					mPop.dismiss();
-				}
-				int type = 1;
-				if (sharedpref.getFireWallType() == 5) {
-					type = 2;
-				}
-				menu = new FireWallItemMenu(mContext,
-						arg1, type);
-				menu.show();
-				
-			}
-		});
 
 		// 为了退出。
 		SpearheadApplication.getInstance().addActivity(this);
-		firstSetTitle();
+		setTitle();
 		settingShowList();
 		initUidData();
 	}
 
-	
+	public void initVPager() {
+		vPager = (ViewPager) findViewById(R.id.vPager);
+		ArrayList<View> pageList = new ArrayList<View>();
+		myViewControl = new ArrayList<SetListView>();
+
+		week = new SetListView(weekView, mContext);
+		today = new SetListView(todayView, mContext);
+		month = new SetListView(monthView, mContext);
+		mobile = new SetListView(mobileView, mContext);
+		wifi = new SetListView(wifiView, mContext);
+		notif = new SetNotifListView(notifView, mContext);
+
+		myViewControl.add(today);
+		myViewControl.add(week);
+		myViewControl.add(month);
+		myViewControl.add(mobile);
+		myViewControl.add(wifi);
+
+		pageList.add(todayView);
+		pageList.add(weekView);
+		pageList.add(monthView);
+		pageList.add(mobileView);
+		pageList.add(wifiView);
+		pageList.add(notifView);
+
+		week.setOnDragRefreshListener(onDragRefreshListener);
+		today.setOnDragRefreshListener(onDragRefreshListener);
+		mobile.setOnDragRefreshListener(onDragRefreshListener);
+		month.setOnDragRefreshListener(onDragRefreshListener);
+		wifi.setOnDragRefreshListener(onDragRefreshListener);
+		notif.setOnDragNotifRefreshListener(onDragNotifRefreshListener);
+		FlowIndicator cursor = (FlowIndicator) findViewById(R.id.cursor);
+		cursor.setSize(pageList.size());
+		vPager.setAdapter(new MyPagerAdapter(pageList));
+		vPager.setFlowIndicator(cursor);
+		vPager.setOnPageChangeListener(new MyOnPageChangeListener());
+	}
+
 	public void handerControl() {
 		handler = new Handler() {
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case DATA_READY:
-					firstSetAdapter();
+					setDataForList();
 					break;
 				case SENSOR_SHAKE:
-					if(isInScene){
-						if(!isRootFail){
-						shakeAndSwitch();
+					if (isInScene) {
+						if (!isRootFail) {
+							shakeAndSwitch();
 						}
 					}
 					break;
-				}
-				if(msg.what >= 0 && msg.what <= 5){
-					switchList(msg.what);
+				case SHAKE_AND_SWITCH:
+					rotateAndSwitch();
+					break;
 				}
 			}
 		};
 	}
 
-	
-	
 	@Override
 	public void onClick(View v) {
 		if (mPop.isShowing()) {
@@ -190,58 +240,85 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		}
 		switch (v.getId()) {
 		case R.id.bt_today:
-				switchList(0);
+			vPager.setCurrentItem(0);
 			break;
 		case R.id.bt_week:
-				switchList(1);
+			vPager.setCurrentItem(1);
 			break;
 		case R.id.bt_month:
-				switchList(2);
+			vPager.setCurrentItem(2);
 			break;
 		case R.id.bt_mobile:
-				switchList(3);
+			vPager.setCurrentItem(3);
 			break;
 		case R.id.bt_wifi:
-				switchList(4);
+			vPager.setCurrentItem(4);
 			break;
 		case R.id.bt_notif:
-				switchList(5);
+			vPager.setCurrentItem(5);
 			break;
 		}
 	}
-	
-	
+
+	public void rotateAndSwitch() {
+		int i = sharedpref.getFireWallType();
+		if (i == 5) {
+			vPager.setCurrentItem(0);
+		} else {
+			vPager.setCurrentItem(i + 1);
+		}
+	}
+
+	public void setDataForList() {
+		isloading = false;
+		if (Block.isShowHelp(mContext)) {
+			showHelp(mContext);
+			SpearheadActivity.isHide = true;
+		}
+		int i = sharedpref.getFireWallType();
+		if (i == 5) {
+			notif.setAdapter();
+		} else {
+			myViewControl.get(i).setAdapter(myAppList);
+			myViewControl.get(i).compeletRefresh();
+		}
+	}
 
 	private void initUidData() {
-		Logs.i("test", " firewall initdata()");
 		SQLStatic.uiddata = null;
 		SQLHelperFireWall sql = new SQLHelperFireWall();
 		sql.resetMP(mContext);
 	}
-	
-	
-	public void firstSetTitle() {
+
+	public void setTitle() {
 		main2TitleBackground.setBackgroundResource(SkinCustomMains
 				.titleBackground());
+		firewall_details.setText(" " + Extra.getAppNum(sharedpref, uidList)
+				+ " ");
 		switch (sharedpref.getFireWallType()) {
 		case 0:
 			title_normal.setVisibility(View.VISIBLE);
+			title_notif.setVisibility(View.INVISIBLE);
 			firewall_title.setText("今日流量排行");
 			break;
 		case 1:
 			title_normal.setVisibility(View.VISIBLE);
+			title_notif.setVisibility(View.INVISIBLE);
 			firewall_title.setText("本周流量排行");
 			break;
 		case 2:
 			title_normal.setVisibility(View.VISIBLE);
+			title_notif.setVisibility(View.INVISIBLE);
 			firewall_title.setText("本月流量排行");
 			break;
 		case 3:
 			title_normal.setVisibility(View.VISIBLE);
+			title_notif.setVisibility(View.INVISIBLE);
 			firewall_title.setText("移动流量排行");
 			break;
 		case 4:
 			title_normal.setVisibility(View.VISIBLE);
+			title_notif.setVisibility(View.INVISIBLE);
 			firewall_title.setText("WiFi流量排行");
 			break;
 		case 5:
@@ -249,49 +326,51 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			title_notif.setVisibility(View.VISIBLE);
 			firewall_title.setText("通知栏流量排行");
 			break;
-		default:
-			title_normal.setVisibility(View.VISIBLE);
-			firewall_title.setText("今日流量排行");
-			break;
 		}
 	}
 
+	public OnDragRefreshListener onDragRefreshListener = new OnDragRefreshListener() {
+		@Override
+		public void onDragRefresh() {
+			initList();
+		}
+	};
+	public OnDragNotifRefreshListener onDragNotifRefreshListener = new OnDragNotifRefreshListener() {
+		@Override
+		public void onDragRefresh() {
+			new AsyncTaskGetAdbArrayListonResume().execute(mContext);
+		}
+	};
 
-	public void firstSetAdapter() {
-		try {
-			if (sharedpref.getFireWallType() == 5) {
-				if (NotificationInfo.notificationRes.length() == 0) {
-					if (NotificationInfo.isgettingdata == false) {
-						if (NotificationInfo.hasdata == false) {
-							new AsyncTaskGetAdbArrayListonResume()
-									.execute(mContext);
-						}
-					}
-				} else {
-					setAdapterNotif();
-				}
+	public class MyOnPageChangeListener implements OnPageChangeListener {
+		@Override
+		public void onPageSelected(int arg0) {
+			sharedpref.setFireWallType(arg0);
+			setTitle();
+			if (arg0 == 5) {
+				notif.setLoading();
+				new AsyncTaskGetAdbArrayListonResume().execute();
 			} else {
-				setAdapter();
+				initList();
 			}
-			loading_content.setVisibility(View.GONE);
-			if (Block.isShowHelp(mContext)) {
-				showHelp(mContext);
-				SpearheadActivity.isHide = true;
-			} else {
-				if (Block.fireTip(mContext)) {
-					Toast.makeText(mContext, "下拉列表可以进行刷新!", Toast.LENGTH_SHORT)
-							.show();
-				}
-			}
-		} catch (Exception ex) {
+			Logs.i("test", "onPageSelected:" + arg0);
 		}
 
-	}
-	
+		@Override
+		public void onPageScrolled(int arg0, float arg1, int arg2) {
+			if (mPop.isShowing()) {
+				mPop.dismiss();
+			}
+		}
 
-	
-	public void switchListAnimation(int position){
-		applyRotation(position,0,90);
+		@Override
+		public void onPageScrollStateChanged(int arg0) {
+			Logs.i("test", "onPageScrollStateChanged:" + arg0);
+		}
+	}
+
+	public void switchListAnimation(int position) {
+		applyRotation(position, 0, 90);
 	}
 
 	public void settingShowList() {
@@ -341,17 +420,20 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	}
 
 	public void shakeAndSwitch() {
+		int i = sharedpref.getFireWallType();
 		if (mPop.isShowing()) {
 			mPop.dismiss();
 		}
-		if(menu != null){
-			menu.ifShowingAndClose();
+		if (i == 5) {
+			notif.menuDismiss();
+		} else {
+			myViewControl.get(i).menuDismiss();
 		}
 		if (sharedpref.isShakeToSwitch()) {
 			if (isloading) {
 			} else {
 				if (sharedpref.getFireWallType() == 5) {
-					 switchListAnimation(0);
+					switchListAnimation(0);
 				} else {
 					switchListAnimation(sharedpref.getFireWallType() + 1);
 				}
@@ -359,147 +441,8 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	public void switchList(int i) {
-		if (isloading || sharedpref.getFireWallType() == i) {
-		} else {
-			isloading = true;
-			sharedpref.setFireWallType(i);
-			main2TitleBackground.setBackgroundResource(SkinCustomMains
-					.titleBackground());
-			switch (i) {
-			case 0:
-				loading_content.setVisibility(View.VISIBLE);
-				appListView.setVisibility(View.INVISIBLE);
-				firewall_title.setText("今日流量排行");
-				setNewDataForList();
-				break;
-			case 1:
-				appListView.setVisibility(View.INVISIBLE);
-				loading_content.setVisibility(View.VISIBLE);
-				firewall_title.setText("本周流量排行");
-				setNewDataForList();
-				break;
-			case 2:
-				appListView.setVisibility(View.INVISIBLE);
-				loading_content.setVisibility(View.VISIBLE);
-				firewall_title.setText("本月流量排行");
-				setNewDataForList();
-				break;
-			case 3:
-				appListView.setVisibility(View.INVISIBLE);
-				loading_content.setVisibility(View.VISIBLE);
-				firewall_title.setText("移动流量排行");
-				setNewDataForList();
-				break;
-			case 4:
-				appListView.setVisibility(View.INVISIBLE);
-				loading_content.setVisibility(View.VISIBLE);
-				firewall_title.setText("WiFi流量排行");
-				setNewDataForList();
-				break;
-			case 5:
-				title_normal.setVisibility(View.INVISIBLE);
-				title_notif.setVisibility(View.VISIBLE);
-				appListView.setVisibility(View.INVISIBLE);
-				firewall_title.setText("通知栏流量排行");
-				if (NotificationInfo.notificationRes.length() == 0) {
-					if (NotificationInfo.isgettingdata == false) {
-						new AsyncTaskGetAdbArrayListonResume()
-								.execute(mContext);
-					} else {
-						Logs.i("test", "notificationInfo.isgettingdata is true");
-					}
-				} else {
-					setAdapterNotif();
-				}
-				break;
-
-			}
-		}
-
-	}
-
-	public void setAdapter() {
-		title_notif.setVisibility(View.INVISIBLE);
-		title_normal.setVisibility(View.VISIBLE);
-		appListView.setVisibility(View.VISIBLE);
-		loading_content.setVisibility(View.INVISIBLE);
-		firewall_details.setText(" " + Extra.getAppNum(sharedpref, uidList)
-				+ " ");
-		appListAdapter = new AppListAdapter(mContext, myAppList,
-				Block.appnamemap, SQLStatic.uiddata, Block.appList, uidList);
-		appListView.setAdapter(appListAdapter);
-		isloading = false;
-		appListView.setonRefreshListener(new OnRefreshListener() {
-			public void onRefresh() {
-				new AsyncTask<Void, Void, Void>() {
-					@Override
-					protected Void doInBackground(Void... params) {
-						getList(mContext);
-						Splash.getList(mContext);
-						initUidData();
-						while (SQLStatic.uiddata == null) {
-							if (SQLStatic.uiddata != null) {
-								break;
-							}
-						}
-						uidList = ComparatorUtil.compUidList(mContext,
-								Block.appList);
-						return null;
-					}
-
-					@Override
-					protected void onPostExecute(Void result) {
-						MyListView.loadImage();
-						setAdapter();
-						appListAdapter.notifyDataSetChanged();
-						appListView.onRefreshComplete();
-					}
-				}.execute();
-			}
-		});
-	}
-
-	public void setAdapterNotif() {
-		appListView.setVisibility(View.VISIBLE);
-		loading_content.setVisibility(View.INVISIBLE);
-		notificationInfos = NotificationInfo
-				.getNotificationApp(NotificationInfo.notificationRes);
-		notificationInfos = ComparatorUtil.compNotifList(mContext,
-				notificationInfos);
-		final NotifListAdapter notifAdapter = new NotifListAdapter(mContext,
-				notificationInfos);
-		appListView.setAdapter(notifAdapter);
-		isloading = false;
-		appListView.setonRefreshListener(new OnRefreshListener() {
-			public void onRefresh() {
-				new AsyncTask<Void, Void, Void>() {
-					@Override
-					protected Void doInBackground(Void... params) {
-						return null;
-					}
-
-					@Override
-					protected void onPostExecute(Void result) {
-						if (NotificationInfo.notificationRes.length() == 0) {
-							if (NotificationInfo.isgettingdata == false) {
-								new AsyncTaskGetAdbArrayListonResume()
-										.execute(mContext);
-							}
-						} else {
-							setAdapterNotif();
-						}
-						notifAdapter.notifyDataSetChanged();
-						appListView.onRefreshComplete();
-					}
-				}.execute();
-			}
-		});
-		NotificationInfo.notificationRes = new StringBuilder();
-	}
-
 	public void initList() {
-		Logs.i("test", " firewall initlist()");
+		Logs.i("test", " data init");
 		isloading = true;
 		new Thread(new Runnable() {
 			@Override
@@ -544,30 +487,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		}).start();
 	}
 
-	public void setNewDataForList() {
-		new AsyncTask<Void, Void, Void>() {
-			@Override
-			protected Void doInBackground(Void... params) {
-				getList(mContext);
-				Splash.getList(mContext);
-				initUidData();
-				while (SQLStatic.uiddata == null) {
-					if (SQLStatic.uiddata != null) {
-						break;
-					}
-				}
-				uidList = ComparatorUtil.compUidList(mContext, Block.appList);
-				return null;
-			}
-
-			@Override
-			protected void onPostExecute(Void result) {
-				loading_content.setVisibility(View.INVISIBLE);
-				setAdapter();
-			}
-		}.execute();
-	}
-
 	public void showHelp(final Context mContext) {
 		Drawable d = mContext.getResources().getDrawable(R.drawable.fire_help);
 		SpearheadActivity.firehelp.setBackgroundDrawable(d);
@@ -605,7 +524,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		Logs.i("test", "onResume");
 		isInScene = true;
 		Logs.d(TAG, "startonResume");
 		if (SQLStatic.TableWiFiOrG23 != "") {
@@ -617,6 +535,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 				if (NotificationInfo.notificationRes.length() == 0) {
 					if (NotificationInfo.hasdata == false) {
 						Logs.d(TAG, "start-AsyncTaskGetAdbArrayListonResume");
+						notif.setLoading();
 						new AsyncTaskGetAdbArrayListonResume()
 								.execute(mContext);
 					}
@@ -629,9 +548,8 @@ public class FireWallActivity extends Activity implements OnClickListener {
 				NotificationInfo.callbyonCancel = false;
 				main2TitleBackground.setBackgroundResource(SkinCustomMains
 						.titleBackground());
-				loading_content.setVisibility(View.VISIBLE);
 				firewall_title.setText("今日流量排行");
-				setNewDataForList();
+				vPager.setCurrentItem(sharedpref.getFireWallType());
 			}
 
 		}
@@ -639,10 +557,9 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		// MobclickAgent.onResume(this);
 	}
 
-
 	@Override
 	protected void onPause() {
-		Logs.i("test","onPause");
+		Logs.i("test", "onPause");
 		isInScene = false;
 		if (mPop.isShowing()) {
 			mPop.dismiss();
@@ -681,9 +598,9 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (sharedpref.getFireWallType() == 5) {
-			refreshNotif();
+			// refreshNotif();
 		} else {
-			setNewDataForList();
+			vPager.setCurrentItem(sharedpref.getFireWallType());
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
@@ -692,18 +609,18 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public void onConfigurationChanged(Configuration newConfig) {
 		// TODO Auto-generated method stub
 		super.onConfigurationChanged(newConfig);
-		if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
-			if (sharedpref.getFireWallType() == 5) {
-				refreshNotif();
-			}
-		}
-		else if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
-			if (sharedpref.getFireWallType() == 5) {
-				refreshNotif();
-			}
-		}
+		// if (newConfig.hardKeyboardHidden ==
+		// Configuration.HARDKEYBOARDHIDDEN_NO) {
+		// if (sharedpref.getFireWallType() == 5) {
+		// refreshNotif();
+		// }
+		// } else if (newConfig.hardKeyboardHidden ==
+		// Configuration.HARDKEYBOARDHIDDEN_YES) {
+		// if (sharedpref.getFireWallType() == 5) {
+		// refreshNotif();
+		// }
+		// }
 	}
-
 
 	@Override
 	public void finish() {
@@ -717,17 +634,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			sensorManager = null;
 		}
 		super.finish();
-	}
-	
-	public void refreshNotif(){
-		if (NotificationInfo.notificationRes.length() == 0) {
-			if (NotificationInfo.isgettingdata == false) {
-				new AsyncTaskGetAdbArrayListonResume()
-						.execute(mContext);
-			}
-		} else {
-			setAdapterNotif();
-		}
 	}
 
 	private SensorEventListener mSensorEventListener = new SensorEventListener() {
@@ -798,13 +704,71 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		});
 	}
 
+	private void applyRotation(int position, float start, float end) {
+		final float centerX = vPager.getWidth() / 2.0f;
+		final float centerY = vPager.getHeight() / 2.0f;
+		final Rotate3dAnimation rotation = new Rotate3dAnimation(start, end,
+				centerX, centerY, 310.0f, true);
+		rotation.setDuration(1000);
+		rotation.setFillAfter(false);
+		rotation.setInterpolator(new AccelerateInterpolator());
+		rotation.setAnimationListener(new DisplayNextView(position));
+		vPager.startAnimation(rotation);
+	}
+
+	private final class DisplayNextView implements Animation.AnimationListener {
+		private final int position;
+
+		private DisplayNextView(int position) {
+			this.position = position;
+		}
+
+		@Override
+		public void onAnimationStart(Animation animation) {
+
+		}
+
+		@Override
+		public void onAnimationEnd(Animation animation) {
+			vPager.post(new SwapViews(position));
+		}
+
+		@Override
+		public void onAnimationRepeat(Animation animation) {
+
+		}
+	}
+
+	private final class SwapViews implements Runnable {
+		private final int position;
+
+		private SwapViews(int position) {
+			this.position = position;
+		}
+
+		@Override
+		public void run() {
+			Message msg = new Message();
+			msg.what = SHAKE_AND_SWITCH;
+			handler.sendMessage(msg);
+			final float centerX = vPager.getWidth() / 2.0f;
+			final float centerY = vPager.getHeight() / 2.0f;
+			Rotate3dAnimation rotation;
+			rotation = new Rotate3dAnimation(270, 360, centerX, centerY,
+					310.0f, false);
+			rotation.setDuration(500);
+			rotation.setFillAfter(true);
+			rotation.setInterpolator(new DecelerateInterpolator());
+			vPager.startAnimation(rotation);
+		}
+	}
+
 	private class AsyncTaskGetAdbArrayListonResume extends
 			AsyncTask<Context, Long, Boolean> {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 			NotificationInfo.isgettingdata = true;
-			loading_content.setVisibility(View.VISIBLE);
 			NotificationInfo.startRootcomand(mContext);
 		}
 
@@ -827,76 +791,24 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 		@Override
 		protected void onPostExecute(Boolean result) {
+			Logs.i("test", "AsyncTaskGetAdbArrayListonResume");
 			if (String.valueOf(NotificationInfo.notificationRes).contains(
 					"Notification")
 					&& result) {
-				loading_content.setVisibility(View.INVISIBLE);
 				NotificationInfo.hasdata = true;
-				setAdapterNotif();
-			} else {
 				isloading = false;
+				notif.setAdapter();
+				notif.completeRefresh();
+			} else {
+				notif.completeRefresh();
+				Logs.i("test", "root failed");
 				NotificationInfo.notificationRes.append("result-fail");
 				CustomDialogMain2Been customDialog = new CustomDialogMain2Been(
-						FireWallActivity.this.getParent());
+						mContext);
 				customDialog.dialogNotificationRootFail();
 			}
 			NotificationInfo.isgettingdata = false;
 		}
 	}
-	
-	private void applyRotation(int position,float start,float end){
-		final float centerX  = container.getWidth()/2.0f;
-		final float centerY = container.getHeight()/2.0f;
-		
-		final Rotate3dAnimation rotation = new Rotate3dAnimation(start, end, centerX, centerY,
-				310.0f, true);
-		rotation.setDuration(1000);
-		rotation.setFillAfter(false);
-		rotation.setInterpolator(new AccelerateInterpolator());
-		rotation.setAnimationListener(new DisplayNextView(position));
-		container.startAnimation(rotation);
-	}
-	
-	private final class DisplayNextView implements Animation.AnimationListener{
-		private final int position;
-		private DisplayNextView(int position){
-			this.position = position;
-		}
-		@Override
-		public void onAnimationStart(Animation animation) {
-			
-		}
-		@Override
-		public void onAnimationEnd(Animation animation) {
-			container.post(new SwapViews(position));
-		}
-		@Override
-		public void onAnimationRepeat(Animation animation) {
-			
-		}
-	}
-	
-	private final class SwapViews implements Runnable{
-		private final int position;
-		private SwapViews(int position){
-			this.position = position;
-		}
-		@Override
-		public void run() {
-			Message msg  = new Message();
-			msg.what = position;
-			handler.sendMessage(msg);
-			final float centerX = container.getWidth()/2.0f;
-			final float centerY = container.getHeight()/2.0f;
-			Rotate3dAnimation rotation;
-			rotation = new Rotate3dAnimation(270, 360, centerX, centerY, 310.0f, false);
-			rotation.setDuration(500);
-			rotation.setFillAfter(true);
-			rotation.setInterpolator(new DecelerateInterpolator());
-			container.startAnimation(rotation);
-		}
-	}
-	
-	
 
 }

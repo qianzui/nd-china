@@ -2,6 +2,7 @@ package com.hiapk.firewall;
 
 import java.util.Date;
 
+import com.hiapk.logs.Logs;
 import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.R;
 
@@ -116,7 +117,7 @@ public class MyListView extends ListView implements OnScrollListener {
 		switch (scrollState) {
 		case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
 			AppListAdapter.syncImageLoader.lock();
-			if(FireWallActivity.mPop.isShowing()){
+			if (FireWallActivity.mPop.isShowing()) {
 				FireWallActivity.mPop.dismiss();
 			}
 			break;
@@ -131,12 +132,13 @@ public class MyListView extends ListView implements OnScrollListener {
 		}
 	}
 
-	public static void loadImage() {
-		int start =FireWallActivity.appListView.getFirstVisiblePosition() - 1;
-		int end = FireWallActivity.appListView.getLastVisiblePosition();
-		if (end >= FireWallActivity.appListView.getCount()) {
-			end = FireWallActivity.appListView.getCount() - 1;
+	public void loadImage() {
+		int start = getFirstVisiblePosition() - 1;
+		int end = getLastVisiblePosition();
+		if (end >= this.getCount()) {
+			end = this.getCount() - 1;
 		}
+		Logs.i("test", "load image:" + start + "*" + end + "*count:" + this.getCount());
 		AppListAdapter.syncImageLoader.setLoadLimit(start, end);
 		AppListAdapter.syncImageLoader.unlock();
 	}
@@ -151,7 +153,7 @@ public class MyListView extends ListView implements OnScrollListener {
 				}
 				break;
 			case MotionEvent.ACTION_UP:
-
+				loadImage();
 				if (state != REFRESHING && state != LOADING) {
 					if (state == DONE) {
 					}
@@ -310,6 +312,10 @@ public class MyListView extends ListView implements OnScrollListener {
 	}
 
 	public void onRefreshComplete() {
+		if(state == DONE){
+			Logs.i("test", "fresh has done return");
+			return;
+		}
 		state = DONE;
 		Time time = new Time();
 		time.setToNow();
