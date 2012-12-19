@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_horizontal|top"
+    android:layout_marginBottom="30dp"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/bg_widget"
+    android:baselineAligned="false"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="6.0"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/widget1X4LinnerLayout1"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:paddingLeft="5dp" >
+
+            <ImageView
+                android:id="@+id/widget_wifi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/app_name"
+                android:maxHeight="36dp"
+                android:maxWidth="36dp"
+                android:src="@drawable/widget_wifi_off" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="0.1"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:src="@drawable/widget_divider" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/widget1X4LinnerLayout2"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingRight="5dp" >
+
+            <ImageView
+                android:id="@+id/widget_gprs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/app_name"
+                android:maxHeight="36dp"
+                android:maxWidth="36dp"
+                android:src="@drawable/widget_gprs_off" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="0.1"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/widget_divider2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/widget1X4LinnerLayout3"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6.0"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="8dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="8dp" >
+
+        <TextView
+            android:id="@+id/widgetTextview1"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.0"
+            android:gravity="center|left"
+            android:singleLine="true"
+            android:text="今日已用: ..."
+            android:textColor="@color/darkgray2" />
+
+        <TextView
+            android:id="@+id/widgetTextview3"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.0"
+            android:gravity="center|left"
+            android:singleLine="true"
+            android:text="... / ..."
+            android:textColor="@color/darkgray2" />
+    </LinearLayout>
+
+</LinearLayout>
