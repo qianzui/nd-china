@@ -8,10 +8,6 @@ import com.hiapk.comparator.ComparatorUtil;
 import com.hiapk.control.traff.NotificationInfo;
 import com.hiapk.firewall.AppListAdapter;
 import com.hiapk.firewall.Block;
-import com.hiapk.firewall.FireWallItemMenu;
-import com.hiapk.firewall.MyListView;
-import com.hiapk.firewall.NotifListAdapter;
-import com.hiapk.firewall.MyListView.OnRefreshListener;
 import com.hiapk.firewall.Rotate3dAnimation;
 import com.hiapk.firewall.viewpager.FlowIndicator;
 import com.hiapk.firewall.viewpager.MyPagerAdapter;
@@ -32,7 +28,6 @@ import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceData;
 import android.Manifest;
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -55,15 +50,11 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.TranslateAnimation;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -80,7 +71,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	private List<PackageInfo> packageInfo;
 	protected ArrayList<String[]> notificationInfos = new ArrayList<String[]>();
 	protected SharedPrefrenceData sharedpref;
-	public static AppListAdapter appListAdapter;
 	public static PopupWindow mPop;
 	public ArrayList<PackageInfo> myAppList;
 	public ArrayList<PackageInfo> myAppList2;
@@ -90,6 +80,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public TextView title_notif;
 	public TextView firewall_title;
 	public RelativeLayout main2TitleBackground;
+	public LinearLayout view_content;
 	public Animation showAction;
 	public View bubbleView;
 	public String savedUids_wifi = "";
@@ -150,7 +141,8 @@ public class FireWallActivity extends Activity implements OnClickListener {
 				sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 				SensorManager.SENSOR_DELAY_NORMAL);
 		sharedpref = new SharedPrefrenceData(mContext);
-
+		view_content = (LinearLayout)findViewById(R.id.view_content);
+		
 		LayoutInflater mInflater = getLayoutInflater();
 		todayView = mInflater.inflate(R.layout.firewall_list, null);
 		weekView = mInflater.inflate(R.layout.firewall_list, null);
@@ -165,6 +157,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		main2TitleBackground = (RelativeLayout) findViewById(R.id.main2TitleBackground);
 		title_normal = (RelativeLayout) findViewById(R.id.title_normal);
 		title_notif = (TextView) findViewById(R.id.title_notif);
+		
 
 		// ÎªÁËÍË³ö¡£
 		SpearheadApplication.getInstance().addActivity(this);
@@ -705,15 +698,15 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	}
 
 	private void applyRotation(int position, float start, float end) {
-		final float centerX = vPager.getWidth() / 2.0f;
-		final float centerY = vPager.getHeight() / 2.0f;
+		final float centerX = view_content.getWidth() / 2.0f;
+		final float centerY = view_content.getHeight() / 2.0f;
 		final Rotate3dAnimation rotation = new Rotate3dAnimation(start, end,
 				centerX, centerY, 310.0f, true);
 		rotation.setDuration(1000);
 		rotation.setFillAfter(false);
 		rotation.setInterpolator(new AccelerateInterpolator());
 		rotation.setAnimationListener(new DisplayNextView(position));
-		vPager.startAnimation(rotation);
+		view_content.startAnimation(rotation);
 	}
 
 	private final class DisplayNextView implements Animation.AnimationListener {
@@ -730,7 +723,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 		@Override
 		public void onAnimationEnd(Animation animation) {
-			vPager.post(new SwapViews(position));
+			view_content.post(new SwapViews(position));
 		}
 
 		@Override
@@ -748,15 +741,15 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 		@Override
 		public void run() {
-			final float centerX = vPager.getWidth() / 2.0f;
-			final float centerY = vPager.getHeight() / 2.0f;
+			final float centerX = view_content.getWidth() / 2.0f;
+			final float centerY = view_content.getHeight() / 2.0f;
 			Rotate3dAnimation rotation;
 			rotation = new Rotate3dAnimation(270, 360, centerX, centerY,
 					310.0f, false);
 			rotation.setDuration(500);
 			rotation.setFillAfter(true);
 			rotation.setInterpolator(new DecelerateInterpolator());
-			vPager.startAnimation(rotation);
+			view_content.startAnimation(rotation);
 			Message msg = new Message();
 			msg.what = SHAKE_AND_SWITCH;
 			handler.sendMessage(msg);
