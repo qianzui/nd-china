@@ -37,13 +37,15 @@ public class AppListAdapter extends BaseAdapter {
 	ArrayList<Integer> uidList;
 	HashMap<Integer, PackageInfo> appList;
 	HashMap<Integer, String> appname;
+	public MyListView myListView;
 	HashMap<Integer, DatauidHash> uiddata = new HashMap<Integer, DatauidHash>();
 	int uid;
 
 	public AppListAdapter(Context context, ArrayList<PackageInfo> myAppList,
 			HashMap<Integer, String> appname,
 			HashMap<Integer, DatauidHash> uiddata,
-			HashMap<Integer, PackageInfo> appList, ArrayList<Integer> uidList) {
+			HashMap<Integer, PackageInfo> appList, ArrayList<Integer> uidList,
+			MyListView myListView) {
 		inflater = LayoutInflater.from(context);
 		this.mContext = context;
 		sharedpref = new SharedPrefrenceData(mContext);
@@ -52,6 +54,8 @@ public class AppListAdapter extends BaseAdapter {
 		this.uiddata = uiddata;
 		this.appList = appList;
 		this.uidList = uidList;
+		this.myListView = myListView;
+		
 	}
 
 	@Override
@@ -192,7 +196,7 @@ public class AppListAdapter extends BaseAdapter {
 		@Override
 		public void onImageLoad(Integer t, Drawable drawable, ImageView view,
 				int uid) {
-			ImageView icon = (ImageView) FireWallActivity.appListView
+			ImageView icon = (ImageView) myListView
 					.findViewWithTag(t);
 			if (icon != null) {
 				icon.setImageDrawable(drawable);
