@@ -60,7 +60,6 @@ public class Appwidget11 extends AppWidgetProvider {
 		// Perform this loop procedure for each App Widget that belongs to this
 		// provider
 		for (int i = 0; i < N; i++) {
-			int appWidgetId = appWidgetIds[i];
 			// Create an Intent to launch ExampleActivity
 			RemoteViews views = new RemoteViews(context.getPackageName(),
 					R.layout.appwidget_layout11);
