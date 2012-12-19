@@ -19,6 +19,8 @@ public class SetText {
 	public static String textDown;
 	public static String text1 = "今日已用: ...";
 	public static String text2 = "距结算日: ...";
+	public static String textToday = "0";
+	public static String textTodayUnit = "KB";
 	public static SpannableStringBuilder text3 = null;
 	public static int FloatIntX = 50;
 	public static int FloatIntY = 50;
@@ -50,6 +52,7 @@ public class SetText {
 		String monthUsedStr = UnitHandler.unitHandlerAccurate(monthUsedLong);
 		String monthSetStr = UnitHandler.unitHandler(monthSetLong);
 		String todayUsedStr = UnitHandler.unitHandlerAccurate(todayUsedLong);
+		String[] widget11 = todayUsedStr.split(" ");
 		String date = getdate(context, year, month, monthDay).toString();
 		String day = getday(context, year, month, monthDay);
 		ProgressBarPercent = (int) (((double) monthUsedLong / monthSetLong) * 100);
@@ -85,6 +88,8 @@ public class SetText {
 
 		text3 = style;
 
+		textToday = widget11[0];
+		textTodayUnit = widget11[1];
 		// showLog(textUp);
 	}
 
