@@ -89,36 +89,26 @@ public class SQLHelperUidSelectDataFire {
 			SQLiteDatabase sqlDataBase, int[] uidnumbers, int flagFire) {
 		HashMap<Integer, DatauidHash> mp = new HashMap<Integer, DatauidHash>();
 		initTime();
-		switch (flagFire) {
-		case 1:
-			weekStart = selectWeekStart(sqlDataBase, year, month, monthDay,
-					weekDay);
-			if (SQLStatic.uiddataWeek != null) {
+		if (SQLStatic.uiddataCache == null) {
+			mp = SelectUiddownloadAnduploadAll(sqlDataBase, uidnumbers);
+		} else {
+
+			switch (flagFire) {
+			case 1:
+				weekStart = selectWeekStart(sqlDataBase, year, month, monthDay,
+						weekDay);
 				mp = SelectUiddownloadAnduploadPart(sqlDataBase, uidnumbers,
-						flagFire, SQLStatic.uiddataWeek);
-			} else {
-				mp = SelectUiddownloadAnduploadAll(sqlDataBase, uidnumbers,
-						flagFire);
-			}
-			break;
-		case 2:
-			if (SQLStatic.uiddataMonth != null) {
+						flagFire, SQLStatic.uiddataCache);
+				break;
+			case 2:
 				mp = SelectUiddownloadAnduploadPart(sqlDataBase, uidnumbers,
-						flagFire, SQLStatic.uiddataMonth);
-			} else {
-				mp = SelectUiddownloadAnduploadAll(sqlDataBase, uidnumbers,
-						flagFire);
-			}
-			break;
-		default:
-			if (SQLStatic.uiddataToday != null) {
+						flagFire, SQLStatic.uiddataCache);
+				break;
+			default:
 				mp = SelectUiddownloadAnduploadPart(sqlDataBase, uidnumbers,
-						flagFire, SQLStatic.uiddataToday);
-			} else {
-				mp = SelectUiddownloadAnduploadAll(sqlDataBase, uidnumbers,
-						flagFire);
+						flagFire, SQLStatic.uiddataCache);
+				break;
 			}
-			break;
 		}
 		return mp;
 	}
@@ -128,22 +118,24 @@ public class SQLHelperUidSelectDataFire {
 			HashMap<Integer, DatauidHash> mp) {
 		List<ActivityManager.RunningAppProcessInfo> appProcessList = mActivityManager
 				.getRunningAppProcesses();
+		long[] tpmobile = new long[3];
+		long[] tpwifi = new long[3];
+		int uidnumber;
+		String pacname;
 		for (ActivityManager.RunningAppProcessInfo appProcessInfo : appProcessList) {
 			// 通过uidnumber判断是否为需要记录的应用
-			String pacname = appProcessInfo.processName;
-			int uidnumber = appProcessInfo.uid;
+			pacname = appProcessInfo.processName;
+			uidnumber = appProcessInfo.uid;
 			if (SQLStatic.packagename_ALL.contains(pacname)) {
-				long[] tpmobile = new long[3];
-				long[] tpwifi = new long[3];
 				tpmobile = getSQLuidtotalData(sqlDataBase, uidnumber,
 						NETWORK_FLAG, flagFire);
 				tpwifi = getSQLuidtotalData(sqlDataBase, uidnumber, "wifi",
 						flagFire);
-				DatauidHash temp = new DatauidHash();
-				temp.setUploadmobile(tpmobile[1]);
-				temp.setDownloadmobile(tpmobile[2]);
-				temp.setUploadwifi(tpwifi[1]);
-				temp.setDownloadwifi(tpwifi[2]);
+				DatauidHash temp = mp.get(uidnumbers);
+				if (temp == null) {
+					temp = new DatauidHash();
+				}
+				temp = setUidData(temp, tpmobile, tpwifi, flagFire);
 				mp.put(uidnumber, temp);
 				// showLog(uidnumber[i]+"traff"+get[1]+"");
 			}
@@ -152,22 +144,28 @@ public class SQLHelperUidSelectDataFire {
 	}
 
 	private HashMap<Integer, DatauidHash> SelectUiddownloadAnduploadAll(
-			SQLiteDatabase sqlDataBase, int[] uidnumbers, int flagFire) {
+			SQLiteDatabase sqlDataBase, int[] uidnumbers) {
 		HashMap<Integer, DatauidHash> mp = new HashMap<Integer, DatauidHash>();
 		long[] tpmobile = new long[3];
 		long[] tpwifi = new long[3];
 		for (int i = 0; i < uidnumbers.length; i++) {
 			if (uidnumbers[i] != -1) {
-
-				tpmobile = getSQLuidtotalData(sqlDataBase, uidnumbers[i],
-						NETWORK_FLAG, flagFire);
-				tpwifi = getSQLuidtotalData(sqlDataBase, uidnumbers[i], "wifi",
-						flagFire);
 				DatauidHash temp = new DatauidHash();
-				temp.setUploadmobile(tpmobile[1]);
-				temp.setDownloadmobile(tpmobile[2]);
-				temp.setUploadwifi(tpwifi[1]);
-				temp.setDownloadwifi(tpwifi[2]);
+				tpmobile = getSQLuidtotalData(sqlDataBase, uidnumbers[i],
+						NETWORK_FLAG, 0);
+				tpwifi = getSQLuidtotalData(sqlDataBase, uidnumbers[i], "wifi",
+						0);
+				temp = setUidData(temp, tpmobile, tpwifi, 0);
+				tpmobile = getSQLuidtotalData(sqlDataBase, uidnumbers[i],
+						NETWORK_FLAG, 1);
+				tpwifi = getSQLuidtotalData(sqlDataBase, uidnumbers[i], "wifi",
+						1);
+				temp = setUidData(temp, tpmobile, tpwifi, 1);
+				tpmobile = getSQLuidtotalData(sqlDataBase, uidnumbers[i],
+						NETWORK_FLAG, 2);
+				tpwifi = getSQLuidtotalData(sqlDataBase, uidnumbers[i], "wifi",
+						2);
+				temp = setUidData(temp, tpmobile, tpwifi, 2);
 				mp.put(uidnumbers[i], temp);
 				// showLog(uidnumber[i]+"traff"+get[1]+"");
 			}
@@ -232,6 +230,7 @@ public class SQLHelperUidSelectDataFire {
 		return a;
 	}
 
+	// 不同的统计方式返回不同的日期
 	private String getDateString(SQLiteDatabase mySQL, int flagFire) {
 		StringBuilder strDate = new StringBuilder();
 		// 格式化日期
@@ -328,4 +327,42 @@ public class SQLHelperUidSelectDataFire {
 		return weekStart;
 	}
 
+	/**
+	 * 设置uid的数据
+	 * 
+	 * @param temp
+	 *            传入的DatauidHash 可能部分已经有值
+	 * @param tpmobile
+	 *            移动流量
+	 * @param tpwifi
+	 *            wifi流量
+	 * @param flagFire
+	 *            表示是统计日，周，月
+	 * @return uid数据集合的 DatauidHash
+	 */
+	private DatauidHash setUidData(DatauidHash temp, long[] tpmobile,
+			long[] tpwifi, int flagFire) {
+		switch (flagFire) {
+		case 1:
+			temp.setUploadmobileWeek(tpmobile[1]);
+			temp.setDownloadmobileWeek(tpmobile[2]);
+			temp.setUploadwifiWeek(tpwifi[1]);
+			temp.setDownloadwifiWeek(tpwifi[2]);
+			break;
+		case 2:
+			temp.setUploadmobile(tpmobile[1]);
+			temp.setDownloadmobile(tpmobile[2]);
+			temp.setUploadwifi(tpwifi[1]);
+			temp.setDownloadwifi(tpwifi[2]);
+			break;
+
+		default:
+			temp.setUploadmobileToday(tpmobile[1]);
+			temp.setDownloadmobileToday(tpmobile[2]);
+			temp.setUploadwifiToday(tpwifi[1]);
+			temp.setDownloadwifiToday(tpwifi[2]);
+			break;
+		}
+		return temp;
+	}
 }
