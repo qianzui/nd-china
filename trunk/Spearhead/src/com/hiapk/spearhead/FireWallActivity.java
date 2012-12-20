@@ -11,7 +11,6 @@ import com.hiapk.firewall.AppListAdapter;
 import com.hiapk.firewall.Block;
 import com.hiapk.firewall.Rotate3dAnimation;
 import com.hiapk.firewall.viewpager.FlowIndicator;
-import com.hiapk.firewall.viewpager.FlowIndicator.OnIndicatorScrollListener;
 import com.hiapk.firewall.viewpager.MyPagerAdapter;
 import com.hiapk.firewall.viewpager.SetListView;
 import com.hiapk.firewall.viewpager.SetNotifListView;
@@ -38,6 +37,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
@@ -74,11 +75,10 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	private String TAG = "firewallActivity";
 	protected SharedPrefrenceData sharedpref;
 	public static PopupWindow mPop;
-	
 	private List<PackageInfo> packageInfo;
 	public ArrayList<PackageInfo> myAppList;
 	public static ArrayList<Integer> uidList = new ArrayList<Integer>();
-	
+
 	private Button setting_button;
 	public TextView firewall_details;
 	public RelativeLayout title_normal;
@@ -88,7 +88,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public LinearLayout view_content;
 	public Animation showAction;
 	public View bubbleView;
-	
+
 	private Context mContext = this;
 	public Handler handler;
 	public ViewPager vPager;
@@ -109,7 +109,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public SetListView mobile;
 	public SetListView wifi;
 	public SetNotifListView notif;
-	
+
 	private ArrayList<SetListView> myViewControl;
 
 	@Override
@@ -195,20 +195,19 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		wifi.setOnDragRefreshListener(onDragRefreshListener);
 		notif.setOnDragNotifRefreshListener(onDragNotifRefreshListener);
 		FlowIndicator cursor = (FlowIndicator) findViewById(R.id.cursor);
-		cursor.setOnIndicatorScrollListener(new OnIndicatorScrollListener(){
-			@Override
-			public void onPageChanged() {
-				// TODO Auto-generated method stub
-				setTitle();
-			}
-		});
+		// cursor.setOnIndicatorScrollListener(new OnIndicatorScrollListener() {
+		// @Override
+		// public void onPageChanged(Bitmap bitmap) {
+		// // TODO Auto-generated method stub
+		// setTitle(bitmap);
+		// }
+		// });
 		cursor.setSize(pageList.size());
 		vPager.setAdapter(new MyPagerAdapter(pageList));
 		vPager.setFlowIndicator(cursor);
 		vPager.setOnPageChangeListener(new MyOnPageChangeListener());
 	}
 
-	
 	public void handerControl() {
 		handler = new Handler() {
 			public void handleMessage(Message msg) {
@@ -291,6 +290,11 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public void setTitle() {
 		main2TitleBackground.setBackgroundResource(SkinCustomMains
 				.titleBackground());
+		// if (bitmap != null) {
+		// bitmap = BitmapFactory.decodeResource(getResources(),
+		// SkinCustomMains.flowIndicatorBackground(sharedpref
+		// .getFireWallType()));
+		// }
 		firewall_details.setText(" " + Extra.getAppNum(sharedpref, uidList)
 				+ " ");
 		switch (sharedpref.getFireWallType()) {
@@ -366,9 +370,9 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 		@Override
 		public void onPageScrollStateChanged(int arg0) {
-//			if(arg0 == ViewPager.SCROLL_STATE_IDLE){
-//				setTitle();
-//			}
+			if (arg0 == ViewPager.SCROLL_STATE_IDLE) {
+				setTitle();
+			}
 			Logs.i("test", "onPageScrollStateChanged:" + arg0);
 		}
 	}
@@ -611,7 +615,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			sensorManager.unregisterListener(mSensorEventListener);
 			sensorManager = null;
 		}
-		if(uninstalledReceiver != null){
+		if (uninstalledReceiver != null) {
 			this.unregisterReceiver(uninstalledReceiver);
 		}
 		super.finish();
@@ -632,10 +636,12 @@ public class FireWallActivity extends Activity implements OnClickListener {
 				handler.sendMessage(msg);
 			}
 		}
+
 		@Override
 		public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		}
 	};
+
 	public void dialogFireWallOpenFail() {
 		final CustomDialog alertDialog = new CustomDialog.Builder(mContext)
 				.setTitle(R.string.caution)
@@ -713,16 +719,20 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 	private final class DisplayNextView implements Animation.AnimationListener {
 		private final int position;
+
 		private DisplayNextView(int position) {
 			this.position = position;
 		}
+
 		@Override
 		public void onAnimationStart(Animation animation) {
 		}
+
 		@Override
 		public void onAnimationEnd(Animation animation) {
 			view_content.post(new SwapViews(position));
 		}
+
 		@Override
 		public void onAnimationRepeat(Animation animation) {
 		}
@@ -730,9 +740,11 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 	private final class SwapViews implements Runnable {
 		private final int position;
+
 		private SwapViews(int position) {
 			this.position = position;
 		}
+
 		@Override
 		public void run() {
 			final float centerX = view_content.getWidth() / 2.0f;
@@ -758,6 +770,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			NotificationInfo.isgettingdata = true;
 			NotificationInfo.startRootcomand(mContext);
 		}
+
 		@Override
 		protected Boolean doInBackground(Context... params) {
 			int timetap = 0;

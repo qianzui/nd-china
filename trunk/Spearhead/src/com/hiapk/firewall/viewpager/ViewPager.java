@@ -214,7 +214,9 @@ public class ViewPager extends ViewGroup {
 	public interface OnPageChangeListener {
 		public void onPageScrolled(int position, float positionOffset,
 				int positionOffsetPixels);
+
 		public void onPageSelected(int position);
+
 		public void onPageScrollStateChanged(int state);
 	}
 
@@ -223,7 +225,6 @@ public class ViewPager extends ViewGroup {
 	 * stub implementations of each method. Extend this if you do not intend to
 	 * override every method of {@link OnPageChangeListener}.
 	 */
-	
 
 	/**
 	 * Used internally to monitor when adapters are switched.
@@ -282,6 +283,9 @@ public class ViewPager extends ViewGroup {
 		mScrollState = newState;
 		if (mOnPageChangeListener != null) {
 			mOnPageChangeListener.onPageScrollStateChanged(newState);
+		}
+		if (flowIndicator != null) {
+			flowIndicator.onStateChange(newState);
 		}
 	}
 
@@ -1340,7 +1344,7 @@ public class ViewPager extends ViewGroup {
 		}
 		if (needPopulate) {
 			populate();
-				}
+		}
 	}
 
 	@Override
@@ -1418,7 +1422,7 @@ public class ViewPager extends ViewGroup {
 				// Nested view has scrollable area under this point. Let it be
 				// handled there.
 				mInitialMotionX = mLastMotionX = x;
-				mLastMotionY = y; 
+				mLastMotionY = y;
 				return false;
 			}
 			if (xDiff > mTouchSlop && xDiff > yDiff) {
@@ -1654,8 +1658,6 @@ public class ViewPager extends ViewGroup {
 
 		return targetPage;
 	}
-
-
 
 	@Override
 	protected void onDraw(Canvas canvas) {
@@ -2180,5 +2182,5 @@ public class ViewPager extends ViewGroup {
 		// TODO Auto-generated method stub
 		super.setChildrenDrawnWithCacheEnabled(enabled);
 	}
-	
+
 }
