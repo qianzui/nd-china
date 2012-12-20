@@ -7,7 +7,6 @@ import com.hiapk.firewall.Block;
 import com.hiapk.firewall.FireWallItemMenu;
 import com.hiapk.firewall.MyListView;
 import com.hiapk.firewall.MyListView.OnRefreshListener;
-import com.hiapk.logs.Logs;
 import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.R;
 import com.hiapk.util.SQLStatic;
@@ -54,7 +53,6 @@ public class SetListView {
 	}
 
 	public void setAdapter(ArrayList<PackageInfo> myAppList) {
-		Logs.i("test", "setAdapter:" + sharedpref.getFireWallType());
 		loading.setVisibility(View.VISIBLE);
 		if (myAppList == null) {
 			return;
