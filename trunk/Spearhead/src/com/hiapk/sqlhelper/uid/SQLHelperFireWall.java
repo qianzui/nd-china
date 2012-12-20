@@ -86,48 +86,23 @@ public class SQLHelperFireWall {
 
 		@Override
 		protected void onPostExecute(HashMap<Integer, DatauidHash> result) {
-//			Logs.iop(TAG, "Recordover" + (System.currentTimeMillis() - time));
-//			Logs.iop(TAG, "result.size()=" + result.size());
-//			Set<Integer> key = result.keySet();
-//			for(Iterator it = key.iterator();it.hasNext();){
-//				Integer dh = (Integer)it.next();
-//				Log.i("test","traffic:" + result.get(dh).getTotalTraff());
-//			}
-			
-			switch (fireWallType) {
-			case 1:
-				SQLStatic.uiddataWeek = result;
-
-				break;
-			case 2:
-				SQLStatic.uiddataMonth = result;
-				break;
-			default:
-				SQLStatic.uiddataToday = result;
-				break;
-			}
+			// Logs.iop(TAG, "Recordover" + (System.currentTimeMillis() -
+			// time));
+			// Logs.iop(TAG, "result.size()=" + result.size());
+			// Set<Integer> key = result.keySet();
+			// for(Iterator it = key.iterator();it.hasNext();){
+			// Integer dh = (Integer)it.next();
+			// Log.i("test","traffic:" + result.get(dh).getTotalTraff());
+			// }
+			SQLStatic.uiddataCache = result;
 			SQLStatic.uiddata = result;
 			isReseting = false;
 		}
 	}
 
 	private void setCacheuiddata(int fireWallType) {
-		switch (fireWallType) {
-		case 1:
-			if (SQLStatic.uiddataWeek != null) {
-				SQLStatic.uiddata = SQLStatic.uiddataWeek;
-			}
-			break;
-		case 2:
-			if (SQLStatic.uiddataMonth != null) {
-				SQLStatic.uiddata = SQLStatic.uiddataMonth;
-			}
-			break;
-		default:
-			if (SQLStatic.uiddataToday != null) {
-				SQLStatic.uiddata = SQLStatic.uiddataToday;
-			}
-			break;
+		if (SQLStatic.uiddataCache != null) {
+			SQLStatic.uiddata = SQLStatic.uiddataCache;
 		}
 
 	}

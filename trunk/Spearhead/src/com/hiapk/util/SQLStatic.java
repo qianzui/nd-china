@@ -53,17 +53,21 @@ public class SQLStatic {
 	 */
 	public static HashMap<Integer, DatauidHash> uiddata = null;
 	/**
-	 * 今日uid数据
+	 * 防火墙使用的uid数据的缓存
 	 */
-	public static HashMap<Integer, DatauidHash> uiddataToday = null;
-	/**
-	 * 本周uid数据
-	 */
-	public static HashMap<Integer, DatauidHash> uiddataWeek = null;
-	/**
-	 * 本月uid数据
-	 */
-	public static HashMap<Integer, DatauidHash> uiddataMonth = null;
+	public static HashMap<Integer, DatauidHash> uiddataCache = null;
+//	/**
+//	 * 今日uid数据
+//	 */
+//	public static HashMap<Integer, DatauidHash> uiddataToday = null;
+//	/**
+//	 * 本周uid数据
+//	 */
+//	public static HashMap<Integer, DatauidHash> uiddataWeek = null;
+//	/**
+//	 * 本月uid数据
+//	 */
+//	public static HashMap<Integer, DatauidHash> uiddataMonth = null;
 	// public static boolean isuiddataOperating = false;
 	// 正在读取uid流量
 	public static boolean isuiddataRecording = false;
