@@ -341,7 +341,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		@Override
 		public void onPageSelected(int arg0) {
 			sharedpref.setFireWallType(arg0);
-			setTitle();
 			if (arg0 == 5) {
 				notif.setLoading();
 				new AsyncTaskGetAdbArrayListonResume().execute();
@@ -360,6 +359,9 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 		@Override
 		public void onPageScrollStateChanged(int arg0) {
+			if(arg0 == ViewPager.SCROLL_STATE_IDLE){
+				setTitle();
+			}
 			Logs.i("test", "onPageScrollStateChanged:" + arg0);
 		}
 	}
