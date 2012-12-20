@@ -55,9 +55,10 @@ public class FlowIndicator extends TextView {
 	private int colorBeforeType = 0;
 	private Bitmap bitmp_bar = BitmapFactory.decodeResource(getResources(),
 			SkinCustomMains.flowIndicatorBackground(0));
+	private OnIndicatorScrollListener indicatorScrollListener;
 
-	public void setSize(int size) {
-		this.size = size;
+	public interface OnIndicatorScrollListener {
+		public void onPageChanged();
 	}
 
 	private int flowHeight = 0;
@@ -99,6 +100,15 @@ public class FlowIndicator extends TextView {
 				TEXT_SIZE);
 		initDraw(textColor, textSize, selectedColor, footerLineHeight,
 				footerColor);
+	}
+
+	public void setOnIndicatorScrollListener(
+			OnIndicatorScrollListener indicatorScrollListener) {
+		this.indicatorScrollListener = indicatorScrollListener;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
 	}
 
 	/**
@@ -171,6 +181,9 @@ public class FlowIndicator extends TextView {
 		if (colorType != colorBeforeType) {
 			bitmp_bar = BitmapFactory.decodeResource(getResources(),
 					SkinCustomMains.flowIndicatorBackground(colorType));
+			if (indicatorScrollListener != null) {
+				indicatorScrollListener.onPageChanged();
+			}
 			colorBeforeType = colorType;
 		}
 		setPaintColor(paint, colorType);
