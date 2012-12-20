@@ -71,4 +71,19 @@ public class SkinCustomMains {
 
 		return title_bg_Id;
 	}
+
+	/**
+	 * 防火墙页面的进度条颜色
+	 * 
+	 * @return
+	 */
+	public static int flowIndicatorBackground(int skinType) {
+		if (res == null) {
+			res = SpearheadApplication.getInstance().getRes();
+		}
+		int title_bg_Id = res.getIdentifier("flow_indicator" + skinType,
+				"drawable", "com.hiapk.spearhead");
+
+		return title_bg_Id;
+	}
 }
