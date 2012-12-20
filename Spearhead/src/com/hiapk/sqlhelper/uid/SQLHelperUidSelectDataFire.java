@@ -97,6 +97,7 @@ public class SQLHelperUidSelectDataFire {
 
 			switch (flagFire) {
 			case 1:
+				Logs.d(TAG, weekStart);
 				mp = SelectUiddownloadAnduploadPart(sqlDataBase, uidnumbers,
 						flagFire, SQLStatic.uiddataCache);
 				break;
@@ -294,11 +295,13 @@ public class SQLHelperUidSelectDataFire {
 	private String selectWeekStart(SQLiteDatabase sqlDataBase, int year,
 			int month, int monthDay, int weekDay) {
 		if (weekDay == 0) {
-			weekDay = 7;
+			weekDay = 6;
+		} else {
+			weekDay = weekDay - 1;
 		}
-		StringBuilder stringB = new StringBuilder();
-		weekDay = weekDay - 1;
+		// showLog(weekDay + "");
 		String weekStart = null;
+		StringBuilder stringB = new StringBuilder();
 		stringB.append("select date('now'").append(",'-").append(weekDay)
 				.append(" day'" + ")");
 		// Logs.d(TAG, stringB.toString());
