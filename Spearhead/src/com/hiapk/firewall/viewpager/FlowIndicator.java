@@ -17,6 +17,7 @@ package com.hiapk.firewall.viewpager;
 
 import com.hiapk.logs.Logs;
 import com.hiapk.spearhead.R;
+import com.hiapk.spearhead.SpearheadApplication;
 import com.hiapk.ui.skin.SkinCustomMains;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -51,14 +52,12 @@ public class FlowIndicator extends TextView {
 	private String TAG = "FlowIndicator";
 	private int size = 2;
 	// barColor
-	private int colorType = 0;
-	private int colorBeforeType = 0;
 	private Bitmap bitmp_bar = BitmapFactory.decodeResource(getResources(),
-			SkinCustomMains.flowIndicatorBackground(0));
-	private OnIndicatorScrollListener indicatorScrollListener;
+			SkinCustomMains.flowIndicatorBackground(SpearheadApplication
+					.getInstance().getSkinType()));
 
-	public interface OnIndicatorScrollListener {
-		public void onPageChanged();
+	public void setSize(int size) {
+		this.size = size;
 	}
 
 	private int flowHeight = 0;
@@ -100,15 +99,6 @@ public class FlowIndicator extends TextView {
 				TEXT_SIZE);
 		initDraw(textColor, textSize, selectedColor, footerLineHeight,
 				footerColor);
-	}
-
-	public void setOnIndicatorScrollListener(
-			OnIndicatorScrollListener indicatorScrollListener) {
-		this.indicatorScrollListener = indicatorScrollListener;
-	}
-
-	public void setSize(int size) {
-		this.size = size;
 	}
 
 	/**
@@ -174,19 +164,12 @@ public class FlowIndicator extends TextView {
 		Paint paint = paintSelected;
 		// canvas.drawRect(bound.left, bound.top, bound.right, bound.bottom,
 		// paint);
-		if (currentScroll % getWidth() == 0) {
-			colorType = (int) currentScroll / getWidth();
-		}
-		Logs.d(TAG, colorType + "");
-		if (colorType != colorBeforeType) {
-			bitmp_bar = BitmapFactory.decodeResource(getResources(),
-					SkinCustomMains.flowIndicatorBackground(colorType));
-			if (indicatorScrollListener != null) {
-				indicatorScrollListener.onPageChanged();
-			}
-			colorBeforeType = colorType;
-		}
-		setPaintColor(paint, colorType);
+		// Logs.d(TAG, colorType + "");
+		// if (colorType != colorBeforeType) {
+		// bitmp_bar = BitmapFactory.decodeResource(getResources(),
+		// SkinCustomMains.flowIndicatorBackground(colorType));
+		// colorBeforeType = colorType;
+		// }
 		// bitmp_bar = BitmapFactory.decodeResource(getResources(),
 		// SkinCustomMains.flowIndicatorBackground());
 		canvas.drawBitmap(bitmp_bar, null, bound, paint);
@@ -227,13 +210,6 @@ public class FlowIndicator extends TextView {
 		return bounds;
 	}
 
-	private void setPaintColor(Paint paint, int colorType) {
-
-		// Shader shader = new LinearGradient(0, 0, 0, 10, colors, null,
-		// TileMode.MIRROR);
-		// paint.setShader(shader);
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -243,6 +219,15 @@ public class FlowIndicator extends TextView {
 	public void onScrolled(int ScrollX) {
 		currentScroll = ScrollX;
 		invalidate();
+	}
+
+	public void onStateChange(int newState) {
+		if (newState == 0) {
+			bitmp_bar = BitmapFactory.decodeResource(getResources(),
+					SkinCustomMains
+							.flowIndicatorBackground(SpearheadApplication
+									.getInstance().getSkinType()));
+		}
 	}
 
 	/*
