@@ -28,7 +28,7 @@ public class SQLHelperUidSelectDataFire {
 	private String AND_B = "' AND '";
 	private String AND_A = " AND ";
 
-	public SQLHelperUidSelectDataFire(Context context) {
+	protected SQLHelperUidSelectDataFire(Context context) {
 		super();
 		mActivityManager = (ActivityManager) context
 				.getSystemService(Context.ACTIVITY_SERVICE);
@@ -76,9 +76,9 @@ public class SQLHelperUidSelectDataFire {
 	 * @param typechange
 	 *            改变type值
 	 * @param flagFire
-	 *            防火墙的值类型，0-2，0为每日，1为每周，2为每月
+	 *            防火墙的值类型，0-2，0为每日，1为每周，2为每月--取消flag作用
 	 */
-	public HashMap<Integer, DatauidHash> getSQLUidtraffMonth(
+	protected HashMap<Integer, DatauidHash> getSQLUidtraffMonth(
 			SQLiteDatabase sqlDataBase, int[] uidnumbers, int flagFire) {
 		HashMap<Integer, DatauidHash> mp = new HashMap<Integer, DatauidHash>();
 		mp = SelectUiddownloadAndupload(sqlDataBase, uidnumbers, flagFire);
@@ -199,7 +199,7 @@ public class SQLHelperUidSelectDataFire {
 					.append("'").append(AND_A).append(" type=").append(2)
 					.append(strDate);
 		}
-//		Logs.d(TAG, string.toString());
+		// Logs.d(TAG, string.toString());
 		try {
 			cur = mySQL.rawQuery(string.toString(), null);
 		} catch (Exception e) {
