@@ -71,12 +71,13 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	private SensorManager sensorManager;
 	private AppUninstalledReceiver uninstalledReceiver;
 	private String TAG = "firewallActivity";
-	private List<PackageInfo> packageInfo;
-	protected ArrayList<String[]> notificationInfos = new ArrayList<String[]>();
 	protected SharedPrefrenceData sharedpref;
 	public static PopupWindow mPop;
+	
+	private List<PackageInfo> packageInfo;
 	public ArrayList<PackageInfo> myAppList;
-	public ArrayList<PackageInfo> myAppList2;
+	public static ArrayList<Integer> uidList = new ArrayList<Integer>();
+	
 	private Button setting_button;
 	public TextView firewall_details;
 	public RelativeLayout title_normal;
@@ -86,13 +87,9 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public LinearLayout view_content;
 	public Animation showAction;
 	public View bubbleView;
-	public String savedUids_wifi = "";
-	public String savedUids_3g = "";
+	
 	private Context mContext = this;
-	public ProgressDialog mydialog;
-	public ProgressDialog pro;
-	public static ArrayList<Integer> uidList = new ArrayList<Integer>();
-	Handler handler;
+	public Handler handler;
 	public ViewPager vPager;
 	public static boolean isloading = false;
 	public static boolean isInScene = false;
@@ -111,6 +108,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public SetListView mobile;
 	public SetListView wifi;
 	public SetNotifListView notif;
+	
 	private ArrayList<SetListView> myViewControl;
 
 	@Override
@@ -548,7 +546,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 				firewall_title.setText("今日流量排行");
 				vPager.setCurrentItem(sharedpref.getFireWallType());
 			}
-
 		}
 		if (isRefreshList) {
 			initList();
@@ -595,33 +592,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (sharedpref.getFireWallType() == 5) {
-			// refreshNotif();
-		} else {
-			vPager.setCurrentItem(sharedpref.getFireWallType());
-		}
-		super.onActivityResult(requestCode, resultCode, data);
-	}
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		// TODO Auto-generated method stub
-		super.onConfigurationChanged(newConfig);
-		// if (newConfig.hardKeyboardHidden ==
-		// Configuration.HARDKEYBOARDHIDDEN_NO) {
-		// if (sharedpref.getFireWallType() == 5) {
-		// refreshNotif();
-		// }
-		// } else if (newConfig.hardKeyboardHidden ==
-		// Configuration.HARDKEYBOARDHIDDEN_YES) {
-		// if (sharedpref.getFireWallType() == 5) {
-		// refreshNotif();
-		// }
-		// }
-	}
-
-	@Override
 	public void finish() {
 		if (Block.isChange) {
 			SaveRule sr = new SaveRule(mContext);
@@ -653,13 +623,10 @@ public class FireWallActivity extends Activity implements OnClickListener {
 				handler.sendMessage(msg);
 			}
 		}
-
 		@Override
 		public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
 		}
 	};
-
 	public void dialogFireWallOpenFail() {
 		final CustomDialog alertDialog = new CustomDialog.Builder(mContext)
 				.setTitle(R.string.caution)
@@ -687,7 +654,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 					initList();
 				}
 				alertDialog.dismiss();
-
 			}
 		});
 		Button btn_cancel = (Button) alertDialog
@@ -738,34 +704,26 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 	private final class DisplayNextView implements Animation.AnimationListener {
 		private final int position;
-
 		private DisplayNextView(int position) {
 			this.position = position;
 		}
-
 		@Override
 		public void onAnimationStart(Animation animation) {
-
 		}
-
 		@Override
 		public void onAnimationEnd(Animation animation) {
 			view_content.post(new SwapViews(position));
 		}
-
 		@Override
 		public void onAnimationRepeat(Animation animation) {
-
 		}
 	}
 
 	private final class SwapViews implements Runnable {
 		private final int position;
-
 		private SwapViews(int position) {
 			this.position = position;
 		}
-
 		@Override
 		public void run() {
 			final float centerX = view_content.getWidth() / 2.0f;
@@ -791,7 +749,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			NotificationInfo.isgettingdata = true;
 			NotificationInfo.startRootcomand(mContext);
 		}
-
 		@Override
 		protected Boolean doInBackground(Context... params) {
 			int timetap = 0;
