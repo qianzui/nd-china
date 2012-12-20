@@ -15,15 +15,17 @@
  */
 package com.hiapk.firewall.viewpager;
 
+import com.hiapk.logs.Logs;
 import com.hiapk.spearhead.R;
-
+import com.hiapk.ui.skin.SkinCustomMains;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -48,6 +50,11 @@ public class FlowIndicator extends TextView {
 	private int footerLineHeight;
 	private String TAG = "FlowIndicator";
 	private int size = 2;
+	// barColor
+	private int colorType = 0;
+	private int colorBeforeType = 0;
+	private Bitmap bitmp_bar = BitmapFactory.decodeResource(getResources(),
+			SkinCustomMains.flowIndicatorBackground(0));
 
 	public void setSize(int size) {
 		this.size = size;
@@ -94,6 +101,11 @@ public class FlowIndicator extends TextView {
 				footerColor);
 	}
 
+	/**
+	 * …Ë÷√øÌ∂»
+	 * 
+	 * @param flowHeight
+	 */
 	public void setFlowHeight(int flowHeight) {
 		this.flowHeight = flowHeight;
 	}
@@ -120,6 +132,7 @@ public class FlowIndicator extends TextView {
 
 		// Calculate views bounds
 		Rect bound = calculateAllBounds(paintSelected);
+
 		// Verify if the current view must be clipped to the screen
 		// int curViewWidth = bound.right - bound.left;
 		// if (bound.left < 0) {
@@ -132,10 +145,10 @@ public class FlowIndicator extends TextView {
 		// bound.right = getLeft() + getWidth();
 		// bound.left = bound.right - curViewWidth;
 		// }
-		showLog("bound.left=" + bound.left);
-		showLog("bound.right=" + bound.right);
-		showLog("bound.top=" + bound.top);
-		showLog("bound.bottom=" + bound.bottom);
+		// showLog("bound.left=" + bound.left);
+		// showLog("bound.right=" + bound.right);
+		// showLog("bound.top=" + bound.top);
+		// showLog("bound.bottom=" + bound.bottom);
 		// Now draw views
 		// Only if one side is visible
 		// Paint paint = paintText;
@@ -149,7 +162,21 @@ public class FlowIndicator extends TextView {
 		// + bound.left, bound.bottom, paint);
 		// } else {
 		Paint paint = paintSelected;
-		canvas.drawRect(bound.left, bound.top, bound.right, bound.bottom, paint);
+		// canvas.drawRect(bound.left, bound.top, bound.right, bound.bottom,
+		// paint);
+		if (currentScroll % getWidth() == 0) {
+			colorType = (int) currentScroll / getWidth();
+		}
+		Logs.d(TAG, colorType + "");
+		if (colorType != colorBeforeType) {
+			bitmp_bar = BitmapFactory.decodeResource(getResources(),
+					SkinCustomMains.flowIndicatorBackground(colorType));
+			colorBeforeType = colorType;
+		}
+		setPaintColor(paint, colorType);
+		// bitmp_bar = BitmapFactory.decodeResource(getResources(),
+		// SkinCustomMains.flowIndicatorBackground());
+		canvas.drawBitmap(bitmp_bar, null, bound, paint);
 		// }
 
 	}
@@ -165,24 +192,33 @@ public class FlowIndicator extends TextView {
 		// For each views (If no values then add a fake one)
 		Rect bounds = new Rect();
 		showLog("getWidth()=" + getWidth());
-		showLog("paint.descent()=" + paint.descent());
-		showLog("paint.ascent()=" + paint.ascent());
+		// showLog("paint.descent()=" + paint.descent());
+		// showLog("paint.ascent()=" + paint.ascent());
 		bounds.bottom = (int) (paint.descent() - paint.ascent());
 		int w = (int) getWidth() / size;
 		int h = 0;
 		if (flowHeight == 0) {
-			h = (bounds.bottom - bounds.top);
+			h = getHeight();
 		} else {
 			h = flowHeight;
 		}
-
+		showLog("h =" + h);
+		showLog("getHeight =" + getHeight());
+		showLog("getMeasuredHeight =" + getMeasuredHeight());
 		showLog("currentScroll=" + currentScroll);
 		bounds.left = currentScroll % (getWidth() * size) / size;
 		bounds.right = bounds.left + w;
-		bounds.top = 0;
-		bounds.bottom = h;
+		bounds.top = 0 + 1;
+		bounds.bottom = h - 2;
 
 		return bounds;
+	}
+
+	private void setPaintColor(Paint paint, int colorType) {
+
+		// Shader shader = new LinearGradient(0, 0, 0, 10, colors, null,
+		// TileMode.MIRROR);
+		// paint.setShader(shader);
 	}
 
 	/*
@@ -279,6 +315,6 @@ public class FlowIndicator extends TextView {
 	}
 
 	private void showLog(String str) {
-		Log.d(TAG, str);
+		Logs.d(TAG, str);
 	}
 }

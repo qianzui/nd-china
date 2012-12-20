@@ -40,4 +40,5 @@ public class UiColors {
 	public static int colorMainWhiteDark = Color.rgb(243, 243, 243);
 	// public static int[] chartbarcolor;
 	// chartbarcolor=new int[] { Color.BLUE, Color.GREEN };
+	
 }
