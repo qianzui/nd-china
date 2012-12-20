@@ -11,6 +11,7 @@ import com.hiapk.firewall.AppListAdapter;
 import com.hiapk.firewall.Block;
 import com.hiapk.firewall.Rotate3dAnimation;
 import com.hiapk.firewall.viewpager.FlowIndicator;
+import com.hiapk.firewall.viewpager.FlowIndicator.OnIndicatorScrollListener;
 import com.hiapk.firewall.viewpager.MyPagerAdapter;
 import com.hiapk.firewall.viewpager.SetListView;
 import com.hiapk.firewall.viewpager.SetNotifListView;
@@ -194,12 +195,20 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		wifi.setOnDragRefreshListener(onDragRefreshListener);
 		notif.setOnDragNotifRefreshListener(onDragNotifRefreshListener);
 		FlowIndicator cursor = (FlowIndicator) findViewById(R.id.cursor);
+		cursor.setOnIndicatorScrollListener(new OnIndicatorScrollListener(){
+			@Override
+			public void onPageChanged() {
+				// TODO Auto-generated method stub
+				setTitle();
+			}
+		});
 		cursor.setSize(pageList.size());
 		vPager.setAdapter(new MyPagerAdapter(pageList));
 		vPager.setFlowIndicator(cursor);
 		vPager.setOnPageChangeListener(new MyOnPageChangeListener());
 	}
 
+	
 	public void handerControl() {
 		handler = new Handler() {
 			public void handleMessage(Message msg) {
@@ -357,9 +366,9 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 		@Override
 		public void onPageScrollStateChanged(int arg0) {
-			if(arg0 == ViewPager.SCROLL_STATE_IDLE){
-				setTitle();
-			}
+//			if(arg0 == ViewPager.SCROLL_STATE_IDLE){
+//				setTitle();
+//			}
 			Logs.i("test", "onPageScrollStateChanged:" + arg0);
 		}
 	}
