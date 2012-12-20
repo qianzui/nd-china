@@ -294,13 +294,11 @@ public class SQLHelperUidSelectDataFire {
 	private String selectWeekStart(SQLiteDatabase sqlDataBase, int year,
 			int month, int monthDay, int weekDay) {
 		if (weekDay == 0) {
-			weekDay = 6;
-		} else {
-			weekDay = weekDay - 1;
+			weekDay = 7;
 		}
-		// showLog(weekDay + "");
-		String weekStart = null;
 		StringBuilder stringB = new StringBuilder();
+		weekDay = weekDay - 1;
+		String weekStart = null;
 		stringB.append("select date('now'").append(",'-").append(weekDay)
 				.append(" day'" + ")");
 		// Logs.d(TAG, stringB.toString());
