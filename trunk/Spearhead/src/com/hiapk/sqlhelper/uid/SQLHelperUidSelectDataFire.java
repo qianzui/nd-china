@@ -89,14 +89,14 @@ public class SQLHelperUidSelectDataFire {
 			SQLiteDatabase sqlDataBase, int[] uidnumbers, int flagFire) {
 		HashMap<Integer, DatauidHash> mp = new HashMap<Integer, DatauidHash>();
 		initTime();
+		weekStart = selectWeekStart(sqlDataBase, year, month, monthDay, weekDay);
+		Logs.d(TAG, weekStart);
 		if (SQLStatic.uiddataCache == null) {
 			mp = SelectUiddownloadAnduploadAll(sqlDataBase, uidnumbers);
 		} else {
 
 			switch (flagFire) {
 			case 1:
-				weekStart = selectWeekStart(sqlDataBase, year, month, monthDay,
-						weekDay);
 				mp = SelectUiddownloadAnduploadPart(sqlDataBase, uidnumbers,
 						flagFire, SQLStatic.uiddataCache);
 				break;
