@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import com.hiapk.broadcreceiver.AlarmSet;
+import com.hiapk.broadcreceiver.AppUninstalledReceiver;
 import com.hiapk.comparator.ComparatorUtil;
 import com.hiapk.control.traff.NotificationInfo;
 import com.hiapk.firewall.AppListAdapter;
@@ -31,6 +32,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
@@ -67,6 +69,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	private static final int DATA_READY = 9;
 	private static final int ANIMOTION_MID = 8;
 	private SensorManager sensorManager;
+	private AppUninstalledReceiver uninstalledReceiver;
 	private String TAG = "firewallActivity";
 	private List<PackageInfo> packageInfo;
 	protected ArrayList<String[]> notificationInfos = new ArrayList<String[]>();
@@ -88,13 +91,13 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	private Context mContext = this;
 	public ProgressDialog mydialog;
 	public ProgressDialog pro;
-	// public FireWallItemMenu menu = null;
 	public static ArrayList<Integer> uidList = new ArrayList<Integer>();
 	Handler handler;
 	public ViewPager vPager;
 	public static boolean isloading = false;
 	public static boolean isInScene = false;
 	public static boolean isRootFail = false;
+	public static boolean isRefreshList = false;
 
 	public View todayView;
 	public View weekView;
@@ -136,13 +139,9 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	}
 
 	public void init() {
-		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-		sensorManager.registerListener(mSensorEventListener,
-				sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-				SensorManager.SENSOR_DELAY_NORMAL);
 		sharedpref = new SharedPrefrenceData(mContext);
-		view_content = (LinearLayout)findViewById(R.id.view_content);
-		
+		view_content = (LinearLayout) findViewById(R.id.view_content);
+
 		LayoutInflater mInflater = getLayoutInflater();
 		todayView = mInflater.inflate(R.layout.firewall_list, null);
 		weekView = mInflater.inflate(R.layout.firewall_list, null);
@@ -157,7 +156,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		main2TitleBackground = (RelativeLayout) findViewById(R.id.main2TitleBackground);
 		title_normal = (RelativeLayout) findViewById(R.id.title_normal);
 		title_notif = (TextView) findViewById(R.id.title_notif);
-		
 
 		// ÎªÁËÍË³ö¡£
 		SpearheadApplication.getInstance().addActivity(this);
@@ -325,6 +323,10 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public OnDragRefreshListener onDragRefreshListener = new OnDragRefreshListener() {
 		@Override
 		public void onDragRefresh() {
+			if (SQLStatic.TableWiFiOrG23 != "") {
+				AlarmSet alset = new AlarmSet();
+				alset.StartAlarmUid(mContext);
+			}
 			initList();
 		}
 	};
@@ -436,6 +438,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 	public void initList() {
 		Logs.i("test", " data init");
+		isRefreshList = false;
 		isloading = true;
 		new Thread(new Runnable() {
 			@Override
@@ -518,7 +521,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	protected void onResume() {
 		super.onResume();
 		isInScene = true;
-		Logs.d(TAG, "startonResume");
+		Logs.d("test", "onResume");
 		if (SQLStatic.TableWiFiOrG23 != "") {
 			AlarmSet alset = new AlarmSet();
 			alset.StartAlarmUid(mContext);
@@ -537,7 +540,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		}
 		if (sharedpref.getFireWallType() == 0) {
 			if (NotificationInfo.callbyonCancel == true) {
-				Logs.d("test", "start-callbyonResume");
 				NotificationInfo.callbyonCancel = false;
 				main2TitleBackground.setBackgroundResource(SkinCustomMains
 						.titleBackground());
@@ -546,7 +548,9 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			}
 
 		}
-
+		if (isRefreshList) {
+			initList();
+		}
 		// MobclickAgent.onResume(this);
 	}
 
@@ -625,6 +629,9 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		if (sensorManager != null) {
 			sensorManager.unregisterListener(mSensorEventListener);
 			sensorManager = null;
+		}
+		if(uninstalledReceiver != null){
+			this.unregisterReceiver(uninstalledReceiver);
 		}
 		super.finish();
 	}
@@ -707,6 +714,24 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		rotation.setInterpolator(new AccelerateInterpolator());
 		rotation.setAnimationListener(new DisplayNextView(position));
 		view_content.startAnimation(rotation);
+	}
+
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+		sensorManager.registerListener(mSensorEventListener,
+				sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+				SensorManager.SENSOR_DELAY_NORMAL);
+
+		uninstalledReceiver = new AppUninstalledReceiver();
+		IntentFilter filter = new IntentFilter();
+		filter.addAction("android.intent.action.PACKAGE_REMOVED");
+		filter.addAction("android.intent.action.PACKAGE_ADDED");
+		filter.addDataScheme("package");
+		this.registerReceiver(uninstalledReceiver, filter);
+		super.onStart();
+
 	}
 
 	private final class DisplayNextView implements Animation.AnimationListener {
@@ -793,12 +818,14 @@ public class FireWallActivity extends Activity implements OnClickListener {
 				notif.setAdapter();
 				notif.completeRefresh();
 			} else {
-				notif.completeRefresh();
-				Logs.i("test", "root failed");
-				NotificationInfo.notificationRes.append("result-fail");
-				CustomDialogMain2Been customDialog = new CustomDialogMain2Been(
-						mContext);
-				customDialog.dialogNotificationRootFail();
+				if (sharedpref.getFireWallType() == 5) {
+					notif.completeRefresh();
+					NotificationInfo.notificationRes.append("result-fail");
+					CustomDialogMain2Been customDialog = new CustomDialogMain2Been(
+							mContext);
+					customDialog.dialogNotificationRootFail();
+				}
+
 			}
 			NotificationInfo.isgettingdata = false;
 		}

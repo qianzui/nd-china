@@ -15,7 +15,6 @@ import com.hiapk.util.SharedPrefrenceData;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
-import android.os.AsyncTask;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -55,6 +54,7 @@ public class SetListView {
 	}
 
 	public void setAdapter(ArrayList<PackageInfo> myAppList) {
+		Logs.i("test", "setAdapter:" + sharedpref.getFireWallType());
 		loading.setVisibility(View.VISIBLE);
 		if (myAppList == null) {
 			return;

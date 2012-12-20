@@ -126,7 +126,7 @@ public class AppListAdapter extends BaseAdapter {
 				holder.trafficup.setText(UnitHandler
 						.unitHandlerAccurate(uiddata.get(uid).getTotalTraff()));
 			} else {
-				holder.trafficup.setText("1:" + uid);
+				holder.trafficup.setText("0 KB");
 			}
 			break;
 		case 1:
@@ -135,7 +135,7 @@ public class AppListAdapter extends BaseAdapter {
 				holder.trafficup.setText(UnitHandler
 						.unitHandlerAccurate(uiddata.get(uid).getTotalTraff()));
 			} else {
-				holder.trafficup.setText("0");
+				holder.trafficup.setText("0 KB");
 			}
 			break;
 		case 2:
@@ -144,7 +144,7 @@ public class AppListAdapter extends BaseAdapter {
 				holder.trafficup.setText(UnitHandler
 						.unitHandlerAccurate(uiddata.get(uid).getTotalTraff()));
 			} else {
-				holder.trafficup.setText("0");
+				holder.trafficup.setText("0 KB");
 			}
 			break;
 		case 3:
@@ -155,7 +155,7 @@ public class AppListAdapter extends BaseAdapter {
 								.getDownloadmobile()
 								+ uiddata.get(uid).getUploadmobile()));
 			} else {
-				holder.trafficup.setText("0");
+				holder.trafficup.setText("0 KB");
 			}
 			break;
 		case 4:
@@ -165,7 +165,7 @@ public class AppListAdapter extends BaseAdapter {
 						.unitHandlerAccurate(uiddata.get(uid).getDownloadwifi()
 								+ uiddata.get(uid).getUploadwifi()));
 			} else {
-				holder.trafficup.setText("0");
+				holder.trafficup.setText("0 KB");
 			}
 
 			break;
@@ -175,7 +175,7 @@ public class AppListAdapter extends BaseAdapter {
 				holder.trafficup.setText(UnitHandler
 						.unitHandlerAccurate(uiddata.get(uid).getTotalTraff()));
 			} else {
-				holder.trafficup.setText("0");
+				holder.trafficup.setText("0 KB");
 			}
 			break;
 		}
