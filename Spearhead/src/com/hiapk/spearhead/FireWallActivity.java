@@ -137,6 +137,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			initList();
 		} else {
 			vPager.setCurrentItem(sharedpref.getFireWallType());
+			initList();
 		}
 	}
 
@@ -270,7 +271,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		}
 		int i = sharedpref.getFireWallType();
 		if (i == 5) {
-			notif.setAdapter();
 		} else {
 			myViewControl.get(i).setAdapter(myAppList);
 			myViewControl.get(i).compeletRefresh();
@@ -286,11 +286,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public void setTitle() {
 		main2TitleBackground.setBackgroundResource(SkinCustomMains
 				.titleBackground());
-		// if (bitmap != null) {
-		// bitmap = BitmapFactory.decodeResource(getResources(),
-		// SkinCustomMains.flowIndicatorBackground(sharedpref
-		// .getFireWallType()));
-		// }
 		switch (sharedpref.getFireWallType()) {
 		case 0:
 			title_normal.setVisibility(View.VISIBLE);
@@ -346,13 +341,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public class MyOnPageChangeListener implements OnPageChangeListener {
 		@Override
 		public void onPageSelected(int arg0) {
-			sharedpref.setFireWallType(arg0);
-			if (arg0 == 5) {
-				notif.setLoading();
-				new AsyncTaskGetAdbArrayListonResume().execute();
-			} else {
-				initList();
-			}
 			Logs.i("test", "onPageSelected:" + arg0);
 		}
 
@@ -366,7 +354,19 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		@Override
 		public void onPageScrollStateChanged(int arg0) {
 			if (arg0 == ViewPager.SCROLL_STATE_IDLE) {
-				setTitle();
+				int currentItem =  vPager.getCurrentItem();
+				int fireType  = sharedpref.getFireWallType();
+				if(currentItem != fireType){
+					sharedpref.setFireWallType(currentItem);
+					setTitle();
+					if (currentItem == 5) {
+						notif.setLoading();
+						new AsyncTaskGetAdbArrayListonResume().execute();
+					}else{
+						if(!myViewControl.get(currentItem).isLoadinged)
+						initList();
+					}
+				}
 			}
 			Logs.i("test", "onPageScrollStateChanged:" + arg0);
 		}
@@ -791,11 +791,12 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			while (NotificationInfo.notificationRes.length() == 0) {
 				timetap++;
 				try {
-					Thread.sleep(500);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 				if (timetap > 10) {
+					timetap = 0;
 					return false;
 				}
 			}

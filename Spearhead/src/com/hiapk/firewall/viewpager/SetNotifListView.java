@@ -63,6 +63,7 @@ public class SetNotifListView {
 	}
 
 	public void setAdapter() {
+		Logs.i("test", "setNotifAdapter");
 		setLoading();
 		notificationInfos = NotificationInfo
 				.getNotificationApp(NotificationInfo.notificationRes);
@@ -79,7 +80,6 @@ public class SetNotifListView {
 					protected Void doInBackground(Void... params) {
 						return null;
 					}
-
 					@Override
 					protected void onPostExecute(Void result) {
 						if (NotificationInfo.notificationRes.length() == 0) {
@@ -94,8 +94,10 @@ public class SetNotifListView {
 			}
 		});
 		loading.setVisibility(View.INVISIBLE);
-		Logs.i("test", "loading.setVisibility(View.INVISIBLE)");
-		NotificationInfo.notificationRes = new StringBuilder();
+		if(sharedpref.getFireWallType() ==5){
+			Logs.i("test", "notificationRes be clear");
+			NotificationInfo.notificationRes = new StringBuilder();
+		}
 	}
 
 	public void menuDismiss() {
