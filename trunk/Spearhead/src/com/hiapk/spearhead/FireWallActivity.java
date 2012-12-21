@@ -198,14 +198,8 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		wifi.setOnDragRefreshListener(onDragRefreshListener);
 		notif.setOnDragNotifRefreshListener(onDragNotifRefreshListener);
 		FlowIndicator cursor = (FlowIndicator) findViewById(R.id.cursor);
-		// cursor.setOnIndicatorScrollListener(new OnIndicatorScrollListener() {
-		// @Override
-		// public void onPageChanged(Bitmap bitmap) {
-		// // TODO Auto-generated method stub
-		// setTitle(bitmap);
-		// }
-		// });
 		cursor.setSize(pageList.size());
+		vPager.setChildrenDrawingCacheEnabled(false);
 		vPager.setAdapter(new MyPagerAdapter(pageList));
 		vPager.setFlowIndicator(cursor);
 		vPager.setOnPageChangeListener(new MyOnPageChangeListener());
@@ -499,6 +493,14 @@ public class FireWallActivity extends Activity implements OnClickListener {
 								+ "---" + SQLStatic.uiddata.size());
 					}
 				}
+				for (Iterator it = key.iterator(); it.hasNext();) {
+					int x = (Integer) it.next();
+					if (SQLStatic.uiddata.get(x).getTotalTraffToday() != 0) {
+						Logs.i("test", "---getToday:"
+								+ SQLStatic.uiddata.get(x).getTotalTraffToday()
+								+ "---" + SQLStatic.uiddata.size());
+					}
+				}
 				uidList = ComparatorUtil.compUidList(mContext, Block.appList);
 				Message msg = new Message();
 				msg.what = DATA_READY;
@@ -572,6 +574,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			}
 		}
 		if (isRefreshList) {
+			myViewControl.get(sharedpref.getFireWallType()).resetAdaper();
 			initList();
 		}
 		// MobclickAgent.onResume(this);

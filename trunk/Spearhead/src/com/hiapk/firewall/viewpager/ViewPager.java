@@ -240,6 +240,13 @@ public class ViewPager extends ViewGroup {
 	 */
 	interface Decor {
 	}
+	
+
+	@Override
+	public void setChildrenDrawingCacheEnabled(boolean enabled) {
+		// TODO Auto-generated method stub
+		super.setChildrenDrawingCacheEnabled(enabled);
+	}
 
 	public ViewPager(Context context) {
 		super(context);
