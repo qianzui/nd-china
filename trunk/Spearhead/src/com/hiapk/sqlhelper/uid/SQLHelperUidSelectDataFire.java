@@ -1,11 +1,9 @@
 package com.hiapk.sqlhelper.uid;
 
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import com.hiapk.bean.DatauidHash;
@@ -143,6 +141,8 @@ public class SQLHelperUidSelectDataFire {
 				if (temp == null) {
 					temp = new DatauidHash();
 				}
+				// Logs.d(TAG, "Partuidnumber=" + uidnumber + "Partpac=" +
+				// pacname);
 				temp = setUidData(temp, tpmobile, tpwifi, flagFire);
 				mp.put(uidnumber, temp);
 				// showLog(uidnumber[i]+"traff"+get[1]+"");
@@ -253,7 +253,7 @@ public class SQLHelperUidSelectDataFire {
 					.append(date).append("'").toString();
 		case 2:
 			return strDate.append(Between).append(year).append("-")
-					.append(month2).append("-").append(00).append(AND_B)
+					.append(month2).append("-").append("00").append(AND_B)
 					.append(date).append("'").toString();
 		default:
 			return strDate.append("='").append(date).append("'").toString();
@@ -272,7 +272,6 @@ public class SQLHelperUidSelectDataFire {
 		month = t.month + 1;
 		monthDay = t.monthDay;
 		weekDay = t.weekDay;
-		Logs.d(TAG, "weekDay=" + weekDay);
 		// SQLname = year + SQLname;
 		String month2 = month + "";
 		String monthDay2 = monthDay + "";
@@ -321,11 +320,17 @@ public class SQLHelperUidSelectDataFire {
 		currentDate.add(GregorianCalendar.DATE, mondayPlus);
 		Date monday = currentDate.getTime();
 		c.setTime(monday);
+		month = Calendar.MONTH;
+		String month2;
+		if (month < 10)
+			month2 = "0" + month;
+		else {
+			month2 = month + "";
+		}
 		String weekStart = null;
 		StringBuilder stringB = new StringBuilder();
-		stringB.append(c.get(Calendar.YEAR)).append("-")
-				.append(c.get(Calendar.MONTH) + 1).append("-")
-				.append(c.get(Calendar.DAY_OF_MONTH));
+		stringB.append(c.get(Calendar.YEAR)).append("-").append(month2)
+				.append("-").append(c.get(Calendar.DAY_OF_MONTH));
 		weekStart = stringB.toString();
 		return weekStart;
 	}
