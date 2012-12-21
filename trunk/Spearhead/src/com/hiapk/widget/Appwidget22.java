@@ -124,9 +124,9 @@ public class Appwidget22 extends AppWidgetProvider {
 					SetText.initText(context);
 				}
 				// 设置文本状态
-				if (SetText.text1 != "今日已用: ...") {
+				if (SetText.textTodayShort != "今日: ...") {
 					views.setCharSequence(R.id.widgetTextview1, "setText",
-							SetText.text1);
+							SetText.textTodayShort);
 				}
 				if (SetText.text2 != "距结算日: ...") {
 					views.setCharSequence(R.id.widgetTextview2, "setText",
@@ -317,9 +317,9 @@ public class Appwidget22 extends AppWidgetProvider {
 			if (SetText.text1 == "今日已用: ...") {
 				SetText.initText(context);
 			}
-			if (SetText.text1 != "今日已用: ...") {
+			if (SetText.textTodayShort != "今日: ...") {
 				views.setCharSequence(R.id.widgetTextview1, "setText",
-						SetText.text1);
+						SetText.textTodayShort);
 			}
 			if (SetText.text2 != "距结算日: ...") {
 				views.setCharSequence(R.id.widgetTextview2, "setText",
