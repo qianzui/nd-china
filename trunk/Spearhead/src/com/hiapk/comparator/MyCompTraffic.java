@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.hiapk.bean.DatauidHash;
 import com.hiapk.control.traff.TrafficManager;
+import com.hiapk.logs.Logs;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceData;
 import com.hiapk.util.UnitHandler;
@@ -36,7 +37,6 @@ public class MyCompTraffic implements  Comparator {
 			if(uiddata.containsKey(uid2)){
 				traffic2 = getTraffic(uid2);
 			}
-			
 		}
 		if (traffic1 > traffic2) {
 			return -1;
@@ -51,10 +51,10 @@ public class MyCompTraffic implements  Comparator {
 		DatauidHash data = uiddata.get(uid);
 		switch (sharedpref.getFireWallType()) {
 		case 0:
-			traffic = data.getTotalTraff();
+			traffic = data.getTotalTraffToday();
 			break;
 		case 1:
-			traffic = data.getTotalTraff();
+			traffic = data.getTotalTraffWeek();
 			break;
 		case 2:
 			traffic = data.getTotalTraff();

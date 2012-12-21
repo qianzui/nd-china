@@ -2,7 +2,10 @@ package com.hiapk.spearhead;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.broadcreceiver.AppUninstalledReceiver;
 import com.hiapk.comparator.ComparatorUtil;
@@ -232,9 +235,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		if (mPop.isShowing()) {
-			mPop.dismiss();
-		}
 		switch (v.getId()) {
 		case R.id.bt_today:
 			vPager.setCurrentItem(0);
@@ -268,6 +268,8 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 	public void setDataForList() {
 		isloading = false;
+		firewall_details.setText(" " + Extra.getAppNum(sharedpref, uidList)
+				+ " ");
 		if (Block.isShowHelp(mContext)) {
 			showHelp(mContext);
 			SpearheadActivity.isHide = true;
@@ -295,8 +297,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		// SkinCustomMains.flowIndicatorBackground(sharedpref
 		// .getFireWallType()));
 		// }
-		firewall_details.setText(" " + Extra.getAppNum(sharedpref, uidList)
-				+ " ");
 		switch (sharedpref.getFireWallType()) {
 		case 0:
 			title_normal.setVisibility(View.VISIBLE);
@@ -338,6 +338,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 				AlarmSet alset = new AlarmSet();
 				alset.StartAlarmUid(mContext);
 			}
+			myViewControl.get(sharedpref.getFireWallType()).resetAdaper();
 			initList();
 		}
 	};
@@ -453,6 +454,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		Logs.i("test", " data init");
 		isRefreshList = false;
 		isloading = true;
+		initUidData();
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -486,6 +488,15 @@ public class FireWallActivity extends Activity implements OnClickListener {
 					if (j >= 10) {
 						initUidData();
 						j = 0;
+					}
+				}
+				Set<Integer> key = SQLStatic.uiddata.keySet();
+				for (Iterator it = key.iterator(); it.hasNext();) {
+					int x = (Integer) it.next();
+					if (SQLStatic.uiddata.get(x).getTotalTraffWeek() != 0) {
+						Logs.i("test", "---getWeek:"
+								+ SQLStatic.uiddata.get(x).getTotalTraffWeek()
+								+ "---" + SQLStatic.uiddata.size());
 					}
 				}
 				uidList = ComparatorUtil.compUidList(mContext, Block.appList);
