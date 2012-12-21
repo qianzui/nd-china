@@ -1,7 +1,9 @@
 package com.hiapk.firewall.viewpager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import com.hiapk.bean.DatauidHash;
 import com.hiapk.firewall.AppListAdapter;
 import com.hiapk.firewall.Block;
 import com.hiapk.firewall.FireWallItemMenu;
@@ -72,6 +74,12 @@ public class SetListView {
 			}
 		});
 		loading.setVisibility(View.INVISIBLE);
+	}
+	HashMap<Integer, DatauidHash> uiddata = new HashMap<Integer, DatauidHash>();
+	public HashMap<Integer, DatauidHash> getDataForList(){
+		
+		
+		return uiddata;
 	}
 
 	public void menuDismiss() {
