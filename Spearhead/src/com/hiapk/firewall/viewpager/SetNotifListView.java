@@ -31,7 +31,7 @@ public class SetNotifListView {
 	public FireWallItemMenu menu = null;
 	private OnDragNotifRefreshListener onDragNotifRefreshListener;
 	public LinearLayout loading;
-
+	
 	protected ArrayList<String[]> notificationInfos;
 
 	public SetNotifListView(View view, Context mContext) {
@@ -49,6 +49,9 @@ public class SetNotifListView {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
+				if(FireWallActivity.mPop.isShowing()){
+					FireWallActivity.mPop.dismiss();
+				}
 				int type = 1;
 				if (sharedpref.getFireWallType() == 5) {
 					type = 2;

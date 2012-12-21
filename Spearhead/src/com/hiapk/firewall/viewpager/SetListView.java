@@ -7,6 +7,7 @@ import com.hiapk.firewall.Block;
 import com.hiapk.firewall.FireWallItemMenu;
 import com.hiapk.firewall.MyListView;
 import com.hiapk.firewall.MyListView.OnRefreshListener;
+import com.hiapk.logs.Logs;
 import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.R;
 import com.hiapk.util.SQLStatic;
@@ -27,7 +28,7 @@ public class SetListView {
 	public FireWallItemMenu menu = null;
 	private OnDragRefreshListener onDragRefreshListener;
 	public LinearLayout loading;
-
+    public boolean isLoadinged;
 	public SetListView(View view, Context mContext) {
 		this.view = view;
 		this.mContext = mContext;
@@ -42,6 +43,9 @@ public class SetListView {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
+				if(FireWallActivity.mPop.isShowing()){
+					FireWallActivity.mPop.dismiss();
+				}
 				int type = 1;
 				if (sharedpref.getFireWallType() == 5) {
 					type = 2;
@@ -53,10 +57,11 @@ public class SetListView {
 	}
 
 	public void setAdapter(ArrayList<PackageInfo> myAppList) {
-		loading.setVisibility(View.VISIBLE);
-		if (myAppList == null) {
+		if(isLoadinged)
 			return;
-		}
+		isLoadinged = true;
+		loading.setVisibility(View.VISIBLE);
+		Logs.i("test", "set Adapter");
 		AppListAdapter appListAdapter = new AppListAdapter(mContext, myAppList,
 				Block.appnamemap, SQLStatic.uiddata, Block.appList,
 				FireWallActivity.uidList, appListView);
@@ -78,6 +83,9 @@ public class SetListView {
 		loading.setVisibility(View.VISIBLE);
 	}
 
+	public void resetAdaper(){
+		isLoadinged = false;
+	}
 	public void compeletRefresh() {
 		appListView.onRefreshComplete();
 		AppListAdapter.syncImageLoader.setLoadLimit(0, 10);

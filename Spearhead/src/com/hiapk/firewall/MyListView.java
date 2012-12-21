@@ -138,7 +138,6 @@ public class MyListView extends ListView implements OnScrollListener {
 		if (end >= this.getCount()) {
 			end = this.getCount() - 1;
 		}
-		Logs.i("test", "load image:" + start + "*" + end + "*count:" + this.getCount());
 		AppListAdapter.syncImageLoader.setLoadLimit(start, end);
 		AppListAdapter.syncImageLoader.unlock();
 	}

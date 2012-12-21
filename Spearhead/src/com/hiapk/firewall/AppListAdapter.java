@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.hiapk.bean.DatauidHash;
+import com.hiapk.logs.Logs;
 import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.R;
 import com.hiapk.ui.custom.CustomDialog;
@@ -124,7 +125,7 @@ public class AppListAdapter extends BaseAdapter {
 			holder.traffic_title.setText("今日流量：");
 			if (uiddata.containsKey(uid)) {
 				holder.trafficup.setText(UnitHandler
-						.unitHandlerAccurate(uiddata.get(uid).getTotalTraff()));
+						.unitHandlerAccurate(uiddata.get(uid).getTotalTraffToday()));
 			} else {
 				holder.trafficup.setText("0 KB");
 			}
@@ -133,7 +134,7 @@ public class AppListAdapter extends BaseAdapter {
 			holder.traffic_title.setText("本周流量：");
 			if (uiddata.containsKey(uid)) {
 				holder.trafficup.setText(UnitHandler
-						.unitHandlerAccurate(uiddata.get(uid).getTotalTraff()));
+						.unitHandlerAccurate(uiddata.get(uid).getTotalTraffWeek()));
 			} else {
 				holder.trafficup.setText("0 KB");
 			}
