@@ -791,7 +791,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			while (NotificationInfo.notificationRes.length() == 0) {
 				timetap++;
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(500);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
