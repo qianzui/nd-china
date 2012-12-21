@@ -227,8 +227,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:baselineAligned="false"
-                            android:gravity="bottom|right"
-                            android:paddingBottom="2dp" >
+                            android:gravity="bottom|right" >
 
                             <TextView
                                 android:id="@+id/monthRate"
@@ -252,8 +251,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:baselineAligned="false"
-                            android:gravity="top|right"
-                            android:paddingTop="2dp" >
+                            android:gravity="top|right" >
 
                             <TextView
                                 android:id="@+id/main_seperate"
