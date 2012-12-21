@@ -308,9 +308,9 @@ public class CircleProgress extends View {
 					new int[] { Color.rgb(63, 172, 211),
 							Color.rgb(249, 238, 68), Color.rgb(249, 66, 50) },
 					null);
-//			Matrix aa=new Matrix();
-//			aa.setRotate(270);
-//			mShaderMain.setLocalMatrix(aa);
+			// Matrix aa=new Matrix();
+			// aa.setRotate(270);
+			// mShaderMain.setLocalMatrix(aa);
 			mMainPaints.setShader(mShaderMain);
 			// }else
 			// mMainPaints.setColor(color);
@@ -389,35 +389,35 @@ public class CircleProgress extends View {
 		public int mTimerInterval; // 定时器触发间隔时闄1�7(ms)
 		public float mCurFloatProcess; // 作动画时当前进度倄1�7
 
-		private long timeMil;
+		// private long timeMil;
 
 		public CartoomEngine() {
-			mHandler = new Handler() {
-
-				@Override
-				public void handleMessage(Message msg) {
-					switch (msg.what) {
-					case TIMER_ID: {
-						if (mBCartoom == false) {
-							return;
-						}
-
-						mCurFloatProcess += 1;
-						setMainProgress((int) mCurFloatProcess);
-
-						long curtimeMil = System.currentTimeMillis();
-
-						timeMil = curtimeMil;
-
-						if (mCurFloatProcess >= mMaxProgress) {
-							stopCartoom();
-						}
-					}
-						break;
-					}
-				}
-
-			};
+			// mHandler = new Handler() {
+			//
+			// @Override
+			// public void handleMessage(Message msg) {
+			// switch (msg.what) {
+			// case TIMER_ID: {
+			// if (mBCartoom == false) {
+			// return;
+			// }
+			//
+			// mCurFloatProcess += 1;
+			// setMainProgress((int) mCurFloatProcess);
+			//
+			// // long curtimeMil = System.currentTimeMillis();
+			//
+			// // timeMil = curtimeMil;
+			//
+			// if (mCurFloatProcess >= mMaxProgress) {
+			// stopCartoom();
+			// }
+			// }
+			// break;
+			// }
+			// }
+			//
+			// };
 
 			mBCartoom = false;
 			mTimer = new Timer();
@@ -432,7 +432,7 @@ public class CircleProgress extends View {
 				return;
 			}
 
-			timeMil = 0;
+			// timeMil = 0;
 
 			mBCartoom = true;
 
