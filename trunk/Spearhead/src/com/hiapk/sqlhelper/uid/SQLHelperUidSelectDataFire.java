@@ -1,6 +1,11 @@
 package com.hiapk.sqlhelper.uid;
 
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import com.hiapk.bean.DatauidHash;
@@ -79,35 +84,37 @@ public class SQLHelperUidSelectDataFire {
 	 *            防火墙的值类型，0-2，0为每日，1为每周，2为每月--取消flag作用
 	 */
 	protected HashMap<Integer, DatauidHash> getSQLUidtraffMonth(
-			SQLiteDatabase sqlDataBase, int[] uidnumbers, int flagFire) {
-		HashMap<Integer, DatauidHash> mp = new HashMap<Integer, DatauidHash>();
-		mp = SelectUiddownloadAndupload(sqlDataBase, uidnumbers, flagFire);
+			SQLiteDatabase sqlDataBase, HashMap<Integer, DatauidHash> mp,
+			int[] uidnumbers, int flagFire) {
+		if (mp == null) {
+			mp = new HashMap<Integer, DatauidHash>();
+		}
+		mp = SelectUiddownloadAndupload(sqlDataBase, mp, uidnumbers, flagFire);
 		return mp;
 	}
 
 	private HashMap<Integer, DatauidHash> SelectUiddownloadAndupload(
-			SQLiteDatabase sqlDataBase, int[] uidnumbers, int flagFire) {
-		HashMap<Integer, DatauidHash> mp = new HashMap<Integer, DatauidHash>();
+			SQLiteDatabase sqlDataBase, HashMap<Integer, DatauidHash> mp,
+			int[] uidnumbers, int flagFire) {
 		initTime();
 		weekStart = selectWeekStart(sqlDataBase, year, month, monthDay, weekDay);
-		Logs.d(TAG, weekStart);
 		if (SQLStatic.uiddataCache == null) {
-			mp = SelectUiddownloadAnduploadAll(sqlDataBase, uidnumbers);
+			mp = SelectUiddownloadAnduploadAll(sqlDataBase, mp, uidnumbers);
 		} else {
 
 			switch (flagFire) {
 			case 1:
 				Logs.d(TAG, weekStart);
-				mp = SelectUiddownloadAnduploadPart(sqlDataBase, uidnumbers,
-						flagFire, SQLStatic.uiddataCache);
+				mp = SelectUiddownloadAnduploadPart(sqlDataBase, mp,
+						uidnumbers, flagFire);
 				break;
 			case 2:
-				mp = SelectUiddownloadAnduploadPart(sqlDataBase, uidnumbers,
-						flagFire, SQLStatic.uiddataCache);
+				mp = SelectUiddownloadAnduploadPart(sqlDataBase, mp,
+						uidnumbers, flagFire);
 				break;
 			default:
-				mp = SelectUiddownloadAnduploadPart(sqlDataBase, uidnumbers,
-						flagFire, SQLStatic.uiddataCache);
+				mp = SelectUiddownloadAnduploadPart(sqlDataBase, mp,
+						uidnumbers, flagFire);
 				break;
 			}
 		}
@@ -115,8 +122,8 @@ public class SQLHelperUidSelectDataFire {
 	}
 
 	private HashMap<Integer, DatauidHash> SelectUiddownloadAnduploadPart(
-			SQLiteDatabase sqlDataBase, int[] uidnumbers, int flagFire,
-			HashMap<Integer, DatauidHash> mp) {
+			SQLiteDatabase sqlDataBase, HashMap<Integer, DatauidHash> mp,
+			int[] uidnumbers, int flagFire) {
 		List<ActivityManager.RunningAppProcessInfo> appProcessList = mActivityManager
 				.getRunningAppProcesses();
 		long[] tpmobile = new long[3];
@@ -132,7 +139,7 @@ public class SQLHelperUidSelectDataFire {
 						NETWORK_FLAG, flagFire);
 				tpwifi = getSQLuidtotalData(sqlDataBase, uidnumber, "wifi",
 						flagFire);
-				DatauidHash temp = mp.get(uidnumbers);
+				DatauidHash temp = mp.get(uidnumber);
 				if (temp == null) {
 					temp = new DatauidHash();
 				}
@@ -145,8 +152,8 @@ public class SQLHelperUidSelectDataFire {
 	}
 
 	private HashMap<Integer, DatauidHash> SelectUiddownloadAnduploadAll(
-			SQLiteDatabase sqlDataBase, int[] uidnumbers) {
-		HashMap<Integer, DatauidHash> mp = new HashMap<Integer, DatauidHash>();
+			SQLiteDatabase sqlDataBase, HashMap<Integer, DatauidHash> mp,
+			int[] uidnumbers) {
 		long[] tpmobile = new long[3];
 		long[] tpwifi = new long[3];
 		for (int i = 0; i < uidnumbers.length; i++) {
@@ -265,6 +272,7 @@ public class SQLHelperUidSelectDataFire {
 		month = t.month + 1;
 		monthDay = t.monthDay;
 		weekDay = t.weekDay;
+		Logs.d(TAG, "weekDay=" + weekDay);
 		// SQLname = year + SQLname;
 		String month2 = month + "";
 		String monthDay2 = monthDay + "";
@@ -294,38 +302,42 @@ public class SQLHelperUidSelectDataFire {
 	 */
 	private String selectWeekStart(SQLiteDatabase sqlDataBase, int year,
 			int month, int monthDay, int weekDay) {
-		if (weekDay == 0) {
-			weekDay = 6;
-		} else {
-			weekDay = weekDay - 1;
-		}
-		// showLog(weekDay + "");
+		// if (weekDay == 0) {
+		// weekDay = 6;
+		// } else {
+		// weekDay = weekDay - 1;
+		// }
+		// Calendar calendar = Calendar.getInstance();
+		// // calendar.getFirstDayOfWeek();
+		// Logs.d(TAG, calendar.get(Calendar.DAY_OF_WEEK) + "DAY_OF_WEEK");
+		// calendar.setTimeInMillis(calendar.getTimeInMillis() - 1000 * 60 * 60
+		// * 24);
+		// Logs.d(TAG, calendar.get(Calendar.DAY_OF_WEEK) + "DAY_OF_WEEK");
+		// Logs.d(TAG, Calendar.SUNDAY + "sunday");
+
+		Calendar c = Calendar.getInstance();
+		int mondayPlus = getMondayPlus(c);
+		GregorianCalendar currentDate = new GregorianCalendar();
+		currentDate.add(GregorianCalendar.DATE, mondayPlus);
+		Date monday = currentDate.getTime();
+		c.setTime(monday);
 		String weekStart = null;
 		StringBuilder stringB = new StringBuilder();
-		stringB.append("select date('now'").append(",'-").append(weekDay)
-				.append(" day'" + ")");
-		// Logs.d(TAG, stringB.toString());
-		try {
-			cur = sqlDataBase.rawQuery(stringB.toString(), null);
-		} catch (Exception e) {
-			Logs.d(TAG, stringB.toString() + "fail" + e);
-		}
-		if (cur != null) {
-			try {
-				int dateIndex = cur.getColumnIndex("date('now'" + ",'-"
-						+ weekDay + " day'" + ")");
-				if (cur.moveToFirst()) {
-					weekStart = cur.getString(dateIndex);
-				}
-			} catch (Exception e) {
-				Logs.d(TAG, "cur-searchfail" + e);
-			}
-		}
-		if (cur != null) {
-			cur.close();
-		}
-		// Logs.d(TAG, weekStart);
+		stringB.append(c.get(Calendar.YEAR)).append("-")
+				.append(c.get(Calendar.MONTH) + 1).append("-")
+				.append(c.get(Calendar.DAY_OF_MONTH));
+		weekStart = stringB.toString();
 		return weekStart;
+	}
+
+	private int getMondayPlus(Calendar cd) {
+		// 获得今天是一周的第几天，星期日是第一天，星期二是第二天......
+		int dayOfWeek = cd.get(Calendar.DAY_OF_WEEK);
+		if (dayOfWeek == 1) {
+			return -6;
+		} else {
+			return 2 - dayOfWeek;
+		}
 	}
 
 	/**

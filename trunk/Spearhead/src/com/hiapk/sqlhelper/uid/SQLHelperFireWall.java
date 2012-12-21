@@ -69,7 +69,7 @@ public class SQLHelperFireWall {
 
 				// 获取uid的总流量数据
 				mp = sqlhelperUidRecordall.getSQLUidtraffMonth(sqlDataBase,
-						numbers, fireWallType);
+						SQLStatic.uiddataCache, numbers, fireWallType);
 
 				sqlDataBase.setTransactionSuccessful();
 			} catch (Exception e) {
@@ -94,7 +94,9 @@ public class SQLHelperFireWall {
 			// Integer dh = (Integer)it.next();
 			// Log.i("test","traffic:" + result.get(dh).getTotalTraff());
 			// }
-			SQLStatic.uiddataCache = result;
+			if (result != null) {
+				SQLStatic.uiddataCache = result;
+			}
 			SQLStatic.uiddata = result;
 			isReseting = false;
 		}
