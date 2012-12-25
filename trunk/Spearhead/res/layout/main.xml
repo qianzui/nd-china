@@ -70,18 +70,18 @@
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingTop="8dp" >
+                    android:gravity="center"
+                    android:orientation="vertical" >
 
                     <TextView
                         android:id="@+id/todayRate"
                         android:layout_width="fill_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="1"
+                        android:layout_weight="1.2"
                         android:gravity="center"
                         android:text="@string/rate"
                         android:textColor="@color/darkgray2"
-                        android:textSize="30sp" />
+                        android:textSize="25sp" />
 
                     <LinearLayout
                         android:layout_width="fill_parent"
@@ -129,14 +129,14 @@
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:baselineAligned="false"
-                    android:orientation="vertical"
-                    android:paddingTop="8dp" >
+                    android:gravity="center"
+                    android:orientation="vertical" >
 
                     <TextView
                         android:id="@+id/monthRemain"
                         android:layout_width="fill_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="1"
+                        android:layout_weight="1.2"
                         android:gravity="center"
                         android:text="0"
                         android:textColor="@color/blueflock"
@@ -185,6 +185,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:background="@drawable/main_click_circle"
                 android:baselineAligned="false" >
 
                 <LinearLayout
@@ -207,78 +208,90 @@
                         roundProgress:max="100" />
                 </LinearLayout>
 
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
-                    android:baselineAligned="false"
-                    android:gravity="center"
-                    android:orientation="vertical" >
+                    android:baselineAligned="false" >
 
-                    <LinearLayout
+                    <ImageView
+                        android:id="@+id/iv_triangle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="right|bottom" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
                         android:baselineAligned="false"
-                        android:gravity="right"
+                        android:gravity="center"
                         android:orientation="vertical" >
 
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
                             android:baselineAligned="false"
-                            android:gravity="bottom|right" >
+                            android:gravity="right"
+                            android:orientation="vertical" >
 
-                            <TextView
-                                android:id="@+id/monthRate"
+                            <LinearLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textColor="@color/blueflock"
-                                android:textSize="25sp" />
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:baselineAligned="false"
+                                android:gravity="bottom|right" >
 
-                            <TextView
-                                android:id="@+id/unit3"
+                                <TextView
+                                    android:id="@+id/monthRate"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textColor="@color/blueflock"
+                                    android:textSize="25sp" />
+
+                                <TextView
+                                    android:id="@+id/unit3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="MB"
+                                    android:textColor="@color/darkgray2"
+                                    android:textSize="20sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="MB"
-                                android:textColor="@color/darkgray2"
-                                android:textSize="25sp" />
-                        </LinearLayout>
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:baselineAligned="false"
+                                android:gravity="top|right" >
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:baselineAligned="false"
-                            android:gravity="top|right" >
+                                <TextView
+                                    android:id="@+id/main_seperate"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="/"
+                                    android:textColor="@color/darkgray3"
+                                    android:textSize="20sp" />
 
-                            <TextView
-                                android:id="@+id/main_seperate"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="/"
-                                android:textColor="@color/darkgray3"
-                                android:textSize="20sp" />
+                                <TextView
+                                    android:id="@+id/monthSet"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textColor="@color/darkgray3"
+                                    android:textSize="20sp" />
 
-                            <TextView
-                                android:id="@+id/monthSet"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textColor="@color/darkgray3"
-                                android:textSize="20sp" />
-
-                            <TextView
-                                android:id="@+id/unit5"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="MB"
-                                android:textColor="@color/darkgray3"
-                                android:textSize="20sp" />
+                                <TextView
+                                    android:id="@+id/unit5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="MB"
+                                    android:textColor="@color/darkgray3"
+                                    android:textSize="20sp" />
+                            </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
-                </LinearLayout>
+                </FrameLayout>
             </LinearLayout>
             <!-- 第一行结束 -->
         </LinearLayout>

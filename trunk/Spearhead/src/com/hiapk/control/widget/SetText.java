@@ -20,6 +20,7 @@ public class SetText {
 	public static String text1 = "今日已用: ...";
 	public static String text2 = "距结算日: ...";
 	public static String textToday = "0";
+	public static String textTodayShort = "今日: ...";
 	public static String textTodayUnit = "KB";
 	public static SpannableStringBuilder text3 = null;
 	public static int FloatIntX = 50;
@@ -35,7 +36,7 @@ public class SetText {
 	 *            i=0返回通知栏上，1返回通知栏下，2-4返回小部件上中下。
 	 * @return
 	 */
-	private static void setText(Context context) {
+	private synchronized static void setText(Context context) {
 		// 记录数据命令
 		Time t = new Time();
 		t.setToNow();
@@ -87,7 +88,7 @@ public class SetText {
 		}
 
 		text3 = style;
-
+		textTodayShort = "今日: " + todayUsedStr;
 		textToday = widget11[0];
 		textTodayUnit = widget11[1];
 		// showLog(textUp);
