@@ -128,10 +128,6 @@ public class Appwidget22 extends AppWidgetProvider {
 					views.setCharSequence(R.id.widgetTextview1, "setText",
 							SetText.textTodayShort);
 				}
-				if (SetText.text2 != "距结算日: ...") {
-					views.setCharSequence(R.id.widgetTextview2, "setText",
-							SetText.text2);
-				}
 				if (SetText.text3 != null) {
 					views.setCharSequence(R.id.widgetTextview3, "setText",
 							SetText.text3);
@@ -206,69 +202,69 @@ public class Appwidget22 extends AppWidgetProvider {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		super.onReceive(context, intent);
-		showLog("onReceive=" + intent.getAction());
-		// Intent intentAppUpdate = new Intent();
-		// intentAppUpdate.setAction(APPWIDGET_UPDATE);
-		RemoteViews views = new RemoteViews(context.getPackageName(),
-				R.layout.appwidget_layout22);
-		long monthSet = 0;
-		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
-		monthSet = sharedData.getMonthMobileSetOfLong();
-		if (monthSet == 0) {
-			views = new RemoteViews(context.getPackageName(),
-					R.layout.appwidget_layout_not_set22);
-			if (intent.getAction().equals(BROADCAST_WIFI)) {
-				wifiswitch(context, views);
-				// 更新小部件
-				AppWidgetManager appWidgetManager = AppWidgetManager
-						.getInstance(context);
-				appWidgetManager.updateAppWidget(new ComponentName(context,
-						Appwidget22.class), views);
-				// context.sendBroadcast(intentAppUpdate);
-			} else if (intent.getAction().equals(BROADCAST_GPRS)) {
-				mobileswitch(context, views);
-				// 更新小部件
-				AppWidgetManager appWidgetManager = AppWidgetManager
-						.getInstance(context);
-				appWidgetManager.updateAppWidget(new ComponentName(context,
-						Appwidget22.class), views);
-				// context.sendBroadcast(intentAppUpdate);
-			} else if (intent.getAction().equals(BROADCAST_TRAFF)) {
-				setwidgetListenerAndInit(context, monthSet);
-				// context.sendBroadcast(intentAppUpdate);
-			} else if (intent.getAction().equals(APPWIDGET_UPDATE)) {
-				initWidget(context, views);
-			} else {
-				setwidgetListenerAndInit(context, monthSet);
-			}
-		} else {
-			views = new RemoteViews(context.getPackageName(),
-					R.layout.appwidget_layout22);
-			if (intent.getAction().equals(BROADCAST_WIFI)) {
-				wifiswitch(context, views);
-				// 更新小部件
-				AppWidgetManager appWidgetManager = AppWidgetManager
-						.getInstance(context);
-				appWidgetManager.updateAppWidget(new ComponentName(context,
-						Appwidget22.class), views);
-				// context.sendBroadcast(intentAppUpdate);
-			} else if (intent.getAction().equals(BROADCAST_GPRS)) {
-				mobileswitch(context, views);
-				// 更新小部件
-				AppWidgetManager appWidgetManager = AppWidgetManager
-						.getInstance(context);
-				appWidgetManager.updateAppWidget(new ComponentName(context,
-						Appwidget22.class), views);
-				// context.sendBroadcast(intentAppUpdate);
-			} else if (intent.getAction().equals(BROADCAST_TRAFF)) {
-				setwidgetListenerAndInit(context, monthSet);
-				// context.sendBroadcast(intentAppUpdate);
-			} else if (intent.getAction().equals(APPWIDGET_UPDATE)) {
-				initWidget(context, views);
-			} else {
-				setwidgetListenerAndInit(context, monthSet);
-			}
-		}
+//		showLog("onReceive=" + intent.getAction());
+//		// Intent intentAppUpdate = new Intent();
+//		// intentAppUpdate.setAction(APPWIDGET_UPDATE);
+//		RemoteViews views = new RemoteViews(context.getPackageName(),
+//				R.layout.appwidget_layout22);
+//		long monthSet = 0;
+//		SharedPrefrenceData sharedData = new SharedPrefrenceData(context);
+//		monthSet = sharedData.getMonthMobileSetOfLong();
+//		if (monthSet == 0) {
+//			views = new RemoteViews(context.getPackageName(),
+//					R.layout.appwidget_layout_not_set22);
+//			if (intent.getAction().equals(BROADCAST_WIFI)) {
+//				wifiswitch(context, views);
+//				// 更新小部件
+//				AppWidgetManager appWidgetManager = AppWidgetManager
+//						.getInstance(context);
+//				appWidgetManager.updateAppWidget(new ComponentName(context,
+//						Appwidget22.class), views);
+//				// context.sendBroadcast(intentAppUpdate);
+//			} else if (intent.getAction().equals(BROADCAST_GPRS)) {
+//				mobileswitch(context, views);
+//				// 更新小部件
+//				AppWidgetManager appWidgetManager = AppWidgetManager
+//						.getInstance(context);
+//				appWidgetManager.updateAppWidget(new ComponentName(context,
+//						Appwidget22.class), views);
+//				// context.sendBroadcast(intentAppUpdate);
+//			} else if (intent.getAction().equals(BROADCAST_TRAFF)) {
+//				setwidgetListenerAndInit(context, monthSet);
+//				// context.sendBroadcast(intentAppUpdate);
+//			} else if (intent.getAction().equals(APPWIDGET_UPDATE)) {
+//				initWidget(context, views);
+//			} else {
+//				setwidgetListenerAndInit(context, monthSet);
+//			}
+//		} else {
+//			views = new RemoteViews(context.getPackageName(),
+//					R.layout.appwidget_layout22);
+//			if (intent.getAction().equals(BROADCAST_WIFI)) {
+//				wifiswitch(context, views);
+//				// 更新小部件
+//				AppWidgetManager appWidgetManager = AppWidgetManager
+//						.getInstance(context);
+//				appWidgetManager.updateAppWidget(new ComponentName(context,
+//						Appwidget22.class), views);
+//				// context.sendBroadcast(intentAppUpdate);
+//			} else if (intent.getAction().equals(BROADCAST_GPRS)) {
+//				mobileswitch(context, views);
+//				// 更新小部件
+//				AppWidgetManager appWidgetManager = AppWidgetManager
+//						.getInstance(context);
+//				appWidgetManager.updateAppWidget(new ComponentName(context,
+//						Appwidget22.class), views);
+//				// context.sendBroadcast(intentAppUpdate);
+//			} else if (intent.getAction().equals(BROADCAST_TRAFF)) {
+//				setwidgetListenerAndInit(context, monthSet);
+//				// context.sendBroadcast(intentAppUpdate);
+//			} else if (intent.getAction().equals(APPWIDGET_UPDATE)) {
+//				initWidget(context, views);
+//			} else {
+//				setwidgetListenerAndInit(context, monthSet);
+//			}
+//		}
 	}
 
 	private void setwidgetListenerAndInit(Context context, long monthSet) {
