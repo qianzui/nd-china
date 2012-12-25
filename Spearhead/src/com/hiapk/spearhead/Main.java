@@ -125,16 +125,16 @@ public class Main extends Activity {
 		// 取得窗口属性
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 		// 窗口的宽度
-		// windowswidesize = dm.widthPixels / 10;
 		windowswidesize = dm.densityDpi;
 		BMP_SIZE = windowswidesize / 10;
 		// Logs.d(TAG, "windowswidesize=" + windowswidesize);
 		ImageView image = (ImageView) findViewById(R.id.iv_triangle);
 		Bitmap bmpT = Bitmap.createBitmap(BMP_SIZE, BMP_SIZE,
 				Bitmap.Config.ARGB_8888);
+		int flag = sharedData.getFireWallType();
 		@SuppressWarnings("unused")
 		TriangleCanvas ac = new TriangleCanvas(this, bmpT,
-				TriangleCanvas.Triangle_UP);
+				TriangleCanvas.Triangle_UP, flag);
 		image.setImageBitmap(bmpT);
 	}
 
