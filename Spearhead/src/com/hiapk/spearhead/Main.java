@@ -6,6 +6,7 @@ import com.hiapk.control.widget.SetText;
 import com.hiapk.logs.Logs;
 import com.hiapk.ui.chart.CircleProgress;
 import com.hiapk.ui.chart.StackedBarChart;
+import com.hiapk.ui.chart.TriangleCanvas;
 import com.hiapk.ui.custom.CustomDialogFAQBeen;
 import com.hiapk.ui.custom.CustomDialogMainBeen;
 import com.hiapk.ui.skin.ColorChangeMainBeen;
@@ -18,6 +19,7 @@ import com.hiapk.util.UnitHandler;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.Time;
@@ -32,6 +34,7 @@ import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -64,6 +67,8 @@ public class Main extends Activity {
 	 */
 	private int chartType = 0;
 	private String TAG = "Main";
+	// 三角形
+	int BMP_SIZE = 30;
 
 	// fortest
 
@@ -116,7 +121,21 @@ public class Main extends Activity {
 		RelativeLayout title = (RelativeLayout) findViewById(R.id.mainTitleBackground);
 		// 设置皮肤
 		title.setBackgroundResource(SkinCustomMains.titleBackground());
-
+		DisplayMetrics dm = new DisplayMetrics();
+		// 取得窗口属性
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		// 窗口的宽度
+		// windowswidesize = dm.widthPixels / 10;
+		windowswidesize = dm.densityDpi;
+		BMP_SIZE = windowswidesize / 10;
+		// Logs.d(TAG, "windowswidesize=" + windowswidesize);
+		ImageView image = (ImageView) findViewById(R.id.iv_triangle);
+		Bitmap bmpT = Bitmap.createBitmap(BMP_SIZE, BMP_SIZE,
+				Bitmap.Config.ARGB_8888);
+		@SuppressWarnings("unused")
+		TriangleCanvas ac = new TriangleCanvas(this, bmpT,
+				TriangleCanvas.Triangle_UP);
+		image.setImageBitmap(bmpT);
 	}
 
 	/**
@@ -161,27 +180,27 @@ public class Main extends Activity {
 
 	}
 
-	private void initProgressbar() {
-		// -------------progressbar
-		long mobileSet = sharedData.getMonthMobileSetOfLong();
-		try {
-			progress = (int) (100 * mobile_month_use / mobileSet);
-		} catch (Exception e) {
-			Logs.d(TAG, "mobileSet=0");
-			progress = 0;
-		}
-		if (progress > 100) {
-			progress = 100;
-		}
-		// // 从右开始设置数值
-		// progress = 100 - progress;
-		progressBar.setMainProgress(progress);
-		// progress = 100 - progress;
-		if (progress_bar_width != 0) {
-			setProgressbarThumb();
-		}
-		Logs.d(TAG, "progress=" + progress);
-	}
+	// private void initProgressbar() {
+	// // -------------progressbar
+	// long mobileSet = sharedData.getMonthMobileSetOfLong();
+	// try {
+	// progress = (int) (100 * mobile_month_use / mobileSet);
+	// } catch (Exception e) {
+	// Logs.d(TAG, "mobileSet=0");
+	// progress = 0;
+	// }
+	// if (progress > 100) {
+	// progress = 100;
+	// }
+	// // // 从右开始设置数值
+	// // progress = 100 - progress;
+	// progressBar.setMainProgress(progress);
+	// // progress = 100 - progress;
+	// if (progress_bar_width != 0) {
+	// setProgressbarThumb();
+	// }
+	// Logs.d(TAG, "progress=" + progress);
+	// }
 
 	private void setProgressbarThumb() {
 		int padding = (progress_bar_width - 30) * progress / 100;
@@ -223,7 +242,7 @@ public class Main extends Activity {
 		monthDay = t.monthDay;
 		alset.StartAlarm(context);
 		initValues();
-		initProgressbar();
+		// initProgressbar();
 		// initChartBar();
 		new AsyncTaskoninitChartBar().execute(context);
 		SetText.resetWidgetAndNotify(context);
@@ -364,12 +383,6 @@ public class Main extends Activity {
 	 * @return 返回显示的柱状图
 	 */
 	private StackedBarChart initStackedBarMobileChart(Context context) {
-		DisplayMetrics dm = new DisplayMetrics();
-		// 取得窗口属性
-		getWindowManager().getDefaultDisplay().getMetrics(dm);
-		// 窗口的宽度
-		// windowswidesize = dm.widthPixels / 10;
-		windowswidesize = dm.densityDpi;
 		StackedBarChart chartbar = new StackedBarChart(context, windowswidesize);
 		// chartbar.setXaxisText(year + "年");
 		chartbar.setXaxisText("");
@@ -478,12 +491,6 @@ public class Main extends Activity {
 	 * @return 返回显示的柱状图
 	 */
 	private StackedBarChart initStackedBarWifiChart(Context context) {
-		DisplayMetrics dm = new DisplayMetrics();
-		// 取得窗口属性
-		getWindowManager().getDefaultDisplay().getMetrics(dm);
-		// 窗口的宽度
-		// windowswidesize = dm.widthPixels / 10;
-		windowswidesize = dm.densityDpi;
 		StackedBarChart chartbar = new StackedBarChart(context, windowswidesize);
 		// chartbar.setXaxisText(year + "年");
 		chartbar.setXaxisText("");
