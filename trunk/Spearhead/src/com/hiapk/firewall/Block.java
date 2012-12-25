@@ -63,6 +63,7 @@ public class Block {
 	public static final String PREF_S = "Cache";
 	public static final String PREF_SHOW = "IsShowTip";
 	public static final String PREF_HELP = "isShwoHelp";
+	public static final String PREF_HELP_NEW = "isShwoHelpNew";
 	public static final String PREF_TIP = "FireTip";
 	public static final String PREF_LOAD = "FirstStart";
 	public static final String PREF_3G_UIDS = "AllowedUids3G";
@@ -814,6 +815,20 @@ public class Block {
 				PREFS_NAME, 0);
 		final Editor edit = prefs.edit();
 		edit.putBoolean(PREF_HELP, isShow);
+		edit.commit();
+	}
+	public static boolean isShowNewHelp(Context context) {
+		final SharedPreferences prefs = context.getSharedPreferences(
+				PREFS_NAME, 0);
+		boolean isShow = prefs.getBoolean(PREF_HELP_NEW, true);
+		return isShow;
+	}
+
+	public static void isShowNewHelpSet(Context context, boolean isShow) {
+		final SharedPreferences prefs = context.getSharedPreferences(
+				PREFS_NAME, 0);
+		final Editor edit = prefs.edit();
+		edit.putBoolean(PREF_HELP_NEW, isShow);
 		edit.commit();
 	}
 

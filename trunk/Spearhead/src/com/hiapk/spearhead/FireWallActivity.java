@@ -263,9 +263,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 	public void setDataForList() {
 		isloading = false;
-		firewall_details.setText(" " + Extra.getAppNum(sharedpref, uidList)
-				+ " ");
-		if (Block.isShowHelp(mContext)) {
+		if (Block.isShowNewHelp(mContext)) {
 			showHelp(mContext);
 			SpearheadActivity.isHide = true;
 		}
@@ -286,6 +284,8 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public void setTitle() {
 		main2TitleBackground.setBackgroundResource(SkinCustomMains
 				.titleBackground());
+		firewall_details.setText(" " + Extra.getAppNum(sharedpref, uidList)
+				+ " ");
 		switch (sharedpref.getFireWallType()) {
 		case 0:
 			title_normal.setVisibility(View.VISIBLE);
@@ -508,18 +508,19 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			}
 		}).start();
 	}
-
+ 
 	public void showHelp(final Context mContext) {
+		SpearheadActivity.firehelp.setVisibility(View.VISIBLE);
 		Drawable d = mContext.getResources().getDrawable(R.drawable.fire_help);
 		SpearheadActivity.firehelp.setBackgroundDrawable(d);
 		SpearheadActivity.firehelp.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				SpearheadActivity.firehelp.setVisibility(View.INVISIBLE);
-				Block.isShowHelpSet(mContext, false);
+				Block.isShowNewHelpSet(mContext, false);
 			}
 		});
-	}
+	} 
 
 	public ArrayList<PackageInfo> getList(Context context) {
 		packageInfo = context.getPackageManager().getInstalledPackages(0);
