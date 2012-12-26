@@ -180,27 +180,27 @@ public class Main extends Activity {
 
 	}
 
-	// private void initProgressbar() {
-	// // -------------progressbar
-	// long mobileSet = sharedData.getMonthMobileSetOfLong();
-	// try {
-	// progress = (int) (100 * mobile_month_use / mobileSet);
-	// } catch (Exception e) {
-	// Logs.d(TAG, "mobileSet=0");
-	// progress = 0;
-	// }
-	// if (progress > 100) {
-	// progress = 100;
-	// }
-	// // // 从右开始设置数值
-	// // progress = 100 - progress;
-	// progressBar.setMainProgress(progress);
-	// // progress = 100 - progress;
-	// if (progress_bar_width != 0) {
-	// setProgressbarThumb();
-	// }
-	// Logs.d(TAG, "progress=" + progress);
-	// }
+	private void initProgressbar() {
+		// -------------progressbar
+		long mobileSet = sharedData.getMonthMobileSetOfLong();
+		try {
+			progress = (int) (100 * mobile_month_use / mobileSet);
+		} catch (Exception e) {
+			Logs.d(TAG, "mobileSet=0");
+			progress = 0;
+		}
+		if (progress > 100) {
+			progress = 100;
+		}
+		// // 从右开始设置数值
+		// progress = 100 - progress;
+		progressBar.setMainProgress(progress);
+		// progress = 100 - progress;
+		if (progress_bar_width != 0) {
+			setProgressbarThumb();
+		}
+		Logs.d(TAG, "progress=" + progress);
+	}
 
 	private void setProgressbarThumb() {
 		int padding = (progress_bar_width - 30) * progress / 100;
@@ -242,7 +242,7 @@ public class Main extends Activity {
 		monthDay = t.monthDay;
 		alset.StartAlarm(context);
 		initValues();
-		// initProgressbar();
+		 initProgressbar();
 		// initChartBar();
 		new AsyncTaskoninitChartBar().execute(context);
 		SetText.resetWidgetAndNotify(context);
