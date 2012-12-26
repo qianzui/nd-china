@@ -54,7 +54,6 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 	public ProgressDialog pro;
 	public static ImageView firehelp;
 	private Timer tExit = new Timer();
-	public static boolean isHide = false;
 	private TimerTask task = new TimerTask() {
 		@Override
 		public void run() {
@@ -103,19 +102,14 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				switch (checkedId) {
 				case R.id.radio_button0:
-					hideHelp();
-					isHide = false;
 					tabHost.setCurrentTabByTag(TAB_MONITOR);
 					break;
 				case R.id.radio_button1:
-					showHelp();
 					NotificationInfo.callbyonFirstBacktoFire = true;
 					tabHost.setCurrentTabByTag(TAB_FIREWALL);
 					// FireWallMainScene.switScene(0);
 					break;
 				case R.id.radio_button2:
-					hideHelp();
-					isHide = false;
 					tabHost.setCurrentTabByTag(TAB_WARNING);
 					break;
 				default:
@@ -138,18 +132,7 @@ public class SpearheadActivity extends TabActivity implements OnClickListener {
 		});
 	}
 
-	public void hideHelp() {
-		firehelp.setVisibility(View.INVISIBLE);
-	}
 
-	public void showHelp() {
-		if (Block.isShowHelp(context)) {
-			firehelp.setVisibility(View.VISIBLE);
-		}
-		if (Block.isShowHelp(context) && isHide) {
-			showHelp(context);
-		}
-	}
 
 	/**
 	 * 显示第几个页面0/1/2
