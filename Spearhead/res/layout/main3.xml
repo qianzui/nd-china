@@ -77,7 +77,6 @@
             android:layout_height="0dip"
             android:layout_weight="1.0" >
 
-           
             <LinearLayout
                 android:id="@+id/monthWarning"
                 android:layout_width="fill_parent"
@@ -113,12 +112,12 @@
                         android:textStyle="bold" />
                 </RelativeLayout>
             </LinearLayout>
-             <ImageView
+
+            <ImageView
                 android:id="@+id/iv_triangle_month"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|bottom" />
-                
         </FrameLayout>
 
         <ImageView
@@ -127,52 +126,53 @@
             android:contentDescription="@drawable/divider"
             android:src="@drawable/divider" />
 
-        <LinearLayout
-            android:id="@+id/dayWarning"
+        <FrameLayout
             android:layout_width="fill_parent"
             android:layout_height="0dip"
-            android:layout_weight="1.0"
-            android:orientation="horizontal"
-            android:paddingLeft="20dip"
-            android:paddingRight="5dip" >
+            android:layout_weight="1.0" >
 
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/dayWarning"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:gravity="center_vertical" >
+                android:orientation="horizontal"
+                android:paddingLeft="20dip"
+                android:paddingRight="5dip" >
 
-                <TextView
-                    android:id="@+id/dayWarning_tv1"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:gravity="center_vertical"
-                    android:text="日流量预警值"
-                    android:textColor="@color/darkgray2"
-                    android:textSize="18dp" />
+                    android:gravity="center_vertical" >
 
-                <TextView
-                    android:id="@+id/dayWarning_tv2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:paddingRight="20dp"
-                    android:text="点击设置"
-                    android:textColor="@color/darkgray2"
-                    android:textSize="17dp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/dayWarning_tv1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:gravity="center_vertical"
+                        android:text="日流量预警值"
+                        android:textColor="@color/darkgray2"
+                        android:textSize="18dp" />
 
-                <ImageButton
-                    android:id="@+id/main3_arrow2"
-                    android:layout_width="30dp"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_gravity="right"
-                    android:background="#00000000"
-                    android:paddingLeft="15dp"
-                    android:src="@drawable/arrow_enabled" />
-            </RelativeLayout>
-        </LinearLayout>
+                    <TextView
+                        android:id="@+id/dayWarning_tv2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_vertical"
+                        android:paddingRight="20dp"
+                        android:text="点击设置"
+                        android:textColor="@color/darkgray2"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_triangle_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom" />
+        </FrameLayout>
 
         <ImageView
             android:layout_width="fill_parent"
@@ -180,52 +180,53 @@
             android:contentDescription="@drawable/divider"
             android:src="@drawable/divider" />
 
-        <LinearLayout
-            android:id="@+id/warningAct"
+        <FrameLayout
             android:layout_width="fill_parent"
             android:layout_height="0dip"
-            android:layout_weight="1.0"
-            android:orientation="horizontal"
-            android:paddingLeft="20dip"
-            android:paddingRight="5dip" >
+            android:layout_weight="1.0" >
 
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/warningAct"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:gravity="center_vertical" >
+                android:orientation="horizontal"
+                android:paddingLeft="20dip"
+                android:paddingRight="5dip" >
 
-                <TextView
-                    android:id="@+id/warningAct_tv1"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:gravity="center_vertical"
-                    android:text="预警动作"
-                    android:textColor="@color/darkgray2"
-                    android:textSize="18dp" />
+                    android:gravity="center_vertical" >
 
-                <TextView
-                    android:id="@+id/warningAct_tv2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:paddingRight="20dp"
-                    android:text="点击设置"
-                    android:textColor="@color/darkgray2"
-                    android:textSize="17dp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/warningAct_tv1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:gravity="center_vertical"
+                        android:text="预警动作"
+                        android:textColor="@color/darkgray2"
+                        android:textSize="18dp" />
 
-                <ImageButton
-                    android:id="@+id/main3_arrow3"
-                    android:layout_width="30dp"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_gravity="right"
-                    android:background="#00000000"
-                    android:paddingLeft="15dp"
-                    android:src="@drawable/arrow_enabled" />
-            </RelativeLayout>
-        </LinearLayout>
+                    <TextView
+                        android:id="@+id/warningAct_tv2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_vertical"
+                        android:paddingRight="20dp"
+                        android:text="点击设置"
+                        android:textColor="@color/darkgray2"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_triangle_act"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom" />
+        </FrameLayout>
     </LinearLayout>
     <!-- 第三个框框结束 -->
 
@@ -256,96 +257,60 @@
             android:layout_height="fill_parent"
             android:orientation="vertical" >
 
-            <LinearLayout
-                android:id="@+id/btn_monthSet_Unit"
+            <FrameLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dip"
-                android:layout_weight="1.0"
-                android:orientation="horizontal"
-                android:paddingLeft="20dip"
-                android:paddingRight="5dip" >
+                android:layout_weight="1.0" >
 
-                <RelativeLayout
+                <LinearLayout
+                    android:id="@+id/btn_monthSet_Unit"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:gravity="center_vertical" >
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dip"
+                    android:paddingRight="5dip" >
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:gravity="center_vertical"
-                        android:text="包月流量"
-                        android:textColor="@color/darkgray2"
-                        android:textSize="18dp" />
+                        android:gravity="center_vertical" >
 
-                    <TextView
-                        android:id="@+id/monthSet_Unit_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="fill_parent"
-                        android:layout_alignParentRight="true"
-                        android:gravity="center_vertical"
-                        android:paddingRight="20dp"
-                        android:text="1024.4MB"
-                        android:textColor="@color/darkgray2"
-                        android:textSize="17dp"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:gravity="center_vertical"
+                            android:text="包月流量"
+                            android:textColor="@color/darkgray2"
+                            android:textSize="18dp" />
 
-                    <ImageButton
-                        android:layout_width="30dp"
-                        android:layout_height="fill_parent"
-                        android:layout_alignParentRight="true"
-                        android:layout_gravity="right"
-                        android:background="#00000000"
-                        android:paddingLeft="15dp"
-                        android:src="@drawable/arrow_enabled" />
+                        <TextView
+                            android:id="@+id/monthSet_Unit_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_alignParentRight="true"
+                            android:gravity="center_vertical"
+                            android:paddingRight="20dp"
+                            android:text="1024.4MB"
+                            android:textColor="@color/darkgray2"
+                            android:textSize="17dp"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_month"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@+id/spinnerUnit"
-                        android:textColor="@color/darkgreen"
-                        android:textSize="20dp" />
-                </RelativeLayout>
-            </LinearLayout>
+                        <TextView
+                            android:id="@+id/tv_month"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@+id/spinnerUnit"
+                            android:textColor="@color/darkgreen"
+                            android:textSize="20dp" />
+                    </RelativeLayout>
+                </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="0dip"
-                android:layout_weight="0.0"
-                android:orientation="horizontal"
-                android:paddingLeft="20dip"
-                android:paddingRight="5dip" >
-
-                <RelativeLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:gravity="center_vertical" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="本月已用:  "
-                        android:textColor="@color/darkgray2"
-                        android:textSize="18dp" />
-
-                    <Button
-                        android:id="@+id/btn_monthHasUseSet_Unit"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:background="@drawable/bg_about"
-                        android:textColor="@color/darkgreen" />
-
-                    <TextView
-                        android:id="@+id/tv_hasused"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@+id/spinnerhasused"
-                        android:textColor="@color/lightgreen"
-                        android:textSize="20dp" />
-                </RelativeLayout>
-            </LinearLayout>
+                <ImageView
+                    android:id="@+id/iv_triangle_month_set"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom" />
+            </FrameLayout>
 
             <ImageView
                 android:layout_width="fill_parent"
@@ -353,58 +318,60 @@
                 android:contentDescription="@drawable/divider"
                 android:src="@drawable/divider" />
 
-            <LinearLayout
-                android:id="@+id/dayUnit"
+            <FrameLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dip"
-                android:layout_weight="1.0"
-                android:orientation="horizontal"
-                android:paddingLeft="20dip"
-                android:paddingRight="5dip" >
+                android:layout_weight="1.0" >
 
-                <RelativeLayout
+                <LinearLayout
+                    android:id="@+id/dayUnit"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:gravity="center_vertical" >
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dip"
+                    android:paddingRight="5dip" >
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:gravity="center_vertical"
-                        android:text="月结算日"
-                        android:textColor="@color/darkgray2"
-                        android:textSize="18dp" />
+                        android:gravity="center_vertical" >
 
-                    <TextView
-                        android:id="@+id/monthSet"
-                        android:layout_width="0dip"
-                        android:layout_height="0dip"
-                        android:layout_alignParentRight="true"
-                        android:gravity="center_vertical"
-                        android:textColor="@color/darkgray2"
-                        android:textSize="20dp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:gravity="center_vertical"
+                            android:text="月结算日"
+                            android:textColor="@color/darkgray2"
+                            android:textSize="18dp" />
 
-                    <TextView
-                        android:id="@+id/countDaySpButton_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="fill_parent"
-                        android:layout_toLeftOf="@+id/monthSet"
-                        android:gravity="center_vertical"
-                        android:paddingRight="20dp"
-                        android:text="1 日"
-                        android:textColor="@color/darkgray2"
-                        android:textSize="17dp" />
+                        <TextView
+                            android:id="@+id/monthSet"
+                            android:layout_width="0dip"
+                            android:layout_height="0dip"
+                            android:layout_alignParentRight="true"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/darkgray2"
+                            android:textSize="20dp" />
 
-                    <ImageButton
-                        android:layout_width="30dp"
-                        android:layout_height="fill_parent"
-                        android:layout_alignParentRight="true"
-                        android:layout_gravity="right"
-                        android:background="#00000000"
-                        android:paddingLeft="15dp"
-                        android:src="@drawable/arrow_enabled" />
-                </RelativeLayout>
-            </LinearLayout>
+                        <TextView
+                            android:id="@+id/countDaySpButton_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_toLeftOf="@+id/monthSet"
+                            android:gravity="center_vertical"
+                            android:paddingRight="20dp"
+                            android:text="1 日"
+                            android:textColor="@color/darkgray2"
+                            android:textSize="17dp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_triangle_day_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom" />
+            </FrameLayout>
 
             <ImageView
                 android:layout_width="fill_parent"
@@ -412,49 +379,51 @@
                 android:contentDescription="@drawable/divider"
                 android:src="@drawable/divider" />
 
-            <LinearLayout
-                android:id="@+id/combo"
+            <FrameLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dip"
-                android:layout_weight="1.0"
-                android:orientation="horizontal"
-                android:paddingLeft="20dip"
-                android:paddingRight="5dip" >
+                android:layout_weight="1.0" >
 
-                <RelativeLayout
+                <LinearLayout
+                    android:id="@+id/combo"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" >
+                    android:layout_height="fill_parent"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dip"
+                    android:paddingRight="5dip" >
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="fill_parent"
-                        android:gravity="center_vertical"
-                        android:text="流量校正"
-                        android:textColor="@color/darkgray2"
-                        android:textSize="18dp" />
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" >
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="fill_parent"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:gravity="center_vertical"
-                        android:paddingRight="20dp"
-                        android:text="查询流量套餐"
-                        android:textColor="@color/darkgray2"
-                        android:textSize="17dp"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:gravity="center_vertical"
+                            android:text="流量校正"
+                            android:textColor="@color/darkgray2"
+                            android:textSize="18dp" />
 
-                    <ImageButton
-                        android:layout_width="30dp"
-                        android:layout_height="fill_parent"
-                        android:layout_alignParentRight="true"
-                        android:layout_gravity="right"
-                        android:background="#00000000"
-                        android:paddingLeft="15dp"
-                        android:src="@drawable/arrow_enabled" />
-                </RelativeLayout>
-            </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical"
+                            android:paddingRight="20dp"
+                            android:text="查询流量套餐"
+                            android:textColor="@color/darkgray2"
+                            android:textSize="17dp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_triangle_combo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom" />
+            </FrameLayout>
         </LinearLayout>
     </LinearLayout>
     <!-- 第一个框框结束 -->

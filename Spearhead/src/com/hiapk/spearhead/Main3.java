@@ -115,7 +115,7 @@ public class Main3 extends Activity {
 		monthWarning_tv2 = (TextView) findViewById(R.id.monthWarning_tv2);
 		// 下拉条
 		countDaySpButton = (LinearLayout) findViewById(R.id.dayUnit);
-		btn_HasUsed = (Button) findViewById(R.id.btn_monthHasUseSet_Unit);
+//		btn_HasUsed = (Button) findViewById(R.id.btn_monthHasUseSet_Unit);
 		countDaySpButton_tv = (TextView) findViewById(R.id.countDaySpButton_tv);
 		// 月流量设置
 		btn_monthSet = (LinearLayout) findViewById(R.id.btn_monthSet_Unit);
@@ -196,30 +196,24 @@ public class Main3 extends Activity {
 	 */
 	private void init_isAllow_ALert() {
 		boolean isAllowAlert = sharedData.IsAllowAlert();
-//		ImageView changearrow1 = (ImageView) findViewById(R.id.main3_arrow1);
-		ImageView changearrow2 = (ImageView) findViewById(R.id.main3_arrow2);
-		ImageView changearrow3 = (ImageView) findViewById(R.id.main3_arrow3);
 		
-		DisplayMetrics dm = new DisplayMetrics();
-		// 取得窗口属性
-		getWindowManager().getDefaultDisplay().getMetrics(dm);
-		// 窗口的宽度
-		windowswidesize = dm.densityDpi;
-		BMP_SIZE = windowswidesize / 10;
-		ImageView image = (ImageView) findViewById(R.id.iv_triangle_month);
-		Bitmap bmpT = Bitmap.createBitmap(BMP_SIZE, BMP_SIZE,
-				Bitmap.Config.ARGB_8888);
-		int flag = sharedData.getFireWallType();
-		@SuppressWarnings("unused")
-		TriangleCanvas ac = new TriangleCanvas(this, bmpT,
-				TriangleCanvas.Triangle_UP, flag);
-		image.setImageBitmap(bmpT);
+		ImageView image1 = (ImageView) findViewById(R.id.iv_triangle_month);
+		ImageView image2 = (ImageView) findViewById(R.id.iv_triangle_day);
+		ImageView image3 = (ImageView) findViewById(R.id.iv_triangle_act);
+		ImageView image4 = (ImageView) findViewById(R.id.iv_triangle_month_set);
+		ImageView image5 = (ImageView) findViewById(R.id.iv_triangle_day_count);
+		ImageView image6 = (ImageView) findViewById(R.id.iv_triangle_combo);
+		
+		Bitmap bm = getTriangleBitmap();
+		image1.setImageBitmap(bm);
+		image2.setImageBitmap(bm);
+		image3.setImageBitmap(bm);
+		image4.setImageBitmap(bm);
+		image5.setImageBitmap(bm);
+		image6.setImageBitmap(bm);
 		
 		if (isAllowAlert) {
 			isalow_img.setImageResource(R.drawable.check_open);
-//			changearrow1.setImageResource(R.drawable.arrow_enabled);
-			changearrow2.setImageResource(R.drawable.arrow_enabled);
-			changearrow3.setImageResource(R.drawable.arrow_enabled);
 			warningAlertActionButton.setClickable(true);
 			warning_tv1.setTextColor(UiColors.colorDarkGray2);
 			warning_tv2.setTextColor(UiColors.colorDarkGray2);
@@ -231,9 +225,6 @@ public class Main3 extends Activity {
 			monthWarning_tv2.setTextColor(UiColors.colorDarkGray2);
 		} else {
 			isalow_img.setImageResource(R.drawable.check_close);
-//			changearrow1.setImageResource(R.drawable.arrow_unabled);
-			changearrow2.setImageResource(R.drawable.arrow_unabled);
-			changearrow3.setImageResource(R.drawable.arrow_unabled);
 			warningAlertActionButton.setClickable(false);
 			warning_tv1.setTextColor(Color.GRAY);
 			warning_tv2.setTextColor(Color.GRAY);
@@ -247,6 +238,22 @@ public class Main3 extends Activity {
 
 	}
 
+	public Bitmap getTriangleBitmap(){
+		DisplayMetrics dm = new DisplayMetrics();
+		// 取得窗口属性
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		// 窗口的宽度
+		windowswidesize = dm.densityDpi;
+		BMP_SIZE = windowswidesize / 10;
+		Bitmap bmpT = Bitmap.createBitmap(BMP_SIZE, BMP_SIZE,
+				Bitmap.Config.ARGB_8888);
+		int flag = sharedData.getFireWallType();
+		@SuppressWarnings("unused")
+		TriangleCanvas ac = new TriangleCanvas(this, bmpT,
+				TriangleCanvas.Triangle_UP, flag);
+		return bmpT;
+		
+	}
 	@Override
 	protected void onPause() {
 		super.onPause();
