@@ -1,6 +1,5 @@
 package com.hiapk.firewall;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,7 +12,6 @@ import com.hiapk.spearhead.R;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.widget.Toast;
 
 public class GetRoot {
 
