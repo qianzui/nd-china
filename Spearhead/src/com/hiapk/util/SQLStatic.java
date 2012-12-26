@@ -85,7 +85,7 @@ public class SQLStatic {
 	 */
 	public static String[] packagenames = null;
 	// show log
-	public static boolean isshowLog = true;
+	public static boolean isshowLog = false;
 
 	public static synchronized boolean setSQLTotalOnUsed(boolean SQLTotalOnUsed) {
 		if (SQLTotalOnUsed == true && isSQLTotalOnUsed == false) {
