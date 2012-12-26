@@ -513,7 +513,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	}
  
 	public void showHelp(final Context mContext) {
-		SpearheadActivity.firehelp.setVisibility(View.VISIBLE);
 		Drawable d = mContext.getResources().getDrawable(R.drawable.fire_help);
 		SpearheadActivity.firehelp.setBackgroundDrawable(d);
 		SpearheadActivity.firehelp.setOnClickListener(new OnClickListener() {
