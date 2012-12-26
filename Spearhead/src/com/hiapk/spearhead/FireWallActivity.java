@@ -230,6 +230,9 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		if(mPop.isShowing()){
+			mPop.dismiss();
+		}
 		switch (v.getId()) {
 		case R.id.bt_today:
 			vPager.setCurrentItem(0);
