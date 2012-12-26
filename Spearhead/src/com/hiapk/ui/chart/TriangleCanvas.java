@@ -5,6 +5,7 @@ import com.hiapk.spearhead.R;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
@@ -33,8 +34,7 @@ public class TriangleCanvas extends Canvas {
 		paint.setAntiAlias(true);
 
 		paint.setStyle(Paint.Style.FILL);
-		paint.setColor(cnt.getResources().getColor(
-				R.color.main_background_color));
+		paint.setColor(Color.argb(0, 0, 0, 0));
 
 		this.save();
 		// this.drawColor(cnt.getResources().getColor(R.color.orange));
