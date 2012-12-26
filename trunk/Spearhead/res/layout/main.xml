@@ -222,6 +222,30 @@
                         android:layout_gravity="right|bottom" />
 
                     <LinearLayout
+                        android:id="@+id/ll_traff_text"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:baselineAligned="false"
+                        android:gravity="center"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/main_traff_text1"
+                            android:textColor="@color/darkgray2"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/main_traff_text2"
+                            android:textColor="@color/darkgray2"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_traff_data"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:baselineAligned="false"

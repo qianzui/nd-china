@@ -77,6 +77,8 @@
     <string name="history_scene_mobiletraff">移动数据流量:</string>
     <string name="history_scene_wifitraff">WIFI数据流量:</string>
     <string name="history_scene_icon_show">显示的应用图标</string>
+    <string name="main_traff_text1">点击</string>
+    <string name="main_traff_text2">设置流量</string>
     
     
     <string name="menupop_show_text_setting">设置</string>

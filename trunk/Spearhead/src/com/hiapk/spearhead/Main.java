@@ -20,6 +20,7 @@ import com.hiapk.util.UnitHandler;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.Time;
@@ -158,6 +159,8 @@ public class Main extends Activity {
 		TextView monthSet = (TextView) findViewById(R.id.monthSet);
 		TextView monthSetunit = (TextView) findViewById(R.id.unit5);
 		// 初始化流量获取函数
+		LinearLayout llText = (LinearLayout) findViewById(R.id.ll_traff_text);
+		LinearLayout llData = (LinearLayout) findViewById(R.id.ll_traff_data);
 		// 取得月度流量
 		// mobileTraffic = TrafficManager.mobile_month_data;
 		long todayUsedLong = sharedData.getTodayMobileDataLong();
@@ -177,6 +180,13 @@ public class Main extends Activity {
 		monthRemain.setText(UnitHandler.unitHandlerNoSpace(monthLeft,
 				monthRemainunit));
 		monthSet.setText(UnitHandler.unitHandler(mobileSet, monthSetunit));
+		if (mobileSet == 0) {
+			llText.setVisibility(View.VISIBLE);
+			llData.setVisibility(View.INVISIBLE);
+		} else {
+			llData.setVisibility(View.VISIBLE);
+			llText.setVisibility(View.INVISIBLE);
+		}
 
 	}
 
@@ -242,7 +252,7 @@ public class Main extends Activity {
 		monthDay = t.monthDay;
 		alset.StartAlarm(context);
 		initValues();
-		 initProgressbar();
+		initProgressbar();
 		// initChartBar();
 		new AsyncTaskoninitChartBar().execute(context);
 		SetText.resetWidgetAndNotify(context);
