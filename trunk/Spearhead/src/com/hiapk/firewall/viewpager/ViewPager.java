@@ -48,14 +48,12 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.Interpolator;
-import android.widget.Adapter;
 import android.widget.Scroller;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import com.hiapk.logs.Logs;
 
 /**
  * Layout manager that allows the user to flip left and right through pages of

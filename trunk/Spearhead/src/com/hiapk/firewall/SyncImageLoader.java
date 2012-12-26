@@ -1,6 +1,5 @@
 package com.hiapk.firewall;
 
-import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.content.Context;

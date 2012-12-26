@@ -2,18 +2,15 @@ package com.hiapk.firewall.viewpager;
 
 import java.util.List;
 
-import android.content.Context;
 import android.os.Parcelable;
 import android.view.View;
 
 public class MyPagerAdapter extends PagerAdapter {
 	public List<View> mListViews;
-	Context context;
 	int mCount;
 
 	public MyPagerAdapter(List<View> mListViews) {
 		this.mListViews = mListViews;
-		this.context = context;
 	}
 	@Override
 	public void destroyItem(View arg0, int position, Object arg2) {

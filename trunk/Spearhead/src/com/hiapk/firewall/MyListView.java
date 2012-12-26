@@ -1,7 +1,5 @@
 package com.hiapk.firewall;
 
-import java.util.Date;
-
 import com.hiapk.logs.Logs;
 import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.R;
@@ -9,7 +7,6 @@ import com.hiapk.spearhead.R;
 import android.content.Context;
 import android.text.format.Time;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,7 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class MyListView extends ListView implements OnScrollListener {
-	private static final String TAG = "listview";
+//	private static final String TAG = "listview";
 	private final static int RELEASE_To_REFRESH = 0;
 	private final static int PULL_To_REFRESH = 1;
 	private final static int REFRESHING = 2;
@@ -42,7 +39,6 @@ public class MyListView extends ListView implements OnScrollListener {
 	private RotateAnimation animation;
 	private RotateAnimation reverseAnimation;
 	private boolean isRecored;
-	private int headContentWidth;
 	private int headContentHeight;
 
 	private int startY;
@@ -82,7 +78,6 @@ public class MyListView extends ListView implements OnScrollListener {
 
 		measureView(headView);
 		headContentHeight = headView.getMeasuredHeight();
-		headContentWidth = headView.getMeasuredWidth();
 
 		headView.setPadding(0, -1 * headContentHeight, 0, 0);
 		headView.invalidate();

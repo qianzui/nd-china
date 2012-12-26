@@ -1,18 +1,11 @@
 package com.hiapk.comparator;
 
-import java.text.Collator;
 import java.util.Comparator;
 import java.util.HashMap;
 
 import android.content.Context;
-import android.util.Log;
-
 import com.hiapk.bean.DatauidHash;
-import com.hiapk.control.traff.TrafficManager;
-import com.hiapk.logs.Logs;
-import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceData;
-import com.hiapk.util.UnitHandler;
 
 
 public class MyCompTraffic implements  Comparator {

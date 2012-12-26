@@ -9,11 +9,9 @@ import com.hiapk.firewall.FireWallItemMenu;
 import com.hiapk.firewall.MyListView;
 import com.hiapk.firewall.NotifListAdapter;
 import com.hiapk.firewall.MyListView.OnRefreshListener;
-import com.hiapk.firewall.viewpager.SetListView.OnDragRefreshListener;
 import com.hiapk.logs.Logs;
 import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.spearhead.R;
-import com.hiapk.ui.custom.CustomDialogMain2Been;
 import com.hiapk.util.SharedPrefrenceData;
 
 import android.content.Context;
