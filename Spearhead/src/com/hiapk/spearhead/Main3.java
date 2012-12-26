@@ -1,5 +1,6 @@
 package com.hiapk.spearhead;
 
+import com.hiapk.ui.chart.TriangleCanvas;
 import com.hiapk.ui.custom.CustomDialogMain3Been;
 import com.hiapk.ui.custom.CustomSPBeen;
 import com.hiapk.ui.scene.PhoneSet;
@@ -14,8 +15,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -71,6 +74,11 @@ public class Main3 extends Activity {
 	// 调用单位处理函数
 	// 获取固定存放数据
 	private SharedPrefrenceData sharedData;
+	//屏宽
+	private int windowswidesize;
+	// 三角形
+	int BMP_SIZE = 30;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -188,12 +196,28 @@ public class Main3 extends Activity {
 	 */
 	private void init_isAllow_ALert() {
 		boolean isAllowAlert = sharedData.IsAllowAlert();
-		ImageView changearrow1 = (ImageView) findViewById(R.id.main3_arrow1);
+//		ImageView changearrow1 = (ImageView) findViewById(R.id.main3_arrow1);
 		ImageView changearrow2 = (ImageView) findViewById(R.id.main3_arrow2);
 		ImageView changearrow3 = (ImageView) findViewById(R.id.main3_arrow3);
+		
+		DisplayMetrics dm = new DisplayMetrics();
+		// 取得窗口属性
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		// 窗口的宽度
+		windowswidesize = dm.densityDpi;
+		BMP_SIZE = windowswidesize / 10;
+		ImageView image = (ImageView) findViewById(R.id.iv_triangle_month);
+		Bitmap bmpT = Bitmap.createBitmap(BMP_SIZE, BMP_SIZE,
+				Bitmap.Config.ARGB_8888);
+		int flag = sharedData.getFireWallType();
+		@SuppressWarnings("unused")
+		TriangleCanvas ac = new TriangleCanvas(this, bmpT,
+				TriangleCanvas.Triangle_UP, flag);
+		image.setImageBitmap(bmpT);
+		
 		if (isAllowAlert) {
 			isalow_img.setImageResource(R.drawable.check_open);
-			changearrow1.setImageResource(R.drawable.arrow_enabled);
+//			changearrow1.setImageResource(R.drawable.arrow_enabled);
 			changearrow2.setImageResource(R.drawable.arrow_enabled);
 			changearrow3.setImageResource(R.drawable.arrow_enabled);
 			warningAlertActionButton.setClickable(true);
@@ -207,7 +231,7 @@ public class Main3 extends Activity {
 			monthWarning_tv2.setTextColor(UiColors.colorDarkGray2);
 		} else {
 			isalow_img.setImageResource(R.drawable.check_close);
-			changearrow1.setImageResource(R.drawable.arrow_unabled);
+//			changearrow1.setImageResource(R.drawable.arrow_unabled);
 			changearrow2.setImageResource(R.drawable.arrow_unabled);
 			changearrow3.setImageResource(R.drawable.arrow_unabled);
 			warningAlertActionButton.setClickable(false);
