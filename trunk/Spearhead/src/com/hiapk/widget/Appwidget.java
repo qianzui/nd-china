@@ -3,6 +3,7 @@ package com.hiapk.widget;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.widget.MobileDataSwitch;
 import com.hiapk.control.widget.SetText;
+import com.hiapk.logs.Logs;
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.Splash;
 import com.hiapk.util.SQLStatic;
@@ -18,7 +19,6 @@ import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -426,7 +426,7 @@ public class Appwidget extends AppWidgetProvider {
 	 */
 	private void showLog(String string) {
 		if (SQLStatic.isshowLog) {
-			Log.d("Appwidget", string);
+			Logs.d("Appwidget", string);
 		}
 	}
 }
