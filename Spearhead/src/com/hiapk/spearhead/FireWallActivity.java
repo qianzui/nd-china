@@ -266,15 +266,15 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 	public void setDataForList() {
 		isloading = false;
-		if (Block.isShowNewHelp(mContext)) {
-			showHelp(mContext);
-			SpearheadActivity.isHide = true;
-		}
 		int i = sharedpref.getFireWallType();
 		if (i == 5) {
 		} else {
 			myViewControl.get(i).setAdapter(myAppList);
 			myViewControl.get(i).compeletRefresh();
+		}
+		if (Block.isShowNewHelp(mContext)) {
+			Logs.i("test", "is true");
+			showHelp(mContext);
 		}
 	}
 
@@ -513,12 +513,13 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	}
  
 	public void showHelp(final Context mContext) {
+		Logs.i("test", "show help");
 		Drawable d = mContext.getResources().getDrawable(R.drawable.fire_help);
 		SpearheadActivity.firehelp.setBackgroundDrawable(d);
 		SpearheadActivity.firehelp.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				SpearheadActivity.firehelp.setVisibility(View.INVISIBLE);
+				SpearheadActivity.firehelp.setVisibility(View.GONE);
 				Block.isShowNewHelpSet(mContext, false);
 			}
 		});

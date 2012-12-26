@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import com.hiapk.logs.Logs;
 import com.hiapk.logs.SaveRule;
 import com.hiapk.ui.custom.CustomDialogMain2Been;
 import com.hiapk.util.SharedPrefrenceData;
