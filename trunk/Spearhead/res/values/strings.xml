@@ -81,6 +81,10 @@
     <string name="main_traff_text2">设置流量</string>
     
     
+    <string name="widget_11_ll1">今日已用</string>
+    <string name="widget_11_ll2">0</string>
+    <string name="widget_11_ll3">KB</string>
+    
     <string name="menupop_show_text_setting">设置</string>
     <string name="menupop_show_text_faq">FAQ</string>
     <string name="menupop_show_text_more">更多</string>
