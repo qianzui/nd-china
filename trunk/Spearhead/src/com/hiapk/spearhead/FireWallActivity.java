@@ -593,7 +593,9 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			}
 		}
 		if (isRefreshList) {
-			myViewControl.get(sharedpref.getFireWallType()).resetAdapter();
+			for (int i = 0; i < myViewControl.size(); i++) {
+				myViewControl.get(i).resetAdapter();
+			}
 			initList();
 		}
 		// MobclickAgent.onResume(this);
