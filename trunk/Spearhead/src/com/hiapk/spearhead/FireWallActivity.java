@@ -113,6 +113,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public SetListView wifi;
 	public SetNotifListView notif;
 
+	public static boolean isRuleChanged = false;
 	private ArrayList<SetListView> myViewControl;
 
 	@Override
@@ -121,6 +122,10 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		// MobclickAgent.onError(this);
 		isInScene = true;
 		setContentView(R.layout.main2);
+		if (Block.isShowNewHelp(mContext)) {
+			Logs.i("test", "is true");
+			showHelp(mContext);
+		}
 		init();
 		initVPager();
 		FirstLoadData();
@@ -230,7 +235,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		if(mPop.isShowing()){
+		if (mPop.isShowing()) {
 			mPop.dismiss();
 		}
 		switch (v.getId()) {
@@ -271,10 +276,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		} else {
 			myViewControl.get(i).setAdapter(myAppList);
 			myViewControl.get(i).compeletRefresh();
-		}
-		if (Block.isShowNewHelp(mContext)) {
-			Logs.i("test", "is true");
-			showHelp(mContext);
 		}
 	}
 
@@ -330,7 +331,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 				AlarmSet alset = new AlarmSet();
 				alset.StartAlarmUid(mContext);
 			}
-			myViewControl.get(sharedpref.getFireWallType()).resetAdaper();
+			myViewControl.get(sharedpref.getFireWallType()).resetAdapter();
 			initList();
 		}
 	};
@@ -356,19 +357,33 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 		@Override
 		public void onPageScrollStateChanged(int arg0) {
+			if (mPop.isShowing()) {
+				mPop.dismiss();
+			}
 			if (arg0 == ViewPager.SCROLL_STATE_IDLE) {
-				int currentItem =  vPager.getCurrentItem();
-				int fireType  = sharedpref.getFireWallType();
-				if(currentItem != fireType){
+				int currentItem = vPager.getCurrentItem();
+				int fireType = sharedpref.getFireWallType();
+				if (currentItem != fireType) {
+					if (isRuleChanged) {
+						for (int i = 0; i < myViewControl.size(); i++) {
+							Logs.i("test", "i:" + i + "--type:" +fireType );
+							if (i != fireType)
+								myViewControl.get(i).resetAdapter();
+						}
+						isRuleChanged = false;
+					}
 					sharedpref.setFireWallType(currentItem);
 					setTitle();
 					if (currentItem == 5) {
 						notif.setLoading();
 						new AsyncTaskGetAdbArrayListonResume().execute();
-					}else{
-						if(!myViewControl.get(currentItem).isLoadinged)
-						initList();
+					} else {
+						if (!myViewControl.get(currentItem).isLoadinged) {
+							myViewControl.get(currentItem).setLoading();
+							initList();
+						}
 					}
+
 				}
 			}
 			Logs.i("test", "onPageScrollStateChanged:" + arg0);
@@ -511,7 +526,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			}
 		}).start();
 	}
- 
+
 	public void showHelp(final Context mContext) {
 		Logs.i("test", "show help");
 		Drawable d = mContext.getResources().getDrawable(R.drawable.fire_help);
@@ -523,7 +538,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 				Block.isShowNewHelpSet(mContext, false);
 			}
 		});
-	} 
+	}
 
 	public ArrayList<PackageInfo> getList(Context context) {
 		packageInfo = context.getPackageManager().getInstalledPackages(0);
@@ -578,7 +593,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			}
 		}
 		if (isRefreshList) {
-			myViewControl.get(sharedpref.getFireWallType()).resetAdaper();
+			myViewControl.get(sharedpref.getFireWallType()).resetAdapter();
 			initList();
 		}
 		// MobclickAgent.onResume(this);

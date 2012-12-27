@@ -36,6 +36,7 @@ import java.util.StringTokenizer;
 
 import com.hiapk.logs.Logs;
 import com.hiapk.logs.SaveRule;
+import com.hiapk.spearhead.FireWallActivity;
 import com.hiapk.ui.custom.CustomDialogMain2Been;
 import com.hiapk.util.SharedPrefrenceData;
 
@@ -308,6 +309,7 @@ public class Block {
 					customdialog.dialogOpenFireWallFail();
 				}
 			} else {
+				FireWallActivity.isRuleChanged  = true;
 				return true;
 			}
 		} catch (Exception e) {
