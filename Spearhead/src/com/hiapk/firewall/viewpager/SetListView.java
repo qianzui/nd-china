@@ -30,7 +30,7 @@ public class SetListView {
 	public FireWallItemMenu menu = null;
 	private OnDragRefreshListener onDragRefreshListener;
 	public LinearLayout loading;
-    public boolean isLoadinged;
+    public boolean isLoadinged = false;
 	public SetListView(View view, Context mContext) {
 		this.view = view;
 		this.mContext = mContext;
@@ -62,7 +62,6 @@ public class SetListView {
 		if(isLoadinged)
 			return;
 		isLoadinged = true;
-		loading.setVisibility(View.VISIBLE);
 		Logs.i("test", "set Adapter");
 		AppListAdapter appListAdapter = new AppListAdapter(mContext, myAppList,
 				Block.appnamemap, SQLStatic.uiddata, Block.appList,
@@ -91,8 +90,9 @@ public class SetListView {
 		loading.setVisibility(View.VISIBLE);
 	}
 
-	public void resetAdaper(){
+	public void resetAdapter(){
 		isLoadinged = false;
+		Logs.i("test", "resetAdapter");
 	}
 	public void compeletRefresh() {
 		appListView.onRefreshComplete();
