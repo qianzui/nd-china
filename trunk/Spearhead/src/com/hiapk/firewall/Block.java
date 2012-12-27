@@ -27,11 +27,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import com.hiapk.logs.Logs;
@@ -727,6 +730,30 @@ public class Block {
 
 		boolean cache = prefs.getBoolean(PREF_S, false);
 		HashMap map = new HashMap<Integer, IsChecked>();
+		
+		Set<String> set_3g = new HashSet<String>();
+		Set<String> set_wifi =  new HashSet<String>();
+		
+		if(savedPkgname_3g.length() >0){
+			for (int i = 0; i < savedPkgname_3g.length(); i++) {
+				final StringTokenizer tok = new StringTokenizer(savedPkgname_3g, "|");
+				while (tok.hasMoreTokens()) {
+					final String name = tok.nextToken();
+					set_3g.add(name);
+				}
+			}
+		}
+		if(savedPkgname_wifi.length() >0){
+			for (int i = 0; i < savedPkgname_wifi.length(); i++) {
+				final StringTokenizer tok = new StringTokenizer(savedPkgname_wifi, "|");
+				while (tok.hasMoreTokens()) {
+					final String name = tok.nextToken();
+					set_wifi.add(name);
+				}
+			}
+		}
+		
+		
 		for (int i = 0; i < myAppList.size(); i++) {
 			PackageInfo pi = myAppList.get(i);
 			String pkgname = pi.packageName;
@@ -734,10 +761,10 @@ public class Block {
 			IsChecked ic = new IsChecked();
 			if (cache) {
 				if (savedUid_wifi.equals("") && savedUid_3g.equals("")) {
-					if (savedPkgname_3g.contains(pkgname)) {
+					if (set_3g.contains(pkgname)) {
 						ic.selected_3g = true;
 					}
-					if (savedPkgname_wifi.contains(pkgname)) {
+					if (set_wifi.contains(pkgname)) {
 						ic.selected_wifi = true;
 					}
 				} else {
