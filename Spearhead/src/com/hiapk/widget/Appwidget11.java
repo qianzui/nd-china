@@ -3,14 +3,17 @@ package com.hiapk.widget;
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.spearhead.R;
+import com.hiapk.spearhead.Splash;
 import com.hiapk.util.SQLStatic;
 import com.hiapk.util.SharedPrefrenceDataWidget;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -80,8 +83,15 @@ public class Appwidget11 extends AppWidgetProvider {
 	 * @param views
 	 */
 	private void initWidget(Context context, RemoteViews views) {
+		Intent intenttraff = new Intent(context, Splash.class);
+		Bundle choosetab = new Bundle();
+		choosetab.putInt("TAB", 1);
+		intenttraff.putExtras(choosetab);
+		// intenttraff.setAction(BROADCAST_TRAFF);
+		PendingIntent pendingIntenttraff = PendingIntent.getActivity(context,
+				0, intenttraff, PendingIntent.FLAG_UPDATE_CURRENT);
 		// 无值，则初始化数值
-		if (SetText.textToday == "0 KB") {
+		if (SetText.textToday == "0") {
 			SetText.initText(context);
 		}
 		if (SetText.textToday != null) {
@@ -90,6 +100,8 @@ public class Appwidget11 extends AppWidgetProvider {
 			views.setCharSequence(R.id.widget11Textview3, "setText",
 					SetText.textTodayUnit);
 		}
+		views.setOnClickPendingIntent(R.id.widget1X1LinnerLayout,
+				pendingIntenttraff);
 		AppWidgetManager appWidgetManager = AppWidgetManager
 				.getInstance(context);
 		appWidgetManager.updateAppWidget(new ComponentName(context,
