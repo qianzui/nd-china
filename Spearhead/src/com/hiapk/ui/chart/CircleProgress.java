@@ -123,6 +123,8 @@ public class CircleProgress extends View {
 
 		int width = MeasureSpec.getSize(widthMeasureSpec);
 		int height = MeasureSpec.getSize(heightMeasureSpec);
+		mWith = width;
+		mHeight = height;
 		Logs.d(TAG, "width=" + width + ",height=" + height);
 		mBackgroundPicture = getBackground();
 		if (mBackgroundPicture != null) {
@@ -317,6 +319,8 @@ public class CircleProgress extends View {
 			// int color1 = color & 0x00ffffff | 0x66000000;
 			// if (isBackgroundColorful) {
 			/* 设置渐变艄1�7 */
+			Logs.d(TAG, "mWith=" + mWith);
+			Logs.d(TAG, "mHeight=" + mHeight);
 			Shader mShader = new RadialGradient(
 					mWith / 2,
 					mHeight / 2,
