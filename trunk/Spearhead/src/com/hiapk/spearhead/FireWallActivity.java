@@ -136,6 +136,8 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	}
 
 	public void FirstLoadData() {
+		Block.old_3g = Block.get3g_set(mContext);
+		Block.old_wifi = Block.getWifi_set(mContext);
 		if (sharedpref.IsFireWallOpenFail() && !Block.isShowHelp(mContext)) {
 			dialogFireWallOpenFail();
 		} else if (sharedpref.getFireWallType() == 0) {
@@ -167,9 +169,9 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 		// ÎªÁËÍË³ö¡£
 		SpearheadApplication.getInstance().addActivity(this);
-		setTitle();
 		settingShowList();
 		initUidData();
+		setTitle();
 	}
 
 	public void initVPager() {
@@ -270,6 +272,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	}
 
 	public void setDataForList() {
+		setTitle();
 		isloading = false;
 		int i = sharedpref.getFireWallType();
 		if (i == 5) {
@@ -365,6 +368,8 @@ public class FireWallActivity extends Activity implements OnClickListener {
 				int fireType = sharedpref.getFireWallType();
 				if (currentItem != fireType) {
 					if (isRuleChanged) {
+						Block.old_3g = Block.get3g_set(mContext);
+						Block.old_wifi = Block.getWifi_set(mContext);
 						for (int i = 0; i < myViewControl.size(); i++) {
 							Logs.i("test", "i:" + i + "--type:" +fireType );
 							if (i != fireType)
@@ -383,7 +388,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 							initList();
 						}
 					}
-
 				}
 			}
 			Logs.i("test", "onPageScrollStateChanged:" + arg0);
