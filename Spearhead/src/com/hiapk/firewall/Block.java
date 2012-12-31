@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.TreeSet;
 
 import com.hiapk.logs.Logs;
 import com.hiapk.logs.SaveRule;
@@ -80,6 +81,11 @@ public class Block {
 	public static HashMap<Integer, String> appnamemap = new HashMap<Integer, String>();
 	public static HashMap<Integer, PackageInfo> appList = new HashMap<Integer, PackageInfo>();
 	public static ArrayList<PackageInfo> myList;
+	
+	
+	public static Set<String> old_wifi = new TreeSet<String>();
+	public static Set<String> old_3g = new TreeSet<String>();
+
 
 	public static String filter = "android.media.dlnaservicecom.android.cameracom.android.htmlviewer.com.android.music.com.android.providersuserdictionary.com.android.quicksearchbox.com.android.stk.updater.com.google.android.location.com.google.android.street.com.google.android.talk.com.meizu.MzAutoInstaller.com.meizu.account.com.meizu.backupandrestore.com.meizu.cloud.com.meizu.filemanager.com.meizu.flyme.service.find.com.meizu.input.com.meizu.mzsimcontacts.com.meizu.mzsyncservice.com.meizu.notepaper.com.meizu.recent.app"
 			+ ".com.meizu.vncviewer.com.meizu.wapisetting.android.tts.com.android.Unzip.com.android.alarmclock.com.android.providers.userdictionary.com.android.wallpaper.livpicker.com.cooliris.media.com.cooliris.video.media.com.google.android.apps.genie.geniewidget.com.meizu.mstore.com.meizu.musiconline.com.android.wallpaper.livepicker.com.svox.picoN.com.hyfsoft"
@@ -312,7 +318,15 @@ public class Block {
 					customdialog.dialogOpenFireWallFail();
 				}
 			} else {
-				FireWallActivity.isRuleChanged  = true;
+				if(get3g_set(ctx).equals(old_3g) && getWifi_set(ctx).equals(old_wifi)){
+					FireWallActivity.isRuleChanged  = false;
+					Logs.i("test", "FireWallActivity.isRuleChanged   is false");
+				}else{
+					FireWallActivity.isRuleChanged  = true;
+					Logs.i("test", "FireWallActivity.isRuleChanged   is true ");
+					return true;
+				}
+				//TODO 
 				return true;
 			}
 		} catch (Exception e) {
@@ -326,6 +340,79 @@ public class Block {
 		return false;
 	}
 
+	public static TreeSet<String> get3g_set(Context context){
+		final SharedPreferences prefs = context.getSharedPreferences(
+				PREFS_NAME, 0);
+		String savedPkgname_3g = prefs.getString(PREF_3G_PKGNAME, "");
+		TreeSet<String> set_3g = new TreeSet<String>();
+		
+		if(savedPkgname_3g.length() >0){
+			for (int i = 0; i < savedPkgname_3g.length(); i++) {
+				final StringTokenizer tok = new StringTokenizer(savedPkgname_3g, "|");
+				while (tok.hasMoreTokens()) {
+					final String name = tok.nextToken();
+					set_3g.add(name);
+				}
+			}
+		}
+		return set_3g;
+	}
+	
+	public static TreeSet<String> getWifi_set(Context context){
+		final SharedPreferences prefs = context.getSharedPreferences(
+				PREFS_NAME, 0);
+		String savedPkgname_wifi = prefs.getString(PREF_WIFI_PKGNAME, "");
+		TreeSet<String> set_wifi = new TreeSet<String>();
+		
+		if(savedPkgname_wifi.length() >0){
+			for (int i = 0; i < savedPkgname_wifi.length(); i++) {
+				final StringTokenizer tok = new StringTokenizer(savedPkgname_wifi, "|");
+				while (tok.hasMoreTokens()) {
+					final String name = tok.nextToken();
+					set_wifi.add(name);
+				}
+			}
+		}
+		return set_wifi;
+	}
+	public static boolean isRuleChanged(Context context){
+		final SharedPreferences prefs = context.getSharedPreferences(
+				PREFS_NAME, 0);
+		String savedPkgname_wifi = prefs.getString(PREF_WIFI_PKGNAME, "");
+		String savedPkgname_3g = prefs.getString(PREF_3G_PKGNAME, "");
+		
+		TreeSet<String> set_3g = new TreeSet<String>();
+		TreeSet<String> set_wifi =  new TreeSet<String>();
+		
+		if(savedPkgname_3g.length() >0){
+			for (int i = 0; i < savedPkgname_3g.length(); i++) {
+				final StringTokenizer tok = new StringTokenizer(savedPkgname_3g, "|");
+				while (tok.hasMoreTokens()) {
+					final String name = tok.nextToken();
+					set_3g.add(name);
+				}
+			}
+		}
+		
+		if(savedPkgname_wifi.length() >0){
+			for (int i = 0; i < savedPkgname_wifi.length(); i++) {
+				final StringTokenizer tok = new StringTokenizer(savedPkgname_wifi, "|");
+				while (tok.hasMoreTokens()) {
+					final String name = tok.nextToken();
+					set_wifi.add(name);
+				}
+			}
+		}
+		
+		if(set_3g.equals(old_3g) || set_wifi.equals(old_wifi)){
+			return false;
+		}else{
+			old_3g = set_3g;
+			old_wifi = set_wifi;
+			return true;
+		}
+	}
+	
 	/**
 	 * ÓÃÓÚ¿ªÆô·À»ðÇ½ Purge and re-add all rules.
 	 * 
@@ -731,8 +818,8 @@ public class Block {
 		boolean cache = prefs.getBoolean(PREF_S, false);
 		HashMap map = new HashMap<Integer, IsChecked>();
 		
-		Set<String> set_3g = new HashSet<String>();
-		Set<String> set_wifi =  new HashSet<String>();
+		TreeSet<String> set_3g = new TreeSet<String>();
+		TreeSet<String> set_wifi =  new TreeSet<String>();
 		
 		if(savedPkgname_3g.length() >0){
 			for (int i = 0; i < savedPkgname_3g.length(); i++) {
