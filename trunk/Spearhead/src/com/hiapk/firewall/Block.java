@@ -64,7 +64,7 @@ public class Block {
 	/** special application UID used to indicate the Linux Kernel */
 	private static final int SPECIAL_UID_KERNEL = -11;
 	/** root script filename */
-	private static final String SCRIPT_FILE = "droidwall.sh";
+	private static final String SCRIPT_FILE = "spearedhead.sh";
 	public static final String PREF_ALL_UIDS = "AppListUids";
 	public static final String PREF_S = "Cache";
 	public static final String PREF_SHOW = "IsShowTip";
