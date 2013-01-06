@@ -160,7 +160,7 @@
                 android:contentDescription="@string/img_content_divide_line"
                 android:src="@drawable/divider" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="55dp"
                 android:gravity="center_vertical"
@@ -170,14 +170,22 @@
                     android:id="@+id/setting_freshplv"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:drawableRight="@drawable/arrow_setting"
                     android:gravity="left|center_vertical"
                     android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
+                    android:paddingRight="90dp"
                     android:text="@string/prefrence_setting_listbox_fresh"
                     android:textColor="@color/darkgray2"
-                    android:textSize="20sp" /> 
-            </LinearLayout>
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="12dip"
+                    android:background="@drawable/arrow_setting"
+                    android:contentDescription="@string/img_content_divide_line" />
+            </RelativeLayout>
 
             <ImageView
                 android:layout_width="fill_parent"
