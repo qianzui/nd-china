@@ -316,17 +316,21 @@ public class SQLHelperUidSelectDataFire {
 
 		Calendar c = Calendar.getInstance();
 		int mondayPlus = getMondayPlus(c);
+		Logs.d(TAG, "mondayPlus=" + mondayPlus);
 		GregorianCalendar currentDate = new GregorianCalendar();
+		Logs.d(TAG, "currentDate=" + currentDate);
 		currentDate.add(GregorianCalendar.DATE, mondayPlus);
 		Date monday = currentDate.getTime();
+		Logs.d(TAG, "monday=" + monday);
 		c.setTime(monday);
-		month = Calendar.MONTH;
+		month = c.get(Calendar.MONTH) + 1;
 		String month2;
 		if (month < 10)
 			month2 = "0" + month;
 		else {
 			month2 = month + "";
 		}
+		Logs.d(TAG, "month2=" + month2);
 		String weekStart = null;
 		StringBuilder stringB = new StringBuilder();
 		stringB.append(c.get(Calendar.YEAR)).append("-").append(month2)
