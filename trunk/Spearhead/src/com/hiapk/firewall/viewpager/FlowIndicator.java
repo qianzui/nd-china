@@ -19,6 +19,8 @@ import com.hiapk.logs.Logs;
 import com.hiapk.spearhead.R;
 import com.hiapk.spearhead.SpearheadApplication;
 import com.hiapk.ui.skin.SkinCustomMains;
+import com.hiapk.util.SharedPrefrenceData;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -45,7 +47,8 @@ public class FlowIndicator extends TextView {
 	private static final int FOOTER_LINE_HEIGHT = 4;
 	private static final int FOOTER_COLOR = 0xFFFFC445;
 	private static final int FOOTER_TRIANGLE_HEIGHT = 10;
-	private int currentScroll = 0;
+	private int currentScroll = -1;
+	private int firewallFlag = 0;
 	private Paint paintSelected;
 	private int footerTriangleHeight;
 	private int footerLineHeight;
@@ -67,6 +70,8 @@ public class FlowIndicator extends TextView {
 	 */
 	public FlowIndicator(Context context) {
 		super(context);
+		// SharedPrefrenceData sharedpref = new SharedPrefrenceData(context);
+		// firewallFlag = sharedpref.getFireWallType();
 		initDraw(TEXT_COLOR, TEXT_SIZE, SELECTED_COLOR, FOOTER_LINE_HEIGHT,
 				FOOTER_COLOR);
 	}
@@ -79,6 +84,8 @@ public class FlowIndicator extends TextView {
 	 */
 	public FlowIndicator(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		// SharedPrefrenceData sharedpref = new SharedPrefrenceData(context);
+		// firewallFlag = sharedpref.getFireWallType();
 		// Retrieve styles attributs
 		TypedArray a = context.obtainStyledAttributes(attrs,
 				R.styleable.TitleFlowIndicator);
@@ -108,6 +115,15 @@ public class FlowIndicator extends TextView {
 	 */
 	public void setFlowHeight(int flowHeight) {
 		this.flowHeight = flowHeight;
+	}
+
+	/**
+	 * 设置初始浮标位置
+	 * 
+	 * @param firewallFlag
+	 */
+	public void setFirewallFlag(int firewallFlag) {
+		this.firewallFlag = firewallFlag;
 	}
 
 	/**
@@ -198,10 +214,14 @@ public class FlowIndicator extends TextView {
 		} else {
 			h = flowHeight;
 		}
-		showLog("h =" + h);
-		showLog("getHeight =" + getHeight());
-		showLog("getMeasuredHeight =" + getMeasuredHeight());
+		// showLog("h =" + h);
+		// showLog("getHeight =" + getHeight());
+		// showLog("getMeasuredHeight =" + getMeasuredHeight());
+		if (currentScroll == -1) {
+			currentScroll = getWidth() * firewallFlag;
+		}
 		showLog("currentScroll=" + currentScroll);
+		showLog("size=" + size);
 		bounds.left = currentScroll % (getWidth() * size) / size;
 		bounds.right = bounds.left + w;
 		bounds.top = 0 + 1;
@@ -217,7 +237,9 @@ public class FlowIndicator extends TextView {
 	 * int)
 	 */
 	public void onScrolled(int ScrollX) {
-		currentScroll = ScrollX;
+		if (ScrollX != 0) {
+			currentScroll = ScrollX;
+		}
 		invalidate();
 	}
 

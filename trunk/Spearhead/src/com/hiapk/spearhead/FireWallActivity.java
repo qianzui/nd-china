@@ -100,6 +100,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public static boolean isRootFail = false;
 	public static boolean isRefreshList = false;
 
+	ArrayList<View> pageList;
 	public View todayView;
 	public View weekView;
 	public View monthView;
@@ -176,7 +177,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 	public void initVPager() {
 		vPager = (ViewPager) findViewById(R.id.vPager);
-		ArrayList<View> pageList = new ArrayList<View>();
+		pageList = new ArrayList<View>();
 		myViewControl = new ArrayList<SetListView>();
 
 		week = new SetListView(weekView, mContext);
@@ -205,11 +206,9 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		month.setOnDragRefreshListener(onDragRefreshListener);
 		wifi.setOnDragRefreshListener(onDragRefreshListener);
 		notif.setOnDragNotifRefreshListener(onDragNotifRefreshListener);
-		FlowIndicator cursor = (FlowIndicator) findViewById(R.id.cursor);
-		cursor.setSize(pageList.size());
+		setFlowIndicator();
 		vPager.setChildrenDrawingCacheEnabled(false);
 		vPager.setAdapter(new MyPagerAdapter(pageList));
-		vPager.setFlowIndicator(cursor);
 		vPager.setOnPageChangeListener(new MyOnPageChangeListener());
 	}
 
@@ -260,6 +259,16 @@ public class FireWallActivity extends Activity implements OnClickListener {
 			vPager.setCurrentItem(5);
 			break;
 		}
+	}
+
+	/**
+	 * Ìí¼Ó¸¡±ê
+	 */
+	private void setFlowIndicator() {
+		FlowIndicator cursor = (FlowIndicator) findViewById(R.id.cursor);
+		cursor.setSize(pageList.size());
+		cursor.setFirewallFlag(sharedpref.getFireWallType());
+		vPager.setFlowIndicator(cursor);
 	}
 
 	public void rotateAndSwitch() {
@@ -371,7 +380,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 						Block.old_3g = Block.get3g_set(mContext);
 						Block.old_wifi = Block.getWifi_set(mContext);
 						for (int i = 0; i < myViewControl.size(); i++) {
-							Logs.i("test", "i:" + i + "--type:" +fireType );
+							Logs.i("test", "i:" + i + "--type:" + fireType);
 							if (i != fireType)
 								myViewControl.get(i).resetAdapter();
 						}
