@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.hiapk.bean.DatauidHash;
 import com.hiapk.logs.Logs;
+import com.hiapk.util.MonthDay;
 import com.hiapk.util.SQLStatic;
 
 import android.app.ActivityManager;
@@ -323,19 +324,28 @@ public class SQLHelperUidSelectDataFire {
 		Date monday = currentDate.getTime();
 		Logs.d(TAG, "monday=" + monday);
 		c.setTime(monday);
+		year = c.get(Calendar.YEAR);
 		month = c.get(Calendar.MONTH) + 1;
-		String month2;
-		if (month < 10)
-			month2 = "0" + month;
-		else {
-			month2 = month + "";
-		}
-		Logs.d(TAG, "month2=" + month2);
-		String weekStart = null;
-		StringBuilder stringB = new StringBuilder();
-		stringB.append(c.get(Calendar.YEAR)).append("-").append(month2)
-				.append("-").append(c.get(Calendar.DAY_OF_MONTH));
-		weekStart = stringB.toString();
+		int day = c.get(Calendar.DAY_OF_MONTH);
+		weekStart = MonthDay.formatDate(year, month, day);
+		// String month2;
+		// if (month < 10)
+		// month2 = "0" + month;
+		// else {
+		// month2 = month + "";
+		// }
+		// String day2;
+		// if (day < 10) {
+		// day2 = "0" + day;
+		// } else {
+		// day2 = day + "";
+		// }
+		// Logs.d(TAG, "month2=" + month2);
+		// String weekStart = null;
+		// StringBuilder stringB = new StringBuilder();
+		// stringB.append(c.get(Calendar.YEAR)).append("-").append(month2)
+		// .append("-").append(day2);
+		// weekStart = stringB.toString();
 		return weekStart;
 	}
 

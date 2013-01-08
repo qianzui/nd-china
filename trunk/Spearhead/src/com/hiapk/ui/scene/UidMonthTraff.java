@@ -50,7 +50,6 @@ public class UidMonthTraff extends Activity {
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		initScene();
 		// umeng
@@ -67,7 +66,6 @@ public class UidMonthTraff extends Activity {
 
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 		// umeng
 		// MobclickAgent.onPause(this);
@@ -75,7 +73,6 @@ public class UidMonthTraff extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.uid_traff);
 
@@ -83,7 +80,6 @@ public class UidMonthTraff extends Activity {
 		back.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				onBackPressed();
 				back.setImageResource(R.drawable.back_black);
 			}
@@ -117,7 +113,6 @@ public class UidMonthTraff extends Activity {
 			AsyncTask<Context, Long, Boolean> {
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
 			super.onPreExecute();
 			// uidtraff_UidTotalSQL = false;
 			LinearLayout linearPie = (LinearLayout) findViewById(R.id.new_budget);
@@ -134,10 +129,9 @@ public class UidMonthTraff extends Activity {
 					Thread.sleep(300);
 					timetap += 1;
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if (timetap > 3) {
+				if (timetap > 8) {
 					// SQLStatic.setSQLUidTotalOnUsed(false);
 					if (pieValue == null) {
 						if (SQLStatic.setSQLUidOnUsed(true)) {
@@ -216,7 +210,6 @@ public class UidMonthTraff extends Activity {
 				btn_reload.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
 						linearPie.removeAllViews();
 						new AsyncTaskonInitPieChart().execute(context);
 					}
@@ -231,7 +224,6 @@ public class UidMonthTraff extends Activity {
 			AsyncTask<Context, Long, Boolean> {
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
 			super.onPreExecute();
 			uidtraff_UidSQL = false;
 			LinearLayout linear = (LinearLayout) findViewById(R.id.new_series);
@@ -249,7 +241,6 @@ public class UidMonthTraff extends Activity {
 					Thread.sleep(300);
 					timetap += 1;
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				if (timetap > 3) {
@@ -311,7 +302,6 @@ public class UidMonthTraff extends Activity {
 				btn_reload.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
 						linear.removeAllViews();
 						new AsyncTaskonInitProChart().execute(context);
 					}
@@ -323,7 +313,6 @@ public class UidMonthTraff extends Activity {
 	}
 
 	private void initSurface(int uidnumber, String appname, String pkname) {
-		// TODO Auto-generated method stub
 		PackageManager pm;
 		// ApplicationInfo appInfo;
 		Drawable appIcon = null;
@@ -332,7 +321,6 @@ public class UidMonthTraff extends Activity {
 		try {
 			appIcon = pm.getApplicationIcon(pkname);
 		} catch (NameNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		ImageView imav_app = (ImageView) findViewById(R.id.img_icon);

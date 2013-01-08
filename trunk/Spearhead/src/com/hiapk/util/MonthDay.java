@@ -44,4 +44,26 @@ public class MonthDay {
 		}
 		return 31;
 	}
+
+	/**
+	 * 格式化日期生成xxxx-xx-xx格式
+	 * 
+	 * @param year
+	 * @param month
+	 * @param dayMonth
+	 * @return
+	 */
+	public static String formatDate(int year, int month, int dayMonth) {
+		StringBuilder stringB = new StringBuilder();
+		stringB.append(year).append("-");
+		if (month < 10) {
+			stringB.append("0");
+		}
+		stringB.append(month).append("-");
+		if (dayMonth < 10) {
+			stringB.append("0");
+		}
+		stringB.append(dayMonth);
+		return stringB.toString();
+	}
 }
