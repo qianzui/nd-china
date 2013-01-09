@@ -601,7 +601,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 				NotificationInfo.callbyonCancel = false;
 				main2TitleBackground.setBackgroundResource(SkinCustomMains
 						.titleBackground());
-				firewall_title.setText("今日流量排行");
+				setTitle();
 				vPager.setCurrentItem(sharedpref.getFireWallType());
 			}
 		}
@@ -849,6 +849,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 				notif.completeRefresh();
 			} else {
 				if (sharedpref.getFireWallType() == 5) {
+					Logs.i("test", "show retry dialog");
 					notif.completeRefresh();
 					NotificationInfo.notificationRes.append("result-fail");
 					CustomDialogMain2Been customDialog = new CustomDialogMain2Been(
