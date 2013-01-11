@@ -33,7 +33,8 @@ public class CircleProgress extends View {
 	private static final boolean DEFAULT_WIDTH_CIRCLE = false; // 以宽为基准的圆形
 	private String TAG = "CircleProgress";
 	private CircleAttribute mCircleAttribute; // 圆形进度条基本属怄1�7
-	private int fontSize = 40;
+	private int fontSize = 40;// 依据屏幕宽度自动
+	private int fontRate = 6;// 依据屏幕宽度自动
 
 	private int mMaxProgress; // 进度条最大�1�7�1�7
 	private int mMainCurProgress; // 主进度条当前倄1�7
@@ -45,6 +46,15 @@ public class CircleProgress extends View {
 	// 图片长宽
 	private int mWith = 0;
 	private int mHeight = 0;
+	/**
+	 * 笔刷宽度与图片宽度的比例
+	 */
+	private int brushWidthRate = 6;
+	/**
+	 * 填充模式
+	 * 
+	 */
+	private boolean isbFill = false;
 
 	public boolean isBackgroundColorful() {
 		return isBackgroundColorful;
@@ -76,11 +86,13 @@ public class CircleProgress extends View {
 
 		boolean bFill = array.getBoolean(R.styleable.CircleProgressBar_fill,
 				DEFAULT_FILL_MODE); // 获取填充模式
+		this.isbFill = bFill;
 		int paintWidth = array.getInt(
 				R.styleable.CircleProgressBar_Paint_Width, DEFAULT_PAINT_WIDTH); // 获取画笔宽度
 		mCircleAttribute.setFill(bFill);
 		if (bFill == false) {
-			mCircleAttribute.setPaintWidth(paintWidth);
+			brushWidthRate = paintWidth;
+			mCircleAttribute.setPaintWidth(brushWidthRate);
 		}
 
 		int paintColor = array.getColor(
@@ -134,6 +146,7 @@ public class CircleProgress extends View {
 		mCircleAttribute.setPaintColor(0x00ffffff);
 		setMeasuredDimension(resolveSize(width, widthMeasureSpec),
 				resolveSize(width, heightMeasureSpec));
+		invalidate();
 
 	}
 
@@ -146,6 +159,9 @@ public class CircleProgress extends View {
 
 	public void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
+		if (!isbFill) {
+			mCircleAttribute.setPaintWidth(brushWidthRate);
+		}
 
 		if (mBackgroundPicture == null) // 没背景图的话就绘制底艄1�7
 		{
@@ -153,7 +169,6 @@ public class CircleProgress extends View {
 					mCircleAttribute.mBRoundPaintsFill,
 					mCircleAttribute.mBottomPaint);
 		}
-
 		float subRate = (float) mSubCurProgress / mMaxProgress;
 		float subSweep = 360 * subRate;
 		canvas.drawArc(mCircleAttribute.mRoundOval, mCircleAttribute.mDrawPos,
@@ -166,6 +181,9 @@ public class CircleProgress extends View {
 		canvas.drawArc(mCircleAttribute.mRoundOval, mCircleAttribute.mDrawPos,
 				sweep, mCircleAttribute.mBRoundPaintsFill,
 				mCircleAttribute.mMainPaints);
+		// shezhi ziti
+		fontSize = mWith / fontRate;
+		mCircleAttribute.mFrontPaint.setTextSize(fontSize);
 		if (mMainCurProgress < 10) {
 			canvas.drawText(mMainCurProgress + "%", mWith / 2 - fontSize / 2,
 					mHeight / 2 + fontSize / 3, mCircleAttribute.mFrontPaint);
@@ -282,17 +300,21 @@ public class CircleProgress extends View {
 			mFrontPaint.setStyle(Paint.Style.FILL);
 			mFrontPaint.setStrokeWidth(mPaintWidth);
 			mFrontPaint.setColor(getResources().getColor(R.color.darkgray2));
+			fontSize = mWith / 10;
 			mFrontPaint.setTextSize(fontSize);
 
 		}
 
-		/*
-		 * 设置画笔宽度
+		/**
+		 * 设置画笔宽度1-10设置屏幕宽度比例
 		 */
 		public void setPaintWidth(int width) {
-			mMainPaints.setStrokeWidth(width);
-			mSubPaint.setStrokeWidth(width);
-			mBottomPaint.setStrokeWidth(width);
+			Log.d("circlero", mWith / 2 / width + "");
+			mMainPaints.setStrokeWidth(mWith / width);
+			mSubPaint.setStrokeWidth(mWith / width);
+			mBottomPaint.setStrokeWidth(mWith / width);
+			mPaintWidth = mWith / width;
+			autoFix(mWith, mHeight);
 		}
 
 		/*

@@ -20,7 +20,6 @@ import com.hiapk.util.UnitHandler;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.Time;
