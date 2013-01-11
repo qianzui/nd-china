@@ -46,7 +46,7 @@ public class PrefrenceSetting extends Activity {
 		tv_cleardata = (TextView) findViewById(R.id.setting_cleardata);
 		PrefrenceBeen prefBeen = new PrefrenceBeen(context);
 		prefBeen.initCheckBoxNotyfy(tv_notyfy);
-		prefBeen.initCheckBoxFloat(tv_float);
+		prefBeen.initCheckBoxFloat(tv_float,tv_isfloat_touchable);
 		prefBeen.initCheckBoxHelpMessage(tv_help_info);
 		prefBeen.initListBoxFresh(tv_freshplv);
 		prefBeen.initCheckBoxAutoSaveFireWall(tv_autosave_firewall);
