@@ -401,7 +401,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 				}
 				if(isRefreshToday && !myViewControl.get(0).isLoadinged){
 					isRefreshToday = false;
-					myViewControl.get(currentItem).setLoading();
+					myViewControl.get(0).setLoading();
 					initList();
 				}else{
 					Logs.i("test", " isLoadinged data");
