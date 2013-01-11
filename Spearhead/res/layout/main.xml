@@ -202,8 +202,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        roundProgress:Inside_Interval="3"
-                        roundProgress:Paint_Width="11"
+                        roundProgress:Inside_Interval="1"
+                        roundProgress:Paint_Width="13"
                         roundProgress:TrueCircle_Heitht="true"
                         roundProgress:fill="false"
                         roundProgress:max="100" />
