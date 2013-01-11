@@ -34,7 +34,7 @@ public class CircleProgress extends View {
 	private String TAG = "CircleProgress";
 	private CircleAttribute mCircleAttribute; // 圆形进度条基本属怄1�7
 	private int fontSize = 40;// 依据屏幕宽度自动
-	private int fontRate = 8;// 依据屏幕宽度自动
+	private int fontRate = 6;// 依据屏幕宽度自动
 
 	private int mMaxProgress; // 进度条最大�1�7�1�7
 	private int mMainCurProgress; // 主进度条当前倄1�7
