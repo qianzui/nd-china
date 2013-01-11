@@ -29,7 +29,6 @@ import com.hiapk.ui.scene.PrefrenceStaticOperator;
 import com.hiapk.ui.scene.Regulate;
 import com.hiapk.util.SharedPrefrenceData;
 import com.hiapk.util.SharedPrefrenceDataWidget;
-import com.hiapk.util.UnitHandler;
 
 public class CustomSPBeen {
 	// 已使用总流量long
@@ -169,7 +168,7 @@ public class CustomSPBeen {
 	 * @return 返回对话框
 	 */
 	public void dialogDaySet(final LinearLayout btn_date,
-			final Button btn_HasUsed, final TextView countDaySpButton_tv) {
+			final TextView countDaySpButton_tv) {
 
 		final int beforeDay = sharedData.getCountDay();
 		// 初始化窗体
@@ -215,7 +214,7 @@ public class CustomSPBeen {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				if (arg2 != beforeDay) {
-					operatorOnClick(btn_HasUsed);
+					operatorOnClick();
 					// 结算日期变化时做日期变化并重置本月已用数值
 					// Log.d("main3", i + "");
 					sharedData.setCountSetDay(arg2);
@@ -233,10 +232,10 @@ public class CustomSPBeen {
 
 	}
 
-	private void operatorOnClick(Button btn_HasUsed) {
+	private void operatorOnClick() {
 		// 重置月已用流量
-		long month_used = TrafficManager.getMonthUseMobile(context);
-		btn_HasUsed.setText(UnitHandler.unitHandler(month_used));
+		// long month_used = TrafficManager.getMonthUseMobile(context);
+		// btn_HasUsed.setText(UnitHandler.unitHandler(month_used));
 		// 弹出建议设置已用流量对话框
 		final CustomDialog dayWarning = new CustomDialog.Builder(context)
 				.setTitle("注意！").setMessage("设置结算日后请重新对流量进行校准。")

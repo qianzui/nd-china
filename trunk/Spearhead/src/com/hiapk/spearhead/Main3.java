@@ -22,7 +22,6 @@ import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -63,7 +62,6 @@ public class Main3 extends Activity {
 	 * 选择结算日期按钮
 	 */
 	private LinearLayout countDaySpButton;
-	private Button btn_HasUsed;
 	private TextView countDaySpButton_tv;
 	/**
 	 * 包月套餐设置按钮
@@ -74,11 +72,10 @@ public class Main3 extends Activity {
 	// 调用单位处理函数
 	// 获取固定存放数据
 	private SharedPrefrenceData sharedData;
-	//屏宽
+	// 屏宽
 	private int windowswidesize;
 	// 三角形
 	int BMP_SIZE = 30;
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +112,7 @@ public class Main3 extends Activity {
 		monthWarning_tv2 = (TextView) findViewById(R.id.monthWarning_tv2);
 		// 下拉条
 		countDaySpButton = (LinearLayout) findViewById(R.id.dayUnit);
-//		btn_HasUsed = (Button) findViewById(R.id.btn_monthHasUseSet_Unit);
+		// btn_HasUsed = (Button) findViewById(R.id.btn_monthHasUseSet_Unit);
 		countDaySpButton_tv = (TextView) findViewById(R.id.countDaySpButton_tv);
 		// 月流量设置
 		btn_monthSet = (LinearLayout) findViewById(R.id.btn_monthSet_Unit);
@@ -196,14 +193,14 @@ public class Main3 extends Activity {
 	 */
 	private void init_isAllow_ALert() {
 		boolean isAllowAlert = sharedData.IsAllowAlert();
-		
+
 		ImageView image1 = (ImageView) findViewById(R.id.iv_triangle_month);
 		ImageView image2 = (ImageView) findViewById(R.id.iv_triangle_day);
 		ImageView image3 = (ImageView) findViewById(R.id.iv_triangle_act);
 		ImageView image4 = (ImageView) findViewById(R.id.iv_triangle_month_set);
 		ImageView image5 = (ImageView) findViewById(R.id.iv_triangle_day_count);
 		ImageView image6 = (ImageView) findViewById(R.id.iv_triangle_combo);
-		
+
 		Bitmap bm = getTriangleBitmap();
 		image1.setImageBitmap(bm);
 		image2.setImageBitmap(bm);
@@ -211,7 +208,7 @@ public class Main3 extends Activity {
 		image4.setImageBitmap(bm);
 		image5.setImageBitmap(bm);
 		image6.setImageBitmap(bm);
-		
+
 		if (isAllowAlert) {
 			isalow_img.setImageResource(R.drawable.check_open);
 			warningAlertActionButton.setClickable(true);
@@ -238,7 +235,7 @@ public class Main3 extends Activity {
 
 	}
 
-	public Bitmap getTriangleBitmap(){
+	public Bitmap getTriangleBitmap() {
 		DisplayMetrics dm = new DisplayMetrics();
 		// 取得窗口属性
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -252,8 +249,9 @@ public class Main3 extends Activity {
 		TriangleCanvas ac = new TriangleCanvas(this, bmpT,
 				TriangleCanvas.Triangle_UP, flag);
 		return bmpT;
-		
+
 	}
+
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -318,8 +316,7 @@ public class Main3 extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				customSP.dialogDaySet(countDaySpButton, btn_HasUsed,
-						countDaySpButton_tv);
+				customSP.dialogDaySet(countDaySpButton, countDaySpButton_tv);
 			}
 		});
 		warningAlertActionButton.setOnClickListener(new OnClickListener() {
