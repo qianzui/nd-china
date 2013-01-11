@@ -87,7 +87,8 @@ public class PrefrenceBeen {
 		});
 	}
 
-	public void initCheckBoxFloat(final TextView tv_float) {
+	public void initCheckBoxFloat(final TextView tv_float,
+			final TextView tv_floatUnTouchable) {
 		boolean isopen = sharedDatawidget.isFloatOpen();
 		if (isopen) {
 			checkBoxRightDrawinit(tv_float, isopen);
@@ -98,15 +99,22 @@ public class PrefrenceBeen {
 			@Override
 			public void onClick(View v) {
 				boolean isopen = sharedDatawidget.isFloatOpen();
+				TextView float_untouchable = (TextView) tv_floatUnTouchable
+						.findViewById(R.id.setting_isfloat_touchable);
 				if (isopen) {
 					FloatWindowOperator.saveXYvalue(context);
 					context.stopService(new Intent("com.hiapk.server"));
 					checkBoxRightDrawChange(tv_float, isopen);
 					sharedDatawidget.setFloatOpen(false);
+					// 关联的固定悬浮窗
+					float_untouchable.setTextColor(Color.GRAY);
 				} else {
 					context.startService(new Intent("com.hiapk.server"));
 					checkBoxRightDrawChange(tv_float, isopen);
 					sharedDatawidget.setFloatOpen(true);
+					// 关联的固定悬浮窗
+					float_untouchable.setTextColor(context.getResources()
+							.getColor(R.color.darkgray2));
 				}
 			}
 		});
@@ -149,14 +157,12 @@ public class PrefrenceBeen {
 					boolean isopen = sharedDate.isAutoSaveFireWallRule();
 					if (isopen) {
 						sharedDate.setisAutoSaveFireWallRule(false);
-						checkBoxRightDrawChange(tv_auto_save_firewall,
-								isopen);
+						checkBoxRightDrawChange(tv_auto_save_firewall, isopen);
 						SaveRule sr = new SaveRule(context);
 						sr.deleteRecord();
 					} else {
 						sharedDate.setisAutoSaveFireWallRule(true);
-						checkBoxRightDrawChange(tv_auto_save_firewall,
-								isopen);
+						checkBoxRightDrawChange(tv_auto_save_firewall, isopen);
 					}
 				} else {
 					CustomDialogOtherBeen customdia = new CustomDialogOtherBeen(
@@ -181,14 +187,14 @@ public class PrefrenceBeen {
 			public void onClick(View v) {
 				boolean isopen = sharedDatawidget.isFloatOpen();
 				boolean isFloat = sharedDatawidget.isFloatUnTouchable();
-				if (isFloat) {
-					sharedDatawidget.setFloatUnTouchable(false);
-					checkBoxRightDrawChange(tv_is_float_touchable, isFloat);
-				} else {
-					sharedDatawidget.setFloatUnTouchable(true);
-					checkBoxRightDrawChange(tv_is_float_touchable, isFloat);
-				}
 				if (isopen) {
+					if (isFloat) {
+						sharedDatawidget.setFloatUnTouchable(false);
+						checkBoxRightDrawChange(tv_is_float_touchable, isFloat);
+					} else {
+						sharedDatawidget.setFloatUnTouchable(true);
+						checkBoxRightDrawChange(tv_is_float_touchable, isFloat);
+					}
 					Intent intent = new Intent("com.hiapk.server");
 					context.startService(intent);
 					Logs.d(TAG, "intent=com.hiapk.server");
