@@ -116,6 +116,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 
 	public static boolean isRuleChanged = false;
 	private ArrayList<SetListView> myViewControl;
+	public boolean isRefreshToday = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -398,6 +399,13 @@ public class FireWallActivity extends Activity implements OnClickListener {
 						}
 					}
 				}
+				if(isRefreshToday && !myViewControl.get(0).isLoadinged){
+					isRefreshToday = false;
+					myViewControl.get(currentItem).setLoading();
+					initList();
+				}else{
+					Logs.i("test", " isLoadinged data");
+				}
 			}
 			Logs.i("test", "onPageScrollStateChanged:" + arg0);
 		}
@@ -598,6 +606,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		}
 		if (sharedpref.getFireWallType() == 0) {
 			if (NotificationInfo.callbyonCancel == true) {
+				isRefreshToday = true;
 				NotificationInfo.callbyonCancel = false;
 				main2TitleBackground.setBackgroundResource(SkinCustomMains
 						.titleBackground());
