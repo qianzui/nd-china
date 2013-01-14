@@ -110,7 +110,9 @@ public class PrefrenceBeen {
 					// 关联的固定悬浮窗
 					float_untouchable.setTextColor(Color.GRAY);
 					if (isUnTouchable) {
-						checkBoxRightDrawGraySet(tv_floatUnTouchable, true);
+						checkBoxRightDrawOpenGraySet(tv_floatUnTouchable, true);
+					} else {
+						checkBoxRightDrawCloseGraySet(tv_floatUnTouchable, true);
 					}
 				} else {
 					context.startService(new Intent("com.hiapk.server"));
@@ -120,7 +122,10 @@ public class PrefrenceBeen {
 					float_untouchable.setTextColor(context.getResources()
 							.getColor(R.color.darkgray2));
 					if (isUnTouchable) {
-						checkBoxRightDrawGraySet(tv_floatUnTouchable, false);
+						checkBoxRightDrawOpenGraySet(tv_floatUnTouchable, false);
+					} else {
+						checkBoxRightDrawCloseGraySet(tv_floatUnTouchable,
+								false);
 					}
 				}
 			}
@@ -183,11 +188,22 @@ public class PrefrenceBeen {
 
 	public void initCheckBoxIsFloatTouchable(
 			final TextView tv_is_float_touchable) {
+		boolean isFloatopen = sharedDatawidget.isFloatOpen();
 		boolean isopen = sharedDatawidget.isFloatUnTouchable();
+		TextView float_untouchable = (TextView) tv_is_float_touchable
+				.findViewById(R.id.setting_isfloat_touchable);
 		if (isopen) {
 			checkBoxRightDrawinit(tv_is_float_touchable, isopen);
+			if (!isFloatopen) {
+				checkBoxRightDrawOpenGraySet(tv_is_float_touchable, true);
+				float_untouchable.setTextColor(Color.GRAY);
+			}
 		} else {
 			checkBoxRightDrawinit(tv_is_float_touchable, isopen);
+			if (!isFloatopen) {
+				checkBoxRightDrawCloseGraySet(tv_is_float_touchable, true);
+				float_untouchable.setTextColor(Color.GRAY);
+			}
 		}
 		tv_is_float_touchable.setOnClickListener(new OnClickListener() {
 			@Override
@@ -311,13 +327,23 @@ public class PrefrenceBeen {
 		}
 	}
 
-	private void checkBoxRightDrawGraySet(TextView tv, boolean isGray) {
+	private void checkBoxRightDrawOpenGraySet(TextView tv, boolean isGray) {
 		if (isGray) {
 			tv.setCompoundDrawablesWithIntrinsicBounds(0, 0,
 					R.drawable.check_open_gray, 0);
 		} else {
 			tv.setCompoundDrawablesWithIntrinsicBounds(0, 0,
 					R.drawable.check_open, 0);
+		}
+	}
+
+	private void checkBoxRightDrawCloseGraySet(TextView tv, boolean isGray) {
+		if (isGray) {
+			tv.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+					R.drawable.check_close_gray, 0);
+		} else {
+			tv.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+					R.drawable.check_close, 0);
 		}
 	}
 
