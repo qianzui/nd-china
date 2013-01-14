@@ -115,7 +115,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public SetNotifListView notif;
 
 	public static boolean isRuleChanged = false;
-	private ArrayList<SetListView> myViewControl;
+	private ArrayList<SetListView> myViewControl = new ArrayList<SetListView>();;
 	public boolean isRefreshToday = false;
 
 	@Override
@@ -140,6 +140,17 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public void FirstLoadData() {
 		Block.old_3g = Block.get3g_set(mContext);
 		Block.old_wifi = Block.getWifi_set(mContext);
+		Block.old_3g0 = Block.get3g_set(mContext);
+		Block.old_wifi0 = Block.getWifi_set(mContext);
+		Block.old_3g1 = Block.get3g_set(mContext);
+		Block.old_wifi1 = Block.getWifi_set(mContext);
+		Block.old_3g2 = Block.get3g_set(mContext);
+		Block.old_wifi2 = Block.getWifi_set(mContext);
+		Block.old_3g3 = Block.get3g_set(mContext);
+		Block.old_wifi3 = Block.getWifi_set(mContext);
+		Block.old_3g4 = Block.get3g_set(mContext);
+		Block.old_wifi4 = Block.getWifi_set(mContext);
+
 		if (sharedpref.IsFireWallOpenFail() && !Block.isShowHelp(mContext)) {
 			dialogFireWallOpenFail();
 		} else if (sharedpref.getFireWallType() == 0) {
@@ -179,8 +190,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public void initVPager() {
 		vPager = (ViewPager) findViewById(R.id.vPager);
 		pageList = new ArrayList<View>();
-		myViewControl = new ArrayList<SetListView>();
-
 		week = new SetListView(weekView, mContext);
 		today = new SetListView(todayView, mContext);
 		month = new SetListView(monthView, mContext);
@@ -378,15 +387,23 @@ public class FireWallActivity extends Activity implements OnClickListener {
 				int fireType = sharedpref.getFireWallType();
 				if (currentItem != fireType) {
 					if (isRuleChanged) {
-						Block.old_3g = Block.get3g_set(mContext);
-						Block.old_wifi = Block.getWifi_set(mContext);
 						for (int i = 0; i < myViewControl.size(); i++) {
-							Logs.i("test", "i:" + i + "--type:" + fireType);
-							if (i != fireType)
-								myViewControl.get(i).resetAdapter();
+								if (myViewControl.get(i).isRuleChanged(i)){
+									Logs.i("test", "rule changed--" + "i:" + i + "--type:" + fireType);
+									myViewControl.get(i).resetAdapter();
+								}else{
+									Logs.i("test", "i:" + i + "--type:" + fireType);
+									myViewControl.get(i).isLoadinged = true;
+								}
 						}
 						isRuleChanged = false;
 					}
+
+					// if(!Block.get3g_set(mContext).equals(Block.old_3g) ||
+					// !Block.getWifi_set(mContext).equals(Block.old_wifi)){
+					// Logs.i("test", "refresh list:" + currentItem);
+					// myViewControl.get(currentItem).resetAdapter();
+					// }
 					sharedpref.setFireWallType(currentItem);
 					setTitle();
 					if (currentItem == 5) {
@@ -399,11 +416,11 @@ public class FireWallActivity extends Activity implements OnClickListener {
 						}
 					}
 				}
-				if(isRefreshToday && !myViewControl.get(0).isLoadinged){
+				if (isRefreshToday && !myViewControl.get(0).isLoadinged) {
 					isRefreshToday = false;
 					myViewControl.get(0).setLoading();
 					initList();
-				}else{
+				} else {
 					Logs.i("test", " isLoadinged data");
 				}
 			}
@@ -521,23 +538,6 @@ public class FireWallActivity extends Activity implements OnClickListener {
 					if (j >= 10) {
 						initUidData();
 						j = 0;
-					}
-				}
-				Set<Integer> key = SQLStatic.uiddata.keySet();
-				for (Iterator it = key.iterator(); it.hasNext();) {
-					int x = (Integer) it.next();
-					if (SQLStatic.uiddata.get(x).getTotalTraffWeek() != 0) {
-						Logs.i("test", "---getWeek:"
-								+ SQLStatic.uiddata.get(x).getTotalTraffWeek()
-								+ "---" + SQLStatic.uiddata.size());
-					}
-				}
-				for (Iterator it = key.iterator(); it.hasNext();) {
-					int x = (Integer) it.next();
-					if (SQLStatic.uiddata.get(x).getTotalTraffToday() != 0) {
-						Logs.i("test", "---getToday:"
-								+ SQLStatic.uiddata.get(x).getTotalTraffToday()
-								+ "---" + SQLStatic.uiddata.size());
 					}
 				}
 				uidList = ComparatorUtil.compUidList(mContext, Block.appList);

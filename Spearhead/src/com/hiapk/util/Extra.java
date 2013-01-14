@@ -96,9 +96,6 @@ public class Extra {
 					if (SQLStatic.uiddata.containsKey(uidList.get(i))) {
 						if (SQLStatic.uiddata.get(uidList.get(i))
 								.getTotalTraff() > 0) {
-							Logs.i("test", "----getNumber:"
-									+ SQLStatic.uiddata.get(uidList.get(i))
-											.getTotalTraff() + "----");
 							j++;
 						}
 					}
