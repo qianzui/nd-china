@@ -50,6 +50,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.widget.Toast;
 
 /**
  * 
@@ -815,11 +816,16 @@ public class Block {
 
 		String savePkgname_wifi = prefs.getString(PREF_WIFI_PKGNAME, "");
 		String savePkgname_3g = prefs.getString(PREF_3G_PKGNAME, "");
-		if ((savePkgname_wifi.contains(".")) && (savePkgname_3g.contains("."))) {
+
+		if (!GetRoot.isRoot())
 			return true;
-		} else {
+
+		if ((savePkgname_wifi.contains(".")) || (savePkgname_3g.contains("."))) {
 			return false;
+		} else {
+			return true;
 		}
+
 	}
 
 	public static void clearRules(Context context) {
