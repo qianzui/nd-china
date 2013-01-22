@@ -9,6 +9,7 @@ import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.NotificationFireFailOnsysBoot;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.firewall.Block;
+import com.hiapk.logs.Logs;
 import com.hiapk.spearhead.SpearheadApplication;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
 import com.hiapk.util.SQLStatic;
