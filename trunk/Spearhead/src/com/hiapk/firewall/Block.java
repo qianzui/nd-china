@@ -818,11 +818,11 @@ public class Block {
 		String savePkgname_wifi = prefs.getString(PREF_WIFI_PKGNAME, "");
 		String savePkgname_3g = prefs.getString(PREF_3G_PKGNAME, "");
 
-		if (!GetRoot.isRoot()) {
-			SpearheadApplication.getInstance().getsharedData()
-					.setIsFireWallOpenFail(false);
-			return true;
-		}
+//		if (!GetRoot.isRoot()) {
+//			SpearheadApplication.getInstance().getsharedData()
+//					.setIsFireWallOpenFail(false);
+//			return true;
+//		}
 
 		if ((savePkgname_wifi.contains(".")) || (savePkgname_3g.contains("."))) {
 			return false;

@@ -39,7 +39,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class FireWallItemMenu extends CustomPopupWindow implements OnClickListener {
+public class FireWallItemMenu extends CustomPopupWindow implements
+		OnClickListener {
 
 	public int MENU_FIRE = 1;
 	public int MENU_NOTIF = 2;
@@ -53,24 +54,25 @@ public class FireWallItemMenu extends CustomPopupWindow implements OnClickListen
 	public Button bt_detail;
 	public Button bt_uninstall;
 	public PackageInfo pkgInfo = null;
-	public int uid;
+	public int uid = 0;
 	public String pkgname = "";
 	public String appname = "";
 	public String savedPkgname_wifi;
 	public String savedPkgname_3g;
 	public SharedPreferences prefs;
-	
-	public FireWallItemMenu(Context mContext,View anchor,int type) {
+
+	public FireWallItemMenu(Context mContext, View anchor, int type) {
 		super(mContext, anchor, type);
 		this.menu_type = type;
-//		context	= anchor.getContext();
-	    this.context = mContext;
+		// context = anchor.getContext();
+		this.context = mContext;
 		sharedpref = new SharedPrefrenceData(context);
 		getAppMsg(anchor);
 		setView();
-		
+
 	}
-	public void getAppMsg(View anchor){
+
+	public void getAppMsg(View anchor) {
 		switch (menu_type) {
 		case 1:
 			pkgInfo = (PackageInfo) anchor.getTag(R.id.tag_pkginfo);
@@ -79,28 +81,33 @@ public class FireWallItemMenu extends CustomPopupWindow implements OnClickListen
 			prefs = context.getSharedPreferences(Block.PREFS_NAME, 0);
 			pkgInfo = (PackageInfo) anchor.getTag(R.id.tag_notif_pkgInfo);
 			break;
-		
+
 		}
-		if(pkgInfo == null){
+		if (pkgInfo == null) {
 			Logs.i("test", "pkgInfo is null");
-		}else{
+		} else {
 			uid = pkgInfo.applicationInfo.uid;
 			pkgname = pkgInfo.applicationInfo.packageName;
-			appname = pkgInfo.applicationInfo.loadLabel(context.getPackageManager()).toString();
+			appname = pkgInfo.applicationInfo.loadLabel(
+					context.getPackageManager()).toString();
 			Logs.i("test", pkgname);
 		}
 	}
 
-	public void setView(){
-		inflater 	= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		root		= (ViewGroup) inflater.inflate(R.layout.fire_item_menu, null);
-		fire_menu   = (LinearLayout) root.findViewById(R.id.fire_menu);
+	public void setView() {
+		inflater = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		root = (ViewGroup) inflater.inflate(R.layout.fire_item_menu, null);
+		fire_menu = (LinearLayout) root.findViewById(R.id.fire_menu);
 		Button bt_manager = (Button) root.findViewById(R.id.fire_item_manage);
 		Button bt_detail = (Button) root.findViewById(R.id.fire_item_detail);
-		Button bt_uninstall = (Button) root.findViewById(R.id.fire_item_uninstalled);
-		bt_manager.setBackgroundResource(SkinCustomMains.buttonBackgroundDark());
+		Button bt_uninstall = (Button) root
+				.findViewById(R.id.fire_item_uninstalled);
+		bt_manager
+				.setBackgroundResource(SkinCustomMains.buttonBackgroundDark());
 		bt_detail.setBackgroundResource(SkinCustomMains.buttonBackgroundDark());
-		bt_uninstall.setBackgroundResource(SkinCustomMains.buttonBackgroundDark());
+		bt_uninstall.setBackgroundResource(SkinCustomMains
+				.buttonBackgroundDark());
 		bt_manager.setOnClickListener(this);
 		bt_uninstall.setOnClickListener(this);
 		bt_detail.setOnClickListener(this);
@@ -128,44 +135,45 @@ public class FireWallItemMenu extends CustomPopupWindow implements OnClickListen
 			this.dismiss();
 			Uri uri = Uri.fromParts("package", pkgname, null);
 			Intent intent = new Intent(Intent.ACTION_DELETE, uri);
-			((Activity) context).startActivityForResult(intent,menu_type);
+			((Activity) context).startActivityForResult(intent, menu_type);
 			break;
 		}
 	}
-	
 
-	
 	/**
 	 * Show popup window
 	 */
-	public void show () {
+	public void show() {
 		preShow();
 		int[] location = new int[2];
 		anchor.getLocationOnScreen(location);
-		Rect anchorRect 	= new Rect(location[0], location[1], location[0] + anchor.getWidth(), location[1] 
-		                	+ anchor.getHeight());
-		root.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+		Rect anchorRect = new Rect(location[0], location[1], location[0]
+				+ anchor.getWidth(), location[1] + anchor.getHeight());
+		root.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
+				LayoutParams.WRAP_CONTENT));
 		root.measure(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
-		int rootWidth 		= root.getMeasuredWidth();
-//		int rootHeight 		= root.getMeasuredHeight();
-		int screenWidth 	= windowManager.getDefaultDisplay().getWidth();
-		int screenHeight 	= windowManager.getDefaultDisplay().getHeight();
-		int xPos 			= (screenWidth - rootWidth) / 2;
-		int yPos	 		= anchorRect.top - 80;
-		boolean onTop		= true;
-		if ( screenHeight/2 > anchor.getBottom()) {
-			yPos 	= anchorRect.bottom;
-			onTop	= false;
+		int rootWidth = root.getMeasuredWidth();
+		// int rootHeight = root.getMeasuredHeight();
+		int screenWidth = windowManager.getDefaultDisplay().getWidth();
+		int screenHeight = windowManager.getDefaultDisplay().getHeight();
+		int xPos = (screenWidth - rootWidth) / 2;
+		int yPos = anchorRect.top - 80;
+		boolean onTop = true;
+		if (screenHeight / 2 > anchor.getBottom()) {
+			yPos = anchorRect.bottom;
+			onTop = false;
 		}
-		showArrow(((onTop) ? R.drawable.fire_menu_up: R.drawable.fire_menu_down));
+		showArrow(((onTop) ? R.drawable.fire_menu_up
+				: R.drawable.fire_menu_down));
 		window.showAtLocation(this.anchor, Gravity.NO_GRAVITY, xPos, yPos);
 	}
+
 	private void showArrow(int whichArrow) {
 		fire_menu.setBackgroundResource(whichArrow);
 	}
-	
-	public void detailClicked(){
-		switch(menu_type){
+
+	public void detailClicked() {
+		switch (menu_type) {
 		case 1:
 			showTraffDetail();
 			break;
@@ -174,19 +182,21 @@ public class FireWallItemMenu extends CustomPopupWindow implements OnClickListen
 			break;
 		}
 	}
-	public void ifShowingAndClose(){
-		if(root.isShown()){
+
+	public void ifShowingAndClose() {
+		if (root.isShown()) {
 			this.dismiss();
 		}
 	}
+
 	public void showTraffDetail() {
 		this.dismiss();
 		LayoutInflater infalter = LayoutInflater.from(context);
 		final View mDetailView = infalter.inflate(R.layout.fire_detail, null);
 		final CustomDialog detailDialog = new CustomDialog.Builder(context)
 				.setContentView(mDetailView).setTitle("流量详情")
-				.setPositiveButton("确定", null)
-				.setNegativeButton("历史记录", null).create();
+				.setPositiveButton("确定", null).setNegativeButton("历史记录", null)
+				.create();
 		FireWallActivity.isInScene = false;
 		detailDialog.show();
 		final TextView traffic_up = (TextView) mDetailView
@@ -198,36 +208,32 @@ public class FireWallItemMenu extends CustomPopupWindow implements OnClickListen
 		final Button detail_history = (Button) detailDialog
 				.findViewById(R.id.negativeButton);
 
-		if (SQLStatic.uiddata != null) {
+		if (SQLStatic.uiddata != null && SQLStatic.uiddata.containsKey(uid)) {
 			if (sharedpref.getFireWallType() == 3) {
 				traffic_up.setText("上传： "
-						+ UnitHandler
-								.unitHandlerAccurate(SQLStatic.uiddata
-										.get(uid).getUploadmobile()));
+						+ UnitHandler.unitHandlerAccurate(SQLStatic.uiddata
+								.get(uid).getUploadmobile()));
 				traffic_down.setText("下载： "
-						+ UnitHandler
-								.unitHandlerAccurate(SQLStatic.uiddata
-										.get(uid)
-										.getDownloadmobile()));
+						+ UnitHandler.unitHandlerAccurate(SQLStatic.uiddata
+								.get(uid).getDownloadmobile()));
 			} else if (sharedpref.getFireWallType() == 4) {
 				traffic_up.setText("上传： "
-						+ UnitHandler
-								.unitHandlerAccurate(SQLStatic.uiddata
-										.get(uid).getUploadwifi()));
+						+ UnitHandler.unitHandlerAccurate(SQLStatic.uiddata
+								.get(uid).getUploadwifi()));
 				traffic_down.setText("下载： "
-						+ UnitHandler
-								.unitHandlerAccurate(SQLStatic.uiddata
-										.get(uid).getDownloadwifi()));
+						+ UnitHandler.unitHandlerAccurate(SQLStatic.uiddata
+								.get(uid).getDownloadwifi()));
 			} else {
 				traffic_up.setText("上传： "
-						+ UnitHandler
-								.unitHandlerAccurate(SQLStatic.uiddata
-										.get(uid).getAllUpload()));
+						+ UnitHandler.unitHandlerAccurate(SQLStatic.uiddata
+								.get(uid).getAllUpload()));
 				traffic_down.setText("下载： "
-						+ UnitHandler
-								.unitHandlerAccurate(SQLStatic.uiddata
-										.get(uid).getAllDownload()));
+						+ UnitHandler.unitHandlerAccurate(SQLStatic.uiddata
+								.get(uid).getAllDownload()));
 			}
+		} else {
+			traffic_up.setText("上传： " + 0);
+			traffic_down.setText("下载： " + 0);
 		}
 
 		detail_ok.setOnClickListener(new Button.OnClickListener() {
@@ -237,21 +243,20 @@ public class FireWallItemMenu extends CustomPopupWindow implements OnClickListen
 				detailDialog.cancel();
 			}
 		});
-		detail_history
-				.setOnClickListener(new Button.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Intent intent = new Intent();
-						intent.setClass(context,UidMonthTraff.class);
-						Bundle bData = new Bundle();
-						bData.putInt("uid", uid);
-						bData.putString("appname", appname);
-						bData.putString("pkname", pkgname);
-						intent.putExtras(bData);
-						context.startActivity(intent);
-						detailDialog.cancel();
-					}
-				});
+		detail_history.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				intent.setClass(context, UidMonthTraff.class);
+				Bundle bData = new Bundle();
+				bData.putInt("uid", uid);
+				bData.putString("appname", appname);
+				bData.putString("pkname", pkgname);
+				intent.putExtras(bData);
+				context.startActivity(intent);
+				detailDialog.cancel();
+			}
+		});
 		detailDialog.setOnCancelListener(new OnCancelListener() {
 			@Override
 			public void onCancel(DialogInterface dialog) {
@@ -259,28 +264,28 @@ public class FireWallItemMenu extends CustomPopupWindow implements OnClickListen
 				FireWallActivity.isInScene = true;
 			}
 		});
-	
 
 	}
 
-	public boolean isBanNewWork(){
+	public boolean isBanNewWork() {
 		if (FireWallActivity.uidList.contains(uid)
-				&& (PackageManager.PERMISSION_GRANTED == context.getPackageManager()
-						.checkPermission(Manifest.permission.INTERNET,pkgname))
+				&& (PackageManager.PERMISSION_GRANTED == context
+						.getPackageManager().checkPermission(
+								Manifest.permission.INTERNET, pkgname))
 				&& SQLStatic.packagename_ALL.contains(pkgname)
 				&& !Block.filter.contains(pkgname)) {
 			savedPkgname_wifi = prefs.getString(Block.PREF_WIFI_PKGNAME, "");
 			savedPkgname_3g = prefs.getString(Block.PREF_3G_PKGNAME, "");
-			if (savedPkgname_wifi.contains(pkgname) && savedPkgname_3g.contains(pkgname)) {
+			if (savedPkgname_wifi.contains(pkgname)
+					&& savedPkgname_3g.contains(pkgname)) {
 				return false;
 			}
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
-	
-	
+
 	public void banNetwork() {
 		if (isBanNewWork()) {
 			this.dismiss();
@@ -315,6 +320,5 @@ public class FireWallItemMenu extends CustomPopupWindow implements OnClickListen
 		} else {
 		}
 	}
-
 
 }

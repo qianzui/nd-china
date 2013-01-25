@@ -293,7 +293,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public void setDataForList() {
 		setTitle();
 		isloading = false;
-		int i = sharedpref.getFireWallType();
+		int i = sharedpref.getFireWallType();                                                                                                             
 		if (i == 5) {
 		} else {
 			myViewControl.get(i).setAdapter(myAppList);
