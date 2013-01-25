@@ -53,6 +53,7 @@ public class WindowNotifyDialog extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				Block.clearRules(context);
 				onBackPressed();
 				alertDialog.dismiss();
 			}
