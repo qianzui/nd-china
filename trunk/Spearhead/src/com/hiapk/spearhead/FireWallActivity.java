@@ -10,6 +10,7 @@ import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.broadcreceiver.AppUninstalledReceiver;
 import com.hiapk.comparator.ComparatorUtil;
 import com.hiapk.control.traff.NotificationInfo;
+import com.hiapk.control.widget.NotificationFireFailOnsysBoot;
 import com.hiapk.firewall.AppListAdapter;
 import com.hiapk.firewall.Block;
 import com.hiapk.firewall.Rotate3dAnimation;
@@ -151,7 +152,9 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		Block.old_3g4 = Block.get3g_set(mContext);
 		Block.old_wifi4 = Block.getWifi_set(mContext);
 
-		if (sharedpref.IsFireWallOpenFail() && !Block.isShowHelp(mContext)) {
+
+		if (sharedpref.IsFireWallOpenFail() && !Block.isShowNewHelp(mContext)) {
+			new NotificationFireFailOnsysBoot(mContext).cancelAlertNotify(mContext);
 			dialogFireWallOpenFail();
 		} else if (sharedpref.getFireWallType() == 0) {
 			initList();
@@ -293,7 +296,7 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public void setDataForList() {
 		setTitle();
 		isloading = false;
-		int i = sharedpref.getFireWallType();                                                                                                             
+		int i = sharedpref.getFireWallType();
 		if (i == 5) {
 		} else {
 			myViewControl.get(i).setAdapter(myAppList);
@@ -388,13 +391,14 @@ public class FireWallActivity extends Activity implements OnClickListener {
 				if (currentItem != fireType) {
 					if (isRuleChanged) {
 						for (int i = 0; i < myViewControl.size(); i++) {
-								if (myViewControl.get(i).isRuleChanged(i)){
-									Logs.i("test", "rule changed--" + "i:" + i + "--type:" + fireType);
-									myViewControl.get(i).resetAdapter();
-								}else{
-									Logs.i("test", "i:" + i + "--type:" + fireType);
-									myViewControl.get(i).isLoadinged = true;
-								}
+							if (myViewControl.get(i).isRuleChanged(i)) {
+								Logs.i("test", "rule changed--" + "i:" + i
+										+ "--type:" + fireType);
+								myViewControl.get(i).resetAdapter();
+							} else {
+								Logs.i("test", "i:" + i + "--type:" + fireType);
+								myViewControl.get(i).isLoadinged = true;
+							}
 						}
 						isRuleChanged = false;
 					}
