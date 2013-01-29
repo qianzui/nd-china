@@ -152,9 +152,9 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		Block.old_3g4 = Block.get3g_set(mContext);
 		Block.old_wifi4 = Block.getWifi_set(mContext);
 
-
 		if (sharedpref.IsFireWallOpenFail() && !Block.isShowNewHelp(mContext)) {
-			new NotificationFireFailOnsysBoot(mContext).cancelAlertNotify(mContext);
+			new NotificationFireFailOnsysBoot(mContext)
+					.cancelAlertNotify(mContext);
 			dialogFireWallOpenFail();
 		} else if (sharedpref.getFireWallType() == 0) {
 			initList();
@@ -719,12 +719,17 @@ public class FireWallActivity extends Activity implements OnClickListener {
 				boolean isOpenSucess = false;
 				isOpenSucess = Block.applyIptablesRules(mContext, true, false);
 				if (!isOpenSucess) {
+					Logs.i("test", "Æô¶¯Ê§°Ü£¡");
 					Block.clearRules(mContext);
+					SpearheadApplication.getInstance().getsharedData()
+							.setIsFireWallOpenFail(false);
 					Toast.makeText(mContext, "·À»ðÇ½Æô¶¯Ê§°Ü¡£", Toast.LENGTH_SHORT)
 							.show();
+					vPager.setCurrentItem(sharedpref.getFireWallType());
 					initList();
 
 				} else {
+					Logs.i("test", "Æô¶¯³É¹¦£¡");
 					SpearheadApplication.getInstance().getsharedData()
 							.setIsFireWallOpenFail(false);
 					initList();
