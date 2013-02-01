@@ -300,6 +300,10 @@ public class FireWallActivity extends Activity implements OnClickListener {
 		if (i == 5) {
 		} else {
 			myViewControl.get(i).setAdapter(myAppList);
+			for (int j = 0; j < myViewControl.size(); j++) {
+				if(myViewControl.get(i).loading.isShown())
+					myViewControl.get(i).loading.setVisibility(View.INVISIBLE);
+			}
 			myViewControl.get(i).compeletRefresh();
 		}
 	}
