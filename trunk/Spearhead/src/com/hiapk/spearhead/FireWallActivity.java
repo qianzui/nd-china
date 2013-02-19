@@ -296,16 +296,19 @@ public class FireWallActivity extends Activity implements OnClickListener {
 	public void setDataForList() {
 		setTitle();
 		isloading = false;
-		int i = sharedpref.getFireWallType();
+		int i = vPager.getCurrentItem();
 		if (i == 5) {
 		} else {
+			Logs.i("test", "i:" + i + "----CurrentItem:" + vPager.getCurrentItem());
 			myViewControl.get(i).setAdapter(myAppList);
-			for (int j = 0; j < myViewControl.size(); j++) {
-				if(myViewControl.get(i).loading.isShown())
-					myViewControl.get(i).loading.setVisibility(View.INVISIBLE);
-			}
+			if(myViewControl.get(i).loading.isShown())
+				Logs.i("test", i + " loading is showing");
+//			for (int j = 0; j < myViewControl.size(); j++) {
+//				if(myViewControl.get(j).loading.isShown())
+//					myViewControl.get(j).loading.setVisibility(View.INVISIBLE);
+//			}
 			myViewControl.get(i).compeletRefresh();
-		}
+		}  
 	}
 
 	private void initUidData() {
