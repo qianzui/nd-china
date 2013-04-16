@@ -51,6 +51,8 @@ public class SharedPrefrenceData {
 	private String isKnowShakeToSwitch = "isKnowShakeToSwitchFireList";
 	// 摇一摇敏感度
 	private String shakeMedianValue = "shakeMedianValue";
+	// 前一次重置的月份和时间
+	private String beforeResetDay = "beforeResetMonth";
 
 	public SharedPrefrenceData(Context context) {
 		prefs = context.getSharedPreferences(PREFS_NAME, 0);
@@ -320,6 +322,16 @@ public class SharedPrefrenceData {
 
 	public void setMedianValues(float values) {
 		UseEditor.putFloat(shakeMedianValue, values);
+		UseEditor.commit();
+	}
+
+	public int getBeforeResetDay() {
+		int values = prefs.getInt(beforeResetDay, -1);
+		return values;
+	}
+
+	public void setBeforeResetDay(int values) {
+		UseEditor.putInt(beforeResetDay, values);
 		UseEditor.commit();
 	}
 
