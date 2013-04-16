@@ -9,7 +9,7 @@ public class SharedPrefrenceDataOnUpdate {
 	private String PREFS_NAME = "updateprefs";
 	private String UID_RECORD_UPDATED = "isuidrecoredtypeupdated";
 	private String Total_RECORD_UPDATED121 = "totalrecordupdtate121";
-	private String UPDATED_NOTICE125 = "updatenotice125";
+	private String UPDATED_NOTICE125 = "updatenotice126";
 	private SharedPreferences prefs;
 	private Editor UseEditor;
 

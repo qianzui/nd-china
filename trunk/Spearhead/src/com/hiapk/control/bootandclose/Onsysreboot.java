@@ -3,16 +3,18 @@ package com.hiapk.control.bootandclose;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.text.format.Time;
 
 import com.hiapk.broadcreceiver.AlarmSet;
 import com.hiapk.control.traff.TrafficManager;
 import com.hiapk.control.widget.NotificationFireFailOnsysBoot;
 import com.hiapk.control.widget.SetText;
 import com.hiapk.firewall.Block;
-import com.hiapk.logs.Logs;
 import com.hiapk.spearhead.SpearheadApplication;
 import com.hiapk.sqlhelper.pub.SQLHelperDataexe;
+import com.hiapk.util.ResetDataToZero;
 import com.hiapk.util.SQLStatic;
+import com.hiapk.util.SharedPrefrenceData;
 import com.hiapk.util.SharedPrefrenceDataWidget;
 
 public class Onsysreboot {
@@ -28,7 +30,7 @@ public class Onsysreboot {
 		if (isbooting) {
 			return;
 		}
-//		Toast.makeText(context, "startingboot", Toast.LENGTH_SHORT).show();
+		// Toast.makeText(context, "startingboot", Toast.LENGTH_SHORT).show();
 		isbooting = true;
 		this.context = context;
 		SharedPrefrenceDataWidget sharedDatawidget = new SharedPrefrenceDataWidget(
@@ -65,6 +67,17 @@ public class Onsysreboot {
 		}
 		// 发送零点重置广播
 		context.sendBroadcast(new Intent(ACTION_TIME_CHANGED));
+		// 进行零点重置判断
+		SharedPrefrenceData sharedData = SpearheadApplication.getInstance()
+				.getsharedData();
+		if (sharedData.getBeforeResetDay() == -1) {
+			Time t = new Time();
+			t.setToNow(); // 取得系统时间。
+			int monthDay = t.monthDay;
+			sharedData.setBeforeResetDay(monthDay);
+		}
+		ResetDataToZero.resetData(context);
+
 		// 开启防火墙
 		// if (!Block.iptableEmpty(SpearheadApplication.getInstance()
 		// .getApplicationContext())) {
